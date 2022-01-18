@@ -5,20 +5,18 @@ import KaliButton from "../elements/KaliButton";
 
 export default function HomeTile(props) {
   return (
-    <FlexGradient>
-      <HStack spacing={5} p={5} alignItems="center">
+ 
+      <HStack spacing={250} p={250} alignItems="center">
 
         <VStack>
           <Text fontSize="xl">
-            <b>Launch a limited liability DAO</b>
+            <b>Simplify your business with smart contracts</b>
           </Text>
-          <Text fontSize="md">
-            <i>form an LLC or UNA in minutes</i>
-          </Text>
-          <KaliButton onClick={props.setDeployerVisible}>Create DAO</KaliButton>
+          <br></br>
+          <KaliButton onClick={props.setDeployerVisible}>Get Started</KaliButton>
           {/* <ContactForm /> */}
         </VStack>
       </HStack>
-    </FlexGradient>
+    
   );
 }
