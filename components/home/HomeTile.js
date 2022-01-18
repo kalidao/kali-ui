@@ -5,9 +5,7 @@ import KaliButton from "../elements/KaliButton";
 
 export default function HomeTile(props) {
   return (
- 
       <HStack spacing={250} p={250} alignItems="center">
-
         <VStack>
           <Text fontSize="xl">
             <b>Simplify your Business with Smart Agreements</b>
@@ -17,6 +15,5 @@ export default function HomeTile(props) {
           {/* <ContactForm /> */}
         </VStack>
       </HStack>
-    
   );
 }
