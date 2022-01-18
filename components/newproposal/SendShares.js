@@ -17,6 +17,7 @@ import {
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
+import DeleteButton from "../elements/DeleteButton";
 
 export default function SendShares() {
   const value = useContext(AppContext);
@@ -36,7 +37,7 @@ export default function SendShares() {
 
   useEffect(() => {
     append({ address: "" }); // add first recipient input field
-  }, []);
+  }, [append]);
 
   const submitProposal = async (values) => {
     value.setLoading(true);
@@ -64,24 +65,12 @@ export default function SendShares() {
         payloads_.push("0x");
       }
       console.log(payloads_);
-      console.log(
-        proposalType_,
-        description_,
-        accounts_,
-        amounts_,
-        payloads_
-      );
+      console.log(proposalType_, description_, accounts_, amounts_, payloads_);
       const instance = new web3.eth.Contract(abi, address);
 
       try {
         let result = await instance.methods
-          .propose(
-            proposalType_,
-            description_,
-            accounts_,
-            amounts_,
-            payloads_
-          )
+          .propose(proposalType_, description_, accounts_, amounts_, payloads_)
           .send({ from: account });
         value.setVisibleView(1);
       } catch (e) {
@@ -167,9 +156,7 @@ export default function SendShares() {
                   </FormControl>
                 )}
               />
-              <Button variant="ghost" onClick={() => remove(index)}>
-                X
-              </Button>
+              <DeleteButton label="delete" clickHandler={() => remove(index)} />
             </ListItem>
           ))}
         </List>

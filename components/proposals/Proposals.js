@@ -2,7 +2,18 @@ import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 //import ProposalDetails from './ProposalDetails';
-import { chakra, Center, Text, Grid, Button, HStack, Spacer, Link, Icon, Heading } from "@chakra-ui/react";
+import {
+  chakra,
+  Center,
+  Text,
+  Grid,
+  Button,
+  HStack,
+  Spacer,
+  Link,
+  Icon,
+  Heading,
+} from "@chakra-ui/react";
 import Layout from "../structure/Layout";
 import ProposalRow from "./ProposalRow";
 import ToggleProposals from "./ToggleProposals";
@@ -12,37 +23,45 @@ import { fetchProposals } from "../../utils/fetchProposals";
 
 export default function Proposals(props) {
   const value = useContext(AppContext);
-  const { web3, loading, proposals, address, dao, chainId, daoChain } = value.state;
+  const { web3, loading, proposals, address, dao, chainId, daoChain } =
+    value.state;
   const [toggle, setToggle] = useState("active");
 
-  useEffect(() => { // dao object must be set before loading proposals
+  useEffect(() => {
+    // dao object must be set before loading proposals
     if (dao == null) {
       return;
-    } else{
-      if(proposals == null) {
+    } else {
+      if (proposals == null) {
         fetchData();
       }
     }
-  }, [dao]);
+  }, [dao, fetchData, proposals]);
 
   async function fetchData() {
     value.setLoading(true);
     try {
       let abi = require("../../abi/KaliDAO.json");
       let instance = new web3.eth.Contract(abi, address);
-      let proposals_ = await fetchProposals(instance, address, web3, daoChain, dao);
+      let proposals_ = await fetchProposals(
+        instance,
+        address,
+        web3,
+        daoChain,
+        dao
+      );
       value.setProposals(proposals_);
       console.log("proposals", proposals_);
       value.setLoading(false);
-    } catch(e) {
+    } catch (e) {
       value.toast(e);
       value.setLoading(false);
     }
   }
 
-  const reloadProposals = async() => {
+  const reloadProposals = async () => {
     fetchData();
-  }
+  };
 
   const handleClick = (value) => {
     setToggle(value);
@@ -72,11 +91,15 @@ export default function Proposals(props) {
 
   return (
     <>
-    <HStack>
-      <Icon as={RiStackLine} w={10} h={10} color="#5a2686" />
-      <Heading as="h1">Proposals</Heading>
-    </HStack>
-      <ToggleProposals handleClick={handleClick} toggle={toggle} reloadProposals={reloadProposals} />
+      <HStack>
+        <Icon as={RiStackLine} w={10} h={10} color="#5a2686" />
+        <Heading as="h1">Proposals</Heading>
+      </HStack>
+      <ToggleProposals
+        handleClick={handleClick}
+        toggle={toggle}
+        reloadProposals={reloadProposals}
+      />
       {proposals != null ? (
         <ProposalContainer proposals={proposals[toggle]} />
       ) : null}

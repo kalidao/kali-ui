@@ -47,18 +47,18 @@ function MyApp({ Component, pageProps }) {
   }, [address]);
 
   useEffect(() => {
-    if(chainId != null) {
+    if (chainId != null) {
       isCorrectChain();
     }
   }, [chainId]);
 
   const connectToInfura = async () => {
     let result = await correctNetwork(address);
-    setWeb3(result['web3']);
-    setDaoChain(result['chainId']);
-    setChainId(result['chainId']);
+    setWeb3(result["web3"]);
+    setDaoChain(result["chainId"]);
+    setChainId(result["chainId"]);
     setAccount(null);
-  }
+  };
 
   const connect = async () => {
     try {
@@ -70,13 +70,13 @@ function MyApp({ Component, pageProps }) {
           method: "eth_requestAccounts",
         });
         let metamask = new Web3(window.ethereum);
-        let chainId_ =  await window.ethereum.request({ method: 'eth_chainId' });
+        let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
         setWeb3(metamask);
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
       }
-    } catch(e) {
-      toast(e)
+    } catch (e) {
+      toast(e);
     }
   };
 
@@ -105,33 +105,33 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeChain = async () => {
-    console.log("change chain")
-    let chainId_ =  await window.ethereum.request({ method: 'eth_chainId' });
+    console.log("change chain");
+    let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
     setChainId(parseInt(chainId_));
   };
 
   const isCorrectChain = async () => {
-    if(address != null) {
-      if(chainId != daoChain) {
+    if (address != null) {
+      if (chainId != daoChain) {
         let name = getNetworkName(daoChain);
         toast("Please connect to the " + name + " network.");
       }
     } else {
       var supported = false;
-      for(var i=0; i < supportedChains.length; i++) {
-        if(supportedChains[i]["chainId"]==chainId) {
+      for (var i = 0; i < supportedChains.length; i++) {
+        if (supportedChains[i]["chainId"] == chainId) {
           supported = true;
         }
       }
-      if(supported == false) {
-        toast("This network is not currently supported.")
+      if (supported == false) {
+        toast("This network is not currently supported.");
       }
     }
-  }
+  };
 
   const toast = (props) => {
     createToast(props);
-  }
+  };
 
   return (
     <ChakraProvider theme={theme}>
@@ -159,7 +159,7 @@ function MyApp({ Component, pageProps }) {
           setVisibleView: setVisibleView,
           setDao: setDao,
           setProposals: setProposals,
-          toast: toast
+          toast: toast,
         }}
       >
         <Component {...pageProps} />

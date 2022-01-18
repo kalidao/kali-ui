@@ -49,7 +49,7 @@ export default function Dashboard() {
     if (!dao) {
       fetchData();
     }
-  }, [chainId]);
+  }, [chainId, dao, fetchData]);
 
   async function fetchData() {
     value.setLoading(true);
@@ -79,14 +79,14 @@ export default function Dashboard() {
 
   return (
     <div id="dashboard">
-    <HStack>
-      <Icon as={BiGridAlt} w={10} h={10} color="#5a2686" />
-      <Heading as="h1">Dashboard</Heading>
-    </HStack>
-    <HStack>
-      <Spacer />
-      <Reload reload={reloadDao} />
-    </HStack>
+      <HStack>
+        <Icon as={BiGridAlt} w={10} h={10} color="#5a2686" />
+        <Heading as="h1">Dashboard</Heading>
+      </HStack>
+      <HStack>
+        <Spacer />
+        <Reload reload={reloadDao} />
+      </HStack>
       <Grid
         gap={5}
         templateColumns={{
@@ -103,12 +103,10 @@ export default function Dashboard() {
               dashboardHelper[k]["check"] != null &&
               dao[dashboardHelper[k]["check"]] == null ? null : (
                 <div className="gradient-item dashboard-tile">
-                <Box
-                  key={`component-${k}`}
-                >
-                  <Heading>{dashboardHelper[k]["title"]}</Heading>
-                  {dashboardHelper[k]["component"]}
-                </Box>
+                  <Box key={`component-${k}`}>
+                    <Heading>{dashboardHelper[k]["title"]}</Heading>
+                    {dashboardHelper[k]["component"]}
+                  </Box>
                 </div>
               )
             )}

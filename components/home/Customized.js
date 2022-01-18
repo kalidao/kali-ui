@@ -35,7 +35,7 @@ export default function Customized(props) {
     } else {
       setVotingPeriodUnit(2);
     }
-  }, []);
+  }, [props.details]);
 
   const changeVotingPeriodUnit = (e) => {
     let unit = e.target.value;

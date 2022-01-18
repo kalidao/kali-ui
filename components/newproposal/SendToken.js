@@ -1,11 +1,23 @@
 import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Select, Text, Textarea, Stack, List, ListItem, FormControl, FormLabel } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Select,
+  Text,
+  Textarea,
+  Stack,
+  List,
+  ListItem,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
+import DeleteButton from "../elements/DeleteButton";
 
 export default function SendToken() {
   const value = useContext(AppContext);
@@ -19,7 +31,7 @@ export default function SendToken() {
     array[id] = value;
     setSelectedOptions(array);
     console.log(array);
-  }
+  };
 
   const {
     handleSubmit,
@@ -35,19 +47,15 @@ export default function SendToken() {
 
   useEffect(() => {
     append({ address: "" }); // add first recipient input field
-  }, []);
+  }, [append]);
 
   const submitProposal = async (values) => {
     //event.preventDefault();
     value.setLoading(true);
-    console.log("event", event)
+    console.log("event", event);
     try {
-
-      var {
-        description_,
-        recipients
-      } = values; // this must contain any inputs from custom forms
-      console.log("values", values)
+      var { description_, recipients } = values; // this must contain any inputs from custom forms
+      console.log("values", values);
 
       const proposalType_ = 2;
 
@@ -73,7 +81,7 @@ export default function SendToken() {
         let address_ = tokens[tokenIndex]["address"];
         let decimals = tokens[tokenIndex]["decimals"];
         let amt = toDecimals(recipients[i].share, decimals).toString();
-        console.log("amt",amt)
+        console.log("amt", amt);
         const tokenContract = new web3.eth.Contract(ierc20, address_);
         var payload_ = tokenContract.methods
           .transfer(recipients[i].address, amt)
@@ -87,13 +95,7 @@ export default function SendToken() {
 
       try {
         let result = await instance.methods
-          .propose(
-            proposalType_,
-            description_,
-            accounts_,
-            amounts_,
-            payloads_
-          )
+          .propose(proposalType_, description_, accounts_, amounts_, payloads_)
           .send({ from: account });
         value.setVisibleView(1);
       } catch (e) {
@@ -111,100 +113,96 @@ export default function SendToken() {
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
       <Stack>
+        <Controller
+          name="description_"
+          control={control}
+          render={({ field }) => (
+            <FormControl>
+              <FormLabel htmlFor="description_">Description</FormLabel>
+              <Textarea
+                placeholder="0x address or ENS"
+                {...field}
+                {...register(`description_`, {
+                  required: "Please enter a description.",
+                })}
+              />
+            </FormControl>
+          )}
+        />
 
-      <Controller
-        name="description_"
-        control={control}
-        render={({ field }) => (
-          <FormControl>
-            <FormLabel htmlFor="description_">Description</FormLabel>
-            <Textarea
-              placeholder="0x address or ENS"
-              {...field}
-              {...register(`description_`, {
-                required: "Please enter a description.",
-              })}
-            />
-          </FormControl>
-        )}
-      />
-
-      <List spacing={2}>
-        {fields.map((recipient, index) => (
-          <ListItem
-            display="flex"
-            flexDirection="row"
-            alignContent="center"
-            justifyContent="center"
-            key={recipient.id}
-          >
-            <Controller
-              name={`recipients.${index}.address`}
-              control={control}
-              defaultValue={recipient.address}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel htmlFor={`recipients.${index}.address`}>
-                    Recipient {index + 1}
-                  </FormLabel>
-                  <Input
-                    placeholder="0x address or ENS"
-                    {...field}
-                    {...register(`recipients.${index}.address`, {
-                      required: "You must assign share!",
-                    })}
-                  />
-                </FormControl>
-              )}
-            />
-            <Controller
-              name={`recipients.${index}.token`}
-              control={control}
-              defaultValue={recipient.token}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel htmlFor={`recipients.${index}.token`}>
-                    Token
-                  </FormLabel>
-                  <Select id={index} onChange={handleSelect}>
+        <List spacing={2}>
+          {fields.map((recipient, index) => (
+            <ListItem
+              display="flex"
+              flexDirection="row"
+              alignContent="center"
+              justifyContent="center"
+              key={recipient.id}
+            >
+              <Controller
+                name={`recipients.${index}.address`}
+                control={control}
+                defaultValue={recipient.address}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.address`}>
+                      Recipient {index + 1}
+                    </FormLabel>
+                    <Input
+                      placeholder="0x address or ENS"
+                      {...field}
+                      {...register(`recipients.${index}.address`, {
+                        required: "You must assign share!",
+                      })}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name={`recipients.${index}.token`}
+                control={control}
+                defaultValue={recipient.token}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.token`}>
+                      Token
+                    </FormLabel>
+                    <Select id={index} onChange={handleSelect}>
                       <option>Select a token</option>
-                    {dao["balances"].map((b, index) => (
-                      <option key={index} value={index}>
-                        {b["token"]}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              )}
-            />
-            <Controller
-              name={`recipients.${index}.share`}
-              control={control}
-              defaultValue={recipient.share}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel htmlFor={`recipients.${index}.share`}>
-                    Share
-                  </FormLabel>
-                  <Input
-                    placeholder="1"
-                    {...field}
-                    {...register(`recipients.${index}.share`, {
-                      required: "You must assign share!",
-                    })}
-                  />
-                </FormControl>
-              )}
-            />
+                      {dao["balances"].map((b, index) => (
+                        <option key={index} value={index}>
+                          {b["token"]}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name={`recipients.${index}.share`}
+                control={control}
+                defaultValue={recipient.share}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.share`}>
+                      Share
+                    </FormLabel>
+                    <Input
+                      placeholder="1"
+                      {...field}
+                      {...register(`recipients.${index}.share`, {
+                        required: "You must assign share!",
+                      })}
+                    />
+                  </FormControl>
+                )}
+              />
+              <DeleteButton label="delete" clickHandler={() => remove(index)} />
+            </ListItem>
+          ))}
+        </List>
 
-            <Button variant="ghost" onClick={() => remove(index)}>
-              X
-            </Button>
-          </ListItem>
-        ))}
-      </List>
-
-      <Button onClick={() => append({ address: "" })}>Add Recipient</Button>
+        <Button onClick={() => append({ address: "" })}>Add Recipient</Button>
 
         <Button type="submit">Submit Proposal</Button>
       </Stack>

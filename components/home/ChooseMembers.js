@@ -1,10 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { FormErrorMessage, FormLabel, FormControl, Input, VStack, Button, Text, Heading, List, ListItem, IconButton } from "@chakra-ui/react";
+import {
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  VStack,
+  Button,
+  Text,
+  Heading,
+  List,
+  ListItem,
+  IconButton,
+} from "@chakra-ui/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName, toDecimals, fromDecimals } from "../../utils/formatters";
+import {
+  getNetworkName,
+  toDecimals,
+  fromDecimals,
+} from "../../utils/formatters";
 import NumInputField from "../elements/NumInputField";
 
 export default function ChooseMembers(props) {
@@ -25,31 +41,31 @@ export default function ChooseMembers(props) {
   });
 
   useEffect(() => {
-    if(props.details['members'] == null) {
+    if (props.details["members"] == null) {
       append({ address: "" });
       setDefaults([1]);
     } else {
-      for(let i=0; i < props.details['members'].length; i++) {
-        append({ address: props.details['members'][i], share: fromDecimals(props.details['shares'][i], 18) });
+      for (let i = 0; i < props.details["members"].length; i++) {
+        append({
+          address: props.details["members"][i],
+          share: fromDecimals(props.details["shares"][i], 18),
+        });
         let array = defaults;
-        array[i] = fromDecimals(props.details['shares'][i], 18);
+        array[i] = fromDecimals(props.details["shares"][i], 18);
         setDefaults(array);
       }
     }
-
-  }, []);
+  }, [props.details]);
 
   const handleMembersSubmit = async (values) => {
     console.log("Form: ", values);
 
-    const {
-      founders
-    } = values;
+    const { founders } = values;
 
     // convert shares to wei
     let sharesArray = [];
 
-    for(let i=0; i < founders.length; i++) {
+    for (let i = 0; i < founders.length; i++) {
       let element = document.getElementById(`founders.${i}.share`);
       let value = element.value;
       sharesArray.push(toDecimals(value, 18));
@@ -59,29 +75,30 @@ export default function ChooseMembers(props) {
 
     let votersArray = [];
     for (let i = 0; i < founders.length; i++) {
-      if(web3.utils.isAddress(founders[i].address) == false) {
+      if (web3.utils.isAddress(founders[i].address) == false) {
         value.toast(founders[i].address + " is not a valid Ethereum address.");
         return;
       }
       votersArray.push(founders[i].address);
     }
-    console.log("Voters Array", votersArray)
+    console.log("Voters Array", votersArray);
 
     let array = props.details;
-    array['members'] = votersArray;
-    array['shares'] = sharesArray;
+    array["members"] = votersArray;
+    array["shares"] = sharesArray;
     props.setDetails(array);
-    console.log(props.details)
+    console.log(props.details);
 
     props.handleNext();
   };
 
   return (
     <VStack as="form" onSubmit={handleSubmit(handleMembersSubmit)}>
-      <Heading as="h1"><b>Build your cap table:</b></Heading>
+      <Heading as="h1">
+        <b>Build your cap table:</b>
+      </Heading>
       <List spacing={2}>
         {fields.map((founder, index) => (
-
           <ListItem
             display="flex"
             flexDirection="row"
@@ -122,7 +139,7 @@ export default function ChooseMembers(props) {
                     min="1"
                     defaultValue={defaults[index]}
                     id={`founders.${index}.share`}
-                    />
+                  />
                 </FormControl>
               )}
             />
@@ -137,8 +154,15 @@ export default function ChooseMembers(props) {
           </ListItem>
         ))}
       </List>
-      <Button className="transparent-btn" onClick={() => append({ address: "" })}>+ Add Founder</Button>
-      <Button className="transparent-btn" type="submit">Next »</Button>
+      <Button
+        className="transparent-btn"
+        onClick={() => append({ address: "" })}
+      >
+        + Add Founder
+      </Button>
+      <Button className="transparent-btn" type="submit">
+        Next »
+      </Button>
     </VStack>
   );
 }

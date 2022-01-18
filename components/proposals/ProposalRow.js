@@ -15,7 +15,7 @@ import {
   Divider,
   Modal,
   Progress,
-  Spacer
+  Spacer,
 } from "@chakra-ui/react";
 import FlexOutline from "../elements/FlexOutline";
 import Timer from "./Timer";
@@ -46,7 +46,7 @@ export default function ProposalRow(props) {
     if (now >= buffer) {
       setVotingStarted(true);
     }
-  }, []);
+  }, [buffer, now, p]);
 
   return (
     <>
@@ -54,15 +54,11 @@ export default function ProposalRow(props) {
         <ProposalModal p={p} i={i} isExpired={isExpired} />
       </Modal>
 
-      <Box
-        className="proposal-tile gradient-item"
-      >
+      <Box className="proposal-tile gradient-item">
         <VStack>
           <HStack className="proposal-title" width="100%">
             <ProposalIcon p={p} />
-            <Heading>
-              {viewProposalsHelper[p["proposalType"]]["title"]}
-            </Heading>
+            <Heading>{viewProposalsHelper[p["proposalType"]]["title"]}</Heading>
           </HStack>
           {p["pending"] == true ? (
             <Text casing="uppercase">needs sponsor</Text>
@@ -82,33 +78,42 @@ export default function ProposalRow(props) {
           </HStack>
 
           <HStack width="100%">
-          <VStack className="vote-count">
-            <Text>YES</Text>
-            <Text>{fromDecimals(p["yesVotes"], 18)}</Text>
-          </VStack>
-          <Progress
-            width="100%"
-            colorScheme="teal"
-            backgroundColor="transparent"
-            border="1px solid"
-            value={p["progress"]}
-            rounded={10}
-          />
-          <VStack className="vote-count">
-            <Text>NO</Text>
-            <Text>{fromDecimals(p["noVotes"], 18)}</Text>
-          </VStack>
+            <VStack className="vote-count">
+              <Text>YES</Text>
+              <Text>{fromDecimals(p["yesVotes"], 18)}</Text>
+            </VStack>
+            <Progress
+              width="100%"
+              colorScheme="teal"
+              backgroundColor="transparent"
+              border="1px solid"
+              value={p["progress"]}
+              rounded={10}
+            />
+            <VStack className="vote-count">
+              <Text>NO</Text>
+              <Text>{fromDecimals(p["noVotes"], 18)}</Text>
+            </VStack>
           </HStack>
           <Text className="vote-status">{p["passing"]}</Text>
 
           <HStack>
-            <Button className="transparent-btn" key={p["id"]} onClick={onOpen} isDisabled={!votingStarted}>
+            <Button
+              className="transparent-btn"
+              key={p["id"]}
+              onClick={onOpen}
+              isDisabled={!votingStarted}
+            >
               {isExpired == true ? "Details" : "Review & Vote"}
             </Button>
             {isExpired == true && p["pending"] == false ? (
-              account == null ? <Text><i>Please connect to your account to vote.</i></Text>
-              :
-              <ProcessModule i={i} p={p} />
+              account == null ? (
+                <Text>
+                  <i>Please connect to your account to vote.</i>
+                </Text>
+              ) : (
+                <ProcessModule i={i} p={p} />
+              )
             ) : null}
             {p["pending"] == true ? <Sponsor i={i} p={p} /> : null}
           </HStack>

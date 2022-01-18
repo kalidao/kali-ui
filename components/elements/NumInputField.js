@@ -30,7 +30,7 @@ export default function NumInputField(props) {
   } else {
     defaultValue = 0;
   }
-  if(props.id) {
+  if (props.id) {
     id = props.id;
   } else {
     id = 1;
@@ -49,16 +49,8 @@ export default function NumInputField(props) {
       <NumberInputField focusBorderColor="red.200" />
 
       <NumberInputStepper>
-        <NumberIncrementStepper
-          bg="green.600"
-          _active={{ bg: "green.500" }}
-          children="+"
-        />
-        <NumberDecrementStepper
-          bg="red.600"
-          _active={{ bg: "red.500" }}
-          children="-"
-        />
+        <NumberIncrementStepper bg="green.600" _active={{ bg: "green.500" }} />
+        <NumberDecrementStepper bg="red.600" _active={{ bg: "red.500" }} />
       </NumberInputStepper>
     </NumberInput>
   );
