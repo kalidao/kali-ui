@@ -65,6 +65,10 @@ export default function NameDAO(props) {
       value.toast("Please choose a symbol.");
       error++;
     }
+    if (props.details["symbol"].length > 11) {
+      value.toast("Symbol must be less than 11 characters.");
+      error++;
+    }
 
     if (error == 0) {
       props.handleNext();
