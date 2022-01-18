@@ -10,7 +10,7 @@ export default function HomeTile(props) {
 
         <VStack>
           <Text fontSize="xl">
-            <b>Simplify your business with smart contracts</b>
+            <b>Simplify your Business with Smart Agreements</b>
           </Text>
           <br></br>
           <KaliButton onClick={props.setDeployerVisible}>Get Started</KaliButton>
