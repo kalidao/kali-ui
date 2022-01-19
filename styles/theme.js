@@ -15,22 +15,13 @@ const colors = {
   },
 };
 
-const config = {
-  initialColorMode: "dark",
-  useSystemColorMode: true,
-};
-
 const theme = extendTheme({
-
-  fonts: {
-
-  },
+  fonts: {},
 
   components: {
     Button: Button,
   },
   colors,
-  config,
 });
 
 export default theme;

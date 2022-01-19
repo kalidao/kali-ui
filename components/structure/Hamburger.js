@@ -10,16 +10,16 @@ import { TiThMenu } from "react-icons/ti";
 
 export default function Hamburger() {
   return (
-    <div id="nav-hamburger">
     <Menu isLazy>
       <MenuButton
         as={IconButton}
         aria-label="Information Menu"
         icon={<TiThMenu />}
-        variant="ghost"
+        variant="none"
+        border="none"
         transition="all 0.2s"
-        _hover={{ bg: "kali.400" }}
-        _expanded={{ bg: "kali.400" }}
+        // _hover={{ bg: "kali.400" }}
+        // _expanded={{ bg: "kali.400" }}
       />
       <MenuList>
         <MenuGroup title="General">
@@ -34,6 +34,5 @@ export default function Hamburger() {
         </MenuGroup>
       </MenuList>
     </Menu>
-    </div>
   );
 }
