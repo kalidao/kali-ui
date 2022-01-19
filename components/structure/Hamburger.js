@@ -20,16 +20,11 @@ export default function Hamburger() {
         transition="all 0.2s"
       />
       <MenuList>
-        <MenuGroup title="General">
-          <MenuItem _focus={{ bg: "kali.700" }}>My DAOs</MenuItem>
-          <MenuItem _focus={{ bg: "kali.700" }}>Tools</MenuItem>
-          {/*TODO: Add Tools Sub-Menu*/}
-        </MenuGroup>
-        <MenuGroup title="Help">
-          <MenuItem _focus={{ bg: "kali.700" }}>FAQs</MenuItem>
-          <MenuItem _focus={{ bg: "kali.700" }}>Docs</MenuItem>
-          <MenuItem _focus={{ bg: "kali.700" }}>Support</MenuItem>
-        </MenuGroup>
+        <MenuItem color="kali.800">My DAOs</MenuItem>
+
+        <MenuItem color="kali.800">FAQs</MenuItem>
+        <MenuItem color="kali.800">Docs</MenuItem>
+        <MenuItem color="kali.800">Support</MenuItem>
       </MenuList>
     </Menu>
   );

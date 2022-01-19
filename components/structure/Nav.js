@@ -14,7 +14,7 @@ export default function Nav() {
   const value = useContext(AppContext);
   const { account, chainId } = value.state;
   return (
-    <HStack id="nav">
+    <HStack minH="10vh" minW="auto" id="nav">
       {isBrowser == true ? <Kali /> : null}
       <Spacer />
       <NavRightContainer />

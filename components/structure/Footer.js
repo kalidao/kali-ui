@@ -26,7 +26,7 @@ const SocialButton = (props) => {
 
 export default function Footer() {
   return (
-    <HStack spacing={4}>
+    <HStack minH="10vh" minW="auto" spacing={4}>
       <Text fontSize="xs">
         Summoned with{" "}
         <a href="https://twitter.com/lex_DAO" target="_blank" rel="noreferrer">
