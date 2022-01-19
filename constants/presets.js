@@ -4,49 +4,59 @@ export const presets = [
     voting: 259200,
     quorum: 10,
     supermajority: 60,
-    paused: 1,
+    paused: 0,
     extensions: {
       tribute: {
-        description: "Anyone can join by paying tribute.",
+        description: "Anyone can propose to join by paying tribute.",
       },
     },
   },
   {
     type: "Investment Club",
-    voting: 259200,
+    voting: 432000,
     quorum: 30,
-    supermajority: 80,
+    supermajority: 75,
     paused: 1,
     extensions: {
       crowdsale: {
         description:
-          "ETH crowdsale enabled by default for our Dos Commas accredited investor whitelist. 200 shares per ETH. Limit 1,000 shares per wallet. Sale ends in 30 days.",
+          "10 shares per ETH. Limit 1,000 shares. Sale ends in 30 days.",
         purchaseToken: "0x0000000000000000000000000000000000000000",
-        purchaseMultiplier: 200,
+        purchaseMultiplier: 10,
         purchaseLimit: "1000000000000000000000", // 1,000 shares - string, to avoid BigNumber errors
         saleEnds: 2592000, // 30 days from today
-        listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT!
+        listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
       },
       redemption: {
         description:
-          "Members may ragequit for their fair share of the DAO's ETH reserves. Redemption option triggered 30 days after launch. DAO may make other tokens eligible for redemption at a later date by proposal.",
+          "Members can ragequit for share of treasury. Option starts in 30 days.",
         redemptionStart: 2592000, // 30 days from today
-        tokenArray: ["0x0000000000000000000000000000000000000000"],
+        tokenArray: [
+          "0xc778417e063141139fce010982780140aa0cd5ab", 
+          "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
+          "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
+          "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02"
+        ],
       },
     },
   },
   {
     type: "Services Company",
-    voting: 86400,
+    voting: 172800,
     quorum: 20,
-    supermajority: 80,
+    supermajority: 60,
     paused: 1,
     extensions: {
       redemption: {
         description:
-          "Members may ragequit for their fair share of the DAO's ETH reserves. Redemption option triggered 180 days after launch.  DAO may make other tokens eligible for redemption at a later date by proposal.",
-        redemptionStart: 15552000, // 180 days from today
-        tokenArray: ["0x0000000000000000000000000000000000000000"],
+          "Members can ragequit for share of treasury. Option starts in 90 days.",
+        redemptionStart: 7776000, // 90 days from today
+        tokenArray: [
+          "0xc778417e063141139fce010982780140aa0cd5ab", 
+          "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
+          "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
+          "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02"
+        ],
       },
     },
   },
