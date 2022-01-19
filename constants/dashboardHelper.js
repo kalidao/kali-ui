@@ -8,7 +8,7 @@ import Ricardian from "../components/dashboard/Ricardian";
 
 export const dashboardHelper = [
   {
-    title: "DAO Info",
+    title: "Details",
     component: <DaoInfo />,
     check: null
   },
@@ -18,7 +18,7 @@ export const dashboardHelper = [
     check: 'ricardian'
   },
   {
-    title: "Governance Settings",
+    title: "Rules",
     component: <GovSettings />,
     check: null
   },
