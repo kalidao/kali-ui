@@ -15,7 +15,6 @@ import {
   Divider,
   Spacer,
 } from "@chakra-ui/react";
-import FlexGradient from "../elements/FlexGradient.js";
 import Reload from "../elements/Reload.js";
 import { BiGridAlt } from "react-icons/bi";
 import { convertVotingPeriod, fromDecimals } from "../../utils/formatters";

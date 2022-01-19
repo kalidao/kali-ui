@@ -17,7 +17,6 @@ import {
   Progress,
   Spacer,
 } from "@chakra-ui/react";
-import FlexOutline from "../elements/FlexOutline";
 import Timer from "./Timer";
 import { useClipboard } from "@chakra-ui/react";
 import ProposalModal from "./ProposalModal";
