@@ -81,11 +81,6 @@ select {
   border: 0 !important;
 }
 
-/* //////////////// CONTAINERS //////////////// */
-
-#container-dao {
-}
-
 /* //////////////// NAV BAR //////////////// */
 
 #nav-right-container {
@@ -105,50 +100,7 @@ select {
   border: none;
 }
 
-#nav-chain {
-  border: none;
-}
-
-#nav-chainIcon {
-  border: none;
-  margin: 0 5px 0 0px;
-}
-
-#nav-chainName {
-  border: none;
-}
-
 /* //////////////// DEPLOYER //////////////// */
-#container-deployer #nav-right-container,
-#container-deployer #nav-right-container button,
-#container-deployer #kali-logo,
-#container-deployer {
-  color: white;
-  border-color: white;
-}
-
-#container-deployer {
-  color: white;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-/* #container-deployer .social {
-  color: white !important;
-}
-
-#container-deployer #social-icons {
-  border-color: white !important;
-} */
-
-#container-deployer h1 {
-  font-size: 1.8em !important;
-  margin-bottom: 20px !important;
-}
-
-#container-deployer .delete-icon {
-  color: white !important;
-}
 
 .dao-type h2 {
   font-size: 1.2em;
@@ -193,18 +145,6 @@ div.dao-type:hover {
 
 /* //////////////// APP //////////////// */
 
-#container-app {
-  min-height: 100vh;
-}
-
-#container-app .social {
-  color: #5a2686 !important;
-}
-
-#container-app #social-icons {
-  border-color: #5a2686 !important;
-}
-
 div#dao-main {
   padding-left: 45px;
   padding-right: 45px;
@@ -212,12 +152,6 @@ div#dao-main {
 
 #dao-main h1 {
   color: #5a2686;
-}
-
-#container-app #nav-right-container,
-#container-app #nav-right-container button {
-  color: #5a2686;
-  border-color: #5a2686;
 }
 
 #dao-sidebar {

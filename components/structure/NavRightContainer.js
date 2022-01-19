@@ -2,20 +2,25 @@ import React, { Component, useState, useContext, useEffect } from "react";
 import { BrowserView, MobileView, isBrowser } from "react-device-detect";
 import AppContext from "../../context/AppContext";
 import Link from "next/link";
-import { Flex, Spacer, HStack } from "@chakra-ui/react";
+import { Divider, HStack, Spacer } from "@chakra-ui/react";
 import Hamburger from "./Hamburger";
 import Kali from "./Kali";
 import Account from "./Account";
 import Chain from "./Chain";
 
-export default function Nav() {
-  const value = useContext(AppContext);
-  const { account, chainId } = value.state;
+export default function NavRightContainer(props) {
   return (
-    <Flex id="nav-right-container">
+    <HStack
+      color={props.color}
+      border="1.5px solid"
+      borderRadius="xl"
+      spacing={1}
+      pl={2}
+      borderColor={props.borderColor}
+    >
       <Chain />
       <Account message="Connect" />
       <Hamburger />
-    </Flex>
+    </HStack>
   );
 }

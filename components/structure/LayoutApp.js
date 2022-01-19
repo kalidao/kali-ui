@@ -23,34 +23,37 @@ export default function Layout(props) {
           key="title"
         />
       </Head>
-      <div id="container-app">
+
       <HStack m={0}>
-      <Container
-        id="dao-sidebar"
-        h="100vh"
-        m={0}
-        minH="100vh"
-        minW='200px'
-        maxW='300px'
-        width={{sm: '200px', md: '250px', lg: '250px'}}
-      >
-          <Center><KaliIcon /></Center>
+        <Container
+          id="dao-sidebar"
+          h="100vh"
+          m={0}
+          minH="100vh"
+          maxW="auto"
+          width={{ sm: "200px", md: "250px", lg: "250px" }}
+        >
+          <Center>
+            <KaliIcon />
+          </Center>
           <ActionMenu />
-      </Container>
-      <Container
-        id="dao-main"
-        h="100vh"
-        minH="100vh"
-        maxW="container.xl"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <HStack id="nav"><Spacer /><NavRightContainer /></HStack>
-        {props.children}
-        <Footer />
-      </Container>
+        </Container>
+        <Container
+          id="dao-main"
+          h="100vh"
+          minH="100vh"
+          maxW="auto"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <HStack>
+            <Spacer />
+            <NavRightContainer color="#5a2686" borderColor="#5a2686" />
+          </HStack>
+          {props.children}
+          <Footer />
+        </Container>
       </HStack>
-      </div>
     </>
   );
 }

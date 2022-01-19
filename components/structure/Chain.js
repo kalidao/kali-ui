@@ -9,25 +9,16 @@ export default function Chain() {
   const { account, chainId, daoChain } = value.state;
   console.log(daoChain);
   console.log(chainId);
-  let bg;
-  if(chainId==daoChain) {
-    bg="linear(to-br, kali.600, kali.700)";
-  } else {
-    bg="linear(to-br, grey, grey)";
-  }
 
   return (
     <>
-    {chainId == null ? null :
-
-      <>
-      <Button variant="link" id="nav-chainName">
-        <Icon as={IoIosGitNetwork} id="nav-chainIcon" />
-        {getNetworkName(chainId)}
-        <Divider orientation="vertical" border="1px solid" />
-      </Button>
-      </>
-    }
+      {chainId == null ? null : (
+        <Button variant="link" border="none" pl={1}>
+          <Icon as={IoIosGitNetwork} />
+          {getNetworkName(chainId)}
+          {/* <Divider orientation="vertical" border="2px solid" /> */}
+        </Button>
+      )}
     </>
   );
 }

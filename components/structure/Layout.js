@@ -11,7 +11,7 @@ export default function Layout(props) {
   const { loading } = value.state;
 
   return (
-    <Box minH="100vh" minW="auto" p={2} color="kali.900">
+    <Box minH="100vh" minW="auto" p="0.1em 2em 0.2em 1em" color="kali.900">
       {loading == true ? <LoadingIndicator /> : ""}
       <Head>
         <title>KaliDAO</title>
@@ -21,8 +21,8 @@ export default function Layout(props) {
           key="title"
         />
       </Head>
-      <div id="gradient1"></div>
-      <div id="gradient2"></div>
+      <div id="gradient1" />
+      <div id="gradient2" />
       <Nav />
       <Container
         minH="80vh"

@@ -10,7 +10,7 @@ import KaliMobile from "./KaliMobile";
 import Account from "./Account";
 import Chain from "./Chain";
 
-export default function Nav() {
+export default function HomeNav() {
   const value = useContext(AppContext);
   const { account, chainId } = value.state;
   return (
