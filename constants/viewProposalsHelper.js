@@ -11,7 +11,7 @@ import { TiCancel } from "react-icons/ti";
 
 export const viewProposalsHelper = {
   0: {
-    title: "Send Shares",
+    title: "Mint Shares",
     details: {
       amounts: "shares",
       accounts: "account(s)",
@@ -21,7 +21,7 @@ export const viewProposalsHelper = {
     decode: false,
   },
   1: {
-    title: "Remove Member",
+    title: "Remove Members",
     details: {
       amounts: "shares",
       accounts: "account(s)",
@@ -31,7 +31,7 @@ export const viewProposalsHelper = {
     decode: false,
   },
   2: {
-    title: "Contract Integration",
+    title: "Call Contracts",
     details: {
       amounts: "value of transaction(s)",
       accounts: "contract(s)",
@@ -91,7 +91,7 @@ export const viewProposalsHelper = {
     decode: false,
   },
   8: {
-    title: "Extension Integration",
+    title: "Update Extensions",
     details: {
       amounts: null,
       accounts: "address(es) of extension(s)",
