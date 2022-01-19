@@ -55,15 +55,15 @@ export default function ChooseDocs(props) {
   const templateOptions = () => [
     {
       name: "DAO Charter",
-      url: "https://github.com/lexDAO/Kali/blob/main/legal/formation/Charter.md",
+      url: "https://github.com/kalidao/kali-legal/blob/main/formation/Charter.md",
     },
     {
-      name: "Trustless Unincorporated Nonprofit Association Agreement",
-      url: "https://github.com/lexDAO/Kali/blob/main/legal/formation/una/TUNAA.md",
+      name: "UNA Agreement",
+      url: "https://github.com/kalidao/kali-legal/blob/main/formation/una/TUNAA.md",
     },
     {
       name: "Delaware LLC Operating Agreement",
-      url: "https://github.com/lexDAO/Kali/blob/main/legal/formation/llc/DelawareOA.md",
+      url: "https://github.com/kalidao/kali-legal/blob/main/formation/llc/DelawareOA.md",
     },
   ];
 
