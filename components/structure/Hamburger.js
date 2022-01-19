@@ -18,8 +18,6 @@ export default function Hamburger() {
         variant="none"
         border="none"
         transition="all 0.2s"
-        // _hover={{ bg: "kali.400" }}
-        // _expanded={{ bg: "kali.400" }}
       />
       <MenuList>
         <MenuGroup title="General">

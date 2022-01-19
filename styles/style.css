@@ -118,16 +118,6 @@ select {
   border: none;
 }
 
-/* //////////////// FOOTER //////////////// */
-
-#social-icons {
-  border: 1px solid;
-  border-radius: 10px;
-}
-
-#footer {
-}
-
 /* //////////////// DEPLOYER //////////////// */
 #container-deployer #nav-right-container,
 #container-deployer #nav-right-container button,
@@ -143,13 +133,13 @@ select {
   padding: 20px;
 }
 
-#container-deployer .social {
+/* #container-deployer .social {
   color: white !important;
 }
 
 #container-deployer #social-icons {
   border-color: white !important;
-}
+} */
 
 #container-deployer h1 {
   font-size: 1.8em !important;

@@ -6,14 +6,27 @@ import {
   Spacer,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { BsTwitter, BsGithub } from "react-icons/bs";
+import { FiTwitter, FiGithub } from "react-icons/fi";
+
+const SocialButton = (props) => {
+  return (
+    <Button
+      border="none"
+      variant="none"
+      bg="none"
+      rounded={"full"}
+      as={"a"}
+      href={props.href}
+      target="_blank"
+    >
+      {props.children}
+    </Button>
+  );
+};
 
 export default function Footer() {
   return (
-    <HStack
-      spacing={4}
-      id="footer"
-    >
+    <HStack spacing={4}>
       <Text fontSize="xs">
         Summoned with{" "}
         <a href="https://twitter.com/lex_DAO" target="_blank" rel="noreferrer">
@@ -21,25 +34,13 @@ export default function Footer() {
         </a>
       </Text>
       <Spacer />
-      <Stack direction={"row"} spacing={4} id="social-icons">
-        <Button
-          className="social"
-          rounded={"full"}
-          as={"a"}
-          href={"https://twitter.com/_KaliDAO"}
-          target="_blank"
-        >
-          <BsTwitter />
-        </Button>
-        <Button
-          className="social"
-          rounded={"full"}
-          as={"a"}
-          href={"https://github.com/lexDAO/Kali"}
-          target="_blank"
-        >
-          <BsGithub />
-        </Button>
+      <Stack direction={"row"} spacing={4} border="1px solid" borderRadius="xl">
+        <SocialButton href={"https://github.com/lexDAO/Kali"}>
+          <FiGithub />
+        </SocialButton>
+        <SocialButton href={"https://twitter.com/_KaliDAO"}>
+          <FiTwitter />
+        </SocialButton>
       </Stack>
     </HStack>
   );
