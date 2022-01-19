@@ -13,59 +13,56 @@ import Escape from "../components/newproposal/Escape";
 // populates tiles on desktop view of New Proposal view
 export const newProposalHelper = [
   {
-    title: "Send Shares",
-    description: "Add a new member, or send more shares to an existing member.",
+    title: "Mint Shares",
+    description: "update members and cap table",
     component: <SendShares />,
     extension: null,
   },
   {
-    title: "Send a Token",
-    description:
-      "Send an ERC20 token from the DAO treasury to an ETH wallet or another smart contract.",
+    title: "Send Assets",
+    description: "pay treasury tokens and ETH",
     component: <SendToken />,
     extension: null,
   },
   {
-    title: "Call a Contract",
-    description: "Integrate with another smart contract.",
+    title: "Call Contracts",
+    description: "manage externals like DeFi",
     component: <ContractCall />,
     extension: null,
   },
   {
-    title: "Governance Settings",
-    description:
-      "Adjust the DAO's voting period, quorum, supermajority, and share transferability.",
+    title: "Update Rules",
+    description: "adjust governance settings",
     component: <GovernanceSettings />,
     extension: null,
   },
   {
-    title: "Extensions",
-    description: "Add, remove, and configure extensions.",
+    title: "Update Extensions",
+    description: "configure extension apps",
     component: <Extensions />,
     extension: null,
   },
   {
-    title: "Remove Member",
-    description:
-      "Propose removal of a member due to misconduct or wallet hack.",
+    title: "Remove Members",
+    description: "kick for misconduct or security",
     component: <RemoveMember />,
     extension: null,
   },
   {
-    title: "Tribute",
-    description: "Propose joining the DAO, and send tribute.",
+    title: "Make Tribute",
+    description: "escrow tribute for membership",
     component: <Tribute />,
     extension: "tribute",
   },
   {
-    title: "Buy Crowdsale",
-    description: "Join the DAO through crowdsale.",
+    title: "Purchase Shares",
+    description: "join membership by crowdsale",
     component: <BuyCrowdsale />,
     extension: "crowdsale",
   },
   {
     title: "Redeem Shares",
-    description: "Leave the DAO and get your share of treasury assets.",
+    description: "burn shares for treasury assets",
     component: <Redemption />,
     extension: "redemption",
   },
