@@ -10,7 +10,7 @@
 }
 
 #gradient1 {
-  background: linear-gradient(90deg, #ee5871, #e34b76);
+  background: linear-gradient(90deg, #46254a, #fa2a10);
   position: absolute;
   top: 0;
   left: 0;
@@ -21,7 +21,7 @@
 
 #gradient2 {
   mask-image: linear-gradient(to bottom, transparent, black);
-  background: linear-gradient(90deg, #4d46f9, #e133a4);
+  background: linear-gradient(90deg, #34254a, #294a25);
   position: absolute;
   top: 0;
   left: 0;
