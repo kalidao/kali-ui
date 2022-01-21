@@ -9,6 +9,7 @@ import Kali from "./Kali";
 import KaliMobile from "./KaliMobile";
 import Account from "./Account";
 import Chain from "./Chain";
+import DraftDoc from "../tools/DraftDoc";
 
 export default function HomeNav() {
   const value = useContext(AppContext);
@@ -17,7 +18,9 @@ export default function HomeNav() {
     <HStack minH="10vh" minW="auto" id="nav">
       {isBrowser == true ? <Kali /> : null}
       <Spacer />
+      <DraftDoc/>
       <NavRightContainer />
     </HStack>
-  );
+  )
 }
+
