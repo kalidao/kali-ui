@@ -1,24 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import {
-  Flex,
   VStack,
   HStack,
   Button,
   Text,
-  List,
-  ListItem,
   Link,
-  Select,
   Input,
   Heading,
   Icon,
 } from "@chakra-ui/react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName } from "../../utils/formatters";
-import { presets } from "../../constants/presets";
-import { extensionDescriptions } from "../../constants/extensionsHelper";
+import Select from "../elements/Select";
 
 export default function ChooseDocs(props) {
   const value = useContext(AppContext);
@@ -73,8 +66,6 @@ export default function ChooseDocs(props) {
         <Heading as="h1">Add your legal docs:</Heading>
         <Select
           id="choose-docs"
-          bg="kali.900"
-          color="kali.800"
           onChange={handleSelect}
           defaultValue={props.details["docType"]}
         >
