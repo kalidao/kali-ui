@@ -78,15 +78,15 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           THIS OPERATING AGREEMENT is made and entered into effective as of{" "}
           {date}, by and among the parties indicated on{" "}
           <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "}
-          contributing to and managing "{name}", a limited liability company
-          operating on the Ethereum blockchain network ("
-          <Text style={{ textDecoration: "underline" }}>Ethereum</Text>")
-          (collectively referred to in this agreement as the "
-          <Text style={{ textDecoration: "underline" }}>Members</Text>"). THIS
+          contributing to and managing “{name}”, a limited liability company
+          operating on the Ethereum blockchain network (“
+          <Text style={{ textDecoration: "underline" }}>Ethereum</Text>”)
+          (collectively referred to in this agreement as the “
+          <Text style={{ textDecoration: "underline" }}>Members</Text>”). THIS
           OPERATING AGREEMENT is made and entered into effective as of {date},
           by and among the parties assigned cryptographic interests in the
           decentralized autonomous organization described on Schedule 1
-          (collectively referred to in this agreement as the "Members")
+          (collectively referred to in this agreement as the “Members”)
         </Text>
         <Text style={styles.heading1}>SECTION 1</Text>
         <Text style={styles.heading2}>THE DAO LLC</Text>
@@ -95,14 +95,14 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Tab />
           <Text style={{ textDecoration: "underline" }}>Formation.</Text>
           <Tab />
-          Effective {date}, the Members form a limited liability company ("
-          <Text style={{ textDecoration: "underline" }}>LLC</Text>") under the
-          name {name} LLC (the "
+          Effective {date}, the Members form a limited liability company (“
+          <Text style={{ textDecoration: "underline" }}>LLC</Text>”) under the
+          name {name} LLC (the “
           <Text style={{ textDecoration: "underline" }}>DAO LLC</Text>") on the
-          terms and conditions in this Operating Agreement (this "
-          <Text style={{ textDecoration: "underline" }}>Agreement</Text>") and
+          terms and conditions in this Operating Agreement (this “
+          <Text style={{ textDecoration: "underline" }}>Agreement</Text>”) and
           pursuant to Chapter 29 of the Wyoming Limited Liability Company Act
-          (the "<Text style={{ textDecoration: "underline" }}>Act</Text>"). The
+          (the “<Text style={{ textDecoration: "underline" }}>Act</Text>”). The
           Members agree to file with the appropriate agency(ies) within the
           State of Wyoming charged with processing and maintaining such records
           all documentation required for the formation and maintenance of the
@@ -174,8 +174,8 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           any other series thereof, and none of the debts, liabilities,
           obligations and expenses incurred, contracted for or otherwise
           existing with respect to the DAO LLC generally or any other series
-          thereof shall be enforceable against the assets of such series ("
-          <Text style={{ textDecoration: "underline" }}>Series</Text>").
+          thereof shall be enforceable against the assets of such series (“
+          <Text style={{ textDecoration: "underline" }}>Series</Text>”).
           <Br />
         </Text>
         <Text style={styles.heading1}>SECTION 2</Text>
@@ -273,8 +273,8 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           the best interest of the DAO LLC, and with respect to any criminal
           action proceeding, have no reasonable cause to believe their conduct
           was unlawful. The termination of any action, suit, or proceeding by
-          judgment, order, settlement, conviction, or upon a plea of "no lo
-          Contendere" or its equivalent, shall not in itself create a
+          judgment, order, settlement, conviction, or upon a plea of “no lo
+          Contendere” or its equivalent, shall not in itself create a
           presumption that the person did or did not act in good faith and in a
           manner which they reasonably believed to be in the best interest of
           the DAO LLC, and, with respect to any criminal action or proceeding,
@@ -286,7 +286,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Text style={{ textDecoration: "underline" }}>Fiduciary Duties.</Text>
           <Tab />
           No Member, manager, employee, or similarly authorized agent of the DAO
-          LLC ("<Text style={{ textDecoration: "underline" }}>Manager</Text>")
+          LLC (“<Text style={{ textDecoration: "underline" }}>Manager</Text>”)
           shall be obligated personally for any debt, obligation or liability of
           the DAO LLC or of any Member, whether arising in contract, tort or
           otherwise, by reason of being or acting as Manager of the DAO LLC. No
@@ -328,15 +328,15 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           5.1.2 Except as otherwise provided in this Agreement, all decisions
           and documents relating to the management and operation of the DAO LLC
           shall be made and determined by recorded votes of the Members'
-          interests in the DAO LLC secured and denominated on Ethereum ("
-          <Text style={{ textDecoration: "underline" }}>Member Tokens</Text>")
+          interests in the DAO LLC secured and denominated on Ethereum (“
+          <Text style={{ textDecoration: "underline" }}>Member Tokens</Text>”)
           and as signified through the online DAO LLC Member portal indicated on
           *Schedule 1*, including such other governance interfaces approved by
-          the Members as provided in this Agreement (such determination, "
+          the Members as provided in this Agreement (such determination, “
           <Text style={{ textDecoration: "underline" }}>
             Member Token Votes
           </Text>
-          ").
+          ”).
           <Br />
           <Br />
           5.1.3 Third parties dealing with the DAO LLC shall be entitled to rely
@@ -452,12 +452,12 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
             Tax Representative.
           </Text>
           <Tab />
-          TThe Members shall select a "Tax Representative," who shall be the
-          "partnership representative" of the DAO LLC within the meaning of
+          TThe Members shall select a “Tax Representative,” who shall be the
+          “partnership representative” of the DAO LLC within the meaning of
           Section 6223(a) of the Internal Revenue Code of 1986. If any state or
           local tax law provides for a partnership representative or person
           having similar rights, powers, authority or obligations (including as
-          a "tax matters partner"), the Tax Representative shall also serve in
+          a “tax matters partner”), the Tax Representative shall also serve in
           such capacity. The Tax Representative may resign at any time. If a Tax
           Representative ceases to serve as such for any reason, the DAO LLC
           itself will automatically and immediately become the new (acting) Tax
@@ -527,9 +527,10 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           successor-in-interest to the Member (whether an estate, bankruptcy
           trustee, or otherwise) will receive only the economic right to receive
           distributions whenever made by the DAO LLC and the Member's allocable
-          share of taxable income, gain, loss, deduction, and credit (the
-          "***Economic Rights***") unless and until the transferee is admitted
-          as a fully substituted Member by Member Token Votes.
+          share of taxable income, gain, loss, deduction, and credit (the “
+          <Text style={{ textDecoration: "underline" }}>Economic Rights</Text>”)
+          unless and until the transferee is admitted as a fully substituted
+          Member by Member Token Votes.
           <Br />
           <Br />
           9.2.1

@@ -81,7 +81,7 @@ const DelawareInvestmentClubTemplate = ({ name, chain, client, network, address,
           <Tab />
           The Org has been formed for the purposes contemplated by this
           Agreement by the filing with the Secretary of State of the State of
-          Delaware of a Certificate of Formation (the "Certificate") in
+          Delaware of a Certificate of Formation (the “Certificate”) in
           accordance with the
           <Br />
           <Br />
@@ -1221,7 +1221,7 @@ const DelawareInvestmentClubTemplate = ({ name, chain, client, network, address,
           No Appraisal Rights. No Member shall have any appraisal or dissenters’
           rights in connection with a merger, consolidation or other acquisition
           of the Org or the assets of the Org, and §18-210 of the Delaware LLC
-          Act (entitled "Contractual Appraisal Rights") shall not apply to the
+          Act (entitled “Contractual Appraisal Rights”) shall not apply to the
           Org.
           <Br />
           2.8
@@ -3119,7 +3119,8 @@ const DelawareInvestmentClubTemplate = ({ name, chain, client, network, address,
           .
           <Br />
           <Br />
-          {name} may be deemed a Money Services Business requiring State and Federal supervision, which {name} may be incapable of complying with.
+          {name} may be deemed a Money Services Business requiring State and
+          Federal supervision, which {name} may be incapable of complying with.
           <Br />
           <Br />
           The Bank Secrecy Act imposes a requirement for money transmitters and

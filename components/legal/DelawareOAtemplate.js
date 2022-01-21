@@ -80,7 +80,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           and among the parties assigned cryptographic interests in the
           decentralized autonomous organization described on{" "}
           <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "}
-          (collectively referred to in this agreement as the "Members")
+          (collectively referred to in this agreement as the “Members”)
         </Text>
         <Text style={styles.heading1}>SECTION 1</Text>
         <Text style={styles.heading2}>THE DAO LLC</Text>
@@ -89,11 +89,11 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           <Text style={{ textDecoration: "underline" }}>Formation.</Text>
           <Tab />
-          Effective {date}, the Members form a limited liability company ("LLC")
-          under the name {name} LLC (the "DAO LLC") on the terms and conditions
-          in this Operating Agreement (this "Agreement") and pursuant to the
+          Effective {date}, the Members form a limited liability company (“LLC”)
+          under the name {name} LLC (the “DAO LLC”) on the terms and conditions
+          in this Operating Agreement (this “Agreement”) and pursuant to the
           Delaware Limited Liability Company Act (6 Del. C. § 18-101 et seq.)
-          (the "Act"). The Members agree to file with the appropriate agencies
+          (the “Act”). The Members agree to file with the appropriate agencies
           within the State of Delaware charged with processing and maintaining
           such records all documentation required for the formation and
           maintenance of the DAO LLC. The rights and obligations of the Members
@@ -167,15 +167,15 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           none of the debts, liabilities, obligations and expenses incurred,
           contracted for or otherwise existing with respect to the DAO LLC
           generally or any other series thereof shall be enforceable against the
-          assets of such series ("
-          <Text style={{ textDecoration: "underline" }}>Series</Text>"). For
+          assets of such series (“
+          <Text style={{ textDecoration: "underline" }}>Series</Text>”). For
           admission as a Series, each Series and its members and managers must
           agree to indemnify and hold harmless the DAO LLC and the Members (the
-          "
+          “
           <Text style={{ textDecoration: "underline" }}>
             Series Indemnified Parties
           </Text>
-          ") against any claims, liabilities, legal fees, judgements, or other
+          ”) against any claims, liabilities, legal fees, judgements, or other
           losses incurred by the Series Indemnified Parties that reasonably
           arise from (i) a Series’ non-compliance with the provisions of this
           Agreement or (ii) any action undertaken by the Series, its members or
@@ -279,8 +279,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           the best interest of the DAO LLC, and with respect to any criminal
           action proceeding, have no reasonable cause to believe their conduct
           was unlawful. The termination of any action, suit, or proceeding by
-          judgment, order, settlement, conviction, or upon a plea of "no lo
-          Contendere" or its equivalent, shall not in itself create a
+          judgment, order, settlement, conviction, or upon a plea of “no lo
+          Contendere” or its equivalent, shall not in itself create a
           presumption that the person did or did not act in good faith and in a
           manner which they reasonably believed to be in the best interest of
           the DAO LLC, and, with respect to any criminal action or proceeding,
@@ -317,16 +317,16 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           documents relating to the management and operation of the DAO LLC
           shall be made and determined by recorded votes of the Members'
           interests in the DAO LLC secured and denominated on a public
-          blockchain ("
+          blockchain (“
           <Text style={{ textDecoration: "underline" }}>
             Cryptographic Units
           </Text>
-          ") under the then-existing consensus rules of such Cryptographic Units
-          as detailed on Schedule 1 (such determination, "
+          ”) under the then-existing consensus rules of such Cryptographic Units
+          as detailed on Schedule 1 (such determination, “
           <Text style={{ textDecoration: "underline" }}>
             Cryptographic Consensus
           </Text>
-          ").
+          ”).
           <Br />
           <Br />
           5.1.3
@@ -450,12 +450,12 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
             Tax Representative.
           </Text>
           <Tab />
-          The Members shall select a "Tax Representative," who shall be the
-          "partnership representative" of the DAO LLC within the meaning of
+          The Members shall select a “Tax Representative,” who shall be the
+          “partnership representative” of the DAO LLC within the meaning of
           Section 6223(a) of the Internal Revenue Code of 1986. If any state or
           local tax law provides for a partnership representative or person
           having similar rights, powers, authority or obligations (including as
-          a "tax matters partner"), the Tax Representative shall also serve in
+          a “tax matters partner”), the Tax Representative shall also serve in
           such capacity. The Tax Representative may resign at any time. If a Tax
           Representative ceases to serve as such for any reason, the DAO LLC
           itself will automatically and immediately become the new (acting) Tax
@@ -508,11 +508,11 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
             Sale or Encumbrance Prohibited.
           </Text>
           <Tab />
-          Effective {date}, the Members form a limited liability company ("LLC")
-          under the name {name} LLC (the "DAO LLC") on the terms and conditions
-          in this Operating Agreement (this "Agreement") and pursuant to the
+          Effective {date}, the Members form a limited liability company (“LLC”)
+          under the name {name} LLC (the “DAO LLC”) on the terms and conditions
+          in this Operating Agreement (this “Agreement”) and pursuant to the
           Delaware Limited Liability Company Act (6 Del. C. § 18-101 et seq.)
-          (the "Act"). The Members agree to file with the appropriate agencies
+          (the “Act”). The Members agree to file with the appropriate agencies
           within the State of Delaware charged with processing and maintaining
           such records all documentation required for the formation and
           maintenance of the DAO LLC. The rights and obligations of the Members
@@ -532,7 +532,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           trustee, or otherwise) will receive only the economic right to receive
           distributions whenever made by the DAO LLC and the Member's allocable
           share of taxable income, gain, loss, deduction, and credit (the
-          "Economic Rights") unless and until the transferee is admitted as a
+          “Economic Rights”) unless and until the transferee is admitted as a
           fully substituted Member by Cryptographic Consensus.
           <Br />
           <Br />
