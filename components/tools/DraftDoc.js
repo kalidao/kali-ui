@@ -24,7 +24,7 @@ import WyomingOAtemplate from "../legal/WyomingOAtemplate"
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { handleSubmit, register, formState: { errors } } = useForm()
+  const { handleSubmit, register, reset } = useForm()
   const [selection, setSelection] = useState("")
   const [deLlcForm, setDeLlcForm] = useState(false)
   const [deIcForm, setDeIcForm] = useState(false)
@@ -100,6 +100,7 @@ function DraftDoc() {
                     setDeLlcForm(false)
                     setDeIcForm(false)
                     setWyLlcForm(false)
+                    reset()
                   }}
                   id="agreement"
                   placeholder="Select option"
@@ -118,9 +119,8 @@ function DraftDoc() {
                     <Input
                       id="name"
                       placeholder="KALI"
-                      {...register("name", { required: "Please enter your first name" })}
+                      {...register("name")}
                     />
-                    {errors.name && <p>{errors.name.message}</p>}
                   
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
@@ -298,6 +298,7 @@ function DraftDoc() {
                       name={delawareIc.name}
                       chain={delawareIc.chain}
                       client={delawareIc.date}
+
                       network={delawareIc.network}
                       address={delawareIc.address}
                       code={delawareIc.code}
@@ -342,7 +343,7 @@ function DraftDoc() {
             <Button type="submit" form="contact-form" mr={3}>
               Draft
             </Button>
-            <Button variant="outline" type="reset" onClick={onClose}>
+            <Button variant="outline" onClick={() => {onClose(), reset(), setSelection("")}}>
               Cancel
             </Button>
           </DrawerFooter>
