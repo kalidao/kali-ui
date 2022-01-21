@@ -2,8 +2,6 @@ import { Link, Heading } from "@chakra-ui/react";
 import { routeHome } from "../../utils/router";
 import logo from "../../public/img/logo.png";
 
-console.log(logo)
-
 export default function Kali() {
   const home = () => {
     routeHome();
