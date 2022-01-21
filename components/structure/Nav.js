@@ -17,23 +17,25 @@ export default function HomeNav() {
   const { web3, account, chainId } = value.state
   const [admin, setAdmin] = useState(false)
 
-  try {
-    const contract = new web3.eth.Contract(
-      ERC20,
-      "0x8585ad16b5166E53Ff200384422843DfEFaF87Dc"
-    )
+  const isAdmin = () => {
+    try {
+      const contract = new web3.eth.Contract(
+        ERC20,
+        "0x8585ad16b5166E53Ff200384422843DfEFaF87Dc"
+      )
 
-    contract.methods
-      .balanceOf(account)
-      .call({ from: account })
-      .then((_balance) => {
-        _balance > 0 ? setAdmin(true) : setAdmin(false)
-      })
-  } catch {}
+      contract.methods
+        .balanceOf(account)
+        .call({ from: account })
+        .then((_balance) => {
+          _balance > 0 ? setAdmin(true) : setAdmin(false)
+        })
+    } catch {}
+  }
 
   useEffect(() => {
-    console.log(admin)
-  }, [admin])
+    isAdmin()
+  }, [admin, isAdmin])
 
   return (
     <HStack minH="10vh" minW="auto" id="nav">
