@@ -73,10 +73,12 @@ export default function ChooseDocs(props) {
         <Heading as="h1">Add your legal docs:</Heading>
         <Select
           id="choose-docs"
+          bg="kali.900"
+          color="kali.800"
           onChange={handleSelect}
           defaultValue={props.details["docType"]}
         >
-          <option value="999"></option>
+          <option className="option" value="999"></option>
           <option value="0">Form an LLC</option>
           <option value="1">Use your own docs</option>
           <option value="2">None</option>
@@ -98,7 +100,7 @@ export default function ChooseDocs(props) {
                   target="_blank"
                   isExternal
                   rel="noopener noreferrer"
-                  color="kali.600"
+                  color="kali.800"
                 >
                   here
                 </Link>
