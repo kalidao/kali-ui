@@ -1,19 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import {
-  Flex,
-  VStack,
-  HStack,
-  Button,
-  Text,
-  Select,
-  Icon,
-  Heading,
-} from "@chakra-ui/react";
+import { VStack, HStack, Button, Text, Icon, Heading } from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
 import { getNetworkName } from "../../utils/formatters";
 import { AiOutlineCheckCircle, AiOutlineWarning } from "react-icons/ai";
-
+import Select from "../elements/Select";
 export default function ChooseNetwork(props) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
