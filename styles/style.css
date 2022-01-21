@@ -119,6 +119,14 @@ div.dao-type:hover {
   margin: 1px;
 }
 
+#landing-tile-left {
+  margin-right:100px;
+}
+
+#landing-tile-right {
+
+}
+
 #not-connected {
   color: #ffc9e2;
 }

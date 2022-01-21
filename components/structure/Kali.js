@@ -1,5 +1,6 @@
 import { Link, Heading } from "@chakra-ui/react";
 import { routeHome } from "../../utils/router";
+import logo from "../../public/img/logo.png";
 
 export default function Kali() {
   const home = () => {
@@ -7,10 +8,6 @@ export default function Kali() {
     console.log("click");
   };
   return (
-    <>
-      <Heading id="kali-logo" letterSpacing="wide" fontWeight="extrabold">
-        <Link onClick={home}>KaliDAO</Link>
-      </Heading>
-    </>
+    <img id="logo" src={logo.src} height="65" width="199" alt="Kali" onClick={home} />
   );
 }

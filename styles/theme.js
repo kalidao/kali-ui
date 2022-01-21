@@ -16,7 +16,10 @@ const colors = {
 };
 
 const theme = extendTheme({
-  fonts: {},
+  fonts: {
+    heading: "Poppins",
+    body: "Poppins"
+  },
 
   components: {
     Button: Button,
