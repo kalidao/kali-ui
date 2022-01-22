@@ -24,7 +24,7 @@ export default function Layout(props) {
         />
       </Head>
 
-      <HStack m={0}>
+      <HStack m={0} alignItems="top">
         <Container
           id="dao-sidebar"
           h="100vh"
