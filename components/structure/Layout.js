@@ -11,7 +11,7 @@ export default function Layout(props) {
   const { loading } = value.state;
 
   return (
-    <Box minH="100vh" minW="auto" p="0.1em 2em 0.2em 1em" color="kali.900">
+    <Box id="deployer-container" color="kali.900">
       {loading == true ? <LoadingIndicator /> : ""}
       <Head>
         <title>KaliDAO</title>

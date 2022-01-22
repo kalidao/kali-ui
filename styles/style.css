@@ -83,6 +83,16 @@ select {
 
 /* //////////////// DEPLOYER //////////////// */
 
+#deployer-container {
+  padding:20px;
+}
+
+#deployer-container p,
+#deployer-container h1,
+#deployer-container h2 {
+  color: white;
+}
+
 .dao-type h2 {
   font-size: 1.2em;
 }

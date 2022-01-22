@@ -14,7 +14,12 @@ export default function HomeNav() {
   const value = useContext(AppContext);
   const { account, chainId } = value.state;
   return (
-    <HStack minH="10vh" minW="auto" id="nav">
+    <HStack
+      minH="10vh"
+      minW="auto"
+      id="nav"
+      alignItems="top"
+    >
       {isBrowser == true ? <Kali /> : null}
       <Spacer />
       <NavRightContainer />
