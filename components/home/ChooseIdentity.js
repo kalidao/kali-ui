@@ -9,15 +9,13 @@ import {
   Input,
   Heading,
 } from "@chakra-ui/react";
-import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName } from "../../utils/formatters";
 import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
 
-export default function NameDAO(props) {
+export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
+  const { web3, chainId } = value.state;
   const [daoNames, setDaoNames] = useState(null);
 
   useEffect(() => {

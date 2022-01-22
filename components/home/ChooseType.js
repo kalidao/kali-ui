@@ -13,6 +13,7 @@ import {
   Heading,
   UnorderedList,
   ListItem,
+  Button,
 } from "@chakra-ui/react";
 import { convertVotingPeriod } from "../../utils/formatters";
 import { presets } from "../../constants/presets";
@@ -113,6 +114,7 @@ export default function ChooseType(props) {
         {presets.map((item, index) => (
           <DaoBox key={index} id={index} type={item} />
         ))}
+        <Button onClick={props.handleNext}>Custom</Button>
       </Grid>
     </VStack>
   );

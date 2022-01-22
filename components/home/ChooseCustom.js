@@ -1,22 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import {
-  Flex,
   VStack,
   HStack,
   Button,
-  Input,
-  Text,
-  Select,
+  Heading,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { supportedChains } from "../../constants/supportedChains";
 import { getNetworkName, convertVotingPeriod } from "../../utils/formatters";
 import { presets } from "../../constants/presets";
 import { extensionDescriptions } from "../../constants/extensionsHelper";
-import CustomSlider from "../elements/CustomSlider";
+import Slider from "../elements/CustomSlider";
+import Select from "../elements/Select";
 
-export default function Customized(props) {
+export default function ChooseCustom(props) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [votingPeriodUnit, setVotingPeriodUnit] = useState(null);
@@ -85,49 +85,63 @@ export default function Customized(props) {
   };
 
   return (
-    <VStack>
-      <Text fontSize="xl">
+    <VStack as="form">
+      <Heading>
         <b>Customize your governance</b>
-      </Text>
-      <Text>
-        <b>Voting Period</b>
-      </Text>
-      <HStack>
-        <NumInputField defaultValue={1} min="1" onChange={changeVotingPeriod} />
-        <Select
-          defaultValue={votingPeriodUnit}
-          onChange={changeVotingPeriodUnit}
-        >
-          <option value="0">min</option>
-          <option value="1">hours</option>
-          <option value="2">days</option>
+      </Heading>
+      <FormControl>
+        <FormLabel>
+          <b>Voting Period</b>
+        </FormLabel>
+        <HStack>
+          <NumInputField
+            defaultValue={1}
+            min="1"
+            onChange={changeVotingPeriod}
+          />
+          <Select
+            defaultValue={votingPeriodUnit}
+            onChange={changeVotingPeriodUnit}
+          >
+            <option value="0">min</option>
+            <option value="1">hours</option>
+            <option value="2">days</option>
+          </Select>
+        </HStack>
+      </FormControl>
+      <FormControl>
+        <FormLabel>
+          <b>Quorum</b>
+        </FormLabel>
+        <Slider
+          label="quorum-slider"
+          defaultValue={props.details["quorum"]}
+          onChangeEnd={changeQuorum}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>
+          <b>Supermajority</b>
+        </FormLabel>
+        <Slider
+          label="supermajority-slider"
+          defaultValue={props.details["supermajority"]}
+          onChangeEnd={changeSupermajority}
+          min={51}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>
+          <b>Share Transferability</b>
+        </FormLabel>
+        <Select defaultValue={props.details["paused"]} onChange={changePaused}>
+          <option value="1">Transferable</option>
+          <option value="0">Nontransferable</option>
         </Select>
-      </HStack>
-      <Text>
-        <b>Quorum</b>
-      </Text>
-      <CustomSlider
-        label="quorum-slider"
-        defaultValue={props.details["quorum"]}
-        onChangeEnd={changeQuorum}
-      />
-      <Text>
-        <b>Supermajority</b>
-      </Text>
-      <CustomSlider
-        label="supermajority-slider"
-        defaultValue={props.details["supermajority"]}
-        onChangeEnd={changeSupermajority}
-        min={51}
-      />
-      <Text>
-        <b>Share Transferability</b>
-      </Text>
-      <Select defaultValue={props.details["paused"]} onChange={changePaused}>
-        <option value="1">Transferable</option>
-        <option value="0">Nontransferable</option>
-      </Select>
-      <Button onClick={() => props.handleNext()}>Next</Button>
+      </FormControl>
+      <Button className="transparent-btn" onClick={() => props.handleNext()}>
+        Next »
+      </Button>
     </VStack>
   );
 }
