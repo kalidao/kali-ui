@@ -1,12 +1,8 @@
 /* //////////////// GRADIENT //////////////// */
 
 .gradient-item {
-  background: rgb(231, 84, 114);
-  background: linear-gradient(
-    142deg,
-    rgba(231, 84, 114, 0.8701855742296919) 24%,
-    rgba(68, 58, 200, 1) 100%
-  );
+  background: rgb(70,37,74);
+  background: linear-gradient(54deg, rgba(70,37,74,0.9) 0%, rgba(250,42,16,0.9) 100%);
 }
 
 #gradient1 {
@@ -176,9 +172,15 @@ div#footer {
   color: white;
 }
 
-.dashboard-tile {
+.dashboard-tile, .proposal-tile, .proposal-type-tile {
   padding: 30px;
+  margin: 15px;
   border-radius: 15px;
+  color: white;
+}
+
+.dashboard-tile:hover, .proposal-tile:hover, .proposal-type-tile:hover {
+  background: #952730 !important;
 }
 
 .dashboard-tile h2 {
@@ -186,19 +188,18 @@ div#footer {
   margin-bottom: 15px;
 }
 
-.proposal-tile {
-  padding: 30px;
-  margin: 20px;
-  border-radius: 15px;
-  color: white;
-}
-
 .proposal-tile h2 {
   font-size: 1.2em;
   padding: 0 0 5px 0;
 }
 
-.proposal-icon {
+.proposal-type-tile h2 {
+  font-size: 1.2em;
+  padding: 10px 0 5px 0;
+}
+
+.proposal-type-tile p {
+  font-size: 0.8em;
 }
 
 .proposal-title {

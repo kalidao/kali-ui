@@ -14,7 +14,8 @@ import {
   Icon,
   Button,
   Flex,
-  Container
+  Container,
+  Spacer
 } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
 import { newProposalHelper } from "../../constants/newProposalHelper";
@@ -35,28 +36,18 @@ export default function NewProposal(props) {
   const ProposalTile = (props) => {
     return (
       <LinkBox
-        bg="kali.900"
-        border="1px solid"
-        p={5}
-        m={2}
-        borderRadius="2xl"
-        //boxShadow="lg"
-        _hover={{
-          bgGradient: "linear(to-br, kali.600, kali.700)",
-        }}
+        className="proposal-type-tile gradient-item"
       >
         <LinkOverlay href="#" onClick={() => setMenuItem(props.id)}>
-          <Icon as={props.icon} />
-          <Heading
-            size="md"
-            fontWeight="extrabold"
-            color="#080800"
-            textTransform="uppercase"
-          >
+          <HStack>
+            <Icon as={props.icon} boxSize={9} p={2} rounded={5} border="1px solid white" />
+            <Spacer />
+          </HStack>
+          <Heading>
             {props.title}
           </Heading>
         </LinkOverlay>
-        <Text color="#292929">{props.description}</Text>
+        <Text>{props.description}</Text>
       </LinkBox>
     );
   };
