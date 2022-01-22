@@ -32,8 +32,8 @@ export default function Layout(props) {
         justifyContent="center"
       >
         {props.children}
-      </Container>
       <Footer />
+      </Container>
     </Box>
     </>
   );
