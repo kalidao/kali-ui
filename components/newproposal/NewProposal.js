@@ -10,13 +10,16 @@ import {
   Heading,
   Center,
   VStack,
+  HStack,
+  Icon,
   Button,
   Flex,
+  Container
 } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
 import { newProposalHelper } from "../../constants/newProposalHelper";
 import ConnectWallet from "./ConnectWallet";
-import Account from "../structure/Account";
+import { BiEdit } from "react-icons/bi";
 
 export default function NewProposal(props) {
   const [menuItem, setMenuItem] = useState(999); // arbitrary number where no proposal type is selected. if changed, must change below, too
@@ -72,41 +75,23 @@ export default function NewProposal(props) {
 
   return (
     <>
+    <HStack>
+      <Icon as={BiEdit} w={10} h={10} color="#5a2686" />
+      <Heading as="h1">Proposals</Heading>
+    </HStack>
       {dao == null ? null : account == null ? (
-        <Account
-          isFullWidth
-          mt={10}
-          message="Please connect your wallet to start making proposals!"
-        />
+        <Box className="gradient-item dashboard-tile" mt={10} color="white">
+        <Text>Please connect your account to start making proposals!</Text>
+        <Button
+          className="transparent-btn"
+          onClick={value.connect}
+          border="none"
+        >
+          Connect
+        </Button>
+        </Box>
       ) : (
         <>
-          <MobileView>
-            <form>
-              <Flex>
-                <Select
-                  name="menuItem" // will have to convert to proposalType corresponding with smart contract enums
-                  onChange={updateMenuItem}
-                  color="kali.800"
-                  bg="kali.900"
-                  opacity="0.9"
-                >
-                  <option value="999">Select a proposal type</option>
-                  {Object.entries(newProposalHelper).map(([k, v]) =>
-                    newProposalHelper[k]["extension"] == null ||
-                    ("extensions" in dao &&
-                      dao["extensions"] != null &&
-                      newProposalHelper[k]["extension"] in
-                        dao["extensions"]) ? (
-                      <option key={`option-${k}`} value={k}>
-                        {newProposalHelper[k]["title"]}
-                      </option>
-                    ) : null
-                  )}
-                </Select>
-              </Flex>
-            </form>
-          </MobileView>
-          <BrowserView>
             {menuItem < 999 ? (
               <BackButton />
             ) : (
@@ -132,7 +117,7 @@ export default function NewProposal(props) {
                 )}
               </Grid>
             )}
-          </BrowserView>
+
 
           {Object.entries(newProposalHelper).map(([k, v]) =>
             menuItem == k ? (
