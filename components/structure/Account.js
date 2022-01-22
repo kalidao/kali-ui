@@ -11,7 +11,7 @@ export default function Account(props) {
     <Button
       variant="link"
       onClick={value.connect}
-      id="nav-account"
+      border="none"
     >
       {account == null ? "connect" : truncateAddress(account)}
     </Button>

@@ -15,7 +15,7 @@ export default function NavRightContainer(props) {
       border="1.5px solid"
       borderRadius="xl"
       spacing={1}
-      pl={2}
+      pl={3}
       borderColor={props.borderColor}
     >
       <Chain />

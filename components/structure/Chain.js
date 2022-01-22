@@ -13,11 +13,20 @@ export default function Chain() {
   return (
     <>
       {chainId == null ? null : (
-        <Button variant="link" border="none" pl={1}>
-          <Icon as={IoIosGitNetwork} />
+        <>
+        <Icon as={IoIosGitNetwork} />
+        <Button variant="link" border="none">
           {getNetworkName(chainId)}
-          {/* <Divider orientation="vertical" border="2px solid" /> */}
+          <Divider
+            orientation="vertical"
+            height="20px"
+            border="1px solid"
+            opacity="1.0"
+            ml={2}
+            mr={1}
+          />
         </Button>
+        </>
       )}
     </>
   );

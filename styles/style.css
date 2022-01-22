@@ -81,25 +81,6 @@ select {
   border: 0 !important;
 }
 
-/* //////////////// NAV BAR //////////////// */
-
-#nav-right-container {
-  border: 1px solid;
-  padding: 0 5px 0px 15px;
-  border-radius: 15px;
-}
-
-#nav-right-container .chakra-divider {
-  margin: 0 10px;
-  border: 1px solid;
-  opacity: 0.9;
-  height: 60%;
-}
-
-#nav-account {
-  border: none;
-}
-
 /* //////////////// DEPLOYER //////////////// */
 
 .dao-type h2 {
