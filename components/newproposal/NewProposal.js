@@ -46,6 +46,7 @@ export default function NewProposal(props) {
         }}
       >
         <LinkOverlay href="#" onClick={() => setMenuItem(props.id)}>
+          <Icon as={props.icon} />
           <Heading
             size="md"
             fontWeight="extrabold"
@@ -112,6 +113,7 @@ export default function NewProposal(props) {
                       id={k}
                       title={newProposalHelper[k]["title"]}
                       description={newProposalHelper[k]["description"]}
+                      icon={newProposalHelper[k]["icon"]}
                     />
                   ) : null
                 )}
