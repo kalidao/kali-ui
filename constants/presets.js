@@ -28,10 +28,11 @@ export const presets = [
     extensions: {
       crowdsale: {
         description:
-          "10 shares per ETH. Limit 1,000 shares. Sale ends in 30 days.",
+          "10 shares per ETH. Limit 1000 shares. Sale ends in 30 days.",
         purchaseToken: "0x0000000000000000000000000000000000000000",
         purchaseMultiplier: 10,
-        purchaseLimit: "1000000000000000000000", // 1,000 shares - string, to avoid BigNumber errors
+        purchaseLimit: "10000000000000000000", // 10 shares - string, to avoid BigNumber errors
+        saleGoal: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
         saleEnds: 2592000, // 30 days from today
         listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
       },
