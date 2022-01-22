@@ -145,8 +145,14 @@ div.dao-type:hover {
 /* //////////////// APP //////////////// */
 
 div#dao-main {
-  padding-left: 45px;
-  padding-right: 45px;
+  background: #fafafa;
+  padding: 20px 45px !important;
+}
+
+div#footer {
+  margin: 0 -45px;
+  padding: 20px 45px !important;
+  background: #fafafa;
 }
 
 #dao-main h1 {
@@ -164,11 +170,6 @@ div#dao-main {
 #dao-sidebar button,
 #dao-sidebar #kali-logo {
   color: #5a2686;
-}
-
-#dao-main {
-  background: #fafafa;
-  padding: 20px;
 }
 
 #dashboard {

@@ -40,8 +40,6 @@ export default function Layout(props) {
         </Container>
         <Container
           id="dao-main"
-          h="100vh"
-          minH="100vh"
           maxW="auto"
           alignItems="center"
           justifyContent="center"
@@ -50,7 +48,13 @@ export default function Layout(props) {
             <Spacer />
             <NavRightContainer color="#5a2686" borderColor="#5a2686" />
           </HStack>
+          <Container
+            h="100vh"
+            minH="100vh"
+            maxW="auto"
+          >
           {props.children}
+          </Container>
           <Footer />
         </Container>
       </HStack>
