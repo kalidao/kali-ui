@@ -49,12 +49,13 @@ export default function Layout(props) {
             <NavRightContainer color="#5a2686" borderColor="#5a2686" />
           </HStack>
           <Container
-            h="100vh"
+            h="auto"
             minH="100vh"
             maxW="auto"
           >
           {props.children}
           </Container>
+
           <Footer />
         </Container>
       </HStack>
