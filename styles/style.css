@@ -153,6 +153,12 @@ div#footer {
 
 #dao-main h1 {
   color: #5a2686;
+  margin-bottom: 20px;
+}
+
+.h1-icon {
+  color: #5a2686 !important;
+  margin-bottom: 20px;
 }
 
 #dao-sidebar {

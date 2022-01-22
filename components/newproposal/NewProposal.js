@@ -68,12 +68,12 @@ export default function NewProposal(props) {
   return (
     <>
     <HStack>
-      <Icon as={BiEdit} w={10} h={10} color="#5a2686" />
+      <Icon as={BiEdit} w={10} h={10} className="h1-icon" />
       <Heading as="h1">Proposals</Heading>
     </HStack>
       {dao == null ? null : account == null ? (
         <Box className="gradient-item dashboard-tile" mt={10} color="white">
-        <Text>Please connect your account to start making proposals!</Text>
+        <Text mb={5}>Please connect your account to start making proposals!</Text>
         <Button
           className="transparent-btn"
           onClick={value.connect}

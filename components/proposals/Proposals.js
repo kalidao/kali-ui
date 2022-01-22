@@ -92,7 +92,7 @@ export default function Proposals(props) {
   return (
     <>
       <HStack>
-        <Icon as={RiStackLine} w={10} h={10} color="#5a2686" />
+        <Icon as={RiStackLine} w={10} h={10} className="h1-icon" />
         <Heading as="h1">Proposals</Heading>
       </HStack>
       <ToggleProposals
