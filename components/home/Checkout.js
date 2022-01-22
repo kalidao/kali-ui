@@ -86,16 +86,17 @@ export default function Checkout(props) {
       if('crowdsale' in extensions) {
         extensionsArray.push(addresses[chainId]['extensions']['crowdsale']);
 
-        var { listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds } = extensions['crowdsale'];
+        var { listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleGoal, saleEnds } = extensions['crowdsale'];
         let now = parseInt(new Date().getTime() / 1000);
         saleEnds += now;
         const payload = web3.eth.abi.encodeParameters(
-          ["uint256", "address", "uint8", "uint96", "uint32"],
+          ["uint256", "address", "uint8", "uint96", "uint96", "uint32"],
           [
             listId,
             purchaseToken,
             purchaseMultiplier,
             purchaseLimit,
+            saleGoal,
             saleEnds,
           ]
         );
