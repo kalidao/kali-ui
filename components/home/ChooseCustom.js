@@ -135,8 +135,8 @@ export default function ChooseCustom(props) {
           <b>Share Transferability</b>
         </FormLabel>
         <Select defaultValue={props.details["paused"]} onChange={changePaused}>
-          <option value="1">Transferable</option>
-          <option value="0">Nontransferable</option>
+          <option value="0">Transferable</option>
+          <option value="1">Nontransferable</option>
         </Select>
       </FormControl>
       <Button className="transparent-btn" onClick={() => props.handleNext()}>
