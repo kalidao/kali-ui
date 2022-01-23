@@ -14,7 +14,7 @@ export default function NavRightContainer(props) {
       color={props.color}
       border="1.5px solid"
       borderRadius="xl"
-      spacing={3}
+      spacing={1}
       pl={2}
       borderColor={props.borderColor}
     >
