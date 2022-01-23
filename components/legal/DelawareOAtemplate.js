@@ -127,7 +127,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           The DAO LLC shall continuously maintain an office and registered agent
           in the State of Delaware as required by the Act. The DAO LLC will
           maintain its principal business office at such places of business as
-          the Members may deem advisable for the conduct of the DAO LLC's
+          the Members may deem advisable for the conduct of the DAO LLC&#39;s
           business.
           <Br />
           <Br />
@@ -207,8 +207,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           </Text>
           <Tab />
           No Member shall be obligated to make any additional contribution to
-          the DAO LLC's capital without the consent of the Members as provided
-          in this Agreement.
+          the DAO LLC&#39;s capital without the consent of the Members as
+          provided in this Agreement.
           <Br />
           <Br />
           2.3
@@ -272,7 +272,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           LLC) by reason of the fact that they are or were a Member of the DAO
           LLC, manager, employee, or agent of the DAO LLC, or are or were
           serving at the request of the DAO LLC, against expenses (including
-          attorney's fees), judgments, fines, and amounts paid in settlement
+          attorney&#39;s fees), judgments, fines, and amounts paid in settlement
           actually and reasonably incurred in connection with such action, suit
           or proceeding if the Members determine that they acted in good faith
           and in a manner they reasonably believed to be in or not opposed to
@@ -315,7 +315,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           Except as otherwise provided in this Agreement, all decisions and
           documents relating to the management and operation of the DAO LLC
-          shall be made and determined by recorded votes of the Members'
+          shall be made and determined by recorded votes of the Members&#39;
           interests in the DAO LLC secured and denominated on a public
           blockchain (“
           <Text style={{ textDecoration: "underline" }}>
@@ -395,7 +395,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           </Text>
           <Tab />
           The DAO LLC may obtain legal and accounting services to the extent
-          reasonably necessary for the conduct of the DAO LLC's business.
+          reasonably necessary for the conduct of the DAO LLC&#39;s business.
           <Br />
           <Br />
         </Text>
@@ -530,10 +530,10 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           unless the DAO LLC exercises its rights under Section 9.3, the
           successor-in-interest to the Member (whether an estate, bankruptcy
           trustee, or otherwise) will receive only the economic right to receive
-          distributions whenever made by the DAO LLC and the Member's allocable
-          share of taxable income, gain, loss, deduction, and credit (the
-          “Economic Rights”) unless and until the transferee is admitted as a
-          fully substituted Member by Cryptographic Consensus.
+          distributions whenever made by the DAO LLC and the Member&#39;s
+          allocable share of taxable income, gain, loss, deduction, and credit
+          (the “Economic Rights”) unless and until the transferee is admitted as
+          a fully substituted Member by Cryptographic Consensus.
           <Br />
           <Br />
           9.2.1
@@ -543,13 +543,13 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           including any right to vote, consent to, and will not include any
           right to information on the DAO LLC or its operations or financial
           condition. Following any Transfer of only the Economic Rights of a
-          Member's interest in the DAO LLC, the transferring Member's power and
-          right to vote or consent to any matter submitted to the Members will
-          be eliminated, and the interests of the remaining Members, for
-          purposes only of such votes, consents, and participation in
-          management, will be proportionately increased until such time, if any,
-          as the transferee of the Economic Rights becomes a fully substituted
-          Member.
+          Member&#39;s interest in the DAO LLC, the transferring Member&#39;s
+          power and right to vote or consent to any matter submitted to the
+          Members will be eliminated, and the interests of the remaining
+          Members, for purposes only of such votes, consents, and participation
+          in management, will be proportionately increased until such time, if
+          any, as the transferee of the Economic Rights becomes a fully
+          substituted Member.
           <Br />
           <Br />
           9.3
@@ -566,15 +566,15 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Br />
           9.3.1
           <Tab />
-          The value of each Member's interest in the DAO LLC as represented by
-          Cryptographic Units will be determined and signified through
+          The value of each Member&#39;s interest in the DAO LLC as represented
+          by Cryptographic Units will be determined and signified through
           Cryptographic Consensus.
           <Br />
           <Br />
           9.3.2
           <Tab />
-          On completion of the redemption of the deceased Member's interest in
-          the DAO LLC, the interests of the remaining Members will increase
+          On completion of the redemption of the deceased Member&#39;s interest
+          in the DAO LLC, the interests of the remaining Members will increase
           proportionately to their existing interests recorded by Cryptographic
           Consensus.
           <Br />

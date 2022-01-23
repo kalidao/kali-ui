@@ -98,7 +98,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           Effective {date}, the Members form a limited liability company (“
           <Text style={{ textDecoration: "underline" }}>LLC</Text>”) under the
           name {name} LLC (the “
-          <Text style={{ textDecoration: "underline" }}>DAO LLC</Text>") on the
+          <Text style={{ textDecoration: "underline" }}>DAO LLC</Text>”) on the
           terms and conditions in this Operating Agreement (this “
           <Text style={{ textDecoration: "underline" }}>Agreement</Text>”) and
           pursuant to Chapter 29 of the Wyoming Limited Liability Company Act
@@ -137,7 +137,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           in the State of Wyoming as required by the Act. The DAO LLC will
           maintain its principal business office at such places of business
           and/or Ethereum address(es) as the Members may deem advisable for the
-          conduct of the DAO LLC's business.
+          conduct of the DAO LLC&#39;s business.
           <Br />
           <Br />
           1.5
@@ -202,8 +202,8 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           </Text>
           <Tab />
           No Member shall be obligated to make any additional contribution to
-          the DAO LLC's capital without the consent of the Members as provided
-          in this Agreement.
+          the DAO LLC&#39;s capital without the consent of the Members as
+          provided in this Agreement.
           <Br />
           <Br />
           2.3
@@ -232,9 +232,9 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           the net cash, digital asset and/or cryptocurrency equivalents of the
           DAO LLC available after appropriate provision for expenses and
           liabilities, as determined by the Members. Distributions in
-          liquidation of the DAO LLC or in liquidation of a Member's interest
-          shall be made in accordance with the positive capital account balances
-          pursuant to *U.S. Department of the Treasury Regulation
+          liquidation of the DAO LLC or in liquidation of a Member&#39;s
+          interest shall be made in accordance with the positive capital account
+          balances pursuant to *U.S. Department of the Treasury Regulation
           1.704.1(b)(2)(ii)(b)(2)*. To the extent a Member shall have a negative
           capital account balance, there shall be a qualified income offset, as
           set forth in *U.S. Department of the Treasury Regulation
@@ -266,7 +266,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           LLC) by reason of the fact that they are or were a Member of the DAO
           LLC, manager, employee, or agent of the DAO LLC, or are or were
           serving at the request of the DAO LLC, against expenses (including
-          attorney's fees), judgments, fines, and amounts paid in settlement
+          attorney&#39;s fees), judgments, fines, and amounts paid in settlement
           actually and reasonably incurred in connection with such action, suit
           or proceeding if the Members determine that they acted in good faith
           and in a manner they reasonably believed to be in or not opposed to
@@ -327,7 +327,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Br />
           5.1.2 Except as otherwise provided in this Agreement, all decisions
           and documents relating to the management and operation of the DAO LLC
-          shall be made and determined by recorded votes of the Members'
+          shall be made and determined by recorded votes of the Members&#39;
           interests in the DAO LLC secured and denominated on Ethereum (“
           <Text style={{ textDecoration: "underline" }}>Member Tokens</Text>”)
           and as signified through the online DAO LLC Member portal indicated on
@@ -398,7 +398,7 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           </Text>
           <Tab />
           The DAO LLC may obtain legal and accounting services to the extent
-          reasonably necessary for the conduct of the DAO LLC's business.
+          reasonably necessary for the conduct of the DAO LLC&#39;s business.
           <Br />
         </Text>
         <Text style={styles.heading1}>SECTION 7</Text>
@@ -526,8 +526,9 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           unless the DAO LLC exercises its rights under *Section 9.3*, the
           successor-in-interest to the Member (whether an estate, bankruptcy
           trustee, or otherwise) will receive only the economic right to receive
-          distributions whenever made by the DAO LLC and the Member's allocable
-          share of taxable income, gain, loss, deduction, and credit (the “
+          distributions whenever made by the DAO LLC and the Member&#39;s
+          allocable share of taxable income, gain, loss, deduction, and credit
+          (the “
           <Text style={{ textDecoration: "underline" }}>Economic Rights</Text>”)
           unless and until the transferee is admitted as a fully substituted
           Member by Member Token Votes.
@@ -540,13 +541,13 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           including any right to vote, consent to, and will not include any
           right to information on the DAO LLC or its operations or financial
           condition. Following any Transfer of only the Economic Rights of a
-          Member's interest in the DAO LLC, the transferring Member's power and
-          right to vote or consent to any matter submitted to the Members will
-          be eliminated, and the interests of the remaining Members, for
-          purposes only of such votes, consents, and participation in
-          management, will be proportionately increased until such time, if any,
-          as the transferee of the Economic Rights becomes a fully substituted
-          Member.
+          Member&#39;s interest in the DAO LLC, the transferring Member&#39;s
+          power and right to vote or consent to any matter submitted to the
+          Members will be eliminated, and the interests of the remaining
+          Members, for purposes only of such votes, consents, and participation
+          in management, will be proportionately increased until such time, if
+          any, as the transferee of the Economic Rights becomes a fully
+          substituted Member.
           <Br />
           <Br />
           9.3
@@ -563,15 +564,15 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Br />
           9.3.1
           <Tab />
-          The value of each Member's interest in the DAO LLC as represented by
-          Member Tokens will be determined and signified through Member Token
+          The value of each Member&#39;s interest in the DAO LLC as represented
+          by Member Tokens will be determined and signified through Member Token
           Votes.
           <Br />
           <Br />
           9.3.2
           <Tab />
-          On completion of the redemption of the deceased Member's interest in
-          the DAO LLC, the interests of the remaining Members will increase
+          On completion of the redemption of the deceased Member&#39;s interest
+          in the DAO LLC, the interests of the remaining Members will increase
           proportionately to their existing interests recorded by Member Token
           Votes.
           <Br />
@@ -632,13 +633,13 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Text style={{ textDecoration: "underline" }}>Winding Up.</Text>
           <Tab />
           On the dissolution of the DAO LLC (if the DAO LLC is not continued),
-          the Members must take full account of the DAO LLC's assets and
+          the Members must take full account of the DAO LLC&#39;s assets and
           liabilities, and the assets will be liquidated as promptly as is
           consistent with obtaining their fair value, and the proceeds, to the
-          extent sufficient to pay the DAO LLC's obligations with respect to the
-          liquidation, will be applied and distributed, after any gain or loss
-          realized in connection with the liquidation has been allocated in
-          accordance with *Section 3* of this Agreement, and the Members’
+          extent sufficient to pay the DAO LLC&#39;s obligations with respect to
+          the liquidation, will be applied and distributed, after any gain or
+          loss realized in connection with the liquidation has been allocated in
+          accordance with *Section 3* of this Agreement, and the Members&#39;
           Capital Accounts have been adjusted to reflect the allocation and all
           other transactions through the date of the distribution, in the
           following order:
