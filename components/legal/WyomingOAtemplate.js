@@ -509,7 +509,8 @@ const WyomingOAtemplate = ({ name, date, email, ethAddress, id }) => {
           <Tab />
           Except as otherwise permitted in this Agreement, no Member may
           voluntarily or involuntarily transfer, sell, convey, encumber, pledge,
-          assign, or otherwise dispose of (collectively, "***Transfer***") an
+          assign, or otherwise dispose of (collectively, “
+          <Text style={{ textDecoration: "underline" }}>Transfer</Text>”) an
           interest in the DAO LLC, including, but not limited to, assigning
           control over Member Tokens, without the prior authorization of the
           Members under Member Token Votes or formal assignment mechanisms
