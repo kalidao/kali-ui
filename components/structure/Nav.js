@@ -16,7 +16,12 @@ export default function HomeNav() {
   const { web3, account, chainId } = value.state
 
   return (
-    <HStack minH="10vh" minW="auto" id="nav">
+    <HStack
+      minH="10vh"
+      minW="auto"
+      id="nav"
+      alignItems="top"
+    >
       {isBrowser == true ? <Kali /> : null}
       <Spacer />
       <DraftDoc />

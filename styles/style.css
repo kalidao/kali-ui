@@ -1,12 +1,8 @@
 /* //////////////// GRADIENT //////////////// */
 
 .gradient-item {
-  background: rgb(231, 84, 114);
-  background: linear-gradient(
-    142deg,
-    rgba(231, 84, 114, 0.8701855742296919) 24%,
-    rgba(68, 58, 200, 1) 100%
-  );
+  background: rgb(70,37,74);
+  background: linear-gradient(54deg, rgba(70,37,74,0.9) 0%, rgba(250,42,16,0.9) 100%);
 }
 
 #gradient1 {
@@ -81,26 +77,17 @@ select {
   border: 0 !important;
 }
 
-/* //////////////// NAV BAR //////////////// */
-
-#nav-right-container {
-  border: 1px solid;
-  padding: 0 5px 0px 15px;
-  border-radius: 15px;
-}
-
-#nav-right-container .chakra-divider {
-  margin: 0 10px;
-  border: 1px solid;
-  opacity: 0.9;
-  height: 60%;
-}
-
-#nav-account {
-  border: none;
-}
-
 /* //////////////// DEPLOYER //////////////// */
+
+#deployer-container {
+  padding:20px;
+}
+
+#deployer-container p,
+#deployer-container h1,
+#deployer-container h2 {
+  color: white;
+}
 
 .dao-type h2 {
   font-size: 1.2em;
@@ -154,12 +141,24 @@ div.dao-type:hover {
 /* //////////////// APP //////////////// */
 
 div#dao-main {
-  padding-left: 45px;
-  padding-right: 45px;
+  background: #fafafa;
+  padding: 20px 45px !important;
+}
+
+div#footer {
+  margin: 0 -45px;
+  padding: 20px 45px !important;
+  
 }
 
 #dao-main h1 {
   color: #5a2686;
+  margin-bottom: 20px;
+}
+
+.h1-icon {
+  color: #5a2686 !important;
+  margin-bottom: 20px;
 }
 
 #dao-sidebar {
@@ -175,18 +174,19 @@ div#dao-main {
   color: #5a2686;
 }
 
-#dao-main {
-  background: #fafafa;
-  padding: 20px;
-}
-
 #dashboard {
   color: white;
 }
 
-.dashboard-tile {
+.dashboard-tile, .proposal-tile, .proposal-type-tile {
   padding: 30px;
+  margin: 15px;
   border-radius: 15px;
+  color: white;
+}
+
+.dashboard-tile:hover, .proposal-tile:hover, .proposal-type-tile:hover {
+  background: #952730 !important;
 }
 
 .dashboard-tile h2 {
@@ -194,19 +194,18 @@ div#dao-main {
   margin-bottom: 15px;
 }
 
-.proposal-tile {
-  padding: 30px;
-  margin: 20px;
-  border-radius: 15px;
-  color: white;
-}
-
 .proposal-tile h2 {
   font-size: 1.2em;
   padding: 0 0 5px 0;
 }
 
-.proposal-icon {
+.proposal-type-tile h2 {
+  font-size: 1.2em;
+  padding: 10px 0 5px 0;
+}
+
+.proposal-type-tile p {
+  font-size: 0.8em;
 }
 
 .proposal-title {
