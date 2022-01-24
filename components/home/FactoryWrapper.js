@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, VStack, Progress, Button, Text } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import ChooseNetwork from "./ChooseNetwork";
 import ChooseIdentity from "./ChooseIdentity";
 import ChooseType from "./ChooseType";
@@ -13,18 +13,35 @@ export default function FactoryWrapper() {
   const [visible, setVisible] = useState(0);
   const [details, setDetails] = useState({
     network: 999,
-    daoName: null,
-    symbol: null,
+    identity: {
+      daoName: null,
+      symbol: null,
+    },
     daoType: null,
-    members: null,
-    shares: null,
-    votingPeriod: 60,
-    paused: 1,
-    quorum: 10,
-    supermajority: 60,
-    extensions: null,
-    docs: null,
-    docType: null,
+    founders: {
+      members: null,
+      shares: null,
+    },
+    governance: {
+      votingPeriod: 60,
+      paused: 1,
+      quorum: 10,
+      supermajority: 60,
+    },
+    extensions: {
+      tribute: null,
+      redemption: {
+        redemptionStart: null,
+      },
+      crowdsale: {
+        saleEnds: null,
+      },
+    },
+    daoType: null,
+    legal: {
+      docs: null,
+      docType: null,
+    },
   });
   console.log("details", details);
 

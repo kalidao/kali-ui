@@ -8,19 +8,30 @@ import {
   Select,
   Input,
   Heading,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
-
+import { useForm } from "react-hook-form";
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
   const { web3, chainId } = value.state;
   const [daoNames, setDaoNames] = useState(null);
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({
+    mode: "onSubmit",
+  });
+
   useEffect(() => {
     getDaoNames();
-  });
+  }, []);
 
   const getDaoNames = async () => {
     try {
@@ -33,59 +44,55 @@ export default function ChooseIdentity(props) {
     }
   };
 
-  const changeDao = (e) => {
-    let newValue = e.target.value;
-    let array = props.details;
-    array["daoName"] = newValue;
-    props.setDetails(array);
-    console.log(props.details);
+  const isNameUnique = (name) => {
+    console.log(errors.name);
+    if (daoNames.includes(name) === true) {
+      value.toast("Name not unique. Choose another.");
+      return false;
+    }
   };
 
-  const changeSymbol = (e) => {
-    let newValue = e.target.value;
-    let array = props.details;
-    array["symbol"] = newValue;
-    props.setDetails(array);
-    console.log(props.details);
-  };
-
-  const errorCheck = () => {
-    var error = 0;
-    if (props.details["daoName"] == null) {
-      value.toast("Please choose a name.");
-      error++;
-    }
-    if (daoNames.includes(props.details["daoName"])) {
-      value.toast("This name is already taken. Please choose another name.");
-      error++;
-    }
-    if (props.details["symbol"] == null) {
-      value.toast("Please choose a symbol.");
-      error++;
-    }
-    if (props.details["symbol"].length > 11) {
-      value.toast("Symbol must be less than 11 characters.");
-      error++;
-    }
-
-    if (error == 0) {
-      props.handleNext();
-    }
+  const submit = (values) => {
+    const { name, symbol } = values;
+    const identity = props.details["identity"];
+    identity["daoName"] = name;
+    identity["symbol"] = symbol;
+    props.setDetails(identity);
+    props.handleNext();
   };
 
   return (
-    <VStack>
+    <VStack as="form" onSubmit={handleSubmit(submit)}>
       <Heading as="h1">Select a name and symbol:</Heading>
-      <Text fontSize="xl">
-        <b>Name</b>
-      </Text>
-      <Input defaultValue={props.details["daoName"]} onChange={changeDao} />
-      <Text fontSize="xl">
-        <b>Symbol</b>
-      </Text>
-      <Input defaultValue={props.details["symbol"]} onChange={changeSymbol} />
-
-      <Button className="transparent-btn" onClick={() => errorCheck()}>
+      <FormControl>
+        <FormLabel htmlFor="name" fontSize="xl" fontWeight="800">
+          Name
+        </FormLabel>
+        <Input
+          name="name"
+          {...register("name", {
+            required: true,
+            validate: isNameUnique || value.toast("Name not unique."),
+          })}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel htmlFor="symbol" fontSize="xl" fontWeight="800">
+          Symbol
+        </FormLabel>
+        <Input
+          name="symbol"
+          {...register("symbol", {
+            required: "Symbol is required.",
+            maxLength: {
+              value: 12,
+              message: "Symbol shouldn't be greater than 12 characters.",
+            },
+          })}
+        />
+        {errors.symbol && value.toast(errors.symbol.message)}
+      </FormControl>
+      <Button className="transparent-btn" type="submit">
         Next »
       </Button>
     </VStack>
