@@ -93,11 +93,11 @@ export default function ChooseMembers(props) {
   };
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(handleMembersSubmit)} width="100%" alignItems="center">
+    <VStack as="form" onSubmit={handleSubmit(handleMembersSubmit)}>
       <Heading as="h1">
         <b>Build your cap table:</b>
       </Heading>
-      <List spacing={2} width="80%">
+      <List spacing={2}>
         {fields.map((founder, index) => (
           <ListItem
             display="flex"

@@ -14,15 +14,12 @@ import {
   ListItem,
   FormControl,
   FormLabel,
-  Spacer,
-  IconButton
+  Spacer
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import DeleteButton from "../elements/DeleteButton";
-import SolidButton from "../elements/SolidButton";
-import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendShares() {
   const value = useContext(AppContext);
@@ -52,19 +49,13 @@ export default function SendShares() {
       console.log(values);
       let amounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        let element = document.getElementById(`recipients.${i}.share`);
-        let value = element.value;
-        amounts_.push(toDecimals(value, 18));
+        amounts_.push(toDecimals(recipients[i].share, 18).toString());
       }
       console.log("Shares Array", amounts_);
 
       // voters ENS check
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        if (web3.utils.isAddress(recipients[i].address) == false) {
-          value.toast(recipients[i].address + " is not a valid Ethereum address.");
-          return;
-        }
         accounts_.push(recipients[i].address);
       }
       console.log("Voters Array", accounts_);
@@ -98,7 +89,7 @@ export default function SendShares() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <VStack width="100%">
+      <VStack>
         <Controller
           name="description_"
           control={control}
@@ -116,27 +107,25 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2} width="100%" className="alternating-list">
+        <List spacing={2} width="100%">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
               flexDirection="row"
-              alignContent="center"
-              justifyContent="center"
               key={recipient.id}
+              width="100%"
             >
               <Controller
                 name={`recipients.${index}.address`}
                 control={control}
                 defaultValue={recipient.address}
                 render={({ field }) => (
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel htmlFor={`recipients.${index}.address`}>
-                      recipient
+                      Recipient {index + 1}
                     </FormLabel>
                     <Input
-                      className="member-address"
-                      placeholder="0x address"
+                      placeholder="0x address or ENS"
                       {...field}
                       {...register(`recipients.${index}.address`, {
                         required: "You must assign share!",
@@ -150,33 +139,28 @@ export default function SendShares() {
                 control={control}
                 defaultValue={recipient.share}
                 render={({ field }) => (
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Shares
+                      Share
                     </FormLabel>
-                    <NumInputField
-                      min="1"
-                      defaultValue="1"
-                      id={`recipients.${index}.share`}
+                    <Input
+                      placeholder="1"
+                      {...field}
+                      {...register(`recipients.${index}.share`, {
+                        required: "You must assign share!",
+                      })}
                     />
                   </FormControl>
                 )}
               />
-              <IconButton
-                className="delete-icon"
-                aria-label="delete recipient"
-                mt={8}
-                ml={2}
-                icon={<AiOutlineDelete />}
-                onClick={() => remove(index)}
-              />
+              <DeleteButton label="delete" clickHandler={() => remove(index)} />
             </ListItem>
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><SolidButton onClick={() => append({ address: "" })}>+Add Recipient</SolidButton></HStack>
+        <HStack width="100%"><Spacer /><Button class="solid-btn" onClick={() => append({ address: "" })}>Add Recipient</Button></HStack>
 
-        <SolidButton onClick={handleSubmit(submitProposal)}>Submit Proposal</SolidButton>
+        <Button type="submit" class="solid-btn">Submit Proposal</Button>
       </VStack>
     </form>
   );
