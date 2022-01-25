@@ -61,7 +61,7 @@
   mix-blend-mode: color-burn;
 }
 
-.solid-btn {
+#new-proposals button {
   padding: 10px 15px !important;
   font-size: 1em !important;
   font-weight:normal !important;
@@ -69,6 +69,13 @@
   border: none !important;
   color: white !important;
   border-radius: 10px !important;
+}
+
+.delete-icon {
+  background: none !important;
+  border: 0 !important;
+  padding: 0px 0px !important;
+  background: none !important;
 }
 
 select {
@@ -85,11 +92,6 @@ select {
   border: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
-}
-
-.delete-icon {
-  background: none !important;
-  border: 0 !important;
 }
 
 ul.alternating-list li {

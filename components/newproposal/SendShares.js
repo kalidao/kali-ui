@@ -21,7 +21,6 @@ import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import DeleteButton from "../elements/DeleteButton";
-import SolidButton from "../elements/SolidButton";
 import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendShares() {
@@ -174,9 +173,9 @@ export default function SendShares() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><SolidButton onClick={() => append({ address: "" })}>+Add Recipient</SolidButton></HStack>
+        <HStack width="100%"><Spacer /><Button onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
 
-        <SolidButton onClick={handleSubmit(submitProposal)}>Submit Proposal</SolidButton>
+        <Button type="submit">Submit Proposal</Button>
       </VStack>
     </form>
   );

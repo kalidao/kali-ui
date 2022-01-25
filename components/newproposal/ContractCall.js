@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import { Input, Button, Select, Text, Textarea, Stack } from "@chakra-ui/react";
+import SolidButton from "../elements/SolidButton";
 
 export default function ContractCall() {
   const value = useContext(AppContext);
@@ -12,6 +13,7 @@ export default function ContractCall() {
   const [functionName, setFunctionName] = useState(null);
   const [inputs, setInputs] = useState(null);
   const [inputParams, setInputParams] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   const updateABI = (event) => {
     setAbi_(event.target.value);
@@ -29,6 +31,7 @@ export default function ContractCall() {
       }
       setFunctions(functions_);
       setInputs(null);
+      setDisabled(false)
     } catch (e) {
       value.toast(e);
     }
@@ -150,7 +153,7 @@ export default function ContractCall() {
         <Input type="hidden" name="abi_" value={abi_} />
         <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} />
 
-        <Button onClick={parseABI}>Parse ABI</Button>
+        <Button className="solid-btn" onClick={parseABI}>Parse ABI</Button>
         {functions == null ? null : (
           <>
             <Select onChange={onFunctionSelect}>
@@ -179,7 +182,7 @@ export default function ContractCall() {
         )}
         <Input type="hidden" name="proposalType_" value="2" />
 
-        <Button type="submit">Submit Proposal</Button>
+        <Button className="solid-btn" disabled={disabled} type="submit">Submit Proposal</Button>
       </Stack>
     </form>
   );
