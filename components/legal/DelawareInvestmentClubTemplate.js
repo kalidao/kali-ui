@@ -3555,5 +3555,3 @@ const DelawareInvestmentClubTemplate = ({ name, chain }) => {
 }
 
 export default DelawareInvestmentClubTemplate
-
-
