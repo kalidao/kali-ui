@@ -62,12 +62,12 @@
 }
 
 .solid-btn {
-  padding: 10px 15px;
-  font-size: 1em;
-  border: none;
-  background: #7e8d90;
-  outline: none;
-  color: white;
+  padding: 10px 15px !important;
+  font-size: 1em !important;
+  font-weight:normal !important;
+  background: #7e8d90 !important;
+  border: none !important;
+  color: white !important;
   border-radius: 10px !important;
 }
 
@@ -90,6 +90,15 @@ select {
 .delete-icon {
   background: none !important;
   border: 0 !important;
+}
+
+ul.alternating-list li {
+  padding:10px;
+  border-radius: 10px !important;
+}
+
+ul.alternating-list > li:nth-child(2n+1) {
+  background-color: #eeeeee !important;
 }
 
 /* //////////////// DEPLOYER //////////////// */
@@ -138,7 +147,7 @@ div.dao-type:hover {
 }
 
 .member-address {
-  width: 450px !important;
+  width:90% !important;
   margin-right: 10px !important;
 }
 
