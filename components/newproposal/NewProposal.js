@@ -59,7 +59,7 @@ export default function NewProposal(props) {
   };
 
   return (
-    <div id="new-proposals">
+    <>
     <HStack>
       <Icon as={BiEdit} w={10} h={10} className="h1-icon" />
       <Heading as="h1">Proposals</Heading>
@@ -114,6 +114,6 @@ export default function NewProposal(props) {
           )}
         </>
       )}
-    </div>
+    </>
   );
 }

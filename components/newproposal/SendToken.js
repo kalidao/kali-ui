@@ -20,6 +20,7 @@ import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
 import DeleteButton from "../elements/DeleteButton";
+import SolidButton from "../elements/SolidButton";
 
 export default function SendToken() {
   const value = useContext(AppContext);
@@ -204,9 +205,9 @@ export default function SendToken() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
+        <HStack width="100%"><Spacer /><SolidButton onClick={() => append({ address: "" })}>+Add Recipient</SolidButton></HStack>
 
-        <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        <SolidButton onClick={handleSubmit(submitProposal)}>Submit Proposal</SolidButton>
       </VStack>
     </form>
   );
