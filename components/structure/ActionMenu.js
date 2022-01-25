@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import { BrowserView, MobileView } from "react-device-detect";
 import { Button, Center, HStack, VStack } from "@chakra-ui/react";
@@ -21,12 +21,10 @@ const ActionButton = (props) => {
 
 export default function ActionMenu(props) {
   const value = useContext(AppContext);
-  const { visibleView, remount } = value.state;
+  const { visibleView } = value.state;
 
   const handleClick = (id) => {
     value.setVisibleView(id);
-    value.setRemount(remount+1);
-    console.log(remount, "remount")
   };
 
   return (

@@ -8,13 +8,11 @@ import {
   Text,
   Textarea,
   Stack,
-  VStack,
   HStack,
   List,
   ListItem,
   FormControl,
   FormLabel,
-  Spacer
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -89,7 +87,11 @@ export default function SendShares() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <VStack>
+      <Stack>
+        <Text>
+          <b>Details</b>
+        </Text>
+
         <Controller
           name="description_"
           control={control}
@@ -107,13 +109,14 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2} width="100%">
+        <List spacing={2}>
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
               flexDirection="row"
+              alignContent="center"
+              justifyContent="center"
               key={recipient.id}
-              width="100%"
             >
               <Controller
                 name={`recipients.${index}.address`}
@@ -158,10 +161,10 @@ export default function SendShares() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button class="solid-btn" onClick={() => append({ address: "" })}>Add Recipient</Button></HStack>
+        <Button onClick={() => append({ address: "" })}>Add Recipient</Button>
 
-        <Button type="submit" class="solid-btn">Submit Proposal</Button>
-      </VStack>
+        <Button type="submit">Submit Proposal</Button>
+      </Stack>
     </form>
   );
 }
