@@ -136,7 +136,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Text style={{ textDecoration: "underline" }}>Term.</Text>
           <Tab />
           The term of the DAO LLC commences on {date}
-           and shall continue perpetually unless sooner terminated as provided in
+          and shall continue perpetually unless sooner terminated as provided in
           this Agreement.
           <Br />
           <Br />
@@ -158,9 +158,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           </Text>
           <Tab />
           The DAO LLC may form separate series with respect to the Members
-          pursuant to the Act, § 18-215, and if so formed and listed on{" "}
-          <Text style={{ textDecoration: "underline" }}>Schedule 2</Text>{" "} 
-          , as amended from time to time, the Members intend that the debts,
+          pursuant to the Act, § 18-215, and if so formed and listed on Schedule
+          2, as amended from time to time, the Members intend that the debts,
           liabilities and obligations incurred, contracted for or otherwise
           existing with respect to a particular series of the DAO LLC will be
           enforceable against the assets of such series only, and not against
@@ -194,13 +193,11 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           </Text>
           <Tab />
           The initial and other contributions of the Members and those
-          subsequently admitted as Members shall be set forth in{" "}
-          <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "}
-          as amended from time to time. Contributions shall be made in cash,
+          subsequently admitted as Members shall be set forth in Schedule 1 as
+          amended from time to time. Contributions shall be made in cash,
           cryptographic assets and/or equivalent work as determined by the
           Members. Contributions by members among Series shall be set forth in
-          {" "}<Text style={{ textDecoration: "underline" }}>Schedule 2</Text>{" "}, 
-          as amended from time to time.
+          Schedule 2, as amended from time to time.
           <Br />
           <Br />
           2.2
@@ -311,8 +308,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           and operate the DAO LLC and make all decisions affecting its business
           and affairs. Similarly, the business and affairs of a Series shall be
           vested in the members of that Series in accordance with this Agreement
-          and as detailed in {" "}<Text style={{ textDecoration: "underline" }}>
-          Schedule 2</Text>{" "}.
+          and as detailed in Schedule 2.
           <Br />
           <Br />
           5.1.2
@@ -320,13 +316,13 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           Except as otherwise provided in this Agreement, all decisions and
           documents relating to the management and operation of the DAO LLC
           shall be made and determined by recorded votes of the Members&#39;
-          interests in the DAO LLC secured and denominated on the Designated Blockchain (“
+          interests in the DAO LLC secured and denominated on a public
+          blockchain (“
           <Text style={{ textDecoration: "underline" }}>
             Cryptographic Units
           </Text>
           ”) under the then-existing consensus rules of such Cryptographic Units
-          as detailed on {" "}
-          <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "} (such determination, “
+          as detailed on Schedule 1 (such determination, “
           <Text style={{ textDecoration: "underline" }}>
             Cryptographic Consensus
           </Text>
@@ -512,11 +508,16 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
             Sale or Encumbrance Prohibited.
           </Text>
           <Tab />
-          Except as otherwise permitted in this Agreement, no Member may voluntarily or involuntarily transfer, 
-          sell, convey, encumber, pledge, assign, or otherwise dispose of (collectively, "Transfer") an interest in 
-          the DAO LLC, including, but not limited to, assigning control over Cryptographic Units, without the prior 
-          authorization of the Members under Cryptographic Consensus or formal assignment mechanisms otherwise authorized 
-          for the DAO LLC or Series formed hereafter.
+          Effective {date}, the Members form a limited liability company (“LLC”)
+          under the name {name} LLC (the “DAO LLC”) on the terms and conditions
+          in this Operating Agreement (this “Agreement”) and pursuant to the
+          Delaware Limited Liability Company Act (6 Del. C. § 18-101 et seq.)
+          (the “Act”). The Members agree to file with the appropriate agencies
+          within the State of Delaware charged with processing and maintaining
+          such records all documentation required for the formation and
+          maintenance of the DAO LLC. The rights and obligations of the Members
+          are as provided in the Act except as otherwise expressly provided in
+          this Agreement.
           <Br />
           <Br />
           9.2
@@ -732,10 +733,9 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           All notices required to be given by this Agreement will be in writing
           and will be effective when actually delivered to the owners of the
-          addresses documented in{" "}
-          <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "} 
-          for each Member or to such other addresses as a Member may specify by notice given 
-          in conformance with these provisions to the other Members.
+          addresses documented in Schedule 1 for each Member or to such other
+          addresses as a Member may specify by notice given in conformance with
+          these provisions to the other Members.
           <Br />
           <Br />
           11.8
@@ -771,9 +771,9 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
       </Page>
       <Page style={styles.body}>
         <Text style={styles.heading1}>Membership - Schedule 1</Text>
-        <Text style={styles.heading2}>DAO LLC. OPERATING AGREEMENT</Text>
-        <Text style={styles.heading3}>FOR {name} LLC</Text>
-        <Text style={styles.heading2}>
+        <Text style={styles.text}>DAO LLC. OPERATING AGREEMENT</Text>
+        <Text style={styles.text}>FOR {name} LLC</Text>
+        <Text style={styles.text}>
           LISTING OF MEMBERS & CAPITAL CONTRIBUTIONS
         </Text>
         <Text style={styles.text}>
@@ -786,18 +786,16 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
       </Page>
       <Page style={styles.body}>
         <Text style={styles.heading1}>Series - Schedule 2</Text>
-        <Text style={styles.heading2}>DAO LLC. OPERATING AGREEMENT</Text>
-        <Text style={styles.heading3}>FOR {name} LLC</Text>
-        <Text style={styles.heading2}>Listing of LLC Series</Text>
+        <Text style={styles.text}>DAO LLC. OPERATING AGREEMENT</Text>
+        <Text style={styles.text}>FOR {name} LLC</Text>
+        <Text style={styles.text}>Listing of LLC Series</Text>
         <Text style={styles.numbered_list}>
           The following Series have been established under the DAO LLC pursuant
           to the Act, § 18-215:
           <Br />
           <Br />
           Those Series duly authorized under Cryptographic Consensus and the DAO
-          LLC operating code established under{" "}
-          <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "} 
-          of this Agreement.
+          LLC operating code established under Schedule 1 of this Agreement.
         </Text>
       </Page>
     </Document>
