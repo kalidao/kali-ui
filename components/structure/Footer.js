@@ -35,7 +35,7 @@ export default function Footer() {
       </Text>
       <Spacer />
       <Stack direction={"row"} spacing={4} border="1px solid" borderRadius="xl">
-        <SocialButton href={"https://github.com/lexDAO/Kali"}>
+        <SocialButton href={"https://github.com/kalidao"}>
           <FiGithub />
         </SocialButton>
         <SocialButton href={"https://twitter.com/_KaliDAO"}>
