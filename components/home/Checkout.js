@@ -69,13 +69,6 @@ export default function Checkout({ details }) {
     let extensionsArray = new Array();
     let extensionsData = new Array();
 
-    // if (extensions === null) {
-    //   extensionsArray = new Array(0);
-    //   extensionsData = new Array(0);
-    // } else {
-    //   extensionsArray = [];
-    //   extensionsData = [];
-
     if (tribute["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
       extensionsData.push("0x");
@@ -103,6 +96,7 @@ export default function Checkout({ details }) {
       let now = parseInt(new Date().getTime() / 1000);
       saleEnds += now;
 
+      console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
 
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
@@ -167,36 +161,36 @@ export default function Checkout({ details }) {
       govSettings
     );
 
-    // try {
-    //   let result = await factory.methods
-    //     .deployKaliDAO(
-    //       daoName,
-    //       symbol,
-    //       docs,
-    //       paused,
-    //       extensionsArray,
-    //       extensionsData,
-    //       members,
-    //       shares,
-    //       votingPeriod,
-    //       govSettings
-    //     )
-    //     .send({ from: account });
+    try {
+      let result = await factory.methods
+        .deployKaliDAO(
+          daoName,
+          symbol,
+          docs,
+          paused,
+          extensionsArray,
+          extensionsData,
+          members,
+          shares,
+          votingPeriod,
+          govSettings
+        )
+        .send({ from: account });
 
-    //   let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-    //   console.log(dao);
-    //   console.log(result);
+      let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+      console.log(dao);
+      console.log(result);
 
-    //   Router.push({
-    //     pathname: "/daos/[dao]",
-    //     query: { dao: dao },
-    //   });
-    // } catch (e) {
-    //   value.toast(e);
-    //   console.log(e);
-    // }
+      Router.push({
+        pathname: "/daos/[dao]",
+        query: { dao: dao },
+      });
+    } catch (e) {
+      value.toast(e);
+      console.log(e);
+    }
 
-    // value.setLoading(false);
+    value.setLoading(false);
   };
 
   return (

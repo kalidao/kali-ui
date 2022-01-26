@@ -40,8 +40,8 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   // TODO: Add votingPeriod
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
-      votingPeriod: details["governance"]["votingPeriod"] / (60 * 60 * 24),
-      votingPeriodUnit: 2,
+      votingPeriod: details["governance"]["votingPeriod"] / 60,
+      votingPeriodUnit: 0,
       quorum: details["governance"]["quorum"],
       supermajority: details["governance"]["supermajority"],
       paused: details["governance"]["paused"],
@@ -91,7 +91,8 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["extensions"]["tribute"]["active"] = tribute;
 
     details["extensions"]["redemption"]["active"] = redemption;
-    details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
+    details["extensions"]["redemption"]["redemptionStart"] =
+      Number(redemptionStart);
     details["extensions"]["redemption"]["tokenArray"] = [
       "0xc778417e063141139fce010982780140aa0cd5ab",
       "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
@@ -106,7 +107,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
     details["extensions"]["crowdsale"]["purchaseLimit"] =
       presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
-    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+    details["extensions"]["crowdsale"]["saleEnds"] = Number(saleEnds);
     details["extensions"]["crowdsale"]["listId"] =
       presets[1]["extensions"]["crowdsale"]["listId"];
 
