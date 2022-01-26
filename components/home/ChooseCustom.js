@@ -25,6 +25,7 @@ import {
 // import Slider from "../elements/CustomSlider";
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
+import { presets } from "../../constants/presets";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
@@ -88,10 +89,26 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
 
     // setting extensions
     details["extensions"]["tribute"]["active"] = tribute;
-    details["extensions"]["redemption"]["active"] = redemption;
 
+    details["extensions"]["redemption"]["active"] = redemption;
     details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
+    details["extensions"]["redemption"]["tokenArray"] = [
+      "0xc778417e063141139fce010982780140aa0cd5ab",
+      "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
+      "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
+      "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02",
+    ];
+
+    details["extensions"]["crowdsale"]["active"] = crowdsale;
+    details["extensions"]["crowdsale"]["purchaseToken"] =
+      presets[1]["extensions"]["crowdsale"]["purchaseToken"];
+    details["extensions"]["crowdsale"]["purchaseMultiplier"] =
+      presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
+    details["extensions"]["crowdsale"]["purchaseLimit"] =
+      presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
     details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+    details["extensions"]["crowdsale"]["listId"] =
+      presets[1]["extensions"]["crowdsale"]["listId"];
 
     setDetails(details);
     console.log("details", details);

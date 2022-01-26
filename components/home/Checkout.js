@@ -167,36 +167,36 @@ export default function Checkout({ details }) {
       govSettings
     );
 
-    try {
-      let result = await factory.methods
-        .deployKaliDAO(
-          daoName,
-          symbol,
-          docs,
-          paused,
-          extensionsArray,
-          extensionsData,
-          members,
-          shares,
-          votingPeriod,
-          govSettings
-        )
-        .send({ from: account });
+    // try {
+    //   let result = await factory.methods
+    //     .deployKaliDAO(
+    //       daoName,
+    //       symbol,
+    //       docs,
+    //       paused,
+    //       extensionsArray,
+    //       extensionsData,
+    //       members,
+    //       shares,
+    //       votingPeriod,
+    //       govSettings
+    //     )
+    //     .send({ from: account });
 
-      let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-      console.log(dao);
-      console.log(result);
+    //   let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+    //   console.log(dao);
+    //   console.log(result);
 
-      Router.push({
-        pathname: "/daos/[dao]",
-        query: { dao: dao },
-      });
-    } catch (e) {
-      value.toast(e);
-      console.log(e);
-    }
+    //   Router.push({
+    //     pathname: "/daos/[dao]",
+    //     query: { dao: dao },
+    //   });
+    // } catch (e) {
+    //   value.toast(e);
+    //   console.log(e);
+    // }
 
-    value.setLoading(false);
+    // value.setLoading(false);
   };
 
   return (
