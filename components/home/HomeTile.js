@@ -4,10 +4,7 @@ import landing from "../../public/img/landing.png";
 
 export default function HomeTile(props) {
   return (
-    <HStack alignItems="center" id="landing-tile">
-      <div id="landing-tile-left">
-        <img src={landing.src} height={landing.height * .8} width={landing.width * .8} alt="Kali" />
-      </div>
+    <HStack spacing={250} p={250} alignItems="center" id="landing-tile">
       <VStack id="landing-tile-right">
         <Text fontSize="xl">
           <b>Simplify your Business</b> with Smart Agreements
