@@ -1,9 +1,24 @@
 import React, { useState, useContext } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
-import { Flex, VStack, Button, Text, Select, List, ListItem, HStack, Stack, Spacer } from "@chakra-ui/react";
+import {
+  Flex,
+  VStack,
+  Button,
+  Text,
+  Select,
+  List,
+  ListItem,
+  Stack,
+  HStack,
+  Spacer
+} from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName, convertVotingPeriod, fromDecimals } from "../../utils/formatters";
+import {
+  getNetworkName,
+  convertVotingPeriod,
+  fromDecimals,
+} from "../../utils/formatters";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { presets } from "../../constants/presets";
@@ -16,26 +31,26 @@ export default function Checkout(props) {
   const details = props.details;
 
   // for use at the end
-  let paused;
-  if(details['paused']==1) {
-    paused = "restricted";
-  } else {
-    paused = "unrestricted";
-  }
+ let paused;
+ if(details['paused']==1) {
+   paused = "restricted";
+ } else {
+   paused = "unrestricted";
+ }
 
-  let daoType;
-  if(details['daoType'] == null) {
-    daoType = "Custom";
-  } else {
-    daoType = presets[details['daoType']]['type'];
-  }
+ let daoType;
+ if(details['daoType'] == null) {
+   daoType = "Custom";
+ } else {
+   daoType = presets[details['daoType']]['type'];
+ }
 
-  let docs;
-  if(details['docs']=="") {
-    docs = "Ricardian";
-  } else {
-    docs = details['docs'];
-  }
+ let docs;
+ if(details['docs']=="") {
+   docs = "Ricardian";
+ } else {
+   docs = details['docs'];
+ }
 
   const deploy = async () => {
     if (!web3 || web3 == null) {
@@ -51,76 +66,127 @@ export default function Checkout(props) {
       value.toast(e);
     }
 
-    var {
-        network,
-        daoName,
-        symbol,
-        members,
-        shares,
-        votingPeriod,
-        paused,
-        quorum,
-        supermajority,
-        extensions,
-        docs
+    const {
+      network,
+      daoName,
+      symbol,
+      members,
+      shares,
+      votingPeriod,
+      paused,
+      quorum,
+      supermajority,
+      extensions,
+      docs,
     } = props.details;
 
-    const govSettings = Array(quorum, supermajority, 1,1,1,1,1,1,1,1,1,1,1);
+    const govSettings = Array(
+      quorum,
+      supermajority,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    );
 
     let extensionsArray;
     let extensionsData;
 
-    if(extensions == null) {
+    if (extensions == null) {
       extensionsArray = new Array(0);
       extensionsData = new Array(0);
     } else {
-
       extensionsArray = [];
       extensionsData = [];
 
-      if('tribute' in extensions) {
-        extensionsArray.push(addresses[chainId]['extensions']['tribute']);
+      if ("tribute" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
         extensionsData.push("0x");
       }
 
-      if('crowdsale' in extensions) {
-        extensionsArray.push(addresses[chainId]['extensions']['crowdsale']);
+      if ("crowdsale" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
-        var { listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds } = extensions['crowdsale'];
+        var {
+          listId,
+          purchaseToken,
+          purchaseMultiplier,
+          purchaseLimit,
+          saleEnds,
+        } = extensions["crowdsale"];
         let now = parseInt(new Date().getTime() / 1000);
         saleEnds += now;
-        const payload = web3.eth.abi.encodeParameters(
+
+        const sale = require("../../abi/KaliDAOcrowdsale.json");
+
+        const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
+
+        const saleContract = new web3.eth.Contract(sale, saleAddress);
+
+        const encodedParams = web3.eth.abi.encodeParameters(
           ["uint256", "address", "uint8", "uint96", "uint32"],
-          [
-            listId,
-            purchaseToken,
-            purchaseMultiplier,
-            purchaseLimit,
-            saleEnds,
-          ]
+          [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
         );
+
+        let payload = saleContract.methods
+          .setExtension(encodedParams)
+          .encodeABI();
+
         extensionsData.push(payload);
       }
 
-      if('redemption' in extensions) {
-        extensionsArray.push(addresses[chainId]['extensions']['redemption']);
+      if ("redemption" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
 
-        var { redemptionStart, tokenArray } = extensions['redemption'];
+        var { redemptionStart, tokenArray } = extensions["redemption"];
         let now = parseInt(new Date().getTime() / 1000);
         redemptionStart += now;
-        const payload = web3.eth.abi.encodeParameters(
+
+        const redemption = require("../../abi/KaliDAOredemption.json");
+
+        const redemptionAddress =
+          addresses[chainId]["extensions"]["redemption"];
+
+        const redemptionContract = new web3.eth.Contract(
+          redemption,
+          redemptionAddress
+        );
+
+        const encodedParams = web3.eth.abi.encodeParameters(
           ["address[]", "uint256"],
           [tokenArray, redemptionStart]
         );
+
+        let payload = redemptionContract.methods
+          .setExtension(encodedParams)
+          .encodeABI();
+
         extensionsData.push(payload);
       }
-
     }
 
     console.log("extensionsArray", extensionsArray);
     console.log("extensionsData", extensionsData);
 
-    console.log("form", daoName, symbol, docs, paused, extensionsArray, extensionsData, members, shares, votingPeriod, govSettings);
+    console.log(
+      daoName,
+      symbol,
+      docs,
+      paused,
+      extensionsArray,
+      extensionsData,
+      members,
+      shares,
+      votingPeriod,
+      govSettings
+    );
 
     try {
       let result = await factory.methods
@@ -152,7 +218,7 @@ export default function Checkout(props) {
     }
 
     value.setLoading(false);
-  }
+  };
 
   const checkoutDetails = [
     {
