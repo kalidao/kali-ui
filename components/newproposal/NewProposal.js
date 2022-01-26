@@ -25,13 +25,14 @@ import { BiEdit } from "react-icons/bi";
 export default function NewProposal(props) {
   const [menuItem, setMenuItem] = useState(999); // arbitrary number where no proposal type is selected. if changed, must change below, too
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao, chainId } = value.state;
+  const { web3, loading, account, abi, address, dao, chainId, visibleView, remount } = value.state;
   const balances = props.balances;
   console.log("account", account);
 
-  const handleClick = () => {
+  useEffect(() => {
+    console.log("testtt")
     setMenuItem(999);
-  };
+  }, [remount]);
 
   const ProposalTile = (props) => {
     return (
@@ -57,14 +58,6 @@ export default function NewProposal(props) {
     setMenuItem(newValue);
   };
 
-  const BackButton = () => {
-    return (
-      <Button size="sm" onClick={handleClick} marginBottom={5}>
-        « Back
-      </Button>
-    );
-  };
-
   return (
     <>
     <HStack>
@@ -85,7 +78,7 @@ export default function NewProposal(props) {
       ) : (
         <>
             {menuItem < 999 ? (
-              <BackButton />
+              null
             ) : (
               <Grid
                 templateColumns={{
@@ -114,7 +107,7 @@ export default function NewProposal(props) {
 
           {Object.entries(newProposalHelper).map(([k, v]) =>
             menuItem == k ? (
-              <Box key={`component-${k}`} p={5} border="1px solid">
+              <Box key={`component-${k}`} p={5}>
                 {newProposalHelper[k]["component"]}
               </Box>
             ) : null

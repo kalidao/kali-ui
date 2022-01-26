@@ -5,6 +5,11 @@
   background: linear-gradient(54deg, rgba(70,37,74,0.9) 0%, rgba(250,42,16,0.9) 100%);
 }
 
+.gradient-item:hover {
+  background: rgb(70,37,74);
+  background: linear-gradient(54deg, rgba(70,37,74,1) 0%, rgba(250,42,16,1) 100%);
+}
+
 #gradient1 {
   background: linear-gradient(90deg, #46254a, #fa2a10);
   position: absolute;
@@ -56,6 +61,16 @@
   mix-blend-mode: color-burn;
 }
 
+.solid-btn {
+  padding: 10px 15px !important;
+  font-size: 1em !important;
+  font-weight:normal !important;
+  background: #7e8d90 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
 select {
   border-radius: 20px !important;
 }
@@ -75,6 +90,15 @@ select {
 .delete-icon {
   background: none !important;
   border: 0 !important;
+}
+
+ul.alternating-list li {
+  padding:10px;
+  border-radius: 10px !important;
+}
+
+ul.alternating-list > li:nth-child(2n+1) {
+  background-color: #eeeeee !important;
 }
 
 /* //////////////// DEPLOYER //////////////// */
@@ -123,7 +147,7 @@ div.dao-type:hover {
 }
 
 .member-address {
-  width: 450px !important;
+  width:90% !important;
   margin-right: 10px !important;
 }
 
@@ -148,7 +172,7 @@ div#dao-main {
 div#footer {
   margin: 0 -45px;
   padding: 20px 45px !important;
-  
+
 }
 
 #dao-main h1 {
@@ -185,9 +209,6 @@ div#footer {
   color: white;
 }
 
-.dashboard-tile:hover, .proposal-tile:hover, .proposal-type-tile:hover {
-  background: #952730 !important;
-}
 
 .dashboard-tile h2 {
   font-size: 1.5em;
