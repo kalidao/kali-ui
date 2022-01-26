@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
 import {
@@ -20,17 +20,16 @@ import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { presets } from "../../constants/presets";
 
-export default function Checkout(props) {
+export default function Checkout({ details }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
-  const details = props.details;
 
   const deploy = async () => {
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
     }
-    value.setLoading(true);
+    // value.setLoading(true);
 
     let factory;
     try {
@@ -39,19 +38,17 @@ export default function Checkout(props) {
       value.toast(e);
     }
 
-    const {
-      network,
-      daoName,
-      symbol,
-      members,
-      shares,
-      votingPeriod,
-      paused,
-      quorum,
-      supermajority,
-      extensions,
-      docs,
-    } = props.details;
+    const { daoName, symbol } = details["identity"];
+
+    const { votingPeriod, paused, quorum, supermajority } =
+      details["governance"];
+
+    const { docs } = details["legal"];
+
+    const { members, shares } = details["founders"];
+    const { network, daoType } = details;
+    const { tribute, redemption, crowdsale } = details["extensions"];
+    console.log("tribute", tribute);
 
     const govSettings = Array(
       quorum,
@@ -69,86 +66,95 @@ export default function Checkout(props) {
       1
     );
 
-    let extensionsArray;
-    let extensionsData;
+    let extensionsArray = new Array();
+    let extensionsData = new Array();
 
-    if (extensions == null) {
-      extensionsArray = new Array(0);
-      extensionsData = new Array(0);
-    } else {
-      extensionsArray = [];
-      extensionsData = [];
+    // if (extensions === null) {
+    //   extensionsArray = new Array(0);
+    //   extensionsData = new Array(0);
+    // } else {
+    //   extensionsArray = [];
+    //   extensionsData = [];
 
-      if ("tribute" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
-        extensionsData.push("0x");
-      }
+    if (tribute["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
+      extensionsData.push("0x");
+    }
 
-      if ("crowdsale" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
+    if (crowdsale["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
-        var {
-          listId,
-          purchaseToken,
-          purchaseMultiplier,
-          purchaseLimit,
-          saleEnds,
-        } = extensions["crowdsale"];
-        let now = parseInt(new Date().getTime() / 1000);
-        saleEnds += now;
+      var {
+        listId,
+        purchaseToken,
+        purchaseMultiplier,
+        purchaseLimit,
+        saleEnds,
+      } = crowdsale;
+      console.log(
+        "crowdsale param",
+        listId,
+        purchaseToken,
+        purchaseMultiplier,
+        purchaseLimit,
+        saleEnds
+      );
 
-        const sale = require("../../abi/KaliDAOcrowdsale.json");
+      let now = parseInt(new Date().getTime() / 1000);
+      saleEnds += now;
 
-        const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
+      const sale = require("../../abi/KaliDAOcrowdsale.json");
 
-        const saleContract = new web3.eth.Contract(sale, saleAddress);
+      const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
-        const encodedParams = web3.eth.abi.encodeParameters(
-          ["uint256", "address", "uint8", "uint96", "uint32"],
-          [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
-        );
+      const saleContract = new web3.eth.Contract(sale, saleAddress);
 
-        let payload = saleContract.methods
-          .setExtension(encodedParams)
-          .encodeABI();
+      const encodedParams = web3.eth.abi.encodeParameters(
+        ["uint256", "address", "uint8", "uint96", "uint32"],
+        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
+      );
 
-        extensionsData.push(payload);
-      }
+      let payload = saleContract.methods
+        .setExtension(encodedParams)
+        .encodeABI();
 
-      if ("redemption" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
+      extensionsData.push(payload);
+    }
 
-        var { redemptionStart, tokenArray } = extensions["redemption"];
-        let now = parseInt(new Date().getTime() / 1000);
-        redemptionStart += now;
+    if (redemption["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
+      console.log(redemption);
+      let { redemptionStart, tokenArray } = redemption;
+      console.log("redemption param", redemptionStart, tokenArray);
+      let now = parseInt(new Date().getTime() / 1000);
+      redemptionStart += now;
 
-        const redemption = require("../../abi/KaliDAOredemption.json");
+      const redemptionABI = require("../../abi/KaliDAOredemption.json");
 
-        const redemptionAddress =
-          addresses[chainId]["extensions"]["redemption"];
+      const redemptionAddress = addresses[chainId]["extensions"]["redemption"];
 
-        const redemptionContract = new web3.eth.Contract(
-          redemption,
-          redemptionAddress
-        );
+      const redemptionContract = new web3.eth.Contract(
+        redemptionABI,
+        redemptionAddress
+      );
 
-        const encodedParams = web3.eth.abi.encodeParameters(
-          ["address[]", "uint256"],
-          [tokenArray, redemptionStart]
-        );
+      const encodedParams = web3.eth.abi.encodeParameters(
+        ["address[]", "uint256"],
+        [tokenArray, redemptionStart]
+      );
 
-        let payload = redemptionContract.methods
-          .setExtension(encodedParams)
-          .encodeABI();
+      let payload = redemptionContract.methods
+        .setExtension(encodedParams)
+        .encodeABI();
 
-        extensionsData.push(payload);
-      }
+      extensionsData.push(payload);
     }
 
     console.log("extensionsArray", extensionsArray);
     console.log("extensionsData", extensionsData);
 
     console.log(
+      "deployment param",
       daoName,
       symbol,
       docs,
@@ -201,15 +207,15 @@ export default function Checkout(props) {
           Chain <b>{details["network"]}</b>
         </ListItem>
         <ListItem>
-          Name <b>{details["daoName"]}</b>
+          Name <b>{details["identity"]["daoName"]}</b>
         </ListItem>
         <ListItem>
-          Symbol <b>{details["symbol"]}</b>
+          Symbol <b>{details["identity"]["symbol"]}</b>
         </ListItem>
         <ListItem>
           Type{" "}
           <b>
-            {details["daoType"] == null
+            {details["daoType"] === null
               ? "Custom"
               : presets[details["daoType"]]["type"]}
           </b>
@@ -218,29 +224,41 @@ export default function Checkout(props) {
           Members
           <List>
             <b>
-              {details["members"].map((item, index) => (
+              {details["founders"]["members"].map((item, index) => (
                 <ListItem key={index}>
-                  {item} ({fromDecimals(details["shares"][index], 18)} shares)
+                  {item} (
+                  {fromDecimals(details["founders"]["shares"][index], 18)}{" "}
+                  shares)
                 </ListItem>
               ))}
             </b>
           </List>
         </ListItem>
         <ListItem>
-          Voting period <b>{convertVotingPeriod(details["votingPeriod"])}</b>
+          Voting period{" "}
+          <b>{convertVotingPeriod(details["governance"]["votingPeriod"])}</b>
         </ListItem>
         <ListItem>
           Share transerability{" "}
-          <b>{details["paused"] == 1 ? "restricted" : "unrestricted"}</b>
+          <b>
+            {details["governance"]["paused"] == 1
+              ? "restricted"
+              : "unrestricted"}
+          </b>
         </ListItem>
         <ListItem>
-          Quorum <b>{details["quorum"]}%</b>
+          Quorum <b>{details["governance"]["quorum"]}%</b>
         </ListItem>
         <ListItem>
-          Supermajority <b>{details["supermajority"]}%</b>
+          Supermajority <b>{details["governance"]["supermajority"]}%</b>
         </ListItem>
         <ListItem>
-          Docs <b>{details["docs"] == "" ? "Ricardian" : details["docs"]}</b>
+          Docs{" "}
+          <b>
+            {details["legal"]["docs"] == ""
+              ? "Ricardian"
+              : details["legal"]["docs"]}
+          </b>
         </ListItem>
       </List>
       <Button onClick={deploy}>Deploy</Button>

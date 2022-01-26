@@ -29,12 +29,21 @@ export default function FactoryWrapper() {
       supermajority: 60,
     },
     extensions: {
-      tribute: null,
+      tribute: {
+        active: false,
+      },
       redemption: {
+        active: false,
         redemptionStart: null,
+        tokenArray: null,
       },
       crowdsale: {
+        active: false,
+        purchaseToken: null,
+        purchaseMultiplier: 10,
+        purchaseLimit: null,
         saleEnds: null,
+        listId: null,
       },
     },
     daoType: null,

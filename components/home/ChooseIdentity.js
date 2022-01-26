@@ -54,10 +54,11 @@ export default function ChooseIdentity(props) {
 
   const submit = (values) => {
     const { name, symbol } = values;
-    const identity = props.details["identity"];
-    identity["daoName"] = name;
-    identity["symbol"] = symbol;
-    props.setDetails(identity);
+    const { details, setDetails } = props;
+    details["identity"]["daoName"] = name;
+    details["identity"]["symbol"] = symbol;
+    setDetails(details);
+
     props.handleNext();
   };
 

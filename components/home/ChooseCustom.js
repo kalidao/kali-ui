@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
 import {
   VStack,
@@ -7,46 +7,48 @@ import {
   Heading,
   FormControl,
   FormLabel,
+  Checkbox,
+  Input,
+  Grid,
+  Switch,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
-import NumInputField from "../elements/NumInputField";
-import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName, convertVotingPeriod } from "../../utils/formatters";
-import { presets } from "../../constants/presets";
-import { extensionDescriptions } from "../../constants/extensionsHelper";
-import Slider from "../elements/CustomSlider";
+// import NumInputField from "../elements/NumInputField";
+// import { supportedChains } from "../../constants/supportedChains";
+// import { getNetworkName, convertVotingPeriod } from "../../utils/formatters";
+// import { presets } from "../../constants/presets";
+// import { extensionDescriptions } from "../../constants/extensionsHelper";
+// import Slider from "../elements/CustomSlider";
 import Select from "../elements/Select";
+import { useForm, Controller } from "react-hook-form";
 
-export default function ChooseCustom(props) {
+export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
-  const [votingPeriodUnit, setVotingPeriodUnit] = useState(null);
-  const [votingPeriod, setVotingPeriod] = useState(null);
+  const [redemption, setRedemption] = useState(
+    details["extensions"]["redemption"]["active"]
+  );
+  const [crowdsale, setCrowdsale] = useState(
+    details["extensions"]["crowdsale"]["active"]
+  );
 
-  useEffect(() => {
-    let converted = convertVotingPeriod(props.details["votingPeriod"]);
-    console.log(converted);
-    let value = parseInt(converted.split(" ")[0]);
-    console.log(value);
-    setVotingPeriod(value);
-    if (converted.includes("min")) {
-      setVotingPeriodUnit(0);
-    } else if (converted.includes("min")) {
-      setVotingPeriodUnit(1);
-    } else {
-      setVotingPeriodUnit(2);
-    }
-  }, [props.details]);
-
-  const changeVotingPeriodUnit = (e) => {
-    let unit = e.target.value;
-    setVotingPeriodUnit(unit);
-    calculateVotingPeriod(votingPeriod, unit);
-  };
-
-  const changeVotingPeriod = (num) => {
-    setVotingPeriod(num);
-    calculateVotingPeriod(num, votingPeriodUnit);
-  };
+  // TODO: Add votingPeriod
+  const { handleSubmit, register, control } = useForm({
+    defaultValues: {
+      votingPeriod: details["governance"]["votingPeriod"] / (60 * 60 * 24),
+      votingPeriodUnit: 2,
+      quorum: details["governance"]["quorum"],
+      supermajority: details["governance"]["supermajority"],
+      paused: details["governance"]["paused"],
+      tribute: details["extensions"]["tribute"]["active"],
+      redemptionStart: details["extensions"]["redemption"]["redemptionStart"],
+      saleEnds: details["extensions"]["crowdsale"]["saleEnds"],
+    },
+  });
 
   const calculateVotingPeriod = (period, unit) => {
     let seconds;
@@ -57,89 +59,177 @@ export default function ChooseCustom(props) {
     } else if (unit == 2) {
       seconds = period * 60 * 60 * 24;
     }
-    let array = props.details;
-    array["votingPeriod"] = seconds;
-    props.setDetails(array);
-    console.log(seconds);
+
+    return seconds;
   };
 
-  const changeQuorum = (num) => {
-    let array = props.details;
-    array["quorum"] = parseInt(num);
-    props.setDetails(array);
-    console.log(props.details);
+  const submit = (values) => {
+    console.log(values);
+    const {
+      votingPeriod,
+      votingPeriodUnit,
+      quorum,
+      supermajority,
+      paused,
+      tribute,
+      redemptionStart,
+      saleEnds,
+    } = values;
+
+    // setting governance
+    details["governance"]["votingPeriod"] = calculateVotingPeriod(
+      votingPeriod,
+      votingPeriodUnit
+    );
+    details["governance"]["quorum"] = parseInt(quorum);
+    details["governance"]["supermajority"] = parseInt(supermajority);
+    details["governance"]["paused"] = Number(!paused);
+    // props.setDetails(governance);
+
+    // setting extensions
+    details["extensions"]["tribute"]["active"] = tribute;
+    details["extensions"]["redemption"]["active"] = redemption;
+
+    details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
+    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+
+    setDetails(details);
+    console.log("details", details);
+    handleNext();
   };
 
-  const changeSupermajority = (num) => {
-    let array = props.details;
-    array["supermajority"] = parseInt(num);
-    props.setDetails(array);
-    console.log(props.details);
-  };
-
-  const changePaused = (e) => {
-    let array = props.details;
-    array["paused"] = e.target.value;
-    props.setDetails(array);
-    console.log(props.details);
-  };
-
+  // TODO: DefaultValues
   return (
-    <VStack as="form">
-      <Heading>
-        <b>Customize your governance</b>
-      </Heading>
-      <FormControl>
-        <FormLabel>
-          <b>Voting Period</b>
-        </FormLabel>
-        <HStack>
-          <NumInputField
-            defaultValue={1}
-            min="1"
-            onChange={changeVotingPeriod}
+    <VStack as="form" onSubmit={handleSubmit(submit)}>
+      <Heading fontWeight="800">Customize your governance</Heading>
+      <HStack>
+        <FormControl>
+          <FormLabel htmlFor="votingPeriod">Voting Period</FormLabel>
+          <Controller
+            control={control}
+            name="votingPeriod"
+            render={({ field: { ref, ...rest } }) => (
+              <NumberInput min="1" {...rest}>
+                <NumberInputField ref={ref} name={rest.name} />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            )}
           />
-          <Select
-            defaultValue={votingPeriodUnit}
-            onChange={changeVotingPeriodUnit}
-          >
-            <option value="0">min</option>
-            <option value="1">hours</option>
-            <option value="2">days</option>
-          </Select>
-        </HStack>
-      </FormControl>
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="votingPeriodUnit">Voting Perod Unit</FormLabel>
+          <Controller
+            control={control}
+            name="votingPeriodUnit"
+            render={({ field: { ref, ...rest } }) => (
+              <Select ref={ref} name={rest.name} {...rest}>
+                <option value="0">min</option>
+                <option value="1">hours</option>
+                <option value="2">days</option>
+              </Select>
+            )}
+          />
+        </FormControl>
+      </HStack>
+      {/* TODO: Figure out how to make Sliders work */}
       <FormControl>
-        <FormLabel>
-          <b>Quorum</b>
-        </FormLabel>
-        <Slider
-          label="quorum-slider"
-          defaultValue={props.details["quorum"]}
-          onChangeEnd={changeQuorum}
+        <FormLabel htmlFor="quorum">Quorum</FormLabel>
+        <Controller
+          control={control}
+          name="quorum"
+          render={({ field: { ref, ...rest } }) => (
+            <NumberInput min="1" max="100" {...rest}>
+              <NumberInputField ref={ref} name={rest.name} />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          )}
         />
       </FormControl>
       <FormControl>
-        <FormLabel>
-          <b>Supermajority</b>
-        </FormLabel>
-        <Slider
-          label="supermajority-slider"
-          defaultValue={props.details["supermajority"]}
-          onChangeEnd={changeSupermajority}
-          min={51}
+        <FormLabel>Supermajority</FormLabel>
+        <Controller
+          control={control}
+          name="supermajority"
+          render={({ field: { ref, ...rest } }) => (
+            <NumberInput min="51" max="100" {...rest}>
+              <NumberInputField ref={ref} name={rest.name} />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          )}
         />
       </FormControl>
       <FormControl>
-        <FormLabel>
+        <FormLabel htmlFor="paused">
           <b>Share Transferability</b>
         </FormLabel>
-        <Select defaultValue={props.details["paused"]} onChange={changePaused}>
-          <option value="0">Transferable</option>
-          <option value="1">Nontransferable</option>
-        </Select>
+        <Controller
+          control={control}
+          name="paused"
+          render={({ field }) => (
+            <Switch id="paused" size="md" colorScheme="red" {...field} />
+          )}
+        />
       </FormControl>
-      <Button className="transparent-btn" onClick={() => props.handleNext()}>
+      <FormControl>
+        <FormLabel>
+          <b>Extensions</b>
+        </FormLabel>
+        {/* TODO: Make the checkmarks appear */}
+        <Grid templateColumns="repeat(3, 1fr)" gap={2}>
+          <Checkbox
+            name="redemption"
+            value="redemption"
+            defaultValue={redemption}
+            onChange={() => setRedemption(!redemption)}
+          >
+            Redemption
+          </Checkbox>
+          <Checkbox
+            name="crowdsale"
+            value="crowdsale"
+            defaultValue={crowdsale}
+            onChange={() => setCrowdsale(!crowdsale)}
+          >
+            Crowdsale
+          </Checkbox>
+          <Controller
+            control={control}
+            name="tribute"
+            render={({ field }) => (
+              <Checkbox name="tribute" value="tribute" {...field}>
+                Tribute
+              </Checkbox>
+            )}
+          />
+        </Grid>
+      </FormControl>
+      {/* TODO: Add Calendar for these  */}
+      {redemption ? (
+        <>
+          <FormLabel htmlFor="redemptionStart">
+            When should redemption start?(in seconds)
+          </FormLabel>
+          <Input name="redemptionStart" {...register("redemptionStart")} />
+        </>
+      ) : null}
+      {crowdsale ? (
+        <>
+          <FormLabel htmlFor="saleEnds">
+            When should the crowdsale end?(in seconds)
+          </FormLabel>
+          <Input name="saleEnds" {...register("saleEnds")} />
+        </>
+      ) : null}
+      <Button className="transparent-btn" type="submit">
         Next »
       </Button>
     </VStack>
