@@ -46,7 +46,7 @@ export default function ChooseIdentity(props) {
 
   const isNameUnique = (name) => {
     console.log(errors.name);
-    if (daoNames.includes(name) === true) {
+    if (name != null && daoNames.includes(name) === true) {
       value.toast("Name not unique. Choose another.");
       return false;
     }
