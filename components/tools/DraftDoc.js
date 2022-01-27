@@ -49,11 +49,6 @@ function DraftDoc() {
         setDelawareIc({
           name: values.name,
           chain: values.chain,
-          client: values.client,
-          network: values.network,
-          address: values.address,
-          code: values.code,
-          reference: values.reference,
         })
         setDeIcForm(true)
       case "wyoming-llc":
@@ -175,46 +170,6 @@ function DraftDoc() {
                       id="chain"
                       placeholder="Ethereum mainnet, Arbitrum, Matic, etc."
                       {...register("chain")}
-                    />
-                    <FormLabel mt={2} htmlFor="client">
-                      Designated Blockchain Client
-                    </FormLabel>
-                    <Input
-                      id="client"
-                      placeholder="Geth, OpenEthereum, etc."
-                      {...register("client")}
-                    />
-                    <FormLabel mt={2} htmlFor="network">
-                      Designated Blochain Network
-                    </FormLabel>
-                    <Input
-                      id="network"
-                      placeholder="Bitcoin, Ethereum, etc."
-                      {...register("network")}
-                    />
-                    <FormLabel mt={2} htmlFor="address">
-                      Designated Smart Contract Address
-                    </FormLabel>
-                    <Input
-                      id="address"
-                      placeholder="0xKALI"
-                      {...register("address")}
-                    />
-                    <FormLabel mt={2} htmlFor="code">
-                      Designated Smart Contract Source Code
-                    </FormLabel>
-                    <Input
-                      id="code"
-                      placeholder="Enter code"
-                      {...register("code")}
-                    />
-                    <FormLabel mt={2} htmlFor="reference">
-                      Designated Smart Contract Source Code Reference (url)
-                    </FormLabel>
-                    <Input
-                      id="reference"
-                      placeholder="https://test.kalidao.xyz/"
-                      {...register("reference")}
                     />
                   </FormControl>
                 </>
