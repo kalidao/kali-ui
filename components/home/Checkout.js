@@ -29,7 +29,8 @@ export default function Checkout({ details }) {
       value.toast(errorMessages["connect"]);
       return;
     }
-    // value.setLoading(true);
+
+    value.setLoading(true);
 
     let factory;
     try {
@@ -93,8 +94,8 @@ export default function Checkout({ details }) {
         saleEnds
       );
 
-      let now = parseInt(new Date().getTime() / 1000);
-      saleEnds += now;
+      // let now = parseInt(new Date().getTime() / 1000);
+      saleEnds = new Date(saleEnds).getTime() / 1000;
 
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
@@ -119,9 +120,10 @@ export default function Checkout({ details }) {
       extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
       console.log(redemption);
       let { redemptionStart, tokenArray } = redemption;
+
+      // let now = parseInt(new Date().getTime() / 1000);
+      redemptionStart = new Date(redemptionStart).getTime() / 1000;
       console.log("redemption param", redemptionStart, tokenArray);
-      let now = parseInt(new Date().getTime() / 1000);
-      redemptionStart += now;
 
       const redemptionABI = require("../../abi/KaliDAOredemption.json");
 

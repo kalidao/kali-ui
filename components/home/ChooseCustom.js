@@ -26,6 +26,8 @@ import {
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
 import { presets } from "../../constants/presets";
+import DateSelect from "../elements/DateSelect";
+import ReactDatePicker from "react-datepicker";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
@@ -65,7 +67,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   };
 
   const submit = (values) => {
-    console.log(values);
     const {
       votingPeriod,
       votingPeriodUnit,
@@ -85,14 +86,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["governance"]["quorum"] = parseInt(quorum);
     details["governance"]["supermajority"] = parseInt(supermajority);
     details["governance"]["paused"] = Number(!paused);
-    // props.setDetails(governance);
 
     // setting extensions
     details["extensions"]["tribute"]["active"] = tribute;
 
     details["extensions"]["redemption"]["active"] = redemption;
-    details["extensions"]["redemption"]["redemptionStart"] =
-      Number(redemptionStart);
+    details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
     details["extensions"]["redemption"]["tokenArray"] = [
       "0xc778417e063141139fce010982780140aa0cd5ab",
       "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
@@ -107,7 +106,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
     details["extensions"]["crowdsale"]["purchaseLimit"] =
       presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
-    details["extensions"]["crowdsale"]["saleEnds"] = Number(saleEnds);
+    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
     details["extensions"]["crowdsale"]["listId"] =
       presets[1]["extensions"]["crowdsale"]["listId"];
 
@@ -116,7 +115,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     handleNext();
   };
 
-  // TODO: DefaultValues
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
       <Heading fontWeight="800">Customize your governance</Heading>
@@ -230,21 +228,52 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           />
         </Grid>
       </FormControl>
-      {/* TODO: Add Calendar for these  */}
+
       {redemption ? (
         <>
           <FormLabel htmlFor="redemptionStart">
-            When should redemption start?(in seconds)
+            When should redemption start?
           </FormLabel>
-          <Input name="redemptionStart" {...register("redemptionStart")} />
+          <Controller
+            control={control}
+            name="redemptionStart"
+            render={({ field }) => (
+              <ReactDatePicker
+                selected={field.value}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy h:mm aa"
+                onChange={(date) => field.onChange(date)}
+              />
+            )}
+          />
+
+          {/* <Input name="redemptionStart" {...register("redemptionStart")} /> */}
         </>
       ) : null}
       {crowdsale ? (
         <>
           <FormLabel htmlFor="saleEnds">
-            When should the crowdsale end?(in seconds)
+            When should the crowdsale end?
           </FormLabel>
-          <Input name="saleEnds" {...register("saleEnds")} />
+          <Controller
+            control={control}
+            name="saleEnds"
+            render={({ field }) => (
+              <ReactDatePicker
+                selected={field.value}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy h:mm aa"
+                onChange={(date) => field.onChange(date)}
+              />
+            )}
+          />
+          {/* <Input name="saleEnds" {...register("saleEnds")} /> */}
         </>
       ) : null}
       <Button className="transparent-btn" type="submit">
