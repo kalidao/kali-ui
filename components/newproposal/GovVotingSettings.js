@@ -7,7 +7,8 @@ import {
   Select,
   Text,
   HStack,
-  Stack,
+  VStack,
+  Center
 } from "@chakra-ui/react";
 import { proposalTypes, voteTypes } from "../../constants/params";
 
@@ -60,7 +61,7 @@ export default function GovVotingSettings() {
 
   return (
     <form onSubmit={submitProposal}>
-      <Stack>
+      <VStack alignItems="left">
         <Text>
           <b>Details</b>
         </Text>
@@ -82,8 +83,10 @@ export default function GovVotingSettings() {
           </Select>
         </HStack>
         <Input type="hidden" name="proposalType_" value="6" />
-        <Button type="submit">Submit Proposal</Button>
-      </Stack>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
+      </VStack>
     </form>
   );
 }

@@ -9,6 +9,7 @@ import {
   Textarea,
   Stack,
   HStack,
+  Center
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { toDecimals, unixToDate } from "../../utils/formatters";
@@ -72,7 +73,9 @@ export default function Redemption() {
           <b>Amount:</b>
         </Text>
         <NumInputField name="amount_" min=".000000000000000001" />
-        <Button type="submit">Redeem Shares</Button>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
       </Stack>
     </form>
   );
