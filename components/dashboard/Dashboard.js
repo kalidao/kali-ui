@@ -79,7 +79,7 @@ export default function Dashboard() {
   return (
     <div id="dashboard">
       <HStack>
-        <Icon as={BiGridAlt} w={10} h={10} color="#5a2686" />
+        <Icon as={BiGridAlt} w={10} h={10} className="h1-icon" />
         <Heading as="h1">Dashboard</Heading>
       </HStack>
       <HStack>

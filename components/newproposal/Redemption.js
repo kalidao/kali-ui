@@ -9,9 +9,10 @@ import {
   Textarea,
   Stack,
   HStack,
+  Center
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
-import { toDecimals, unixToDate } from "../../utils/formatters";
+import { toDecimals, unixToDate, convertRedeemables } from "../../utils/formatters";
 
 export default function Redemption() {
   const value = useContext(AppContext);
@@ -19,7 +20,7 @@ export default function Redemption() {
   const [amt, setAmt] = useState(0); // amount to be spent on shares, not converted to wei/decimals
   const handleChange = (value) => setAmt(value);
   const extAddress = dao["extensions"]["redemption"]["address"];
-  const redeemables = dao["extensions"]["redemption"]["details"]["redeemables"];
+  const redeemables = convertRedeemables(dao["extensions"]["redemption"]["details"]["redeemables"]);
   const redemptionStarts =
     dao["extensions"]["redemption"]["details"]["redemptionStarts"];
 
@@ -72,7 +73,9 @@ export default function Redemption() {
           <b>Amount:</b>
         </Text>
         <NumInputField name="amount_" min=".000000000000000001" />
-        <Button type="submit">Redeem Shares</Button>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
       </Stack>
     </form>
   );

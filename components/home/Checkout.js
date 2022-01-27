@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
 import {
@@ -9,6 +9,9 @@ import {
   Select,
   List,
   ListItem,
+  Stack,
+  HStack,
+  Spacer
 } from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
 import {
@@ -19,17 +22,41 @@ import {
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { presets } from "../../constants/presets";
+import DashedDivider from "../elements/DashedDivider";
+import KaliButton from "../elements/KaliButton";
 
-export default function Checkout({ details }) {
+export default function Checkout(props) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
+  const details = props.details;
+
+  // for use at the end
+ let paused;
+ if(details['paused']==1) {
+   paused = "restricted";
+ } else {
+   paused = "unrestricted";
+ }
+
+ let daoType;
+ if(details['daoType'] == null) {
+   daoType = "Custom";
+ } else {
+   daoType = presets[details['daoType']]['type'];
+ }
+
+ let docs;
+ if(details['docs']=="") {
+   docs = "Ricardian";
+ } else {
+   docs = details['docs'];
+ }
 
   const deploy = async () => {
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
     }
-
     value.setLoading(true);
 
     let factory;
@@ -39,17 +66,19 @@ export default function Checkout({ details }) {
       value.toast(e);
     }
 
-    const { daoName, symbol } = details["identity"];
-
-    const { votingPeriod, paused, quorum, supermajority } =
-      details["governance"];
-
-    const { docs } = details["legal"];
-
-    const { members, shares } = details["founders"];
-    const { network, daoType } = details;
-    const { tribute, redemption, crowdsale } = details["extensions"];
-    console.log("tribute", tribute);
+    const {
+      network,
+      daoName,
+      symbol,
+      members,
+      shares,
+      votingPeriod,
+      paused,
+      quorum,
+      supermajority,
+      extensions,
+      docs,
+    } = props.details;
 
     const govSettings = Array(
       quorum,
@@ -67,90 +96,86 @@ export default function Checkout({ details }) {
       1
     );
 
-    let extensionsArray = new Array();
-    let extensionsData = new Array();
+    let extensionsArray;
+    let extensionsData;
 
-    if (tribute["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
-      extensionsData.push("0x");
-    }
+    if (extensions == null) {
+      extensionsArray = new Array(0);
+      extensionsData = new Array(0);
+    } else {
+      extensionsArray = [];
+      extensionsData = [];
 
-    if (crowdsale["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
+      if ("tribute" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
+        extensionsData.push("0x");
+      }
 
-      var {
-        listId,
-        purchaseToken,
-        purchaseMultiplier,
-        purchaseLimit,
-        saleEnds,
-      } = crowdsale;
-      console.log(
-        "crowdsale param",
-        listId,
-        purchaseToken,
-        purchaseMultiplier,
-        purchaseLimit,
-        saleEnds
-      );
+      if ("crowdsale" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
-      // let now = parseInt(new Date().getTime() / 1000);
-      saleEnds = new Date(saleEnds).getTime() / 1000;
+        var {
+          listId,
+          purchaseToken,
+          purchaseMultiplier,
+          purchaseLimit,
+          saleEnds,
+        } = extensions["crowdsale"];
+        let now = parseInt(new Date().getTime() / 1000);
+        saleEnds += now;
 
-      console.log("saleEnds", saleEnds);
-      const sale = require("../../abi/KaliDAOcrowdsale.json");
+        const sale = require("../../abi/KaliDAOcrowdsale.json");
 
-      const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
+        const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
-      const saleContract = new web3.eth.Contract(sale, saleAddress);
+        const saleContract = new web3.eth.Contract(sale, saleAddress);
 
-      const encodedParams = web3.eth.abi.encodeParameters(
-        ["uint256", "address", "uint8", "uint96", "uint32"],
-        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
-      );
+        const encodedParams = web3.eth.abi.encodeParameters(
+          ["uint256", "address", "uint8", "uint96", "uint32"],
+          [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
+        );
 
-      let payload = saleContract.methods
-        .setExtension(encodedParams)
-        .encodeABI();
+        let payload = saleContract.methods
+          .setExtension(encodedParams)
+          .encodeABI();
 
-      extensionsData.push(payload);
-    }
+        extensionsData.push(payload);
+      }
 
-    if (redemption["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
-      console.log(redemption);
-      let { redemptionStart, tokenArray } = redemption;
+      if ("redemption" in extensions) {
+        extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
 
-      // let now = parseInt(new Date().getTime() / 1000);
-      redemptionStart = new Date(redemptionStart).getTime() / 1000;
-      console.log("redemption param", redemptionStart, tokenArray);
+        var { redemptionStart, tokenArray } = extensions["redemption"];
+        let now = parseInt(new Date().getTime() / 1000);
+        redemptionStart += now;
 
-      const redemptionABI = require("../../abi/KaliDAOredemption.json");
+        const redemption = require("../../abi/KaliDAOredemption.json");
 
-      const redemptionAddress = addresses[chainId]["extensions"]["redemption"];
+        const redemptionAddress =
+          addresses[chainId]["extensions"]["redemption"];
 
-      const redemptionContract = new web3.eth.Contract(
-        redemptionABI,
-        redemptionAddress
-      );
+        const redemptionContract = new web3.eth.Contract(
+          redemption,
+          redemptionAddress
+        );
 
-      const encodedParams = web3.eth.abi.encodeParameters(
-        ["address[]", "uint256"],
-        [tokenArray, redemptionStart]
-      );
+        const encodedParams = web3.eth.abi.encodeParameters(
+          ["address[]", "uint256"],
+          [tokenArray, redemptionStart]
+        );
 
-      let payload = redemptionContract.methods
-        .setExtension(encodedParams)
-        .encodeABI();
+        let payload = redemptionContract.methods
+          .setExtension(encodedParams)
+          .encodeABI();
 
-      extensionsData.push(payload);
+        extensionsData.push(payload);
+      }
     }
 
     console.log("extensionsArray", extensionsArray);
     console.log("extensionsData", extensionsData);
 
     console.log(
-      "deployment param",
       daoName,
       symbol,
       docs,
@@ -195,69 +220,74 @@ export default function Checkout({ details }) {
     value.setLoading(false);
   };
 
+  const checkoutDetails = [
+    {
+      name: "Chain",
+      details: details['network']
+    },
+    {
+      name: "Name",
+      details: details['daoName']
+    },
+    {
+      name: "Symbol",
+      details: details['symbol']
+    },
+    {
+      name: "Type",
+      details: daoType
+    },
+    {
+      name: "Members",
+      details: details['members']
+    },
+    {
+      name: "Voting period",
+      details: convertVotingPeriod(details['votingPeriod'])
+    },
+    {
+      name: "Share transferability",
+      details: paused
+    },
+    {
+      name: "Quorum",
+      details: details['quorum'] + "%"
+    },
+    {
+      name: "Supermajority",
+      details: details['supermajority'] + "%"
+    },
+    {
+      name: "Docs",
+      details: docs
+    },
+  ];
+
   return (
-    <VStack>
-      <Text>You have selected:</Text>
-      <List>
-        <ListItem>
-          Chain <b>{details["network"]}</b>
-        </ListItem>
-        <ListItem>
-          Name <b>{details["identity"]["daoName"]}</b>
-        </ListItem>
-        <ListItem>
-          Symbol <b>{details["identity"]["symbol"]}</b>
-        </ListItem>
-        <ListItem>
-          Type{" "}
-          <b>
-            {details["daoType"] === null
-              ? "Custom"
-              : presets[details["daoType"]]["type"]}
-          </b>
-        </ListItem>
-        <ListItem>
-          Members
-          <List>
-            <b>
-              {details["founders"]["members"].map((item, index) => (
-                <ListItem key={index}>
-                  {item} (
-                  {fromDecimals(details["founders"]["shares"][index], 18)}{" "}
-                  shares)
-                </ListItem>
-              ))}
-            </b>
-          </List>
-        </ListItem>
-        <ListItem>
-          Voting period{" "}
-          <b>{convertVotingPeriod(details["governance"]["votingPeriod"])}</b>
-        </ListItem>
-        <ListItem>
-          Share transerability{" "}
-          <b>
-            {details["governance"]["paused"] == 1
-              ? "restricted"
-              : "unrestricted"}
-          </b>
-        </ListItem>
-        <ListItem>
-          Quorum <b>{details["governance"]["quorum"]}%</b>
-        </ListItem>
-        <ListItem>
-          Supermajority <b>{details["governance"]["supermajority"]}%</b>
-        </ListItem>
-        <ListItem>
-          Docs{" "}
-          <b>
-            {details["legal"]["docs"] == ""
-              ? "Ricardian"
-              : details["legal"]["docs"]}
-          </b>
-        </ListItem>
-      </List>
-      <Button onClick={deploy}>Deploy</Button>
-    </VStack>
+    <>
+    <Stack id="checkout">
+      {checkoutDetails.map((item, index) => (
+        <>
+          {Array.isArray(item.details) ? // members array
+            <>
+            <Text>{item.name}</Text>
+            <List>
+            {item.details.map((member, i) => (
+              <ListItem key={i}>{member} ({fromDecimals(details.shares[i], 18)} shares)</ListItem>
+            ))
+            }
+            </List>
+            </>
+          :
+          <HStack>
+            <Text>{item.name}</Text><Spacer /><Text>{item.details}</Text>
+          </HStack>
+          }
+        <DashedDivider />
+        </>
+      ))}
+    </Stack>
+    <KaliButton id="deploy-btn" onClick={deploy}>Deploy Your DAO!</KaliButton>
+    </>
   );
 }

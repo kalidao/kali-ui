@@ -1,12 +1,13 @@
 /* //////////////// GRADIENT //////////////// */
 
 .gradient-item {
-  background: rgb(231, 84, 114);
-  background: linear-gradient(
-    142deg,
-    rgba(231, 84, 114, 0.8701855742296919) 24%,
-    rgba(68, 58, 200, 1) 100%
-  );
+  background: rgb(70,37,74);
+  background: linear-gradient(54deg, rgba(70,37,74,0.9) 0%, rgba(250,42,16,0.9) 100%);
+}
+
+.gradient-item:hover {
+  background: rgb(70,37,74);
+  background: linear-gradient(54deg, rgba(70,37,74,1) 0%, rgba(250,42,16,1) 100%);
 }
 
 #gradient1 {
@@ -60,6 +61,16 @@
   mix-blend-mode: color-burn;
 }
 
+.solid-btn {
+  padding: 10px 15px !important;
+  font-size: 1em !important;
+  font-weight:normal !important;
+  background: #7e8d90 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
 select {
   border-radius: 20px !important;
 }
@@ -79,28 +90,45 @@ select {
 .delete-icon {
   background: none !important;
   border: 0 !important;
+  margin-bottom:20px;
 }
 
-/* //////////////// NAV BAR //////////////// */
-
-#nav-right-container {
-  border: 1px solid;
-  padding: 0 5px 0px 15px;
-  border-radius: 15px;
+ul.alternating-list {
+  margin: 20px 0 !important;
 }
 
-#nav-right-container .chakra-divider {
-  margin: 0 10px;
-  border: 1px solid;
-  opacity: 0.9;
-  height: 60%;
+ul.alternating-list li {
+  padding:20px;
+  border-radius: none !important;
 }
 
-#nav-account {
-  border: none;
+ul.alternating-list > li:nth-child(2n+1) {
+  background-color: #eeeeee !important;
+}
+
+ul.alternating-list > li:nth-child(2n) {
+  background-color: #eeeeee !important;
+}
+
+#deployer-container ul.alternating-list > li:nth-child(2n+1) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
+}
+
+#deployer-container ul.alternating-list > li:nth-child(2n) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
 }
 
 /* //////////////// DEPLOYER //////////////// */
+
+#deployer-container {
+  padding:20px;
+}
+
+#deployer-container p,
+#deployer-container h1,
+#deployer-container h2 {
+  color: white;
+}
 
 .dao-type h2 {
   font-size: 1.2em;
@@ -136,7 +164,7 @@ div.dao-type:hover {
 }
 
 .member-address {
-  width: 450px !important;
+  width:90% !important;
   margin-right: 10px !important;
 }
 
@@ -154,12 +182,24 @@ div.dao-type:hover {
 /* //////////////// APP //////////////// */
 
 div#dao-main {
-  padding-left: 45px;
-  padding-right: 45px;
+  background: #fafafa;
+  padding: 20px 45px !important;
+}
+
+div#footer {
+  margin: 0 -45px;
+  padding: 20px 45px !important;
+
 }
 
 #dao-main h1 {
   color: #5a2686;
+  margin-bottom: 20px;
+}
+
+.h1-icon {
+  color: #5a2686 !important;
+  margin-bottom: 20px;
 }
 
 #dao-sidebar {
@@ -175,30 +215,21 @@ div#dao-main {
   color: #5a2686;
 }
 
-#dao-main {
-  background: #fafafa;
-  padding: 20px;
-}
-
 #dashboard {
   color: white;
 }
 
-.dashboard-tile {
+.dashboard-tile, .proposal-tile, .proposal-type-tile {
   padding: 30px;
+  margin: 15px;
   border-radius: 15px;
+  color: white;
 }
+
 
 .dashboard-tile h2 {
   font-size: 1.5em;
   margin-bottom: 15px;
-}
-
-.proposal-tile {
-  padding: 30px;
-  margin: 20px;
-  border-radius: 15px;
-  color: white;
 }
 
 .proposal-tile h2 {
@@ -206,7 +237,13 @@ div#dao-main {
   padding: 0 0 5px 0;
 }
 
-.proposal-icon {
+.proposal-type-tile h2 {
+  font-size: 1.2em;
+  padding: 10px 0 5px 0;
+}
+
+.proposal-type-tile p {
+  font-size: 0.8em;
 }
 
 .proposal-title {
@@ -247,6 +284,11 @@ div#dao-main {
 }
 
 .RSPBstep {
+}
+
+#new-proposal h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
 }
 
 /* color scheme */

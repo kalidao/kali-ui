@@ -3,7 +3,18 @@ import Reload from "../elements/Reload";
 
 export default function ToggleProposals(props) {
   let toggle = props.toggle;
-
+  let active;
+  if(props.proposals != null && 'active' in props.proposals) {
+    active = props.proposals['active'].length;
+  } else {
+    active = 0;
+  }
+  let pending;
+  if(props.proposals != null && 'pending' in props.proposals) {
+    pending = props.proposals['pending'].length;
+  } else {
+    pending = 0;
+  }
   return (
     <HStack>
       <Spacer />
@@ -13,7 +24,7 @@ export default function ToggleProposals(props) {
         variant="link"
         border="0"
       >
-        Active
+        Active ({active})
       </Button>
       <Divider orientation="vertical" border="1px" height="20px" borderColor="#cccccc" />
       <Button
@@ -22,7 +33,7 @@ export default function ToggleProposals(props) {
         variant="link"
         border="0"
       >
-        Unsponsored
+        Unsponsored ({pending})
       </Button>
       <Divider orientation="vertical" border="1px" height="20px" borderColor="#cccccc" />
       <Reload reload={props.reloadProposals} />

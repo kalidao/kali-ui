@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }) {
   const [address, setAddress] = useState(null);
   const [loading, setLoading] = useState(false);
   const [visibleView, setVisibleView] = useState(1);
+  const [remount, setRemount] = useState(0);
   const [dao, setDao] = useState(null);
   const [proposals, setProposals] = useState(null);
 
@@ -150,6 +151,7 @@ function MyApp({ Component, pageProps }) {
             visibleView: visibleView,
             dao: dao,
             proposals: proposals,
+            remount: remount
           },
           setWeb3: setWeb3,
           setAccount: setAccount,
@@ -162,6 +164,7 @@ function MyApp({ Component, pageProps }) {
           setDao: setDao,
           setProposals: setProposals,
           toast: toast,
+          setRemount: setRemount
         }}
       >
         <Component {...pageProps} />
