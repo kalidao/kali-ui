@@ -93,12 +93,20 @@ select {
   margin-bottom:20px;
 }
 
+ul.alternating-list {
+  margin: 20px 0 !important;
+}
+
 ul.alternating-list li {
   padding:20px;
   border-radius: none !important;
 }
 
 ul.alternating-list > li:nth-child(2n+1) {
+  background-color: #eeeeee !important;
+}
+
+ul.alternating-list > li:nth-child(2n) {
   background-color: #eeeeee !important;
 }
 
