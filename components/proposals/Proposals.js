@@ -99,6 +99,7 @@ export default function Proposals(props) {
         handleClick={handleClick}
         toggle={toggle}
         reloadProposals={reloadProposals}
+        proposals={proposals}
       />
       {proposals != null ? (
         <ProposalContainer proposals={proposals[toggle]} />
