@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Select, Text, Textarea, Stack } from "@chakra-ui/react";
+import { Input, Button, Select, Text, Textarea, Stack, VStack } from "@chakra-ui/react";
 
 export default function ContractCall() {
   const value = useContext(AppContext);
@@ -130,7 +130,8 @@ export default function ContractCall() {
 
   return (
     <form onSubmit={submitProposal}>
-      <Stack>
+      <VStack width="100%">
+        <Stack width="100%" alignItems="left">
         <Text>
           <b>Details</b>
         </Text>
@@ -150,7 +151,9 @@ export default function ContractCall() {
         <Input type="hidden" name="abi_" value={abi_} />
         <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} />
 
-        <Button onClick={parseABI}>Parse ABI</Button>
+        </Stack>
+
+        <Button className="solid-btn" onClick={parseABI}>Parse ABI</Button>
         {functions == null ? null : (
           <>
             <Select onChange={onFunctionSelect}>
@@ -179,8 +182,8 @@ export default function ContractCall() {
         )}
         <Input type="hidden" name="proposalType_" value="2" />
 
-        <Button type="submit">Submit Proposal</Button>
-      </Stack>
+        <Button type="submit" className="solid-btn">Submit Proposal</Button>
+      </VStack>
     </form>
   );
 }
