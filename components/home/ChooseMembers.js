@@ -97,7 +97,7 @@ export default function ChooseMembers(props) {
       <Heading as="h1">
         <b>Build your cap table:</b>
       </Heading>
-      <List spacing={2} width="80%">
+      <List spacing={2} width="80%" className="alternating-list">
         {fields.map((founder, index) => (
           <ListItem
             display="flex"

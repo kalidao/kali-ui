@@ -102,6 +102,14 @@ ul.alternating-list > li:nth-child(2n+1) {
   background-color: #eeeeee !important;
 }
 
+#deployer-container ul.alternating-list > li:nth-child(2n+1) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
+}
+
+#deployer-container ul.alternating-list > li:nth-child(2n) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
+}
+
 /* //////////////// DEPLOYER //////////////// */
 
 #deployer-container {
