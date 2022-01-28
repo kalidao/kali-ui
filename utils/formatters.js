@@ -251,3 +251,15 @@ export function getDecimals(token) {
   }
   return decimals;
 }
+
+export function convertRedeemables(redeemables) {
+  const converted = [];
+  for(var i=0; i < redeemables.length; i++) {
+    for(var j=0; j < tokens.length; j++) {
+      if(tokens[j]["address"].toLowerCase() == redeemables[i].toLowerCase()) {
+        converted.push(tokens[j]["token"]);
+      }
+    }
+  }
+  return converted;
+}
