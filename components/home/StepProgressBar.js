@@ -1,6 +1,6 @@
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { Icon } from "@chakra-ui/react";
+import { Icon, Box } from "@chakra-ui/react";
 
 const SVG = () => {
   return (
@@ -89,10 +89,13 @@ export default function StepProgressBar(props) {
   }
 
   return (
-    <>
+    <Box
+      width={{sm: '400px', md: '750px', lg: '750px', xl: '750px', '2xl': '750px'}}
+    >
       <div style={{ margin: 50 }}>
         <ProgressBar
-          width={750}
+          display={{sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block'}}
+          width='100%'
           height={1}
           percent={100 * (visible / (steps - 1))}
           filledBackground="none"
@@ -113,22 +116,22 @@ export default function StepProgressBar(props) {
                 {({ accomplished }) => (
                   <>
                     {index < steps - 1 ? (
-                      <div
+                      <Box
                         onClick={() => props.handleBack(index)}
+                        width={{sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px'}}
+                        height={{sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px'}}
                         style={{
                           display: "flex",
                           cursor: cursor,
                           alignItems: "center",
                           justifyContent: "center",
                           borderRadius: "50%",
-                          width: 30,
-                          height: 30,
                           color: "white",
                           backgroundColor: accomplished
                             ? "white"
                             : "rgba(255,255,255,.5)",
                         }}
-                      ></div>
+                      ></Box>
                     ) : (
                       <div
                         onClick={() => props.handleBack(index)}
@@ -160,6 +163,6 @@ export default function StepProgressBar(props) {
           })}
         </ProgressBar>
       </div>
-    </>
+    </Box>
   );
 }

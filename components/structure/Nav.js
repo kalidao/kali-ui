@@ -22,7 +22,7 @@ export default function HomeNav() {
       id="nav"
       alignItems="top"
     >
-      {isBrowser == true ? <Kali /> : null}
+      <Kali />
       <Spacer />
       <DraftDoc />
       <NavRightContainer />

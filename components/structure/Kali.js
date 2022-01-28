@@ -1,4 +1,4 @@
-import { Link, Heading } from "@chakra-ui/react";
+import { Link, Heading, Box } from "@chakra-ui/react";
 import { routeHome } from "../../utils/router";
 import logo from "../../public/img/logo.png";
 
@@ -8,6 +8,10 @@ export default function Kali() {
     console.log("click");
   };
   return (
-    <img id="logo" src={logo.src} width="200" height="66" alt="Kali" onClick={home} />
+    <Box
+      display={{sm: 'none', md: 'block', lg: 'block', xl: 'block', '2xl': 'block'}}
+    >
+    <img id="logo" src={logo.src} width="200" height="33" alt="Kali" onClick={home} />
+    </Box>
   );
 }

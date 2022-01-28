@@ -78,7 +78,10 @@ function DraftDoc() {
 
   return (
     <>
-      <Button className="transparent-btn" onClick={onOpen}>
+      <Button
+        className="transparent-btn" onClick={onOpen}
+        display={{sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block'}}
+      >
         Draft
       </Button>
       <Drawer isOpen={isOpen} placement="right" size="sm">
@@ -121,7 +124,7 @@ function DraftDoc() {
                       placeholder="KALI"
                       {...register("name")}
                     />
-                  
+
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
@@ -254,7 +257,7 @@ function DraftDoc() {
                         placeholder="0xKALI"
                         {...register("ethAddress")}
                       />
-                  
+
                       <FormLabel mt={2} htmlFor="id">
                         Books and Records
                       </FormLabel>
