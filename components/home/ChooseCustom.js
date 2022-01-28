@@ -27,7 +27,8 @@ import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
 import { presets } from "../../constants/presets";
 import DateSelect from "../elements/DateSelect";
-import ReactDatePicker from "react-datepicker";
+
+import DatePicker from "react-datepicker";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
@@ -39,7 +40,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["extensions"]["crowdsale"]["active"]
   );
 
-  // TODO: Add votingPeriod
+  const [tribute, setTribute] = useState(
+    details["extensions"]["tribute"]["active"]
+  );
+  const [saleEnds, setSaleEnds] = useState(new Date());
+  const [redemptionStart, setRedemptionStart] = useState(new Date());
+
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
       votingPeriod: details["governance"]["votingPeriod"] / 60,
@@ -67,16 +73,8 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   };
 
   const submit = (values) => {
-    const {
-      votingPeriod,
-      votingPeriodUnit,
-      quorum,
-      supermajority,
-      paused,
-      tribute,
-      redemptionStart,
-      saleEnds,
-    } = values;
+    const { votingPeriod, votingPeriodUnit, quorum, supermajority, paused } =
+      values;
 
     // setting governance
     details["governance"]["votingPeriod"] = calculateVotingPeriod(
@@ -199,12 +197,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         <FormLabel>
           <b>Extensions</b>
         </FormLabel>
-        {/* TODO: Make the checkmarks appear */}
         <Grid templateColumns="repeat(3, 1fr)" gap={2}>
           <Checkbox
             name="redemption"
             value="redemption"
             defaultValue={redemption}
+            isChecked={redemption}
             onChange={() => setRedemption(!redemption)}
           >
             Redemption
@@ -212,20 +210,21 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           <Checkbox
             name="crowdsale"
             value="crowdsale"
+            isChecked={crowdsale}
             defaultValue={crowdsale}
             onChange={() => setCrowdsale(!crowdsale)}
           >
             Crowdsale
           </Checkbox>
-          <Controller
-            control={control}
+          <Checkbox
             name="tribute"
-            render={({ field }) => (
-              <Checkbox name="tribute" value="tribute" {...field}>
-                Tribute
-              </Checkbox>
-            )}
-          />
+            value="tribute"
+            isChecked={tribute}
+            defaultValue={tribute}
+            onChange={() => setTribute(!tribute)}
+          >
+            Tribute
+          </Checkbox>
         </Grid>
       </FormControl>
 
@@ -234,23 +233,15 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           <FormLabel htmlFor="redemptionStart">
             When should redemption start?
           </FormLabel>
-          <Controller
-            control={control}
-            name="redemptionStart"
-            render={({ field }) => (
-              <ReactDatePicker
-                selected={field.value}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                onChange={(date) => field.onChange(date)}
-              />
-            )}
+          <DatePicker
+            selected={redemptionStart}
+            onChange={(date) => setRedemptionStart(date)}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm aa"
           />
-
-          {/* <Input name="redemptionStart" {...register("redemptionStart")} /> */}
         </>
       ) : null}
       {crowdsale ? (
@@ -258,22 +249,15 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           <FormLabel htmlFor="saleEnds">
             When should the crowdsale end?
           </FormLabel>
-          <Controller
-            control={control}
-            name="saleEnds"
-            render={({ field }) => (
-              <ReactDatePicker
-                selected={field.value}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                onChange={(date) => field.onChange(date)}
-              />
-            )}
+          <DatePicker
+            selected={saleEnds}
+            onChange={(date) => setSaleEnds(date)}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm aa"
           />
-          {/* <Input name="saleEnds" {...register("saleEnds")} /> */}
         </>
       ) : null}
       <Button className="transparent-btn" type="submit">

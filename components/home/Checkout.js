@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
 import {
@@ -25,14 +25,13 @@ import { presets } from "../../constants/presets";
 import DashedDivider from "../elements/DashedDivider";
 import KaliButton from "../elements/KaliButton";
 
-export default function Checkout(props) {
+export default function Checkout({ details }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
-  const details = props.details;
 
   // for use at the end
  let paused;
- if(details['paused']==1) {
+ if(details["governance"]['paused']==1) {
    paused = "restricted";
  } else {
    paused = "unrestricted";
@@ -46,10 +45,10 @@ export default function Checkout(props) {
  }
 
  let docs;
- if(details['docs']=="") {
+ if(details["legal"]['docs']=="") {
    docs = "Ricardian";
  } else {
-   docs = details['docs'];
+   docs = details["legal"]['docs'];
  }
 
   const deploy = async () => {
@@ -57,6 +56,7 @@ export default function Checkout(props) {
       value.toast(errorMessages["connect"]);
       return;
     }
+
     value.setLoading(true);
 
     let factory;
@@ -66,19 +66,17 @@ export default function Checkout(props) {
       value.toast(e);
     }
 
-    const {
-      network,
-      daoName,
-      symbol,
-      members,
-      shares,
-      votingPeriod,
-      paused,
-      quorum,
-      supermajority,
-      extensions,
-      docs,
-    } = props.details;
+    const { daoName, symbol } = details["identity"];
+
+    const { votingPeriod, paused, quorum, supermajority } =
+      details["governance"];
+
+    const { docs } = details["legal"];
+
+    const { members, shares } = details["founders"];
+    const { network, daoType } = details;
+    const { tribute, redemption, crowdsale } = details["extensions"];
+    console.log("tribute", tribute);
 
     const govSettings = Array(
       quorum,
@@ -96,86 +94,90 @@ export default function Checkout(props) {
       1
     );
 
-    let extensionsArray;
-    let extensionsData;
+    let extensionsArray = new Array();
+    let extensionsData = new Array();
 
-    if (extensions == null) {
-      extensionsArray = new Array(0);
-      extensionsData = new Array(0);
-    } else {
-      extensionsArray = [];
-      extensionsData = [];
+    if (tribute["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
+      extensionsData.push("0x");
+    }
 
-      if ("tribute" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
-        extensionsData.push("0x");
-      }
+    if (crowdsale["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
-      if ("crowdsale" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
+      var {
+        listId,
+        purchaseToken,
+        purchaseMultiplier,
+        purchaseLimit,
+        saleEnds,
+      } = crowdsale;
+      console.log(
+        "crowdsale param",
+        listId,
+        purchaseToken,
+        purchaseMultiplier,
+        purchaseLimit,
+        saleEnds
+      );
 
-        var {
-          listId,
-          purchaseToken,
-          purchaseMultiplier,
-          purchaseLimit,
-          saleEnds,
-        } = extensions["crowdsale"];
-        let now = parseInt(new Date().getTime() / 1000);
-        saleEnds += now;
+      // let now = parseInt(new Date().getTime() / 1000);
+      saleEnds = new Date(saleEnds).getTime() / 1000;
 
-        const sale = require("../../abi/KaliDAOcrowdsale.json");
+      console.log("saleEnds", saleEnds);
+      const sale = require("../../abi/KaliDAOcrowdsale.json");
 
-        const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
+      const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
-        const saleContract = new web3.eth.Contract(sale, saleAddress);
+      const saleContract = new web3.eth.Contract(sale, saleAddress);
 
-        const encodedParams = web3.eth.abi.encodeParameters(
-          ["uint256", "address", "uint8", "uint96", "uint32"],
-          [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
-        );
+      const encodedParams = web3.eth.abi.encodeParameters(
+        ["uint256", "address", "uint8", "uint96", "uint32"],
+        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
+      );
 
-        let payload = saleContract.methods
-          .setExtension(encodedParams)
-          .encodeABI();
+      let payload = saleContract.methods
+        .setExtension(encodedParams)
+        .encodeABI();
 
-        extensionsData.push(payload);
-      }
+      extensionsData.push(payload);
+    }
 
-      if ("redemption" in extensions) {
-        extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
+    if (redemption["active"]) {
+      extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
+      console.log(redemption);
+      let { redemptionStart, tokenArray } = redemption;
 
-        var { redemptionStart, tokenArray } = extensions["redemption"];
-        let now = parseInt(new Date().getTime() / 1000);
-        redemptionStart += now;
+      // let now = parseInt(new Date().getTime() / 1000);
+      redemptionStart = new Date(redemptionStart).getTime() / 1000;
+      console.log("redemption param", redemptionStart, tokenArray);
 
-        const redemption = require("../../abi/KaliDAOredemption.json");
+      const redemptionABI = require("../../abi/KaliDAOredemption.json");
 
-        const redemptionAddress =
-          addresses[chainId]["extensions"]["redemption"];
+      const redemptionAddress = addresses[chainId]["extensions"]["redemption"];
 
-        const redemptionContract = new web3.eth.Contract(
-          redemption,
-          redemptionAddress
-        );
+      const redemptionContract = new web3.eth.Contract(
+        redemptionABI,
+        redemptionAddress
+      );
 
-        const encodedParams = web3.eth.abi.encodeParameters(
-          ["address[]", "uint256"],
-          [tokenArray, redemptionStart]
-        );
+      const encodedParams = web3.eth.abi.encodeParameters(
+        ["address[]", "uint256"],
+        [tokenArray, redemptionStart]
+      );
 
-        let payload = redemptionContract.methods
-          .setExtension(encodedParams)
-          .encodeABI();
+      let payload = redemptionContract.methods
+        .setExtension(encodedParams)
+        .encodeABI();
 
-        extensionsData.push(payload);
-      }
+      extensionsData.push(payload);
     }
 
     console.log("extensionsArray", extensionsArray);
     console.log("extensionsData", extensionsData);
 
     console.log(
+      "deployment param",
       daoName,
       symbol,
       docs,
@@ -227,11 +229,11 @@ export default function Checkout(props) {
     },
     {
       name: "Name",
-      details: details['daoName']
+      details: details["identity"]['daoName']
     },
     {
       name: "Symbol",
-      details: details['symbol']
+      details: details["identity"]['symbol']
     },
     {
       name: "Type",
@@ -239,11 +241,11 @@ export default function Checkout(props) {
     },
     {
       name: "Members",
-      details: details['members']
+      details: details["founders"]['members']
     },
     {
       name: "Voting period",
-      details: convertVotingPeriod(details['votingPeriod'])
+      details: convertVotingPeriod(details["governance"]['votingPeriod'])
     },
     {
       name: "Share transferability",
@@ -251,11 +253,11 @@ export default function Checkout(props) {
     },
     {
       name: "Quorum",
-      details: details['quorum'] + "%"
+      details: details["governance"]['quorum'] + "%"
     },
     {
       name: "Supermajority",
-      details: details['supermajority'] + "%"
+      details: details["governance"]['supermajority'] + "%"
     },
     {
       name: "Docs",
@@ -273,7 +275,7 @@ export default function Checkout(props) {
             <Text>{item.name}</Text>
             <List>
             {item.details.map((member, i) => (
-              <ListItem key={i}>{member} ({fromDecimals(details.shares[i], 18)} shares)</ListItem>
+              <ListItem key={i}>{member} ({fromDecimals(details["founders"].shares[i], 18)} shares)</ListItem>
             ))
             }
             </List>
