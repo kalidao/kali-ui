@@ -53,7 +53,7 @@ export default function Layout(props) {
             </VStack>
             </Container>
           </WrapItem>
-          <WrapItem w="auto"
+          <WrapItem
             w={{sm: '500px', md: '570px', lg: '775px', xl: '975px', '2xl': '1100px'}}
             minH="100vh"
           >
