@@ -30,7 +30,7 @@ export default function ActionMenu(props) {
   };
 
   return (
-      <VStack id="action-menu" gap={3}>
+      <>
         <ActionButton
           onClick={() => handleClick(1)}
           backgroundColor={visibleView == 1 ? "#eeeeee" : "none"}
@@ -52,6 +52,6 @@ export default function ActionMenu(props) {
         >
           New Proposal
         </ActionButton>
-      </VStack>
+      </>
   );
 }

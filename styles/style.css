@@ -1,3 +1,16 @@
+/* //////////////// FOR TESTING ONLY - DELETE LATER! //////////////// */
+
+#dao-sidebar {
+  display: none;
+}
+
+#mobile-menu {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  backround: black;
+}
+
 /* //////////////// GRADIENT //////////////// */
 
 .gradient-item {
@@ -207,7 +220,7 @@ div#footer {
 }
 
 #action-menu {
-  margin-top: 50px;
+  padding-top: 50px;
 }
 
 #dao-sidebar button,
