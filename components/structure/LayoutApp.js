@@ -61,13 +61,13 @@ export default function Layout(props) {
           >
           {props.children}
           </Container>
-          <BrowserView>
+          <MobileView>
             <Center width="100%">
               <HStack id="mobile-menu" gap={3} background="black">
                 <ActionMenu />
               </HStack>
             </Center>
-          </BrowserView>
+          </MobileView>
           <Footer />
         </Container>
       </HStack>
