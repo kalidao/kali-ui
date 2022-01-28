@@ -1,13 +1,11 @@
-/* //////////////// FOR TESTING ONLY - DELETE LATER! //////////////// */
-
-#dao-sidebar {
-  display: none;
-}
+/* //////////////// MOBILE STYLES //////////////// */
 
 #mobile-menu {
   position: fixed;
   bottom: 0;
-  backround: black;
+  background-color:rgba(255, 255, 255, 0.8) !important;
+  width:100%;
+  padding: 5px 0;
 }
 
 /* //////////////// GRADIENT //////////////// */
@@ -198,13 +196,18 @@ div#dao-main {
   padding: 20px 45px !important;
 }
 
+div#dao-main-mobile {
+  background: #fafafa;
+  padding: 10px 0 !important;
+}
+
 div#footer {
   margin: 0 -45px;
   padding: 20px 45px !important;
 
 }
 
-#dao-main h1 {
+#dao-main h1, #dao-main-mobile h1 {
   color: #5a2686;
   margin-bottom: 20px;
 }

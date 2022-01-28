@@ -25,8 +25,9 @@ export default function Layout(props) {
         />
       </Head>
 
-      <HStack m={0} alignItems="top">
-        <BrowserView>
+      <BrowserView>
+        <HStack m={0} alignItems="top">
+
           <Container
             id="dao-sidebar"
             h="100vh"
@@ -38,39 +39,55 @@ export default function Layout(props) {
             <Center>
               <KaliIcon />
             </Center>
-            <VStack id="action-menu" gap={3}>
               <ActionMenu />
-            </VStack>
           </Container>
-        </BrowserView>
 
+          <Container
+            id="dao-main"
+            maxW="auto"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <HStack>
+              <Spacer />
+              <NavRightContainer color="#5a2686" borderColor="#5a2686" />
+            </HStack>
+            <Container
+              h="auto"
+              minH="100vh"
+              maxW="auto"
+            >
+            {props.children}
+            </Container>
+            <Footer />
+          </Container>
+        </HStack>
+      </BrowserView>
+
+      <MobileView>
         <Container
-          id="dao-main"
+          id="dao-main-mobile"
           maxW="auto"
           alignItems="center"
           justifyContent="center"
         >
-          <HStack>
-            <Spacer />
-            <NavRightContainer color="#5a2686" borderColor="#5a2686" />
-          </HStack>
+          <VStack spacing={5}>
+
+          <NavRightContainer color="#5a2686" borderColor="#5a2686" />
+
           <Container
             h="auto"
             minH="100vh"
             maxW="auto"
           >
           {props.children}
+            <Footer />
           </Container>
-          <MobileView>
-            <Center>
-              <HStack id="mobile-menu" gap={3} background="black">
-                <ActionMenu />
-              </HStack>
-            </Center>
-          </MobileView>
-          <Footer />
+          </VStack>
+          <ActionMenu />
         </Container>
-      </HStack>
+      </MobileView>
+
     </>
   );
 }
