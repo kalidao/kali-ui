@@ -13,14 +13,14 @@ import {
   ListItem,
   FormControl,
   FormLabel,
-  Spacer,
-  IconButton
+  Spacer
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
-import { AiOutlineDelete } from "react-icons/ai";
+import DeleteButton from "../elements/DeleteButton";
+import SolidButton from "../elements/SolidButton";
 
 export default function SendToken() {
   const value = useContext(AppContext);
@@ -125,7 +125,7 @@ export default function SendToken() {
             <FormControl>
               <FormLabel htmlFor="description_">Description</FormLabel>
               <Textarea
-                placeholder=". . ."
+                placeholder="0x address or ENS"
                 {...field}
                 {...register(`description_`, {
                   required: "Please enter a description.",
@@ -200,21 +200,14 @@ export default function SendToken() {
                   </FormControl>
                 )}
               />
-              <IconButton
-                className="delete-icon"
-                aria-label="delete recipient"
-                mt={8}
-                ml={2}
-                icon={<AiOutlineDelete />}
-                onClick={() => remove(index)}
-              />
+              <DeleteButton label="delete" clickHandler={() => remove(index)} />
             </ListItem>
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
+        <HStack width="100%"><Spacer /><SolidButton onClick={() => append({ address: "" })}>+Add Recipient</SolidButton></HStack>
 
-        <Button className="solid-btn" onClick={handleSubmit(submitProposal)}>Submit Proposal</Button>
+        <SolidButton onClick={handleSubmit(submitProposal)}>Submit Proposal</SolidButton>
       </VStack>
     </form>
   );

@@ -10,6 +10,7 @@ export default function Extensions() {
     <>
     {dao['extensions'] == null ? "No extensions installed" :
     <>
+    <Text>Extensions</Text>
     <UnorderedList>
       {Object.entries(dao["extensions"]).map(([k, v]) =>
         <ListItem key={k}>{k}</ListItem>

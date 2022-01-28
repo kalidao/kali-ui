@@ -41,17 +41,17 @@ export default function ChooseMembers(props) {
   });
 
   useEffect(() => {
-    if (props.details["founders"]["members"] == null) {
+    if (props.details["members"] == null) {
       append({ address: "" });
       setDefaults([1]);
     } else {
-      for (let i = 0; i < props.details["founders"]["members"].length; i++) {
+      for (let i = 0; i < props.details["members"].length; i++) {
         append({
-          address: props.details["founders"]["members"][i],
-          share: fromDecimals(props.details["founders"]["shares"][i], 18),
+          address: props.details["members"][i],
+          share: fromDecimals(props.details["shares"][i], 18),
         });
         let array = defaults;
-        array[i] = fromDecimals(props.details["founders"]["shares"][i], 18);
+        array[i] = fromDecimals(props.details["shares"][i], 18);
         setDefaults(array);
       }
     }
@@ -83,12 +83,11 @@ export default function ChooseMembers(props) {
     }
     console.log("Voters Array", votersArray);
 
-    const { details, setDetails } = props;
-
-    details["founders"]["members"] = votersArray;
-    details["founders"]["shares"] = sharesArray;
-    setDetails(details);
-    console.log(details);
+    let array = props.details;
+    array["members"] = votersArray;
+    array["shares"] = sharesArray;
+    props.setDetails(array);
+    console.log(props.details);
 
     props.handleNext();
   };
@@ -98,7 +97,7 @@ export default function ChooseMembers(props) {
       <Heading as="h1">
         <b>Build your cap table:</b>
       </Heading>
-      <List spacing={2} width="80%" className="alternating-list">
+      <List spacing={2} width="80%">
         {fields.map((founder, index) => (
           <ListItem
             display="flex"

@@ -7,8 +7,7 @@ import {
   Select,
   Text,
   HStack,
-  VStack,
-  Center
+  Stack,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 
@@ -55,24 +54,22 @@ export default function GovQuorum() {
       value.toast(e);
       value.setLoading(false);
     }
-
+    
     value.setLoading(false);
   };
 
   return (
     <form onSubmit={submitProposal}>
-      <VStack alignItems="left">
+      <Stack>
         <Text>
           <b>Details</b>
         </Text>
         <Textarea name="description_" size="lg" placeholder=". . ." />
         <Text>Quorum (currently {dao["gov"]["quorum"]}%):</Text>
-        <HStack><NumInputField name="amount_" /><Text>%</Text></HStack>
+        <NumInputField name="amount_" />
         <Input type="hidden" name="proposalType_" value="4" />
-        <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
-        </Center>
-      </VStack>
+        <Button type="submit">Submit Proposal</Button>
+      </Stack>
     </form>
   );
 }

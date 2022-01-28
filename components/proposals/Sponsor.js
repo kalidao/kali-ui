@@ -46,7 +46,7 @@ export default function Sponsor(props) {
     <form onSubmit={sponsor}>
       <Input type="hidden" name="id" value={p["id"]} />
 
-      <Button className="transparent-btn" type="submit">Sponsor</Button>
+      <Button type="submit">Sponsor</Button>
     </form>
   );
 }

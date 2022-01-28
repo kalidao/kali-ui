@@ -8,6 +8,6 @@ export default function Kali() {
     console.log("click");
   };
   return (
-    <img id="logo" src={logo.src} width="200" height="66" alt="Kali" onClick={home} />
+    <img id="logo" src={logo.src} height="65" width="199" alt="Kali" onClick={home} />
   );
 }

@@ -7,8 +7,7 @@ import {
   Select,
   Text,
   HStack,
-  VStack,
-  Center
+  Stack,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 
@@ -61,7 +60,7 @@ export default function GovSupermajority() {
 
   return (
     <form onSubmit={submitProposal}>
-      <VStack alignItems="left">
+      <Stack>
         <Text>
           <b>Details</b>
         </Text>
@@ -69,10 +68,8 @@ export default function GovSupermajority() {
         <Text>Supermajority (currently {dao["gov"]["supermajority"]}%):</Text>
         <NumInputField name="amount_" />
         <Input type="hidden" name="proposalType_" value="5" />
-        <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
-        </Center>
-      </VStack>
+        <Button type="submit">Submit Proposal</Button>
+      </Stack>
     </form>
   );
 }

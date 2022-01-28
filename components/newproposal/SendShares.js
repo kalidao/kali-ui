@@ -15,8 +15,7 @@ import {
   FormControl,
   FormLabel,
   Spacer,
-  IconButton,
-  Center
+  IconButton
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -107,7 +106,7 @@ export default function SendShares() {
             <FormControl>
               <FormLabel htmlFor="description_">Description</FormLabel>
               <Textarea
-                placeholder=". . ."
+                placeholder="0x address or ENS"
                 {...field}
                 {...register(`description_`, {
                   required: "Please enter a description.",
@@ -175,11 +174,9 @@ export default function SendShares() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
+        <HStack width="100%"><Spacer /><SolidButton onClick={() => append({ address: "" })}>+Add Recipient</SolidButton></HStack>
 
-        <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
-        </Center>
+        <SolidButton onClick={handleSubmit(submitProposal)}>Submit Proposal</SolidButton>
       </VStack>
     </form>
   );

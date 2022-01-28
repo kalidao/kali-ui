@@ -107,8 +107,7 @@ export default function NewProposal(props) {
 
           {Object.entries(newProposalHelper).map(([k, v]) =>
             menuItem == k ? (
-              <Box key={`component-${k}`} p={5} id="new-proposal">
-                <Heading as="h2">{newProposalHelper[k]["title"]}</Heading>
+              <Box key={`component-${k}`} p={5}>
                 {newProposalHelper[k]["component"]}
               </Box>
             ) : null

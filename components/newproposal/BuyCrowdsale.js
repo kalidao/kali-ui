@@ -9,7 +9,6 @@ import {
   Textarea,
   Stack,
   HStack,
-  Center
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { toDecimals, fromDecimals, unixToDate } from "../../utils/formatters";
@@ -66,9 +65,9 @@ export default function Tribute() {
       if (purchaseToken == "0x0000000000000000000000000000000000000000") {
         value_ = amount_;
       }
-
+      
       const saleAbi = require("../../abi/KaliDAOcrowdsale.json");
-
+      
       const instance = new web3.eth.Contract(saleAbi, extAddress);
 
       try {
@@ -119,9 +118,7 @@ export default function Tribute() {
             <Button onClick={approveSpend}>Approve</Button>
           ) : null}
 
-          <Center>
-            <Button className="solid-btn" type="submit">Submit Proposal</Button>
-          </Center>
+          <Button type="submit">Purchase Shares</Button>
         </Stack>
       </form>
     </>

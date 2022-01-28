@@ -7,8 +7,7 @@ import {
   Select,
   Text,
   HStack,
-  VStack,
-  Center
+  Stack,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { votingPeriodUnits } from "../../constants/params";
@@ -68,7 +67,7 @@ export default function GovPeriod() {
 
   return (
     <form onSubmit={submitProposal}>
-      <VStack alignItems="left">
+      <Stack>
         <Text>
           <b>Details</b>
         </Text>
@@ -87,10 +86,8 @@ export default function GovPeriod() {
           </Select>
         </HStack>
         <Input type="hidden" name="proposalType_" value="3" />
-        <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
-        </Center>
-      </VStack>
+        <Button type="submit">Submit Proposal</Button>
+      </Stack>
     </form>
   );
 }
