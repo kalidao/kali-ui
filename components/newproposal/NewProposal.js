@@ -15,7 +15,9 @@ import {
   Button,
   Flex,
   Container,
-  Spacer
+  Spacer,
+  Wrap,
+  WrapItem
 } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
 import { newProposalHelper } from "../../constants/newProposalHelper";
@@ -36,8 +38,11 @@ export default function NewProposal(props) {
 
   const ProposalTile = (props) => {
     return (
+      <WrapItem>
       <LinkBox
         className="proposal-type-tile gradient-item"
+        w={{sm: '350px', md: '225px', lg: '200px', xl: '180px', '2xl': '180px'}}
+        h={{sm: '175px', md: '175px', lg: '200px', xl: '200px', '2xl': '200px'}}
       >
         <LinkOverlay href="#" onClick={() => setMenuItem(props.id)}>
           <HStack>
@@ -50,6 +55,7 @@ export default function NewProposal(props) {
         </LinkOverlay>
         <Text>{props.description}</Text>
       </LinkBox>
+      </WrapItem>
     );
   };
 
@@ -80,12 +86,7 @@ export default function NewProposal(props) {
             {menuItem < 999 ? (
               null
             ) : (
-              <Grid
-                templateColumns={{
-                  sm: "repeat(1, 1fr)",
-                  md: "repeat(2, 1fr)",
-                  lg: "repeat(4, 1fr)",
-                }}
+              <Wrap
               >
                 {Object.entries(newProposalHelper).map(([k, v]) =>
                   newProposalHelper[k]["extension"] == null ||
@@ -101,7 +102,7 @@ export default function NewProposal(props) {
                     />
                   ) : null
                 )}
-              </Grid>
+              </Wrap>
             )}
 
 

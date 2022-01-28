@@ -18,6 +18,7 @@ export default function NavRightContainer(props) {
       pl={3}
       borderColor={props.borderColor}
       height="42px"
+      margin={{sm: '10px 0 20px 0 !important', md: 'none', lg: 'none', xl: 'none', '2xl': 'none'}}
     >
       <Chain />
       <Account message="Connect" />

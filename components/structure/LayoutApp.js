@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Container, HStack, Center, Spacer, VStack } from "@chakra-ui/react";
+import { Container, HStack, Center, Spacer, VStack, Wrap, WrapItem, Box } from "@chakra-ui/react";
 import Head from "next/head";
 import NavRightContainer from "./NavRightContainer";
 import Kali from "./Kali";
@@ -25,43 +25,64 @@ export default function Layout(props) {
         />
       </Head>
 
-        <HStack m={0} alignItems="top">
-
+        <Wrap
+          spacing={0}
+          alignItems="top"
+          w="100vw"
+          minH="100vh"
+        >
+        <WrapItem
+          display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }}
+          width="200px"
+        >
           <Container
             id="dao-sidebar"
             h="100vh"
             m={0}
             minH="100vh"
-            maxW="auto"
-            width={{ sm: "200px", md: "250px", lg: "250px" }}
+            width="100%"
           >
             <Center>
               <KaliIcon />
             </Center>
-              <ActionMenu />
-          </Container>
-
-          <Container
-            id="dao-main"
-            maxW="auto"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <HStack>
-              <Spacer />
-              <NavRightContainer color="#5a2686" borderColor="#5a2686" />
-            </HStack>
-            <Container
-              h="auto"
-              minH="100vh"
-              maxW="auto"
+            <VStack
+              id="action-menu"
+              gap={3}
             >
-            {props.children}
+              <ActionMenu />
+            </VStack>
             </Container>
-            <Footer />
-          </Container>
-        </HStack>
+          </WrapItem>
+          <WrapItem w="auto"
+            w={{sm: '500px', md: '570px', lg: '775px', xl: '975px', '2xl': '1100px'}}
+            minH="100vh"
+          >
+            <Box
+              id="dao-main"
+              alignItems="center"
+              justifyContent="center"
+              w="100%"
+              p={0}
+              m={0}
+            >
+              <HStack>
+                <Spacer />
+                <NavRightContainer color="#5a2686" borderColor="#5a2686" />
+              </HStack>
 
+              <Box minH="100vh">
+              {props.children}
+              </Box>
+
+              <Footer />
+            </Box>
+          </WrapItem>
+        </Wrap>
+        <Box id="mobile-menu" display={{ base: 'none', sm: 'block', md: 'none', lg: 'none', xl: 'none', '2xl': 'none' }}>
+          <HStack>
+            <ActionMenu />
+          </HStack>
+        </Box>
     </>
   );
 }

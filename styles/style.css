@@ -194,7 +194,7 @@ div.dao-type:hover {
 
 div#dao-main {
   background: #fafafa;
-  padding: 20px 45px !important;
+  padding: 0px 20px !important;
 }
 
 div#footer {
@@ -215,6 +215,7 @@ div#footer {
 
 #dao-sidebar {
   padding: 60px 0 0 0;
+  background: #ffffff;
 }
 
 #action-menu {
@@ -232,7 +233,7 @@ div#footer {
 
 .dashboard-tile, .proposal-tile, .proposal-type-tile {
   padding: 30px;
-  margin: 15px;
+  margin: 0;
   border-radius: 15px;
   color: white;
   width:100%;

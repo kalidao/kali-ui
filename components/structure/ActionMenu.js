@@ -13,6 +13,7 @@ const ActionButton = (props) => {
       onClick={props.onClick}
       backgroundColor={props.backgroundColor}
       border="none"
+      size={{sm: 'sm', md: 'md', lg: 'md', xl: 'md', '2xl': 'md'}}
     >
       {props.children}
     </Button>
@@ -46,18 +47,16 @@ export default function ActionMenu(props) {
 
   return (
       <>
-          <VStack id="action-menu" gap={3}>
-         {actions.map((item, index) => (
-           <ActionButton
-             onClick={() => handleClick(index+1)}
-             backgroundColor={visibleView == index + 1 ? "#eeeeee" : "none"}
-             icon={item.icon}
-             key={index}
-           >
-             {item.name}
-           </ActionButton>
-         ))}
-         </VStack>
+       {actions.map((item, index) => (
+         <ActionButton
+           onClick={() => handleClick(index+1)}
+           backgroundColor={visibleView == index + 1 ? "#eeeeee" : "none"}
+           icon={item.icon}
+           key={index}
+         >
+           {item.name}
+         </ActionButton>
+       ))}
       </>
   );
 }
