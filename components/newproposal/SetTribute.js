@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, Stack, Select } from "@chakra-ui/react";
+import { Input, Button, Text, Textarea, Stack, Select, Center } from "@chakra-ui/react";
 import { addresses } from "../../constants/addresses";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -79,8 +79,9 @@ export default function SetTribute() {
           name="account_"
           value={addresses[daoChain]["extensions"]["tribute"]}
         />
-
-        <Button type="submit">Submit Proposal</Button>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
       </Stack>
     </form>
   );

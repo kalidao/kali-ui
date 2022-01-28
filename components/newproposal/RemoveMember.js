@@ -12,6 +12,9 @@ import {
   ListItem,
   FormControl,
   FormLabel,
+  Center,
+  HStack,
+  Spacer
 } from "@chakra-ui/react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import NumInputField from "../elements/NumInputField";
@@ -95,7 +98,7 @@ export default function SendShares() {
             <FormControl>
               <FormLabel htmlFor="description_">Description</FormLabel>
               <Textarea
-                placeholder="0x address or ENS"
+                placeholder=". . ."
                 {...field}
                 {...register(`description_`, {
                   required: "Please enter a description.",
@@ -105,7 +108,7 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2}>
+        <List spacing={2} className="alternating-list">
           {fields.map((member, index) => (
             <ListItem
               display="flex"
@@ -137,9 +140,11 @@ export default function SendShares() {
             </ListItem>
           ))}
         </List>
-        <Button onClick={() => append({ address: "" })}>Add Member</Button>
+        <HStack><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add</Button></HStack>
 
-        <Button type="submit">Submit Proposal</Button>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
       </Stack>
     </form>
   );

@@ -90,15 +90,32 @@ select {
 .delete-icon {
   background: none !important;
   border: 0 !important;
+  margin-bottom:20px;
+}
+
+ul.alternating-list {
+  margin: 20px 0 !important;
 }
 
 ul.alternating-list li {
-  padding:10px;
-  border-radius: 10px !important;
+  padding:20px;
+  border-radius: none !important;
 }
 
 ul.alternating-list > li:nth-child(2n+1) {
   background-color: #eeeeee !important;
+}
+
+ul.alternating-list > li:nth-child(2n) {
+  background-color: #eeeeee !important;
+}
+
+#deployer-container ul.alternating-list > li:nth-child(2n+1) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
+}
+
+#deployer-container ul.alternating-list > li:nth-child(2n) {
+  background-color:rgba(0, 0, 0, 0.1) !important;
 }
 
 /* //////////////// DEPLOYER //////////////// */
@@ -267,6 +284,11 @@ div#footer {
 }
 
 .RSPBstep {
+}
+
+#new-proposal h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
 }
 
 /* color scheme */
