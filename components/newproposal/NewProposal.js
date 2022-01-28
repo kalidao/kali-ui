@@ -62,7 +62,7 @@ export default function NewProposal(props) {
     <>
     <HStack>
       <Icon as={BiEdit} w={10} h={10} className="h1-icon" />
-      <Heading as="h1">Proposals</Heading>
+      <Heading as="h1">New Proposal</Heading>
     </HStack>
       {dao == null ? null : account == null ? (
         <Box className="gradient-item dashboard-tile" mt={10} color="white">

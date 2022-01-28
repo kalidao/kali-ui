@@ -198,7 +198,6 @@ div#dao-main {
 
 div#dao-main-mobile {
   background: #fafafa;
-  padding: 0 !important;
 }
 
 div#footer {
@@ -207,7 +206,7 @@ div#footer {
 
 }
 
-#dao-main h1, #dao-main-mobile h1 {
+#dao-main h1, #dao-main-mobile h1, h1 {
   color: #5a2686 !important;
   margin-bottom: 20px;
 }
@@ -239,6 +238,7 @@ div#footer {
   margin: 15px;
   border-radius: 15px;
   color: white;
+  width:100%;
 }
 
 

@@ -67,25 +67,27 @@ export default function Layout(props) {
       <MobileView>
         <Container
           id="dao-main-mobile"
-          w="auto"
+          w="100vw"
+          minW="100vw"
           alignItems="center"
           justifyContent="center"
         >
-          <VStack spacing={5}>
+          <VStack spacing={0} width="100%">
 
           <NavRightContainer color="#5a2686" borderColor="#5a2686" />
 
           <Container
             h="auto"
             minH="100vh"
-            maxW="auto"
+            w="100%"
           >
           {props.children}
-            <Footer />
+
           </Container>
+          <Footer />
           </VStack>
         </Container>
-                  <ActionMenu />
+        <ActionMenu />
       </MobileView>
 
     </>
