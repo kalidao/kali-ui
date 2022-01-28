@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, Stack, Select } from "@chakra-ui/react";
+import { Input, Button, Text, Textarea, VStack, Select } from "@chakra-ui/react";
 import { addresses } from "../../constants/addresses";
 import { extensionsHelper } from "../../constants/extensionsHelper";
 import NumInputField from "../elements/NumInputField";
@@ -68,7 +68,7 @@ export default function Extensions() {
   };
 
   return (
-    <Stack>
+    <VStack width="100%" alignItems="left">
       <Text>
         <b>Extension</b>
       </Text>
@@ -83,6 +83,6 @@ export default function Extensions() {
       {Object.entries(extensionsHelper).map(([key, value]) =>
         propType == key ? value : null
       )}
-    </Stack>
+    </VStack>
   );
 }

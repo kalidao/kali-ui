@@ -59,10 +59,7 @@ export default function ProposalRow(props) {
             <ProposalIcon p={p} />
             <Heading>{viewProposalsHelper[p["proposalType"]]["title"]}</Heading>
           </HStack>
-          {p["pending"] == true ? (
-            <Text casing="uppercase">needs sponsor</Text>
-          ) : null}
-
+          
           <HStack width="100%" className="timer-container">
             <Text className="timer-label">remaining:</Text>
             <Spacer />
@@ -94,7 +91,10 @@ export default function ProposalRow(props) {
               <Text>{fromDecimals(p["noVotes"], 18)}</Text>
             </VStack>
           </HStack>
-          <Text className="vote-status">{p["passing"]}</Text>
+          <Text className="vote-status">
+            {p['pending'] == false ?
+            p["passing"] : 'pending' }
+          </Text>
 
           <HStack>
             <Button

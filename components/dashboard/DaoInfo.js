@@ -22,7 +22,7 @@ import {
 import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 import { useDisclosure } from "@chakra-ui/react";
 import CapTable from "./CapTable";
-import { fromDecimals } from "../../utils/formatters";
+import { fromDecimals, truncateAddress } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
 
 export default function DaoInfo() {
@@ -38,7 +38,7 @@ export default function DaoInfo() {
     },
     {
       name: "Address",
-      info: dao["address"],
+      info: truncateAddress(dao["address"]),
       link: `https://rinkeby.etherscan.io/address/${dao["address"]}`,
     },
     {
@@ -70,7 +70,7 @@ export default function DaoInfo() {
           {item.info != undefined ? (
             <>
               <HStack>
-                <Text>{item.name}</Text>
+                <Text isTruncated>{item.name}</Text>
                 <Spacer />
                 <Text>{item.info}</Text>
                 {item.link != null ? (

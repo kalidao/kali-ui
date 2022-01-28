@@ -27,7 +27,9 @@ import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
 import { presets } from "../../constants/presets";
 import DateSelect from "../elements/DateSelect";
+
 import DatePicker from "react-datepicker";
+
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
@@ -38,11 +40,13 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const [crowdsale, setCrowdsale] = useState(
     details["extensions"]["crowdsale"]["active"]
   );
+
   const [tribute, setTribute] = useState(
     details["extensions"]["tribute"]["active"]
   );
   const [saleEnds, setSaleEnds] = useState(new Date());
   const [redemptionStart, setRedemptionStart] = useState(new Date());
+
 
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
@@ -207,7 +211,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </Checkbox>
           <Checkbox
             name="crowdsale"
-            value="crowdsale"
+            value="crowdsale
             isChecked={crowdsale}
             defaultValue={crowdsale}
             onChange={() => setCrowdsale(!crowdsale)}
@@ -256,6 +260,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             timeCaption="time"
             dateFormat="MMMM d, yyyy h:mm aa"
           />
+
         </>
       ) : null}
       <Button className="transparent-btn" type="submit">

@@ -7,17 +7,20 @@ import {
   Select,
   Text,
   Textarea,
-  Stack,
+  VStack,
+  HStack,
   List,
   ListItem,
   FormControl,
   FormLabel,
+  Spacer,
+  IconButton
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
-import DeleteButton from "../elements/DeleteButton";
+import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendToken() {
   const value = useContext(AppContext);
@@ -61,7 +64,9 @@ export default function SendToken() {
 
       let amounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        amounts_.push(0);
+        let element = document.getElementById(`recipients.${i}.share`);
+        let value = element.value;
+        amounts_.push(toDecimals(value, 18));
       }
       console.log("Amounts Array", amounts_);
 
@@ -80,7 +85,7 @@ export default function SendToken() {
         let tokenIndex = selectedOptions[i];
         let address_ = tokens[tokenIndex]["address"];
         let decimals = tokens[tokenIndex]["decimals"];
-        let amt = toDecimals(recipients[i].share, decimals).toString();
+        let amt = amounts_[i].toString();
         console.log("amt", amt);
         const tokenContract = new web3.eth.Contract(ierc20, address_);
         var payload_ = tokenContract.methods
@@ -112,7 +117,7 @@ export default function SendToken() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <Stack>
+      <VStack width="100%">
         <Controller
           name="description_"
           control={control}
@@ -120,7 +125,7 @@ export default function SendToken() {
             <FormControl>
               <FormLabel htmlFor="description_">Description</FormLabel>
               <Textarea
-                placeholder="0x address or ENS"
+                placeholder=". . ."
                 {...field}
                 {...register(`description_`, {
                   required: "Please enter a description.",
@@ -130,7 +135,7 @@ export default function SendToken() {
           )}
         />
 
-        <List spacing={2}>
+        <List spacing={2} width="100%" className="alternating-list">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -183,29 +188,34 @@ export default function SendToken() {
                 control={control}
                 defaultValue={recipient.share}
                 render={({ field }) => (
-                  <FormControl>
+                  <FormControl isRequired>
                     <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Share
+                      Shares
                     </FormLabel>
-                    <Input
-                      placeholder="1"
-                      {...field}
-                      {...register(`recipients.${index}.share`, {
-                        required: "You must assign share!",
-                      })}
+                    <NumInputField
+                      min="1"
+                      defaultValue="1"
+                      id={`recipients.${index}.share`}
                     />
                   </FormControl>
                 )}
               />
-              <DeleteButton label="delete" clickHandler={() => remove(index)} />
+              <IconButton
+                className="delete-icon"
+                aria-label="delete recipient"
+                mt={8}
+                ml={2}
+                icon={<AiOutlineDelete />}
+                onClick={() => remove(index)}
+              />
             </ListItem>
           ))}
         </List>
 
-        <Button onClick={() => append({ address: "" })}>Add Recipient</Button>
+        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
 
-        <Button type="submit">Submit Proposal</Button>
-      </Stack>
+        <Button className="solid-btn" onClick={handleSubmit(submitProposal)}>Submit Proposal</Button>
+      </VStack>
     </form>
   );
 }

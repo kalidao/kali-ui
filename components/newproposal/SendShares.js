@@ -8,16 +8,22 @@ import {
   Text,
   Textarea,
   Stack,
+  VStack,
   HStack,
   List,
   ListItem,
   FormControl,
   FormLabel,
+  Spacer,
+  IconButton,
+  Center
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
 import DeleteButton from "../elements/DeleteButton";
+import SolidButton from "../elements/SolidButton";
+import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendShares() {
   const value = useContext(AppContext);
@@ -47,13 +53,19 @@ export default function SendShares() {
       console.log(values);
       let amounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        amounts_.push(toDecimals(recipients[i].share, 18).toString());
+        let element = document.getElementById(`recipients.${i}.share`);
+        let value = element.value;
+        amounts_.push(toDecimals(value, 18));
       }
       console.log("Shares Array", amounts_);
 
       // voters ENS check
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
+        if (web3.utils.isAddress(recipients[i].address) == false) {
+          value.toast(recipients[i].address + " is not a valid Ethereum address.");
+          return;
+        }
         accounts_.push(recipients[i].address);
       }
       console.log("Voters Array", accounts_);
@@ -87,11 +99,7 @@ export default function SendShares() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <Stack>
-        <Text>
-          <b>Details</b>
-        </Text>
-
+      <VStack width="100%">
         <Controller
           name="description_"
           control={control}
@@ -99,7 +107,7 @@ export default function SendShares() {
             <FormControl>
               <FormLabel htmlFor="description_">Description</FormLabel>
               <Textarea
-                placeholder="0x address or ENS"
+                placeholder=". . ."
                 {...field}
                 {...register(`description_`, {
                   required: "Please enter a description.",
@@ -109,7 +117,7 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2}>
+        <List spacing={2} width="100%" className="alternating-list">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -123,12 +131,13 @@ export default function SendShares() {
                 control={control}
                 defaultValue={recipient.address}
                 render={({ field }) => (
-                  <FormControl>
+                  <FormControl isRequired>
                     <FormLabel htmlFor={`recipients.${index}.address`}>
-                      Recipient {index + 1}
+                      recipient
                     </FormLabel>
                     <Input
-                      placeholder="0x address or ENS"
+                      className="member-address"
+                      placeholder="0x address"
                       {...field}
                       {...register(`recipients.${index}.address`, {
                         required: "You must assign share!",
@@ -142,29 +151,36 @@ export default function SendShares() {
                 control={control}
                 defaultValue={recipient.share}
                 render={({ field }) => (
-                  <FormControl>
+                  <FormControl isRequired>
                     <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Share
+                      Shares
                     </FormLabel>
-                    <Input
-                      placeholder="1"
-                      {...field}
-                      {...register(`recipients.${index}.share`, {
-                        required: "You must assign share!",
-                      })}
+                    <NumInputField
+                      min="1"
+                      defaultValue="1"
+                      id={`recipients.${index}.share`}
                     />
                   </FormControl>
                 )}
               />
-              <DeleteButton label="delete" clickHandler={() => remove(index)} />
+              <IconButton
+                className="delete-icon"
+                aria-label="delete recipient"
+                mt={8}
+                ml={2}
+                icon={<AiOutlineDelete />}
+                onClick={() => remove(index)}
+              />
             </ListItem>
           ))}
         </List>
 
-        <Button onClick={() => append({ address: "" })}>Add Recipient</Button>
+        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
 
-        <Button type="submit">Submit Proposal</Button>
-      </Stack>
+        <Center>
+          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+        </Center>
+      </VStack>
     </form>
   );
 }

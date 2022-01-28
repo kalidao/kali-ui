@@ -11,8 +11,9 @@ export default function Layout(props) {
   const { loading } = value.state;
 
   return (
-    <Box minH="100vh" minW="auto" p="0.1em 2em 0.2em 1em" color="kali.900">
-      {loading == true ? <LoadingIndicator /> : ""}
+    <>
+    {loading == true ? <LoadingIndicator /> : ""}
+    <Box id="deployer-container" color="kali.900">
       <Head>
         <title>KaliDAO</title>
         <meta
@@ -31,8 +32,9 @@ export default function Layout(props) {
         justifyContent="center"
       >
         {props.children}
-      </Container>
       <Footer />
+      </Container>
     </Box>
+    </>
   );
 }

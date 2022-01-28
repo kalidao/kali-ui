@@ -9,6 +9,9 @@ import {
   Select,
   List,
   ListItem,
+  Stack,
+  HStack,
+  Spacer
 } from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
 import {
@@ -19,10 +22,34 @@ import {
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { presets } from "../../constants/presets";
+import DashedDivider from "../elements/DashedDivider";
+import KaliButton from "../elements/KaliButton";
 
 export default function Checkout({ details }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
+
+  // for use at the end
+ let paused;
+ if(details["governance"]['paused']==1) {
+   paused = "restricted";
+ } else {
+   paused = "unrestricted";
+ }
+
+ let daoType;
+ if(details['daoType'] == null) {
+   daoType = "Custom";
+ } else {
+   daoType = presets[details['daoType']]['type'];
+ }
+
+ let docs;
+ if(details["legal"]['docs']=="") {
+   docs = "Ricardian";
+ } else {
+   docs = details["legal"]['docs'];
+ }
 
   const deploy = async () => {
     if (!web3 || web3 == null) {
@@ -195,69 +222,74 @@ export default function Checkout({ details }) {
     value.setLoading(false);
   };
 
+  const checkoutDetails = [
+    {
+      name: "Chain",
+      details: details['network']
+    },
+    {
+      name: "Name",
+      details: details["identity"]['daoName']
+    },
+    {
+      name: "Symbol",
+      details: details["identity"]['symbol']
+    },
+    {
+      name: "Type",
+      details: daoType
+    },
+    {
+      name: "Members",
+      details: details["founders"]['members']
+    },
+    {
+      name: "Voting period",
+      details: convertVotingPeriod(details["governance"]['votingPeriod'])
+    },
+    {
+      name: "Share transferability",
+      details: paused
+    },
+    {
+      name: "Quorum",
+      details: details["governance"]['quorum'] + "%"
+    },
+    {
+      name: "Supermajority",
+      details: details["governance"]['supermajority'] + "%"
+    },
+    {
+      name: "Docs",
+      details: docs
+    },
+  ];
+
   return (
-    <VStack>
-      <Text>You have selected:</Text>
-      <List>
-        <ListItem>
-          Chain <b>{details["network"]}</b>
-        </ListItem>
-        <ListItem>
-          Name <b>{details["identity"]["daoName"]}</b>
-        </ListItem>
-        <ListItem>
-          Symbol <b>{details["identity"]["symbol"]}</b>
-        </ListItem>
-        <ListItem>
-          Type{" "}
-          <b>
-            {details["daoType"] === null
-              ? "Custom"
-              : presets[details["daoType"]]["type"]}
-          </b>
-        </ListItem>
-        <ListItem>
-          Members
-          <List>
-            <b>
-              {details["founders"]["members"].map((item, index) => (
-                <ListItem key={index}>
-                  {item} (
-                  {fromDecimals(details["founders"]["shares"][index], 18)}{" "}
-                  shares)
-                </ListItem>
-              ))}
-            </b>
-          </List>
-        </ListItem>
-        <ListItem>
-          Voting period{" "}
-          <b>{convertVotingPeriod(details["governance"]["votingPeriod"])}</b>
-        </ListItem>
-        <ListItem>
-          Share transerability{" "}
-          <b>
-            {details["governance"]["paused"] == 1
-              ? "restricted"
-              : "unrestricted"}
-          </b>
-        </ListItem>
-        <ListItem>
-          Quorum <b>{details["governance"]["quorum"]}%</b>
-        </ListItem>
-        <ListItem>
-          Supermajority <b>{details["governance"]["supermajority"]}%</b>
-        </ListItem>
-        <ListItem>
-          Docs{" "}
-          <b>
-            {details["legal"]["docs"] == ""
-              ? "Ricardian"
-              : details["legal"]["docs"]}
-          </b>
-        </ListItem>
-      </List>
-      <Button onClick={deploy}>Deploy</Button>
-    </VStack>
+    <>
+    <Stack id="checkout">
+      {checkoutDetails.map((item, index) => (
+        <>
+          {Array.isArray(item.details) ? // members array
+            <>
+            <Text>{item.name}</Text>
+            <List>
+            {item.details.map((member, i) => (
+              <ListItem key={i}>{member} ({fromDecimals(details["founders"].shares[i], 18)} shares)</ListItem>
+            ))
+            }
+            </List>
+            </>
+          :
+          <HStack>
+            <Text>{item.name}</Text><Spacer /><Text>{item.details}</Text>
+          </HStack>
+          }
+        <DashedDivider />
+        </>
+      ))}
+    </Stack>
+    <KaliButton id="deploy-btn" onClick={deploy}>Deploy Your DAO!</KaliButton>
+    </>
   );
 }
