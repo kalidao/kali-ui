@@ -67,7 +67,7 @@ export default function Layout(props) {
       <MobileView>
         <Container
           id="dao-main-mobile"
-          maxW="auto"
+          w="auto"
           alignItems="center"
           justifyContent="center"
         >
