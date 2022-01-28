@@ -62,7 +62,7 @@ export default function Layout(props) {
           {props.children}
           </Container>
           <MobileView>
-            <Center width="100%">
+            <Center>
               <HStack id="mobile-menu" gap={3} background="black">
                 <ActionMenu />
               </HStack>
