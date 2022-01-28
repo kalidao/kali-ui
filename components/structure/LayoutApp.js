@@ -33,7 +33,7 @@ export default function Layout(props) {
         >
         <WrapItem
           display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }}
-          width="200px"
+          width="20vw"
         >
           <Container
             id="dao-sidebar"
@@ -54,7 +54,7 @@ export default function Layout(props) {
             </Container>
           </WrapItem>
           <WrapItem
-            w={{sm: '500px', md: '570px', lg: '775px', xl: '975px', '2xl': '1100px'}}
+            w={{sm: '100vw', md: '80vw', lg: '80vw', xl: '80vw', '2xl': '80vw'}}
             minH="100vh"
           >
             <Box
