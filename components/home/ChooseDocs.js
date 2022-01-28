@@ -13,33 +13,35 @@ import {
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Select from "../elements/Select";
 
-export default function ChooseDocs({ details, setDetails, handleNext }) {
+export default function ChooseDocs(props) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [selectedType, setSelectedType] = useState(999);
 
   useEffect(() => {
-    if (details["legal"]["docType"] != null) {
-      setSelectedType(details["docType"]);
+    if (props.details["docType"] != null) {
+      setSelectedType(props.details["docType"]);
     }
-  }, [details]);
+  }, [props.details]);
 
   const handleSelect = (e) => {
     let type = e.target.value;
-    details["legal"]["docType"] = type;
+    let array = props.details;
+    array["docType"] = type;
     if (type == 0) {
-      details["legal"]["docs"] = "";
+      array["docs"] = "";
     }
     if (type == 2) {
-      details["legal"]["docs"] = "none";
+      array["docs"] = "none";
     }
     setSelectedType(type);
-    setDetails(details);
+    props.setDetails(array);
   };
 
   const handleChange = (e) => {
-    details["legal"]["docs"] = e.target.value;
-    setDetails(details);
+    let array = props.details;
+    array["docs"] = e.target.value;
+    props.setDetails(array);
     console.log(props.details);
   };
 
@@ -65,7 +67,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         <Select
           id="choose-docs"
           onChange={handleSelect}
-          defaultValue={details["legal"]["docType"]}
+          defaultValue={props.details["docType"]}
         >
           <option className="option" value="999"></option>
           <option value="0">Form an LLC</option>
@@ -73,10 +75,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           <option value="2">None</option>
         </Select>
         {selectedType == 1 ? (
-          <Input
-            defaultValue={details["legal"]["docs"]}
-            onChange={handleChange}
-          />
+          <Input defaultValue={props.details["docs"]} onChange={handleChange} />
         ) : null}
       </VStack>
       <VStack>
@@ -103,7 +102,10 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           ) : null}
 
           {selectedType != 999 ? (
-            <Button className="transparent-btn" onClick={() => handleNext()}>
+            <Button
+              className="transparent-btn"
+              onClick={() => props.handleNext()}
+            >
               Next
             </Button>
           ) : null}

@@ -13,53 +13,23 @@ import {
   Heading,
   UnorderedList,
   ListItem,
-  Button,
 } from "@chakra-ui/react";
 import { convertVotingPeriod } from "../../utils/formatters";
 import { presets } from "../../constants/presets";
 
-export default function ChooseType({ details, setDetails, handleNext }) {
+export default function ChooseType(props) {
   const handleClick = (id) => {
-    details["daoType"] = id;
-    details["governance"]["quorum"] = presets[id]["quorum"];
-    details["governance"]["supermajority"] = presets[id]["supermajority"];
-    details["governance"]["votingPeriod"] = presets[id]["voting"];
-    details["governance"]["paused"] = presets[id]["paused"];
+    let array = props.details;
+    array["daoType"] = id;
+    array["quorum"] = presets[id]["quorum"];
+    array["supermajority"] = presets[id]["supermajority"];
+    array["votingPeriod"] = presets[id]["voting"];
+    array["paused"] = presets[id]["paused"];
+    array["extensions"] = presets[id]["extensions"];
+    props.setDetails(array);
+    console.log(props.details);
 
-    if (id === 0) {
-      details["extensions"]["tribute"]["active"] = true;
-    }
-    if (id === 1) {
-      details["extensions"]["redemption"]["active"] = true;
-      details["extensions"]["redemption"]["redemptionStart"] =
-        presets[id]["extensions"]["redemption"]["redemptionStart"];
-      details["extensions"]["redemption"]["tokenArray"] =
-        presets[id]["extensions"]["redemption"]["tokenArray"];
-
-      details["extensions"]["crowdsale"]["active"] = true;
-      details["extensions"]["crowdsale"]["purchaseToken"] =
-        presets[id]["extensions"]["crowdsale"]["purchaseToken"];
-      details["extensions"]["crowdsale"]["purchaseMultiplier"] =
-        presets[id]["extensions"]["crowdsale"]["purchaseMultiplier"];
-      details["extensions"]["crowdsale"]["purchaseLimit"] =
-        presets[id]["extensions"]["crowdsale"]["purchaseLimit"];
-      details["extensions"]["crowdsale"]["saleEnds"] =
-        presets[id]["extensions"]["crowdsale"]["saleEnds"];
-      details["extensions"]["crowdsale"]["listId"] =
-        presets[id]["extensions"]["crowdsale"]["listId"];
-    }
-    if (id === 2) {
-      details["extensions"]["redemption"]["active"] = true;
-      details["extensions"]["redemption"]["redemptionStart"] =
-        presets[id]["extensions"]["redemption"]["redemptionStart"];
-      details["extensions"]["redemption"]["tokenArray"] =
-        presets[id]["extensions"]["redemption"]["tokenArray"];
-    }
-
-    setDetails(details);
-    console.log("details", details);
-
-    handleNext();
+    props.handleNext();
   };
 
   const custom = () => {};
@@ -77,6 +47,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
   };
 
   const DaoBox = (item) => {
+    console.log(item.icon);
     return (
       <LinkBox className="dao-type" key={item.id}>
         <LinkOverlay href="#" onClick={() => handleClick(item.id)}>
@@ -142,7 +113,6 @@ export default function ChooseType({ details, setDetails, handleNext }) {
         {presets.map((item, index) => (
           <DaoBox key={index} id={index} type={item} />
         ))}
-        <Button onClick={handleNext}>Custom</Button>
       </Grid>
     </VStack>
   );
