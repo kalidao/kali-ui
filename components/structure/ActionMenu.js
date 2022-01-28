@@ -46,7 +46,6 @@ export default function ActionMenu(props) {
 
   return (
       <>
-        <BrowserView>
           <VStack id="action-menu" gap={3}>
          {actions.map((item, index) => (
            <ActionButton
@@ -59,25 +58,6 @@ export default function ActionMenu(props) {
            </ActionButton>
          ))}
          </VStack>
-        </BrowserView>
-
-        <MobileView>
-          <HStack id="mobile-menu" width="100%" alignItems="center">
-         {actions.map((item, index) => (
-           <Button
-              className="transparent-btn"
-             size="sm"
-             onClick={() => handleClick(index+1)}
-             backgroundColor={visibleView == index + 1 ? "#eeeeee" : "none"}
-             icon={item.icon}
-             key={index}
-             border="none"
-           >
-             {item.name}
-           </Button>
-         ))}
-         </HStack>
-        </MobileView>
       </>
   );
 }

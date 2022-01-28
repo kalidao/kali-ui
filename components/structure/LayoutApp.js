@@ -25,7 +25,6 @@ export default function Layout(props) {
         />
       </Head>
 
-      <BrowserView>
         <HStack m={0} alignItems="top">
 
           <Container
@@ -62,33 +61,6 @@ export default function Layout(props) {
             <Footer />
           </Container>
         </HStack>
-      </BrowserView>
-
-      <MobileView>
-        <Container
-          id="dao-main-mobile"
-          w="100vw"
-          minW="100vw"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <VStack spacing={0} width="100%">
-
-          <NavRightContainer color="#5a2686" borderColor="#5a2686" />
-
-          <Container
-            h="auto"
-            minH="100vh"
-            w="100%"
-          >
-          {props.children}
-
-          </Container>
-          <Footer />
-          </VStack>
-        </Container>
-        <ActionMenu />
-      </MobileView>
 
     </>
   );

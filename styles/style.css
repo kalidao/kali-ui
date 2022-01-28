@@ -132,6 +132,7 @@ ul.alternating-list > li:nth-child(2n) {
 
 #deployer-container {
   padding:20px;
+  min-height: 100vh;
 }
 
 #deployer-container p,
@@ -196,17 +197,13 @@ div#dao-main {
   padding: 20px 45px !important;
 }
 
-div#dao-main-mobile {
-  background: #fafafa;
-}
-
 div#footer {
   margin: 0 -45px;
   padding: 20px 45px !important;
 
 }
 
-#dao-main h1, #dao-main-mobile h1, h1 {
+#dao-main h1 {
   color: #5a2686 !important;
   margin-bottom: 20px;
 }
