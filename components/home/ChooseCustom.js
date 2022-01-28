@@ -30,7 +30,6 @@ import DateSelect from "../elements/DateSelect";
 
 import DatePicker from "react-datepicker";
 
-
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
@@ -46,7 +45,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   );
   const [saleEnds, setSaleEnds] = useState(new Date());
   const [redemptionStart, setRedemptionStart] = useState(new Date());
-
 
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
@@ -211,7 +209,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </Checkbox>
           <Checkbox
             name="crowdsale"
-            value="crowdsale
+            value="crowdsale"
             isChecked={crowdsale}
             defaultValue={crowdsale}
             onChange={() => setCrowdsale(!crowdsale)}
@@ -260,7 +258,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             timeCaption="time"
             dateFormat="MMMM d, yyyy h:mm aa"
           />
-
         </>
       ) : null}
       <Button className="transparent-btn" type="submit">
