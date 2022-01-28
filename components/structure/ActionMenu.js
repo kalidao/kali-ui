@@ -53,6 +53,7 @@ export default function ActionMenu(props) {
              onClick={() => handleClick(index+1)}
              backgroundColor={visibleView == index + 1 ? "#eeeeee" : "none"}
              icon={item.icon}
+             key={index}
            >
              {item.name}
            </ActionButton>
@@ -69,6 +70,7 @@ export default function ActionMenu(props) {
              onClick={() => handleClick(index+1)}
              backgroundColor={visibleView == index + 1 ? "#eeeeee" : "none"}
              icon={item.icon}
+             key={index}
              border="none"
            >
              {item.name}
