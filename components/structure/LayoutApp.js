@@ -24,7 +24,12 @@ export default function Layout(props) {
           key="title"
         />
       </Head>
-
+      <style jsx global>{`
+        body {
+          margin: 0;
+          padding: 0;
+        }
+      `}</style>
         <Wrap
           spacing={0}
           alignItems="top"
