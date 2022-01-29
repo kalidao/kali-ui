@@ -81,6 +81,7 @@ function DraftDoc() {
       <Button
         className="transparent-btn" onClick={onOpen}
         display={{sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block'}}
+        margin="0px 5px !important"
       >
         Draft
       </Button>

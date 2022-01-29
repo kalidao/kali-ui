@@ -18,7 +18,7 @@ import { addresses } from "../../constants/addresses";
 import { useForm } from "react-hook-form";
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
-  const { web3, chainId } = value.state;
+  const { web3, chainId, account } = value.state;
   const [daoNames, setDaoNames] = useState(null);
 
   const {
@@ -46,9 +46,14 @@ export default function ChooseIdentity(props) {
 
   const isNameUnique = (name) => {
     console.log(errors.name);
-    if (name != null && daoNames.includes(name) === true) {
-      value.toast("Name not unique. Choose another.");
+    if(account==null) {
+      value.toast("Please connect your account.");
       return false;
+    } else {
+      if (name != null && daoNames.includes(name) === true) {
+        value.toast("Name not unique. Choose another.");
+        return false;
+      }
     }
   };
 

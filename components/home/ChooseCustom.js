@@ -134,7 +134,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           />
         </FormControl>
         <FormControl>
-          <FormLabel htmlFor="votingPeriodUnit">Voting Perod Unit</FormLabel>
+          <FormLabel htmlFor="votingPeriodUnit">Voting Period Unit</FormLabel>
           <Controller
             control={control}
             name="votingPeriodUnit"

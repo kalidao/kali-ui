@@ -222,6 +222,10 @@ div#footer {
   padding-top: 50px;
 }
 
+#action-menu button {
+  padding: 10px;
+}
+
 #dao-sidebar button,
 #dao-sidebar #kali-logo {
   color: #5a2686;
