@@ -2482,11 +2482,11 @@ const DelawareInvestmentClubTemplate = ({ name, chain }) => {
           the information contained herein is complete and accurate and will
           notify the Company of any material change in any of such information
           prior to the undersigned’s investment in the Company.
+          <Br />
+          <Br />
         </Text>
-        <Br />
-        <Br />
         <Text style={styles.heading2}>FOR INDIVIDUAL INVESTORS</Text>
-        <Text style={styles.text}>Accredited Investor Certification.</Text>
+        <Text style={styles.heading3}>Accredited Investor Certification.</Text>
         <Text style={styles.text}>
           The undersigned makes one of the following representations regarding
           its income, net worth, status as a “family client” of a “family
@@ -2536,11 +2536,11 @@ const DelawareInvestmentClubTemplate = ({ name, chain }) => {
           <Br />
           [__] The undersigned cannot make any of the representations set forth
           above.
+          <Br />
+          <Br />
         </Text>
-        <Br />
-        <Br />
         <Text style={styles.heading2}>FOR ENTITY INVESTORS</Text>
-        <Text style={styles.text}>Accredited Investor Certification.</Text>
+        <Text style={styles.heading3}>Accredited Investor Certification.</Text>
         <Text style={styles.text}>
           The undersigned makes one of the following representations regarding
           its net worth and certain related matters and has checked the
