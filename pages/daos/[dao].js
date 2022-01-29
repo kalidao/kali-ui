@@ -6,6 +6,7 @@ import Proposals from "../../components/proposals/Proposals";
 import NewProposal from "../../components/newproposal/NewProposal";
 import Dashboard from "../../components/dashboard/Dashboard";
 import ActionMenu from "../../components/structure/ActionMenu";
+import Extensions from "../../components/extensions/Extensions";
 
 export default function Dao() {
   const value = useContext(AppContext);
@@ -32,6 +33,8 @@ export default function Dao() {
             <Proposals />
           ) : visibleView == 3 ? (
             <NewProposal />
+          ) : visibleView == 4 ? (
+            <Extensions />
           ) : null}
         </>
       )}

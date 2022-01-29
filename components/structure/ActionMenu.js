@@ -1,10 +1,11 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/AppContext";
 import { BrowserView, MobileView } from "react-device-detect";
-import { Button, Center, HStack, VStack, Container } from "@chakra-ui/react";
+import { Button, Center, HStack, VStack, Container, Divider, Text } from "@chakra-ui/react";
 import { BiGridAlt, BiEdit} from "react-icons/bi";
 import { RiStackLine } from "react-icons/ri";
 import { VscNewFile } from "react-icons/vsc";
+import { BsPuzzle } from "react-icons/bs";
 
 const ActionButton = (props) => {
   return (
@@ -33,17 +34,30 @@ const actions = [
     name: "New Proposal",
     icon: <BiEdit />,
   },
+  {
+    name: "Extensions",
+    icon: <BsPuzzle />,
+  },
 ];
 
 export default function ActionMenu(props) {
   const value = useContext(AppContext);
-  const { visibleView, remount } = value.state;
+  const { visibleView, remount, dao } = value.state;
+  const [ext, setExt] = useState();
 
   const handleClick = (id) => {
     value.setVisibleView(id);
     value.setRemount(remount+1);
     console.log(remount, "remount")
   };
+
+  useEffect(() => {
+    if(dao != null && "extensions" in dao) {
+      setExt(dao["extensions"]);
+      console.log("set")
+      console.log(dao["extensions"])
+    }
+  }, [dao]);
 
   return (
       <>

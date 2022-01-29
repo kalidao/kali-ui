@@ -14,11 +14,13 @@ import {
   FormLabel,
   Center,
   HStack,
-  Spacer
+  Spacer,
+  IconButton
 } from "@chakra-ui/react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import NumInputField from "../elements/NumInputField";
 import DeleteButton from "../elements/DeleteButton";
+import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendShares() {
   const value = useContext(AppContext);
@@ -127,7 +129,7 @@ export default function SendShares() {
                       member {index + 1}
                     </FormLabel>
                     <Input
-                      placeholder="0x address or ENS"
+                      placeholder="0x address"
                       {...field}
                       {...register(`members.${index}.address`, {
                         required: "You must assign share!",
@@ -136,7 +138,14 @@ export default function SendShares() {
                   </FormControl>
                 )}
               />
-              <DeleteButton label="delete" clickHandler={() => remove(index)} />
+              <IconButton
+                className="delete-icon"
+                aria-label="delete recipient"
+                mt={8}
+                ml={2}
+                icon={<AiOutlineDelete />}
+                onClick={() => remove(index)}
+              />
             </ListItem>
           ))}
         </List>

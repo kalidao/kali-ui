@@ -20,10 +20,11 @@ import {
   WrapItem
 } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
-import { newProposalHelper } from "../../constants/newProposalHelper";
+import { useExtensionsHelper } from "../../constants/useExtensionsHelper";
 import { BiEdit } from "react-icons/bi";
+import { BsPuzzle } from "react-icons/bs";
 
-export default function NewProposal(props) {
+export default function Extensions(props) {
   const [menuItem, setMenuItem] = useState(999); // arbitrary number where no proposal type is selected. if changed, must change below, too
   const value = useContext(AppContext);
   const { web3, loading, account, abi, address, dao, chainId, visibleView, remount } = value.state;
@@ -66,12 +67,12 @@ export default function NewProposal(props) {
   return (
     <>
     <HStack>
-      <Icon as={BiEdit} w={10} h={10} className="h1-icon" />
-      <Heading as="h1">New Proposal</Heading>
+      <Icon as={BsPuzzle} w={10} h={10} className="h1-icon" />
+      <Heading as="h1">Extensions</Heading>
     </HStack>
       {dao == null ? null : account == null ? (
         <Box className="gradient-item dashboard-tile" mt={10} color="white">
-        <Text mb={5}>Please connect your account to start making proposals!</Text>
+        <Text mb={5}>Please connect your account to start using extensions!</Text>
         <Button
           className="transparent-btn"
           onClick={value.connect}
@@ -87,24 +88,28 @@ export default function NewProposal(props) {
             ) : (
               <Wrap
               >
-                {Object.entries(newProposalHelper).map(([k, v]) =>
+                {Object.entries(useExtensionsHelper).map(([k, v]) =>
+                  ("extensions" in dao &&
+                    dao["extensions"] != null &&
+                    useExtensionsHelper[k]["extension"] in dao["extensions"]) ? (
                     <ProposalTile
                       key={`propTile-${k}`}
                       id={k}
-                      title={newProposalHelper[k]["title"]}
-                      description={newProposalHelper[k]["description"]}
-                      icon={newProposalHelper[k]["icon"]}
+                      title={useExtensionsHelper[k]["title"]}
+                      description={useExtensionsHelper[k]["description"]}
+                      icon={useExtensionsHelper[k]["icon"]}
                     />
+                  ) : null
                 )}
               </Wrap>
             )}
 
 
-          {Object.entries(newProposalHelper).map(([k, v]) =>
+          {Object.entries(useExtensionsHelper).map(([k, v]) =>
             menuItem == k ? (
               <Box key={`component-${k}`} p={5} id="new-proposal">
-                <Heading as="h2">{newProposalHelper[k]["title"]}</Heading>
-                {newProposalHelper[k]["component"]}
+                <Heading as="h2">{useExtensionsHelper[k]["title"]}</Heading>
+                {useExtensionsHelper[k]["component"]}
               </Box>
             ) : null
           )}

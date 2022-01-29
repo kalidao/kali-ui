@@ -120,7 +120,7 @@ export default function Tribute() {
           ) : null}
 
           <Center>
-            <Button className="solid-btn" type="submit">Submit Proposal</Button>
+            <Button className="solid-btn" type="submit">Buy Shares</Button>
           </Center>
         </Stack>
       </form>

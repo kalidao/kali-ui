@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { toDecimals } from "../../utils/formatters";
+import { toDecimals, fromDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
 import { AiOutlineDelete } from "react-icons/ai";
 
@@ -176,7 +176,7 @@ export default function SendToken() {
                       <option>Select a token</option>
                       {dao["balances"].map((b, index) => (
                         <option key={index} value={index}>
-                          {b["token"]}
+                          {b["token"]} (balance: {fromDecimals(b["balance"], b["decimals"])})
                         </option>
                       ))}
                     </Select>
@@ -190,7 +190,7 @@ export default function SendToken() {
                 render={({ field }) => (
                   <FormControl isRequired>
                     <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Shares
+                      Amount
                     </FormLabel>
                     <NumInputField
                       min="1"

@@ -139,7 +139,7 @@ export default function ContractCall() {
         <Text>
           <b>Target</b>
         </Text>
-        <Input name="account_" size="lg" placeholder="0x"></Input>
+        <Input name="account_" size="lg" placeholder="0x address of contract"></Input>
 
         <Input name="amount_" type="hidden" value={0} />
 

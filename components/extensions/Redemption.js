@@ -74,7 +74,7 @@ export default function Redemption() {
         </Text>
         <NumInputField name="amount_" min=".000000000000000001" />
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">Redeem Shares</Button>
         </Center>
       </Stack>
     </form>

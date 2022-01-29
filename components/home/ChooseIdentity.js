@@ -33,6 +33,10 @@ export default function ChooseIdentity(props) {
     getDaoNames();
   }, []);
 
+  useEffect(() => {
+    getDaoNames();
+  }, [account]);
+
   const getDaoNames = async () => {
     try {
       let factory = factoryInstance(addresses[chainId]["factory"], web3);
@@ -46,7 +50,7 @@ export default function ChooseIdentity(props) {
 
   const isNameUnique = (name) => {
     console.log(errors.name);
-    if(account==null) {
+    if(account == null || daoNames == null) {
       value.toast("Please connect your account.");
       return false;
     } else {
