@@ -13,22 +13,22 @@ export const govSettingsHelper = [
     component: <GovPeriod />,
   },
   {
-    proposalType: 4,
+    proposalType: 5,
     text: "Quorum",
     component: <GovQuorum />,
   },
   {
-    proposalType: 5,
+    proposalType: 6,
     text: "Supermajority",
     component: <GovSupermajority />,
   },
   {
-    proposalType: 6,
+    proposalType: 7,
     text: "Voting Settings for Proposal Type",
     component: <GovVotingSettings />,
   },
   {
-    proposalType: 7,
+    proposalType: 8,
     text: "Pause/Unpause Share Transferability",
     component: <GovPause />,
   },
