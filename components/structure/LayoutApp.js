@@ -54,7 +54,7 @@ export default function Layout(props) {
             </Container>
           </WrapItem>
           <WrapItem
-            w={{sm: '100vw', md: '80vw', lg: '80vw', xl: '80vw', '2xl': '80vw'}}
+            w={{sm: '110vw', md: '80vw', lg: '80vw', xl: '80vw', '2xl': '80vw'}}
             minH="100vh"
           >
             <Box
