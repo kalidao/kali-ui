@@ -2,14 +2,15 @@ export const proposalTypes = {
   0: "MINT",
   1: "BURN",
   2: "CALL",
-  3: "PERIOD",
-  4: "QUORUM",
-  5: "SUPERMAJORITY",
-  6: "TYPE",
-  7: "PAUSE",
-  8: "EXTENSION",
-  9: "ESCAPE",
-  10: "DOCS",
+  3: "VPERIOD",
+  4: "GPERIOD",
+  5: "QUORUM",
+  6: "SUPERMAJORITY",
+  7: "TYPE",
+  8: "PAUSE",
+  9: "EXTENSION",
+  10: "ESCAPE",
+  11: "DOCS",
 };
 
 export const voteTypes = {
