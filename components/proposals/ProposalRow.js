@@ -16,6 +16,7 @@ import {
   Modal,
   Progress,
   Spacer,
+  WrapItem
 } from "@chakra-ui/react";
 import Timer from "./Timer";
 import { useClipboard } from "@chakra-ui/react";
@@ -48,7 +49,9 @@ export default function ProposalRow(props) {
   }, [buffer, now, p]);
 
   return (
-    <>
+    <WrapItem
+      w={{sm: "500px", md: "300px", lg: "300px", xl: "300px", '2xl': "300px"}}
+    >
       <Modal isOpen={isOpen} onClose={onClose}>
         <ProposalModal p={p} i={i} isExpired={isExpired} />
       </Modal>
@@ -59,7 +62,7 @@ export default function ProposalRow(props) {
             <ProposalIcon p={p} />
             <Heading>{viewProposalsHelper[p["proposalType"]]["title"]}</Heading>
           </HStack>
-          
+
           <HStack width="100%" className="timer-container">
             <Text className="timer-label">remaining:</Text>
             <Spacer />
@@ -118,6 +121,6 @@ export default function ProposalRow(props) {
           </HStack>
         </VStack>
       </Box>
-    </>
+    </WrapItem>
   );
 }

@@ -13,6 +13,8 @@ import {
   Link,
   Icon,
   Heading,
+  Wrap,
+  WrapItem
 } from "@chakra-ui/react";
 import Layout from "../structure/Layout";
 import ProposalRow from "./ProposalRow";
@@ -73,17 +75,11 @@ export default function Proposals(props) {
         {props["proposals"].length == 0 ? (
           "Awaiting Proposals"
         ) : (
-          <Grid
-            templateColumns={{
-              sm: "repeat(1, 1fr)",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(3, 1fr)",
-            }}
-          >
+          <Wrap>
             {props["proposals"].map((p, index) => (
               <ProposalRow key={index} p={p} i={index} />
             ))}
-          </Grid>
+          </Wrap>
         )}
       </>
     );
