@@ -10,7 +10,7 @@ export async function correctNetwork(address) {
       let provider = new Web3.providers.HttpProvider(
         "https://" +
           supportedChains[i]["infura"] +
-          "/v3/26e178ea568e492983f2431ad6a31e74"
+          "/v3/555ea99acbdb427c9cef8ac3b96f43cb"
       );
       let web3 = new Web3(provider);
       let chainId = await web3.eth.getChainId();
