@@ -29,6 +29,7 @@ export default function Layout(props) {
           margin: 0 !important;
           padding: 0 !important;
           background: red !important;
+          overflow-x: hidden !important;
         }
       `}</style>
         <Wrap
