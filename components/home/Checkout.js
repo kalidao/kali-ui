@@ -79,8 +79,11 @@ export default function Checkout({ details }) {
     console.log("tribute", tribute);
 
     const govSettings = Array(
+      votingPeriod,
+      0,
       quorum,
       supermajority,
+      1,
       1,
       1,
       1,
@@ -186,7 +189,6 @@ export default function Checkout({ details }) {
       extensionsData,
       members,
       shares,
-      votingPeriod,
       govSettings
     );
 
@@ -201,7 +203,6 @@ export default function Checkout({ details }) {
           extensionsData,
           members,
           shares,
-          votingPeriod,
           govSettings
         )
         .send({ from: account });
