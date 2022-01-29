@@ -79,9 +79,7 @@ export default function Layout(props) {
           </WrapItem>
         </Wrap>
         <Box id="mobile-menu" display={{ base: 'none', sm: 'block', md: 'none', lg: 'none', xl: 'none', '2xl': 'none' }}>
-          <HStack>
             <ActionMenu />
-          </HStack>
         </Box>
     </>
   );
