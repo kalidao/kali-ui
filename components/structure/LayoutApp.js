@@ -30,7 +30,7 @@ export default function Layout(props) {
           alignItems="top"
           w="100vw"
           minH="100vh"
-          background="#fafafa"
+          p={0}
         >
         <WrapItem
           display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }}
