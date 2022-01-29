@@ -82,7 +82,7 @@ export default function GovVotingSettings() {
             ))}
           </Select>
         </HStack>
-        <Input type="hidden" name="proposalType_" value="6" />
+        <Input type="hidden" name="proposalType_" value="7" />
         <Center>
           <Button className="solid-btn" type="submit">Submit Proposal</Button>
         </Center>
