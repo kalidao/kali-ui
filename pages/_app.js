@@ -3,14 +3,15 @@ import AppContext from "../context/AppContext";
 import Web3 from "web3";
 import { useState, useEffect } from "react";
 import theme from "../styles/theme";
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/700.css';
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/700.css";
 const abi = require("../abi/KaliDAO.json");
 import { createToast } from "../utils/toast";
 import { correctNetwork } from "../utils/network";
 import { getNetworkName } from "../utils/formatters";
 import { supportedChains } from "../constants/supportedChains";
 import "../styles/style.css";
+import { Web3ReactProvider } from "@web3-react/core";
 
 function MyApp({ Component, pageProps }) {
   const [web3, setWeb3] = useState(null);
@@ -132,6 +133,10 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
+  function getLibrary(provider) {
+    return new Web3(provider);
+  }
+
   const toast = (props) => {
     createToast(props);
   };
@@ -151,7 +156,7 @@ function MyApp({ Component, pageProps }) {
             visibleView: visibleView,
             dao: dao,
             proposals: proposals,
-            remount: remount
+            remount: remount,
           },
           setWeb3: setWeb3,
           setAccount: setAccount,
@@ -164,10 +169,12 @@ function MyApp({ Component, pageProps }) {
           setDao: setDao,
           setProposals: setProposals,
           toast: toast,
-          setRemount: setRemount
+          setRemount: setRemount,
         }}
       >
-        <Component {...pageProps} />
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <Component {...pageProps} />
+        </Web3ReactProvider>
       </AppContext.Provider>
     </ChakraProvider>
   );

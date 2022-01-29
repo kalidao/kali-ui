@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Divider, HStack, Spacer } from "@chakra-ui/react";
 import Hamburger from "./Hamburger";
 import Kali from "./Kali";
-import Account from "./Account";
+import Account from "./wallet/Account";
 import Chain from "./Chain";
 
 export default function NavRightContainer(props) {
@@ -18,7 +18,13 @@ export default function NavRightContainer(props) {
       pl={3}
       borderColor={props.borderColor}
       height="42px"
-      margin={{sm: '10px 0 20px 0 !important', md: 'none', lg: 'none', xl: 'none', '2xl': 'none'}}
+      margin={{
+        sm: "10px 0 20px 0 !important",
+        md: "none",
+        lg: "none",
+        xl: "none",
+        "2xl": "none",
+      }}
     >
       <Chain />
       <Account message="Connect" />
