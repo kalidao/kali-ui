@@ -59,7 +59,7 @@ export default function GovPause() {
         <Textarea name="description_" size="lg" placeholder=". . ." />
         <Text><i>This is a proposal to <b>{dao["token"]["paused"] == true ? "unpause" : "pause"}</b> share transferability.</i></Text>
         <Input type="hidden" name="amount_" value="0" />
-        <Input type="hidden" name="proposalType_" value="7" />
+        <Input type="hidden" name="proposalType_" value="8" />
         <Center>
           <Button className="solid-btn" type="submit">Submit Proposal</Button>
         </Center>
