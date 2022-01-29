@@ -73,7 +73,7 @@ export default function SetTribute() {
         </Text>
         <Textarea name="description_" size="lg" placeholder=". . ." />
 
-        <Input type="hidden" name="proposalType_" value="8" />
+        <Input type="hidden" name="proposalType_" value="9" />
         <Input
           type="hidden"
           name="account_"
