@@ -30,6 +30,9 @@ export default function Layout(props) {
           padding: 0 !important;
           background: red !important;
         }
+        * {
+          overflow-x: hidden !important;
+        }
       `}</style>
         <Wrap
           spacing={0}
