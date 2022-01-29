@@ -122,7 +122,7 @@ export default function Checkout({ details }) {
       );
 
       // let now = parseInt(new Date().getTime() / 1000);
-      saleEnds = new Date(saleEnds).getTime() / 1000;
+      saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
 
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
@@ -149,7 +149,7 @@ export default function Checkout({ details }) {
       let { redemptionStart, tokenArray } = redemption;
 
       // let now = parseInt(new Date().getTime() / 1000);
-      redemptionStart = new Date(redemptionStart).getTime() / 1000;
+      redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000);
       console.log("redemption param", redemptionStart, tokenArray);
 
       const redemptionABI = require("../../abi/KaliDAOredemption.json");
