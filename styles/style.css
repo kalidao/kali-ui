@@ -5,7 +5,6 @@
   bottom: 0;
   background-color:rgba(255, 255, 255, 0.8) !important;
   width:100%;
-  padding: 5px 10px;
 }
 
 /* //////////////// GRADIENT //////////////// */
@@ -198,12 +197,12 @@ div.dao-type:hover {
 
 div#dao-main {
   background: #fafafa;
-  padding: 10px 20px !important;
+  padding: 10px 0 !important;
 }
 
 div#footer {
   margin: 0 -45px;
-  padding: 20px 45px !important;
+  padding: 20px 0 !important;
 
 }
 
