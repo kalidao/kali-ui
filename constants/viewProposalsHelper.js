@@ -50,6 +50,16 @@ export const viewProposalsHelper = {
     icon: MdOutlineHowToVote,
     decode: false,
   },
+  4: {
+    title: "Modify Grace Period",
+    details: {
+      amounts: "proposed grace period",
+      accounts: null,
+      payloads: null,
+    },
+    icon: MdOutlineHowToVote,
+    decode: false,
+  },
   5: {
     title: "Modify Quorum Threshold",
     details: {
