@@ -68,7 +68,7 @@ export default function GovSupermajority() {
         <Textarea name="description_" size="lg" placeholder=". . ." />
         <Text>Supermajority (currently {dao["gov"]["supermajority"]}%):</Text>
         <NumInputField name="amount_" />
-        <Input type="hidden" name="proposalType_" value="5" />
+        <Input type="hidden" name="proposalType_" value="6" />
         <Center>
           <Button className="solid-btn" type="submit">Submit Proposal</Button>
         </Center>
