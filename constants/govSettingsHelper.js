@@ -1,4 +1,5 @@
 import GovPeriod from "../components/newproposal/GovPeriod";
+import GovGrace from "../components/newproposal/GovGrace";
 import GovQuorum from "../components/newproposal/GovQuorum";
 import GovSupermajority from "../components/newproposal/GovSupermajority";
 import GovPause from "../components/newproposal/GovPause";
@@ -14,21 +15,26 @@ export const govSettingsHelper = [
   },
   {
     proposalType: 4,
+    text: "Grace Period",
+    component: <GovGrace />,
+  },
+  {
+    proposalType: 5,
     text: "Quorum",
     component: <GovQuorum />,
   },
   {
-    proposalType: 5,
+    proposalType: 6,
     text: "Supermajority",
     component: <GovSupermajority />,
   },
   {
-    proposalType: 6,
+    proposalType: 7,
     text: "Voting Settings for Proposal Type",
     component: <GovVotingSettings />,
   },
   {
-    proposalType: 7,
+    proposalType: 8,
     text: "Pause/Unpause Share Transferability",
     component: <GovPause />,
   },

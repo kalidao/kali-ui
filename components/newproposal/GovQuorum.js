@@ -68,7 +68,7 @@ export default function GovQuorum() {
         <Textarea name="description_" size="lg" placeholder=". . ." />
         <Text>Quorum (currently {dao["gov"]["quorum"]}%):</Text>
         <HStack><NumInputField name="amount_" /><Text>%</Text></HStack>
-        <Input type="hidden" name="proposalType_" value="4" />
+        <Input type="hidden" name="proposalType_" value="5" />
         <Center>
           <Button className="solid-btn" type="submit">Submit Proposal</Button>
         </Center>

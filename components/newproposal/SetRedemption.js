@@ -132,7 +132,7 @@ export default function SetRedemption() {
 
         <DateSelect name="redemptionStart_" />
 
-        <Input type="hidden" name="proposalType_" value="8" />
+        <Input type="hidden" name="proposalType_" value="9" />
         <Input
           type="hidden"
           name="account_"

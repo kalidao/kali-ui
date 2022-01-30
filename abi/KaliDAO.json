@@ -71,6 +71,11 @@
 	},
 	{
 		"inputs": [],
+		"name": "PeriodBounds",
+		"type": "error"
+	},
+	{
+		"inputs": [],
 		"name": "PrevNotProcessed",
 		"type": "error"
 	},
@@ -117,11 +122,6 @@
 	{
 		"inputs": [],
 		"name": "VotingNotEnded",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "VotingPeriodBounds",
 		"type": "error"
 	},
 	{
@@ -213,6 +213,36 @@
 				"internalType": "uint256",
 				"name": "proposal",
 				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "enum KaliDAO.ProposalType",
+				"name": "proposalType",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "accounts",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes[]",
+				"name": "payloads",
+				"type": "bytes[]"
 			}
 		],
 		"name": "NewProposal",
@@ -460,6 +490,55 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burnFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burnShares",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "extension",
 				"type": "address"
@@ -632,6 +711,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "escapeProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -721,6 +813,19 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "gracePeriod",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -763,14 +868,9 @@
 				"type": "uint256[]"
 			},
 			{
-				"internalType": "uint32",
-				"name": "votingPeriod_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8[13]",
+				"internalType": "uint32[16]",
 				"name": "govSettings_",
-				"type": "uint8[13]"
+				"type": "uint32[16]"
 			}
 		],
 		"name": "init",
@@ -795,6 +895,24 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mintShares",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1208,9 +1326,9 @@
 		"name": "quorum",
 		"outputs": [
 			{
-				"internalType": "uint8",
+				"internalType": "uint32",
 				"name": "",
-				"type": "uint8"
+				"type": "uint32"
 			}
 		],
 		"stateMutability": "view",
@@ -1234,9 +1352,9 @@
 		"name": "supermajority",
 		"outputs": [
 			{
-				"internalType": "uint8",
+				"internalType": "uint32",
 				"name": "",
-				"type": "uint8"
+				"type": "uint32"
 			}
 		],
 		"stateMutability": "view",
@@ -1318,6 +1436,52 @@
 				"type": "bool"
 			}
 		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "extension",
+				"type": "address"
+			}
+		],
+		"name": "updateExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "votingPeriod_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "gracePeriod_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "quorum_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "supermajority_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "bool",
+				"name": "flipPause",
+				"type": "bool"
+			}
+		],
+		"name": "updateGovernance",
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},

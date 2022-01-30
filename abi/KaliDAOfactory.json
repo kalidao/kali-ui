@@ -79,15 +79,9 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "uint32",
-				"name": "votingPeriod",
-				"type": "uint32"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint8[13]",
+				"internalType": "uint32[16]",
 				"name": "govSettings",
-				"type": "uint8[13]"
+				"type": "uint32[16]"
 			}
 		],
 		"name": "DAOdeployed",
@@ -136,14 +130,9 @@
 				"type": "uint256[]"
 			},
 			{
-				"internalType": "uint32",
-				"name": "votingPeriod_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8[13]",
+				"internalType": "uint32[16]",
 				"name": "govSettings_",
-				"type": "uint8[13]"
+				"type": "uint32[16]"
 			}
 		],
 		"name": "deployKaliDAO",
@@ -155,6 +144,19 @@
 			}
 		],
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "kaliMaster",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -174,19 +176,6 @@
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "kaliMaster",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{

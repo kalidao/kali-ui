@@ -51,6 +51,16 @@ export const viewProposalsHelper = {
     decode: false,
   },
   4: {
+    title: "Modify Grace Period",
+    details: {
+      amounts: "proposed grace period",
+      accounts: null,
+      payloads: null,
+    },
+    icon: MdOutlineHowToVote,
+    decode: false,
+  },
+  5: {
     title: "Modify Quorum Threshold",
     details: {
       amounts: "proposed quorum threshold",
@@ -60,7 +70,7 @@ export const viewProposalsHelper = {
     icon: IoIosPeople,
     decode: false,
   },
-  5: {
+  6: {
     title: "Modify Supermajority Threshold",
     details: {
       amounts: "proposed supermajority threshold",
@@ -70,7 +80,7 @@ export const viewProposalsHelper = {
     icon: RiScales3Line,
     decode: false,
   },
-  6: {
+  7: {
     title: "Modify Proposal Vote Type",
     details: {
       amounts: "proposed proposal/vote type",
@@ -80,7 +90,7 @@ export const viewProposalsHelper = {
     icon: AiFillTool,
     decode: false,
   },
-  7: {
+  8: {
     title: "Pause/Unpause Share Transfer",
     details: {
       amounts: null,
@@ -90,7 +100,7 @@ export const viewProposalsHelper = {
     icon: RiPauseCircleFill,
     decode: false,
   },
-  8: {
+  9: {
     title: "Update Extensions",
     details: {
       amounts: null,
@@ -100,7 +110,7 @@ export const viewProposalsHelper = {
     icon: IoIosGitNetwork,
     decode: true,
   },
-  9: {
+  10: {
     title: "Escape",
     details: {
       amounts: "proposal number(s)",
@@ -110,7 +120,7 @@ export const viewProposalsHelper = {
     icon: TiCancel,
     decode: false,
   },
-  10: {
+  11: {
     title: "Change Docs",
     details: {
       amounts: null,

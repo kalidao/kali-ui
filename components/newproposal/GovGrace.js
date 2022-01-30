@@ -1,21 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
+import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, Stack, Select, Center } from "@chakra-ui/react";
-import { addresses } from "../../constants/addresses";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import {
+  Textarea,
+  Button,
+  Input,
+  Select,
+  Text,
+  HStack,
+  VStack,
+  Center
+} from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
+import { votingPeriodUnits } from "../../constants/params";
+import {
+  votingPeriodToSeconds,
+  convertVotingPeriod,
+} from "../../utils/formatters";
 
-export default function SetTribute() {
+export default function GovGrace() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, chainId, balances, daoChain } =
-    value.state;
-
-  const updateExtType = (e) => {
-    let newValue = e.target.value;
-    setExtType(newValue);
-  };
+  const { web3, loading, account, abi, address, dao } = value.state;
 
   const submitProposal = async (event) => {
     event.preventDefault();
@@ -28,19 +32,16 @@ export default function SetTribute() {
         array[object[i].name] = object[i].value;
       }
 
-      var { description_, account_, proposalType_ } = array; // this must contain any inputs from custom forms
+      var { description_, proposalType_, period_, unit_ } = array; // this must contain any inputs from custom forms
+      console.log(array);
+      var account_ = "0x0000000000000000000000000000000000000000";
 
-      const amount_ = 1;
+      var amount_ = votingPeriodToSeconds(period_, unit_);
+      console.log(amount_);
 
       const payload_ = Array(0);
 
       const instance = new web3.eth.Contract(abi, address);
-
-      console.log(proposalType_,
-      description_,
-      [account_],
-      [amount_],
-      [payload_])
 
       try {
         let result = await instance.methods
@@ -67,22 +68,29 @@ export default function SetTribute() {
 
   return (
     <form onSubmit={submitProposal}>
-      <Stack>
+      <VStack alignItems="left">
         <Text>
           <b>Details</b>
         </Text>
         <Textarea name="description_" size="lg" placeholder=". . ." />
-
-        <Input type="hidden" name="proposalType_" value="9" />
-        <Input
-          type="hidden"
-          name="account_"
-          value={addresses[daoChain]["extensions"]["tribute"]}
-        />
+        <Text>
+          Grace Period:
+        </Text>
+        <HStack>
+          <NumInputField name="period_" />
+          <Select name="unit_">
+            {Object.entries(votingPeriodUnits).map(([k, v]) => (
+              <option key={k} value={v}>
+                {v}
+              </option>
+            ))}
+          </Select>
+        </HStack>
+        <Input type="hidden" name="proposalType_" value="4" />
         <Center>
           <Button className="solid-btn" type="submit">Submit Proposal</Button>
         </Center>
-      </Stack>
+      </VStack>
     </form>
   );
 }
