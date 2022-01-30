@@ -1,6 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import AppContext from "../context/AppContext";
 import Web3 from "web3";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3Modal from "web3modal";
 import { useState, useEffect } from "react";
 import theme from "../styles/theme";
 import '@fontsource/poppins/300.css';
@@ -66,15 +68,35 @@ function MyApp({ Component, pageProps }) {
   const connect = async () => {
     try {
       if (
-        typeof window !== "undefined" &&
-        typeof window.ethereum !== "undefined"
+        typeof window !== "undefined"
       ) {
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
+        const providerOptions = {
+          walletconnect: {
+            package: WalletConnectProvider, // required
+            options: {
+              infuraId: "26e178ea568e492983f2431ad6a31e74" // required
+            }
+          }
+        };
+        // We are in the browser and metamask is running.
+        const web3Modal = new Web3Modal({
+          providerOptions
         });
-        let metamask = new Web3(window.ethereum);
-        let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
-        setWeb3(metamask);
+
+        const provider = await web3Modal.connect();
+
+        let web3 = new Web3(provider);
+
+        setWeb3(web3);
+
+        const chainId_ = await web3.eth.getChainId();
+        console.log("chainId", chainId_)
+
+        const accounts = await web3.eth.getAccounts();
+
+        const account = accounts[0];
+
+        setWeb3(web3);
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
       }
