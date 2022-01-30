@@ -37,6 +37,9 @@ export default function Layout(props) {
           w="100vw"
           minH="100vh"
           p={0}
+          style={{
+            overflowX: "hidden !important"
+          }}
         >
         <WrapItem
           display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }}
