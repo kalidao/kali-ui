@@ -96,9 +96,22 @@ function MyApp({ Component, pageProps }) {
 
         const account = accounts[0];
 
-        setWeb3(web3);
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
+
+        provider.on("accountsChanged", function (accounts) {
+          changeAccount();
+        });
+
+        provider.on("chainChanged", () => {
+          changeChain();
+        });
+
+        provider.on("connect", () => {});
+
+        provider.on("disconnect", () => {
+          console.log("disconnected");
+        });
       }
     } catch (e) {
       toast(e);
