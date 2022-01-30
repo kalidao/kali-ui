@@ -5,6 +5,243 @@
 		"type": "error"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burnFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burnShares",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "extension",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "extensionData",
+				"type": "bytes"
+			}
+		],
+		"name": "callExtension",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "mint",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "delegatee",
+				"type": "address"
+			}
+		],
+		"name": "delegate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "delegatee",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "nonce",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "delegateBySig",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "escapeProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name_",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol_",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "docs_",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "paused_",
+				"type": "bool"
+			},
+			{
+				"internalType": "address[]",
+				"name": "extensions_",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "extensionsData_",
+				"type": "bytes[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "voters_",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "shares_",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint32[16]",
+				"name": "govSettings_",
+				"type": "uint32[16]"
+			}
+		],
+		"name": "init",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "InitCallFail",
 		"type": "error"
@@ -23,6 +260,43 @@
 		"inputs": [],
 		"name": "InvalidSignature",
 		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mintShares",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -75,9 +349,115 @@
 		"type": "error"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "permit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "PrevNotProcessed",
 		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "processProposal",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "didProposalPass",
+				"type": "bool"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum KaliDAO.ProposalType",
+				"name": "proposalType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "address[]",
+				"name": "accounts",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "payloads",
+				"type": "bytes[]"
+			}
+		],
+		"name": "propose",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -100,9 +480,75 @@
 		"type": "error"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "sponsorProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "SupermajorityBounds",
 		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -118,6 +564,108 @@
 		"inputs": [],
 		"name": "Uint96max",
 		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "extension",
+				"type": "address"
+			}
+		],
+		"name": "updateExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "votingPeriod_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "gracePeriod_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "quorum_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "supermajority_",
+				"type": "uint32"
+			},
+			{
+				"internalType": "bool",
+				"name": "flipPause",
+				"type": "bool"
+			}
+		],
+		"name": "updateGovernance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "approve",
+				"type": "bool"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "signer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "approve",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "voteBySig",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -213,6 +761,36 @@
 				"internalType": "uint256",
 				"name": "proposal",
 				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "enum KaliDAO.ProposalType",
+				"name": "proposalType",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "accounts",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes[]",
+				"name": "payloads",
+				"type": "bytes[]"
 			}
 		],
 		"name": "NewProposal",
@@ -339,58 +917,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "DELEGATION_TYPEHASH",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "DOMAIN_SEPARATOR",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "PERMIT_TYPEHASH",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "VOTE_HASH",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -418,30 +944,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -455,102 +957,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "burn",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "burnFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "burnShares",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "extension",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "extensionData",
-				"type": "bytes"
-			}
-		],
-		"name": "callExtension",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "mint",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amountOut",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "cancelProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -599,57 +1005,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "delegatee",
-				"type": "address"
-			}
-		],
-		"name": "delegate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "delegatee",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "nonce",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "deadline",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "v",
-				"type": "uint8"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "r",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "s",
-				"type": "bytes32"
-			}
-		],
-		"name": "delegateBySig",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "delegator",
 				"type": "address"
 			}
@@ -660,6 +1015,19 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DELEGATION_TYPEHASH",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
 			}
 		],
 		"stateMutability": "view",
@@ -679,16 +1047,16 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "DOMAIN_SEPARATOR",
+		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
 			}
 		],
-		"name": "escapeProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -798,59 +1166,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "name_",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "symbol_",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "docs_",
-				"type": "string"
-			},
-			{
-				"internalType": "bool",
-				"name": "paused_",
-				"type": "bool"
-			},
-			{
-				"internalType": "address[]",
-				"name": "extensions_",
-				"type": "address[]"
-			},
-			{
-				"internalType": "bytes[]",
-				"name": "extensionsData_",
-				"type": "bytes[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "voters_",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "shares_",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint32[16]",
-				"name": "govSettings_",
-				"type": "uint32[16]"
-			}
-		],
-		"name": "init",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -865,43 +1180,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "mintShares",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "data",
-				"type": "bytes[]"
-			}
-		],
-		"name": "multicall",
-		"outputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "results",
-				"type": "bytes[]"
-			}
-		],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1081,70 +1359,16 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "deadline",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint8",
-				"name": "v",
-				"type": "uint8"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "r",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "s",
-				"type": "bytes32"
-			}
-		],
-		"name": "permit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "processProposal",
+		"inputs": [],
+		"name": "PERMIT_TYPEHASH",
 		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "didProposalPass",
-				"type": "bool"
-			},
-			{
-				"internalType": "bytes[]",
-				"name": "results",
-				"type": "bytes[]"
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1155,49 +1379,6 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "proposalStates",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "passed",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "processed",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "enum KaliDAO.ProposalType",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"name": "proposalVoteTypes",
-		"outputs": [
-			{
-				"internalType": "enum KaliDAO.VoteType",
-				"name": "",
-				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
@@ -1255,40 +1436,44 @@
 	{
 		"inputs": [
 			{
-				"internalType": "enum KaliDAO.ProposalType",
-				"name": "proposalType",
-				"type": "uint8"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "address[]",
-				"name": "accounts",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "amounts",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "bytes[]",
-				"name": "payloads",
-				"type": "bytes[]"
-			}
-		],
-		"name": "propose",
-		"outputs": [
-			{
 				"internalType": "uint256",
-				"name": "proposal",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"name": "proposalStates",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "passed",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "processed",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum KaliDAO.ProposalType",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"name": "proposalVoteTypes",
+		"outputs": [
+			{
+				"internalType": "enum KaliDAO.VoteType",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1302,19 +1487,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "sponsorProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1357,158 +1529,16 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
+		"inputs": [],
+		"name": "VOTE_HASH",
 		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "extension",
-				"type": "address"
-			}
-		],
-		"name": "updateExtension",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint32",
-				"name": "votingPeriod_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint32",
-				"name": "gracePeriod_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint32",
-				"name": "quorum_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint32",
-				"name": "supermajority_",
-				"type": "uint32"
-			},
-			{
-				"internalType": "bool",
-				"name": "flipPause",
-				"type": "bool"
-			}
-		],
-		"name": "updateGovernance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "approve",
-				"type": "bool"
-			}
-		],
-		"name": "vote",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "signer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "approve",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint8",
-				"name": "v",
-				"type": "uint8"
-			},
-			{
 				"internalType": "bytes32",
-				"name": "r",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "s",
+				"name": "",
 				"type": "bytes32"
 			}
 		],
-		"name": "voteBySig",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
