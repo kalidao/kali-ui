@@ -31,17 +31,17 @@ function MyApp({ Component, pageProps }) {
       typeof window !== "undefined" &&
       typeof window.ethereum !== "undefined"
     ) {
-      ethereum.on("accountsChanged", function (accounts: string[]) {
+      ethereum.on("accountsChanged", function (accounts) {
         changeAccount(accounts[0]);
       });
 
-      ethereum.on("chainChanged", (chainId: number) => {
+      ethereum.on("chainChanged", (chainId) => {
         changeChain(chainId);
       });
 
       ethereum.on("connect", () => {});
 
-      ethereum.on("disconnect", (code: number, reason: string) => {
+      ethereum.on("disconnect", (code, reason) => {
         alert(code, reason);
       });
     }
@@ -99,17 +99,17 @@ function MyApp({ Component, pageProps }) {
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
 
-        provider.on("accountsChanged", function (accounts: string[]) {
+        provider.on("accountsChanged", function (accounts) {
           changeAccount(accounts[0]);
         });
 
-        provider.on("chainChanged", (chainId: number) => {
+        provider.on("chainChanged", (chainId) => {
           changeChain(chainId);
         });
 
         provider.on("connect", () => {});
 
-        provider.on("disconnect", (code: number, reason: string) => {
+        provider.on("disconnect", (code, reason) => {
           alert(code, reason);
         });
       }
