@@ -3,7 +3,7 @@ export const addresses =
 
   {
     4: {
-      factory: "0x4D212A4fD951Cb0b1A14E37364c5C3B3A2d49D24",
+      factory: "0xF33B0D384440985E137A19822B84521e5D1378F5",
       extensions: {
         tribute: "0x0b7012ef8ddd92BA381D06659b6Ed88e22cAe047",
         crowdsale: "0x4a2E86911Ad13Cd08A99Ba78b4097E66C71696fa",
