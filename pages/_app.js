@@ -32,17 +32,17 @@ function MyApp({ Component, pageProps }) {
       typeof window.ethereum !== "undefined"
     ) {
       ethereum.on("accountsChanged", function (accounts) {
-        changeAccount(accounts[0]);
+        changeAccount();
       });
 
-      ethereum.on("chainChanged", (chainId) => {
-        changeChain(chainId);
+      ethereum.on("chainChanged", () => {
+        changeChain();
       });
 
       ethereum.on("connect", () => {});
 
-      ethereum.on("disconnect", (code, reason) => {
-        alert(code, reason);
+      ethereum.on("disconnect", () => {
+        console.log("disconnected");
       });
     }
   }, []);
@@ -100,17 +100,17 @@ function MyApp({ Component, pageProps }) {
         setChainId(parseInt(chainId_));
 
         provider.on("accountsChanged", function (accounts) {
-          changeAccount(accounts[0]);
+          changeAccount();
         });
 
-        provider.on("chainChanged", (chainId) => {
-          changeChain(chainId);
+        provider.on("chainChanged", () => {
+          changeChain();
         });
 
         provider.on("connect", () => {});
 
-        provider.on("disconnect", (code, reason) => {
-          alert(code, reason);
+        provider.on("disconnect", () => {
+          console.log("disconnected");
         });
       }
     } catch (e) {
@@ -118,23 +118,35 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  const changeAccount = async (account) => {
-    alert("change account");
+  const changeAccount = async () => {
+    
     if (window.ethereum) {
       try {
-        setAccount(account);
-        connect();
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        if (accounts.length !== 0) {
+          setAccount(ethereum.selectedAddress);
+          connect();
+        } else {
+          console.log("No authorised account found");
+          return;
+        }
       } catch (error) {
-        toast(error);
+        if (error.code === 4001) {
+          console.log("Metamask Connection Cancelled");
+        }
       }
     } else {
-      toast("Make sure you have MetaMask!");
+      console.log("Make sure you have MetaMask!");
     }
   };
 
-  const changeChain = async (chainId) => {
-    alert("change chain");
-    setChainId(parseInt(chainId));
+  const changeChain = async () => {
+    console.log("change chain");
+    let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
+    setChainId(parseInt(chainId_));
   };
 
   const isCorrectChain = async () => {
