@@ -29,9 +29,6 @@ export default function Layout(props) {
           margin: 0 !important;
           padding: 0 !important;
         }
-        * {
-          overflow-x: hidden !important;
-        }
       `}</style>
         <Wrap
           spacing={0}
@@ -39,6 +36,7 @@ export default function Layout(props) {
           w="100vw"
           minH="100vh"
           p={0}
+          style="overflow-x: hidden !important;"
         >
         <WrapItem
           display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }}
