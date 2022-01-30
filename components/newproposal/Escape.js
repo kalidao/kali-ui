@@ -70,7 +70,7 @@ export default function Escape() {
           ))}
         </Select>
 
-        <Input type="hidden" name="proposalType_" value="9" />
+        <Input type="hidden" name="proposalType_" value="10" />
 
         <Button type="submit">Submit Proposal</Button>
       </Stack>
