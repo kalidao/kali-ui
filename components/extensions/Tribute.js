@@ -15,6 +15,7 @@ export default function BuyCrowdsale() {
     extensions,
     address,
     abi,
+    dao,
   } = value.state;
 
   const submitProposal = async (event) => {
@@ -41,7 +42,7 @@ export default function BuyCrowdsale() {
 
       const tribAbi = require("../../abi/KaliDAOtribute.json");
 
-      const tribAddress = extensions.tribute;
+      const tribAddress = dao["extensions"]["tribute"]["address"];
 
       const instance = new web3.eth.Contract(tribAbi, tribAddress);
 
