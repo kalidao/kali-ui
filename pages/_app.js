@@ -119,6 +119,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeAccount = async () => {
+    alert("change account");
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({
@@ -143,6 +144,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeChain = async () => {
+    alert("change chain");
     console.log("change chain");
     let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
     setChainId(parseInt(chainId_));
