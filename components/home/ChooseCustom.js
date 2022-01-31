@@ -83,7 +83,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     );
     details["governance"]["quorum"] = parseInt(quorum);
     details["governance"]["supermajority"] = parseInt(supermajority);
-    details["governance"]["paused"] = Number(!paused);
+    details["governance"]["paused"] = Number(paused);
 
     // setting extensions
     details["extensions"]["tribute"]["active"] = tribute;
