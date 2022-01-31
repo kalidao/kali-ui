@@ -46,9 +46,8 @@ function MyApp({ Component, pageProps }) {
   }, [chainId]);
 
   const subscribe = async (provider) => {
-    //provider.on("networkChanged", (net) => changeChain(net));
+    provider.on("networkChanged", (net) => changeChain(net));
     provider.on("accountsChanged", (accounts) => changeAccount(accounts));
-    provider.on("chainChanged", (chainId) => window.location.reload());
     provider.on("connect", () => {});
 
     provider.on("disconnect", () => {
@@ -108,7 +107,6 @@ function MyApp({ Component, pageProps }) {
 
   const changeChain = async (net) => {
     if(net != undefined) {
-      alert("change chain " + net);
       setChainId(net);
     }
   };
