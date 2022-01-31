@@ -28,8 +28,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (
-      typeof window !== "undefined" &&
-      typeof window.ethereum !== "undefined"
+      typeof window !== "undefined"
     ) {
       ethereum.on("accountsChanged", function (accounts) {
         changeAccount();
@@ -119,7 +118,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeAccount = async () => {
-    
+
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({
