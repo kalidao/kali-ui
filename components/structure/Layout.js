@@ -24,12 +24,17 @@ export default function Layout(props) {
       </Head>
       <div id="gradient1" />
       <div id="gradient2" />
-      <Nav />
+      <Nav style={{
+        overflowX: "hidden !important"
+      }} />
       <Container
         minH="80vh"
         maxW="container.lg"
         alignItems="center"
         justifyContent="center"
+        style={{
+          overflowX: "hidden !important"
+        }}
       >
         <Box minH="70vh">
           {props.children}
