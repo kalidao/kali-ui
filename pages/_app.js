@@ -101,8 +101,9 @@ function MyApp({ Component, pageProps }) {
 
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
-
-        subscribe();
+        provider.on("chainChanged", (chainId) => alert("chainChanged", chainId))
+        provider.on("networkChanged", (net) => alert("networkChanged", net))
+        provider.on("accountsChanged", (acc) => alert("accountsChanged", acc))
       }
     } catch (e) {
       toast(e);
