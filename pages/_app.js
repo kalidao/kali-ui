@@ -107,8 +107,10 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeChain = async (net) => {
-    alert("change chain " + net);
-    setChainId(net);
+    if(net != undefined) {
+      alert("change chain " + net);
+      setChainId(net);
+    }
   };
 
   const isCorrectChain = async () => {
