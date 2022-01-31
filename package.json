@@ -14,6 +14,7 @@
     "@fontsource/open-sans": "^4.5.2",
     "@fontsource/poppins": "^4.5.0",
     "@react-pdf/renderer": "^2.1.0",
+    "@walletconnect/web3-provider": "^1.7.1",
     "framer-motion": "^5.6.0",
     "next": "12.0.8",
     "node": "^17.3.1",
@@ -24,7 +25,8 @@
     "react-hook-form": "^7.24.0",
     "react-icons": "^4.3.1",
     "react-step-progress-bar": "^1.0.3",
-    "web3": "^1.6.1"
+    "web3": "^1.6.1",
+    "web3modal": "^1.9.5"
   },
   "devDependencies": {
     "eslint": "8.7.0",

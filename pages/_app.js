@@ -1,6 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import AppContext from "../context/AppContext";
 import Web3 from "web3";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3Modal from "web3modal";
 import { useState, useEffect } from "react";
 import theme from "../styles/theme";
 import '@fontsource/poppins/300.css';
@@ -29,19 +31,7 @@ function MyApp({ Component, pageProps }) {
       typeof window !== "undefined" &&
       typeof window.ethereum !== "undefined"
     ) {
-      ethereum.on("accountsChanged", function (accounts) {
-        changeAccount();
-      });
-
-      ethereum.on("chainChanged", () => {
-        changeChain();
-      });
-
-      ethereum.on("connect", () => {});
-
-      ethereum.on("disconnect", () => {
-        console.log("disconnected");
-      });
+      subscribe(window.ethereum);
     }
   }, []);
 
@@ -55,6 +45,16 @@ function MyApp({ Component, pageProps }) {
     }
   }, [chainId]);
 
+  const subscribe = async (provider) => {
+    provider.on("networkChanged", (net) => changeChain(net));
+    provider.on("accountsChanged", (accounts) => changeAccount(accounts));
+    provider.on("connect", () => {});
+
+    provider.on("disconnect", () => {
+      console.log("disconnected");
+    });
+  }
+
   const connectToInfura = async () => {
     let result = await correctNetwork(address);
     setWeb3(result["web3"]);
@@ -66,51 +66,49 @@ function MyApp({ Component, pageProps }) {
   const connect = async () => {
     try {
       if (
-        typeof window !== "undefined" &&
-        typeof window.ethereum !== "undefined"
+        typeof window !== "undefined"
       ) {
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
+        const providerOptions = {
+          walletconnect: {
+            package: WalletConnectProvider, // required
+            options: {
+              infuraId: "26e178ea568e492983f2431ad6a31e74" // required
+            }
+          }
+        };
+        // We are in the browser and metamask is running.
+        const web3Modal = new Web3Modal({
+          providerOptions
         });
-        let metamask = new Web3(window.ethereum);
-        let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
-        setWeb3(metamask);
+
+        const provider = await web3Modal.connect();
+
+        let web3 = new Web3(provider);
+
+        const chain = await web3.eth.getChainId();
+
+        const accounts = await web3.eth.getAccounts();
+
+        const account = accounts[0];
+
+        setWeb3(web3);
         setAccount(accounts[0]);
-        setChainId(parseInt(chainId_));
+        setChainId(chain);
+        subscribe(provider);
       }
     } catch (e) {
       toast(e);
     }
   };
 
-  const changeAccount = async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-
-        if (accounts.length !== 0) {
-          setAccount(ethereum.selectedAddress);
-          connect();
-        } else {
-          console.log("No authorised account found");
-          return;
-        }
-      } catch (error) {
-        if (error.code === 4001) {
-          console.log("Metamask Connection Cancelled");
-        }
-      }
-    } else {
-      console.log("Make sure you have MetaMask!");
-    }
+  const changeAccount = async (accounts) => {
+    setAccount(accounts[0]);
   };
 
-  const changeChain = async () => {
-    console.log("change chain");
-    let chainId_ = await window.ethereum.request({ method: "eth_chainId" });
-    setChainId(parseInt(chainId_));
+  const changeChain = async (net) => {
+    if(net != undefined) {
+      setChainId(net);
+    }
   };
 
   const isCorrectChain = async () => {
