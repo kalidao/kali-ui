@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
   const subscribe = async (provider) => {
     provider.on("networkChanged", (net) => changeChain(net));
     provider.on("accountsChanged", (accounts) => changeAccount(accounts));
-    //provider.on("chainChanged", (chainId) => changeChain(chainId));
+    provider.on("chainChanged", (chainId) => changeChain(chainId));
     provider.on("connect", () => {});
 
     provider.on("disconnect", () => {
