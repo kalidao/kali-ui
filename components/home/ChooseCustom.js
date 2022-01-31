@@ -234,6 +234,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             When should redemption start?
           </FormLabel>
           <DatePicker
+            id="date-picker"
             selected={redemptionStart}
             onChange={(date) => setRedemptionStart(date)}
             showTimeSelect
@@ -250,6 +251,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             When should the crowdsale end?
           </FormLabel>
           <DatePicker
+            id="date-picker"
             selected={saleEnds}
             onChange={(date) => setSaleEnds(date)}
             showTimeSelect
