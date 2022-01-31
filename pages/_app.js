@@ -31,19 +31,7 @@ function MyApp({ Component, pageProps }) {
       typeof window !== "undefined" &&
       typeof window.ethereum !== "undefined"
     ) {
-      ethereum.on("accountsChanged", function (accounts) {
-        changeAccount();
-      });
-
-      ethereum.on("chainChanged", () => {
-        changeChain();
-      });
-
-      ethereum.on("connect", () => {});
-
-      ethereum.on("disconnect", () => {
-        console.log("disconnected");
-      });
+      subscribe();
     }
   }, []);
 
@@ -56,6 +44,22 @@ function MyApp({ Component, pageProps }) {
       isCorrectChain();
     }
   }, [chainId]);
+
+  const subscribe = async () => {
+    ethereum.on("accountsChanged", function (accounts) {
+      changeAccount();
+    });
+
+    ethereum.on("chainChanged", () => {
+      changeChain();
+    });
+
+    ethereum.on("connect", () => {});
+
+    ethereum.on("disconnect", () => {
+      console.log("disconnected");
+    });
+  }
 
   const connectToInfura = async () => {
     let result = await correctNetwork(address);
@@ -90,7 +94,6 @@ function MyApp({ Component, pageProps }) {
         setWeb3(web3);
 
         const chainId_ = await web3.eth.getChainId();
-        console.log("chainId", chainId_)
 
         const accounts = await web3.eth.getAccounts();
 
@@ -99,19 +102,7 @@ function MyApp({ Component, pageProps }) {
         setAccount(accounts[0]);
         setChainId(parseInt(chainId_));
 
-        provider.on("accountsChanged", function (accounts) {
-          changeAccount();
-        });
-
-        provider.on("chainChanged", () => {
-          changeChain();
-        });
-
-        provider.on("connect", () => {});
-
-        provider.on("disconnect", () => {
-          console.log("disconnected");
-        });
+        subscribe();
       }
     } catch (e) {
       toast(e);
