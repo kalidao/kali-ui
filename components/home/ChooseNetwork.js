@@ -36,7 +36,7 @@ export default function ChooseNetwork(props) {
         onChange={updateNetwork}
         defaultValue={props.details["network"]}
       >
-        <option value="999"></option>
+        {/* <option value="999"></option> */}
         {supportedChains.map((item, index) => (
           <option key={index} value={item["chainId"]}>
             {item["name"]}
