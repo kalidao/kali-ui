@@ -114,7 +114,7 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-async function fetchMembers(instance) {
+export async function fetchMembers(instance) {
   const holdersArray_ = [];
 
   const holders = await instance.getPastEvents("Transfer", {
