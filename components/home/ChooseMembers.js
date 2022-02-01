@@ -1,17 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import {
-  FormErrorMessage,
   FormLabel,
   FormControl,
   Input,
   VStack,
   Button,
-  Text,
   Heading,
   List,
   ListItem,
   IconButton,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -66,9 +69,7 @@ export default function ChooseMembers(props) {
     let sharesArray = [];
 
     for (let i = 0; i < founders.length; i++) {
-      let element = document.getElementById(`founders.${i}.share`);
-      let value = element.value;
-      sharesArray.push(toDecimals(value, 18));
+      sharesArray.push(toDecimals(founders[i].share, 18));
     }
 
     console.log("Shares Array", sharesArray);
@@ -94,7 +95,12 @@ export default function ChooseMembers(props) {
   };
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(handleMembersSubmit)} width="100%" alignItems="center">
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(handleMembersSubmit)}
+      width="100%"
+      alignItems="center"
+    >
       <Heading as="h1">
         <b>Build your cap table:</b>
       </Heading>
@@ -136,11 +142,21 @@ export default function ChooseMembers(props) {
                   <FormLabel htmlFor={`founders.${index}.share`}>
                     Shares
                   </FormLabel>
-                  <NumInputField
+                  <Controller
+                    control={control}
+                    name={`founders.${index}.share`}
                     min="1"
-                    defaultValue={defaults[index]}
-                    id={`founders.${index}.share`}
+                    render={({ field: { ref, ...rest } }) => (
+                      <NumberInput min="1" max="100" {...rest}>
+                        <NumberInputField ref={ref} name={rest.name} />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    )}
                   />
+                  {/* NOTE: <NumInputField/> is not compatible with react-hook-form. Using documentElementById was bypassed this and allowed for NaN and zero values.*/}
                 </FormControl>
               )}
             />
