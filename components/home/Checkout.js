@@ -11,7 +11,7 @@ import {
   ListItem,
   Stack,
   HStack,
-  Spacer
+  Spacer,
 } from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
 import {
@@ -24,32 +24,33 @@ import { factoryInstance } from "../../eth/factory";
 import { presets } from "../../constants/presets";
 import DashedDivider from "../elements/DashedDivider";
 import KaliButton from "../elements/KaliButton";
+import ContactForm from "../elements/ContactForm";
 
 export default function Checkout({ details }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
 
   // for use at the end
- let paused;
- if(details["governance"]['paused']==1) {
-   paused = "restricted";
- } else {
-   paused = "unrestricted";
- }
+  let paused;
+  if (details["governance"]["paused"] == 1) {
+    paused = "restricted";
+  } else {
+    paused = "unrestricted";
+  }
 
- let daoType;
- if(details['daoType'] == null) {
-   daoType = "Custom";
- } else {
-   daoType = presets[details['daoType']]['type'];
- }
+  let daoType;
+  if (details["daoType"] == null) {
+    daoType = "Custom";
+  } else {
+    daoType = presets[details["daoType"]]["type"];
+  }
 
- let docs;
- if(details["legal"]['docs']=="") {
-   docs = "Ricardian";
- } else {
-   docs = details["legal"]['docs'];
- }
+  let docs;
+  if (details["legal"]["docs"] == "") {
+    docs = "Ricardian";
+  } else {
+    docs = details["legal"]["docs"];
+  }
 
   const deploy = async () => {
     if (!web3 || web3 == null) {
@@ -226,71 +227,78 @@ export default function Checkout({ details }) {
   const checkoutDetails = [
     {
       name: "Chain",
-      details: details['network']
+      details: details["network"],
     },
     {
       name: "Name",
-      details: details["identity"]['daoName']
+      details: details["identity"]["daoName"],
     },
     {
       name: "Symbol",
-      details: details["identity"]['symbol']
+      details: details["identity"]["symbol"],
     },
     {
       name: "Type",
-      details: daoType
+      details: daoType,
     },
     {
       name: "Members",
-      details: details["founders"]['members']
+      details: details["founders"]["members"],
     },
     {
       name: "Voting period",
-      details: convertVotingPeriod(details["governance"]['votingPeriod'])
+      details: convertVotingPeriod(details["governance"]["votingPeriod"]),
     },
     {
       name: "Share transferability",
-      details: paused
+      details: paused,
     },
     {
       name: "Quorum",
-      details: details["governance"]['quorum'] + "%"
+      details: details["governance"]["quorum"] + "%",
     },
     {
       name: "Supermajority",
-      details: details["governance"]['supermajority'] + "%"
+      details: details["governance"]["supermajority"] + "%",
     },
     {
       name: "Docs",
-      details: docs
+      details: docs,
     },
   ];
 
   return (
     <>
-    <Stack id="checkout">
-      {checkoutDetails.map((item, index) => (
-        <>
-          {Array.isArray(item.details) ? // members array
-            <>
-            <Text>{item.name}</Text>
-            <List>
-            {item.details.map((member, i) => (
-              <ListItem key={i}>{member} ({fromDecimals(details["founders"].shares[i], 18)} shares)</ListItem>
-            ))
-            }
-            </List>
-            </>
-          :
-          <HStack>
-            <Text>{item.name}</Text><Spacer /><Text>{item.details}</Text>
-          </HStack>
-          }
-        <DashedDivider />
-        </>
-      ))}
-    </Stack>
-    <KaliButton id="deploy-btn" onClick={deploy}>Deploy Your DAO!</KaliButton>
+      <Stack id="checkout">
+        {checkoutDetails.map((item, index) => (
+          <>
+            {Array.isArray(item.details) ? ( // members array
+              <>
+                <Text>{item.name}</Text>
+                <List>
+                  {item.details.map((member, i) => (
+                    <ListItem key={i}>
+                      {member} (
+                      {fromDecimals(details["founders"].shares[i], 18)} shares)
+                    </ListItem>
+                  ))}
+                </List>
+              </>
+            ) : (
+              <HStack>
+                <Text>{item.name}</Text>
+                <Spacer />
+                <Text>{item.details}</Text>
+              </HStack>
+            )}
+            <DashedDivider />
+          </>
+        ))}
+      </Stack>
+      <KaliButton id="deploy-btn" onClick={deploy}>
+        Deploy Your DAO!
+      </KaliButton>
+      Have questions? <ContactForm />
     </>
   );
 }

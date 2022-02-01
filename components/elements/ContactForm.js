@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import {
   Button,
   Drawer,
@@ -13,16 +13,37 @@ import {
   Stack,
   useDisclosure,
   Textarea,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { init, sendForm } from "emailjs-com";
+import AppContext from "../../context/AppContext";
+
+//process.env.EMAIL_JS_ID
+init("user_2nhVcSlmA2CptU0PSeBhi");
 
 function ContactForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, register } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
   const initialField = useRef();
+  const value = useContext(AppContext);
 
   const handleSend = (values) => {
     console.log(values);
+
+    sendForm("default_service", "template_oketq6j", "#contact-form").then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+        value.toast("Email sent!");
+      },
+      function (error) {
+        console.log("FAILED!", error);
+      }
+    );
     onClose();
   };
 
@@ -51,32 +72,44 @@ function ContactForm() {
                   ref={initialField}
                   id="name"
                   placeholder="Enter your name"
-                  {...register("name")}
+                  {...register("name", { required: "Name is required!" })}
                 />
+                <FormErrorMessage>
+                  {errors.name ? errors.name.message : null}
+                </FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                   id="email"
                   placeholder="Enter your email"
-                  {...register("email")}
+                  {...register("email", { required: "Email is required!" })}
                 />
+                <FormErrorMessage>
+                  {errors.email ? errors.email.message : null}
+                </FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="subject">Subject</FormLabel>
                 <Input
                   id="subject"
                   placeholder="Enter the subject"
-                  {...register("subject")}
+                  {...register("subject", { required: "Subject is required!" })}
                 />
+                <FormErrorMessage>
+                  {errors.subject ? errors.subject.message : null}
+                </FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="message">Message</FormLabel>
                 <Textarea
                   id="message"
                   placeholder="Enter a description of your needs"
-                  {...register("message")}
+                  {...register("message", { required: "Subject is required!" })}
                 />
+                <FormErrorMessage>
+                  {errors.message ? errors.message.message : null}
+                </FormErrorMessage>
               </FormControl>
             </Stack>
           </DrawerBody>
