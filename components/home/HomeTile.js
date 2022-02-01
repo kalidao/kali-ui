@@ -28,8 +28,12 @@ export default function HomeTile(props) {
           <b>Simplify your Business</b> with Smart Agreements
         </Text>
         <br></br>
-        <KaliButton onClick={props.setDeployerVisible}>Get Started</KaliButton>
-        <ContactForm />
+        <HStack>
+          <KaliButton onClick={props.setDeployerVisible}>
+            Get Started
+          </KaliButton>
+          <ContactForm />
+        </HStack>
       </VStack>
     </HStack>
   );

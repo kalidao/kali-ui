@@ -18,8 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { init, sendForm } from "emailjs-com";
-import AppContext from "../../context/AppContext";
-
+import { HiOutlineMail } from "react-icons/hi";
 //process.env.EMAIL_JS_ID
 init("user_2nhVcSlmA2CptU0PSeBhi");
 
@@ -63,7 +62,16 @@ function ContactForm() {
 
   return (
     <>
-      <Button onClick={onOpen}>Contact us</Button>
+      <Button
+        onClick={onOpen}
+        leftIcon={<HiOutlineMail />}
+        variant="solid"
+        border="none"
+        color="kali.300"
+        borderRadius="2xl"
+      >
+        Contact us
+      </Button>
       <Drawer
         isOpen={isOpen}
         placement="bottom"
