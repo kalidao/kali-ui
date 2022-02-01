@@ -7,6 +7,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { TiThMenu } from "react-icons/ti";
+import Link from "next/link";
 
 export default function Hamburger() {
   return (
@@ -20,8 +21,11 @@ export default function Hamburger() {
         transition="all 0.2s"
       />
       <MenuList>
-        <MenuItem color="kali.800">My DAOs</MenuItem>
-
+        <MenuItem color="kali.800">
+          <Link href="/my-daos">
+            <a>My DAOs</a>
+          </Link>
+        </MenuItem>
         <MenuItem color="kali.800">FAQs</MenuItem>
         <MenuItem color="kali.800">Docs</MenuItem>
         <MenuItem color="kali.800">Support</MenuItem>
