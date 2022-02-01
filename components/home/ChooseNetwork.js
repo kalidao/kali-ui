@@ -36,7 +36,7 @@ export default function ChooseNetwork(props) {
         onChange={updateNetwork}
         defaultValue={props.details["network"]}
       >
-        <option value="999"></option>
+        {/* <option value="999"></option> */}
         {supportedChains.map((item, index) => (
           <option key={index} value={item["chainId"]}>
             {item["name"]}
@@ -62,14 +62,14 @@ export default function ChooseNetwork(props) {
               <i>connected to {getNetworkName(network)}</i>
             </Text>
           </HStack>
+        </>
+      ) : null}
           <Button
             className="transparent-btn"
             onClick={() => props.handleNext()}
           >
             Next »
           </Button>
-        </>
-      ) : null}
     </VStack>
   );
 }
