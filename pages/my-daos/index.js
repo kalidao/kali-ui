@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import LayoutApp from "../../components/structure/LayoutApp";
+import Layout from "../../components/structure/Layout";
 import { Button, List, ListItem, Text, Box } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
@@ -69,7 +69,7 @@ export default function MyDaos() {
   }
 
   return (
-    <LayoutApp>
+    <Layout>
         {account == null ?
         <Button onClick={value.connect}>Connect to see your DAOs</Button>
         :
@@ -85,6 +85,6 @@ export default function MyDaos() {
         ))}
         </>
         }
-    </LayoutApp>
+    </Layout>
   );
 }
