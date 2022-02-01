@@ -298,7 +298,10 @@ export default function Checkout({ details }) {
       <KaliButton id="deploy-btn" onClick={deploy}>
         Deploy Your DAO!
       </KaliButton>
-      Have questions? <ContactForm />
+      <HStack>
+        <Text fontWeight={700}>Have questions?</Text>
+        <ContactForm />
+      </HStack>
     </>
   );
 }
