@@ -6,6 +6,7 @@ import { Button, List, ListItem, Text, Box } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { fetchMembers } from "../../utils/fetchDaoInfo";
+import { getNetworkName } from "../../utils/formatters";
 const abi = require("../../abi/KaliDAO.json");
 
 export default function MyDaos() {
@@ -77,7 +78,7 @@ export default function MyDaos() {
         {daos == null ? null :
         daos.map((dao, key) => (
         <List key={key}>
-          <Text>Chain {key}</Text>
+          <Text>{getNetworkName(key)}</Text>
           {dao.map((item, index) => (
             <ListItem key={index}>{item}</ListItem>
           ))}
