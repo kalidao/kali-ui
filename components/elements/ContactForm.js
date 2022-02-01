@@ -14,6 +14,7 @@ import {
   useDisclosure,
   Textarea,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { init, sendForm } from "emailjs-com";
@@ -30,7 +31,7 @@ function ContactForm() {
     formState: { errors },
   } = useForm();
   const initialField = useRef();
-  const value = useContext(AppContext);
+  const toast = useToast();
 
   const handleSend = (values) => {
     console.log(values);
@@ -38,10 +39,23 @@ function ContactForm() {
     sendForm("default_service", "template_oketq6j", "#contact-form").then(
       function (response) {
         console.log("SUCCESS!", response.status, response.text);
-        value.toast("Email sent!");
+        toast({
+          title: "Success",
+          description: "Email sent successfully!",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       },
       function (error) {
         console.log("FAILED!", error);
+        toast({
+          title: "Failed",
+          description: "We were not able to send this email.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
     );
     onClose();
