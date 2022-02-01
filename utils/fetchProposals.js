@@ -151,11 +151,19 @@ function isPassing(dao, proposal) {
   // second, if quorum fails, mark as failed/failing
   if (voteType == 1 || voteType == 3) {
     let minVotes = Math.ceil((totalSupply * quorum) / 100);
+    let minYes = Math.ceil(((yesVotes + noVotes) * supermajority) / 100);
     console.log(minVotes, "minVotes")
+    console.log(minYes, "minYes")
     let votes = yesVotes + noVotes;
     console.log(votes, "votes")
-    if (votes >= minVotes) {
+    if (votes >= minVotes && yesVotes > noVotes) {
       passing = true;
+    } else if (votes >= minVotes && yesVotes < noVotes) {
+      passing = false;
+    } else if (votes >= minVotes && yesVotes > minYes) {
+      passing = true;
+    } else if (votes >= minVotes && yesVotes < minYes) {
+      passing = false;
     }
   }
   if (passing == true && open == true) {
