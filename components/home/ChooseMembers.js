@@ -156,7 +156,7 @@ export default function ChooseMembers(props) {
                       </NumberInput>
                     )}
                   />
-                  {/* NOTE: <NumInputField/> is not compatible with react-hook-form. Using documentElementById was bypassed this and allowed for NaN and zero values.*/}
+                  {/* NOTE: <NumInputField/> is not compatible with react-hook-form. Using documentElementById was bypassing this and allowed for NaN and zero values.*/}
                 </FormControl>
               )}
             />
