@@ -46,6 +46,7 @@ export default function MyDaos() {
         for(let i=0; i < events.length; i++) {
 
           let dao_ = events[i]["returnValues"]["kaliDAO"];
+          let name_ = events[i]["returnValues"]["name"];
 
           const instance = new web3.eth.Contract(abi, dao_);
 
@@ -54,7 +55,7 @@ export default function MyDaos() {
 
           for(let m=0; m < members.length; m++) {
             if(members[m]['member'].toLowerCase() == account.toLowerCase()) {
-              daosThisChain.push(dao_);
+              daosThisChain.push({ dao: dao_, name: name_ });
             }
           }
         }
@@ -80,7 +81,7 @@ export default function MyDaos() {
         <List key={key}>
           <Text>{getNetworkName(key)}</Text>
           {dao.map((item, index) => (
-            <ListItem key={index}>{item}</ListItem>
+            <ListItem key={index}>{item.name} ({item.dao})</ListItem>
           ))}
         </List>
         ))}
