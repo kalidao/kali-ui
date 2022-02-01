@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import Layout from "../../components/structure/Layout";
-import { Button, List, ListItem, Text, Box } from "@chakra-ui/react";
+import { Button, List, ListItem, Text, Box, Link } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { fetchMembers } from "../../utils/fetchDaoInfo";
@@ -81,7 +81,7 @@ export default function MyDaos() {
         <List key={key}>
           <Text>{getNetworkName(key)}</Text>
           {dao.map((item, index) => (
-            <ListItem key={index}>{item.name} ({item.dao})</ListItem>
+            <ListItem key={index}><Link href={`../daos/${item.dao}`}>{item.name} ({item.dao})</Link></ListItem>
           ))}
         </List>
         ))}
