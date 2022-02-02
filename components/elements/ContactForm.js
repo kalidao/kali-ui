@@ -69,6 +69,7 @@ function ContactForm() {
         border="none"
         color="kali.300"
         borderRadius="2xl"
+        className="transparent-btn"
       >
         Contact us
       </Button>
