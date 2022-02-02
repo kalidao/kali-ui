@@ -12,7 +12,7 @@ import StepProgressBar from "./StepProgressBar";
 export default function FactoryWrapper() {
   const [visible, setVisible] = useState(0);
   const [details, setDetails] = useState({
-    network: 999,
+    network: 4,
     identity: {
       daoName: null,
       symbol: null,
