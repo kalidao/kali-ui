@@ -40,7 +40,6 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
   const handleChange = (e) => {
     details["legal"]["docs"] = e.target.value;
     setDetails(details);
-    console.log(props.details);
   };
 
   const templateOptions = () => [
