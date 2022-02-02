@@ -19,8 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { init, sendForm } from "emailjs-com";
 import { HiOutlineMail } from "react-icons/hi";
-import { BiMailSend } from "react-icons/bi";
-
+//process.env.EMAIL_JS_ID
 init("user_2nhVcSlmA2CptU0PSeBhi");
 
 function ContactForm() {
@@ -138,24 +137,10 @@ function ContactForm() {
             </Stack>
           </DrawerBody>
           <DrawerFooter>
-            <Button
-              variant="solid"
-              border="none"
-              type="submit"
-              bg="#33ff33"
-              form="contact-form"
-              mr={3}
-              _hover={{ bg: "#28bf28" }}
-              rightIcon={<BiMailSend />}
-            >
+            <Button type="submit" form="contact-form" mr={3}>
               Send
             </Button>
-            <Button
-              variant="solid"
-              bg="kali.700"
-              border="none"
-              onClick={onClose}
-            >
+            <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
           </DrawerFooter>
