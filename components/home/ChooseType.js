@@ -14,7 +14,7 @@ import {
   UnorderedList,
   ListItem,
   Button,
-  Center
+  Center,
 } from "@chakra-ui/react";
 import { convertVotingPeriod } from "../../utils/formatters";
 import { presets } from "../../constants/presets";
@@ -144,7 +144,11 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <DaoBox key={index} id={index} type={item} />
         ))}
       </Grid>
-      <Center><Button onClick={handleNext}>Custom</Button></Center>
+      <Center>
+        <Button className="transparent-btn" isFullWidth onClick={handleNext}>
+          Custom
+        </Button>
+      </Center>
     </VStack>
   );
 }
