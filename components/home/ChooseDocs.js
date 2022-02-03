@@ -67,7 +67,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           defaultValue={details["legal"]["docType"]}
         >
           <option className="option" value="999"></option>
-          <option value="0">Form an LLC</option>
+          <option value="0">Form a Series LLC</option>
           <option value="1">Use your own docs</option>
           <option value="2">None</option>
         </Select>
