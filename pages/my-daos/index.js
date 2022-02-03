@@ -95,7 +95,9 @@ export default function MyDaos() {
             ? null
             : daos.map((dao, key) => (
                 <List key={key}>
-                  <Heading as="h2">{getNetworkName(key)}</Heading>
+                  <Heading as="h2">
+                    {getNetworkName(key).replace(/^\w/, (s) => s.toUpperCase())}
+                  </Heading>
                   {dao.map((item, index) => (
                     <ListItem key={index}>
                       <Link href={`../daos/${item.dao}`}>
