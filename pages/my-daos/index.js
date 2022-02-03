@@ -2,7 +2,15 @@ import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import Layout from "../../components/structure/Layout";
-import { Button, List, ListItem, Text, Box, Link } from "@chakra-ui/react";
+import {
+  Button,
+  List,
+  ListItem,
+  Text,
+  Box,
+  Link,
+  Heading,
+} from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { fetchMembers } from "../../utils/fetchDaoInfo";
@@ -84,11 +92,11 @@ export default function MyDaos() {
             ? null
             : daos.map((dao, key) => (
                 <List key={key}>
-                  <Text>{getNetworkName(key)}</Text>
+                  <Heading as="h2">{getNetworkName(key)}</Heading>
                   {dao.map((item, index) => (
                     <ListItem key={index}>
                       <Link href={`../daos/${item.dao}`}>
-                        {item.name} ({item.dao})
+                        <DaoCard name={item.name} dao={item.dao} />
                       </Link>
                     </ListItem>
                   ))}
@@ -99,3 +107,14 @@ export default function MyDaos() {
     </Layout>
   );
 }
+
+const DaoCard = ({ name, dao }) => {
+  return (
+    <Box bg="hsl(0, 92%, 6%, 20%)" p="3" m="2" borderRadius="3xl">
+      <Text color="kali.800" fontWeight="800" fontSize="2xl">
+        {name}
+      </Text>
+      <Text color="kali.800">Address: {dao}</Text>
+    </Box>
+  );
+};
