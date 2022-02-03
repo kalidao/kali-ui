@@ -14,10 +14,10 @@ export const proposalTypes = {
 };
 
 export const voteTypes = {
-  0: "SIMPLE_MAJORITY",
-  1: "SIMPLE_MAJORITY_QUORUM_REQUIRED",
-  2: "SUPERMAJORITY",
-  3: "SUPERMAJORITY_QUORUM_REQUIRED",
+  0: "Simple Majority",
+  1: "Simple Majority with Quorum",
+  2: "Supermajority",
+  3: "Supermajority with Quorum",
 };
 
 export const votingPeriodUnits = {
