@@ -10,11 +10,14 @@ import {
   Box,
   Link,
   Heading,
+  Spacer,
+  HStack,
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { fetchMembers } from "../../utils/fetchDaoInfo";
 import { getNetworkName } from "../../utils/formatters";
+import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
 
 export default function MyDaos() {
@@ -110,11 +113,24 @@ export default function MyDaos() {
 
 const DaoCard = ({ name, dao }) => {
   return (
-    <Box bg="hsl(0, 92%, 6%, 20%)" p="3" m="2" borderRadius="3xl">
-      <Text color="kali.800" fontWeight="800" fontSize="2xl">
-        {name}
-      </Text>
-      <Text color="kali.800">Address: {dao}</Text>
+    <Box
+      bg="hsl(0, 92%, 6%, 20%)"
+      color="kali.800"
+      p="3"
+      m="2"
+      borderRadius="3xl"
+    >
+      <HStack>
+        <Text>Name</Text>
+        <Spacer />
+        <Text>{name}</Text>
+      </HStack>
+      <DashedDivider />
+      <HStack>
+        <Text>Address</Text>
+        <Spacer />
+        <Text>{dao}</Text>
+      </HStack>
     </Box>
   );
 };
