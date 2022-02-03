@@ -21,11 +21,11 @@ export default function Hamburger() {
         transition="all 0.2s"
       />
       <MenuList>
-        <MenuItem color="kali.800">
-          <Link href="/my-daos">
-            <a>My DAOs</a>
-          </Link>
-        </MenuItem>
+        <Link href="/my-daos">
+          <a>
+            <MenuItem color="kali.800">My DAOs</MenuItem>
+          </a>
+        </Link>
         <MenuItem color="kali.800">FAQs</MenuItem>
         <MenuItem color="kali.800">Docs</MenuItem>
         <MenuItem color="kali.800">Support</MenuItem>
