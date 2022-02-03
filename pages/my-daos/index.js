@@ -47,6 +47,7 @@ export default function MyDaos() {
 
           let dao_ = events[i]["returnValues"]["kaliDAO"];
           let name_ = events[i]["returnValues"]["name"];
+          let docs_ = events[i]["returnValues"]["docs"];
 
           const instance = new web3.eth.Contract(abi, dao_);
 
@@ -56,6 +57,7 @@ export default function MyDaos() {
           for(let m=0; m < members.length; m++) {
             if(members[m]['member'].toLowerCase() == account.toLowerCase()) {
               daosThisChain.push({ dao: dao_, name: name_ });
+                        console.log("docs for this one", docs_)
             }
           }
         }
