@@ -14,7 +14,7 @@ export default function MyDaos() {
   const { web3, chainId, loading, account } = value.state;
   const [daos, setDaos] = useState(null);
 
-  const testArray = {4: "test", 8: "test"};
+  const testArray = { 4: "test", 8: "test" };
 
   useEffect(() => {
     fetchData();
@@ -30,7 +30,8 @@ export default function MyDaos() {
 
       let size = keys.length;
 
-      for(let j=0; j < size; j++) { // loop thru chains
+      for (let j = 0; j < size; j++) {
+        // loop thru chains
 
         let address = addresses[keys[j]]["factory"];
 
@@ -43,8 +44,7 @@ export default function MyDaos() {
 
         const daosThisChain = [];
 
-        for(let i=0; i < events.length; i++) {
-
+        for (let i = 0; i < events.length; i++) {
           let dao_ = events[i]["returnValues"]["kaliDAO"];
           let name_ = events[i]["returnValues"]["name"];
           let docs_ = events[i]["returnValues"]["docs"];
@@ -52,12 +52,12 @@ export default function MyDaos() {
           const instance = new web3.eth.Contract(abi, dao_);
 
           let members = await fetchMembers(instance);
-          console.log(members)
+          console.log(members);
 
-          for(let m=0; m < members.length; m++) {
-            if(members[m]['member'].toLowerCase() == account.toLowerCase()) {
+          for (let m = 0; m < members.length; m++) {
+            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
               daosThisChain.push({ dao: dao_, name: name_ });
-                        console.log("docs for this one", docs_)
+              console.log("docs for this one", docs_);
             }
           }
         }
@@ -74,21 +74,28 @@ export default function MyDaos() {
 
   return (
     <Layout>
-        {account == null ?
-        <Button onClick={value.connect}>Connect to see your DAOs</Button>
-        :
+      {account == null ? (
+        <Button className="transparent-btn" onClick={value.connect}>
+          Connect to see your DAOs
+        </Button>
+      ) : (
         <>
-        {daos == null ? null :
-        daos.map((dao, key) => (
-        <List key={key}>
-          <Text>{getNetworkName(key)}</Text>
-          {dao.map((item, index) => (
-            <ListItem key={index}><Link href={`../daos/${item.dao}`}>{item.name} ({item.dao})</Link></ListItem>
-          ))}
-        </List>
-        ))}
+          {daos == null
+            ? null
+            : daos.map((dao, key) => (
+                <List key={key}>
+                  <Text>{getNetworkName(key)}</Text>
+                  {dao.map((item, index) => (
+                    <ListItem key={index}>
+                      <Link href={`../daos/${item.dao}`}>
+                        {item.name} ({item.dao})
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              ))}
         </>
-        }
+      )}
     </Layout>
   );
 }
