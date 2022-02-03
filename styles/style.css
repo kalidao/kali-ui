@@ -322,5 +322,17 @@ div#footer {
   margin-bottom: 15px;
 }
 
+/* //////////////// MISC //////////////// */
+/* TOS */
+#tos {
+  color: rgba(0, 0, 0, 0.1);
+  background-color: whitesmoke;
+}
+
+#tos-button {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
 /* color scheme */
 /* purple: #5a2686, darkBlue: 594cfb, lightBlue: a0b1dc, pink: e65170, purple: 3b074e */

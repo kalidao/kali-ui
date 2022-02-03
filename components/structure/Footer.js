@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiTwitter, FiGithub, FiUsers } from "react-icons/fi";
+import ToS from "../elements/ToS";
 
 const SocialButton = (props) => {
   return (
@@ -33,13 +34,23 @@ export default function Footer() {
           <i>LexDAO</i>
         </a>
       </Text>
-      <Text direction={"column"} fontSize="xs">
-        <a href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9" target="_blank" rel="noreferrer">
+      <ToS />
+      {/* <Text as="button" onClick={TOS} direction={"column"} fontSize="xs">
+        <a
+          href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9"
+          target="_blank"
+          rel="noreferrer"
+        >
           <i>ToS</i>
         </a>
-      </Text>
+      </Text> */}
       <Spacer />
-      <Stack direction={"row"} spacing={-1} border="1px solid" borderRadius="xl">
+      <Stack
+        direction={"row"}
+        spacing={-1}
+        border="1px solid"
+        borderRadius="xl"
+      >
         <SocialButton href={"https://github.com/kalidao"}>
           <FiGithub />
         </SocialButton>
