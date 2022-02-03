@@ -145,7 +145,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
         ))}
       </Grid>
       <Center>
-        <Button className="transparent-btn" isFullWidth onClick={handleNext}>
+        <Button className="transparent-btn" onClick={handleNext}>
           Custom
         </Button>
       </Center>

@@ -33,7 +33,7 @@ function ToS() {
           <ModalHeader>KaliCo Terms of Service</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ReactMarkdown children={tos} />
+            <ReactMarkdown>{tos}</ReactMarkdown>
           </ModalBody>
           <ModalFooter>{/* I accept */}</ModalFooter>
         </ModalContent>
