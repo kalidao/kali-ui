@@ -62,14 +62,14 @@ export default function ChooseNetwork(props) {
               <i>connected to {getNetworkName(network)}</i>
             </Text>
           </HStack>
-        </>
-      ) : null}
           <Button
             className="transparent-btn"
             onClick={() => props.handleNext()}
           >
             Next »
           </Button>
+        </>
+      ) : null}
     </VStack>
-  );
+  )
 }
