@@ -9,5 +9,5 @@ export const addresses =
         crowdsale: "0x6564704626aFa561B29D3973b39d46462FFFb04f",
         redemption: "0x4973670f38c98126F4cA1d74A92F7FE397d18F58",
       },
-    },
+    }
   };

@@ -28,7 +28,7 @@ export async function fetchDaoInfo(
 
   const supermajority = parseInt(await instance.methods.supermajority().call());
 
-  const docs = await fetchDocs(factory);
+  const docs = await fetchDocs(factory, address);
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
@@ -72,12 +72,18 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-async function fetchDocs(factory) {
+async function fetchDocs(factory, address) {
+  let docs;
   const events = await factory.getPastEvents("DAOdeployed", {
     fromBlock: 0,
     toBlock: "latest",
   });
-  const docs = events[0]["returnValues"]["docs"];
+  for(let i=0; i < events.length; i++) {
+    const dao = events[i]["returnValues"]["kaliDAO"];
+    if(dao.toLowerCase() == address.toLowerCase()) {
+      docs = events[i]["returnValues"]["docs"];
+    }
+  }
   return docs;
 }
 
@@ -114,7 +120,7 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-async function fetchMembers(instance) {
+export async function fetchMembers(instance) {
   const holdersArray_ = [];
 
   const holders = await instance.getPastEvents("Transfer", {
