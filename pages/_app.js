@@ -122,7 +122,6 @@ function MyApp({ Component, pageProps }) {
       });
     } catch(e) {
       if(e.code === 4902) {
-        alert("no chain")
         try {
           await ethereum.request({
             method: 'wallet_addEthereumChain',
