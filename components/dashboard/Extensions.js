@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import {
   Text,
@@ -22,7 +22,7 @@ const ExtensionCard = ({ key, name }) => {
   };
 
   return (
-    <>
+    <React.Fragment key={key}>
       <HStack>
         <Text>{name.replace(/^\w/, (s) => s.toUpperCase())}</Text>
         <Spacer />
@@ -30,7 +30,7 @@ const ExtensionCard = ({ key, name }) => {
       </HStack>
 
       <DashedDivider />
-    </>
+    </React.Fragment>
   );
 };
 
