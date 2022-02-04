@@ -23,6 +23,25 @@
 		"type": "error"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "NotProcessed",
 		"type": "error"
@@ -55,7 +74,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "releaseTributeProposal",
+		"name": "releaseTributeProposalAndProcess",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -131,7 +150,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "releaseTributeProposalAndProcess",
+		"name": "releaseTributeProposal",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
