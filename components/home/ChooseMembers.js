@@ -18,25 +18,14 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { supportedChains } from "../../constants/supportedChains";
-import {
-  getNetworkName,
-  toDecimals,
-  fromDecimals,
-} from "../../utils/formatters";
-import NumInputField from "../elements/NumInputField";
+import { toDecimals, fromDecimals } from "../../utils/formatters";
 
 export default function ChooseMembers(props) {
   const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
+  const { web3 } = value.state;
   const [defaults, setDefaults] = useState([]);
 
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const { handleSubmit, register, control } = useForm();
 
   const { fields, append, remove } = useFieldArray({
     control,
