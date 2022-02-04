@@ -10,7 +10,7 @@ import '@fontsource/poppins/700.css';
 const abi = require("../abi/KaliDAO.json");
 import { createToast } from "../utils/toast";
 import { correctNetwork } from "../utils/network";
-import { getNetworkName } from "../utils/formatters";
+import { getNetworkName, decimalToHexString } from "../utils/formatters";
 import { supportedChains } from "../constants/supportedChains";
 import "../styles/style.css";
 
@@ -111,6 +111,19 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
+  const switchChain = async (net) => {
+    let hex = decimalToHexString(net);
+    console.log("hex", hex)
+    try {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: hex }],
+      });
+    } catch(e) {
+      toast(e);
+    }
+  }
+
   const isCorrectChain = async () => {
     if (address != null) {
       if (chainId != daoChain) {
@@ -162,7 +175,8 @@ function MyApp({ Component, pageProps }) {
           setDao: setDao,
           setProposals: setProposals,
           toast: toast,
-          setRemount: setRemount
+          setRemount: setRemount,
+          switchChain: switchChain
         }}
       >
         <Component {...pageProps} />

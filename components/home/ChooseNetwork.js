@@ -25,6 +25,14 @@ export default function ChooseNetwork(props) {
     console.log(props.details);
   };
 
+  const handleConnect = async() => {
+    await value.connect();
+    if(chainId != network) {
+      await value.switchChain(network);
+    }
+
+  }
+
   return (
     <VStack>
       <Heading as="h1">
@@ -50,7 +58,7 @@ export default function ChooseNetwork(props) {
             <Icon as={AiOutlineWarning} />
             <Text>please connect your wallet to {getNetworkName(network)}</Text>
           </HStack>
-          <Button className="transparent-btn" onClick={value.connect}>
+          <Button className="transparent-btn" onClick={() => handleConnect()}>
             Connect
           </Button>
         </>

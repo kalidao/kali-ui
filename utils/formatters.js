@@ -263,3 +263,10 @@ export function convertRedeemables(redeemables) {
   }
   return converted;
 }
+
+export function decimalToHexString(number) {
+  if (number < 0) {
+    number = 0xFFFFFFFF + number + 1;
+  }
+  return "0x" + number.toString(16).toUpperCase();
+}
