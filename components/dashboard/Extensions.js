@@ -12,16 +12,13 @@ import InfoTip from "../elements/InfoTip";
 
 const ExtensionCard = ({ key, name }) => {
   const assignLabel = (name) => {
-    let label;
     if (name === "crowdsale")
-      return (label = "Sell membership in ETH or designated token");
+      return "Sell membership in ETH or designated token";
     if (name === "tribute")
-      return (label =
-        "Burn token to claim fair share of DAO capital aka ragequit");
+      return "Burn token to claim fair share of DAO capital aka ragequit";
     if (name === "redemption")
-      return (label =
-        "Make a proposal with ETH, token or NFT as membership tribute");
-    else return null;
+      return "Make a proposal with ETH, token or NFT as membership tribute";
+    return null;
   };
 
   return (
