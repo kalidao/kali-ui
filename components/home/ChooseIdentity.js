@@ -3,6 +3,7 @@ import AppContext from "../../context/AppContext";
 import {
   Flex,
   VStack,
+  HStack,
   Button,
   Text,
   Select,
@@ -11,11 +12,14 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Tooltip
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
 import { useForm } from "react-hook-form";
+import helpIcon from "../../public/img/HelpIcon.svg"
+
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
   const { web3, chainId, account } = value.state;
@@ -74,37 +78,48 @@ export default function ChooseIdentity(props) {
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
       <Heading as="h1">Select a name and symbol:</Heading>
+      <Text></Text>
       <FormControl>
         <FormLabel htmlFor="name" fontSize="xl" fontWeight="800">
           Name
         </FormLabel>
-        <Input
-          name="name"
-          {...register("name", {
-            required: true,
-            validate: isNameUnique || value.toast("Name not unique."),
-          })}
-        />
+        <HStack>
+          <Input
+            name="name"
+            {...register("name", {
+              required: true,
+              validate: isNameUnique || value.toast("Name not unique."),
+            })}
+          />
+          <Tooltip hasArrow label="Give your DAO a name, which will also be the name of the DAO token" aria-label="A tooltip">
+            <img src={helpIcon.src} height={20} width={20} alt="Help" />
+          </Tooltip>
+        </HStack>
       </FormControl>
       <FormControl>
         <FormLabel htmlFor="symbol" fontSize="xl" fontWeight="800">
           Symbol
         </FormLabel>
-        <Input
-          name="symbol"
-          {...register("symbol", {
-            required: "Symbol is required.",
-            maxLength: {
-              value: 12,
-              message: "Symbol shouldn't be greater than 12 characters.",
-            },
-          })}
-        />
+        <HStack>
+          <Input
+            name="symbol"
+            {...register("symbol", {
+              required: "Symbol is required.",
+              maxLength: {
+                value: 12,
+                message: "Symbol shouldn't be greater than 12 characters.",
+              },
+            })}
+          />
+          <Tooltip hasArrow label="Symbol of DAO token" aria-label="A tooltip">
+            <img src={helpIcon.src} height={20} width={20} alt="Help" />
+          </Tooltip>
+        </HStack>
         {errors.symbol && value.toast(errors.symbol.message)}
       </FormControl>
       <Button className="transparent-btn" type="submit">
         Next »
       </Button>
     </VStack>
-  );
+  )
 }
