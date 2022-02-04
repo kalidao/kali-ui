@@ -2,6 +2,7 @@ import { Text, VStack, HStack, Box } from "@chakra-ui/react";
 import KaliButton from "../elements/KaliButton";
 import landing from "../../public/img/landing.png";
 import ContactForm from "../elements/ContactForm";
+import Image from "next/image";
 
 export default function HomeTile(props) {
   return (
@@ -16,7 +17,7 @@ export default function HomeTile(props) {
           "2xl": "block",
         }}
       >
-        <img
+        <Image
           src={landing.src}
           height={landing.height * 0.8}
           width={landing.width * 0.8}
