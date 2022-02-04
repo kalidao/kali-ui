@@ -1,21 +1,7 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Text, HStack, Spacer } from "@chakra-ui/react";
+import { Text, UnorderedList, ListItem } from "@chakra-ui/react";
 import { fromDecimals } from "../../utils/formatters";
-import DashedDivider from "../elements/DashedDivider";
-
-const TreasuryCard = ({ key, token, balance }) => {
-  return (
-    <>
-      <HStack color="kali.900">
-        <Text>{token}</Text>
-        <Spacer />
-        <Text>{balance}</Text>
-      </HStack>
-      <DashedDivider />
-    </>
-  );
-};
 
 export default function Treasury() {
   const value = useContext(AppContext);
@@ -23,17 +9,17 @@ export default function Treasury() {
 
   return (
     <>
-      {dao["balances"].map((b, index) => (
-        <TreasuryCard
-          key={index}
-          token={b["token"]}
-          balance={
-            b["token"] === "USDC" || b["token"] === "USDT"
+      <UnorderedList>
+        {dao["balances"].map((b, index) => (
+          <ListItem key={index}>
+            {b["token"]} (
+            {b["token"] === "USDC" || b["token"] === "USDT"
               ? fromDecimals(b["balance"], 6)
-              : fromDecimals(b["balance"], 18)
-          }
-        />
-      ))}
+              : fromDecimals(b["balance"], 18)}
+            )
+          </ListItem>
+        ))}
+      </UnorderedList>
     </>
   );
 }
