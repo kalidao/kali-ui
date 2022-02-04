@@ -36,6 +36,12 @@ const KaliButton = (props) => {
   } else {
     id = 1;
   }
+  let disabled;
+  if(props.disabled) {
+    disabled = props.disabled;
+  } else {
+    disabled = false;
+  }
   return(
     <Button
       className="transparent-btn"
@@ -43,6 +49,7 @@ const KaliButton = (props) => {
       leftIcon={<SVG />}
       onClick={props.onClick}
       variant="ghost"
+      disabled={disabled}
     >
       <Divider orientation="vertical" mr={2} />{props.children}
     </Button>

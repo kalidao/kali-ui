@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
 import {
@@ -12,6 +12,8 @@ import {
   Stack,
   HStack,
   Spacer,
+  Checkbox,
+  Link
 } from "@chakra-ui/react";
 import { supportedChains } from "../../constants/supportedChains";
 import {
@@ -29,6 +31,22 @@ import ContactForm from "../elements/ContactForm";
 export default function Checkout({ details }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
+  const [disclaimers, setDisclaimers] = useState([false, false]);
+  const [deployable, setDeployable] = useState(false);
+
+  const handleDisclaimer = (num) => {
+        console.log(num)
+    let disclaimers_ = disclaimers;
+    disclaimers_[num] = !disclaimers_[num];
+    setDisclaimers(disclaimers_);
+    var deployable_ = true;
+    for(let i=0; i < disclaimers_.length; i++) {
+      if(disclaimers_[i] == false) {
+        deployable_ = false;
+      }
+    }
+    setDeployable(deployable_);
+  }
 
   // for use at the end
   let paused;
@@ -295,9 +313,13 @@ export default function Checkout({ details }) {
           </>
         ))}
       </Stack>
-      <KaliButton id="deploy-btn" onClick={deploy}>
+      <Checkbox onChange={() => handleDisclaimer(0)}>I agree to the <Link href="/terms">general terms.</Link></Checkbox>
+      <Checkbox onChange={() => handleDisclaimer(1)}>I agree to the <Link href="/terms">series LLC terms</Link>.</Checkbox>
+
+      <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!
       </KaliButton>
+
       <HStack>
         <Text fontWeight={700}>Have questions?</Text>
         <ContactForm />
