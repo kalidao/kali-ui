@@ -10,7 +10,7 @@ import '@fontsource/poppins/700.css';
 const abi = require("../abi/KaliDAO.json");
 import { createToast } from "../utils/toast";
 import { correctNetwork } from "../utils/network";
-import { getNetworkName, decimalToHexString } from "../utils/formatters";
+import { getNetworkName, getChainInfo } from "../utils/formatters";
 import { supportedChains } from "../constants/supportedChains";
 import "../styles/style.css";
 
@@ -112,7 +112,8 @@ function MyApp({ Component, pageProps }) {
   };
 
   const switchChain = async (net) => {
-    let hex = decimalToHexString(net);
+    let chainInfo = getChainInfo(net);
+    let hex = chainInfo.hexChain;
     console.log("hex", hex)
     try {
       await ethereum.request({
@@ -120,7 +121,27 @@ function MyApp({ Component, pageProps }) {
         params: [{ chainId: hex }],
       });
     } catch(e) {
-      toast(e);
+      if(e.code === 4902) {
+        alert("no chain")
+        try {
+          await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: hex,
+                chainName: chainInfo.name,
+                nativeCurrency: chainInfo.nativeCurrency,
+                rpcUrls: chainInfo.rpcUrls,
+                blockExplorerUrls: chainInfo.blockExplorerUrls
+              },
+            ],
+          });
+        } catch(addError) {
+          toast(addError);
+        }
+      } else {
+        toast(e);
+      }
     }
   }
 

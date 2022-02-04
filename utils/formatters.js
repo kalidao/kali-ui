@@ -264,14 +264,12 @@ export function convertRedeemables(redeemables) {
   return converted;
 }
 
-export function decimalToHexString(d) {
-  var hex = Number(d).toString(16);
-  let padding = 0;
-  padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
-
-  while (hex.length < padding) {
-      hex = "0" + hex;
+export function getChainInfo(chain) {
+  let chainInfo;
+  for(let i=0; i < supportedChains.length; i++) {
+    if(chain==supportedChains[i].chainId) {
+      chainInfo = supportedChains[i];
+    }
   }
-
-  return "0x" + hex;
+  return chainInfo;
 }
