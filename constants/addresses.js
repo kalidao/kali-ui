@@ -12,7 +12,7 @@ export const addresses =
     42161: {
       factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
       extensions: {
-        tribute: "0x5e9222B3E0c22e7422d12FE6283c4DEB1F336171",
+        tribute: "0xf1D291A527281049e66ABD3A41624B13D962868f",
         crowdsale: null,
         redemption: null,
       },
