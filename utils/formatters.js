@@ -264,9 +264,14 @@ export function convertRedeemables(redeemables) {
   return converted;
 }
 
-export function decimalToHexString(number) {
-  if (number < 0) {
-    number = 0xFFFFFFFF + number + 1;
+export function decimalToHexString(d) {
+  var hex = Number(d).toString(16);
+  let padding = 0;
+  padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+  while (hex.length < padding) {
+      hex = "0" + hex;
   }
-  return "0x" + number.toString(16).toUpperCase();
+
+  return "0x" + hex;
 }
