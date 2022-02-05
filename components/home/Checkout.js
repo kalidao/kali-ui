@@ -317,8 +317,8 @@ export default function Checkout({ details }) {
           </>
         ))}
       </Stack>
-      <Checkbox onChange={() => handleDisclaimer(0)}>I agree to the <Link href="/terms">general terms.</Link></Checkbox>
-      <Checkbox onChange={() => handleDisclaimer(1)}>I agree to the <Link href="/terms">series LLC terms</Link>.</Checkbox>
+      <Checkbox onChange={() => handleDisclaimer(0)}>I agree to the <Link href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9">Terms of Service.</Link></Checkbox>
+      <Checkbox onChange={() => handleDisclaimer(1)}>I agree to the <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">Series LLC terms</Link>.</Checkbox>
 
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!
