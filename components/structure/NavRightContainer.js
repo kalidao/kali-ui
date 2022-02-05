@@ -38,7 +38,7 @@ export default function NavRightContainer(props) {
           onClick={() => copy()}
           icon={<BiCopy />}
           aria-label="Copy account address"
-          size="sm"
+          size="xs"
           type="unstyled"
           border="none"
           bg="transparent"
