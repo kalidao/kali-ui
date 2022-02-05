@@ -1,6 +1,15 @@
 export const addresses =
   // organized by chainId
   {
+    1: {
+      factory: "0xA051591c52c1378bc4a34c57445D181deEF100f0",
+      extensions: {
+        tribute: "0x561D9C4EdB64524556856133Bf7B5640dB904656",
+        crowdsale: "0x489Bf91E282BA00B35107f8958b38eA1aE3aAEfc",
+        redemption: "0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0",
+        // access: "0x7799b86Ada91a507b5cbDA03638116A26A86358d",
+      },
+    },
     4: {
       factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
       ricardian: "0x612a519C2ba312420c972D7a9714FaF27f4358DF",
