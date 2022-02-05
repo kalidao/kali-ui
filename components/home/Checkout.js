@@ -133,6 +133,7 @@ export default function Checkout({ details }) {
         purchaseMultiplier,
         purchaseLimit,
         saleEnds,
+        details,
       } = crowdsale;
       console.log(
         "crowdsale param",
@@ -140,7 +141,8 @@ export default function Checkout({ details }) {
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
-        saleEnds
+        saleEnds,
+        details
       );
 
       // let now = parseInt(new Date().getTime() / 1000);
@@ -154,8 +156,8 @@ export default function Checkout({ details }) {
       const saleContract = new web3.eth.Contract(sale, saleAddress);
 
       const encodedParams = web3.eth.abi.encodeParameters(
-        ["uint256", "address", "uint8", "uint96", "uint32"],
-        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds]
+        ["uint256", "address", "uint8", "uint96", "uint32", "string"],
+        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds, docs]
       );
 
       let payload = saleContract.methods
