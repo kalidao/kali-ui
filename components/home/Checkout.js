@@ -2,20 +2,15 @@ import React, { useContext, useState } from "react";
 import Router from "next/router";
 import AppContext from "../../context/AppContext";
 import {
-  Flex,
-  VStack,
-  Button,
   Text,
-  Select,
   List,
   ListItem,
   Stack,
   HStack,
   Spacer,
   Checkbox,
-  Link
+  Link,
 } from "@chakra-ui/react";
-import { supportedChains } from "../../constants/supportedChains";
 import {
   getNetworkName,
   convertVotingPeriod,
@@ -27,6 +22,7 @@ import { presets } from "../../constants/presets";
 import DashedDivider from "../elements/DashedDivider";
 import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
+import ToS from "../elements/ToS";
 
 export default function Checkout({ details }) {
   const value = useContext(AppContext);
@@ -35,18 +31,18 @@ export default function Checkout({ details }) {
   const [deployable, setDeployable] = useState(false);
 
   const handleDisclaimer = (num) => {
-        console.log(num)
+    console.log(num);
     let disclaimers_ = disclaimers;
     disclaimers_[num] = !disclaimers_[num];
     setDisclaimers(disclaimers_);
     var deployable_ = true;
-    for(let i=0; i < disclaimers_.length; i++) {
-      if(disclaimers_[i] == false) {
+    for (let i = 0; i < disclaimers_.length; i++) {
+      if (disclaimers_[i] == false) {
         deployable_ = false;
       }
     }
     setDeployable(deployable_);
-  }
+  };
 
   // for use at the end
   let paused;
@@ -159,7 +155,14 @@ export default function Checkout({ details }) {
 
       const encodedParams = web3.eth.abi.encodeParameters(
         ["uint256", "address", "uint8", "uint96", "uint32", "string"],
-        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds, documentation]
+        [
+          listId,
+          purchaseToken,
+          purchaseMultiplier,
+          purchaseLimit,
+          saleEnds,
+          documentation,
+        ]
       );
 
       let payload = saleContract.methods
@@ -249,7 +252,9 @@ export default function Checkout({ details }) {
   const checkoutDetails = [
     {
       name: "Chain",
-      details: details["network"],
+      details: getNetworkName(details["network"]).replace(/^\w/, (s) =>
+        s.toUpperCase()
+      ),
     },
     {
       name: "Name",
@@ -317,8 +322,16 @@ export default function Checkout({ details }) {
           </>
         ))}
       </Stack>
-      <Checkbox onChange={() => handleDisclaimer(0)}>I agree to the <Link href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9">Terms of Service.</Link></Checkbox>
-      <Checkbox onChange={() => handleDisclaimer(1)}>I agree to the <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">Series LLC terms</Link>.</Checkbox>
+      <Checkbox onChange={() => handleDisclaimer(0)}>
+        I agree to the <ToS label="Terms of Service" id="tos" />
+      </Checkbox>
+      <Checkbox onChange={() => handleDisclaimer(1)}>
+        I agree to the{" "}
+        <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
+          Series LLC terms
+        </Link>
+        .
+      </Checkbox>
 
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!

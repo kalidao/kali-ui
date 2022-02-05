@@ -328,15 +328,25 @@ div#footer {
 }
 
 /* //////////////// MISC //////////////// */
-/* TOS */
-#tos {
-  color: rgba(0, 0, 0, 0.1);
-  background-color: whitesmoke;
-}
 
+#tos {
+  border: none;
+  background-color: transparent;
+  font-size: 1em;
+  padding: none;
+  margin: none;
+  display: inline;
+  color: #fff;
+  font-style: italic;
+  font-weight: 200;
+}
 #tos-button {
   font-size: 0.8em;
   font-style: italic;
+  border: none;
+  background-color: transparent;
+  color: #eeeeee;
+  font-weight: 100;
 }
 
 /* color scheme */

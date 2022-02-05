@@ -34,7 +34,7 @@ export default function Footer() {
           <i>LexDAO</i>
         </a>
       </Text>
-      <ToS />
+      <ToS label="ToS" id="tos-button" />
       {/* <Text as="button" onClick={TOS} direction={"column"} fontSize="xs">
         <a
           href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9"
