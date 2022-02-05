@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }) {
           walletconnect: {
             package: WalletConnectProvider, // required
             options: {
-              infuraId: process.env.NEXT_PUBLIC_INFURA_ID, // required
+              infuraId: process.env.INFURA_ID, // required
             },
           },
         };
@@ -112,28 +112,28 @@ function MyApp({ Component, pageProps }) {
   const switchChain = async (net) => {
     let chainInfo = getChainInfo(net);
     let hex = chainInfo.hexChain;
-    console.log("hex", hex)
+    console.log("hex", hex);
     try {
       await ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: hex }],
       });
-    } catch(e) {
-      if(e.code === 4902) {
+    } catch (e) {
+      if (e.code === 4902) {
         try {
           await ethereum.request({
-            method: 'wallet_addEthereumChain',
+            method: "wallet_addEthereumChain",
             params: [
               {
                 chainId: hex,
                 chainName: chainInfo.name,
                 nativeCurrency: chainInfo.nativeCurrency,
                 rpcUrls: chainInfo.rpcUrls,
-                blockExplorerUrls: chainInfo.blockExplorerUrls
+                blockExplorerUrls: chainInfo.blockExplorerUrls,
               },
             ],
           });
-        } catch(addError) {
+        } catch (addError) {
           toast(addError);
         }
       } else {

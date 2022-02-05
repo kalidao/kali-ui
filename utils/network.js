@@ -11,7 +11,7 @@ export async function correctNetwork(address) {
         "https://" +
           supportedChains[i]["infura"] +
           "/v3/" +
-          process.env.NEXT_PUBLIC_INFURA_ID
+          process.env.INFURA_ID
       );
       let web3 = new Web3(provider);
       let chainId = await web3.eth.getChainId();

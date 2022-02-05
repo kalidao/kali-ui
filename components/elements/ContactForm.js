@@ -21,7 +21,7 @@ import { init, sendForm } from "emailjs-com";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiMailSend } from "react-icons/bi";
 
-init(process.env.NEXT_PUBLIC_EMAIL_ID);
+init(process.env.EMAIL_ID);
 
 function ContactForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
