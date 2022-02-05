@@ -26,8 +26,26 @@
 	{
 		"inputs": [
 			{
-				"internalType": "contract IKaliWhitelistManager",
-				"name": "whitelistManager_",
+				"internalType": "uint256",
+				"name": "listId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "merkleProof",
+				"type": "bytes32[]"
+			}
+		],
+		"name": "joinList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IKaliAccessManager",
+				"name": "accessManager_",
 				"type": "address"
 			}
 		],
@@ -40,8 +58,27 @@
 		"type": "error"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "NotWhitelisted",
+		"name": "NotListed",
 		"type": "error"
 	},
 	{
@@ -81,11 +118,11 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "member",
+				"name": "purchaser",
 				"type": "address"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "amountOut",
 				"type": "uint256"
@@ -98,7 +135,7 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "address",
 				"name": "dao",
 				"type": "address"
@@ -132,6 +169,12 @@
 				"internalType": "uint32",
 				"name": "saleEnds",
 				"type": "uint32"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "details",
+				"type": "string"
 			}
 		],
 		"name": "ExtensionSet",
@@ -189,19 +232,11 @@
 				"internalType": "uint32",
 				"name": "saleEnds",
 				"type": "uint32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "whitelistManager",
-		"outputs": [
+			},
 			{
-				"internalType": "contract IKaliWhitelistManager",
-				"name": "",
-				"type": "address"
+				"internalType": "string",
+				"name": "details",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
