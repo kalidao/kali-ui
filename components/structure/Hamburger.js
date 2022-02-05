@@ -26,13 +26,25 @@ export default function Hamburger() {
             <MenuItem color="kali.800">My DAOs</MenuItem>
           </a>
         </Link>
-        <a href="https://docs.kalidao.xyz/faq/" target="_blank">
+        <a
+          href="https://docs.kalidao.xyz/faq/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
           <MenuItem color="kali.800">FAQs</MenuItem>
         </a>
-        <a href="https://docs.kalidao.xyz/" target="_blank">
+        <a
+          href="https://docs.kalidao.xyz/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
           <MenuItem color="kali.800">Docs</MenuItem>
         </a>
-        <a href="https://discord.com/invite/UKCS9ghzUE" target="_blank">
+        <a
+          href="https://discord.com/invite/UKCS9ghzUE"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
           <MenuItem color="kali.800">Support</MenuItem>
         </a>
       </MenuList>
