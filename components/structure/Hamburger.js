@@ -5,8 +5,11 @@ import {
   MenuItem,
   MenuGroup,
   IconButton,
+  Link as ChakraLink,
+  Spacer,
 } from "@chakra-ui/react";
 import { TiThMenu } from "react-icons/ti";
+import { HiOutlineExternalLink } from "react-icons/hi";
 import Link from "next/link";
 
 export default function Hamburger() {
@@ -31,21 +34,32 @@ export default function Hamburger() {
           target="_blank"
           rel="noreferrer noopener"
         >
-          <MenuItem color="kali.800">FAQs</MenuItem>
+
+          <MenuItem color="kali.800">
+            FAQs <Spacer />
+            <HiOutlineExternalLink />
+          </MenuItem>
         </a>
         <a
           href="https://docs.kalidao.xyz/"
           target="_blank"
           rel="noreferrer noopener"
         >
-          <MenuItem color="kali.800">Docs</MenuItem>
+          <MenuItem color="kali.800">
+            Docs <Spacer />
+            <HiOutlineExternalLink />
+          </MenuItem>
         </a>
         <a
           href="https://discord.com/invite/UKCS9ghzUE"
           target="_blank"
           rel="noreferrer noopener"
         >
-          <MenuItem color="kali.800">Support</MenuItem>
+          <MenuItem color="kali.800">
+            Support
+            <Spacer />
+            <HiOutlineExternalLink />
+          </MenuItem>
         </a>
       </MenuList>
     </Menu>
