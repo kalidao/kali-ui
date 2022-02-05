@@ -1,7 +1,7 @@
 export const addresses =
   // organized by chainId
   {
-    1: {
+    4: {
       factory: "0xdaB793D8F47476a7b66BdAA5230635fABD527d47",
       extensions: {
         tribute: "0x279b956fF82E93c68eDd16a65a8aEC7Db5CbeE0B",
