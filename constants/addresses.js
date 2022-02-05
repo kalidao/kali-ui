@@ -10,6 +10,15 @@ export const addresses =
         // access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
       },
     },
+    137: {
+      factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
+      extensions: {
+        tribute: null,
+        crowdsale: null,
+        redemption: null,
+        // access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
+      },
+    },
     42161: {
       factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
       extensions: {
