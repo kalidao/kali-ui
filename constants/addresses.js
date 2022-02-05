@@ -13,7 +13,7 @@ export const addresses =
       factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
       extensions: {
         tribute: "0xf1D291A527281049e66ABD3A41624B13D962868f",
-        crowdsale: "0x9B9dB8c74f7E8793248d5971425e3670BC9C05F0",
+        crowdsale: "0xC59596a20876F145504230f8c8B17CadE73cBe0c",
         redemption: null,
       },
     },
