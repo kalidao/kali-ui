@@ -12,6 +12,7 @@ export const addresses =
     },
     137: {
       factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
+      ricardian: "0x0731FF841f2eB3F8Fef7BE1B683C733C9f2150f5",
       extensions: {
         tribute: "0xAe3357E4D401495Cfe6e6022734E11293BC63dfb",
         crowdsale: "0x380E305100cb46B6Cc8c8918a93230b47646a77D",
