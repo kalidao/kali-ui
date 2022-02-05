@@ -34,6 +34,7 @@ export default function Hamburger() {
           target="_blank"
           rel="noreferrer noopener"
         >
+
           <MenuItem color="kali.800">
             FAQs <Spacer />
             <HiOutlineExternalLink />
