@@ -133,7 +133,7 @@ export default function Checkout({ details }) {
         purchaseMultiplier,
         purchaseLimit,
         saleEnds,
-        details,
+        documentation,
       } = crowdsale;
       console.log(
         "crowdsale param",
@@ -142,7 +142,7 @@ export default function Checkout({ details }) {
         purchaseMultiplier,
         purchaseLimit,
         saleEnds,
-        details
+        documentation
       );
 
       // let now = parseInt(new Date().getTime() / 1000);
@@ -151,13 +151,15 @@ export default function Checkout({ details }) {
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
 
+      documentation = docs;
+
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
       const saleContract = new web3.eth.Contract(sale, saleAddress);
 
       const encodedParams = web3.eth.abi.encodeParameters(
         ["uint256", "address", "uint8", "uint96", "uint32", "string"],
-        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds, docs]
+        [listId, purchaseToken, purchaseMultiplier, purchaseLimit, saleEnds, documentation]
       );
 
       let payload = saleContract.methods
