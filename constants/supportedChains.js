@@ -1,21 +1,8 @@
 export const supportedChains = [
   {
-    chainId: 4,
-    hexChain: '0x4',
-    name: "rinkeby",
-    infura: "rinkeby.infura.io",
-    nativeCurrency: {
-      name: 'Rinkeby Ether',
-      symbol: 'rETH',
-      decimals: 18
-    },
-    rpcUrls: ['https://rinkeby-light.eth.linkpool.io'],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io']
-  },
-  {
     chainId: 1,
     hexChain: '0x1',
-    name: "mainnet (Soon)",
+    name: "ethereum",
     infura: "mainnet.infura.io",
     nativeCurrency: {
       name: 'Ether',
@@ -37,5 +24,18 @@ export const supportedChains = [
     },
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
     blockExplorerUrls: ['https://arbiscan.io']
+  },
+  {
+    chainId: 4,
+    hexChain: '0x4',
+    name: "rinkeby (testnet)",
+    infura: "rinkeby.infura.io",
+    nativeCurrency: {
+      name: 'Rinkeby Ether',
+      symbol: 'rETH',
+      decimals: 18
+    },
+    rpcUrls: ['https://rinkeby-light.eth.linkpool.io'],
+    blockExplorerUrls: ['https://rinkeby.etherscan.io']
   }
 ]
