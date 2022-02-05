@@ -1,45 +1,8 @@
 [
 	{
-		"inputs": [
-			{
-				"internalType": "contract IKaliDAOtribute",
-				"name": "dao",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "cancelTributeProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "ETHtransferFailed",
 		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "data",
-				"type": "bytes[]"
-			}
-		],
-		"name": "multicall",
-		"outputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "results",
-				"type": "bytes[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -60,24 +23,6 @@
 		"inputs": [],
 		"name": "Reentrancy",
 		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract IKaliDAOtribute",
-				"name": "dao",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "releaseTributeProposalAndProcess",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -138,6 +83,81 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "contract IKaliDAOtribute",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "TributeProposalCancelled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "contract IKaliDAOtribute",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "TributeProposalReleased",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IKaliDAOtribute",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelTributeProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "contract IKaliDAOtribute",
@@ -151,6 +171,24 @@
 			}
 		],
 		"name": "releaseTributeProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IKaliDAOtribute",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "releaseTributeProposalAndProcess",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -207,44 +245,6 @@
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "contract IKaliDAOtribute",
-				"name": "dao",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "TributeProposalCancelled",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "contract IKaliDAOtribute",
-				"name": "dao",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "proposal",
-				"type": "uint256"
-			}
-		],
-		"name": "TributeProposalReleased",
-		"type": "event"
 	},
 	{
 		"inputs": [
