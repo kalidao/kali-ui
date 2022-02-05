@@ -7,7 +7,7 @@ module.exports = {
     return config;
   },
   env: {
-    NEXT_PUBLIC_INFURA_ID: process.env.NEXT_PUBLIC_INFURA_ID,
-    NEXT_PUBLIC_EMAIL_ID: process.env.NEXT_PUBLIC_EMAIL_ID,
+    INFURA_ID: process.env.INFURA_ID,
+    EMAIL_ID: process.env.EMAIL_ID,
   },
 };
