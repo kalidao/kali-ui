@@ -17,17 +17,10 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/react";
-// import NumInputField from "../elements/NumInputField";
-// import { supportedChains } from "../../constants/supportedChains";
-// import { getNetworkName, convertVotingPeriod } from "../../utils/formatters";
-// import { presets } from "../../constants/presets";
-// import { extensionDescriptions } from "../../constants/extensionsHelper";
-// import Slider from "../elements/CustomSlider";
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
 import { presets } from "../../constants/presets";
 import DateSelect from "../elements/DateSelect";
-
 import DatePicker from "react-datepicker";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {

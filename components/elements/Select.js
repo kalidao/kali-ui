@@ -3,7 +3,12 @@ import { Select as ChakraSelect } from "@chakra-ui/react";
 
 function Select(props) {
   return (
-    <ChakraSelect bg="kali.900" color="kali.800" {...props}>
+    <ChakraSelect
+      border="none"
+      bg="rgba(36, 0, 0, 0.2)"
+      color="kali.800"
+      {...props}
+    >
       {props.children}
     </ChakraSelect>
   );

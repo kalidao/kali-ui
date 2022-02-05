@@ -202,7 +202,12 @@ div.dao-type:hover {
 }
 
 #date-picker {
-  color: black !important;
+  background-color: rgba(36, 0, 0, 0.2);
+  color: rgb(255, 255, 255) !important;
+  border-radius: 2em;
+  padding: 0.3em;
+  width: 100%;
+  height: auto;
 }
 /* //////////////// APP //////////////// */
 
