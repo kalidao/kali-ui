@@ -6,8 +6,4 @@ module.exports = {
     };
     return config;
   },
-  env: {
-    INFURA_ID: process.env.INFURA_ID,
-    EMAIL_ID: process.env.EMAIL_ID,
-  },
 };
