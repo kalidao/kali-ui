@@ -26,6 +26,19 @@ export const supportedChains = [
     blockExplorerUrls: ['https://arbiscan.io']
   },
   {
+    chainId: 137,
+    hexChain: '0x89',
+    name: "polygon",
+    infura: "polygon-mainnet.infura.io",
+    nativeCurrency: {
+      name: "Polygon",
+      symbol: "MATIC",
+      decimals: 18
+    },
+    rpcUrls: ['https://polygon-rpc.com'],
+    blockExplorerUrls: ['https://polygonscan.com']
+  },
+  {
     chainId: 4,
     hexChain: '0x4',
     name: "rinkeby (testnet)",

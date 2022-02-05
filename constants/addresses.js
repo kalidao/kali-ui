@@ -20,6 +20,16 @@ export const addresses =
         // access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
       },
     },
+    137: {
+      factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
+      ricardian: "0x0731FF841f2eB3F8Fef7BE1B683C733C9f2150f5",
+      extensions: {
+        tribute: "0xAe3357E4D401495Cfe6e6022734E11293BC63dfb",
+        crowdsale: "0x380E305100cb46B6Cc8c8918a93230b47646a77D",
+        redemption: "0xC43AE97f12d979FCAe346E93b62d747963956d63",
+        // access: "0x43Cc55157d3A4e51ab99CaD6189726D768d7A124",
+      },
+    },
     42161: {
       factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
       ricardian: "0x02D77B4Ae9e1b2AE629055Ac0f71A29D13b29587",
