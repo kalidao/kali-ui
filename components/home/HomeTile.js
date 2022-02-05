@@ -6,34 +6,17 @@ import Image from "next/image";
 
 export default function HomeTile(props) {
   return (
-    <HStack alignItems="center" id="landing-tile">
-      <Box
-        id="landing-tile-left"
-        display={{
-          sm: "none",
-          md: "block",
-          lg: "block",
-          xl: "lg",
-          "2xl": "block",
-        }}
-      >
-        <Image
-          src={landing.src}
-          height={landing.height * 0.8}
-          width={landing.width * 0.8}
-          alt="Kali"
-        />
-      </Box>
+    <HStack spacing={200} p={200} alignItems="center" id="landing-tile">
+      
       <VStack id="landing-tile-right">
         <Text fontSize="xl">
-          <b>Simplify your Business</b> with Smart Agreements
+          <b>Launch DAOs</b> with Legal Benefits in Seconds
         </Text>
         <br></br>
         <HStack>
           <KaliButton onClick={props.setDeployerVisible}>
             Get Started
           </KaliButton>
-          <ContactForm />
         </HStack>
       </VStack>
     </HStack>
