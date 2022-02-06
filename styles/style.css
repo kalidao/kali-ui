@@ -85,10 +85,13 @@
   padding: 10px 15px !important;
   font-size: 1em !important;
   font-weight: normal !important;
-  background: #7e8d90 !important;
+  background: #5a2686 !important;
   border: none !important;
   color: white !important;
   border-radius: 10px !important;
+}
+.solid-btn:hover {
+  background: #411d5f !important;
 }
 
 select {
@@ -359,5 +362,8 @@ div#footer {
   font-weight: 100;
 }
 
+option {
+  color: rgb(0, 0, 0) !important;
+}
 /* color scheme */
 /* purple: #5a2686, darkBlue: 594cfb, lightBlue: a0b1dc, pink: e65170, purple: 3b074e */

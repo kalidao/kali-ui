@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 const Br = () => "\n"
 const Tab = () => "  "
 
-const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
+const DelawareOAtemplate = ({ name, chain }) => {
   return (
     <Document>
       <Page style={styles.body}>
@@ -76,11 +76,11 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
         <Text style={styles.heading2}>DELAWARE LLC OPERATING AGREEMENT</Text>
         <Text style={styles.heading3}>Designated Blockchain: {chain}</Text>
         <Text style={styles.text}>
-          THIS OPERATING AGREEMENT is made and entered into effective {date}, by
-          and among the parties assigned cryptographic interests in the
-          decentralized autonomous organization described on{" "}
+          THIS OPERATING AGREEMENT is made and entered into effective as of the date of the organizing
+          key signatures appended or incorporated hereto, by and among the parties assigned cryptographic 
+          interests in the decentralized autonomous organization described on{" "}
           <Text style={{ textDecoration: "underline" }}>Schedule 1</Text>{" "}
-          (collectively referred to in this agreement as the “Members”)
+          (collectively referred to in this agreement as the “Members”).
         </Text>
         <Text style={styles.heading1}>SECTION 1</Text>
         <Text style={styles.heading2}>THE DAO LLC</Text>
@@ -89,7 +89,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           <Text style={{ textDecoration: "underline" }}>Formation.</Text>
           <Tab />
-          Effective {date}, the Members form a limited liability company (“LLC”)
+          The Members form a limited liability company (“LLC”)
           under the name {name} LLC (the “DAO LLC”) on the terms and conditions
           in this Operating Agreement (this “Agreement”) and pursuant to the
           Delaware Limited Liability Company Act (6 Del. C. § 18-101 et seq.)
@@ -125,18 +125,18 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Text style={{ textDecoration: "underline" }}>Office.</Text>
           <Tab />
           The DAO LLC shall continuously maintain an office and registered agent
-          in the State of Delaware as required by the Act. The DAO LLC will
-          maintain its principal business office at such places of business as
-          the Members may deem advisable for the conduct of the DAO LLC&#39;s
-          business.
+          in the State of Delaware as required by the Act. The DAO LLC has no fixed offices or place of
+          business. The DAO LLC’s activities are directed, controlled, and coordinated primarily through the
+          Designated Blockchain and other electronic communications networks by Members located
+          throughout the world.
           <Br />
           <Br />
           1.5
           <Tab />
           <Text style={{ textDecoration: "underline" }}>Term.</Text>
           <Tab />
-          The term of the DAO LLC commences on {date}
-           and shall continue perpetually unless sooner terminated as provided in
+          The term of the DAO LLC commences on the aforementioned effective date
+          and shall continue perpetually unless sooner terminated as provided in
           this Agreement.
           <Br />
           <Br />
@@ -148,7 +148,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           Except as otherwise expressly provided herein, no additional Members
           may be admitted to the DAO LLC without the consent of the Members as
-          provided in this Agreement.
+          provided in this Agreement. For the avoidance of doubt, the joinder of new Members
+          may be approved and executed by autonomous scripts on the Designated Blockchain.
           <Br />
           <Br />
           1.7
@@ -179,8 +180,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           ”) against any claims, liabilities, legal fees, judgements, or other
           losses incurred by the Series Indemnified Parties that reasonably
           arise from (i) a Series’ non-compliance with the provisions of this
-          Agreement or (ii) any action undertaken by the Series, its members or
-          managers.
+          Agreement, or (ii) any similarly contrary action undertaken by the Series, 
+          its members or managers.
           <Br />
           <Br />
         </Text>
@@ -361,7 +362,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           Whenever in this Agreement reference is made to the decision, consent,
           approval, judgment, or action of the Members, unless otherwise
           expressly provided in this Agreement, such decision, consent,
-          approval, judgment, or action shall mean the consent of Members
+          approval, judgment, or action shall mean the consent of the Members
           determined by recorded votes of Cryptographic Units and as signified
           through Cryptographic Consensus.
           <Br />
@@ -421,10 +422,10 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Br />
           7.2
           <Tab />
-          <Text style={{ textDecoration: "underline" }}>Books of Record.</Text>
+          <Text style={{ textDecoration: "underline" }}>Books and Records.</Text>
           <Tab />
-          The books and records of the DAO LLC may be kept within or outside the
-          State of Delaware at such place or places as may from time to time be
+          The books and records of the DAO LLC may be kept in such manner, and within or outside the
+          State of Wyoming at such place or places as may from time to time be
           designated by the Members.
           <Br />
           <Br />
@@ -461,8 +462,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           having similar rights, powers, authority or obligations (including as
           a “tax matters partner”), the Tax Representative shall also serve in
           such capacity. The Tax Representative may resign at any time. If a Tax
-          Representative ceases to serve as such for any reason, the DAO LLC
-          itself will automatically and immediately become the new (acting) Tax
+          Representative ceases to serve as such for any reason, and in the interim of selecting a Tax Representative,
+          the DAO LLC itself will automatically and immediately become the new (acting) Tax
           Representative until a new Tax Representative is selected by the
           Members as provided in this Agreement.
           <Br />
@@ -539,7 +540,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           Any Transfer of Economic Rights pursuant to Section 9.2 will not
           include any right to participate in the management of the DAO LLC,
-          including any right to vote, consent to, and will not include any
+          including any right to vote or consent to matters, and will not include any
           right to information on the DAO LLC or its operations or financial
           condition. Following any Transfer of only the Economic Rights of a
           Member&#39;s interest in the DAO LLC, the transferring Member&#39;s
@@ -584,11 +585,10 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           For the avoidance of doubt, a Member may at all times redeem their
           interests in the DAO LLC through mechanisms approved through
-          Cryptographic Consensus, and may be similarly subject to removal from
-          the DAO LLC for violation of this Agreement or associated Member
-          obligations and face liquidation of their interests in the DAO LLC
-          through formal exit mechanisms approved through Cryptographic
-          Consensus.
+          Cryptographic Consensus, including, but not limited to, autonomous scripts,
+          and may be similarly subject to removal from the DAO LLC for violation of this Agreement 
+          or associated Member obligations and face liquidation of their interests in the DAO LLC
+          through formal exit mechanisms approved through Cryptographic Consensus.
           <Br />
           <Br />
         </Text>
@@ -635,24 +635,30 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Tab />
           <Text style={{ textDecoration: "underline" }}>Winding Up.</Text>
           <Tab />
-          For the avoidance of doubt, a Member may at all times redeem their
-          interests in the DAO LLC through mechanisms approved through
-          Cryptographic Consensus, and may be similarly subject to removal from
-          the DAO LLC for violation of this Agreement or associated Member
-          obligations and face liquidation of their interests in the DAO LLC
-          through formal exit mechanisms approved through Cryptographic
-          Consensus.
+          On the dissolution of the DAO LLC (if the DAO LLC is not continued), 
+          the Members must take full account of the DAO LLC's assets and liabilities, 
+          and the assets will be liquidated as promptly as is consistent with obtaining their fair value, 
+          and the proceeds, to the extent sufficient to pay the DAO LLC's obligations with respect to the liquidation, 
+          will be applied and distributed, after any gain or loss realized in connection with the liquidation has been allocated 
+          in accordance with Section 3 of this Agreement, and the Members' Capital Accounts have been adjusted to reflect 
+          the allocation and all other transactions through the date of the distribution, in the following order:
+          <Br />
+          <Br />
+          10.2.1
+          <Tab />
+          To payment and discharge of the expenses of liquidation and of all the DAO LLC's debts 
+          and liabilities to persons or organizations other than the Members;
           <Br />
           <Br />
           10.2.2
           <Tab />
           To the payment and discharge of any DAO LLC debts and liabilities owed
-          to Members; and
+          to the Members; and
           <Br />
           <Br />
           10.2.3
           <Tab />
-          To Members in the amount of their respective adjusted Capital Account
+          To the Members in the amount of their respective adjusted Capital Account
           balances on the date of distribution and as authorized by the
           designated Tax Representative as provided in Section 7.5.
           <Br />
@@ -743,8 +749,9 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Text style={{ textDecoration: "underline" }}>Arbitration.</Text>
           <Tab />
           Any controversy or claim arising out of or relating to this Agreement,
-          or the breach thereof, shall be settled exclusively by online
-          arbitration by {arbitrator} in accordance with the Commercial
+          or the breach thereof, shall be settled exclusively in online
+          arbitration by arbitrator(s) selected by the Members, 
+          or in the absence of such selection, by the parties, in accordance with the Commercial
           Arbitration Rules of the American Arbitration Association then in
           effect, and judgment upon the award rendered by the arbitrator(s) may
           be entered in any court having jurisdiction thereof. All costs of the
@@ -756,11 +763,8 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
           <Br />
         </Text>
         <Text style={styles.text}>
-          IN WITNESS WHEREOF, the parties to this Agreement execute this
-          Operating Agreement as of the date and year first above written.
+          IN WITNESS WHEREOF, the parties hereto execute this Agreement.
         </Text>
-        <Text style={styles.text}>DAO LLC Organizer</Text>
-        <Text style={styles.text}>{ethAddress}</Text>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
@@ -771,7 +775,7 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
       </Page>
       <Page style={styles.body}>
         <Text style={styles.heading1}>Membership - Schedule 1</Text>
-        <Text style={styles.heading2}>DAO LLC. OPERATING AGREEMENT</Text>
+        <Text style={styles.heading2}>DAO LLC OPERATING AGREEMENT</Text>
         <Text style={styles.heading3}>FOR {name} LLC</Text>
         <Text style={styles.heading2}>
           LISTING OF MEMBERS & CAPITAL CONTRIBUTIONS
@@ -779,9 +783,11 @@ const DelawareOAtemplate = ({ name, chain, date, arbitrator, ethAddress }) => {
         <Text style={styles.text}>
           The DAO LLC operating code ratifying this Agreement through
           Cryptographic Consensus, or otherwise deployed and stamped by this
-          Agreement and related transaction data, provides a running account of
-          DAO LLC capital contributions, Cryptographic Units, and Designated
-          Blockchain addresses identified among the Members.
+          Agreement and related transaction data by the DAO LLC organizers, 
+          provides a running account of DAO LLC capital contributions, Cryptographic Units, and Designated
+          Blockchain addresses identified among the Members. Joinder to this Agreement shall be effective
+          upon appending key signatures to the DAO LLC operating code in a manner authorized by the Members or by 
+          otherwise participating in the DAO LLC.
         </Text>
       </Page>
       <Page style={styles.body}>

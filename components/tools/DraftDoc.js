@@ -40,9 +40,6 @@ function DraftDoc() {
         setDelawareLlc({
           name: values.name,
           chain: values.chain,
-          date: values.date,
-          ethAddress: values.ethAddress,
-          arbitrator: values.arbitrator,
         })
         setDeLlcForm(true)
       case "delaware-ic":
@@ -54,10 +51,7 @@ function DraftDoc() {
       case "wyoming-llc":
         setWyomingLlc({
           name: values.name,
-          date: values.date,
-          email: values.email,
-          ethAddress: values.ethAddress,
-          id: values.id,
+          chain: values.chain,
         })
         setWyLlcForm(true)
     }
@@ -83,7 +77,7 @@ function DraftDoc() {
       <Drawer isOpen={isOpen} placement="right" size="sm">
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>✂️</DrawerHeader>
+          <DrawerHeader>✍️</DrawerHeader>
           <DrawerBody>
             <Stack
               as="form"
@@ -104,9 +98,9 @@ function DraftDoc() {
                   id="agreement"
                   placeholder="Select option"
                 >
-                  <option value="delaware-llc">Delaware LLC</option>
-                  <option value="delaware-ic">Delaware Investment Club</option>
-                  <option value="wyoming-llc">Wyoming LLC</option>
+                  <option value="delaware-llc">Delaware DAO LLC</option>
+                  <option value="wyoming-llc">Wyoming DAO LLC</option>
+                  <option value="delaware-ic">Investment Club</option>
                 </Select>
               </FormControl>
               {selection === "delaware-llc" && (
@@ -120,39 +114,14 @@ function DraftDoc() {
                       placeholder="KALI"
                       {...register("name")}
                     />
-
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
                     <Input
                       id="chain"
-                      placeholder="Ethereum mainnet, Arbitrum, Matic, etc."
+                      placeholder="Ethereum, Arbitrum, Polygon, etc."
                       {...register("chain")}
                     />
-                      <FormLabel mt={2} htmlFor="date">
-                        Formation Date
-                      </FormLabel>
-                      <Input
-                        id="date"
-                        placeholder="MM/DD/YYYY"
-                        {...register("date")}
-                      />
-                      <FormLabel mt={2} htmlFor="ethAddress">
-                        DAO LLC Organizer Ethereum Address
-                      </FormLabel>
-                      <Input
-                        id="ethAddress"
-                        placeholder="0xKALI"
-                        {...register("ethAddress")}
-                      />
-                      <FormLabel mt={2} htmlFor="arbitrator">
-                        Arbitrator
-                      </FormLabel>
-                      <Input
-                        id="arbitrator"
-                        placeholder="JAMS, LexDAO, etc."
-                        {...register("arbitrator")}
-                      />
                   </FormControl>
                 </>
               )}
@@ -172,7 +141,7 @@ function DraftDoc() {
                     </FormLabel>
                     <Input
                       id="chain"
-                      placeholder="Ethereum mainnet, Arbitrum, Matic, etc."
+                      placeholder="Ethereum, Arbitrum, Polygon, etc."
                       {...register("chain")}
                     />
                   </FormControl>
@@ -189,39 +158,14 @@ function DraftDoc() {
                       placeholder="KALI"
                       {...register("name")}
                     />
-                    <FormLabel mt={2} htmlFor="date">
-                      Formation Date
+                    <FormLabel mt={3} htmlFor="chain">
+                      Designated Blockchain
                     </FormLabel>
                     <Input
-                      id="date"
-                      placeholder="MM/DD/YYYY"
-                      {...register("date")}
+                      id="chain"
+                      placeholder="Ethereum, Arbitrum, Polygon, etc."
+                      {...register("chain")}
                     />
-                      <FormLabel mt={2} htmlFor="subject">
-                        DAO LLC Organizer Email
-                      </FormLabel>
-                      <Input
-                        id="email"
-                        placeholder="kalidao@protonmail.com"
-                        {...register("email")}
-                      />
-                      <FormLabel mt={2} htmlFor="ethAddress">
-                        DAO LLC Organizer EthAddress
-                      </FormLabel>
-                      <Input
-                        id="ethAddress"
-                        placeholder="0xKALI"
-                        {...register("ethAddress")}
-                      />
-
-                      <FormLabel mt={2} htmlFor="id">
-                        Books and Records
-                      </FormLabel>
-                      <Input
-                        id="id"
-                        placeholder="Enter IPFS hash"
-                        {...register("id")}
-                      />
                   </FormControl>
                 </>
               )}
@@ -234,12 +178,9 @@ function DraftDoc() {
                   <DelawareOAtemplate
                     name={delawareLlc.name}
                     chain={delawareLlc.chain}
-                    date={delawareLlc.date}
-                    ethAddress={delawareLlc.ethAddress}
-                    arbitrator={delawareLlc.arbitrator}
                   />
                 }
-                fileName="Delaware Opearting Agreement"
+                fileName="Delaware DAO LLC Operating Agreement"
               >
                 {({ loading }) =>
                   loading ? (
@@ -258,7 +199,7 @@ function DraftDoc() {
                       chain={delawareIc.chain}
                     />
                   }
-                  fileName="Delaware Investment Club"
+                  fileName="Investment Club DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
                     loading ? (
@@ -274,13 +215,10 @@ function DraftDoc() {
                   document={
                     <WyomingOAtemplate
                       name={wyomingLlc.name}
-                      date={wyomingLlc.date}
-                      email={wyomingLlc.email}
-                      ethAddress={wyomingLlc.ethAddress}
-                      id={wyomingLlc.id}
+                      chain={wyomingLlc.chain}
                     />
                   }
-                  fileName="Wyoming Operating Agreement"
+                  fileName="Wyoming DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
                     loading ? (

@@ -49,37 +49,12 @@ export const presets = [
     },
   },
   {
-    type: "Social",
-    icon: HiUserGroup,
-    voting: 259200,
-    quorum: 10,
-    supermajority: 60,
-    paused: 0,
-    extensions: {
-      tribute: {
-        description: "Anyone can propose to join by paying tribute.",
-      },
-    },
-  },
-  {
     type: "Company",
     icon: BsTools,
     voting: 2,
     quorum: 20,
     supermajority: 60,
     paused: 1,
-    extensions: {
-      redemption: {
-        description:
-          "Members can ragequit for share of treasury. Option starts in 90 days.",
-        redemptionStart: 7776000, // 90 days from today
-        tokenArray: [
-          "0xc778417e063141139fce010982780140aa0cd5ab",
-          "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
-          "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
-          "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02"
-        ],
-      },
-    },
+    extensions: {}
   },
 ];

@@ -1,8 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import { Text, IconButton, HStack, VStack, Input } from "@chakra-ui/react";
 import { BsHandThumbsUpFill, BsHandThumbsDownFill } from "react-icons/bs";
 import { useDisclosure } from "@chakra-ui/react";
+
+const VoteButton = ({ label, bg, icon, ...props }) => {
+  return (
+    <IconButton
+      size="lg"
+      bg={bg}
+      aria-label={label}
+      icon={icon}
+      {...props}
+      _hover={{ bg: bg }}
+      _active={{ bg: bg }}
+      border="none"
+    />
+  );
+};
 
 export default function VotingModule(props) {
   const value = useContext(AppContext);
@@ -11,68 +26,79 @@ export default function VotingModule(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const vote = async () => {
+    event.preventDefault();
+    value.setLoading(true);
 
-      event.preventDefault();
-      value.setLoading(true);
+    try {
+      let object = event.target;
+      var array = [];
+      for (let i = 0; i < object.length; i++) {
+        array[object[i].name] = object[i].value;
+      }
+
+      const { id, approval } = array;
 
       try {
-        let object = event.target;
-        var array = [];
-        for (let i = 0; i < object.length; i++) {
-          array[object[i].name] = object[i].value;
-        }
-
-        const { id, approval } = array;
-
-        try {
-          // * first, see if they already voted * //
-          const instance = new web3.eth.Contract(abi, address);
-          const voted = await instance.methods.voted(id, account).call();
-          if (voted == true) {
-            alert("You already voted");
-          } else {
-            try {
-              let result = await instance.methods
-                .vote(id, parseInt(approval))
-                .send({ from: account });
-            } catch (e) {
-              value.toast(e);
-              value.setLoading(false);
-            }
+        // * first, see if they already voted * //
+        const instance = new web3.eth.Contract(abi, address);
+        const voted = await instance.methods.voted(id, account).call();
+        if (voted == true) {
+          alert("You already voted");
+        } else {
+          try {
+            let result = await instance.methods
+              .vote(id, parseInt(approval))
+              .send({ from: account });
+          } catch (e) {
+            value.toast(e);
+            value.setLoading(false);
           }
-        } catch (e) {
-          value.toast(e);
-          value.setLoading(false);
         }
-      } catch(e) {
+      } catch (e) {
         value.toast(e);
         value.setLoading(false);
       }
+    } catch (e) {
+      value.toast(e);
       value.setLoading(false);
+    }
+    value.setLoading(false);
   };
 
   return (
     <VStack
       border="#ccc"
-      backgroundColor="#eee"
+      backgroundColor="#5a268607"
       width="100%"
       p={5}
-      rounded="lg"
+      rounded="3xl"
+      boxShadow="xl"
     >
-      <Text fontSize="lg">
-        <b>VOTE</b>
+      <Text fontSize="lg" fontWeight="900">
+        VOTE
       </Text>
       <HStack gap={3}>
         <form onSubmit={vote}>
           <Input type="hidden" name="id" value={p["id"]} />
           <Input type="hidden" name="approval" value={1} />
-          <IconButton icon={<BsHandThumbsUpFill />} size="lg" type="submit" />
+          <VoteButton
+            icon={<BsHandThumbsUpFill />}
+            size="lg"
+            aria-label="upvote"
+            bg="#71E100"
+            type="submit"
+          />
         </form>
 
         <form onSubmit={vote}>
           <Input type="hidden" name="id" value={p["id"]} />
           <Input type="hidden" name="approval" value={0} />
-          <IconButton icon={<BsHandThumbsDownFill />} size="lg" type="submit" />
+          <VoteButton
+            bg="#FE2602"
+            icon={<BsHandThumbsDownFill />}
+            aria-label="downvote"
+            type="submit"
+          />
         </form>
       </HStack>
     </VStack>

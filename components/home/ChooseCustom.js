@@ -7,11 +7,8 @@ import {
   HStack,
   Button,
   Heading,
-  FormControl,
   FormLabel,
   Checkbox,
-  Input,
-  Grid,
   Switch,
   Spacer,
   Text,
@@ -50,11 +47,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const [saleEnds, setSaleEnds] = useState(new Date());
   const [redemptionStart, setRedemptionStart] = useState(new Date());
   const [quorum, setQuorum] = useState(30);
-  const [supermajority, setSupermajority] = useState(55)
-  const [showQuorumTooltip, setShowQuorumTooltip] = useState(false)
-  const [showSupermajorityTooltip, setShowSupermajorityTooltip] = useState(false)
+  const [supermajority, setSupermajority] = useState(55);
+  const [showQuorumTooltip, setShowQuorumTooltip] = useState(false);
+  const [showSupermajorityTooltip, setShowSupermajorityTooltip] =
+    useState(false);
 
-  const { handleSubmit, register, control } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       votingPeriod: details["governance"]["votingPeriod"],
       votingPeriodUnit: 0,
@@ -70,17 +68,16 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const calculateVotingPeriod = (period, unit) => {
     let seconds;
     if (unit == 0) {
-      seconds = period * 60 * 60 * 24
+      seconds = period * 60 * 60 * 24;
     } else {
       seconds = period * 60 * 60;
     }
-    console.log(seconds)
+    console.log(seconds);
     return seconds;
   };
 
   const submit = (values) => {
-    const { votingPeriod, votingPeriodUnit, paused } =
-      values;
+    const { votingPeriod, votingPeriodUnit, paused } = values;
 
     // setting governance
     details["governance"]["votingPeriod"] = calculateVotingPeriod(
@@ -347,12 +344,11 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </HStack>
         </VStack>
         <Box w="100%" align="center">
-
           <Button className="transparent-btn" type="submit">
             Next »
           </Button>
         </Box>
       </VStack>
     </VStack>
-  )
+  );
 }

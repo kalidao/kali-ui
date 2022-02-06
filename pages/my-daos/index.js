@@ -12,7 +12,7 @@ import {
   Heading,
   Spacer,
   HStack,
-  Select
+  VStack,
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
@@ -23,8 +23,8 @@ import { getNetworkName } from "../../utils/formatters";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
-
-const DaoCard = ({ name, dao }) => {
+import Select from "../../components/elements/Select";
+const DaoCard = ({ name, dao, key }) => {
   return (
     <Box
       bg="hsl(0, 92%, 6%, 20%)"
@@ -32,6 +32,7 @@ const DaoCard = ({ name, dao }) => {
       p="3"
       m="2"
       borderRadius="3xl"
+      key={key}
     >
       <HStack>
         <Text>Name</Text>
@@ -58,62 +59,63 @@ export default function MyDaos() {
   }, [chainId]);
 
   async function fetchData() {
-    value.setLoading(true);
 
-    try {
-      console.log("trying")
-      const allDaos = [];
+    if(account != null) {
+      value.setLoading(true);
 
-      let address = addresses[chainId]["factory"];
+      try {
+        const allDaos = [];
 
-      const factory = factoryInstance(address, web3);
+        let address = addresses[chainId]["factory"];
 
-      const factoryBlock = blocks["factory"][chainId];
+        const factory = factoryInstance(address, web3);
 
-      let eventName = "DAOdeployed";
+        const factoryBlock = blocks["factory"][chainId];
 
-      let events = await fetchEvents(
-        factory,
-        web3,
-        factoryBlock,
-        eventName,
-        chainId
-      );
-      console.log("events", events)
+        let eventName = "DAOdeployed";
 
-      for (let i = 0; i < events.length; i++) {
+        let events = await fetchEvents(
+          factory,
+          web3,
+          factoryBlock,
+          eventName,
+          chainId
+        );
+        console.log("events", events);
 
-        let dao_ = events[i]["kaliDAO"];
-        let name_ = events[i]["name"];
-        let docs_ = events[i]["docs"];
+        for (let i = 0; i < events.length; i++) {
+          let dao_ = events[i]["kaliDAO"];
+          let name_ = events[i]["name"];
+          let docs_ = events[i]["docs"];
 
-        const instance = new web3.eth.Contract(abi, dao_);
+          const instance = new web3.eth.Contract(abi, dao_);
 
-        let members = await fetchMembers(instance, web3, chainId, factoryBlock);
-        console.log(members);
+          let members = await fetchMembers(instance, web3, chainId, factoryBlock);
+          console.log(members, "members");
 
-        for (let m = 0; m < members.length; m++) {
-          if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
-            allDaos.push({ dao: dao_, name: name_ });
-            console.log("docs for this one", docs_);
+          for (let m = 0; m < members.length; m++) {
+            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
+              allDaos.push({ dao: dao_, name: name_ });
+              console.log("docs for this one", docs_);
+            }
           }
         }
-      }
 
-      setDaos(allDaos);
-      value.setLoading(false);
-    } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+        setDaos(allDaos);
+        value.setLoading(false);
+      } catch (e) {
+        value.toast(e);
+        value.setLoading(false);
+      }
     }
   }
 
   const handleChange = async (e) => {
     let id = e.target.value;
-    if(chainId != id) {
+    if (chainId != id) {
       await value.switchChain(id);
     }
-  }
+  };
 
   return (
     <Layout>
@@ -123,30 +125,32 @@ export default function MyDaos() {
         </Button>
       ) : (
         <>
-          {daos == null
-            ? null
-            :
+          {daos == null ? null : (
             <List>
-              <Heading as="h2">
-                My DAOs
-              </Heading>
+              <VStack>
+                <Heading as="h2">My DAOs</Heading>
 
-              <Text>Select chain:</Text>
-              <Select onChange={handleChange} defaultValue={chainId}>
-                {supportedChains.map((item, index) => (
-                  <option value={item.chainId}>{item.name}</option>
+                <Text fontSize="2xl" fontWeight="600">
+                  Select chain:
+                </Text>
+                <Select onChange={handleChange} defaultValue={chainId}>
+                  {supportedChains.map((item, index) => (
+                    <option key={index} value={item.chainId}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
+
+                {daos.map((item, index) => (
+                  <ListItem key={index}>
+                    <Link href={`../daos/${item.dao}`}>
+                      <DaoCard key={index} name={item.name} dao={item.dao} />
+                    </Link>
+                  </ListItem>
                 ))}
-              </Select>
-
-              {daos.map((item, index) => (
-                <ListItem key={index}>
-                  <Link href={`../daos/${item.dao}`}>
-                    <DaoCard name={item.name} dao={item.dao} />
-                  </Link>
-                </ListItem>
-              ))}
+              </VStack>
             </List>
-          }
+          )}
         </>
       )}
     </Layout>

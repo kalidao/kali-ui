@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import {
   Textarea,
@@ -8,7 +8,7 @@ import {
   Text,
   HStack,
   VStack,
-  Center
+  Center,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { votingPeriodUnits } from "../../constants/params";
@@ -74,10 +74,11 @@ export default function GovPeriod() {
         </Text>
         <Textarea name="description_" size="lg" placeholder=". . ." />
         <Text>
-          Voting Period (currently {convertVotingPeriod(dao["gov"]["votingPeriod"])}):
+          Voting Period (currently{" "}
+          {convertVotingPeriod(dao["gov"]["votingPeriod"])}):
         </Text>
         <HStack>
-          <NumInputField name="period_" />
+          <NumInputField name="period_" defaultValue={1} />
           <Select name="unit_">
             {Object.entries(votingPeriodUnits).map(([k, v]) => (
               <option key={k} value={v}>
@@ -88,7 +89,9 @@ export default function GovPeriod() {
         </HStack>
         <Input type="hidden" name="proposalType_" value="3" />
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </VStack>
     </form>

@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Text, UnorderedList, ListItem, HStack, Spacer, Link, Icon } from "@chakra-ui/react";
+import { Text, HStack, Spacer, Link, Icon } from "@chakra-ui/react";
 import { convertVotingPeriod } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
 
@@ -10,42 +10,41 @@ export default function GovSettings() {
   const array = [
     {
       name: "Paused",
-      info: dao["token"]["paused"].toString(),
+      info: dao["token"]["paused"]
+        .toString()
+        .replace(/^\w/, (s) => s.toUpperCase()),
     },
     {
       name: "Voting Period",
-      info: convertVotingPeriod(dao["gov"]["votingPeriod"])
+      info: convertVotingPeriod(dao["gov"]["votingPeriod"]),
     },
     {
       name: "Quorum",
-      info: dao["gov"]["quorum"] + "%"
+      info: dao["gov"]["quorum"] + "%",
     },
     {
       name: "Supermajority",
-      info: dao["gov"]["supermajority"] + "%"
-    }
-  ]
+      info: dao["gov"]["supermajority"] + "%",
+    },
+  ];
 
-  return(
+  return (
     <>
-    {array.map((item, index) => (
-      <>
-      <HStack>
-        <Text>{item.name}</Text>
-        <Spacer />
-        <Text>{item.info}</Text>
-        {item.link != null ?
-        <Link
-          passHref
-          href={item.link}
-        >
-          <Icon as={BsFillArrowUpRightSquareFill} />
-        </Link>
-        : null}
-      </HStack>
-      <DashedDivider />
-      </>
-    ))}
+      {array.map((item, index) => (
+        <>
+          <HStack>
+            <Text>{item.name}</Text>
+            <Spacer />
+            <Text>{item.info}</Text>
+            {item.link != null ? (
+              <Link passHref href={item.link}>
+                <Icon as={BsFillArrowUpRightSquareFill} />
+              </Link>
+            ) : null}
+          </HStack>
+          <DashedDivider />
+        </>
+      ))}
     </>
   );
 }

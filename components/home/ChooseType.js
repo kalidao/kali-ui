@@ -112,6 +112,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
             </Text>
           </HStack>
           <Spacer p={5} />
+          {Object.keys(item.type["extensions"]).length !== 0 ?
           <Text>
             Extras:
             <UnorderedList>
@@ -122,6 +123,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
               ))}
             </UnorderedList>
           </Text>
+          : null}
         </LinkOverlay>
       </LinkBox>
     );
