@@ -28,10 +28,10 @@ export const presets = [
     extensions: {
       crowdsale: {
         description:
-          "10 shares per ETH. Limit 1,000 shares. Sale ends in 30 days.",
+          "10 shares per ETH. Limit 1000 shares. Sale ends in 30 days.",
         purchaseToken: "0x0000000000000000000000000000000000000000",
         purchaseMultiplier: 10,
-        purchaseLimit: "1000000000000000000000", // 1,000 shares - string, to avoid BigNumber errors
+        purchaseLimit: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
         saleEnds: 2592000, // 30 days from today
         listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
       },
@@ -45,19 +45,6 @@ export const presets = [
           "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
           "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02"
         ],
-      },
-    },
-  },
-  {
-    type: "Social",
-    icon: HiUserGroup,
-    voting: 259200,
-    quorum: 10,
-    supermajority: 60,
-    paused: 0,
-    extensions: {
-      tribute: {
-        description: "Anyone can propose to join by paying tribute.",
       },
     },
   },
