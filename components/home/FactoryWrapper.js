@@ -23,7 +23,7 @@ export default function FactoryWrapper() {
       shares: null,
     },
     governance: {
-      votingPeriod: 86400,
+      votingPeriod: 1,
       paused: 1,
       quorum: 10,
       supermajority: 60,
