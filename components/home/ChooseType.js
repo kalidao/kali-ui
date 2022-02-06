@@ -89,7 +89,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <HStack>
             <Text>Voting Period</Text>
             <Spacer />
-            <Text>{item.type["voting"]} Days</Text>
+            <Text>{convertVotingPeriod(item.type["voting"])}</Text>
           </HStack>
           <DashedDivider />
           <HStack>

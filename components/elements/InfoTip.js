@@ -4,19 +4,12 @@ import { Tooltip } from "@chakra-ui/react";
 
 function InfoTip({ label, ...props }) {
   return (
-    <Tooltip
-      bg={"yellow.200"}
-      color={"black"}
-      fontSize={"xs"}
-      hasArrow
-      label={label}
-      {...props}
-    >
+    <Tooltip label={label} {...props}>
       <span>
-        <BsQuestionCircle fontSize={"80%"} color="#fbb341" />
+        <BsQuestionCircle />
       </span>
     </Tooltip>
-  )
+  );
 }
 
 export default InfoTip;

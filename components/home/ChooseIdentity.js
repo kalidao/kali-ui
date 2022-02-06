@@ -3,7 +3,6 @@ import AppContext from "../../context/AppContext";
 import {
   Flex,
   VStack,
-  HStack,
   Button,
   Text,
   Select,
@@ -12,14 +11,11 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Tooltip
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
 import { useForm } from "react-hook-form";
-import InfoTip from "../elements/InfoTip";
-
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
   const { web3, chainId, account } = value.state;
@@ -79,49 +75,37 @@ export default function ChooseIdentity(props) {
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
       <Heading as="h1">Select a name and symbol:</Heading>
-      <Text></Text>
       <FormControl>
         <FormLabel htmlFor="name" fontSize="xl" fontWeight="800">
           Name
         </FormLabel>
-        <HStack>
-          <Input
-            name="name"
-            {...register("name", {
-              required: true,
-              validate: isNameUnique || value.toast("Name not unique."),
-            })}
-          />
-          <InfoTip
-            hasArrow
-            label={
-              "Give your DAO a name, which will also be the name of the DAO token"
-            }
-          />
-        </HStack>
+        <Input
+          name="name"
+          {...register("name", {
+            required: true,
+            //validate: isNameUnique || value.toast("Name not unique."),
+          })}
+        />
       </FormControl>
       <FormControl>
         <FormLabel htmlFor="symbol" fontSize="xl" fontWeight="800">
           Symbol
         </FormLabel>
-        <HStack>
-          <Input
-            name="symbol"
-            {...register("symbol", {
-              required: "Symbol is required.",
-              maxLength: {
-                value: 12,
-                message: "Symbol shouldn't be greater than 12 characters.",
-              },
-            })}
-          />
-          <InfoTip hasArrow label={"Symbol of DAO token"} />
-        </HStack>
+        <Input
+          name="symbol"
+          {...register("symbol", {
+            required: "Symbol is required.",
+            maxLength: {
+              value: 12,
+              message: "Symbol shouldn't be greater than 12 characters.",
+            },
+          })}
+        />
         {errors.symbol && value.toast(errors.symbol.message)}
       </FormControl>
       <Button className="transparent-btn" type="submit">
         Next »
       </Button>
     </VStack>
-  )
+  );
 }
