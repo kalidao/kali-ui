@@ -6,7 +6,7 @@ function Select(props) {
     <ChakraSelect
       border="none"
       bg="rgba(36, 0, 0, 0.2)"
-      color="kali.800"
+      color="#fff"
       {...props}
     >
       {props.children}
