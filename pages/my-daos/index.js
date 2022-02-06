@@ -12,7 +12,7 @@ import {
   Heading,
   Spacer,
   HStack,
-  Select
+  VStack,
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
@@ -23,8 +23,8 @@ import { getNetworkName } from "../../utils/formatters";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
-
-const DaoCard = ({ name, dao }) => {
+import Select from "../../components/elements/Select";
+const DaoCard = ({ name, dao, key }) => {
   return (
     <Box
       bg="hsl(0, 92%, 6%, 20%)"
@@ -32,6 +32,7 @@ const DaoCard = ({ name, dao }) => {
       p="3"
       m="2"
       borderRadius="3xl"
+      key={key}
     >
       <HStack>
         <Text>Name</Text>
@@ -61,7 +62,7 @@ export default function MyDaos() {
     value.setLoading(true);
 
     try {
-      console.log("trying")
+      console.log("trying");
       const allDaos = [];
 
       let address = addresses[chainId]["factory"];
@@ -79,10 +80,9 @@ export default function MyDaos() {
         eventName,
         chainId
       );
-      console.log("events", events)
+      console.log("events", events);
 
       for (let i = 0; i < events.length; i++) {
-
         let dao_ = events[i]["kaliDAO"];
         let name_ = events[i]["name"];
         let docs_ = events[i]["docs"];
@@ -110,10 +110,10 @@ export default function MyDaos() {
 
   const handleChange = async (e) => {
     let id = e.target.value;
-    if(chainId != id) {
+    if (chainId != id) {
       await value.switchChain(id);
     }
-  }
+  };
 
   return (
     <Layout>
@@ -123,30 +123,30 @@ export default function MyDaos() {
         </Button>
       ) : (
         <>
-          {daos == null
-            ? null
-            :
+          {daos == null ? null : (
             <List>
-              <Heading as="h2">
-                My DAOs
-              </Heading>
+              <VStack>
+                <Heading as="h2">My DAOs</Heading>
 
-              <Text>Select chain:</Text>
-              <Select onChange={handleChange} defaultValue={chainId}>
-                {supportedChains.map((item, index) => (
-                  <option value={item.chainId}>{item.name}</option>
+                <Text fontSize="2xl" fontWeight="600">
+                  Select chain:
+                </Text>
+                <Select onChange={handleChange} defaultValue={chainId}>
+                  {supportedChains.map((item, index) => (
+                    <option value={item.chainId}>{item.name}</option>
+                  ))}
+                </Select>
+
+                {daos.map((item, index) => (
+                  <ListItem key={index}>
+                    <Link href={`../daos/${item.dao}`}>
+                      <DaoCard key={index} name={item.name} dao={item.dao} />
+                    </Link>
+                  </ListItem>
                 ))}
-              </Select>
-
-              {daos.map((item, index) => (
-                <ListItem key={index}>
-                  <Link href={`../daos/${item.dao}`}>
-                    <DaoCard name={item.name} dao={item.dao} />
-                  </Link>
-                </ListItem>
-              ))}
+              </VStack>
             </List>
-          }
+          )}
         </>
       )}
     </Layout>
