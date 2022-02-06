@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Select, Text, Stack } from "@chakra-ui/react";
+import { Select, Text, Box } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { govSettingsHelper } from "../../constants/govSettingsHelper";
 import { votingPeriodToSeconds } from "../../utils/formatters";
@@ -17,7 +17,7 @@ export default function GovernanceSettings() {
   };
 
   return (
-    <>
+    <Box>
       <Text>
         <b>Setting to Adjust</b>
       </Text>
@@ -34,6 +34,6 @@ export default function GovernanceSettings() {
       {govSettingsHelper.map((g, index) =>
         propType == g["proposalType"] ? g["component"] : null
       )}
-    </>
+    </Box>
   );
 }
