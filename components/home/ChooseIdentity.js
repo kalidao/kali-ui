@@ -18,7 +18,7 @@ import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
 import { useForm } from "react-hook-form";
-import helpIcon from "../../public/img/HelpIcon.svg"
+import InfoTip from "../elements/InfoTip";
 
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
@@ -91,9 +91,12 @@ export default function ChooseIdentity(props) {
               validate: isNameUnique || value.toast("Name not unique."),
             })}
           />
-          <Tooltip hasArrow label="Give your DAO a name, which will also be the name of the DAO token" aria-label="A tooltip">
-            <img src={helpIcon.src} height={20} width={20} alt="Help" />
-          </Tooltip>
+          <InfoTip
+            hasArrow
+            label={
+              "Give your DAO a name, which will also be the name of the DAO token"
+            }
+          />
         </HStack>
       </FormControl>
       <FormControl>
@@ -111,9 +114,7 @@ export default function ChooseIdentity(props) {
               },
             })}
           />
-          <Tooltip hasArrow label="Symbol of DAO token" aria-label="A tooltip">
-            <img src={helpIcon.src} height={20} width={20} alt="Help" />
-          </Tooltip>
+          <InfoTip hasArrow label={"Symbol of DAO token"} />
         </HStack>
         {errors.symbol && value.toast(errors.symbol.message)}
       </FormControl>
