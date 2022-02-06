@@ -19,7 +19,7 @@ function CapTableModal() {
     <>
       <Center>
         <Button className="transparent-btn" onClick={onOpen}>
-          View Cap Table
+          View Token Holdings
         </Button>
       </Center>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
