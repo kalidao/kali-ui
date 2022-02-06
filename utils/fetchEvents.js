@@ -19,7 +19,7 @@ export async function fetchEvents(
   let intervals;
 
   if(blocksToQuery <= intervalSize || intervalSize == null) {
-    intervals = blocksToQuery;
+    intervals = 1;
     intervalSize = blocksToQuery;
   } else {
     intervals = parseInt(blocksToQuery / intervalSize);
