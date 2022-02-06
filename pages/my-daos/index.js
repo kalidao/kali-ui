@@ -133,7 +133,9 @@ export default function MyDaos() {
                 </Text>
                 <Select onChange={handleChange} defaultValue={chainId}>
                   {supportedChains.map((item, index) => (
-                    <option value={item.chainId}>{item.name}</option>
+                    <option key={index} value={item.chainId}>
+                      {item.name}
+                    </option>
                   ))}
                 </Select>
 
