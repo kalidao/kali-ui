@@ -41,8 +41,8 @@ export default function NavRightContainer(props) {
           size="xs"
           type="unstyled"
           border="none"
-          bg="transparent"
-          color="white"
+          background="transparent"
+          id="copy-address"
         />
       ) : null}
       <Hamburger />
