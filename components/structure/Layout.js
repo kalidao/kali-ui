@@ -18,7 +18,7 @@ export default function Layout(props) {
         <title>KaliDAO</title>
         <meta
           property="og:title"
-          content="optimized DAC protocol"
+          content="DAO Launcher with Legal Benefits"
           key="title"
         />
       </Head>
