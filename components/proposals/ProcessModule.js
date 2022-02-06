@@ -50,9 +50,9 @@ export default function ProcessModule(props) {
       <Input type="hidden" name="dao" />
       <Input type="hidden" name="id" value={p["id"]} />
       {i == 0 || p["proposalType"] == 9 ? (
-        <Button type="submit">Process</Button>
+        <Button type="submit" className="transparent-btn">Process</Button>
       ) : (
-        <Button type="submit" disabled>
+        <Button type="submit" className="transparent-btn" disabled>
           In Queue
         </Button>
       )}

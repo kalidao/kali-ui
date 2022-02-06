@@ -12,7 +12,7 @@ import StepProgressBar from "./StepProgressBar";
 export default function FactoryWrapper() {
   const [visible, setVisible] = useState(0);
   const [details, setDetails] = useState({
-    network: 4,
+    network: 1,
     identity: {
       daoName: null,
       symbol: null,
@@ -23,7 +23,7 @@ export default function FactoryWrapper() {
       shares: null,
     },
     governance: {
-      votingPeriod: 86400,
+      votingPeriod: 1,
       paused: 1,
       quorum: 10,
       supermajority: 60,

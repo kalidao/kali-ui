@@ -264,9 +264,12 @@ export function convertRedeemables(redeemables) {
   return converted;
 }
 
-export function decimalToHexString(number) {
-  if (number < 0) {
-    number = 0xFFFFFFFF + number + 1;
+export function getChainInfo(chain) {
+  let chainInfo;
+  for(let i=0; i < supportedChains.length; i++) {
+    if(chain==supportedChains[i].chainId) {
+      chainInfo = supportedChains[i];
+    }
   }
-  return "0x" + number.toString(16).toUpperCase();
+  return chainInfo;
 }

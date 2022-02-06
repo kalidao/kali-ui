@@ -1,6 +1,8 @@
 import { proposalTypes } from "../constants/params";
 import { addresses } from "../constants/addresses";
 import { tokens } from "../constants/tokens";
+import { blocks } from "../constants/blocks";
+import { fetchEvents } from "./fetchEvents";
 
 // functions to retrieve data from blockchain
 
@@ -12,6 +14,11 @@ export async function fetchDaoInfo(
   daoChain,
   account
 ) {
+
+  const factoryBlock = blocks["factory"][daoChain];
+
+  const ricardianBlock = blocks["ricardian"][daoChain];
+
   const name = await instance.methods.name().call();
 
   const symbol = await instance.methods.symbol().call();
@@ -28,13 +35,13 @@ export async function fetchDaoInfo(
 
   const supermajority = parseInt(await instance.methods.supermajority().call());
 
-  const docs = await fetchDocs(factory, address);
+  const docs = await fetchDocs(factory, address, web3, factoryBlock, daoChain);
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
   const balances = await fetchBalances(address, web3);
 
-  const ricardian = await fetchRicardian(address, web3, factory);
+  const ricardian = await fetchRicardian(address, web3, factory, daoChain, ricardianBlock);
 
   const extensions = await fetchExtensions(
     instance,
@@ -44,7 +51,7 @@ export async function fetchDaoInfo(
     balances
   );
 
-  const members = await fetchMembers(instance);
+  const members = await fetchMembers(instance, web3, daoChain, factoryBlock);
 
   const dao_ = {
     address,
@@ -72,18 +79,32 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-async function fetchDocs(factory, address) {
+async function fetchDocs(factory, address, web3, factoryBlock, daoChain) {
+
+  let eventName = "DAOdeployed";
+
+  let events = await fetchEvents(
+    factory,
+    web3,
+    factoryBlock,
+    eventName,
+    daoChain
+  );
+
   let docs;
-  const events = await factory.getPastEvents("DAOdeployed", {
-    fromBlock: 0,
-    toBlock: "latest",
-  });
-  for(let i=0; i < events.length; i++) {
-    const dao = events[i]["returnValues"]["kaliDAO"];
-    if(dao.toLowerCase() == address.toLowerCase()) {
-      docs = events[i]["returnValues"]["docs"];
+
+  for (let i = 0; i < events.length; i++) {
+    try {
+      const dao = events[i]["kaliDAO"];
+
+      if (dao.toLowerCase() == address.toLowerCase()) {
+        docs = events[i]["docs"];
+      }
+    } catch(e) {
+      console.log(e);
     }
   }
+
   return docs;
 }
 
@@ -120,21 +141,29 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-export async function fetchMembers(instance) {
+export async function fetchMembers(instance, web3, daoChain, factoryBlock) {
+
+  let eventName = "Transfer";
+
+  let events = await fetchEvents(
+    instance,
+    web3,
+    factoryBlock,
+    eventName,
+    daoChain
+  );
+
   const holdersArray_ = [];
 
-  const holders = await instance.getPastEvents("Transfer", {
-    fromBlock: 0,
-    toBlock: "latest",
-  });
-
   const dupes = [];
-  // list that contains duplicates
-  for (let k = 0; k < holders.length; k++) {
-    let holder = holders[k]["returnValues"]["to"];
+
+  for (let k = 0; k < events.length; k++) {
+    let holder = events[k]["to"];
 
     dupes[k] = holder;
   }
+
+
   // unique list of addresses
   const uniques = dupes.filter((v, i, a) => a.indexOf(v) === i);
 
@@ -144,7 +173,7 @@ export async function fetchMembers(instance) {
     let shares = await instance.methods.balanceOf(holder).call();
 
     if (shares > 0) {
-      holdersArray_.push({member: holder, shares: shares});
+      holdersArray_.push({ member: holder, shares: shares });
     }
   }
 
@@ -152,14 +181,13 @@ export async function fetchMembers(instance) {
 }
 
 async function fetchExtensions(instance, daoChain, web3, address, balances) {
-
   let result;
   var extensionsCount = 0;
   const extensionArray = [];
   let ext = addresses[daoChain]["extensions"];
   for (const [key, value] of Object.entries(ext)) {
     let bool = await instance.methods.extensions(value).call();
-    console.log("bool", bool, key)
+    console.log("bool", bool, key);
     if (bool == true) {
       extensionsCount++;
       let extAddress = value;
@@ -173,13 +201,13 @@ async function fetchExtensions(instance, daoChain, web3, address, balances) {
       extensionArray[key] = { address: extAddress, details: extDetails };
     }
   }
-  console.log("extensionArray", extensionArray)
-  if(extensionsCount > 0) {
-    result = extensionArray
+  console.log("extensionArray", extensionArray);
+  if (extensionsCount > 0) {
+    result = extensionArray;
   } else {
     result = null;
   }
-  console.log("result", result)
+  console.log("result", result);
   return result;
 }
 
@@ -228,26 +256,40 @@ async function fetchRedemption(web3, address, extAddress, balances) {
   return details;
 }
 
-async function fetchRicardian(address, web3, factory) {
-  var ricardian = null;
+async function fetchRicardian(address, web3, factory, daoChain, ricardianBlock) {
+
+  let eventName = "Transfer";
+
   const abi_ = require("../abi/RicardianLLC.json");
-  const address_ = await factory.methods.ricardianLLC().call();
+  const address_ = addresses[daoChain]["ricardian"];
   const contract_ = new web3.eth.Contract(abi_, address_);
-  const events = await contract_.getPastEvents("Transfer", {
-    fromBlock: 0,
-    toBlock: "latest",
-  });
-  console.log(events)
+
+  let events = await fetchEvents(
+    contract_,
+    web3,
+    ricardianBlock,
+    eventName,
+    daoChain
+  );
+
+  var ricardian = null;
+
   let series;
-  for(var i=0; i < events.length; i++) {
-    let to = events[i]["returnValues"]["to"];
-    if(web3.utils.toChecksumAddress(to)==web3.utils.toChecksumAddress(address)) {
-      series = events[i]["returnValues"]["tokenId"];
+
+  for (var i = 0; i < events.length; i++) {
+    let to = events[i]["to"];
+    if (
+      web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
+    ) {
+      series = events[i]["tokenId"];
       const commonURI = await contract_.methods.commonURI().call();
-      const masterOperatingAgreement = await contract_.methods.masterOperatingAgreement().call();
+      const masterOperatingAgreement = await contract_.methods
+        .masterOperatingAgreement()
+        .call();
       const name = await contract_.methods.name().call();
       ricardian = { series, commonURI, masterOperatingAgreement, name };
     }
   }
+
   return ricardian;
 }

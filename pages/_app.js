@@ -5,12 +5,12 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { useState, useEffect } from "react";
 import theme from "../styles/theme";
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/700.css';
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/700.css";
 const abi = require("../abi/KaliDAO.json");
 import { createToast } from "../utils/toast";
 import { correctNetwork } from "../utils/network";
-import { getNetworkName, decimalToHexString } from "../utils/formatters";
+import { getNetworkName, getChainInfo } from "../utils/formatters";
 import { supportedChains } from "../constants/supportedChains";
 import "../styles/style.css";
 
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
     provider.on("disconnect", () => {
       console.log("disconnected");
     });
-  }
+  };
 
   const connectToInfura = async () => {
     let result = await correctNetwork(address);
@@ -65,20 +65,18 @@ function MyApp({ Component, pageProps }) {
 
   const connect = async () => {
     try {
-      if (
-        typeof window !== "undefined"
-      ) {
+      if (typeof window !== "undefined") {
         const providerOptions = {
           walletconnect: {
             package: WalletConnectProvider, // required
             options: {
-              infuraId: "26e178ea568e492983f2431ad6a31e74" // required
-            }
-          }
+              infuraId: process.env.NEXT_PUBLIC_INFURA_ID, // required
+            },
+          },
         };
         // We are in the browser and metamask is running.
         const web3Modal = new Web3Modal({
-          providerOptions
+          providerOptions,
         });
 
         const provider = await web3Modal.connect();
@@ -106,29 +104,53 @@ function MyApp({ Component, pageProps }) {
   };
 
   const changeChain = async (net) => {
-    if(net != undefined) {
+    if (net != undefined) {
       setChainId(net);
     }
   };
 
   const switchChain = async (net) => {
-    let hex = decimalToHexString(net);
-    console.log("hex", hex)
+    let chainInfo = getChainInfo(net);
+    let hex = chainInfo.hexChain;
+    console.log("hex", hex);
     try {
       await ethereum.request({
-        method: 'wallet_switchEthereumChain',
+        method: "wallet_switchEthereumChain",
         params: [{ chainId: hex }],
       });
-    } catch(e) {
-      toast(e);
+    } catch (e) {
+      if (e.code === 4902) {
+        try {
+          await ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: hex,
+                chainName: chainInfo.name,
+                nativeCurrency: chainInfo.nativeCurrency,
+                rpcUrls: chainInfo.rpcUrls,
+                blockExplorerUrls: chainInfo.blockExplorerUrls,
+              },
+            ],
+          });
+        } catch (addError) {
+          toast(addError);
+        }
+      } else {
+        toast(e);
+      }
     }
-  }
+  };
 
   const isCorrectChain = async () => {
     if (address != null) {
       if (chainId != daoChain) {
-        let name = getNetworkName(daoChain);
-        toast("Please connect to the " + name + " network.");
+        try {
+            await switchChain(daoChain);
+          } catch(e) {
+            let name = getNetworkName(daoChain);
+            toast("Please connect to the " + name + " network.");
+        }
       }
     } else {
       var supported = false;
@@ -162,7 +184,7 @@ function MyApp({ Component, pageProps }) {
             visibleView: visibleView,
             dao: dao,
             proposals: proposals,
-            remount: remount
+            remount: remount,
           },
           setWeb3: setWeb3,
           setAccount: setAccount,
@@ -176,7 +198,7 @@ function MyApp({ Component, pageProps }) {
           setProposals: setProposals,
           toast: toast,
           setRemount: setRemount,
-          switchChain: switchChain
+          switchChain: switchChain,
         }}
       >
         <Component {...pageProps} />
