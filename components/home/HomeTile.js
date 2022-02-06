@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function HomeTile(props) {
   return (
-    <HStack spacing={200} p={200} alignItems="center" id="landing-tile">
+    <HStack spacing={270} p={270} alignItems="center" id="landing-tile">
       
       <VStack id="landing-tile-right">
         <Text fontSize="xl">
