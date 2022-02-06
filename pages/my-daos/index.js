@@ -16,6 +16,8 @@ import {
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { fetchMembers } from "../../utils/fetchDaoInfo";
+import { blocks } from "../../constants/blocks";
+import { fetchEvents } from "../../utils/fetchEvents";
 import { getNetworkName } from "../../utils/formatters";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
@@ -46,55 +48,54 @@ const DaoCard = ({ name, dao }) => {
 
 export default function MyDaos() {
   const value = useContext(AppContext);
-  const { web3, account } = value.state;
+  const { web3, account, chainId } = value.state;
   const [daos, setDaos] = useState(null);
 
   useEffect(() => {
     fetchData();
-  }, [account]);
+  }, [chainId]);
 
   async function fetchData() {
     value.setLoading(true);
 
     try {
+      console.log("trying")
       const allDaos = [];
 
-      let keys = Object.keys(addresses);
+      let address = addresses[chainId]["factory"];
 
-      let size = keys.length;
+      const factory = factoryInstance(address, web3);
 
-      for (let j = 0; j < size; j++) {
-        // loop thru chains
+      const factoryBlock = blocks["factory"][chainId];
 
-        let address = addresses[keys[j]]["factory"];
+      let eventName = "DAOdeployed";
 
-        const factory = factoryInstance(address, web3);
+      let events = await fetchEvents(
+        factory,
+        web3,
+        factoryBlock,
+        eventName,
+        chainId
+      );
+      console.log("events", events)
 
-        const events = await factory.getPastEvents("DAOdeployed", {
-          fromBlock: 0,
-          toBlock: "latest",
-        });
+      for (let i = 0; i < events.length; i++) {
 
-        const daosThisChain = [];
+        let dao_ = events[i]["kaliDAO"];
+        let name_ = events[i]["name"];
+        let docs_ = events[i]["docs"];
 
-        for (let i = 0; i < events.length; i++) {
-          let dao_ = events[i]["returnValues"]["kaliDAO"];
-          let name_ = events[i]["returnValues"]["name"];
-          let docs_ = events[i]["returnValues"]["docs"];
+        const instance = new web3.eth.Contract(abi, dao_);
 
-          const instance = new web3.eth.Contract(abi, dao_);
+        let members = await fetchMembers(instance, web3, chainId, factoryBlock);
+        console.log(members);
 
-          let members = await fetchMembers(instance);
-          console.log(members);
-
-          for (let m = 0; m < members.length; m++) {
-            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
-              daosThisChain.push({ dao: dao_, name: name_ });
-              console.log("docs for this one", docs_);
-            }
+        for (let m = 0; m < members.length; m++) {
+          if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
+            allDaos.push({ dao: dao_, name: name_ });
+            console.log("docs for this one", docs_);
           }
         }
-        allDaos[keys[j]] = daosThisChain;
       }
 
       setDaos(allDaos);
@@ -115,20 +116,20 @@ export default function MyDaos() {
         <>
           {daos == null
             ? null
-            : daos.map((dao, key) => (
-                <List key={key}>
-                  <Heading as="h2">
-                    {getNetworkName(key).replace(/^\w/, (s) => s.toUpperCase())}
-                  </Heading>
-                  {dao.map((item, index) => (
-                    <ListItem key={index}>
-                      <Link href={`../daos/${item.dao}`}>
-                        <DaoCard name={item.name} dao={item.dao} />
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
+            :
+            <List>
+              <Heading as="h2">
+                {getNetworkName(chainId).replace(/^\w/, (s) => s.toUpperCase())}
+              </Heading>
+              {daos.map((item, index) => (
+                <ListItem key={index}>
+                  <Link href={`../daos/${item.dao}`}>
+                    <DaoCard name={item.name} dao={item.dao} />
+                  </Link>
+                </ListItem>
               ))}
+            </List>
+          }
         </>
       )}
     </Layout>
