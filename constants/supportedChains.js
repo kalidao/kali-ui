@@ -26,7 +26,7 @@ export const supportedChains = [
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
     blockExplorerUrls: ['https://arbiscan.io'],
     maxBlocks: 20000
-  },
+  },/*
   {
     chainId: 137,
     hexChain: '0x89',
@@ -40,7 +40,7 @@ export const supportedChains = [
     rpcUrls: ['https://polygon-rpc.com'],
     blockExplorerUrls: ['https://polygonscan.com'],
     maxBlocks: 10000
-  },
+  },*/
   {
     chainId: 4,
     hexChain: '0x4',

@@ -59,52 +59,54 @@ export default function MyDaos() {
   }, [chainId]);
 
   async function fetchData() {
-    value.setLoading(true);
 
-    try {
-      console.log("trying");
-      const allDaos = [];
+    if(account != null) {
+      value.setLoading(true);
 
-      let address = addresses[chainId]["factory"];
+      try {
+        const allDaos = [];
 
-      const factory = factoryInstance(address, web3);
+        let address = addresses[chainId]["factory"];
 
-      const factoryBlock = blocks["factory"][chainId];
+        const factory = factoryInstance(address, web3);
 
-      let eventName = "DAOdeployed";
+        const factoryBlock = blocks["factory"][chainId];
 
-      let events = await fetchEvents(
-        factory,
-        web3,
-        factoryBlock,
-        eventName,
-        chainId
-      );
-      console.log("events", events);
+        let eventName = "DAOdeployed";
 
-      for (let i = 0; i < events.length; i++) {
-        let dao_ = events[i]["kaliDAO"];
-        let name_ = events[i]["name"];
-        let docs_ = events[i]["docs"];
+        let events = await fetchEvents(
+          factory,
+          web3,
+          factoryBlock,
+          eventName,
+          chainId
+        );
+        console.log("events", events);
 
-        const instance = new web3.eth.Contract(abi, dao_);
+        for (let i = 0; i < events.length; i++) {
+          let dao_ = events[i]["kaliDAO"];
+          let name_ = events[i]["name"];
+          let docs_ = events[i]["docs"];
 
-        let members = await fetchMembers(instance, web3, chainId, factoryBlock);
-        console.log(members);
+          const instance = new web3.eth.Contract(abi, dao_);
 
-        for (let m = 0; m < members.length; m++) {
-          if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
-            allDaos.push({ dao: dao_, name: name_ });
-            console.log("docs for this one", docs_);
+          let members = await fetchMembers(instance, web3, chainId, factoryBlock);
+          console.log(members, "members");
+
+          for (let m = 0; m < members.length; m++) {
+            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
+              allDaos.push({ dao: dao_, name: name_ });
+              console.log("docs for this one", docs_);
+            }
           }
         }
-      }
 
-      setDaos(allDaos);
-      value.setLoading(false);
-    } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+        setDaos(allDaos);
+        value.setLoading(false);
+      } catch (e) {
+        value.toast(e);
+        value.setLoading(false);
+      }
     }
   }
 
