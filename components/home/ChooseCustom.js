@@ -57,13 +57,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const [redemptionStart, setRedemptionStart] = useState(new Date());
   const [quorum, setQuorum] = useState(30);
   const [supermajority, setSupermajority] = useState(55)
-  const [sliderValue, setSliderValue] = useState(30);
   const [showQuorumTooltip, setShowQuorumTooltip] = useState(false)
   const [showSupermajorityTooltip, setShowSupermajorityTooltip] = useState(false)
 
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
-      votingPeriod: details["governance"]["votingPeriod"] / 60,
+      votingPeriod: details["governance"]["votingPeriod"],
       votingPeriodUnit: 0,
       quorum: details["governance"]["quorum"],
       supermajority: details["governance"]["supermajority"],
@@ -77,13 +76,11 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const calculateVotingPeriod = (period, unit) => {
     let seconds;
     if (unit == 0) {
-      seconds = period * 60;
-    } else if (unit == 1) {
+      seconds = period * 60 * 60 * 24
+    } else {
       seconds = period * 60 * 60;
-    } else if (unit == 2) {
-      seconds = period * 60 * 60 * 24;
     }
-
+    console.log(seconds)
     return seconds;
   };
 
@@ -125,7 +122,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
 
     setDetails(details);
     console.log("details", details);
-    // handleNext();
+    handleNext();
   };
 
   return (
@@ -166,16 +163,14 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
                     {...rest}
                     fontSize="sm"
                   >
-                    <option value="0">min</option>
+                    <option value="0">days</option>
                     <option value="1">hours</option>
-                    <option value="2">days</option>
                   </Select>
                 )}
               />
             </HStack>
           </VStack>
         </HStack>
-        {/* TODO: Figure out how to make Sliders work */}
         <VStack w={"100%"} spacing="8" align="flex-start">
           <HStack>
             <label htmlFor="quorum">Quorum</label>

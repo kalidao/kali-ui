@@ -8,7 +8,7 @@ export const presets = [
   {
     type: "Social",
     icon: HiUserGroup,
-    voting: 259200,
+    voting: 3,
     quorum: 10,
     supermajority: 60,
     paused: 0,
@@ -21,7 +21,7 @@ export const presets = [
   {
     type: "Investment Club",
     icon: FaMoneyBillAlt,
-    voting: 432000,
+    voting: 5,
     quorum: 30,
     supermajority: 75,
     paused: 1,
@@ -51,7 +51,7 @@ export const presets = [
   {
     type: "Services Company",
     icon: BsTools,
-    voting: 172800,
+    voting: 2,
     quorum: 20,
     supermajority: 60,
     paused: 1,
