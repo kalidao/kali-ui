@@ -1,6 +1,7 @@
 import { proposalTypes } from "../constants/params";
 import { addresses } from "../constants/addresses";
 import { tokens } from "../constants/tokens";
+import { blocks } from "../constants/blocks";
 
 // functions to retrieve data from blockchain
 
@@ -12,6 +13,9 @@ export async function fetchDaoInfo(
   daoChain,
   account
 ) {
+
+  const factoryBlock = blocks["factory"][daoChain];
+
   const name = await instance.methods.name().call();
 
   const symbol = await instance.methods.symbol().call();
@@ -28,13 +32,13 @@ export async function fetchDaoInfo(
 
   const supermajority = parseInt(await instance.methods.supermajority().call());
 
-  const docs = await fetchDocs(factory, address);
+  const docs = await fetchDocs(factory, address, factoryBlock);
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
   const balances = await fetchBalances(address, web3);
 
-  const ricardian = await fetchRicardian(address, web3, factory, daoChain);
+  const ricardian = await fetchRicardian(address, web3, factory, daoChain, factoryBlock);
 
   const extensions = await fetchExtensions(
     instance,
@@ -44,7 +48,7 @@ export async function fetchDaoInfo(
     balances
   );
 
-  const members = await fetchMembers(instance);
+  const members = await fetchMembers(instance, factoryBlock);
 
   const dao_ = {
     address,
@@ -72,10 +76,10 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-async function fetchDocs(factory, address) {
+async function fetchDocs(factory, address, factoryBlock) {
   let docs;
   const events = await factory.getPastEvents("DAOdeployed", {
-    fromBlock: 0,
+    fromBlock: factoryBlock,
     toBlock: "latest",
   });
   for (let i = 0; i < events.length; i++) {
@@ -120,11 +124,11 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-export async function fetchMembers(instance) {
+export async function fetchMembers(instance, factoryBlock) {
   const holdersArray_ = [];
 
   const holders = await instance.getPastEvents("Transfer", {
-    fromBlock: 0,
+    fromBlock: factoryBlock,
     toBlock: "latest",
   });
 
@@ -227,14 +231,14 @@ async function fetchRedemption(web3, address, extAddress, balances) {
   return details;
 }
 
-async function fetchRicardian(address, web3, factory, daoChain) {
+async function fetchRicardian(address, web3, factory, daoChain, factoryBlock) {
   var ricardian = null;
   // console.log("daoChain", daoChain);
   const abi_ = require("../abi/RicardianLLC.json");
   const address_ = addresses[daoChain]["ricardian"];
   const contract_ = new web3.eth.Contract(abi_, address_);
   const events = await contract_.getPastEvents("Transfer", {
-    fromBlock: 0,
+    fromBlock: factoryBlock,
     toBlock: "latest",
   });
   console.log(events);
