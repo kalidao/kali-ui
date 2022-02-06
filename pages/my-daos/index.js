@@ -48,7 +48,7 @@ export default function MyDaos() {
   const value = useContext(AppContext);
   const { web3, account } = value.state;
   const [daos, setDaos] = useState(null);
-  // adding line to force vercel re-sync
+
   useEffect(() => {
     fetchData();
   }, [account]);
