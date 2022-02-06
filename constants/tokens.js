@@ -8,10 +8,6 @@ export const tokens = {
       address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       decimals: 6,
     },
-    USDT: {
-      address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      decimals: 6,
-    },
     WETH: {
       address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
       decimals: 18,
@@ -19,15 +15,11 @@ export const tokens = {
   },
   4: {
     DAI: {
-      address: "0x0F065C38583feEcA2C2100083d833b559093Dea1",
+      address: "0x8ad3aA5d5ff084307d28C8f514D7a193B2Bfe725",
       decimals: 18,
     },
     USDC: {
       address: "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
-      decimals: 6,
-    },
-    USDT: {
-      address: "0xC1f759356384BbFC4e4275CF0237fe893989C81D",
       decimals: 6,
     },
     WETH: {
@@ -44,10 +36,6 @@ export const tokens = {
       address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
       decimals: 6,
     },
-    USDT: {
-      address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
-      decimals: 6,
-    },
     WETH: {
       address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
       decimals: 18,
@@ -60,10 +48,6 @@ export const tokens = {
     },
     USDC: {
       address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
-      decimals: 6,
-    },
-    USDT: {
-      address: "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
       decimals: 6,
     },
     WETH: {
