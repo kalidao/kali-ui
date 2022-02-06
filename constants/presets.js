@@ -23,7 +23,7 @@ export const presets = [
     icon: FaMoneyBillAlt,
     voting: 432000,
     quorum: 30,
-    supermajority: 75,
+    supermajority: 70,
     paused: 1,
     extensions: {
       crowdsale: {
@@ -49,7 +49,7 @@ export const presets = [
     },
   },
   {
-    type: "Services Company",
+    type: "Company",
     icon: BsTools,
     voting: 172800,
     quorum: 20,
