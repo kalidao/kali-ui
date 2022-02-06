@@ -10,7 +10,8 @@ export const supportedChains = [
       decimals: 18
     },
     rpcUrls: ['https://main-light.eth.linkpool.io'],
-    blockExplorerUrls: ['https://etherscan.io']
+    blockExplorerUrls: ['https://etherscan.io'],
+    maxBlocks: null
   },
   {
     chainId: 42161,
@@ -23,7 +24,8 @@ export const supportedChains = [
       decimals: 18
     },
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-    blockExplorerUrls: ['https://arbiscan.io']
+    blockExplorerUrls: ['https://arbiscan.io'],
+    maxBlocks: 20000
   },
   {
     chainId: 137,
@@ -36,7 +38,8 @@ export const supportedChains = [
       decimals: 18
     },
     rpcUrls: ['https://polygon-rpc.com'],
-    blockExplorerUrls: ['https://polygonscan.com']
+    blockExplorerUrls: ['https://polygonscan.com'],
+    maxBlocks: 10000
   },
   {
     chainId: 4,
@@ -49,6 +52,7 @@ export const supportedChains = [
       decimals: 18
     },
     rpcUrls: ['https://rinkeby-light.eth.linkpool.io'],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io']
+    blockExplorerUrls: ['https://rinkeby.etherscan.io'],
+    maxBlocks: null
   }
 ]
