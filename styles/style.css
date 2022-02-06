@@ -10,6 +10,8 @@
 
 /* //////////////// GRADIENT //////////////// */
 
+/* purple: #5a2686, darkBlue: 594cfb, lightBlue: a0b1dc, pink: e65170, purple: 3b074e */
+
 .gradient-item {
   background: rgb(70, 37, 74);
   background: linear-gradient(
@@ -29,7 +31,7 @@
 }
 
 #gradient1 {
-  background: linear-gradient(90deg, #46254a, #fa2a10);
+  background: linear-gradient(90deg, #422646, #cf2710);
   position: absolute;
   top: 0;
   left: 0;
@@ -40,7 +42,7 @@
 
 #gradient2 {
   mask-image: linear-gradient(to bottom, transparent, black);
-  background: linear-gradient(90deg, #34254a, #294a25);
+  background: linear-gradient(90deg, #20172e, #294a25);
   position: absolute;
   top: 0;
   left: 0;
