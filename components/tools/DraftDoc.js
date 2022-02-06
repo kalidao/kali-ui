@@ -51,10 +51,7 @@ function DraftDoc() {
       case "wyoming-llc":
         setWyomingLlc({
           name: values.name,
-          date: values.date,
-          email: values.email,
-          ethAddress: values.ethAddress,
-          id: values.id,
+          chain: values.chain,
         })
         setWyLlcForm(true)
     }
