@@ -90,7 +90,7 @@ export default function MyDaos() {
         const instance = new web3.eth.Contract(abi, dao_);
 
         let members = await fetchMembers(instance, web3, chainId, factoryBlock);
-        console.log(members);
+        console.log(members, "members");
 
         for (let m = 0; m < members.length; m++) {
           if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
