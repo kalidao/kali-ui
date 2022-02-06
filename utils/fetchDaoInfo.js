@@ -50,8 +50,9 @@ export async function fetchDaoInfo(
     address,
     balances
   );
-  
+
   const members = await fetchMembers(instance, web3, daoChain, factoryBlock);
+
   const dao_ = {
     address,
     name,
@@ -78,7 +79,6 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-
 async function fetchDocs(factory, address, web3, factoryBlock, daoChain) {
 
   let eventName = "DAOdeployed";
@@ -104,6 +104,7 @@ async function fetchDocs(factory, address, web3, factoryBlock, daoChain) {
       console.log(e);
     }
   }
+
   return docs;
 }
 
@@ -161,6 +162,7 @@ export async function fetchMembers(instance, web3, daoChain, factoryBlock) {
 
     dupes[k] = holder;
   }
+
 
   // unique list of addresses
   const uniques = dupes.filter((v, i, a) => a.indexOf(v) === i);
@@ -280,7 +282,6 @@ async function fetchRicardian(address, web3, factory, daoChain, ricardianBlock) 
       web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
     ) {
       series = events[i]["tokenId"];
-
       const commonURI = await contract_.methods.commonURI().call();
       const masterOperatingAgreement = await contract_.methods
         .masterOperatingAgreement()
