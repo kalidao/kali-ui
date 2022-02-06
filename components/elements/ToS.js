@@ -12,16 +12,16 @@ import {
 import ReactMarkdown from "react-markdown";
 import { tos } from "../../constants/tos";
 
-function ToS() {
+function ToS({ label, ...props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <button id="tos-button" onClick={onOpen}>
-        ToS
+      <button {...props} onClick={onOpen}>
+        {label}
       </button>
       <Modal
-        size="xl"
+        size="2xl"
         closeOnOverlayClick={true}
         isOpen={isOpen}
         onClose={onClose}

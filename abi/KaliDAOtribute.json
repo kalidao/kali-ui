@@ -141,6 +141,25 @@
 	{
 		"inputs": [
 			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "contract IKaliDAOtribute",
 				"name": "dao",
 				"type": "address"
@@ -152,6 +171,24 @@
 			}
 		],
 		"name": "releaseTributeProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IKaliDAOtribute",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "proposal",
+				"type": "uint256"
+			}
+		],
+		"name": "releaseTributeProposalAndProcess",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

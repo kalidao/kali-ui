@@ -42,6 +42,7 @@ export default function ChooseIdentity(props) {
   }, [account]);
 
   const getDaoNames = async () => {
+    console.log("fetching DAOs")
     try {
       let factory = factoryInstance(addresses[chainId]["factory"], web3);
       let daoNames_ = await fetchDaoNames(factory);

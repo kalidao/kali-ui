@@ -1,14 +1,19 @@
-import React, { Component, useState, useContext, useEffect } from "react";
-import { BrowserView, MobileView, isBrowser } from "react-device-detect";
+import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import Link from "next/link";
-import { Divider, HStack, Spacer } from "@chakra-ui/react";
+import { IconButton, HStack } from "@chakra-ui/react";
 import Hamburger from "./Hamburger";
-import Kali from "./Kali";
 import Account from "./Account";
 import Chain from "./Chain";
+import { BiCopy } from "react-icons/bi";
 
 export default function NavRightContainer(props) {
+  const value = useContext(AppContext);
+  const { account } = value.state;
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(account);
+  };
+
   return (
     <HStack
       color={props.color}
@@ -18,10 +23,28 @@ export default function NavRightContainer(props) {
       pl={3}
       borderColor={props.borderColor}
       height="45px"
-      margin={{sm: '10px 0 20px 0 !important', md: '0 !important', lg: '0 !important', xl: '0 !important', '2xl': '0 !important'}}
+      margin={{
+        sm: "10px 0 20px 0 !important",
+        md: "0 !important",
+        lg: "0 !important",
+        xl: "0 !important",
+        "2xl": "0 !important",
+      }}
     >
       <Chain />
       <Account message="Connect" />
+      {account ? (
+        <IconButton
+          onClick={() => copy()}
+          icon={<BiCopy />}
+          aria-label="Copy account address"
+          size="xs"
+          type="unstyled"
+          border="none"
+          bg="transparent"
+          color="white"
+        />
+      ) : null}
       <Hamburger />
     </HStack>
   );

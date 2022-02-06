@@ -49,7 +49,20 @@ export const presets = [
     },
   },
   {
-    type: "Services Company",
+    type: "Social",
+    icon: HiUserGroup,
+    voting: 259200,
+    quorum: 10,
+    supermajority: 60,
+    paused: 0,
+    extensions: {
+      tribute: {
+        description: "Anyone can propose to join by paying tribute.",
+      },
+    },
+  },
+  {
+    type: "Company",
     icon: BsTools,
     voting: 2,
     quorum: 20,

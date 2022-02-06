@@ -1,7 +1,7 @@
 export const tos = `
 ## **Introduction**
 
-Please read these terms of service (“**_Terms_**”) carefully.  These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [](http://syndicateprotocol.org/)[kalidao.xyz](http://kalidao.xyz/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site.
+Please read these terms of service (“**_Terms_**”) carefully. These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [](http://syndicateprotocol.org/)[kalidao.xyz](http://kalidao.xyz/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site.  
 
 By using the Site, you agree to these Terms.
 
@@ -18,6 +18,7 @@ KaliCo provides access to a decentralized finance application (“**_Application
 Using the KaliCo protocol may require that you pay a fee, such as gas charges on the Ethereum network to perform a transaction. You acknowledge and agree that KaliCo has no control over any transactions over KaliCo protocol, the method of payment of any transactions or any actual payments of transactions. Accordingly, you must ensure that you have a sufficient balance of the applicable cryptocurrency tokens stored at your KaliCo protocol-compatible wallet address (“**_Cryptocurrency Wallet_**”) to complete any transaction on the KaliCo protocol or the Ethereum network before initiating such transaction.
 
 ## **Access to the Site**
+
 Access to the Site is provided “AS IS” and “as available” basis only. We do not guarantee that the Site, or any content on it, will always be available or uninterrupted. From time to time, access may be interrupted, suspended or restricted, including because of a fault, error or unforeseen circumstances or because we are carrying out planned maintenance.
 
 We reserve the right to limit the availability of the Site to any person, geographic area or jurisdiction we so desire and/or to terminate your access to and use of the site, at any time and in our sole discretion.
@@ -93,6 +94,7 @@ Nothing included in the site constitutes an offer or solicitation to sell, or di
 You may only participate with Smart Contracts on the Site by linking your Cryptocurrency Wallet on supported bridge extensions such as MetaMask ([https://metamask.io/](https://metamask.io/)). MetaMask is an electronic wallet, which allows you to purchase, store, and engage in transactions using Ethereum cryptocurrency. Before putting up your Cryptocurrency Asset into a Smart Contract, you will be required to download a supported electronic wallet extension and connect and unlock your Cryptocurrency Wallet with that extension.
 
 ALL TRANSACTIONS INITIATED THROUGH OUR SERVICE ARE FACILITATED AND RUN BY THIRD-PARTY ELECTRONIC WALLET EXTENSIONS, AND BY USING OUR SERVICES YOU AGREE THAT YOU ARE GOVERNED BY THE TERMS OF SERVICE AND PRIVACY POLICY FOR THE APPLICABLE EXTENSIONS. FOR METAMASK, THOSE TERMS ARE AVAILABLE AT ([https://metamask.io/terms.html](https://metamask.io/terms.html)) AND ([https://metamask.io/privacy.html](https://metamask.io/privacy.html))
+
 ## **General**
 If any clause or part of any clause of these Terms is found to be void, unenforceable or invalid, then it will be severed from these Terms, leaving the remainder in full force and effect, provided that the severance has not altered the basic nature of these Terms.
 
@@ -107,6 +109,10 @@ These Terms and the documents referred to in them set out the entire agreement b
 Any dispute, controversy, or claim arising out of or in relation to these Terms, including the validity, invalidity, breach or termination thereof, shall be settled by arbitration in accordance with the Delaware in force on the date when the Notice of Arbitration is submitted in accordance with these Rules. The number of arbitrators shall be one or three; the seat of the arbitration shall be determined by the arbitrator(s); the arbitral proceedings shall be conducted in English. The applicable law shall be Delaware.
 
 With respect to all persons and entities, regardless of whether they have obtained or used the site for personal, commercial or other purposes, all disputes, controversies or claims must be brought in the parties’ individual capacity, and not as a plaintiff or class member in any purported class action, collective action or other representative proceeding. This waiver applies to class arbitration, and, unless we agree otherwise, the arbitrator may not consolidate more than one person’s claims. You agree that, by entering into this agreement, you and KaliCo are each waiving the right to a trial by jury or to participate in a class action, collective action, or other representative proceeding of any kind.
+
+---
+
 ## **Contacting Us**
-Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at kalidao@protonmail.xyz.
+
+Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at *kalidao@protonmail.xyz*.
 `;

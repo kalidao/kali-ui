@@ -20,12 +20,34 @@ import { getNetworkName } from "../../utils/formatters";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
 
+const DaoCard = ({ name, dao }) => {
+  return (
+    <Box
+      bg="hsl(0, 92%, 6%, 20%)"
+      color="kali.800"
+      p="3"
+      m="2"
+      borderRadius="3xl"
+    >
+      <HStack>
+        <Text>Name</Text>
+        <Spacer />
+        <Text>{name}</Text>
+      </HStack>
+      <DashedDivider />
+      <HStack>
+        <Text>Address</Text>
+        <Spacer />
+        <Text>{dao}</Text>
+      </HStack>
+    </Box>
+  );
+};
+
 export default function MyDaos() {
   const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
+  const { web3, account } = value.state;
   const [daos, setDaos] = useState(null);
-
-  const testArray = { 4: "test", 8: "test" };
 
   useEffect(() => {
     fetchData();
@@ -112,27 +134,3 @@ export default function MyDaos() {
     </Layout>
   );
 }
-
-const DaoCard = ({ name, dao }) => {
-  return (
-    <Box
-      bg="hsl(0, 92%, 6%, 20%)"
-      color="kali.800"
-      p="3"
-      m="2"
-      borderRadius="3xl"
-    >
-      <HStack>
-        <Text>Name</Text>
-        <Spacer />
-        <Text>{name}</Text>
-      </HStack>
-      <DashedDivider />
-      <HStack>
-        <Text>Address</Text>
-        <Spacer />
-        <Text>{dao}</Text>
-      </HStack>
-    </Box>
-  );
-};
