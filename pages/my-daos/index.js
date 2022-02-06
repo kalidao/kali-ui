@@ -131,7 +131,12 @@ export default function MyDaos() {
                 <Text fontSize="2xl" fontWeight="600">
                   Select chain:
                 </Text>
-                <Select onChange={handleChange} defaultValue={chainId}>
+                <Select
+                  onChange={handleChange}
+                  defaultValue={chainId}
+                  bg="kali.900"
+                  color="kali.800"
+                >
                   {supportedChains.map((item, index) => (
                     <option key={index} value={item.chainId}>
                       {item.name}
