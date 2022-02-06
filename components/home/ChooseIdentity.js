@@ -45,7 +45,7 @@ export default function ChooseIdentity(props) {
     console.log("fetching DAOs")
     try {
       let factory = factoryInstance(addresses[chainId]["factory"], web3);
-      let daoNames_ = await fetchDaoNames(factory);
+      let daoNames_ = await fetchDaoNames(factory, web3, chainId);
       setDaoNames(daoNames_);
       console.log(daoNames_);
     } catch (e) {
