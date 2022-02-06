@@ -1,6 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Text, HStack, VStack, Textarea, Button, Input, Center } from "@chakra-ui/react";
+import {
+  Text,
+  HStack,
+  VStack,
+  Textarea,
+  Input,
+  Center,
+} from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 
 export default function GovPause() {
@@ -52,16 +59,22 @@ export default function GovPause() {
 
   return (
     <form onSubmit={submitProposal}>
-      <VStack alignItems="left">
-        <Text>
-          <b>Details</b>
-        </Text>
+      <VStack alignItems="left" spacing={2}>
+        <Text fontWeight="800">Details</Text>
         <Textarea name="description_" size="lg" placeholder=". . ." />
-        <Text><i>This is a proposal to <b>{dao["token"]["paused"] == true ? "unpause" : "pause"}</b> share transferability.</i></Text>
+        <Text>
+          <i>
+            This is a proposal to{" "}
+            <b>{dao["token"]["paused"] == true ? "unpause" : "pause"}</b> share
+            transferability.
+          </i>
+        </Text>
         <Input type="hidden" name="amount_" value="0" />
         <Input type="hidden" name="proposalType_" value="8" />
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <button className="solid-btn" type="submit">
+            Submit Proposal
+          </button>
         </Center>
       </VStack>
     </form>
