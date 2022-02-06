@@ -12,6 +12,7 @@ import {
   Heading,
   Spacer,
   HStack,
+  Select
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
@@ -19,6 +20,7 @@ import { fetchMembers } from "../../utils/fetchDaoInfo";
 import { blocks } from "../../constants/blocks";
 import { fetchEvents } from "../../utils/fetchEvents";
 import { getNetworkName } from "../../utils/formatters";
+import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
 
@@ -106,6 +108,13 @@ export default function MyDaos() {
     }
   }
 
+  const handleChange = async (e) => {
+    let id = e.target.value;
+    if(chainId != id) {
+      await value.switchChain(id);
+    }
+  }
+
   return (
     <Layout>
       {account == null ? (
@@ -119,8 +128,16 @@ export default function MyDaos() {
             :
             <List>
               <Heading as="h2">
-                {getNetworkName(chainId).replace(/^\w/, (s) => s.toUpperCase())}
+                My DAOs
               </Heading>
+
+              <Text>Select chain:</Text>
+              <Select onChange={handleChange} defaultValue={chainId}>
+                {supportedChains.map((item, index) => (
+                  <option value={item.chainId}>{item.name}</option>
+                ))}
+              </Select>
+
               {daos.map((item, index) => (
                 <ListItem key={index}>
                   <Link href={`../daos/${item.dao}`}>
