@@ -32,7 +32,7 @@ export async function fetchDaoInfo(
 
   const supermajority = parseInt(await instance.methods.supermajority().call());
 
-  const docs = await fetchDocs(factory, address, web3, factoryBlock);
+  const docs = await fetchDocs(factory, address, factoryBlock);
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
@@ -48,7 +48,7 @@ export async function fetchDaoInfo(
     balances
   );
 
-  const members = await fetchMembers(instance, web3, factoryBlock);
+  const members = await fetchMembers(instance, factoryBlock);
 
   const dao_ = {
     address,
@@ -76,38 +76,18 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-async function fetchDocs(factory, address, web3, factoryBlock) {
+async function fetchDocs(factory, address, factoryBlock) {
   let docs;
-
-  let currentBlock = await web3.eth.getBlockNumber();
-
-  var intervalSize = 20000;
-
-  let blocksToQuery = currentBlock - factoryBlock;
-
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
-  }
-
-  for(let i=0; i < intervals; i++) {
-    console.log("time"+i);
-    const events = await factory.getPastEvents("DAOdeployed", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
-    for (let i = 0; i < events.length; i++) {
-      const dao = events[i]["returnValues"]["kaliDAO"];
-      if (dao.toLowerCase() == address.toLowerCase()) {
-        docs = events[i]["returnValues"]["docs"];
-      }
+  const events = await factory.getPastEvents("DAOdeployed", {
+    fromBlock: factoryBlock,
+    toBlock: "latest",
+  });
+  for (let i = 0; i < events.length; i++) {
+    const dao = events[i]["returnValues"]["kaliDAO"];
+    if (dao.toLowerCase() == address.toLowerCase()) {
+      docs = events[i]["returnValues"]["docs"];
     }
   }
-
   return docs;
 }
 
@@ -144,36 +124,20 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-export async function fetchMembers(instance, web3, factoryBlock) {
+export async function fetchMembers(instance, factoryBlock) {
   const holdersArray_ = [];
+
+  const holders = await instance.getPastEvents("Transfer", {
+    fromBlock: factoryBlock,
+    toBlock: "latest",
+  });
+
   const dupes = [];
+  // list that contains duplicates
+  for (let k = 0; k < holders.length; k++) {
+    let holder = holders[k]["returnValues"]["to"];
 
-  let currentBlock = await web3.eth.getBlockNumber();
-
-  var intervalSize = 20000;
-
-  let blocksToQuery = currentBlock - factoryBlock;
-
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
-  }
-
-  for(let i=0; i < intervals; i++) {
-    const holders = await instance.getPastEvents("Transfer", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
-
-    for (let k = 0; k < holders.length; k++) {
-      let holder = holders[k]["returnValues"]["to"];
-
-      dupes[k] = holder;
-    }
+    dupes[k] = holder;
   }
   // unique list of addresses
   const uniques = dupes.filter((v, i, a) => a.indexOf(v) === i);
@@ -273,42 +237,24 @@ async function fetchRicardian(address, web3, factory, daoChain, factoryBlock) {
   const abi_ = require("../abi/RicardianLLC.json");
   const address_ = addresses[daoChain]["ricardian"];
   const contract_ = new web3.eth.Contract(abi_, address_);
-
-  let currentBlock = await web3.eth.getBlockNumber();
-
-  var intervalSize = 20000;
-
-  let blocksToQuery = currentBlock - factoryBlock;
-
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
-  }
-
-  for(let i=0; i < intervals; i++) {
-    const events = await contract_.getPastEvents("Transfer", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
-    console.log(events);
-    let series;
-    for (var i = 0; i < events.length; i++) {
-      let to = events[i]["returnValues"]["to"];
-      if (
-        web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
-      ) {
-        series = events[i]["returnValues"]["tokenId"];
-        const commonURI = await contract_.methods.commonURI().call();
-        const masterOperatingAgreement = await contract_.methods
-          .masterOperatingAgreement()
-          .call();
-        const name = await contract_.methods.name().call();
-        ricardian = { series, commonURI, masterOperatingAgreement, name };
-      }
+  const events = await contract_.getPastEvents("Transfer", {
+    fromBlock: factoryBlock,
+    toBlock: "latest",
+  });
+  console.log(events);
+  let series;
+  for (var i = 0; i < events.length; i++) {
+    let to = events[i]["returnValues"]["to"];
+    if (
+      web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
+    ) {
+      series = events[i]["returnValues"]["tokenId"];
+      const commonURI = await contract_.methods.commonURI().call();
+      const masterOperatingAgreement = await contract_.methods
+        .masterOperatingAgreement()
+        .call();
+      const name = await contract_.methods.name().call();
+      ricardian = { series, commonURI, masterOperatingAgreement, name };
     }
   }
   return ricardian;
