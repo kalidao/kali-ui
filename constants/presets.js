@@ -6,6 +6,19 @@ import { BsTools } from "react-icons/bs";
 
 export const presets = [
   {
+    type: "Social",
+    icon: HiUserGroup,
+    voting: 259200,
+    quorum: 10,
+    supermajority: 60,
+    paused: 0,
+    extensions: {
+      tribute: {
+        description: "Anyone can propose to join by paying tribute.",
+      },
+    },
+  },
+  {
     type: "Investment Club",
     icon: FaMoneyBillAlt,
     voting: 432000,
@@ -36,20 +49,7 @@ export const presets = [
     },
   },
   {
-    type: "Social",
-    icon: HiUserGroup,
-    voting: 259200,
-    quorum: 10,
-    supermajority: 60,
-    paused: 0,
-    extensions: {
-      tribute: {
-        description: "Anyone can propose to join by paying tribute.",
-      },
-    },
-  },
-  {
-    type: "Company",
+    type: "Services Company",
     icon: BsTools,
     voting: 172800,
     quorum: 20,
