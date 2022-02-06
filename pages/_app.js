@@ -145,8 +145,12 @@ function MyApp({ Component, pageProps }) {
   const isCorrectChain = async () => {
     if (address != null) {
       if (chainId != daoChain) {
-        let name = getNetworkName(daoChain);
-        toast("Please connect to the " + name + " network.");
+        try {
+            await switchChain(daoChain);
+          } catch(e) {
+            let name = getNetworkName(daoChain);
+            toast("Please connect to the " + name + " network.");
+        }
       }
     } else {
       var supported = false;

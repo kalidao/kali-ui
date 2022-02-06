@@ -64,6 +64,7 @@ export default function SendShares() {
       for (let i = 0; i < recipients.length; i++) {
         if (web3.utils.isAddress(recipients[i].address) == false) {
           value.toast(recipients[i].address + " is not a valid Ethereum address.");
+          value.setLoading(false);
           return;
         }
         accounts_.push(recipients[i].address);
