@@ -80,7 +80,7 @@ function DraftDoc() {
       <Drawer isOpen={isOpen} placement="right" size="sm">
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>✂️</DrawerHeader>
+          <DrawerHeader>✍️</DrawerHeader>
           <DrawerBody>
             <Stack
               as="form"
@@ -101,9 +101,9 @@ function DraftDoc() {
                   id="agreement"
                   placeholder="Select option"
                 >
-                  <option value="delaware-llc">Delaware LLC</option>
-                  <option value="delaware-ic">Delaware Investment Club</option>
-                  <option value="wyoming-llc">Wyoming LLC</option>
+                  <option value="delaware-llc">Delaware DAO LLC</option>
+                  <option value="wyoming-llc">Wyoming DAO LLC</option>
+                  <option value="delaware-ic">Investment Club</option>
                 </Select>
               </FormControl>
               {selection === "delaware-llc" && (
@@ -161,39 +161,14 @@ function DraftDoc() {
                       placeholder="KALI"
                       {...register("name")}
                     />
-                    <FormLabel mt={2} htmlFor="date">
-                      Formation Date
+                    <FormLabel mt={3} htmlFor="chain">
+                      Designated Blockchain
                     </FormLabel>
                     <Input
-                      id="date"
-                      placeholder="MM/DD/YYYY"
-                      {...register("date")}
+                      id="chain"
+                      placeholder="Ethereum, Arbitrum, Polygon, etc."
+                      {...register("chain")}
                     />
-                      <FormLabel mt={2} htmlFor="subject">
-                        DAO LLC Organizer Email
-                      </FormLabel>
-                      <Input
-                        id="email"
-                        placeholder="kalidao@protonmail.com"
-                        {...register("email")}
-                      />
-                      <FormLabel mt={2} htmlFor="ethAddress">
-                        DAO LLC Organizer EthAddress
-                      </FormLabel>
-                      <Input
-                        id="ethAddress"
-                        placeholder="0xKALI"
-                        {...register("ethAddress")}
-                      />
-
-                      <FormLabel mt={2} htmlFor="id">
-                        Books and Records
-                      </FormLabel>
-                      <Input
-                        id="id"
-                        placeholder="Enter IPFS hash"
-                        {...register("id")}
-                      />
                   </FormControl>
                 </>
               )}
@@ -208,7 +183,7 @@ function DraftDoc() {
                     chain={delawareLlc.chain}
                   />
                 }
-                fileName="Delaware LLC Operating Agreement"
+                fileName="Delaware DAO LLC Operating Agreement"
               >
                 {({ loading }) =>
                   loading ? (
@@ -227,7 +202,7 @@ function DraftDoc() {
                       chain={delawareIc.chain}
                     />
                   }
-                  fileName="Delaware Investment Club LLC Operating Agreement"
+                  fileName="Investment Club DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
                     loading ? (
@@ -243,13 +218,10 @@ function DraftDoc() {
                   document={
                     <WyomingOAtemplate
                       name={wyomingLlc.name}
-                      date={wyomingLlc.date}
-                      email={wyomingLlc.email}
-                      ethAddress={wyomingLlc.ethAddress}
-                      id={wyomingLlc.id}
+                      chain={wyomingLlc.chain}
                     />
                   }
-                  fileName="Wyoming Operating Agreement"
+                  fileName="Wyoming DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
                     loading ? (
