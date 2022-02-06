@@ -2,6 +2,7 @@ import { proposalTypes } from "../constants/params";
 import { addresses } from "../constants/addresses";
 import { tokens } from "../constants/tokens";
 import { blocks } from "../constants/blocks";
+import { fetchEvents } from "./fetchEvents";
 
 // functions to retrieve data from blockchain
 
@@ -15,6 +16,8 @@ export async function fetchDaoInfo(
 ) {
 
   const factoryBlock = blocks["factory"][daoChain];
+
+  const ricardianBlock = blocks["ricardian"][daoChain];
 
   const name = await instance.methods.name().call();
 
@@ -32,13 +35,13 @@ export async function fetchDaoInfo(
 
   const supermajority = parseInt(await instance.methods.supermajority().call());
 
-  const docs = await fetchDocs(factory, address, web3, factoryBlock);
+  const docs = await fetchDocs(factory, address, web3, factoryBlock, daoChain);
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
   const balances = await fetchBalances(address, web3);
 
-  const ricardian = await fetchRicardian(address, web3, factory, daoChain, factoryBlock);
+  const ricardian = await fetchRicardian(address, web3, factory, daoChain, ricardianBlock);
 
   const extensions = await fetchExtensions(
     instance,
@@ -48,7 +51,7 @@ export async function fetchDaoInfo(
     balances
   );
 
-  const members = await fetchMembers(instance, web3, factoryBlock);
+  const members = await fetchMembers(instance, web3, daoChain, factoryBlock);
 
   const dao_ = {
     address,
@@ -76,35 +79,29 @@ export async function fetchDaoInfo(
 }
 
 // helper functions for main getter function
-async function fetchDocs(factory, address, web3, factoryBlock) {
+async function fetchDocs(factory, address, web3, factoryBlock, daoChain) {
+
+  let eventName = "DAOdeployed";
+
+  let events = await fetchEvents(
+    factory,
+    web3,
+    factoryBlock,
+    eventName,
+    daoChain
+  );
+
   let docs;
 
-  let currentBlock = await web3.eth.getBlockNumber();
+  for (let i = 0; i < events.length; i++) {
+    try {
+      const dao = events[i]["kaliDAO"];
 
-  var intervalSize = 20000;
-
-  let blocksToQuery = currentBlock - factoryBlock;
-
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
-  }
-
-  for(let i=0; i < intervals; i++) {
-    console.log("time"+i);
-    const events = await factory.getPastEvents("DAOdeployed", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
-    for (let i = 0; i < events.length; i++) {
-      const dao = events[i]["returnValues"]["kaliDAO"];
       if (dao.toLowerCase() == address.toLowerCase()) {
-        docs = events[i]["returnValues"]["docs"];
+        docs = events[i]["docs"];
       }
+    } catch(e) {
+      console.log(e);
     }
   }
 
@@ -144,37 +141,29 @@ async function fetchBalances(address, web3) {
   return tokenBalances;
 }
 
-export async function fetchMembers(instance, web3, factoryBlock) {
+export async function fetchMembers(instance, web3, daoChain, factoryBlock) {
+
+  let eventName = "Transfer";
+
+  let events = await fetchEvents(
+    instance,
+    web3,
+    factoryBlock,
+    eventName,
+    daoChain
+  );
+
   const holdersArray_ = [];
+
   const dupes = [];
 
-  let currentBlock = await web3.eth.getBlockNumber();
+  for (let k = 0; k < events.length; k++) {
+    let holder = events[k]["to"];
 
-  var intervalSize = 20000;
-
-  let blocksToQuery = currentBlock - factoryBlock;
-
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
+    dupes[k] = holder;
   }
 
-  for(let i=0; i < intervals; i++) {
-    const holders = await instance.getPastEvents("Transfer", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
 
-    for (let k = 0; k < holders.length; k++) {
-      let holder = holders[k]["returnValues"]["to"];
-
-      dupes[k] = holder;
-    }
-  }
   // unique list of addresses
   const uniques = dupes.filter((v, i, a) => a.indexOf(v) === i);
 
@@ -267,49 +256,40 @@ async function fetchRedemption(web3, address, extAddress, balances) {
   return details;
 }
 
-async function fetchRicardian(address, web3, factory, daoChain, factoryBlock) {
-  var ricardian = null;
-  // console.log("daoChain", daoChain);
+async function fetchRicardian(address, web3, factory, daoChain, ricardianBlock) {
+
+  let eventName = "Transfer";
+
   const abi_ = require("../abi/RicardianLLC.json");
   const address_ = addresses[daoChain]["ricardian"];
   const contract_ = new web3.eth.Contract(abi_, address_);
 
-  let currentBlock = await web3.eth.getBlockNumber();
+  let events = await fetchEvents(
+    contract_,
+    web3,
+    ricardianBlock,
+    eventName,
+    daoChain
+  );
 
-  var intervalSize = 20000;
+  var ricardian = null;
 
-  let blocksToQuery = currentBlock - factoryBlock;
+  let series;
 
-  let intervals;
-
-  if(blocksToQuery <= intervalSize) {
-    intervals = blocksToQuery;
-    intervalSize = blocksToQuery;
-  } else {
-    intervals = parseInt(blocksToQuery / intervalSize);
-  }
-
-  for(let i=0; i < intervals; i++) {
-    const events = await contract_.getPastEvents("Transfer", {
-      fromBlock: factoryBlock + (intervalSize * i),
-      toBlock: factoryBlock + (intervalSize * (i+1)),
-    });
-    console.log(events);
-    let series;
-    for (var i = 0; i < events.length; i++) {
-      let to = events[i]["returnValues"]["to"];
-      if (
-        web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
-      ) {
-        series = events[i]["returnValues"]["tokenId"];
-        const commonURI = await contract_.methods.commonURI().call();
-        const masterOperatingAgreement = await contract_.methods
-          .masterOperatingAgreement()
-          .call();
-        const name = await contract_.methods.name().call();
-        ricardian = { series, commonURI, masterOperatingAgreement, name };
-      }
+  for (var i = 0; i < events.length; i++) {
+    let to = events[i]["to"];
+    if (
+      web3.utils.toChecksumAddress(to) == web3.utils.toChecksumAddress(address)
+    ) {
+      series = events[i]["tokenId"];
+      const commonURI = await contract_.methods.commonURI().call();
+      const masterOperatingAgreement = await contract_.methods
+        .masterOperatingAgreement()
+        .call();
+      const name = await contract_.methods.name().call();
+      ricardian = { series, commonURI, masterOperatingAgreement, name };
     }
   }
+
   return ricardian;
 }
