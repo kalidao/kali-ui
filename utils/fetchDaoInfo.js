@@ -121,12 +121,13 @@ async function fetchBalances(address, web3, daoChain) {
   const abi = require("../abi/ERC20.json");
   const tokenBalances = [];
   let tokenArray = tokens[daoChain];
-  for (var i = 0; i < tokenArray.length; i++) {
-    let token = tokenArray[i];
+  console.log("tokenArray", tokenArray)
+  for (const [key, value] of Object.entries(tokenArray)) {
+    let token = tokenArray[key];
     const contract = new web3.eth.Contract(abi, token["address"]);
     const balance = await contract.methods.balanceOf(address).call();
     tokenBalances.push({
-      token: token["token"],
+      token: key,
       address: token["address"],
       decimals: token["decimals"],
       balance: balance,
