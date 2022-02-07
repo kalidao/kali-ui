@@ -34,14 +34,14 @@ export default function FactoryWrapper() {
       },
       redemption: {
         active: false,
-        redemptionStart: null,
+        redemptionStart: 0,
       },
       crowdsale: {
         active: false,
         purchaseToken: null,
         purchaseMultiplier: 10,
         purchaseLimit: null,
-        saleEnds: null,
+        saleEnds: 0,
         listId: null,
       },
     },
