@@ -32,8 +32,6 @@ export default function ChooseType({ details, setDetails, handleNext }) {
       details["extensions"]["redemption"]["active"] = true;
       details["extensions"]["redemption"]["redemptionStart"] =
         presets[id]["extensions"]["redemption"]["redemptionStart"];
-      details["extensions"]["redemption"]["tokenArray"] =
-        presets[id]["extensions"]["redemption"]["tokenArray"];
 
       details["extensions"]["crowdsale"]["active"] = true;
       details["extensions"]["crowdsale"]["purchaseToken"] =

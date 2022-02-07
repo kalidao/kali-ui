@@ -35,7 +35,6 @@ export default function FactoryWrapper() {
       redemption: {
         active: false,
         redemptionStart: null,
-        tokenArray: null,
       },
       crowdsale: {
         active: false,
@@ -44,13 +43,12 @@ export default function FactoryWrapper() {
         purchaseLimit: null,
         saleEnds: null,
         listId: null,
-        documentation: null,
       },
     },
     daoType: null,
     legal: {
       docs: null,
-      docType: 0,
+      docType: 999,
     },
   });
   console.log("details", details);

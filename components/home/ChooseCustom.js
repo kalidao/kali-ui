@@ -146,7 +146,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
                 control={control}
                 name="votingPeriod"
                 render={({ field: { ref, ...rest } }) => (
-                  <NumberInput min="1" {...rest}>
+                  <NumberInput min="1" max="365" {...rest}>
                     <NumberInputField
                       fontSize="sm"
                       ref={ref}
