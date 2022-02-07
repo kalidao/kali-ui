@@ -36,9 +36,11 @@ export default function ChooseNetwork(props) {
   return (
     <VStack>
       <Heading as="h1">
-        <b>Select your chain:</b>
+        <b>Select a chain</b>
       </Heading>
+      <br></br>
       <Select
+        id="chain-picker"
         bg="kali.900"
         color="kali.800"
         onChange={updateNetwork}
@@ -70,6 +72,7 @@ export default function ChooseNetwork(props) {
               <i>connected to {getNetworkName(network)}</i>
             </Text>
           </HStack>
+          <br></br>
           <Button
             className="transparent-btn"
             onClick={() => props.handleNext()}
