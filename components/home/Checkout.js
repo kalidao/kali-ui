@@ -36,12 +36,20 @@ export default function Checkout({ details }) {
     let disclaimers_ = disclaimers;
     disclaimers_[num] = !disclaimers_[num];
     setDisclaimers(disclaimers_);
-    var deployable_ = true;
-    for (let i = 0; i < disclaimers_.length; i++) {
-      if (disclaimers_[i] == false) {
+    let deployable_ = true;
+    if (details["legal"]["docType"] == 1) {
+      for (let i = 0; i < disclaimers_.length; i++) {
+        if (disclaimers_[i] == false) {
+          deployable_ = false;
+        }
+      }
+    } else {
+      if (disclaimers_[num] === false) {
         deployable_ = false;
       }
     }
+    console.log(disclaimers[num]);
+    console.log(deployable_);
     setDeployable(deployable_);
   };
 
@@ -358,13 +366,15 @@ export default function Checkout({ details }) {
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
       </Checkbox>
-      <Checkbox onChange={() => handleDisclaimer(1)}>
-        I agree to the{" "}
-        <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
-          Series LLC terms
-        </Link>
-        .
-      </Checkbox>
+      {details["legal"]["docType"] == 1 ? (
+        <Checkbox onChange={() => handleDisclaimer(1)}>
+          I agree to the{" "}
+          <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
+            Series LLC terms
+          </Link>
+          .
+        </Checkbox>
+      ) : null}
       <br></br>
 
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
