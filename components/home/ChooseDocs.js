@@ -65,13 +65,14 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         ) : null}
       </VStack>
       <VStack>
+        <br></br>
         <>
           {selectedType == 1 ? (
             <HStack>
               <Icon as={AiOutlineInfoCircle} />
               <Text as="i">
-                Your DAO will be issued a series NFT under KaliCo Ricardian LLC,
-                a Delaware Series LLC. Click{" "}
+                Your DAO will mint a NFT under KaliCo Ricardian LLC,
+                a Delaware Series, {" "}
                 <Link
                   href="https://ricardian.gitbook.io/ricardian-llc/"
                   target="_blank"
@@ -79,10 +80,9 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
                   rel="noopener noreferrer"
                   color="kali.800"
                 >
-                  here
+                  establishing its own LLC.
                 </Link>
                 {"  "}
-                to learn more.
               </Text>
             </HStack>
           ) : null}
