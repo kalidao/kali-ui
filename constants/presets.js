@@ -14,7 +14,8 @@ export const presets = [
     paused: 0,
     extensions: {
       tribute: {
-        description: "Launch a community token. Voting is permissive. Includes 'tribute' extension to request membership for deposited funds.",
+        description:
+          "Launch a community token. Voting is permissive. Includes 'tribute' extension to request membership for deposited funds.",
       },
     },
   },
@@ -32,11 +33,11 @@ export const presets = [
         purchaseToken: "0x000000000000000000000000000000000000dEaD",
         purchaseMultiplier: 10,
         purchaseLimit: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
-        saleEnds: 2592000, // 30 days from today
+        saleEnds: 30, // 30 days from today
         listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
       },
       redemption: {
-        redemptionStart: 2592000, // 30 days from today
+        redemptionStart: 30, // 30 days from today
         tokenArray: null,
       },
     },
@@ -52,7 +53,7 @@ export const presets = [
       crowdsale: {
         description:
           "Form a digital company and tokenize cap table. Voting is quicker to manage payments.",
-      }
+      },
     },
   },
 ];

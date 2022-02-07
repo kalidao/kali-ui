@@ -45,10 +45,25 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const [tribute, setTribute] = useState(
     details["extensions"]["tribute"]["active"]
   );
-  const [saleEnds, setSaleEnds] = useState(new Date());
-  const [redemptionStart, setRedemptionStart] = useState(new Date());
-  const [quorum, setQuorum] = useState(30);
-  const [supermajority, setSupermajority] = useState(55);
+  //details["extensions"]["crowdsale"]["saleEnds"]
+  //details["extensions"]["redemption"]["redemptionStart"]
+  const nowSale = new Date();
+  const nowRedemption = new Date();
+  const [saleEnds, setSaleEnds] = useState(
+    nowSale.setDate(
+      nowSale.getDate() + details["extensions"]["crowdsale"]["saleEnds"]
+    )
+  );
+  const [redemptionStart, setRedemptionStart] = useState(
+    nowRedemption.setDate(
+      nowRedemption.getDate() +
+        details["extensions"]["redemption"]["redemptionStart"]
+    )
+  );
+  const [quorum, setQuorum] = useState(details["governance"]["quorum"]);
+  const [supermajority, setSupermajority] = useState(
+    details["governance"]["supermajority"]
+  );
   const [showQuorumTooltip, setShowQuorumTooltip] = useState(false);
   const [showSupermajorityTooltip, setShowSupermajorityTooltip] =
     useState(false);
@@ -176,10 +191,9 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </HStack>
           <Slider
             id="slider"
-            defaultValue={30}
             min={0}
             max={100}
-            colorScheme="telegram"
+            colorScheme="red"
             onChange={(v) => setQuorum(v)}
             onMouseEnter={() => setShowQuorumTooltip(true)}
             onMouseLeave={() => setShowQuorumTooltip(false)}
@@ -220,10 +234,9 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </HStack>
           <Slider
             id="slider"
-            defaultValue={55}
             min={51}
             max={100}
-            colorScheme="telegram"
+            colorScheme="red"
             onChange={(v) => setSupermajority(v)}
             onMouseEnter={() => setShowSupermajorityTooltip(true)}
             onMouseLeave={() => setShowSupermajorityTooltip(false)}
