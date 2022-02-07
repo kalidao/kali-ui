@@ -2,8 +2,55 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "callExtension",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "listId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "merkleProof",
+				"type": "bytes32[]"
+			}
+		],
+		"name": "joinList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "contract IKaliAccessManager",
 				"name": "accessManager_",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "wETH_",
 				"type": "address"
 			}
 		],
@@ -14,6 +61,25 @@
 		"inputs": [],
 		"name": "ETHtransferFailed",
 		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
+			}
+		],
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -38,6 +104,62 @@
 	{
 		"inputs": [],
 		"name": "SaleEnded",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "extensionData",
+				"type": "bytes"
+			}
+		],
+		"name": "setExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20Permit",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "s",
+				"type": "bytes32"
+			}
+		],
+		"name": "setPermit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TransferFailed",
 		"type": "error"
 	},
 	{
@@ -123,30 +245,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "dao",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "callExtension",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "amountOut",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -190,56 +288,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "listId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32[]",
-				"name": "merkleProof",
-				"type": "bytes32[]"
-			}
-		],
-		"name": "joinList",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "data",
-				"type": "bytes[]"
-			}
-		],
-		"name": "multicall",
-		"outputs": [
-			{
-				"internalType": "bytes[]",
-				"name": "results",
-				"type": "bytes[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes",
-				"name": "extensionData",
-				"type": "bytes"
-			}
-		],
-		"name": "setExtension",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
