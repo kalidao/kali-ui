@@ -82,37 +82,34 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <HStack>
             <Text>Voting Period</Text>
             <Spacer />
-            <Text>{item.type["voting"]} Days</Text>
+            <Text><b>{item.type["voting"]} Days</b></Text>
           </HStack>
           <DashedDivider />
           <HStack>
             <Text>Quorum</Text>
             <Spacer />
-            <Text>{item.type["quorum"]}%</Text>
+            <Text><b>{item.type["quorum"]}%</b></Text>
           </HStack>
           <DashedDivider />
           <HStack>
             <Text>Supermajority</Text>
             <Spacer />
-            <Text>{item.type["supermajority"]}%</Text>
+            <Text><b>{item.type["supermajority"]}%</b></Text>
           </HStack>
           <DashedDivider />
           <HStack>
-            <Text>Shares</Text>
+            <Text>Transferable</Text>
             <Spacer />
             <Text>
-              {item.type["paused"] == 0 ? "Transferrable" : "Nontransferrable"}
+              {item.type["paused"] == 0 ? "✔️" : "✖"}
             </Text>
           </HStack>
           <Spacer p={5} />
           {Object.keys(item.type["extensions"]).length !== 0 ?
           <Text>
-            Extras:
             <UnorderedList>
               {Object.entries(item.type["extensions"]).map(([key, value]) => (
-                <ListItem key={key}>
                   <Text>{value["description"]}</Text>
-                </ListItem>
               ))}
             </UnorderedList>
           </Text>
@@ -125,8 +122,9 @@ export default function ChooseType({ details, setDetails, handleNext }) {
   return (
     <VStack id="chooseDaoType">
       <Heading as="h1">
-        <b>Select governance type:</b>
+        Select a template
       </Heading>
+      <br></br>
       <Grid
         templateColumns={{
           sm: "repeat(1, 1fr)",
@@ -139,6 +137,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <DaoBox key={index} id={index} type={item} />
         ))}
       </Grid>
+      <br></br>
       <Center>
         <Button className="transparent-btn" onClick={handleNext}>
           Custom
