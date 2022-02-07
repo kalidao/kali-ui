@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import AppContext from "../../context/AppContext";
+import React from "react";
 import {
   VStack,
   HStack,
@@ -12,12 +11,11 @@ import {
   Divider,
   Heading,
   UnorderedList,
-  ListItem,
   Button,
   Center,
 } from "@chakra-ui/react";
-import { convertVotingPeriod } from "../../utils/formatters";
 import { presets } from "../../constants/presets";
+import { GiCheckMark } from "react-icons/gi";
 
 export default function ChooseType({ details, setDetails, handleNext }) {
   const handleClick = (id) => {
@@ -49,7 +47,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
       details["extensions"]["crowdsale"]["listId"] =
         presets[id]["extensions"]["crowdsale"]["listId"];
     }
-    
+
     setDetails(details);
     console.log("details", details);
 
@@ -82,38 +80,45 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <HStack>
             <Text>Voting Period</Text>
             <Spacer />
-            <Text><b>{item.type["voting"]} Days</b></Text>
+            <Text>
+              <b>{item.type["voting"]} Days</b>
+            </Text>
           </HStack>
           <DashedDivider />
           <HStack>
             <Text>Quorum</Text>
             <Spacer />
-            <Text><b>{item.type["quorum"]}%</b></Text>
+            <Text>
+              <b>{item.type["quorum"]}%</b>
+            </Text>
           </HStack>
           <DashedDivider />
           <HStack>
             <Text>Supermajority</Text>
             <Spacer />
-            <Text><b>{item.type["supermajority"]}%</b></Text>
+            <Text>
+              <b>{item.type["supermajority"]}%</b>
+            </Text>
           </HStack>
           <DashedDivider />
           <HStack>
             <Text>Transferable</Text>
             <Spacer />
-            <Text>
-              {item.type["paused"] == 0 ? "✔️" : "✖"}
-            </Text>
+            <Text>{item.type["paused"] === 0 ? <GiCheckMark /> : "✖"}</Text>
           </HStack>
           <Spacer p={5} />
-          {Object.keys(item.type["extensions"]).length !== 0 ?
-          <Text>
-            <UnorderedList>
-              {Object.entries(item.type["extensions"]).map(([key, value]) => (
-                  <Text>{value["description"]}</Text>
-              ))}
-            </UnorderedList>
-          </Text>
-          : null}
+          {Object.keys(item.type["extensions"]).length !== 0 ? (
+            <Text>
+              <UnorderedList>
+                {Object.entries(item.type["extensions"]).map(([key, value]) => (
+                  <>
+                    {console.log(key, value)}
+                    <Text key={key}>{value["description"]}</Text>
+                  </>
+                ))}
+              </UnorderedList>
+            </Text>
+          ) : null}
         </LinkOverlay>
       </LinkBox>
     );
@@ -121,9 +126,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
 
   return (
     <VStack id="chooseDaoType">
-      <Heading as="h1">
-        Select a template
-      </Heading>
+      <Heading as="h1">Select a template</Heading>
       <br></br>
       <Grid
         templateColumns={{
