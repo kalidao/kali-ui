@@ -21,7 +21,7 @@ export default function Kali() {
       <Image
         id="logo"
         src={logo.src}
-        width="80"
+        width="62"
         height="100"
         alt="Kali"
         onClick={home}
