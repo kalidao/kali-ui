@@ -28,10 +28,10 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     let type = e.target.value;
     details["legal"]["docType"] = type;
     if (type == 0) {
-      details["legal"]["docs"] = "";
-    }
-    if (type == 2) {
       details["legal"]["docs"] = "none";
+    }
+    if (type == 1) {
+      details["legal"]["docs"] = "";
     }
     setSelectedType(type);
     setDetails(details);
@@ -42,36 +42,22 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     setDetails(details);
   };
 
-  const templateOptions = () => [
-    {
-      name: "DAO Charter",
-      url: "https://github.com/kalidao/kali-legal/blob/main/formation/Charter.md",
-    },
-    {
-      name: "UNA Agreement",
-      url: "https://github.com/kalidao/kali-legal/blob/main/formation/una/TUNAA.md",
-    },
-    {
-      name: "Delaware LLC Operating Agreement",
-      url: "https://github.com/kalidao/kali-legal/blob/main/formation/llc/DelawareOA.md",
-    },
-  ];
-
   return (
     <>
       <VStack>
-        <Heading as="h1">Add your legal docs:</Heading>
+        <Heading as="h1">Add legal docs?</Heading>
+        <br></br>
         <Select
           id="choose-docs"
           onChange={handleSelect}
           defaultValue={details["legal"]["docType"]}
         >
           <option className="option" value="999"></option>
-          <option value="0">Form a Series LLC</option>
-          <option value="1">Use your own docs</option>
-          <option value="2">None</option>
+          <option value="0">None</option>
+          <option value="1">Series LLC (Instant)</option>
+          <option value="2">Custom Docs</option>
         </Select>
-        {selectedType == 1 ? (
+        {selectedType == 2 ? (
           <Input
             defaultValue={details["legal"]["docs"]}
             onChange={handleChange}
@@ -80,7 +66,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
       </VStack>
       <VStack>
         <>
-          {selectedType == 0 ? (
+          {selectedType == 1 ? (
             <HStack>
               <Icon as={AiOutlineInfoCircle} />
               <Text as="i">
@@ -100,7 +86,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
               </Text>
             </HStack>
           ) : null}
-
+          <br></br>
           {selectedType != 999 ? (
             <Button className="transparent-btn" onClick={() => handleNext()}>
               Next
