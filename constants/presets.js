@@ -14,7 +14,7 @@ export const presets = [
     paused: 0,
     extensions: {
       tribute: {
-        description: "Anyone can propose to join by paying tribute.",
+        description: "Launch a community token. Voting is permissive. Includes 'tribute' extension to request membership for deposited funds.",
       },
     },
   },
@@ -28,7 +28,7 @@ export const presets = [
     extensions: {
       crowdsale: {
         description:
-          "10 shares per ETH. Limit 1000 shares. Sale ends in 30 days.",
+          "Create a fund with your friends. Voting is stricter and slower. Includes month fundraiser, 1 ETH per 10 Shares. Ragequit allowed after.",
         purchaseToken: "0x000000000000000000000000000000000000dEaD",
         purchaseMultiplier: 10,
         purchaseLimit: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
@@ -36,8 +36,6 @@ export const presets = [
         listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
       },
       redemption: {
-        description:
-          "Members can ragequit for share of treasury. Option starts in 30 days.",
         redemptionStart: 2592000, // 30 days from today
         tokenArray: null,
       },
@@ -50,6 +48,11 @@ export const presets = [
     quorum: 20,
     supermajority: 60,
     paused: 1,
-    extensions: {},
+    extensions: {
+      crowdsale: {
+        description:
+          "Form a digital company and tokenize cap table. Voting is quicker to manage payments.",
+      }
+    },
   },
 ];
