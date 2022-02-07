@@ -64,13 +64,27 @@ export default function SendToken() {
 
       let amounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        let element = document.getElementById(`recipients.${i}.share`);
-        let value = element.value;
-        amounts_.push(toDecimals(value, 18));
+        // voters ENS check
+        if (recipients[i].address.slice(-4) === ".eth") {
+          recipients[i].address = await web3.eth.ens
+            .getAddress(recipients[i].address)
+            .catch(() => {
+              value.toast(recipients[i].address + " is not a valid ENS.")
+              value.setLoading(false)
+            })
+        }
+
+        console.log(recipients[i].address)
+        if (recipients[i].address === undefined) {
+          return
+        }
+
+        let element = document.getElementById(`recipients.${i}.share`)
+        let value_ = element.value
+        amounts_.push(toDecimals(value_, 18))
       }
       console.log("Amounts Array", amounts_);
-
-      // voters ENS check
+      
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
         let tokenIndex = selectedOptions[i];

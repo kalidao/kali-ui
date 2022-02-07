@@ -64,9 +64,18 @@ export default function ChooseMembers(props) {
     console.log("Shares Array", sharesArray);
 
     let votersArray = [];
+
     for (let i = 0; i < founders.length; i++) {
-      if (web3.utils.isAddress(founders[i].address) == false) {
+      if (founders[i].address.slice(-4) === ".eth") {
+        founders[i].address = await web3.eth.ens.getAddress(founders[i].address).catch(() => {
+          value.toast(founders[i].address + " is not a valid ENS.");
+        })
+      } else if (web3.utils.isAddress(founders[i].address) == false) {
         value.toast(founders[i].address + " is not a valid Ethereum address.");
+        return;
+      } 
+
+      if (founders[i].address === undefined) {
         return;
       }
       votersArray.push(founders[i].address);
@@ -114,7 +123,7 @@ export default function ChooseMembers(props) {
                   </FormLabel>
                   <Input
                     className="member-address"
-                    placeholder="0x address"
+                    placeholder="0x address or ENS"
                     {...field}
                     {...register(`founders.${index}.address`, {
                       required: "You must assign share!",
