@@ -39,7 +39,7 @@ export async function fetchDaoInfo(
 
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
-  const balances = await fetchBalances(address, web3);
+  const balances = await fetchBalances(address, web3, daoChain);
 
   const ricardian = await fetchRicardian(address, web3, factory, daoChain, ricardianBlock);
 
@@ -117,15 +117,17 @@ async function fetchProposalVoteTypes(instance) {
   return proposalVoteTypes_;
 }
 
-async function fetchBalances(address, web3) {
+async function fetchBalances(address, web3, daoChain) {
   const abi = require("../abi/ERC20.json");
   const tokenBalances = [];
-  for (var i = 0; i < tokens.length; i++) {
-    let token = tokens[i];
+  let tokenArray = tokens[daoChain];
+  console.log("tokenArray", tokenArray)
+  for (const [key, value] of Object.entries(tokenArray)) {
+    let token = tokenArray[key];
     const contract = new web3.eth.Contract(abi, token["address"]);
     const balance = await contract.methods.balanceOf(address).call();
     tokenBalances.push({
-      token: token["token"],
+      token: key,
       address: token["address"],
       decimals: token["decimals"],
       balance: balance,

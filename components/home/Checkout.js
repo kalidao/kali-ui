@@ -23,6 +23,7 @@ import DashedDivider from "../elements/DashedDivider";
 import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
+import { fetchTokens } from "../../utils/fetchTokens";
 
 export default function Checkout({ details }) {
   const value = useContext(AppContext);
@@ -175,7 +176,11 @@ export default function Checkout({ details }) {
     if (redemption["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
       console.log(redemption);
-      let { redemptionStart, tokenArray } = redemption;
+      let { redemptionStart } = redemption;
+
+      // getting token array
+      let tokenArray = fetchTokens(chainId);
+      console.log(tokenArray);
 
       // let now = parseInt(new Date().getTime() / 1000);
       redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000);
@@ -200,6 +205,21 @@ export default function Checkout({ details }) {
         .encodeABI();
 
       extensionsData.push(payload);
+
+      // loading token approval calls for redemptions
+      const token = require("../../abi/ERC20.json");
+
+      const amount = web3.utils.toWei('10000000','ether');
+
+      for (let i = 0; i < tokenArray.length; i++) {
+        const tokenContract = new web3.eth.Contract(token, tokenArray[i]);
+        let approvalPayload = tokenContract.methods
+          .approve(redemptionAddress, amount)
+          .encodeABI();
+        
+        extensionsArray.push(tokenArray[i]);
+        extensionsData.push(approvalPayload);
+      }
     }
 
     console.log("extensionsArray", extensionsArray);

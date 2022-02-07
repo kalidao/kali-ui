@@ -30,6 +30,7 @@ import { presets } from "../../constants/presets";
 import DateSelect from "../elements/DateSelect";
 import InfoTip from "../elements/InfoTip";
 import DatePicker from "react-datepicker";
+import { fetchTokens } from "../../utils/fetchTokens";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
@@ -88,17 +89,16 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["governance"]["supermajority"] = parseInt(supermajority);
     details["governance"]["paused"] = Number(paused);
 
+    // getting token array
+    let tokenArray = fetchTokens(chainId);
+    console.log(tokenArray);
+
     // setting extensions
     details["extensions"]["tribute"]["active"] = tribute;
 
     details["extensions"]["redemption"]["active"] = redemption;
     details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
-    details["extensions"]["redemption"]["tokenArray"] = [
-      "0xc778417e063141139fce010982780140aa0cd5ab",
-      "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
-      "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
-      "0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02",
-    ];
+    details["extensions"]["redemption"]["tokenArray"] = tokenArray;
 
     details["extensions"]["crowdsale"]["active"] = crowdsale;
     details["extensions"]["crowdsale"]["purchaseToken"] =
@@ -344,7 +344,11 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </HStack>
         </VStack>
         <Box w="100%" align="center">
-          <Button className="transparent-btn" type="submit">
+          <Button
+            disabled={account && chainId ? false : true}
+            className="transparent-btn"
+            type="submit"
+          >
             Next »
           </Button>
         </Box>

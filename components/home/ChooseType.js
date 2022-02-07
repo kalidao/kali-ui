@@ -49,14 +49,7 @@ export default function ChooseType({ details, setDetails, handleNext }) {
       details["extensions"]["crowdsale"]["listId"] =
         presets[id]["extensions"]["crowdsale"]["listId"];
     }
-    if (id === 2) {
-      details["extensions"]["redemption"]["active"] = true;
-      details["extensions"]["redemption"]["redemptionStart"] =
-        presets[id]["extensions"]["redemption"]["redemptionStart"];
-      details["extensions"]["redemption"]["tokenArray"] =
-        presets[id]["extensions"]["redemption"]["tokenArray"];
-    }
-
+    
     setDetails(details);
     console.log("details", details);
 

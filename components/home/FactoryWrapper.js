@@ -48,8 +48,8 @@ export default function FactoryWrapper() {
     },
     daoType: null,
     legal: {
-      docs: null,
-      docType: null,
+      docs: "Provide a link or hash reference",
+      docType: 0,
     },
   });
   console.log("details", details);
