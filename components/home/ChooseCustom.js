@@ -60,9 +60,12 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         details["extensions"]["redemption"]["redemptionStart"]
     )
   );
-  const [quorum, setQuorum] = useState(details["governance"]["quorum"]);
+
+  const [quorum, setQuorum] = useState(
+    parseInt(details["governance"]["quorum"])
+  );
   const [supermajority, setSupermajority] = useState(
-    details["governance"]["supermajority"]
+    parseInt(details["governance"]["supermajority"])
   );
   const [showQuorumTooltip, setShowQuorumTooltip] = useState(false);
   const [showSupermajorityTooltip, setShowSupermajorityTooltip] =
@@ -194,17 +197,19 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             min={0}
             max={100}
             colorScheme="red"
-            onChange={(v) => setQuorum(v)}
+            defaultValue={details["governance"]["quorum"]}
+            aria-label="quorum slider"
+            onChangeEnd={(v) => setQuorum(v)}
             onMouseEnter={() => setShowQuorumTooltip(true)}
             onMouseLeave={() => setShowQuorumTooltip(false)}
           >
-            <SliderMark value={25} mt="1" ml="-2.5" fontSize="xs">
+            <SliderMark value={25} mt="1" fontSize="xs">
               25%
             </SliderMark>
-            <SliderMark value={50} mt="1" ml="-2.5" fontSize="xs">
+            <SliderMark value={50} mt="1" fontSize="xs">
               50%
             </SliderMark>
-            <SliderMark value={75} mt="1" ml="-2.5" fontSize="xs">
+            <SliderMark value={75} mt="1" fontSize="xs">
               75%
             </SliderMark>
             <SliderTrack>
@@ -236,8 +241,10 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             id="slider"
             min={51}
             max={100}
+            aria-label="supermajority slider"
+            defaultValue={details["governance"]["supermajority"]}
             colorScheme="red"
-            onChange={(v) => setSupermajority(v)}
+            onChangeEnd={(v) => setSupermajority(v)}
             onMouseEnter={() => setShowSupermajorityTooltip(true)}
             onMouseLeave={() => setShowSupermajorityTooltip(false)}
           >
