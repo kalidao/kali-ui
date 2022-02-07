@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import DelawareOAtemplate from "../legal/DelawareOAtemplate"
 import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate"
+import DelawareUNATemplate from "../legal/DelawareUNATemplate"
 import WyomingOAtemplate from "../legal/WyomingOAtemplate"
 
 function DraftDoc() {
@@ -28,9 +29,11 @@ function DraftDoc() {
   const [selection, setSelection] = useState("")
   const [deLlcForm, setDeLlcForm] = useState(false)
   const [deIcForm, setDeIcForm] = useState(false)
+  const [deUnaForm, setDeUnaForm] = useState(false)
   const [wyLlcForm, setWyLlcForm] = useState(false)
   const [delawareLlc, setDelawareLlc] = useState({})
   const [delawareIc, setDelawareIc] = useState({})
+  const [delawareUna, setDelawareUna] = useState({})
   const [wyomingLlc, setWyomingLlc] = useState({})
 
   const generateDoc = (values) => {
@@ -48,6 +51,12 @@ function DraftDoc() {
           chain: values.chain,
         })
         setDeIcForm(true)
+      case "delaware-una":
+        setDelawareUna({
+          name: values.name,
+          chain: values.chain,
+        })
+        setDeUnaForm(true)
       case "wyoming-llc":
         setWyomingLlc({
           name: values.name,
@@ -92,6 +101,7 @@ function DraftDoc() {
                     setSelection(e.target.value)
                     setDeLlcForm(false)
                     setDeIcForm(false)
+                    setDeUnaForm(false)
                     setWyLlcForm(false)
                     reset()
                   }}
@@ -101,6 +111,7 @@ function DraftDoc() {
                   <option value="delaware-llc">Delaware DAO LLC</option>
                   <option value="wyoming-llc">Wyoming DAO LLC</option>
                   <option value="delaware-ic">Investment Club</option>
+                  <option value="delaware-una">UNA</option>
                 </Select>
               </FormControl>
               {selection === "delaware-llc" && (
@@ -169,6 +180,28 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
+              {selection === "delaware-una" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="name">
+                      UNA Name
+                    </FormLabel>
+                    <Input
+                      id="name"
+                      placeholder="KALI"
+                      {...register("name")}
+                    />
+                    <FormLabel mt={3} htmlFor="chain">
+                      Designated Blockchain
+                    </FormLabel>
+                    <Input
+                      id="chain"
+                      placeholder="Ethereum, Arbitrum, Polygon, etc."
+                      {...register("chain")}
+                    />
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </DrawerBody>
           <DrawerFooter>
@@ -219,6 +252,25 @@ function DraftDoc() {
                     />
                   }
                   fileName="Wyoming DAO LLC Operating Agreement"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <Button mr={3}>Loading Document...</Button>
+                    ) : (
+                      <Button mr={3}>Download</Button>
+                    )
+                  }
+                </PDFDownloadLink>
+              )) ||
+              (deUnaForm && (
+                <PDFDownloadLink
+                  document={
+                    <DelawareUNAtemplate
+                      name={delawareUna.name}
+                      chain={delawareUna.chain}
+                    />
+                  }
+                  fileName="Delaware UNA Agreement"
                 >
                   {({ loading }) =>
                     loading ? (
