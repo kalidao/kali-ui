@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import DelawareOAtemplate from "../legal/DelawareOAtemplate"
 import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate"
-import DelawareUNATemplate from "../legal/DelawareUNATemplate"
+import DelawareUNAtemplate from "../legal/DelawareUNAtemplate"
 import WyomingOAtemplate from "../legal/WyomingOAtemplate"
 
 function DraftDoc() {
