@@ -58,12 +58,16 @@ export default function Tribute() {
 
       var { amount_ } = array; // this must contain any inputs from custom forms
 
+      if (purchaseToken == "0x000000000000000000000000000000000000dEaD") {
+        decimals = 18;
+      }
+
       amount_ = toDecimals(amount_, decimals).toString();
 
       console.log("amount_", amount_)
 
       var value_ = 0;
-      if (purchaseToken == "0x0000000000000000000000000000000000000000") {
+      if (purchaseToken == "0x0000000000000000000000000000000000000000" || purchaseToken == "0x000000000000000000000000000000000000dEaD") {
         value_ = amount_;
       }
 
@@ -115,7 +119,7 @@ export default function Tribute() {
             </Text>
             <Input value={amt * purchaseMultiplier} disabled />
           </HStack>
-          {purchaseToken != "0x0000000000000000000000000000000000000000" ? (
+          {(purchaseToken != "0x0000000000000000000000000000000000000000" && purchaseToken != "0x000000000000000000000000000000000000dEaD") ? (
             <Button onClick={approveSpend}>Approve</Button>
           ) : null}
 
