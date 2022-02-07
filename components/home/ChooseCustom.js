@@ -8,10 +8,8 @@ import {
   Button,
   Heading,
   FormLabel,
-  Checkbox,
   Switch,
   Spacer,
-  Text,
   Slider,
   SliderMark,
   SliderTrack,
@@ -26,40 +24,14 @@ import {
 } from "@chakra-ui/react";
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
-import { presets } from "../../constants/presets";
-import DateSelect from "../elements/DateSelect";
 import InfoTip from "../elements/InfoTip";
-import DatePicker from "react-datepicker";
-import { fetchTokens } from "../../utils/fetchTokens";
+import ChooseCrowdsale from "./ChooseCrowdsale";
+import ChooseRedemption from "./ChooseRedemption";
+import ChooseTribute from "./ChooseTribute";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
-  const [redemption, setRedemption] = useState(
-    details["extensions"]["redemption"]["active"]
-  );
-  const [crowdsale, setCrowdsale] = useState(
-    details["extensions"]["crowdsale"]["active"]
-  );
-
-  const [tribute, setTribute] = useState(
-    details["extensions"]["tribute"]["active"]
-  );
-  //details["extensions"]["crowdsale"]["saleEnds"]
-  //details["extensions"]["redemption"]["redemptionStart"]
-  const nowSale = new Date();
-  const nowRedemption = new Date();
-  const [saleEnds, setSaleEnds] = useState(
-    nowSale.setDate(
-      nowSale.getDate() + details["extensions"]["crowdsale"]["saleEnds"]
-    )
-  );
-  const [redemptionStart, setRedemptionStart] = useState(
-    nowRedemption.setDate(
-      nowRedemption.getDate() +
-        details["extensions"]["redemption"]["redemptionStart"]
-    )
-  );
 
   const [quorum, setQuorum] = useState(
     parseInt(details["governance"]["quorum"])
@@ -78,9 +50,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       quorum: details["governance"]["quorum"],
       supermajority: details["governance"]["supermajority"],
       paused: details["governance"]["paused"],
-      tribute: details["extensions"]["tribute"]["active"],
-      redemptionStart: details["extensions"]["redemption"]["redemptionStart"],
-      saleEnds: details["extensions"]["crowdsale"]["saleEnds"],
     },
   });
 
@@ -106,28 +75,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["governance"]["quorum"] = parseInt(quorum);
     details["governance"]["supermajority"] = parseInt(supermajority);
     details["governance"]["paused"] = Number(paused);
-
-    // getting token array
-    let tokenArray = fetchTokens(chainId);
-    console.log(tokenArray);
-
-    // setting extensions
-    details["extensions"]["tribute"]["active"] = tribute;
-
-    details["extensions"]["redemption"]["active"] = redemption;
-    details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
-    details["extensions"]["redemption"]["tokenArray"] = tokenArray;
-
-    details["extensions"]["crowdsale"]["active"] = crowdsale;
-    details["extensions"]["crowdsale"]["purchaseToken"] =
-      presets[1]["extensions"]["crowdsale"]["purchaseToken"];
-    details["extensions"]["crowdsale"]["purchaseMultiplier"] =
-      presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
-    details["extensions"]["crowdsale"]["purchaseLimit"] =
-      presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
-    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
-    details["extensions"]["crowdsale"]["listId"] =
-      presets[1]["extensions"]["crowdsale"]["listId"];
 
     setDetails(details);
     console.log("details", details);
@@ -282,95 +229,14 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           />
         </HStack>
         <br></br>
-        <VStack align="flex-start">
+        <VStack align="flex-start" spacing={5}>
           <label>
             <b>Extensions</b>
           </label>
           <Divider w="50%" />
-          <br></br>
-          <HStack>
-            <Checkbox
-              name="redemption"
-              value="redemption"
-              size="sm"
-              defaultValue={redemption}
-              isChecked={redemption}
-              onChange={() => setRedemption(!redemption)}
-            >
-              <Text fontSize="sm">Redemption</Text>
-            </Checkbox>
-            <InfoTip
-              label={
-                "Members can burn their DAO tokens to claim proportional share of DAO 🔥"
-              }
-            />
-          </HStack>
-          {redemption ? (
-            <VStack>
-              <Text fontSize="sm" htmlFor="redemptionStart">
-                When should redemption start?
-              </Text>
-              <DatePicker
-                id="date-picker"
-                selected={redemptionStart}
-                onChange={(date) => setRedemptionStart(date)}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-              />
-            </VStack>
-          ) : null}
-          <br></br>
-          <HStack>
-            <Checkbox
-              name="crowdsale"
-              value="crowdsale"
-              size="sm"
-              isChecked={crowdsale}
-              defaultValue={crowdsale}
-              onChange={() => setCrowdsale(!crowdsale)}
-            >
-              <Text fontSize="sm">Crowdsale</Text>
-            </Checkbox>
-            <InfoTip label={"Sell DAO token for ETH or any ERC20 tokens 🚀"} />
-          </HStack>
-          {crowdsale ? (
-            <VStack>
-              <Text fontSize="sm" htmlFor="saleEnds">
-                When should the crowdsale end?
-              </Text>
-              <DatePicker
-                id="date-picker"
-                selected={saleEnds}
-                onChange={(date) => setSaleEnds(date)}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-              />
-            </VStack>
-          ) : null}
-          <br></br>
-          <HStack>
-            <Checkbox
-              name="tribute"
-              value="tribute"
-              size="sm"
-              isChecked={tribute}
-              defaultValue={tribute}
-              onChange={() => setTribute(!tribute)}
-            >
-              <Text fontSize="sm">Tribute</Text>
-            </Checkbox>
-            <InfoTip
-              label={
-                "Anyone can propose to send ETH, ERC20 tokens, or NFTs to the DAO 💌"
-              }
-            />
-          </HStack>
+          <ChooseRedemption details={details} setDetails={setDetails} />
+          <ChooseCrowdsale details={details} setDetails={setDetails} />
+          <ChooseTribute details={details} setDetails={setDetails} />
         </VStack>
         <Box w="100%" align="center">
           <br></br>

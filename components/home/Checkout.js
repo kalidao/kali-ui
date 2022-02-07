@@ -132,6 +132,10 @@ export default function Checkout({ details }) {
         saleEnds,
         documentation,
       } = crowdsale;
+      listId = 0;
+      purchaseToken = "0x000000000000000000000000000000000000dEaD";
+      purchaseMultiplier = 10;
+      purchaseLimit = "1000000000000000000000";
       console.log(
         "crowdsale param",
         listId,
@@ -153,6 +157,14 @@ export default function Checkout({ details }) {
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
       const saleContract = new web3.eth.Contract(sale, saleAddress);
+      console.log(
+        listId,
+        purchaseToken,
+        purchaseMultiplier,
+        purchaseLimit,
+        saleEnds,
+        documentation
+      );
 
       const encodedParams = web3.eth.abi.encodeParameters(
         ["uint256", "address", "uint8", "uint96", "uint32", "string"],
@@ -209,14 +221,14 @@ export default function Checkout({ details }) {
       // loading token approval calls for redemptions
       const token = require("../../abi/ERC20.json");
 
-      const amount = web3.utils.toWei('10000000','ether');
+      const amount = web3.utils.toWei("10000000", "ether");
 
       for (let i = 0; i < tokenArray.length; i++) {
         const tokenContract = new web3.eth.Contract(token, tokenArray[i]);
         let approvalPayload = tokenContract.methods
           .approve(redemptionAddress, amount)
           .encodeABI();
-        
+
         extensionsArray.push(tokenArray[i]);
         extensionsData.push(approvalPayload);
       }
