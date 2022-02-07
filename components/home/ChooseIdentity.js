@@ -78,10 +78,10 @@ export default function ChooseIdentity(props) {
 
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
-      <Heading as="h1">Select a name and symbol:</Heading>
+      <Heading as="h1">Identify your Org</Heading>
       <Text></Text>
       <FormControl>
-        <FormLabel htmlFor="name" fontSize="xl" fontWeight="800">
+        <FormLabel htmlFor="name" fontSize="m" fontWeight="500">
           Name
         </FormLabel>
         <HStack>
@@ -100,8 +100,9 @@ export default function ChooseIdentity(props) {
           />
         </HStack>
       </FormControl>
+      <br></br>
       <FormControl>
-        <FormLabel htmlFor="symbol" fontSize="xl" fontWeight="800">
+        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
           Symbol
         </FormLabel>
         <HStack>
@@ -119,6 +120,7 @@ export default function ChooseIdentity(props) {
         </HStack>
         {errors.symbol && value.toast(errors.symbol.message)}
       </FormControl>
+      <br></br>
       <Button className="transparent-btn" type="submit">
         Next »
       </Button>
