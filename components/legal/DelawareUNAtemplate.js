@@ -70,8 +70,8 @@ const Tab = () => "  "
 const DelawareUNAtemplate = ({ name, chain }) => {
   return (
     <Document>
-      <Page style={styles.body}>{
-      Trustless } Unincorporated Nonprofit Association Agreement ("TUNAA")
+      <Page style={styles.body}>
+      Trustless  Unincorporated Nonprofit Association Agreement ("TUNAA")
 
       DELAWARE LLC OPERATING AGREEMENT
 
