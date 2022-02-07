@@ -75,7 +75,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
                 Your DAO will mint a NFT under KaliCo Ricardian LLC,
                 a Delaware Series, {" "}
                 <Link
-                  href="https://ricardian.gitbook.io/ricardian-llc/"
+                  href="https://docs.kalidao.xyz/#kalico-ricardian-llc"
                   target="_blank"
                   isExternal
                   rel="noopener noreferrer"
