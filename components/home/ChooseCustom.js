@@ -119,11 +119,13 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
       <Heading fontWeight="800">Customize your governance</Heading>
+      <br></br>
       <VStack align="flex-start" spacing="4" bg="">
         <Box p="1" />
         <HStack w={"100%"}>
           <VStack w={"100%"} align="flex-start">
             <label htmlFor="votingPeriod">Voting Period</label>
+            <br></br>
             <HStack w={"100%"}>
               <Controller
                 control={control}
@@ -162,6 +164,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             </HStack>
           </VStack>
         </HStack>
+        <br></br>
         <VStack w={"100%"} spacing="8" align="flex-start">
           <HStack>
             <label htmlFor="quorum">Quorum</label>
@@ -205,6 +208,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             </Tooltip>
           </Slider>
         </VStack>
+        <br></br>
         <VStack w={"100%"} spacing="8" align="flex-start">
           <HStack pt={"4"}>
             <label>Supermajority</label>
@@ -245,6 +249,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             </Tooltip>
           </Slider>
         </VStack>
+        <br></br>
         <HStack pt={"4"} w={"100%"}>
           <FormLabel htmlFor="paused">Share Transferability</FormLabel>
           <Spacer></Spacer>
@@ -256,11 +261,13 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             )}
           />
         </HStack>
+        <br></br>
         <VStack align="flex-start">
           <label>
             <b>Extensions</b>
           </label>
           <Divider w="50%" />
+          <br></br>
           <HStack>
             <Checkbox
               name="redemption"
@@ -295,6 +302,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
               />
             </VStack>
           ) : null}
+          <br></br>
           <HStack>
             <Checkbox
               name="crowdsale"
@@ -325,6 +333,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
               />
             </VStack>
           ) : null}
+          <br></br>
           <HStack>
             <Checkbox
               name="tribute"
@@ -344,6 +353,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </HStack>
         </VStack>
         <Box w="100%" align="center">
+          <br></br>
           <Button
             disabled={account && chainId ? false : true}
             className="transparent-btn"

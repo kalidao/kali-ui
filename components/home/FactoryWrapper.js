@@ -48,7 +48,7 @@ export default function FactoryWrapper() {
     },
     daoType: null,
     legal: {
-      docs: "Provide a link or hash reference",
+      docs: null,
       docType: 0,
     },
   });

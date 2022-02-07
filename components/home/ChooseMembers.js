@@ -91,8 +91,9 @@ export default function ChooseMembers(props) {
       alignItems="center"
     >
       <Heading as="h1">
-        <b>Build your cap table:</b>
+        <b>Build your cap table</b>
       </Heading>
+      <br></br>
       <List spacing={2} width="80%" className="alternating-list">
         {fields.map((founder, index) => (
           <ListItem
@@ -166,6 +167,7 @@ export default function ChooseMembers(props) {
       >
         + Add Founder
       </Button>
+      <br></br>
       <Button className="transparent-btn" type="submit">
         Next »
       </Button>

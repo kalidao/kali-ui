@@ -342,6 +342,7 @@ export default function Checkout({ details }) {
           </>
         ))}
       </Stack>
+      <br></br>
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
       </Checkbox>
@@ -352,11 +353,12 @@ export default function Checkout({ details }) {
         </Link>
         .
       </Checkbox>
+      <br></br>
 
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!
       </KaliButton>
-
+      <br></br>
       <HStack>
         <Text fontWeight={700}>Have questions?</Text>
         <ContactForm />
