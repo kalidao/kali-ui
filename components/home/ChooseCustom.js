@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import {
   Box,
@@ -10,12 +10,6 @@ import {
   FormLabel,
   Switch,
   Spacer,
-  Slider,
-  SliderMark,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Tooltip,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -24,31 +18,20 @@ import {
 } from "@chakra-ui/react";
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
-import InfoTip from "../elements/InfoTip";
 import ChooseCrowdsale from "./ChooseCrowdsale";
 import ChooseRedemption from "./ChooseRedemption";
 import ChooseTribute from "./ChooseTribute";
+import ChooseQuorum from "./ChooseQuorum";
+import ChooseSupermajority from "./ChooseSupermajority";
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
 
-  const [quorum, setQuorum] = useState(
-    parseInt(details["governance"]["quorum"])
-  );
-  const [supermajority, setSupermajority] = useState(
-    parseInt(details["governance"]["supermajority"])
-  );
-  const [showQuorumTooltip, setShowQuorumTooltip] = useState(false);
-  const [showSupermajorityTooltip, setShowSupermajorityTooltip] =
-    useState(false);
-
   const { handleSubmit, control } = useForm({
     defaultValues: {
       votingPeriod: details["governance"]["votingPeriod"],
       votingPeriodUnit: 0,
-      quorum: details["governance"]["quorum"],
-      supermajority: details["governance"]["supermajority"],
       paused: details["governance"]["paused"],
     },
   });
@@ -72,8 +55,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       votingPeriod,
       votingPeriodUnit
     );
-    details["governance"]["quorum"] = parseInt(quorum);
-    details["governance"]["supermajority"] = parseInt(supermajority);
     details["governance"]["paused"] = Number(paused);
 
     setDetails(details);
@@ -130,92 +111,9 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </VStack>
         </HStack>
         <br></br>
-        <VStack w={"100%"} spacing="8" align="flex-start">
-          <HStack>
-            <label htmlFor="quorum">Quorum</label>
-            <InfoTip
-              label={
-                "Minimum % of tokens that must vote for proposals to pass, e.g., a 20% quorum needs at least 20% of DAO tokens voting on a proposal for the proposal result to be valid"
-              }
-            />
-          </HStack>
-          <Slider
-            id="slider"
-            min={0}
-            max={100}
-            colorScheme="red"
-            defaultValue={details["governance"]["quorum"]}
-            aria-label="quorum slider"
-            onChangeEnd={(v) => setQuorum(v)}
-            onMouseEnter={() => setShowQuorumTooltip(true)}
-            onMouseLeave={() => setShowQuorumTooltip(false)}
-          >
-            <SliderMark value={25} mt="1" fontSize="xs">
-              25%
-            </SliderMark>
-            <SliderMark value={50} mt="1" fontSize="xs">
-              50%
-            </SliderMark>
-            <SliderMark value={75} mt="1" fontSize="xs">
-              75%
-            </SliderMark>
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <Tooltip
-              hasArrow
-              bg="teal.500"
-              color="white"
-              placement="top"
-              isOpen={showQuorumTooltip}
-              label={`${quorum}%`}
-            >
-              <SliderThumb />
-            </Tooltip>
-          </Slider>
-        </VStack>
+        <ChooseQuorum details={details} setDetails={setDetails} />
         <br></br>
-        <VStack w={"100%"} spacing="8" align="flex-start">
-          <HStack pt={"4"}>
-            <label>Supermajority</label>
-            <InfoTip
-              label={
-                "Minimum % of member approvals required for proposals to pass, e.g., a 75% supermajority needs at least 75% of DAO tokens in favor of a proposal for the proposal to pass"
-              }
-            />
-          </HStack>
-          <Slider
-            id="slider"
-            min={51}
-            max={100}
-            aria-label="supermajority slider"
-            defaultValue={details["governance"]["supermajority"]}
-            colorScheme="red"
-            onChangeEnd={(v) => setSupermajority(v)}
-            onMouseEnter={() => setShowSupermajorityTooltip(true)}
-            onMouseLeave={() => setShowSupermajorityTooltip(false)}
-          >
-            <SliderMark value={50} mt="1" ml="2" fontSize="xs">
-              50%
-            </SliderMark>
-            <SliderMark value={75} mt="1" ml="-2.5" fontSize="xs">
-              75%
-            </SliderMark>
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <Tooltip
-              hasArrow
-              bg="teal.500"
-              color="white"
-              placement="top"
-              isOpen={showSupermajorityTooltip}
-              label={`${supermajority}%`}
-            >
-              <SliderThumb />
-            </Tooltip>
-          </Slider>
-        </VStack>
+        <ChooseSupermajority details={details} setDetails={setDetails} />
         <br></br>
         <HStack pt={"4"} w={"100%"}>
           <FormLabel htmlFor="paused">Share Transferability</FormLabel>
