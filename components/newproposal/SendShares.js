@@ -62,10 +62,23 @@ export default function SendShares() {
       // voters ENS check
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        if (web3.utils.isAddress(recipients[i].address) == false) {
-          value.toast(recipients[i].address + " is not a valid Ethereum address.");
-          value.setLoading(false);
-          return;
+        if (recipients[i].address.slice(-4) === ".eth") {
+          recipients[i].address = await web3.eth.ens
+            .getAddress(recipients[i].address)
+            .catch(() => {
+              value.toast(recipients[i].address + " is not a valid ENS.")
+              value.setLoading(false)
+            })
+        } else if (web3.utils.isAddress(recipients[i].address) == false) {
+          value.toast(
+            recipients[i].address + " is not a valid Ethereum address."
+          )
+          value.setLoading(false)
+          return
+        }
+
+        if (recipients[i].address === undefined) {
+          return
         }
         accounts_.push(recipients[i].address);
       }

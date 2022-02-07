@@ -51,6 +51,13 @@ export default function SendShares() {
 
       let accounts_ = [];
       for (let i = 0; i < members.length; i++) {
+        if (members[i].address.slice(-4) === ".eth") {
+          members[i].address = await web3.eth.ens
+            .getAddress(members[i].address)
+            .catch(() => {
+              value.toast(members[i].address + " is not a valid ENS.")
+            })
+        }
         accounts_.push(members[i].address);
       }
       console.log("Voters Array", accounts_);
@@ -129,7 +136,7 @@ export default function SendShares() {
                       member {index + 1}
                     </FormLabel>
                     <Input
-                      placeholder="0x address"
+                      placeholder="0x address or ENS"
                       {...field}
                       {...register(`members.${index}.address`, {
                         required: "You must assign share!",
