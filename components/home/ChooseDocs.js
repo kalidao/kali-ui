@@ -57,6 +57,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           <option value="1">Series LLC (Instant)</option>
           <option value="2">Custom Docs</option>
         </Select>
+        <br></br>
         {selectedType == 2 ? (
           <Input
             defaultValue={details["legal"]["docs"]}
