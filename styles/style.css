@@ -214,15 +214,6 @@ div.dao-type:hover {
   width: 70%;
 }
 
-#draft-button {
-  background-color: rgba(36, 0, 0, 0.2);
-  color: rgb(255, 255, 255) !important;
-  border-radius: 2em;
-  padding: 0.9em;
-  width: 100%;
-  height: auto;
-}
-
 #chain-picker {
   background-color: rgba(36, 0, 0, 0.2);
   color: rgb(255, 255, 255) !important;
@@ -236,7 +227,7 @@ div.dao-type:hover {
   background-color: rgba(36, 0, 0, 0.2);
   color: rgb(255, 255, 255) !important;
   border-radius: 2em;
-  padding: 0.3em;
+  padding: 0.6em;
   width: 100%;
   height: auto;
 }
