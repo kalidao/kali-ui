@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { routeHome } from "../../utils/router";
-import logo from "../../public/img/logo.png";
+import logo from "../../public/img/logo-minimal.png";
 import Image from "next/image";
 
 export default function Kali() {
@@ -21,8 +21,8 @@ export default function Kali() {
       <Image
         id="logo"
         src={logo.src}
-        width="200"
-        height="60"
+        width="80"
+        height="100"
         alt="Kali"
         onClick={home}
       />
