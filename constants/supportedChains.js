@@ -2,7 +2,7 @@ export const supportedChains = [
   {
     chainId: 1,
     hexChain: '0x1',
-    name: "ethereum",
+    name: "Ethereum",
     infura: "mainnet.infura.io",
     nativeCurrency: {
       name: 'Ether',
@@ -16,7 +16,7 @@ export const supportedChains = [
   {
     chainId: 42161,
     hexChain: '0xa4b1',
-    name: "arbitrum",
+    name: "Arbitrum",
     infura: "arbitrum-mainnet.infura.io",
     nativeCurrency: {
       name: "Arbitrum Ether",
@@ -30,7 +30,7 @@ export const supportedChains = [
   {
     chainId: 137,
     hexChain: '0x89',
-    name: "polygon",
+    name: "Polygon",
     infura: "polygon-mainnet.infura.io",
     nativeCurrency: {
       name: "Polygon",
@@ -44,7 +44,7 @@ export const supportedChains = [
   {
     chainId: 4,
     hexChain: '0x4',
-    name: "rinkeby (testnet)",
+    name: "Rinkeby (testnet)",
     infura: "rinkeby.infura.io",
     nativeCurrency: {
       name: 'Rinkeby Ether',
