@@ -40,8 +40,10 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     let seconds;
     if (unit == 0) {
       seconds = period * 60 * 60 * 24;
-    } else {
+    } else if (unit == 1) {
       seconds = period * 60 * 60;
+    } else {
+      seconds = period;
     }
     console.log(seconds);
     return seconds;
@@ -104,6 +106,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
                   >
                     <option value="0">days</option>
                     <option value="1">hours</option>
+                    <option value="2">min</option>
                   </Select>
                 )}
               />
@@ -148,5 +151,5 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         </Box>
       </VStack>
     </VStack>
-  );
+  )
 }
