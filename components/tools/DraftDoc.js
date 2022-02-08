@@ -56,7 +56,6 @@ function DraftDoc() {
           name: values.name,
           chain: values.chain,
           url: values.url,
-          address: values.address,
         })
         setDeUnaForm(true)
       case "wyoming-llc":
@@ -192,18 +191,10 @@ function DraftDoc() {
                       placeholder="Ethereum, Arbitrum, Polygon, etc."
                       {...register("chain")}
                     />
-                    <FormLabel mt={3} htmlFor="chain">
+                    <FormLabel mt={3} htmlFor="url">
                       Link to DAO Mission
                     </FormLabel>
-                    <Input id="chain" placeholder="URL" {...register("url")} />
-                    <FormLabel mt={3} htmlFor="chain">
-                      Designated Smart Contract for DAO
-                    </FormLabel>
-                    <Input
-                      id="chain"
-                      placeholder="0xKALI"
-                      {...register("address")}
-                    />
+                    <Input id="url" placeholder="URL" {...register("url")} />
                   </FormControl>
                 </>
               )}
@@ -255,7 +246,6 @@ function DraftDoc() {
                       name={delawareUna.name}
                       chain={delawareUna.chain}
                       url={delawareUna.url}
-                      address={delawareUna.address}
                     />
                   }
                   fileName="Delaware UNA Agreement"
