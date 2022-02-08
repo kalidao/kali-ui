@@ -40,13 +40,13 @@ export const newProposalHelper = [
     description: "adjust governance settings",
     component: <GovernanceSettings />,
     icon: FiSettings
-  },
+  },/*
   {
     title: "Update Extensions",
     description: "configure extension apps",
     component: <Extensions />,
     icon: BsPuzzle
-  },
+  },*/
   {
     title: "Remove Members",
     description: "kick for misconduct or security",
