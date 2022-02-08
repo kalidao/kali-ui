@@ -28,7 +28,7 @@ export default function ProposalModal(props) {
   const type = p["proposalType"];
   const details = viewProposalsHelper[type]["details"];
   var decoded = null;
-  if(type==2 || type==8) {
+  if(type==2 || type==9) {
     decoded = decodeBytes(p["payloads"], type, p, web3);
   }
   const amountsFormatted = formatAmounts(p["amounts"], type);
