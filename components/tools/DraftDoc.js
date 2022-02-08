@@ -55,6 +55,8 @@ function DraftDoc() {
         setDelawareUna({
           name: values.name,
           chain: values.chain,
+          url: values.url,
+          address: values.address,
         })
         setDeUnaForm(true)
       case "wyoming-llc":
@@ -77,8 +79,15 @@ function DraftDoc() {
   return (
     <>
       <Button
-        className="transparent-btn" onClick={onOpen}
-        display={{sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block'}}
+        className="transparent-btn"
+        onClick={onOpen}
+        display={{
+          sm: "none",
+          md: "block",
+          lg: "block",
+          xl: "lg",
+          "2xl": "block",
+        }}
         margin="0px 5px !important"
       >
         Draft
@@ -120,11 +129,7 @@ function DraftDoc() {
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC Name
                     </FormLabel>
-                    <Input
-                      id="name"
-                      placeholder="KALI"
-                      {...register("name")}
-                    />
+                    <Input id="name" placeholder="KALI" {...register("name")} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
@@ -142,11 +147,7 @@ function DraftDoc() {
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC NAME
                     </FormLabel>
-                    <Input
-                      id="name"
-                      placeholder="KALI"
-                      {...register("name")}
-                    />
+                    <Input id="name" placeholder="KALI" {...register("name")} />
                     <FormLabel mt={2} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
@@ -164,11 +165,7 @@ function DraftDoc() {
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC Name
                     </FormLabel>
-                    <Input
-                      id="name"
-                      placeholder="KALI"
-                      {...register("name")}
-                    />
+                    <Input id="name" placeholder="KALI" {...register("name")} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
@@ -186,11 +183,7 @@ function DraftDoc() {
                     <FormLabel mt={3} htmlFor="name">
                       UNA Name
                     </FormLabel>
-                    <Input
-                      id="name"
-                      placeholder="KALI"
-                      {...register("name")}
-                    />
+                    <Input id="name" placeholder="KALI" {...register("name")} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
@@ -198,6 +191,18 @@ function DraftDoc() {
                       id="chain"
                       placeholder="Ethereum, Arbitrum, Polygon, etc."
                       {...register("chain")}
+                    />
+                    <FormLabel mt={3} htmlFor="chain">
+                      Link to DAO Mission
+                    </FormLabel>
+                    <Input id="chain" placeholder="URL" {...register("url")} />
+                    <FormLabel mt={3} htmlFor="chain">
+                      Designated Smart Contract for DAO
+                    </FormLabel>
+                    <Input
+                      id="chain"
+                      placeholder="0xKALI"
+                      {...register("address")}
                     />
                   </FormControl>
                 </>
@@ -243,6 +248,27 @@ function DraftDoc() {
                   }
                 </PDFDownloadLink>
               )) ||
+              (deUnaForm && (
+                <PDFDownloadLink
+                  document={
+                    <DelawareUNAtemplate
+                      name={delawareUna.name}
+                      chain={delawareUna.chain}
+                      url={delawareUna.url}
+                      address={delawareUna.address}
+                    />
+                  }
+                  fileName="Delaware UNA Agreement"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <Button mr={3}>Loading Document...</Button>
+                    ) : (
+                      <Button mr={3}>Download</Button>
+                    )
+                  }
+                </PDFDownloadLink>
+              )) ||
               (wyLlcForm && (
                 <PDFDownloadLink
                   document={
@@ -261,32 +287,18 @@ function DraftDoc() {
                     )
                   }
                 </PDFDownloadLink>
-              )) ||
-              (deUnaForm && (
-                <PDFDownloadLink
-                  document={
-                    <DelawareUNAtemplate
-                      name={delawareUna.name}
-                      chain={delawareUna.chain}
-                    />
-                  }
-                  fileName="Delaware UNA Agreement"
-                >
-                  {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
-                  }
-                </PDFDownloadLink>
               ))}
             {}
             {}
             <Button type="submit" form="contact-form" mr={3}>
               Draft
             </Button>
-            <Button variant="outline" onClick={() => {onClose(), reset(), setSelection("")}}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                onClose(), reset(), setSelection("")
+              }}
+            >
               Cancel
             </Button>
           </DrawerFooter>
