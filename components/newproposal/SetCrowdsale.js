@@ -76,7 +76,7 @@ export default function SetCrowdsale() {
             [payload_]
           )
           .send({ from: account });
-        value.setVisibleView(1);
+        value.setVisibleView(2);
       } catch (e) {
         value.toast(e);
         value.setLoading(false);

@@ -84,7 +84,7 @@ export default function SendShares() {
         let result = await instance.methods
           .propose(proposalType_, description_, accounts_, amounts_, payloads_)
           .send({ from: account });
-        value.setVisibleView(1);
+        value.setVisibleView(2);
       } catch (e) {
         value.toast(e);
         value.setLoading(false);

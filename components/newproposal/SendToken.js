@@ -84,7 +84,7 @@ export default function SendToken() {
         amounts_.push(toDecimals(value_, 18))
       }
       console.log("Amounts Array", amounts_);
-      
+
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
         let tokenIndex = selectedOptions[i];
@@ -116,7 +116,7 @@ export default function SendToken() {
         let result = await instance.methods
           .propose(proposalType_, description_, accounts_, amounts_, payloads_)
           .send({ from: account });
-        value.setVisibleView(1);
+        value.setVisibleView(2);
       } catch (e) {
         value.toast(e);
         value.setLoading(false);

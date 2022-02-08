@@ -46,7 +46,7 @@ export default function GovVotingSettings() {
         let result = await instance.methods
           .propose(proposalType_, description_, account_, amount_, payload_)
           .send({ from: account });
-        value.setVisibleView(1);
+        value.setVisibleView(2);
       } catch (e) {
         value.toast(e);
         value.setLoading(false);
