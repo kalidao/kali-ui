@@ -146,7 +146,7 @@ export default function ChooseMembers(props) {
                     name={`founders.${index}.share`}
                     min="1"
                     render={({ field: { ref, ...rest } }) => (
-                      <NumberInput min="1" max="100" {...rest}>
+                      <NumberInput min="1" max="1000000000" {...rest}>
                         <NumberInputField ref={ref} name={rest.name} />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
