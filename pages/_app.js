@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (chainId != null) {
-      isCorrectChain();
+      //isCorrectChain();
     }
   }, [chainId]);
 
