@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { HStack, Checkbox, Text, VStack } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import InfoTip from "../elements/InfoTip";
+import DateSelect from "../elements/DateSelect";
 
 function ChooseCrowdsale({ details, setDetails }) {
   const [crowdsale, setCrowdsale] = useState(
