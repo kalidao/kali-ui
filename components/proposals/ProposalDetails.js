@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import AppContext from "../../context/AppContext";
 import ProposalDetails from "./ProposalDetails";
-import { chakra, Input, Text, Textarea, Divider } from "@chakra-ui/react";
+import { chakra, Input, Text, Textarea, Divider, Box, Heading } from "@chakra-ui/react";
 import { viewProposalsHelper } from "../../constants/viewProposalsHelper";
-import { decodeBytes, formatAmounts } from "../../utils/formatters";
+import { decodeBytes, formatAmounts, formatContract } from "../../utils/formatters";
 
 const ProposalLabel = (props) => {
   return (
@@ -29,9 +29,9 @@ export default function ProposalModal(props) {
   const details = viewProposalsHelper[type]["details"];
   var decoded = null;
   if(type==2 || type==9) {
-    decoded = decodeBytes(p["payloads"], type, p, web3, chainId);
+    decoded = decodeBytes(type, p, web3, chainId);
   }
-  const amountsFormatted = formatAmounts(p["amounts"], type);
+  const amountsFormatted = formatAmounts(type, p);
 
   return (
     <>
@@ -43,8 +43,11 @@ export default function ProposalModal(props) {
       <ProposalDivider />
 
       {p["amounts"].map((item, index) => (
-        <div key={`item-${index}`}>
+        <>
+        <Box key={`item-${index}`} background="#eeeeee" p={5} mb={5}>
+          <Text>Transaction {index + 1}</Text>
           {details["amounts"] == null ? null : (
+            p["amounts"][index] == 0 ? null : (
             <div key={`amounts-${index}`}>
               <ProposalLabel>
                 {details["amounts"]}
@@ -52,18 +55,22 @@ export default function ProposalModal(props) {
               <Text>{amountsFormatted[index]}</Text>
               <ProposalDivider />
             </div>
+          )
           )}
 
           {details["accounts"] == null ? null : (
             <div key={`accounts-${index}`}>
               <ProposalLabel>
-                {details["accounts"]}
+                {p["payloads"][index] == "0x" ? "Recipient" : details["accounts"]}
               </ProposalLabel>
-              <Text>{p["accounts"][index]}</Text>
+              <Text>{p["payloads"][index] == "0x" ? p["accounts"][index] :
+                <>{formatContract(type, p, chainId)} ({p["accounts"][index]})</>
+              }
+              </Text>
               <ProposalDivider />
             </div>
           )}
-          {decoded != null ?
+          {decoded != null && decoded[index] != null ?
             <div key={`decoded-${index}`}>
             <ProposalLabel>Details:</ProposalLabel>
             <ul>
@@ -83,7 +90,8 @@ export default function ProposalModal(props) {
             </div>
             : null
           )}
-        </div>
+        </Box>
+        </>
       ))}
     </>
   );

@@ -62,7 +62,8 @@ export function toDecimals(amount, decimals) {
 }
 
 export function fromDecimals(amount, decimals) {
-  return amount / scientificNotation[decimals];
+  console.log(amount, "amounttt")
+  return parseInt(amount) / scientificNotation[decimals];
 }
 
 export function unixToDate(unix) {
@@ -92,7 +93,7 @@ export function unixToDate(unix) {
   return time;
 }
 
-export function decodeBytes(payloads, type, p, web3, chainId) {
+export function decodeBytes(type, p, web3, chainId) {
   let paramArray = {
     crowdsale: {
       decode: ["uint256", "address", "uint8", "uint96", "uint32"],
@@ -123,6 +124,8 @@ export function decodeBytes(payloads, type, p, web3, chainId) {
   };
 
   let array = [];
+  let contracts = p["accounts"];
+  let payloads = p["payloads"];
 
   for (var k = 0; k < payloads.length; k++) {
     let decoded;
@@ -132,7 +135,7 @@ export function decodeBytes(payloads, type, p, web3, chainId) {
     var item = [];
 
     if(bytes == "0x") {
-      item = ["null: null"]
+      item = null
     } else {
 
       if (type == 9) {
@@ -166,6 +169,11 @@ export function decodeBytes(payloads, type, p, web3, chainId) {
                     let decimals = getDecimals(token, chainId);
                     formatted = fromDecimals(parseInt(formatted), decimals)
                     console.log("decoded[i]", decoded[i])
+                  } else if(type == 2 && decodeType == "erc20" && params[j] == "uint256") {
+                    token = contracts[k];
+                    let decimals = getDecimals(token, chainId);
+                    formatted = fromDecimals(parseInt(formatted), decimals)
+                    console.log("formatted "+[i])
                   }
                 }
 
@@ -182,8 +190,41 @@ export function decodeBytes(payloads, type, p, web3, chainId) {
   return array;
 }
 
-export function formatAmounts(amounts, type) {
+export function getTokenName(address, chainId) {
+  let token;
+  for (const [key, value] of Object.entries(tokens[chainId])) {
+    if(tokens[chainId][key]["address"].toLowerCase() == address.toLowerCase()) {
+      token = key;
+    }
+  }
+  return token;
+}
+
+export function formatContract(type, p, chainId) {
+  const formatted = [];
+
+  let amounts = p["amounts"];
+  let accounts = p["accounts"];
+  let payloads = p["payloads"];
+
+  for (var i = 0; i < accounts.length; i++) {
+    let contract;
+    if(type == 2 && payloads[i] != "0x") {
+      contract = getTokenName(accounts[i], chainId);
+    } else {
+      contract = null;
+    }
+    formatted.push(contract);
+  }
+  return formatted;
+}
+
+export function formatAmounts(type, p) {
   const formattedAmounts = [];
+
+  let amounts = p["amounts"];
+  let accounts = p["accounts"];
+  let payloads = p["payloads"];
 
   for (var i = 0; i < amounts.length; i++) {
     let amount = amounts[i];
@@ -195,7 +236,7 @@ export function formatAmounts(amounts, type) {
     }
     if (type == 2) {
       // contract integration
-      formattedAmount = amount;
+      formattedAmount = fromDecimals(amount, 18) + " ETH"; // this will always be ETH value
     }
     if (type == 3) {
       // voting period
