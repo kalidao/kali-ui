@@ -92,7 +92,7 @@ export function unixToDate(unix) {
   return time;
 }
 
-export function decodeBytes(payloads, type, p, web3) {
+export function decodeBytes(payloads, type, p, web3, chainId) {
   let paramArray = {
     crowdsale: {
       decode: ["uint256", "address", "uint8", "uint96", "uint32"],
@@ -131,44 +131,49 @@ export function decodeBytes(payloads, type, p, web3) {
     let bytecode;
     var item = [];
 
-    if (type == 8) {
-      decodeType = p["extensions"][k];
-      bytecode = bytes;
-    }
-    if (type == 2) {
-      decodeType = "erc20";
-      bytecode = "0x" + bytes.replace("0xa9059cbb", "");
-    }
-    const params = paramArray[decodeType]["decode"];
-    const labels = paramArray[decodeType]["labels"];
-    const types = paramArray[decodeType]["types"];
+    if(bytes == "0x") {
+      item = ["null: null"]
+    } else {
 
-    if (params != null) {
-      decoded = web3.eth.abi.decodeParameters(params, bytecode);
-      var i = 0;
-      for (const [k, v] of Object.entries(decoded)) {
-        if (labels[i] != undefined) {
-          var formatted = v;
-          if (types[i] == "date") {
-            formatted = unixToDate(v);
-          }
-          if(types[i] == "decimals") {
-            let token;
-            if(type == 8) {
-              console.log("types", types)
-              for(var j=0; j < types.length; j++) {
-                if(types[j] == 'token') {
-                  token = decoded[j];
-                  let decimals = getDecimals(token);
-                  formatted = fromDecimals(parseInt(formatted), decimals)
-                  console.log("decoded[i]", decoded[i])
-                }
-              }
+      if (type == 9) {
+        decodeType = p["extensions"][k];
+        bytecode = bytes;
+      }
+      if (type == 2) {
+        decodeType = "erc20";
+        bytecode = "0x" + bytes.replace("0xa9059cbb", "");
+      }
+      const params = paramArray[decodeType]["decode"];
+      const labels = paramArray[decodeType]["labels"];
+      const types = paramArray[decodeType]["types"];
+
+      if (params != null) {
+        decoded = web3.eth.abi.decodeParameters(params, bytecode);
+        var i = 0;
+        for (const [k, v] of Object.entries(decoded)) {
+          if (labels[i] != undefined) {
+            var formatted = v;
+            if (types[i] == "date") {
+              formatted = unixToDate(v);
             }
+            if(types[i] == "decimals") {
+              let token;
+
+                console.log("types", types)
+                for(var j=0; j < types.length; j++) {
+                  if(type == 9 && types[j] == 'token') {
+                    token = decoded[j];
+                    let decimals = getDecimals(token, chainId);
+                    formatted = fromDecimals(parseInt(formatted), decimals)
+                    console.log("decoded[i]", decoded[i])
+                  }
+                }
+
+            }
+            item.push(labels[i] + ": " + formatted);
           }
-          item.push(labels[i] + ": " + formatted);
+          i++;
         }
-        i++;
       }
     }
     array.push(item);
@@ -242,11 +247,11 @@ export function getNetworkName(chainId) {
   return networkName;
 }
 
-export function getDecimals(token) {
+export function getDecimals(token, chainId) {
   let decimals;
-  for(var i=0; i < tokens.length; i++) {
-    if(tokens[i]["address"].toLowerCase() == token.toLowerCase()) {
-      decimals = tokens[i]["decimals"];
+  for (const [key, value] of Object.entries(tokens[chainId])) {
+    if(tokens[chainId][key]["address"].toLowerCase() == token.toLowerCase()) {
+      decimals = tokens[chainId][key]["decimals"];
     }
   }
   return decimals;

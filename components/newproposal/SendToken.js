@@ -24,7 +24,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 export default function SendToken() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao } = value.state;
+  const { web3, loading, account, abi, address, dao, chainId } = value.state;
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleSelect = (select) => {
@@ -56,6 +56,7 @@ export default function SendToken() {
     //event.preventDefault();
     value.setLoading(true);
     console.log("event", event);
+
     try {
       var { description_, recipients } = values; // this must contain any inputs from custom forms
       console.log("values", values);
@@ -63,6 +64,7 @@ export default function SendToken() {
       const proposalType_ = 2;
 
       let amounts_ = [];
+
       for (let i = 0; i < recipients.length; i++) {
         // voters ENS check
         if (recipients[i].address.slice(-4) === ".eth") {
@@ -78,34 +80,47 @@ export default function SendToken() {
         if (recipients[i].address === undefined) {
           return
         }
-
         let element = document.getElementById(`recipients.${i}.share`)
-        let value_ = element.value
-        amounts_.push(toDecimals(value_, 18))
+        let value_ = element.value;
+
+        if(selectedOptions[i] == "ETH") {
+          amounts_.push(toDecimals(value_, 18))
+        } else {
+          amounts_.push(0);
+        }
+
       }
       console.log("Amounts Array", amounts_);
 
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        let tokenIndex = selectedOptions[i];
-        let address_ = tokens[tokenIndex]["address"];
+        let address_;
+        if(selectedOptions[i] == "ETH") {
+          address_ = recipients[i].address;
+        } else {
+          address_ = tokens[chainId][selectedOptions[i]]["address"];
+        }
         accounts_.push(address_);
       }
       console.log("Tokens Array", accounts_);
 
       let payloads_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        const ierc20 = require("../../abi/ERC20.json");
-        let tokenIndex = selectedOptions[i];
-        let address_ = tokens[tokenIndex]["address"];
-        let decimals = tokens[tokenIndex]["decimals"];
-        let amt = amounts_[i].toString();
-        console.log("amt", amt);
-        const tokenContract = new web3.eth.Contract(ierc20, address_);
-        var payload_ = tokenContract.methods
-          .transfer(recipients[i].address, amt)
-          .encodeABI();
-        payloads_.push(payload_);
+        if(selectedOptions[i] == "ETH") {
+          payloads_.push("0x");
+        } else {
+          const ierc20 = require("../../abi/ERC20.json");
+          let address_ = tokens[chainId][selectedOptions[i]]["address"];
+          let decimals = tokens[chainId][selectedOptions[i]]["decimals"];
+          let element = document.getElementById(`recipients.${i}.share`)
+          let value_ = element.value;
+
+          const tokenContract = new web3.eth.Contract(ierc20, address_);
+          var payload_ = tokenContract.methods
+            .transfer(recipients[i].address, toDecimals(value_, tokens[chainId][selectedOptions[i]]["decimals"]))
+            .encodeABI();
+          payloads_.push(payload_);
+        }
       }
 
       console.log(payloads_);
@@ -188,9 +203,10 @@ export default function SendToken() {
                     </FormLabel>
                     <Select id={index} onChange={handleSelect}>
                       <option>Select a token</option>
-                      {dao["balances"].map((b, index) => (
-                        <option key={index} value={index}>
-                          {b["token"]} (balance: {fromDecimals(b["balance"], b["decimals"])})
+                      <option value="ETH">ETH</option>
+                      {Object.keys(tokens[chainId]).map((key, value) => (
+                        <option key={key} value={key}>
+                          {key}
                         </option>
                       ))}
                     </Select>
@@ -207,7 +223,7 @@ export default function SendToken() {
                       Amount
                     </FormLabel>
                     <NumInputField
-                      min="1"
+                      min="0.000000000000000001"
                       defaultValue="1"
                       id={`recipients.${index}.share`}
                     />

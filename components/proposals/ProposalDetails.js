@@ -23,13 +23,13 @@ const ProposalDivider = (props) => {
 
 export default function ProposalModal(props) {
   const value = useContext(AppContext);
-  const { web3, loading } = value.state;
+  const { web3, loading, chainId } = value.state;
   const p = props["p"];
   const type = p["proposalType"];
   const details = viewProposalsHelper[type]["details"];
   var decoded = null;
   if(type==2 || type==9) {
-    decoded = decodeBytes(p["payloads"], type, p, web3);
+    decoded = decodeBytes(p["payloads"], type, p, web3, chainId);
   }
   const amountsFormatted = formatAmounts(p["amounts"], type);
 
