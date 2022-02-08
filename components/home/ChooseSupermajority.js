@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import InfoTip from "../elements/InfoTip";
-import DateSelect from "../elements/DateSelect";
 
 function ChooseSupermajority({ details, setDetails }) {
   const [supermajority, setSupermajority] = useState(

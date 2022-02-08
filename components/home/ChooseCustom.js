@@ -32,7 +32,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     defaultValues: {
       votingPeriod: details["governance"]["votingPeriod"],
       votingPeriodUnit: 0,
-      paused: details["governance"]["paused"],
     },
   });
 
@@ -125,7 +124,13 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             control={control}
             name="paused"
             render={({ field }) => (
-              <Switch id="paused" size="md" colorScheme="red" {...field} />
+              <Switch
+                defaultChecked={Boolean(details["governance"]["paused"])}
+                id="paused"
+                size="md"
+                colorScheme="red"
+                {...field}
+              />
             )}
           />
         </HStack>
@@ -151,5 +156,5 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         </Box>
       </VStack>
     </VStack>
-  )
+  );
 }
