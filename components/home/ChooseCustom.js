@@ -43,7 +43,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     } else if (unit == 1) {
       seconds = period * 60 * 60;
     } else {
-      seconds = period;
+      seconds = period * 60;
     }
     console.log(seconds);
     return seconds;
