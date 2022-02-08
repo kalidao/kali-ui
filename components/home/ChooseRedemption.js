@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { HStack, Checkbox, VStack, Text } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import InfoTip from "../elements/InfoTip";
+import DateSelect from "../elements/DateSelect";
 
 function ChooseRedemption({ details, setDetails }) {
   const [redemption, setRedemption] = useState(
