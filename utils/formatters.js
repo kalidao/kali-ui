@@ -2,6 +2,7 @@
 import { scientificNotation } from "../constants/numbers";
 import { supportedChains } from "../constants/supportedChains";
 import { tokens } from "../constants/tokens";
+import Big from 'big.js';
 
 export function convertVotingPeriod(seconds) {
   let time;
@@ -47,22 +48,48 @@ export function votingPeriodToSeconds(period, type) {
 }
 
 export function toDecimals(amount, decimals) {
+
+  var number = "";
+
+  let big = Big((amount * scientificNotation[decimals]).toString())
+  console.log("big", big);
+
   // this methodology is necessary to avoid javascript autoconverting large numbers to scientific notation
-  var number = 0;
-  if(amount < 1) {
-    number = amount * scientificNotation[decimals];
-  } else {
-    number = amount.toString();
-    for(var i=0; i < decimals; i++) {
+
+  let coeff = big["c"];
+  var digits = big["e"];
+  var sign = 1;
+  if(digits < 1) {
+    digits = digits * -1;
+    sign = -1;
+  }
+  let remaining = digits - coeff.length + 1;
+  console.log("remaining", remaining);
+
+  if(sign == 1) {
+    for(let i=0; i < coeff.length; i++) {
+      number += coeff[i].toString();
+    }
+    for(let i=0; i < remaining; i++) {
       number += "0";
     }
+  } else if(sign == -1) {
+    number += "0.";
+    for(let i=0; i < remaining.length; i++) {
+      number += "0";
+    }
+    for(let i=0; i < coeff.length; i++) {
+      number += coeff[i].toString();
+    }
+  } else {
+    alert("error")
   }
 
-  return number;
+  console.log("bignum", number)
+  return parseInt(number); // if between 0 and 1, will return 0
 }
 
 export function fromDecimals(amount, decimals) {
-  console.log(amount, "amounttt")
   return parseInt(amount) / scientificNotation[decimals];
 }
 
