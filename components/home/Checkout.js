@@ -155,10 +155,10 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      listId = presets[1]["extensions"]["listId"];
-      purchaseToken = presets[1]["extensions"]["purchaseToken"];
-      purchaseMultiplier = presets[1]["extensions"]["purchaseMultiplier"];
-      purchaseLimit = presets[1]["extensions"]["purchaseLimit"];
+      purchaseToken = presets[1]["extensions"]["crowdsale"]["purchaseToken"];
+      purchaseMultiplier =
+        presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
+      purchaseLimit = presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
 
       console.log(
         "crowdsale param",
