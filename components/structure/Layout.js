@@ -12,36 +12,36 @@ export default function Layout(props) {
 
   return (
     <>
-    {loading == true ? <LoadingIndicator /> : ""}
-    <Box id="deployer-container" color="kali.900">
-      <Head>
-        <title>KaliDAO</title>
-        <meta
-          property="og:title"
-          content="DAO Launcher with Legal Benefits"
-          key="title"
+      {loading == true ? <LoadingIndicator /> : ""}
+      <Box id="deployer-container" color="kali.900" className="gradient">
+        <Head>
+          <title>KaliDAO</title>
+          <meta
+            property="og:title"
+            content="DAO Launcher with Legal Benefits"
+            key="title"
+          />
+        </Head>
+        <div id="gradient1" />
+        <div id="gradient2" />
+        <Nav
+          style={{
+            overflowX: "hidden !important",
+          }}
         />
-      </Head>
-      <div id="gradient1" />
-      <div id="gradient2" />
-      <Nav style={{
-        overflowX: "hidden !important"
-      }} />
-      <Container
-        minH="80vh"
-        maxW="container.lg"
-        alignItems="center"
-        justifyContent="center"
-        style={{
-          overflowX: "hidden !important"
-        }}
-      >
-        <Box minH="70vh">
-          {props.children}
-        </Box>
-      <Footer />
-      </Container>
-    </Box>
+        <Container
+          minH="80vh"
+          maxW="container.lg"
+          alignItems="center"
+          justifyContent="center"
+          style={{
+            overflowX: "hidden !important",
+          }}
+        >
+          <Box minH="70vh">{props.children}</Box>
+          <Footer />
+        </Container>
+      </Box>
     </>
   );
 }
