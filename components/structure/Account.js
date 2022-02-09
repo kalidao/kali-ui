@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Image, Text } from "@chakra-ui/react";
 import { truncateAddress } from "../../utils/formatters";
+import useENS from "../hooks/useENS";
 
 export default function Account(props) {
   const value = useContext(AppContext);
   const { account } = value.state;
+  const { ensName, ensAvatar } = useENS(account);
 
   const copy = async () => {
     await navigator.clipboard.writeText(account);
@@ -14,7 +16,17 @@ export default function Account(props) {
 
   return (
     <Button variant="link" onClick={value.connect} border="none">
-      {account == null ? "connect" : truncateAddress(account)}
+      {ensAvatar && (
+        <Image
+          src={ensAvatar}
+          alt={account}
+          rounded="full"
+          height={25}
+          width={25}
+          marginRight={2}
+        />
+      )}
+      {account == null ? "connect" : ensName || truncateAddress(account)}
     </Button>
   );
 }

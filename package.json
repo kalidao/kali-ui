@@ -11,6 +11,7 @@
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@ethersproject/providers": "^5.5.3",
     "@fontsource/open-sans": "^4.5.2",
     "@fontsource/poppins": "^4.5.0",
     "@react-pdf/renderer": "^2.1.0",
