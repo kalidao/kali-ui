@@ -34,7 +34,7 @@ export const presets = [
         purchaseMultiplier: 10,
         purchaseLimit: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
         saleEnds: 30, // 30 days from today
-        listId: 0, // CHANGE THIS FOR LIVE DEPLOYMENT! THIS MEANS "OPEN" RIGHT NOW
+        listId: 1,
       },
       redemption: {
         redemptionStart: 30, // 30 days from today

@@ -32,7 +32,7 @@ export default function Checkout({ details, daoNames }) {
   const [deployable, setDeployable] = useState(false);
 
   const isNameUnique = (name) => {
-    if(daoNames != null) {
+    if (daoNames != null) {
       if (name != null && daoNames.includes(name) === true) {
         value.toast("Name not unique. Choose another.");
         return false;
@@ -101,7 +101,7 @@ export default function Checkout({ details, daoNames }) {
 
     const { daoName, symbol } = details["identity"];
 
-    if(isNameUnique(daoName) == false) {
+    if (isNameUnique(daoName) == false) {
       value.setLoading(false);
       return;
     }
@@ -154,10 +154,12 @@ export default function Checkout({ details, daoNames }) {
         saleEnds,
         documentation,
       } = crowdsale;
-      listId = 0;
-      purchaseToken = "0x000000000000000000000000000000000000dEaD";
-      purchaseMultiplier = 10;
-      purchaseLimit = "1000000000000000000000";
+
+      listId = presets[1]["extensions"]["listId"];
+      purchaseToken = presets[1]["extensions"]["purchaseToken"];
+      purchaseMultiplier = presets[1]["extensions"]["purchaseMultiplier"];
+      purchaseLimit = presets[1]["extensions"]["purchaseLimit"];
+
       console.log(
         "crowdsale param",
         listId,
