@@ -86,7 +86,7 @@ export function toDecimals(amount, decimals) {
   }
 
   console.log("bignum", number)
-  return parseInt(number); // if between 0 and 1, will return 0
+  return number; // if between 0 and 1, will return 0
 }
 
 export function fromDecimals(amount, decimals) {

@@ -73,7 +73,7 @@ export default function ChooseMembers(props) {
       } else if (web3.utils.isAddress(founders[i].address) == false) {
         value.toast(founders[i].address + " is not a valid Ethereum address.");
         return;
-      } 
+      }
 
       if (founders[i].address === undefined) {
         return;
