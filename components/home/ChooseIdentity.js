@@ -23,7 +23,6 @@ import InfoTip from "../elements/InfoTip";
 export default function ChooseIdentity(props) {
   const value = useContext(AppContext);
   const { web3, chainId, account } = value.state;
-  const [daoNames, setDaoNames] = useState(null);
 
   const {
     handleSubmit,
@@ -46,7 +45,7 @@ export default function ChooseIdentity(props) {
     try {
       let factory = factoryInstance(addresses[chainId]["factory"], web3);
       let daoNames_ = await fetchDaoNames(factory, web3, chainId);
-      setDaoNames(daoNames_);
+      props.setDaoNames(daoNames_);
       console.log(daoNames_);
     } catch (e) {
       value.toast(e);
@@ -55,13 +54,15 @@ export default function ChooseIdentity(props) {
 
   const isNameUnique = (name) => {
     console.log(errors.name);
-    if(account == null || daoNames == null) {
+    if(account == null) {
       value.toast("Please connect your account.");
       return false;
     } else {
-      if (name != null && daoNames.includes(name) === true) {
-        value.toast("Name not unique. Choose another.");
-        return false;
+      if(props.daoNames != null) {
+        if (name != null && props.daoNames.includes(name) === true) {
+          value.toast("Name not unique. Choose another.");
+          return false;
+        }
       }
     }
   };

@@ -25,11 +25,20 @@ import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
 
-export default function Checkout({ details }) {
+export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
+
+  const isNameUnique = (name) => {
+    if(daoNames != null) {
+      if (name != null && daoNames.includes(name) === true) {
+        value.toast("Name not unique. Choose another.");
+        return false;
+      }
+    }
+  };
 
   const handleDisclaimer = (num) => {
     console.log(num);
@@ -91,6 +100,11 @@ export default function Checkout({ details }) {
     }
 
     const { daoName, symbol } = details["identity"];
+
+    if(isNameUnique(daoName) == false) {
+      value.setLoading(false);
+      return;
+    }
 
     const { votingPeriod, paused, quorum, supermajority } =
       details["governance"];

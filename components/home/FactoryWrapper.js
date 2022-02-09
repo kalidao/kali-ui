@@ -53,6 +53,8 @@ export default function FactoryWrapper() {
   });
   console.log("details", details);
 
+  const [daoNames, setDaoNames] = useState(null);
+
   const handleNext = () => {
     setVisible(visible + 1);
   };
@@ -75,6 +77,8 @@ export default function FactoryWrapper() {
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
+      daoNames={daoNames}
+      setDaoNames={setDaoNames}
     />,
     <ChooseType
       key="2"
@@ -105,6 +109,7 @@ export default function FactoryWrapper() {
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
+      daoNames={daoNames}
     />,
   ];
 
