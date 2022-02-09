@@ -6,9 +6,8 @@ import Image from "next/image";
 
 export default function HomeTile(props) {
   return (
-    <HStack spacing={270} p={270} alignItems="center" id="landing-tile">
-      
-      <VStack id="landing-tile-right">
+    <HStack id="landing-tile">
+      <VStack>
         <Text fontSize="xl">
           <b>Launch DAOs</b> with Legal Benefits in Seconds
         </Text>

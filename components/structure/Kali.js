@@ -11,7 +11,7 @@ export default function Kali() {
   return (
     <Box
       display={{
-        sm: "none",
+        sm: "block",
         md: "block",
         lg: "block",
         xl: "block",

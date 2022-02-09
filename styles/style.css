@@ -183,11 +183,11 @@ div.dao-type:hover {
   margin: 1px;
 }
 
-#landing-tile-left {
-  margin-right: 100px;
-}
-
-#landing-tile-right {
+#landing-tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 13rem;
 }
 
 #not-connected {
