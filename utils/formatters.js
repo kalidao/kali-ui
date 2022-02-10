@@ -91,11 +91,13 @@ export function toDecimals(amount, decimals) {
 
 export function fromDecimals(amount, decimals) {
   var number = "";
+  let numerator = Big(amount);
+  let demoninator = Big(scientificNotation[decimals]);
 
-  let big = Big(amount) / Big(scientificNotation[decimals]);
+  let big = numerator.div(demoninator);
   console.log("big", big);
 
-  return big; // if between 0 and 1, will return 0
+  return big.toString(); // if between 0 and 1, will return 0
 }
 
 export function unixToDate(unix) {
