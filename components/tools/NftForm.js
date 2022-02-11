@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import kaliNFT from "../../eth/kaliNFT.js";
 import { Button } from "@chakra-ui/react";
-import FlexGradient from "../elements/FlexGradient.js";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../home/form/FormikControl.js";
@@ -99,7 +98,7 @@ function NftForm(props) {
   });
 
   return (
-    <FlexGradient>
+    <>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -136,7 +135,7 @@ function NftForm(props) {
           </Form>
         )}
       </Formik>
-    </FlexGradient>
+    </>
   );
 }
 

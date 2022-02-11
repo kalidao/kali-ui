@@ -1,90 +1,140 @@
-import React, { useState } from "react";
-import kaliToken from "../../eth/kaliToken";
-import { Button } from "@chakra-ui/react";
-import FlexGradient from "../elements/FlexGradient";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import FormikControl from "../home/form/FormikControl.js";
+import React, { useContext } from "react"
+import AppContext from "../../context/AppContext"
+import kaliToken from "../../eth/kaliToken"
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  VStack,
+  HStack
+} from "@chakra-ui/react"
+import { useForm } from "react-hook-form"
+import InfoTip from "../elements/InfoTip"
 
-function TokenForm(props) {
-  const value = useContext(AppContext);
-  const { web3, account, loading, dao } = value.state;
+export default function TokenForm() {
+  const value = useContext(AppContext)
+  // const { web3, account, loading, dao } = value.state
 
-  const handleNftSubmit = async (values) => {
-    toggleLoading();
-    console.log("Token creation Form: ", values);
-    console.log("DAO Address: ", dao);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      // votingPeriod: details["governance"]["votingPeriod"],
+      // votingPeriodUnit: 0,
+    },
+  })
 
-    const { name, symbol, supply } = values;
+  // const handleNftSubmit = async (values) => {
+  //   toggleLoading()
+  //   console.log("Token creation Form: ", values)
+  //   console.log("DAO Address: ", dao)
 
-    try {
-      let result = await kaliToken.methods
-        .deployFixedERC20(name, symbol, 18, dao, web3.utils.toWei(supply))
-        .send({ from: account });
+  //   const { name, symbol, supply } = values
 
-      console.log("This is the result", result);
-      // let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+  //   try {
+  //     let result = await kaliToken.methods
+  //       .deployFixedERC20(name, symbol, 18, dao, web3.utils.toWei(supply))
+  //       .send({ from: account })
 
-      // Router.push({
-      //   pathname: "/daos/[dao]",
-      //   query: { dao: dao },
-      // })
-    } catch (e) {
-      alert(e);
-      console.log(e);
-    }
+  //     console.log("This is the result", result)
+  //     // let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
 
-    toggleLoading();
-  };
+  //     // Router.push({
+  //     //   pathname: "/daos/[dao]",
+  //     //   query: { dao: dao },
+  //     // })
+  //   } catch (e) {
+  //     alert(e)
+  //     console.log(e)
+  //   }
 
-  const initialValues = {
-    name: "",
-    symbol: "",
-    supply: 0,
-  };
+  //   toggleLoading()
+  // }
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Required"),
-    symbol: Yup.string().required("Required"),
-    supply: Yup.number().required("Required"),
-  });
+  const submit = (values) => {
+    const { name, symbol } = values
+
+    console.log("hi")
+  }
 
   return (
-    <FlexGradient>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleNftSubmit}
-      >
-        {() => (
-          <Form>
-            <FormikControl
-              control="input"
-              type="text"
-              label="Name"
-              name="name"
-              placeholder="Name of token"
-            />
-            <FormikControl
-              control="input"
-              type="text"
-              label="Symbol"
-              name="symbol"
-              placeholder="Symbol of token"
-            />
-            <FormikControl
-              control="number-input"
-              label="Supply"
-              name="supply"
-              defaultValue={0}
-            />
-            <br />
-            <Button type="submit">Summon</Button>
-          </Form>
-        )}
-      </Formik>
-    </FlexGradient>
-  );
-}
+    <VStack as="form" onSubmit={handleSubmit(submit)}>
+      <Heading as="h1">Mint an ERC20 token</Heading>
+      {/* <FormControl>
+        <FormLabel>
+          Name
+        </FormLabel>
+        <HStack>
 
-export default TokenForm;
+        <Input></Input>
+        <InfoTip></InfoTip>
+        </HStack>
+      </FormControl> */}
+      <FormControl>
+        <FormLabel htmlFor="name" fontSize="m" fontWeight="500">
+          Name
+        </FormLabel>
+        <HStack>
+          <Input
+            name="name"
+            {...register("name", {
+              required: true,
+            })}
+          />
+          <InfoTip
+            hasArrow
+            label={
+              "Give your DAO a name, which will also be the name of the DAO token"
+            }
+          />
+        </HStack>
+      </FormControl>
+      <FormControl>
+        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
+          Symbol
+        </FormLabel>
+        <HStack>
+          <Input
+            name="symbol"
+            {...register("symbol", {
+              required: "Symbol is required.",
+              maxLength: {
+                value: 12,
+                message: "Symbol shouldn't be greater than 12 characters.",
+              },
+            })}
+          />
+          <InfoTip hasArrow label={"Symbol of DAO token"} />
+        </HStack>
+        {errors.symbol && value.toast(errors.symbol.message)}
+      </FormControl>
+      {/* <FormControl>
+        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
+          Symbol
+        </FormLabel>
+        <HStack>
+          <Input
+            name="symbol"
+            {...register("symbol", {
+              required: "Symbol is required.",
+              maxLength: {
+                value: 12,
+                message: "Symbol shouldn't be greater than 12 characters.",
+              },
+            })}
+          />
+          <InfoTip hasArrow label={"Symbol of DAO token"} />
+        </HStack>
+        {errors.symbol && value.toast(errors.symbol.message)}
+      </FormControl> */}
+      <br></br>
+      <Button className="transparent-btn" type="submit">
+        Mint »
+      </Button>
+    </VStack>
+  )
+}
