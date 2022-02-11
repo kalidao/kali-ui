@@ -391,7 +391,7 @@ export default function Checkout({ details, daoNames }) {
         <Checkbox onChange={() => handleDisclaimer(1)}>
           I agree to the{" "}
           <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
-            Series LLC terms
+            <i>Series LLC terms</i>
           </Link>
           .
         </Checkbox>
@@ -403,7 +403,13 @@ export default function Checkout({ details, daoNames }) {
       </KaliButton>
       <br></br>
       <HStack>
-        <Text fontWeight={700}>Have questions?</Text>
+        <Text fontWeight={400}>{" "}<Link href="https://kalico.typeform.com/to/FNsxHBKX">
+            <i>Need LLC Filing Help?</i>
+          </Link></Text>
+      </HStack>
+      <br></br>
+      <HStack>
+        <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
       </HStack>
     </>
