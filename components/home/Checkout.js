@@ -391,7 +391,7 @@ export default function Checkout({ details, daoNames }) {
         <Checkbox onChange={() => handleDisclaimer(1)}>
           I agree to the{" "}
           <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
-            Series LLC terms
+            <i>Series LLC terms</i>
           </Link>
           .
         </Checkbox>
