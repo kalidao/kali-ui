@@ -14,6 +14,7 @@ export const addresses =
     4: {
       factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
       ricardian: "0x612a519C2ba312420c972D7a9714FaF27f4358DF",
+      erc20factory: "0x6C15225260150fEc6E329dacc70b23e5DDA9436D",
       extensions: {
         tribute: "0xd62AB72CC6b53D98eed510646a69B21b77ce5A56",
         crowdsale: "0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36",
