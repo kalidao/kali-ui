@@ -274,6 +274,11 @@ export default function Checkout({ details, daoNames }) {
       govSettings
     );
 
+
+    var gasPrice_ = await web3.eth.getGasPrice();
+    var BN = web3.utils.BN;
+    let gasPrice = new BN(gasPrice_).toString();
+
     try {
       let result = await factory.methods
         .deployKaliDAO(
@@ -287,7 +292,7 @@ export default function Checkout({ details, daoNames }) {
           shares,
           govSettings
         )
-        .send({ from: account });
+        .send({ from: account, gasPrice: gasPrice });
 
       let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
       console.log(dao);
