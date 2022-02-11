@@ -26,6 +26,11 @@ export default function Hamburger() {
             <MenuItem color="kali.800">My DAOs</MenuItem>
           </a>
         </Link>
+        <Link href="https://www.lexdao.coop/#/directory">
+        <a>
+          <MenuItem color="kali.800">LexDAO Directory</MenuItem>
+        </a>
+        </Link>
         <a href="https://docs.kalidao.xyz/faq/" target="_blank" rel="noreferrer">
           <MenuItem color="kali.800">FAQs</MenuItem>
         </a>
