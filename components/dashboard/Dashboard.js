@@ -45,7 +45,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!address) {
+    if (!dao) {
       fetchData();
     }
   }, [chainId, dao]);
