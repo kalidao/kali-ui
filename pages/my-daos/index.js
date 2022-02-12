@@ -24,6 +24,7 @@ import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
 import Select from "../../components/elements/Select";
+
 const DaoCard = ({ name, dao, key }) => {
   return (
     <Box
@@ -49,6 +50,12 @@ const DaoCard = ({ name, dao, key }) => {
   );
 };
 
+const graph = {
+  1: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-mainnet",
+  42161: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-arbitrum",
+  4: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-rinkeby",
+};
+
 export default function MyDaos() {
   const value = useContext(AppContext);
   const { web3, account, chainId } = value.state;
@@ -59,14 +66,13 @@ export default function MyDaos() {
   }, [chainId, account]);
 
   async function fetchData() {
-
-    if(account != null) {
+    if (account != null) {
       value.setLoading(true);
-
+      console.log(graph[chainId]);
       try {
-        const result = await fetch(`https://api.thegraph.com/subgraphs/name/nerderlyne/kali`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const result = await fetch(graph[chainId], {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             query: `query {
               members(where: {
@@ -79,11 +85,11 @@ export default function MyDaos() {
                   }
                 }
               }
-            }`
+            }`,
           }),
         }).then((res) => res.json());
-        console.log(result)
-        setDaos(result['data']['members']);
+        console.log(result);
+        setDaos(result["data"]["members"]);
         value.setLoading(false);
       } catch (e) {
         value.toast(e);
@@ -126,7 +132,11 @@ export default function MyDaos() {
                 {daos.map((item, index) => (
                   <ListItem key={index}>
                     <Link href={`../daos/${item.dao.id}`}>
-                      <DaoCard key={index} name={item.dao.token.name} dao={item.dao.id} />
+                      <DaoCard
+                        key={index}
+                        name={item.dao.token.name}
+                        dao={item.dao.id}
+                      />
                     </Link>
                   </ListItem>
                 ))}
