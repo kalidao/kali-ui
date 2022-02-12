@@ -56,7 +56,7 @@ export default function MyDaos() {
 
   useEffect(() => {
     fetchData();
-  }, [chainId]);
+  }, [chainId, account]);
 
   async function fetchData() {
 
@@ -64,44 +64,26 @@ export default function MyDaos() {
       value.setLoading(true);
 
       try {
-        const allDaos = [];
-
-        let address = addresses[chainId]["factory"];
-
-        const factory = factoryInstance(address, web3);
-
-        const factoryBlock = blocks["factory"][chainId];
-
-        let eventName = "DAOdeployed";
-
-        let events = await fetchEvents(
-          factory,
-          web3,
-          factoryBlock,
-          eventName,
-          chainId
-        );
-        console.log("events", events);
-
-        for (let i = 0; i < events.length; i++) {
-          let dao_ = events[i]["kaliDAO"];
-          let name_ = events[i]["name"];
-          let docs_ = events[i]["docs"];
-
-          const instance = new web3.eth.Contract(abi, dao_);
-
-          let members = await fetchMembers(instance, web3, chainId, factoryBlock);
-          console.log(members, "members");
-
-          for (let m = 0; m < members.length; m++) {
-            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
-              allDaos.push({ dao: dao_, name: name_ });
-              console.log("docs for this one", docs_);
-            }
-          }
-        }
-
-        setDaos(allDaos);
+        const result = await fetch(`https://api.thegraph.com/subgraphs/name/nerderlyne/kali`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `query {
+              members(where: {
+                address: "${account}"
+              }) {
+                dao {
+                  id
+                  token {
+                    name
+                  }
+                }
+              }
+            }`
+          }),
+        }).then((res) => res.json());
+        console.log(result)
+        setDaos(result['data']['members']);
         value.setLoading(false);
       } catch (e) {
         value.toast(e);
@@ -143,8 +125,8 @@ export default function MyDaos() {
 
                 {daos.map((item, index) => (
                   <ListItem key={index}>
-                    <Link href={`../daos/${item.dao}`}>
-                      <DaoCard key={index} name={item.name} dao={item.dao} />
+                    <Link href={`../daos/${item.dao.id}`}>
+                      <DaoCard key={index} name={item.dao.token.name} dao={item.dao.id} />
                     </Link>
                   </ListItem>
                 ))}
