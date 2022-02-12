@@ -24,6 +24,7 @@ import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
 import Select from "../../components/elements/Select";
+import { graph } from "../../constants/graph";
 
 const DaoCard = ({ name, dao, key }) => {
   return (
@@ -48,12 +49,6 @@ const DaoCard = ({ name, dao, key }) => {
       </HStack>
     </Box>
   );
-};
-
-const graph = {
-  1: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-mainnet",
-  42161: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-arbitrum",
-  4: "https://api.thegraph.com/subgraphs/name/nerderlyne/kali-rinkeby",
 };
 
 export default function MyDaos() {
