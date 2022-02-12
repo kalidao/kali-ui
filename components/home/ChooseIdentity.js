@@ -18,6 +18,7 @@ import { factoryInstance } from "../../eth/factory";
 import { fetchDaoNames } from "../../utils/fetchDaoNames";
 import { addresses } from "../../constants/addresses";
 import { useForm } from "react-hook-form";
+import { graph } from "../../constants/graph";
 import InfoTip from "../elements/InfoTip";
 
 export default function ChooseIdentity(props) {
@@ -43,10 +44,28 @@ export default function ChooseIdentity(props) {
   const getDaoNames = async () => {
     console.log("fetching DAOs")
     try {
-      let factory = factoryInstance(addresses[chainId]["factory"], web3);
-      let daoNames_ = await fetchDaoNames(factory, web3, chainId);
-      props.setDaoNames(daoNames_);
-      console.log(daoNames_);
+      const result = await fetch(graph[chainId], {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query:
+          `query {
+            daos {
+              token {
+                name
+              }
+            }
+          }`
+        }),
+      }).then((res) => res.json());
+
+      const data = result['data']['daos'];
+      const names = [];
+      for(let i=0; i < data.length; i++) {
+        names.push(data[i]['token']['name']);
+      }
+      console.log(names, "NAMES")
+      props.setDaoNames(names);
     } catch (e) {
       value.toast(e);
     }
