@@ -18,7 +18,7 @@ import {
 import Reload from "../elements/Reload.js";
 import { BiGridAlt } from "react-icons/bi";
 import { convertVotingPeriod, fromDecimals } from "../../utils/formatters";
-import { fetchDaoInfo } from "../../utils/fetchDaoInfo";
+import { fetchStaticInfo, fetchMoreInfo } from "../../utils/fetchDaoInfo";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { dashboardHelper } from "../../constants/dashboardHelper";
@@ -58,7 +58,7 @@ export default function Dashboard() {
 
       const factory = factoryInstance(addresses[daoChain]["factory"], web3);
 
-      const { dao_ } = await fetchDaoInfo(
+      var { dao_ } = await fetchStaticInfo(
         instance,
         factory,
         address,
@@ -66,10 +66,23 @@ export default function Dashboard() {
         daoChain,
         account
       );
-
       value.setDao(dao_);
       console.log(dao_);
       value.setLoading(false);
+
+      const { balances, ricardian, extensions } = await fetchMoreInfo(
+        instance,
+        factory,
+        address,
+        web3,
+        daoChain,
+        account
+      );
+      dao_["balances"] = balances;
+      dao_["ricardian"] = ricardian;
+      dao_["extensions"] = extensions;
+
+      value.setDao(dao_);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);

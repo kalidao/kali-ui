@@ -6,7 +6,7 @@ import { fetchEvents } from "./fetchEvents";
 
 // functions to retrieve data from blockchain
 
-export async function fetchDaoInfo(
+export async function fetchStaticInfo(
   instance,
   factory,
   address,
@@ -14,10 +14,6 @@ export async function fetchDaoInfo(
   daoChain,
   account
 ) {
-
-  const factoryBlock = blocks["factory"][daoChain];
-
-  const ricardianBlock = blocks["ricardian"][daoChain];
 
   const result = await fetch(`https://api.thegraph.com/subgraphs/name/nerderlyne/kali`, {
     method: 'POST',
@@ -72,19 +68,11 @@ export async function fetchDaoInfo(
 
   const docs = data['docs'];
 
+  const factoryBlock = blocks["factory"][daoChain];
+
+  const ricardianBlock = blocks["ricardian"][daoChain];
+
   const proposalVoteTypes = await fetchProposalVoteTypes(instance);
-
-  const balances = await fetchBalances(address, web3, daoChain);
-
-  const ricardian = await fetchRicardian(address, web3, factory, daoChain, ricardianBlock);
-
-  const extensions = await fetchExtensions(
-    instance,
-    daoChain,
-    web3,
-    address,
-    balances
-  );
 
   const members = await fetchMembers(data);
 
@@ -104,13 +92,39 @@ export async function fetchDaoInfo(
       proposalVoteTypes,
     },
     docs,
-    balances,
-    extensions,
-    ricardian,
-    members,
+    members
   };
 
   return { dao_ };
+
+}
+
+export async function fetchMoreInfo(
+  instance,
+  factory,
+  address,
+  web3,
+  daoChain,
+  account
+) {
+
+  const factoryBlock = blocks["factory"][daoChain];
+
+  const ricardianBlock = blocks["ricardian"][daoChain];
+
+  const balances = await fetchBalances(address, web3, daoChain);
+
+  const ricardian = await fetchRicardian(address, web3, factory, daoChain, ricardianBlock);
+
+  const extensions = await fetchExtensions(
+    instance,
+    daoChain,
+    web3,
+    address,
+    balances
+  );
+
+  return { balances, ricardian, extensions };
 }
 
 async function fetchProposalVoteTypes(instance) {
