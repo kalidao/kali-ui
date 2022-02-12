@@ -83,6 +83,7 @@ export default function Dashboard() {
       dao_["extensions"] = extensions;
 
       value.setDao(dao_);
+      console.log(dao_)
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
