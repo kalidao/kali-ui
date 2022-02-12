@@ -53,6 +53,11 @@ export default function Hamburger() {
         >
           <MenuItem color="kali.800">Support</MenuItem>
         </a>
+        <Link href="https://www.lexdao.coop/#/directory">
+        <a>
+          <MenuItem color="kali.800">LexDAO Directory</MenuItem>
+        </a>
+        </Link>
       </MenuList>
     </Menu>
   )
