@@ -41,15 +41,28 @@ export default function Test() {
 
   const dinoDao =
   `query {
-    members(where: {
-      address: "0x0b21b16F9D67C3Ed18663dD8D953F02B50440e7B"
+    daos(where: {
+      id: "0x0b21b16f9d67c3ed18663dd8d953f02b50440e7b"
     }) {
-      dao {
+      id
+      token {
         id
-        token {
-          name
-        }
+        name
+        symbol
+        paused
       }
+      docs
+      votingPeriod
+      gracePeriod
+      quorum
+      supermajority
+      members {
+        address
+        shares
+      }
+      proposals
+      extensions
+      extensionsData
     }
   }`;
 
@@ -76,7 +89,7 @@ export default function Test() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        query: jordan
+        query: dinoDao
       }),
     }).then((res) => res.json());
     console.log(result)

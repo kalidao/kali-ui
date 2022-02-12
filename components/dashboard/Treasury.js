@@ -23,7 +23,8 @@ export default function Treasury() {
 
   return (
     <>
-      {dao["balances"].map((b, index) => (
+      {dao["balances"] != null ?
+        dao["balances"].map((b, index) => (
         <TreasuryCard
           key={index}
           token={b["token"]}
@@ -33,7 +34,7 @@ export default function Treasury() {
               : fromDecimals(b["balance"], 18)
           }
         />
-      ))}
+      )) : null}
     </>
   );
 }

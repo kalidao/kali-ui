@@ -45,10 +45,10 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!dao) {
+    if (!address) {
       fetchData();
     }
-  }, [chainId, dao, fetchData]);
+  }, [chainId, dao]);
 
   async function fetchData() {
     value.setLoading(true);
