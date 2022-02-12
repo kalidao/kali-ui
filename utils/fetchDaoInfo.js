@@ -3,7 +3,7 @@ import { addresses } from "../constants/addresses";
 import { tokens } from "../constants/tokens";
 import { blocks } from "../constants/blocks";
 import { fetchEvents } from "./fetchEvents";
-import { getChainInfo } from "./formatters";
+import { graph } from "../constants/graph";
 
 // functions to retrieve data from blockchain
 
@@ -16,9 +16,7 @@ export async function fetchStaticInfo(
   account
 ) {
 
-  let endpoint = getChainInfo(daoChain)['name'].toLowerCase();
-
-  const result = await fetch(`https://api.thegraph.com/subgraphs/name/nerderlyne/kali-${endpoint}`, {
+  const result = await fetch(graph[daoChain], {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
