@@ -24,7 +24,7 @@ import { supportedChains } from "../../constants/supportedChains"
 import DashedDivider from "../../components/elements/DashedDivider"
 const abi = require("../../abi/KaliDAO.json")
 import Select from "../../components/elements/Select"
-import TokenCreator from "../../components/tools/TokenCreator"
+import ToolBox from "../../components/tools/ToolBox"
 
 const DaoCard = ({ name, dao, key }) => {
   return (
@@ -126,13 +126,12 @@ export default function MyDaos() {
   return (
     <Layout>
       <VStack>
-        <Heading as="h2">My DAOs</Heading>
-        <TokenCreator></TokenCreator>
-        <HStack bg="tomato" w="50%">
-          <Text fontSize="2xl" fontWeight="600">
+        <HStack w="50%">
+          <Text w="50%" fontSize="2xl" fontWeight="600">
             Select chain:
           </Text>
-          <Select onChange={handleChange} defaultValue={chainId}>
+          <Spacer />
+          <Select w="40%" onChange={handleChange} defaultValue={chainId}>
             {supportedChains.map((item, index) => (
               <option key={index} value={item.chainId}>
                 {item.name}
@@ -140,6 +139,8 @@ export default function MyDaos() {
             ))}
           </Select>
         </HStack>
+        <br />
+        <ToolBox />
       </VStack>
     </Layout>
   )
