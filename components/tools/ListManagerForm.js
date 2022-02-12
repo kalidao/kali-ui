@@ -64,7 +64,7 @@ export default function TokenForm() {
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
       <br/>
-      <Heading as="h1">Mint an ERC20 token</Heading>
+      <Heading as="h1">Create a list</Heading>
       <FormControl>
         <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
           Owner
