@@ -2,10 +2,12 @@ import { useState, useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 import AppContext from "../../context/AppContext"
 import Layout from "../../components/structure/Layout"
+import { AiOutlineCheckCircle, AiOutlineWarning } from "react-icons/ai"
 import {
   Button,
   List,
   ListItem,
+  Icon,
   Text,
   Box,
   Link,
@@ -14,114 +16,36 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react"
-import { factoryInstance } from "../../eth/factory"
-import { addresses } from "../../constants/addresses"
-import { fetchMembers } from "../../utils/fetchDaoInfo"
-import { blocks } from "../../constants/blocks"
-import { fetchEvents } from "../../utils/fetchEvents"
-import { getNetworkName } from "../../utils/formatters"
 import { supportedChains } from "../../constants/supportedChains"
-import DashedDivider from "../../components/elements/DashedDivider"
-const abi = require("../../abi/KaliDAO.json")
+import { getNetworkName } from "../../utils/formatters"
 import Select from "../../components/elements/Select"
 import ToolBox from "../../components/tools/ToolBox"
 
-const DaoCard = ({ name, dao, key }) => {
-  return (
-    <Box
-      bg="hsl(0, 92%, 6%, 20%)"
-      color="kali.800"
-      p="3"
-      m="2"
-      borderRadius="3xl"
-      key={key}
-    >
-      <HStack>
-        <Text>Name</Text>
-        <Spacer />
-        <Text>{name}</Text>
-      </HStack>
-      <DashedDivider />
-      <HStack>
-        <Text>Address</Text>
-        <Spacer />
-        <Text>{dao}</Text>
-      </HStack>
-    </Box>
-  )
-}
-
-export default function MyDaos() {
+export default function Tools() {
   const value = useContext(AppContext)
   const { web3, account, chainId } = value.state
-  const [daos, setDaos] = useState(null)
-
-  useEffect(() => {
-    // fetchData()
-  }, [chainId])
-
-  async function fetchData() {
-    if (account != null) {
-      value.setLoading(true)
-
-      try {
-        const allDaos = []
-
-        let address = addresses[chainId]["factory"]
-
-        const factory = factoryInstance(address, web3)
-
-        const factoryBlock = blocks["factory"][chainId]
-
-        let eventName = "DAOdeployed"
-
-        let events = await fetchEvents(
-          factory,
-          web3,
-          factoryBlock,
-          eventName,
-          chainId
-        )
-        console.log("events", events)
-
-        for (let i = 0; i < events.length; i++) {
-          let dao_ = events[i]["kaliDAO"]
-          let name_ = events[i]["name"]
-          let docs_ = events[i]["docs"]
-
-          const instance = new web3.eth.Contract(abi, dao_)
-
-          let members = await fetchMembers(
-            instance,
-            web3,
-            chainId,
-            factoryBlock
-          )
-          console.log(members, "members")
-
-          for (let m = 0; m < members.length; m++) {
-            if (members[m]["member"].toLowerCase() == account.toLowerCase()) {
-              allDaos.push({ dao: dao_, name: name_ })
-              console.log("docs for this one", docs_)
-            }
-          }
-        }
-
-        setDaos(allDaos)
-        value.setLoading(false)
-      } catch (e) {
-        value.toast(e)
-        value.setLoading(false)
-      }
-    }
-  }
+  const [network, setNetwork] = useState(1)
 
   const handleChange = async (e) => {
     let id = e.target.value
     if (chainId != id) {
+      setNetwork(id)
       await value.switchChain(id)
     }
   }
+
+  const handleConnect = async () => {
+    await value.connect()
+    if (chainId != network) {
+      await value.switchChain(network)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (network == 999) {
+  //     setNetwork(1)
+  //   }
+  // }, [chainId])
 
   return (
     <Layout>
@@ -140,7 +64,31 @@ export default function MyDaos() {
           </Select>
         </HStack>
         <br />
-        <ToolBox />
+        {(network != 999 && chainId != network) ||
+        (network != 999 && chainId != network && account == null) ? (
+          <>
+            <HStack id="not-connected">
+              <Icon as={AiOutlineWarning} />
+              <Text>
+                please connect your wallet to {getNetworkName(network)}
+              </Text>
+            </HStack>
+            <Button className="transparent-btn" onClick={() => handleConnect()}>
+              Connect
+            </Button>
+          </>
+        ) : network != 999 && chainId == network ? (
+          <>
+            <HStack id="connected-to-network">
+              <Icon as={AiOutlineCheckCircle} />
+              <Text>
+                <i>connected to {getNetworkName(network)}</i>
+              </Text>
+            </HStack>
+            <br></br>
+            <ToolBox web3={web3} chainId={chainId} />
+          </>
+        ) : null}
       </VStack>
     </Layout>
   )

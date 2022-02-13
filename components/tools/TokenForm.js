@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from "react"
-import AppContext from "../../context/AppContext"
-import kaliToken from "../../eth/kaliToken"
+import React, { useState, useEffect, useContext } from "react"
+import kaliTokenFactory from "../../eth/kaliToken"
 import {
   Button,
   FormControl,
@@ -23,10 +22,14 @@ import {
 import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai"
 import { useForm, Controller, useFieldArray } from "react-hook-form"
 import InfoTip from "../elements/InfoTip"
+import AppContext from "../../context/AppContext"
+import { addresses } from "../../constants/addresses"
+
 
 export default function TokenForm() {
   const value = useContext(AppContext)
-  // const { web3, account, loading, dao } = value.state
+  const { web3, account, chainId } = value.state
+  const [isMinted, setIsMinted] = useState(false)
 
   const {
     handleSubmit,
@@ -47,71 +50,29 @@ export default function TokenForm() {
     name: "recipients",
   })
 
-  const handleAccountsAndAmounts = async (values) => {
-    console.log("Form: ", values)
-
-    const { recipients } = values
-
-    // convert amounts to wei
-    let amountsArray = []
-
-    for (let i = 0; i < recipients.length; i++) {
-      amountsArray.push(toDecimals(recipients[i].amount, 18))
-    }
-
-    console.log("amounts Array", amountsArray)
-
-    let votersArray = []
-
-    for (let i = 0; i < recipients.length; i++) {
-      if (recipients[i].address.slice(-4) === ".eth") {
-        recipients[i].address = await web3.eth.ens
-          .getAddress(recipients[i].address)
-          .catch(() => {
-            value.toast(recipients[i].address + " is not a valid ENS.")
-          })
-      } else if (web3.utils.isAddress(recipients[i].address) == false) {
-        value.toast(recipients[i].address + " is not a valid Ethereum address.")
-        return
-      }
-
-      if (recipients[i].address === undefined) {
-        return
-      }
-      votersArray.push(recipients[i].address)
-    }
-    console.log("Voters Array", votersArray)
-
-    const { details, setDetails } = props
-
-    details["recipients"]["members"] = votersArray
-    details["recipients"]["amounts"] = amountsArray
-    setDetails(details)
-    console.log(details)
-
-    props.handleNext()
-  }
-
   const submit = async (values) => {
-    const { name, symbol } = values
+    const { owner, name, symbol, details, paused, recipients } = values
+
+    const factory = kaliTokenFactory(addresses[chainId]["erc20factory"], web3)
+
+    let accounts = [];
+    let amounts = [];
+    for (let i = 0; i < recipients.length; i++) {
+      accounts.push(recipients[i].address)
+      amounts.push(web3.utils.toWei(recipients[i].amount))
+    }
 
     try {
-      let result = await kaliToken.methods
-        .deployKaliERC20(name, symbol, 18, dao, web3.utils.toWei(supply))
+      let result = await factory.methods
+        .deployKaliERC20(name, symbol, details, accounts, amounts, paused, owner)
         .send({ from: account })
 
       console.log("This is the result", result)
-      // let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-
-      // Router.push({
-      //   pathname: "/daos/[dao]",
-      //   query: { dao: dao },
-      // })
+      setIsMinted(true)
     } catch (e) {
       alert(e)
       console.log(e)
     }
-    console.log(values)
   }
 
   return (
@@ -257,10 +218,8 @@ export default function TokenForm() {
                     <Controller
                       control={control}
                       name={`recipients.${index}.amount`}
-                      min="1"
                       render={({ field: { ref, ...rest } }) => (
                         <NumberInput
-                          defaultValue="1"
                           min="1"
                           max="1000000000"
                           {...rest}
@@ -287,6 +246,9 @@ export default function TokenForm() {
             </ListItem>
           ))}
         </List>
+        {isMinted && (
+          <label>Minted!</label>
+        )}
       </VStack>
       <Button className="transparent-btn" type="submit">
         Mint »
