@@ -66,11 +66,13 @@ export default function Dashboard() {
         daoChain,
         account
       );
+
       value.setDao(dao_);
       console.log(dao_, "static info");
       value.setLoading(false);
+
       if(dao_ == undefined) {
-        "Please refresh in about 30 seconds."
+        value.toast("Error loading your DAO. Please try refreshing in about 30 seconds.")
         return;
       }
 
