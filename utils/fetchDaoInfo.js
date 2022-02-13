@@ -3,10 +3,108 @@ import { addresses } from "../constants/addresses";
 import { tokens } from "../constants/tokens";
 import { blocks } from "../constants/blocks";
 import { fetchEvents } from "./fetchEvents";
+import { graph } from "../constants/graph";
 
 // functions to retrieve data from blockchain
 
-export async function fetchDaoInfo(
+export async function fetchStaticInfo(
+  instance,
+  factory,
+  address,
+  web3,
+  daoChain,
+  account
+) {
+  let dao_;
+  try {
+    const result = await fetch(graph[daoChain], {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query:
+        `query {
+          daos(where: {
+            id: "${address.toLowerCase()}"
+          }) {
+            id
+            token {
+              id
+              name
+              symbol
+              paused
+            }
+            docs
+            votingPeriod
+            gracePeriod
+            quorum
+            supermajority
+            members {
+              address
+              shares
+            }
+            proposals
+            extensions
+            extensionsData
+          }
+        }`
+      }),
+    }).then((res) => res.json());
+
+    const data = result['data']['daos'][0];
+
+    const name = data['token']['name'];
+
+    const symbol = data['token']['symbol'];
+
+    const decimals = parseInt(await instance.methods.decimals().call());
+
+    const totalSupply = parseInt(await instance.methods.totalSupply().call());
+
+    const paused = data['token']['paused'];
+
+    const votingPeriod = parseInt(data['votingPeriod']);
+
+    const quorum = parseInt(data['quorum']);
+
+    const supermajority = parseInt(data['supermajority']);
+
+    const docs = data['docs'];
+
+    const factoryBlock = blocks["factory"][daoChain];
+
+    const ricardianBlock = blocks["ricardian"][daoChain];
+
+    const proposalVoteTypes = await fetchProposalVoteTypes(instance);
+
+    const members = await fetchMembers(data);
+
+    dao_ = {
+      address,
+      name,
+      token: {
+        symbol,
+        decimals,
+        totalSupply,
+        paused,
+      },
+      gov: {
+        votingPeriod,
+        quorum,
+        supermajority,
+        proposalVoteTypes,
+      },
+      docs,
+      members
+    };
+  } catch(e) {
+
+  }
+
+  return { dao_ };
+
+}
+
+export async function fetchMoreInfo(
   instance,
   factory,
   address,
@@ -18,26 +116,6 @@ export async function fetchDaoInfo(
   const factoryBlock = blocks["factory"][daoChain];
 
   const ricardianBlock = blocks["ricardian"][daoChain];
-
-  const name = await instance.methods.name().call();
-
-  const symbol = await instance.methods.symbol().call();
-
-  const decimals = parseInt(await instance.methods.decimals().call());
-
-  const totalSupply = parseInt(await instance.methods.totalSupply().call());
-
-  const paused = await instance.methods.paused().call();
-
-  const votingPeriod = parseInt(await instance.methods.votingPeriod().call());
-
-  const quorum = parseInt(await instance.methods.quorum().call());
-
-  const supermajority = parseInt(await instance.methods.supermajority().call());
-
-  const docs = await fetchDocs(factory, address, web3, factoryBlock, daoChain);
-
-  const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
   const balances = await fetchBalances(address, web3, daoChain);
 
@@ -51,61 +129,7 @@ export async function fetchDaoInfo(
     balances
   );
 
-  const members = await fetchMembers(instance, web3, daoChain, factoryBlock);
-
-  const dao_ = {
-    address,
-    name,
-    token: {
-      symbol,
-      decimals,
-      totalSupply,
-      paused,
-    },
-    gov: {
-      votingPeriod,
-      quorum,
-      supermajority,
-      proposalVoteTypes,
-    },
-    docs,
-    balances,
-    extensions,
-    ricardian,
-    members,
-  };
-
-  return { dao_ };
-}
-
-// helper functions for main getter function
-async function fetchDocs(factory, address, web3, factoryBlock, daoChain) {
-
-  let eventName = "DAOdeployed";
-
-  let events = await fetchEvents(
-    factory,
-    web3,
-    factoryBlock,
-    eventName,
-    daoChain
-  );
-
-  let docs;
-
-  for (let i = 0; i < events.length; i++) {
-    try {
-      const dao = events[i]["kaliDAO"];
-
-      if (dao.toLowerCase() == address.toLowerCase()) {
-        docs = events[i]["docs"];
-      }
-    } catch(e) {
-      console.log(e);
-    }
-  }
-
-  return docs;
+  return { balances, ricardian, extensions };
 }
 
 async function fetchProposalVoteTypes(instance) {
@@ -143,43 +167,12 @@ async function fetchBalances(address, web3, daoChain) {
   return tokenBalances;
 }
 
-export async function fetchMembers(instance, web3, daoChain, factoryBlock) {
-
-  let eventName = "Transfer";
-
-  let events = await fetchEvents(
-    instance,
-    web3,
-    factoryBlock,
-    eventName,
-    daoChain
-  );
-
-  const holdersArray_ = [];
-
-  const dupes = [];
-
-  for (let k = 0; k < events.length; k++) {
-    let holder = events[k]["to"];
-
-    dupes[k] = holder;
+export async function fetchMembers(data) {
+  const membersArray = [];
+  for(let i=0; i < data['members'].length; i++) {
+    membersArray.push({ member: data['members'][i]['address'], shares: data['members'][i]['shares']});
   }
-
-
-  // unique list of addresses
-  const uniques = dupes.filter((v, i, a) => a.indexOf(v) === i);
-
-  for (let k = 0; k < uniques.length; k++) {
-    let holder = uniques[k];
-
-    let shares = await instance.methods.balanceOf(holder).call();
-
-    if (shares > 0) {
-      holdersArray_.push({ member: holder, shares: shares });
-    }
-  }
-
-  return holdersArray_;
+  return membersArray;
 }
 
 async function fetchExtensions(instance, daoChain, web3, address, balances) {

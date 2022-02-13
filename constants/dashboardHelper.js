@@ -30,6 +30,6 @@ export const dashboardHelper = [
   {
     title: "Extensions",
     component: <Extensions />,
-    check: 'extensions'
+    check: null
   }
 ]

@@ -29,6 +29,7 @@
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.0",
     "react-step-progress-bar": "^1.0.3",
+    "react-use": "^17.3.2",
     "web3": "^1.6.1",
     "web3modal": "^1.9.5"
   },
