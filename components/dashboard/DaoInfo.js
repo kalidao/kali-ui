@@ -5,10 +5,13 @@ import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 import { fromDecimals, truncateAddress } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
 import CapTableModal from "./CapTableModal";
+import { addresses } from "../../constants/addresses";
 
 export default function DaoInfo() {
   const value = useContext(AppContext);
-  const { dao } = value.state;
+  const { dao, chainId } = value.state;
+
+  const blockExplorer = addresses[chainId]['blockExplorer'];
 
   const array = [
     {
@@ -19,7 +22,7 @@ export default function DaoInfo() {
     {
       name: "Address",
       info: truncateAddress(dao["address"]),
-      link: `https://rinkeby.etherscan.io/address/${dao["address"]}`,
+      link: `${blockExplorer}/address/${dao["address"]}`,
     },
     {
       name: "Symbol",

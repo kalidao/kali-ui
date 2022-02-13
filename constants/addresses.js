@@ -12,6 +12,7 @@ export const addresses =
         crowdsale: "0xD76B629c528548582Af14c4D3a851830BB0c6978",
         redemption: "0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0",
       },
+      blockExplorer: "https://etherscan.io"
     },
     4: {
       factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
@@ -24,6 +25,7 @@ export const addresses =
         crowdsale: "0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36",
         redemption: "0x11f44975e1B204E50108Af6BCB6539798cb15F75",
       },
+      blockExplorer: "https://rinkeby.etherscan.io"
     },
     137: {
       factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
@@ -36,6 +38,7 @@ export const addresses =
         crowdsale: "0x0AE06840C05bf261B1798571696F58F9Ac3b3174",
         redemption: "0xC43AE97f12d979FCAe346E93b62d747963956d63",
       },
+      blockExplorer: "https://polygonscan.com"
     },
     42161: {
       factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
@@ -48,5 +51,6 @@ export const addresses =
         crowdsale: "0x0bb3F43533FBf16d69dBdccf6AaAef81acd76FAB",
         redemption: "0x7452BDCED6f344e0E4e1169377D369aDE1cB0Ca0",
       },
+      blockExplorer: "https://arbiscan.io"
     },
   };
