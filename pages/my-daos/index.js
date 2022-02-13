@@ -115,17 +115,19 @@ export default function MyDaos() {
               <VStack>
                 <Heading as="h2">My DAOs</Heading>
 
-                <Text fontSize="2xl" fontWeight="600">
-                  Select chain:
-                </Text>
                 {isMobile == true ? null : (
-                  <Select onChange={handleChange} defaultValue={chainId}>
-                    {supportedChains.map((item, index) => (
-                      <option key={index} value={item.chainId}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </Select>
+                  <>
+                    <Text fontSize="2xl" fontWeight="600">
+                      Select chain:
+                    </Text>
+                    <Select onChange={handleChange} defaultValue={chainId}>
+                      {supportedChains.map((item, index) => (
+                        <option key={index} value={item.chainId}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
                 )}
                 <Wrap>
                   {daos.map((item, index) => (
