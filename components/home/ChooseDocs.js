@@ -42,6 +42,14 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     setDetails(details);
   };
 
+  const validate = () => {
+    if(details["legal"]["docs"] == "" && details["legal"]["docType"] == 2) {
+      value.toast("Please enter a valid document link.");
+    } else {
+      handleNext();
+    }
+  }
+
   return (
     <>
       <VStack>
@@ -58,7 +66,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           <option value="2">Custom Docs</option>
         </Select>
         <br></br>
-        {selectedType == 2 ? (
+        {selectedType == 2 || details["legal"]["docType"] == 2 ? (
           <Input
             defaultValue={details["legal"]["docs"]}
             onChange={handleChange}
@@ -89,7 +97,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           ) : null}
           <br></br>
           {selectedType != 999 ? (
-            <Button className="transparent-btn" onClick={() => handleNext()}>
+            <Button className="transparent-btn" onClick={() => validate()}>
               Next
             </Button>
           ) : null}

@@ -110,7 +110,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
-
+    console.log("docs to be pushed", docs)
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
