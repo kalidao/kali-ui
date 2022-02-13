@@ -12,7 +12,6 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@ethersproject/providers": "^5.5.3",
-    "@fontsource/open-sans": "^4.5.2",
     "@fontsource/poppins": "^4.5.0",
     "@react-pdf/renderer": "^2.1.0",
     "@walletconnect/web3-provider": "^1.7.1",
@@ -29,7 +28,6 @@
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.0",
     "react-step-progress-bar": "^1.0.3",
-    "react-use": "^17.3.2",
     "web3": "^1.6.1",
     "web3modal": "^1.9.5"
   },
