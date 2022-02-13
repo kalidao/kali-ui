@@ -67,7 +67,7 @@ export default function Dashboard() {
         account
       );
       value.setDao(dao_);
-      console.log(dao_);
+      console.log(dao_, "static info");
       value.setLoading(false);
 
       const { balances, ricardian, extensions } = await fetchMoreInfo(

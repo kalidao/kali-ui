@@ -6,6 +6,7 @@ import {
   ListItem,
   HStack,
   Spacer,
+  Spinner
 } from "@chakra-ui/react";
 import DashedDivider from "../elements/DashedDivider";
 import InfoTip from "../elements/InfoTip";
@@ -40,7 +41,9 @@ export default function Extensions() {
 
   return (
     <>
-      {dao["extensions"] == null ? (
+      {
+        dao["extensions"] == undefined ? <Spinner /> :
+        dao["extensions"] == null ? (
         "No extensions installed"
       ) : (
         <>

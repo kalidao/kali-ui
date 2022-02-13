@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Text, HStack, Spacer } from "@chakra-ui/react";
+import { Text, HStack, Spacer, Spinner } from "@chakra-ui/react";
 import { fromDecimals } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
 
@@ -34,7 +34,7 @@ export default function Treasury() {
               : fromDecimals(b["balance"], 18)
           }
         />
-      )) : null}
+      )) : <Spinner />}
     </>
   );
 }
