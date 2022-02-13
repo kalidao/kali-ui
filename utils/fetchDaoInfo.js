@@ -15,86 +15,90 @@ export async function fetchStaticInfo(
   daoChain,
   account
 ) {
-
-  const result = await fetch(graph[daoChain], {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query:
-      `query {
-        daos(where: {
-          id: "${address.toLowerCase()}"
-        }) {
-          id
-          token {
+  let dao_;
+  try {
+    const result = await fetch(graph[daoChain], {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query:
+        `query {
+          daos(where: {
+            id: "${address.toLowerCase()}"
+          }) {
             id
-            name
-            symbol
-            paused
+            token {
+              id
+              name
+              symbol
+              paused
+            }
+            docs
+            votingPeriod
+            gracePeriod
+            quorum
+            supermajority
+            members {
+              address
+              shares
+            }
+            proposals
+            extensions
+            extensionsData
           }
-          docs
-          votingPeriod
-          gracePeriod
-          quorum
-          supermajority
-          members {
-            address
-            shares
-          }
-          proposals
-          extensions
-          extensionsData
-        }
-      }`
-    }),
-  }).then((res) => res.json());
+        }`
+      }),
+    }).then((res) => res.json());
 
-  const data = result['data']['daos'][0];
+    const data = result['data']['daos'][0];
 
-  const name = data['token']['name'];
+    const name = data['token']['name'];
 
-  const symbol = data['token']['symbol'];
+    const symbol = data['token']['symbol'];
 
-  const decimals = parseInt(await instance.methods.decimals().call());
+    const decimals = parseInt(await instance.methods.decimals().call());
 
-  const totalSupply = parseInt(await instance.methods.totalSupply().call());
+    const totalSupply = parseInt(await instance.methods.totalSupply().call());
 
-  const paused = data['token']['paused'];
+    const paused = data['token']['paused'];
 
-  const votingPeriod = parseInt(data['votingPeriod']);
+    const votingPeriod = parseInt(data['votingPeriod']);
 
-  const quorum = parseInt(data['quorum']);
+    const quorum = parseInt(data['quorum']);
 
-  const supermajority = parseInt(data['supermajority']);
+    const supermajority = parseInt(data['supermajority']);
 
-  const docs = data['docs'];
+    const docs = data['docs'];
 
-  const factoryBlock = blocks["factory"][daoChain];
+    const factoryBlock = blocks["factory"][daoChain];
 
-  const ricardianBlock = blocks["ricardian"][daoChain];
+    const ricardianBlock = blocks["ricardian"][daoChain];
 
-  const proposalVoteTypes = await fetchProposalVoteTypes(instance);
+    const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
-  const members = await fetchMembers(data);
+    const members = await fetchMembers(data);
 
-  const dao_ = {
-    address,
-    name,
-    token: {
-      symbol,
-      decimals,
-      totalSupply,
-      paused,
-    },
-    gov: {
-      votingPeriod,
-      quorum,
-      supermajority,
-      proposalVoteTypes,
-    },
-    docs,
-    members
-  };
+    dao_ = {
+      address,
+      name,
+      token: {
+        symbol,
+        decimals,
+        totalSupply,
+        paused,
+      },
+      gov: {
+        votingPeriod,
+        quorum,
+        supermajority,
+        proposalVoteTypes,
+      },
+      docs,
+      members
+    };
+  } catch(e) {
+
+  }
 
   return { dao_ };
 
