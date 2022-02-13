@@ -129,7 +129,7 @@ export default function MyDaos() {
                 )}
                 <Wrap>
                   {daos.map((item, index) => (
-                    <Link href={`../daos/${item.dao.id}`}>
+                    <Link href={`../daos/${item.dao.id}`} key={index}>
                       <DaoCard
                         key={index}
                         name={item.dao.token.name}
