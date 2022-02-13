@@ -13,18 +13,22 @@ import {
   Spacer,
   HStack,
   VStack,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
+import { isMobile } from "react-device-detect";
 const abi = require("../../abi/KaliDAO.json");
 import Select from "../../components/elements/Select";
 import { graph } from "../../constants/graph";
+import { truncateAddress } from "../../utils/formatters";
 
 const DaoCard = ({ name, dao, key }) => {
   return (
-    <Box
+    <WrapItem
       bg="hsl(0, 92%, 6%, 20%)"
       color="kali.800"
       p="3"
@@ -32,18 +36,20 @@ const DaoCard = ({ name, dao, key }) => {
       borderRadius="3xl"
       key={key}
     >
-      <HStack>
-        <Text>Name</Text>
-        <Spacer />
-        <Text>{name}</Text>
-      </HStack>
-      <DashedDivider />
-      <HStack>
-        <Text>Address</Text>
-        <Spacer />
-        <Text>{dao}</Text>
-      </HStack>
-    </Box>
+      <Box>
+        <HStack>
+          <Text>Name</Text>
+          <Spacer />
+          <Text>{name}</Text>
+        </HStack>
+        <DashedDivider />
+        <HStack>
+          <Text>Address</Text>
+          <Spacer />
+          <Text>{truncateAddress(dao)}</Text>
+        </HStack>
+      </Box>
+    </WrapItem>
   );
 };
 
@@ -75,7 +81,7 @@ export default function MyDaos() {
                   }
                 }
               }
-            }`
+            }`,
           }),
         }).then((res) => res.json());
 
@@ -83,7 +89,7 @@ export default function MyDaos() {
         value.setLoading(false);
       } catch (e) {
         value.toast(e);
-        console.log(e)
+        console.log(e);
         value.setLoading(false);
       }
     }
@@ -112,16 +118,17 @@ export default function MyDaos() {
                 <Text fontSize="2xl" fontWeight="600">
                   Select chain:
                 </Text>
-                <Select onChange={handleChange} defaultValue={chainId}>
-                  {supportedChains.map((item, index) => (
-                    <option key={index} value={item.chainId}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Select>
-
-                {daos.map((item, index) => (
-                  <ListItem key={index}>
+                {isMobile == true ? null : (
+                  <Select onChange={handleChange} defaultValue={chainId}>
+                    {supportedChains.map((item, index) => (
+                      <option key={index} value={item.chainId}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+                <Wrap>
+                  {daos.map((item, index) => (
                     <Link href={`../daos/${item.dao.id}`}>
                       <DaoCard
                         key={index}
@@ -129,8 +136,8 @@ export default function MyDaos() {
                         dao={item.dao.id}
                       />
                     </Link>
-                  </ListItem>
-                ))}
+                  ))}
+                </Wrap>
               </VStack>
             </List>
           )}
