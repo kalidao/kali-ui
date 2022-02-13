@@ -69,6 +69,10 @@ export default function Dashboard() {
       value.setDao(dao_);
       console.log(dao_, "static info");
       value.setLoading(false);
+      if(dao_ == undefined) {
+        "Please refresh in about 30 seconds."
+        return;
+      }
 
       const { balances, ricardian, extensions } = await fetchMoreInfo(
         instance,
