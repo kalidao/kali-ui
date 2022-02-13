@@ -1,17 +1,11 @@
-import { useState, useContext, useEffect } from "react"
-import { useRouter } from "next/router"
+import { useState, useContext } from "react"
 import AppContext from "../../context/AppContext"
 import Layout from "../../components/structure/Layout"
 import { AiOutlineCheckCircle, AiOutlineWarning } from "react-icons/ai"
 import {
   Button,
-  List,
-  ListItem,
   Icon,
   Text,
-  Box,
-  Link,
-  Heading,
   Spacer,
   HStack,
   VStack,
@@ -40,12 +34,6 @@ export default function Tools() {
       await value.switchChain(network)
     }
   }
-
-  // useEffect(() => {
-  //   if (network == 999) {
-  //     setNetwork(1)
-  //   }
-  // }, [chainId])
 
   return (
     <Layout>
