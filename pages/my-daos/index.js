@@ -16,10 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { factoryInstance } from "../../eth/factory";
 import { addresses } from "../../constants/addresses";
-import { fetchMembers } from "../../utils/fetchDaoInfo";
-import { blocks } from "../../constants/blocks";
-import { fetchEvents } from "../../utils/fetchEvents";
-import { getNetworkName } from "../../utils/formatters";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 const abi = require("../../abi/KaliDAO.json");
@@ -61,9 +57,8 @@ export default function MyDaos() {
   }, [chainId, account]);
 
   async function fetchData() {
-    if (account != null) {
+    if (account != null && chainId != null) {
       value.setLoading(true);
-      console.log(graph[chainId]);
       try {
         const result = await fetch(graph[chainId], {
           method: "POST",
@@ -80,14 +75,15 @@ export default function MyDaos() {
                   }
                 }
               }
-            }`,
+            }`
           }),
         }).then((res) => res.json());
-        console.log(result);
+
         setDaos(result["data"]["members"]);
         value.setLoading(false);
       } catch (e) {
         value.toast(e);
+        console.log(e)
         value.setLoading(false);
       }
     }
