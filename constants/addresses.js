@@ -41,8 +41,8 @@ export const addresses =
       blockExplorer: "https://polygonscan.com"
     },
     42161: {
-      factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
-      ricardian: "0x02D77B4Ae9e1b2AE629055Ac0f71A29D13b29587",
+      factory: "0x045cbcBA76a7EcF82d0f6B5DCc0881B3C12E37d0",
+      ricardian: "0xB572aC31AB7FE0f8b65E6be10bd36eE81DA71f2B",
       erc20factory: "0x5eeDa4696062Eaa319DDE62d2D350f4aBF0C88F4",
       nft: "0x212CD0DE0C28858Fc72F792bb0F49d3B98d4cd0b",
       access: "0x89832E0DbE3600a7358F2E3eA2d7aF5dc7d76E0C",
