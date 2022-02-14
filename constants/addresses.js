@@ -2,8 +2,8 @@ export const addresses =
   // organized by chainId
   {
     1: {
-      factory: "0xA051591c52c1378bc4a34c57445D181deEF100f0",
-      ricardian: "0x1a49A558557c9Fcd5073FB6641d2dc32233cb5D9",
+      factory: "0x8bD48C45d40724E8424C3aAa4097257A38A98024",
+      ricardian: "0x2017d429Ad722e1cf8df9F1A2504D4711cDedC49",
       erc20factory: "0x65B2fb10C3D759b8D5828f617d146c5Ec380Ed1D",
       nft: "0x9E7351cA95099496bcAC598Fe4d5201D2B1f9A8d",
       access: "0x7799b86Ada91a507b5cbDA03638116A26A86358d",
