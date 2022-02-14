@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Button,
   VStack,
   HStack,
   Slider,
@@ -7,6 +8,7 @@ import {
   SliderTrack,
   SliderThumb,
   SliderFilledTrack,
+  Spacer,
   Tooltip,
 } from "@chakra-ui/react";
 import InfoTip from "../elements/InfoTip";
@@ -16,22 +18,46 @@ function ChooseQuorum({ details, setDetails }) {
     parseInt(details["governance"]["quorum"])
   );
   const [showQuorumTooltip, setShowQuorumTooltip] = useState(false);
+  const [showSlider, setShowSlider] = useState(false);
+
 
   useEffect(() => {
     details["governance"]["quorum"] = quorum;
     setDetails(details);
   }, [quorum]);
 
+  const presentSlider = () => {
+    console.log("hi")
+    if (!showSlider) {
+      setShowSlider(true)
+    } else {
+      setShowSlider(false)
+    }
+  }
+
   return (
     <VStack w={"100%"} spacing="8" align="flex-start">
-      <HStack>
+      <HStack w={"100%"}>
         <label htmlFor="quorum">Quorum</label>
         <InfoTip
           label={
             "Minimum % of tokens that must vote for proposals to pass, e.g., a 20% quorum needs at least 20% of DAO tokens voting on a proposal for the proposal result to be valid"
           }
         />
+        <Spacer />
+        <Button
+          h={"100%"}
+          bg="clear"
+          border="0px"
+          fontWeight="normal"
+          _hover={{ bg: "red" }}
+          onClick={() => presentSlider()}
+        >
+          {quorum}%
+        </Button>
       </HStack>
+      {showSlider && (
+
       <Slider
         id="slider"
         min={0}
@@ -55,19 +81,12 @@ function ChooseQuorum({ details, setDetails }) {
         <SliderTrack>
           <SliderFilledTrack />
         </SliderTrack>
-        <Tooltip
-          hasArrow
-          bg="teal.500"
-          color="white"
-          placement="top"
-          isOpen={showQuorumTooltip}
-          label={`${quorum}%`}
-        >
+        
           <SliderThumb />
-        </Tooltip>
       </Slider>
+      )}
     </VStack>
-  );
+  )
 }
 
 export default ChooseQuorum;
