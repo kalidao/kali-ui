@@ -13,6 +13,11 @@ import { BrowserView, MobileView } from "react-device-detect";
 export default function Layout(props) {
   const value = useContext(AppContext);
   const { loading } = value.state;
+
+  const openInNewTab = () => {
+    window.open("https://airtable.com/shr29w0Bm0sTvygyI").focus()
+  }
+
   return (
     <>
       {loading == true ? <LoadingIndicator /> : ""}
@@ -51,10 +56,10 @@ export default function Layout(props) {
             <VStack id="action-menu" h="100%" gap={3}>
               <ActionMenu />
               <Spacer />
-              <Button variant="ghost" border="0px">
-                <a href="https://airtable.com/shr29w0Bm0sTvygyI">
+              <Button variant="ghost" border="0px" onClick={openInNewTab}>
+                
                   Looking for Contributors?
-                </a>
+                
               </Button>
             </VStack>
           </Container>
