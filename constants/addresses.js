@@ -28,8 +28,8 @@ export const addresses =
       blockExplorer: "https://rinkeby.etherscan.io"
     },
     137: {
-      factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
-      ricardian: "0x0731FF841f2eB3F8Fef7BE1B683C733C9f2150f5",
+      factory: "0xeb37fc7F7781C4B6395b093359aaaFD285DaA6b9",
+      ricardian: "0xbE7aDeD5dFCAA0E51F885748AA4DFf457f0c52A0",
       erc20factory: "0xf8468a8A356B1b9DB2E918DbC1Ca31D597c9E54F",
       nft: "0x9BD8D05c793dc5ba044Fe4656b25092b269DfB5D",
       access: "0x43Cc55157d3A4e51ab99CaD6189726D768d7A124",
