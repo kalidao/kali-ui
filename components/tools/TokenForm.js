@@ -80,7 +80,7 @@ export default function TokenForm() {
       <br />
       <Heading as="h1">Mint an ERC20 token</Heading>
       <FormControl>
-        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
+        <FormLabel htmlFor="owner" fontSize="m" fontWeight="500">
           Owner
         </FormLabel>
         <HStack>
