@@ -22,8 +22,8 @@ export default function Tools() {
 
   const handleChange = async (e) => {
     let id = e.target.value
+    setNetwork(id)
     if (chainId != id) {
-      setNetwork(id)
       await value.switchChain(id)
     }
   }
@@ -52,8 +52,7 @@ export default function Tools() {
           </Select>
         </HStack>
         <br />
-        {(network != 999 && chainId != network) ||
-        (network != 999 && chainId != network && account == null) ? (
+        {(chainId != network || account == null) ? (
           <>
             <HStack id="not-connected">
               <Icon as={AiOutlineWarning} />
@@ -65,7 +64,7 @@ export default function Tools() {
               Connect
             </Button>
           </>
-        ) : network != 999 && chainId == network ? (
+        ) : (
           <>
             <HStack id="connected-to-network">
               <Icon as={AiOutlineCheckCircle} />
@@ -76,7 +75,7 @@ export default function Tools() {
             <br></br>
             <ToolBox web3={web3} chainId={chainId} />
           </>
-        ) : null}
+        )}
       </VStack>
     </Layout>
   )
