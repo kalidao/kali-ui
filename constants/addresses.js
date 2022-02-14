@@ -15,7 +15,7 @@ export const addresses =
       blockExplorer: "https://etherscan.io"
     },
     4: {
-      factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
+      factory: "0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548",
       ricardian: "0xd45f8734539792619B3C4BE0e24639845371A481",
       erc20factory: "0x8a23526eDe4d7222150C3dFEFC47902180A19323",
       nft: "0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0",
