@@ -16,7 +16,7 @@ export const addresses =
     },
     4: {
       factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
-      ricardian: "0x612a519C2ba312420c972D7a9714FaF27f4358DF",
+      ricardian: "0xd45f8734539792619B3C4BE0e24639845371A481",
       erc20factory: "0x8a23526eDe4d7222150C3dFEFC47902180A19323",
       nft: "0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0",
       access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
