@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import kaliTokenFactory from "../../eth/kaliToken"
+import kaliAccessManager from "../../eth/kaliAccessManager"
 import {
   Button,
   Checkbox,
@@ -42,36 +42,44 @@ export default function TokenForm() {
   })
 
   const submit = async (values) => {
-    const { owner, name, symbol, details, paused, members } = values
+    const { members, merkle } = values
 
-    // const factory = kaliTokenFactory(addresses[chainId]["erc20factory"], web3)
-    console.log(values)
-    // let accounts = []
-    // let amounts = []
-    // for (let i = 0; i < members.length; i++) {
-    //   accounts.push(members[i].address)
-    //   amounts.push(web3.utils.toWei(members[i].amount))
-    // }
+    const factory = kaliAccessManager(addresses[chainId]["access"], web3)
 
-    // try {
-    //   let result = await factory.methods
-    //     .deployKaliERC20(
-    //       name,
-    //       symbol,
-    //       details,
-    //       accounts,
-    //       amounts,
-    //       paused,
-    //       owner
-    //     )
-    //     .send({ from: account })
+    let array = []
 
-    //   console.log("This is the result", result)
-    //   setListCreated(true)
-    // } catch (e) {
-    //   alert(e)
-    //   console.log(e)
-    // }
+    for (let i = 0; i < members.length; i++) {
+      if (members[i].address.slice(-4) === ".eth") {
+        members[i].address = await web3.eth.ens
+          .getAddress(members[i].address)
+          .catch(() => {
+            value.toast(members[i].address + " is not a valid ENS.")
+          })
+      } else if (web3.utils.isAddress(members[i].address) == false) {
+        value.toast(members[i].address + " is not a valid Ethereum address.")
+        return
+      }
+
+      if (members[i].address === undefined) {
+        return
+      }
+
+      array.push(members[i].address)
+    }
+
+    array = [...new Set(array)]
+
+    try {
+      let result = await factory.methods
+        .createList(array, web3.utils.asciiToHex(merkle))
+        .send({ from: account })
+
+      console.log("This is the result", result)
+      setListCreated(true)
+    } catch (e) {
+      alert(e)
+      console.log(e)
+    }
   }
 
   return (
