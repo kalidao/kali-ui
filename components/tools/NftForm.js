@@ -3,6 +3,7 @@ import AppContext from "../../context/AppContext"
 import kaliNFT from "../../eth/kaliNFT.js";
 import {
   Button,
+  Box,
   FormControl,
   FormLabel,
   Heading,
@@ -109,14 +110,18 @@ function NftForm() {
   };
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(submit)}>
+    <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
       <Heading as="h1">Mint an NFT</Heading>
-      <FormControl>
-        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
-          Recipient
-        </FormLabel>
+      <VStack w="100%" align="flex-start">
         <HStack>
+
+        <label>Recipient</label>
+        <InfoTip
+          hasArrow
+          label={"Token will be minted to this recipient address"}
+        />
+        </HStack>
           <Input
             name="recipient"
             placeholder="0xKALI or ENS"
@@ -124,13 +129,10 @@ function NftForm() {
               required: "Recipient is required.",
             })}
           />
-          <InfoTip
-            hasArrow
-            label={"Token will be minted to this recipient address"}
-          />
-        </HStack>
         {errors.recipient && value.toast(errors.recipient.message)}
-      </FormControl>
+      </VStack>
+      <Box w="100%" pt="10px">
+
       <input
         id="file"
         name="file"
@@ -139,6 +141,7 @@ function NftForm() {
           setFile(e.target.files[0])
         }}
       />
+      </Box>
       {isMinted && <label>Minted!</label>}
       <Button className="transparent-btn" type="submit">
         Mint »

@@ -107,74 +107,57 @@ export default function TokenForm() {
     <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
       <Heading as="h1">Mint an ERC20 token</Heading>
-      <FormControl>
-        <FormLabel htmlFor="owner" fontSize="m" fontWeight="500">
-          Owner
-        </FormLabel>
+
+      <VStack w="100%" align="flex-start">
         <HStack>
-          <Input
-            name="owner"
-            placeholder="0xKALI or ENS"
-            {...register("owner", {
-              required: "Owner is required.",
-            })}
-          />
-          <InfoTip hasArrow label={"Token will be minted to this address"} />
+          <label>Owner</label>
+          <InfoTip hasArrow label={"Owner of ERC20 token"} />
         </HStack>
-        {errors.owner && value.toast(errors.owner.message)}
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="name" fontSize="m" fontWeight="500">
-          Name
-        </FormLabel>
-        <HStack>
-          <Input
-            name="name"
-            placeholder="KALI Token"
-            {...register("name", {
-              required: true,
-            })}
-          />
-          <InfoTip
-            hasArrow
-            label={
-              "Give your DAO a name, which will also be the name of the DAO token"
-            }
-          />
-        </HStack>
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="symbol" fontSize="m" fontWeight="500">
-          Symbol
-        </FormLabel>
-        <HStack>
-          <Input
-            name="symbol"
-            placeholder="KALI"
-            {...register("symbol", {
-              required: "Symbol is required.",
-              maxLength: {
-                value: 12,
-                message: "Symbol shouldn't be greater than 12 characters.",
-              },
-            })}
-          />
-          <InfoTip hasArrow label={"Symbol of DAO token"} />
-        </HStack>
-        {errors.symbol && value.toast(errors.symbol.message)}
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="supply" fontSize="m" fontWeight="500">
-          Details
-        </FormLabel>
-        <HStack>
-          <Input name="details" placeholder="IPFS link" {...register("details")} />
-          <InfoTip hasArrow label={"Details for your ERC20 token"} />
-        </HStack>
-        {errors.details && value.toast(errors.details.message)}
-      </FormControl>
+        <Input
+          name="owner"
+          placeholder="0xKALI or ENS"
+          {...register("owner", {
+            required: "Owner is required.",
+          })}
+        />
+      </VStack>
+      {errors.owner && value.toast(errors.owner.message)}
+      <VStack w="100%" align="flex-start">
+        <label>Name</label>
+        <Input
+          name="name"
+          placeholder="KALI Token"
+          {...register("name", {
+            required: true,
+          })}
+        />
+      </VStack>
+      <VStack w="100%" align="flex-start">
+        <label>Symbol</label>
+        <Input
+          name="symbol"
+          placeholder="KALI"
+          {...register("symbol", {
+            required: "Symbol is required.",
+            maxLength: {
+              value: 12,
+              message: "Symbol shouldn't be greater than 12 characters.",
+            },
+          })}
+        />
+      </VStack>
+      {errors.symbol && value.toast(errors.symbol.message)}
+      <VStack w="100%" align="flex-start">
+        <label>Details</label>
+        <Input
+          name="details"
+          placeholder="IPFS link"
+          {...register("details")}
+        />
+      </VStack>
+      {errors.details && value.toast(errors.details.message)}
       <HStack pt={"4"} w={"100%"}>
-        <FormLabel htmlFor="paused">Share Transferability</FormLabel>
+        <label>Share Transferability</label>
         <Spacer></Spacer>
         <Controller
           control={control}
@@ -247,11 +230,7 @@ export default function TokenForm() {
                       control={control}
                       name={`recipients.${index}.amount`}
                       render={({ field: { ref, ...rest } }) => (
-                        <NumberInput
-                          min="1"
-                          max="1000000000"
-                          {...rest}
-                        >
+                        <NumberInput min="1" max="1000000000" {...rest}>
                           <NumberInputField ref={ref} name={rest.name} />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
@@ -274,9 +253,7 @@ export default function TokenForm() {
             </ListItem>
           ))}
         </List>
-        {isMinted && (
-          <label>Minted!</label>
-        )}
+        {isMinted && <label>Minted!</label>}
       </VStack>
       <Button className="transparent-btn" type="submit">
         Mint »
