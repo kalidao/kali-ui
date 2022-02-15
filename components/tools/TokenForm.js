@@ -42,6 +42,7 @@ export default function TokenForm() {
       name: "",
       symbol: "",
       details: "",
+      paused: false,
     },
   })
 
@@ -50,17 +51,44 @@ export default function TokenForm() {
     name: "recipients",
   })
 
+  const resolveAddressAndEns = async (ens) => {
+    let address
+
+    if (ens.slice(-4) === ".eth") {
+      address = await web3.eth.ens.getAddress(ens).catch(() => {
+        value.toast(ens + " is not a valid ENS.")
+      })
+    } else if (web3.utils.isAddress(ens) == false) {
+      value.toast(ens + " is not a valid Ethereum address.")
+      return
+    } else {
+      address = ens
+    }
+
+    if (ens === undefined) {
+      return
+    } 
+    
+    return address
+  } 
+
   const submit = async (values) => {
     const { owner, name, symbol, details, paused, recipients } = values
 
     const factory = kaliTokenFactory(addresses[chainId]["erc20factory"], web3)
 
+    owner = await resolveAddressAndEns(owner)
+
     let accounts = [];
     let amounts = [];
     for (let i = 0; i < recipients.length; i++) {
-      accounts.push(recipients[i].address)
+      let account = await resolveAddressAndEns(recipients[i].address)
+
+      accounts.push(account)
       amounts.push(web3.utils.toWei(recipients[i].amount))
     }
+
+    console.log(name, symbol, details, accounts, amounts, paused, owner)
 
     try {
       let result = await factory.methods
@@ -76,7 +104,7 @@ export default function TokenForm() {
   }
 
   return (
-    <VStack w="70%" as="form" onSubmit={handleSubmit(submit)}>
+    <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
       <Heading as="h1">Mint an ERC20 token</Heading>
       <FormControl>

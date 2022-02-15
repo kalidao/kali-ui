@@ -26,9 +26,6 @@ export default function TokenForm() {
   const [listCreated, setListCreated] = useState(false)
   const [merkle, setMerkle] = useState("")
 
-  // merkle 0x0000000000000000000000000000000000000000
-  // merkle 0x6162636400000000000000000000000000000000000000000000000000000000
-
   const {
     handleSubmit,
     register,
