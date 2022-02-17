@@ -192,7 +192,7 @@ export default function TokenForm() {
             }}
             onClick={() => append({ address: "" })}
           >
-            <AiOutlineUserAdd />
+            <AiOutlineUserAdd color="white" />
           </Button>
         </HStack>
         <List width="100%">

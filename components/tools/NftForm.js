@@ -34,8 +34,30 @@ function NftForm() {
     },
   })
 
+  const resolveAddressAndEns = async (ens) => {
+    let address
+
+    if (ens.slice(-4) === ".eth") {
+      address = await web3.eth.ens.getAddress(ens).catch(() => {
+        value.toast(ens + " is not a valid ENS.")
+      })
+    } else if (web3.utils.isAddress(ens) == false) {
+      value.toast(ens + " is not a valid Ethereum address.")
+      return
+    } else {
+      address = ens
+    }
+
+    if (ens === undefined) {
+      return
+    }
+
+    return address
+  }
+  
   // Upload file to Fleek Storage
   const upload = async () => {
+    console.log(file)
     const input = {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
@@ -73,7 +95,7 @@ function NftForm() {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: account + file.name,
+      key: account + " " + file.name,
       data,
     }
 
@@ -89,16 +111,17 @@ function NftForm() {
   };
 
   const submit = async (values) => {
-    console.log("hey")
-    const nft = await kaliNFT(addresses[chainId]["nft"], web3)
+    const owner = values.recipient
+    owner = await resolveAddressAndEns(owner)
 
+    const nft = await kaliNFT(addresses[chainId]["nft"], web3)
     const tokenId = await nft.methods.totalSupply().call();
     const metadata = await upload();
     const tokenUri = await uploadMetadata(metadata);
 
     try {
       let result = await nft.methods
-        .mint(values.recipient, tokenId++, tokenUri)
+        .mint(owner, tokenId++, tokenUri)
         .send({ from: account });
 
       console.log("This is the result", result);
