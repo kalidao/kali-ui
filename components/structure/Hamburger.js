@@ -31,11 +31,6 @@ export default function Hamburger() {
             <MenuItem color="kali.800">Tools</MenuItem>
           </a>
         </Link>
-        <Link href="https://www.lexdao.coop/#/directory">
-          <a>
-            <MenuItem color="kali.800">LexDAO Directory</MenuItem>
-          </a>
-        </Link>
         <a
           href="https://docs.kalidao.xyz/faq/"
           target="_blank"
@@ -53,6 +48,11 @@ export default function Hamburger() {
         >
           <MenuItem color="kali.800">Support</MenuItem>
         </a>
+        <Link href="https://www.lexdao.coop/#/directory">
+          <a>
+            <MenuItem color="kali.800">LexDAO Directory</MenuItem>
+          </a>
+        </Link>
       </MenuList>
     </Menu>
   );

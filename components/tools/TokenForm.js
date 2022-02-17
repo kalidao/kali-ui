@@ -118,7 +118,7 @@ export default function TokenForm() {
       <VStack w="100%" align="flex-start">
         <HStack>
           <label>Owner</label>
-          <InfoTip hasArrow label={"Owner of ERC20 token"} />
+          <InfoTip hasArrow label={"Manages minting and burning of tokens."} />
         </HStack>
         <Input
           name="owner"
@@ -164,7 +164,7 @@ export default function TokenForm() {
       </VStack>
       {errors.details && value.toast(errors.details.message)}
       <HStack pt={"4"} w={"100%"}>
-        <label>Share Transferability</label>
+        <label>Tokens Transferable</label>
         <Spacer></Spacer>
         <Controller
           control={control}
