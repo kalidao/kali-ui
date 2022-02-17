@@ -1,28 +1,51 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
+import AppContext from "../../context/AppContext"
 import kaliNFT from "../../eth/kaliNFT.js";
-import { Button } from "@chakra-ui/react";
-import FlexGradient from "../elements/FlexGradient.js";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import FormikControl from "../home/form/FormikControl.js";
+import {
+  Button,
+  Box,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  VStack,
+  HStack
+} from "@chakra-ui/react"
+import { useForm } from "react-hook-form"
+import InfoTip from "../elements/InfoTip"
 import fleek from "@fleekhq/fleek-storage-js";
+import { addresses } from "../../constants/addresses"
 
-function NftForm(props) {
-  const value = useContext(AppContext);
-  const { web3, account, loading, dao } = value.state;
+
+function NftForm() {
+  const value = useContext(AppContext)
+  const { web3, account, chainId } = value.state
+  const [file, setFile] = useState("")
+  const [isMinted, setIsMinted] = useState(false)
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      recipient: "",
+    },
+  })
 
   // Upload file to Fleek Storage
-  const upload = async (values) => {
+  const upload = async () => {
     const input = {
-      apiKey: process.env.REACT_APP_FLEEK_API_KEY,
-      apiSecret: process.env.REACT_APP_FLEEK_API_SECRET,
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: values.title,
-      data: values.file,
+      key: file.name,
+      data: file,
       httpUploadProgressCallback: (event) => {
-        console.log(Math.round((event.loaded / event.total) * 100) + "% done");
+        console.log(Math.round((event.loaded / event.total) * 100) + "% done")
       },
-    };
+    }
 
     try {
       const result = await fleek.upload(input);
@@ -32,31 +55,27 @@ function NftForm(props) {
       const date = new Date();
       const timestamp = date.getTime();
       const metadata = {
-        title: values.title,
-        description: values.desc,
-        image: result.hash,
+        title: file.name,
+        file: result.hash,
         createdAt: timestamp,
       };
 
       return metadata;
     } catch (e) {
-      console.log("Error: " + e);
-      alert(e);
+      console.log(e);
     }
   };
 
   // ----- Upload metadata to Fleek Storage
   const uploadMetadata = async (metadata) => {
     const data = JSON.stringify(metadata);
-
-    // TODO #1 - Store keys as .env
     const input = {
-      apiKey: process.env.REACT_APP_FLEEK_API_KEY,
-      apiSecret: process.env.REACT_APP_FLEEK_API_SECRET,
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: metadata.image,
+      key: account + file.name,
       data,
-    };
+    }
 
     try {
       // Uplaod tokenUri to Fleek
@@ -65,79 +84,70 @@ function NftForm(props) {
 
       return result.hash;
     } catch (e) {
-      console.log("Error: " + e, i);
+      console.log("Error: " + e);
     }
   };
 
-  const handleNftSubmit = async (values) => {
-    const tokenId = await kaliNFT.methods.totalSupply().call();
-    const metadata = await upload(values);
+  const submit = async (values) => {
+    console.log("hey")
+    const nft = await kaliNFT(addresses[chainId]["nft"], web3)
+
+    const tokenId = await nft.methods.totalSupply().call();
+    const metadata = await upload();
     const tokenUri = await uploadMetadata(metadata);
 
     try {
-      let result = await kaliNFT.methods
-        .mint(dao, tokenId, tokenUri)
+      let result = await nft.methods
+        .mint(values.recipient, tokenId++, tokenUri)
         .send({ from: account });
 
       console.log("This is the result", result);
+      setIsMinted(true)
     } catch (e) {
       alert(e);
       console.log(e);
     }
   };
 
-  const initialValues = {
-    title: "",
-    desc: "",
-    file: "",
-  };
-
-  const validationSchema = Yup.object({
-    title: Yup.string().required("Required"),
-    desc: Yup.string().required("Required"),
-    // TODO #2 - Validate a file is selected
-  });
-
   return (
-    <FlexGradient>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleNftSubmit}
-      >
-        {({ setFieldValue }) => (
-          <Form>
-            <FormikControl
-              control="input"
-              type="text"
-              label="Title"
-              name="title"
-              placeholder="Title of NFT"
-            />
-            <FormikControl
-              control="textarea"
-              type="text"
-              label="Description"
-              name="desc"
-              placeholder="Description for NFT"
-            />
-            <br />
-            <input
-              id="file"
-              name="file"
-              type="file"
-              onChange={(event) => {
-                setFieldValue("file", event.target.files[0]);
-              }}
-            />
-            <br />
-            <br />
-            <Button type="submit">Summon</Button>
-          </Form>
-        )}
-      </Formik>
-    </FlexGradient>
-  );
+    <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
+      <br />
+      <Heading as="h1">Mint an NFT</Heading>
+      <VStack w="100%" align="flex-start">
+        <HStack>
+
+        <label>Recipient</label>
+        <InfoTip
+          hasArrow
+          label={"Token will be minted to this recipient address"}
+        />
+        </HStack>
+          <Input
+            name="recipient"
+            placeholder="0xKALI or ENS"
+            {...register("recipient", {
+              required: "Recipient is required.",
+            })}
+          />
+        {errors.recipient && value.toast(errors.recipient.message)}
+      </VStack>
+      <Box w="100%" pt="10px">
+
+      <input
+        id="file"
+        name="file"
+        type="file"
+        onChange={(e) => {
+          setFile(e.target.files[0])
+        }}
+      />
+      </Box>
+      {isMinted && <label>Minted!</label>}
+      <Button className="transparent-btn" type="submit">
+        Mint »
+      </Button>
+    </VStack>
+  )
 }
 
 export default NftForm;
