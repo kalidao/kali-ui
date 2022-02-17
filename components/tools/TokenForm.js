@@ -25,7 +25,6 @@ import InfoTip from "../elements/InfoTip"
 import AppContext from "../../context/AppContext"
 import { addresses } from "../../constants/addresses"
 
-
 export default function TokenForm() {
   const value = useContext(AppContext)
   const { web3, account, chainId } = value.state
@@ -67,10 +66,10 @@ export default function TokenForm() {
 
     if (ens === undefined) {
       return
-    } 
-    
+    }
+
     return address
-  } 
+  }
 
   const submit = async (values) => {
     const { owner, name, symbol, details, paused, recipients } = values
@@ -79,8 +78,8 @@ export default function TokenForm() {
 
     owner = await resolveAddressAndEns(owner)
 
-    let accounts = [];
-    let amounts = [];
+    let accounts = []
+    let amounts = []
     for (let i = 0; i < recipients.length; i++) {
       let account = await resolveAddressAndEns(recipients[i].address)
 
@@ -92,7 +91,15 @@ export default function TokenForm() {
 
     try {
       let result = await factory.methods
-        .deployKaliERC20(name, symbol, details, accounts, amounts, paused, owner)
+        .deployKaliERC20(
+          name,
+          symbol,
+          details,
+          accounts,
+          amounts,
+          paused,
+          owner
+        )
         .send({ from: account })
 
       console.log("This is the result", result)
@@ -261,5 +268,3 @@ export default function TokenForm() {
     </VStack>
   )
 }
-
-export default TokenForm;
