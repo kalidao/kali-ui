@@ -162,7 +162,7 @@
 				"type": "bytes[]"
 			}
 		],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
