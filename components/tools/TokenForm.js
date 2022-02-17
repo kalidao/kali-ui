@@ -164,7 +164,7 @@ export default function TokenForm() {
       </VStack>
       {errors.details && value.toast(errors.details.message)}
       <HStack pt={"4"} w={"100%"}>
-        <label>Share Transferability</label>
+        <label>Tokens Transferable</label>
         <Spacer></Spacer>
         <Controller
           control={control}
