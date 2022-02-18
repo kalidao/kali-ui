@@ -15,7 +15,7 @@ export const presets = [
     extensions: {
       tribute: {
         description:
-          "Launch a community token. Voting is permissive. Includes 'tribute' extension to request membership for deposited funds.",
+          "Launch a community token. Voting is permissive. Includes 'tribute' extension to request membership in exchange for funds.",
       },
     },
   },
