@@ -2,8 +2,8 @@ export const addresses =
   // organized by chainId
   {
     1: {
-      factory: "0xA051591c52c1378bc4a34c57445D181deEF100f0",
-      ricardian: "0x1a49A558557c9Fcd5073FB6641d2dc32233cb5D9",
+      factory: "0x8bD48C45d40724E8424C3aAa4097257A38A98024",
+      ricardian: "0x2017d429Ad722e1cf8df9F1A2504D4711cDedC49",
       erc20factory: "0x65B2fb10C3D759b8D5828f617d146c5Ec380Ed1D",
       nft: "0x9E7351cA95099496bcAC598Fe4d5201D2B1f9A8d",
       access: "0x7799b86Ada91a507b5cbDA03638116A26A86358d",
@@ -15,8 +15,8 @@ export const addresses =
       blockExplorer: "https://etherscan.io"
     },
     4: {
-      factory: "0x58AC6a1Dd37b374Eb98FE751fc64502bB04Fb80f",
-      ricardian: "0x612a519C2ba312420c972D7a9714FaF27f4358DF",
+      factory: "0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548",
+      ricardian: "0xd45f8734539792619B3C4BE0e24639845371A481",
       erc20factory: "0x8a23526eDe4d7222150C3dFEFC47902180A19323",
       nft: "0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0",
       access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
@@ -28,8 +28,8 @@ export const addresses =
       blockExplorer: "https://rinkeby.etherscan.io"
     },
     137: {
-      factory: "0x3f15724d409444743613AdaFA4A4a4B49D9Ab2F9",
-      ricardian: "0x0731FF841f2eB3F8Fef7BE1B683C733C9f2150f5",
+      factory: "0xeb37fc7F7781C4B6395b093359aaaFD285DaA6b9",
+      ricardian: "0xbE7aDeD5dFCAA0E51F885748AA4DFf457f0c52A0",
       erc20factory: "0xf8468a8A356B1b9DB2E918DbC1Ca31D597c9E54F",
       nft: "0x9BD8D05c793dc5ba044Fe4656b25092b269DfB5D",
       access: "0x43Cc55157d3A4e51ab99CaD6189726D768d7A124",
@@ -41,8 +41,8 @@ export const addresses =
       blockExplorer: "https://polygonscan.com"
     },
     42161: {
-      factory: "0x6fcc42233f909a46EB006A7bd6BfE9D94928e64a",
-      ricardian: "0x02D77B4Ae9e1b2AE629055Ac0f71A29D13b29587",
+      factory: "0x045cbcBA76a7EcF82d0f6B5DCc0881B3C12E37d0",
+      ricardian: "0xB572aC31AB7FE0f8b65E6be10bd36eE81DA71f2B",
       erc20factory: "0x5eeDa4696062Eaa319DDE62d2D350f4aBF0C88F4",
       nft: "0x212CD0DE0C28858Fc72F792bb0F49d3B98d4cd0b",
       access: "0x89832E0DbE3600a7358F2E3eA2d7aF5dc7d76E0C",
