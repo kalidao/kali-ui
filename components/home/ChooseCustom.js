@@ -118,7 +118,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         <ChooseSupermajority details={details} setDetails={setDetails} />
         <br></br>
         <HStack pt={"4"} w={"100%"}>
-          <FormLabel htmlFor="paused">Shares Transferable</FormLabel>
+          <FormLabel htmlFor="paused">Shares Restricted</FormLabel>
           <Spacer></Spacer>
           <Controller
             control={control}
