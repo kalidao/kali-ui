@@ -27,14 +27,18 @@ function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register, reset } = useForm()
   const [selection, setSelection] = useState("")
+  
   const [deLlcForm, setDeLlcForm] = useState(false)
   const [deIcForm, setDeIcForm] = useState(false)
   const [deUnaForm, setDeUnaForm] = useState(false)
   const [wyLlcForm, setWyLlcForm] = useState(false)
+  const [swissVereinForm, setSwissVereinForm] = useState(false)
+
   const [delawareLlc, setDelawareLlc] = useState({})
   const [delawareIc, setDelawareIc] = useState({})
   const [delawareUna, setDelawareUna] = useState({})
   const [wyomingLlc, setWyomingLlc] = useState({})
+  const [swissVerein, setSwissVerein] = useState({})
 
   const generateDoc = (values) => {
     values.agreement = selection
