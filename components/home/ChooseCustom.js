@@ -56,7 +56,10 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       votingPeriod,
       votingPeriodUnit
     );
-    details["governance"]["paused"] = Number(paused);
+
+    if (paused != undefined) {
+      details["governance"]["paused"] = Number(paused);
+    }
 
     setDetails(details);
     console.log("details", details);
