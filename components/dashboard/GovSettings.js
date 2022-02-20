@@ -9,7 +9,7 @@ export default function GovSettings() {
   const { dao } = value.state;
   const array = [
     {
-      name: "Shares Transferable",
+      name: "Shares Restricted",
       info: dao["token"]["paused"]
         .toString()
         .replace(/^\w/, (s) => s.toUpperCase()),
@@ -19,7 +19,7 @@ export default function GovSettings() {
       info: convertVotingPeriod(dao["gov"]["votingPeriod"]),
     },
     {
-      name: "Quorum",
+      name: "Participation Needed",
       info: dao["gov"]["quorum"] + "%",
     },
     {
