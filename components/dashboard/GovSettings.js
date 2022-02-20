@@ -23,7 +23,7 @@ export default function GovSettings() {
       info: dao["gov"]["quorum"] + "%",
     },
     {
-      name: "Supermajority",
+      name: "Approval Needed",
       info: dao["gov"]["supermajority"] + "%",
     },
   ];
