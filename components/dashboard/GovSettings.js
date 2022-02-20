@@ -9,7 +9,7 @@ export default function GovSettings() {
   const { dao } = value.state;
   const array = [
     {
-      name: "Paused",
+      name: "Shares Transferable",
       info: dao["token"]["paused"]
         .toString()
         .replace(/^\w/, (s) => s.toUpperCase()),
