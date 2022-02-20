@@ -6,7 +6,8 @@ import {
   ListItem,
   HStack,
   Spacer,
-  Spinner
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import DashedDivider from "../elements/DashedDivider";
 import InfoTip from "../elements/InfoTip";
@@ -41,9 +42,15 @@ export default function Extensions() {
 
   return (
     <>
-      {
-        dao["extensions"] == undefined ? <Spinner /> :
-        dao["extensions"] == null ? (
+      {dao["extensions"] == undefined ? (
+        <>
+          <Spinner />
+          <Center>
+            We're fetching this data from the blockchain. Hang tight, it may
+            take a few minutes!
+          </Center>
+        </>
+      ) : dao["extensions"] == null ? (
         "No extensions installed"
       ) : (
         <>
