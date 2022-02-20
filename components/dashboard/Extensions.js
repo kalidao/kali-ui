@@ -1,14 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import {
-  Text,
-  UnorderedList,
-  ListItem,
-  HStack,
-  Spacer,
-  Spinner,
-  Center,
-} from "@chakra-ui/react";
+import { Text, HStack, Spacer, Spinner, Center } from "@chakra-ui/react";
 import DashedDivider from "../elements/DashedDivider";
 import InfoTip from "../elements/InfoTip";
 
