@@ -259,6 +259,13 @@ const SwissVerein = ({ name, city, project, purpose }) => {
           Meeting.
           <Br />
         </Text>
+        <Text
+          style={styles.pageNumber}
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber} / ${totalPages}`
+          }
+          fixed
+        />
       </Page>
     </Document>
   );
