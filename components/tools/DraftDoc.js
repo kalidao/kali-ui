@@ -22,6 +22,7 @@ import DelawareOAtemplate from "../legal/DelawareOAtemplate";
 import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
+import SwissVerein from "../legal/SwissVerein";
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -134,6 +135,7 @@ function DraftDoc() {
                   <option value="wyoming-llc">Wyoming DAO LLC</option>
                   <option value="delaware-ic">Investment Club</option>
                   <option value="delaware-una">UNA</option>
+                  <option value="swiss-verein">Swiss Verein</option>
                 </Select>
               </FormControl>
               {selection === "delaware-llc" && (
@@ -321,7 +323,7 @@ function DraftDoc() {
               (swissVereinForm && (
                 <PDFDownloadLink
                   document={
-                    <WyomingOAtemplate
+                    <SwissVerein
                       name={swissVerein.name}
                       city={swissVerein.city}
                       project={swissVerein.project}
