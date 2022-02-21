@@ -15,6 +15,8 @@ import {
   Textarea,
   Select,
   VStack,
+  Link,
+  Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -224,19 +226,28 @@ function DraftDoc() {
                     <FormLabel mt={3} htmlFor="city">
                       City of Switzerland
                     </FormLabel>
-                    <Input
-                      id="city"
-                      placeholder="Zug"
-                      {...register("city")}
-                    />
+                    <Input id="city" placeholder="Zug" {...register("city")} />
                     <FormLabel mt={3} htmlFor="project">
                       Project Name
                     </FormLabel>
-                    <Input id="project" placeholder="name of your project" {...register("project")} />
+                    <Input
+                      id="project"
+                      placeholder="name of your project"
+                      {...register("project")}
+                    />
                     <FormLabel mt={3} htmlFor="purpose">
                       Link to DAO Mission
                     </FormLabel>
-                    <Input id="purpose" placeholder="purpose" {...register("purpose")} />
+                    <Input
+                      id="purpose"
+                      placeholder="purpose"
+                      {...register("purpose")}
+                    />
+                    <Text mt={5} align="center" htmlFor="purpose">
+                      <Link href="http://app.kalidao.xyz">
+                        <i>Need help with Swiss Verein?</i>
+                      </Link>
+                    </Text>
                   </FormControl>
                 </>
               )}
