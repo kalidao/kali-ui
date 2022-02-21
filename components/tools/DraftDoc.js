@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react";
 import {
   Button,
   Drawer,
@@ -15,69 +15,79 @@ import {
   Textarea,
   Select,
   VStack,
-} from "@chakra-ui/react"
-import { useForm } from "react-hook-form"
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import DelawareOAtemplate from "../legal/DelawareOAtemplate"
-import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate"
-import DelawareUNAtemplate from "../legal/DelawareUNAtemplate"
-import WyomingOAtemplate from "../legal/WyomingOAtemplate"
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import DelawareOAtemplate from "../legal/DelawareOAtemplate";
+import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
+import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
+import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 
 function DraftDoc() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { handleSubmit, register, reset } = useForm()
-  const [selection, setSelection] = useState("")
-  
-  const [deLlcForm, setDeLlcForm] = useState(false)
-  const [deIcForm, setDeIcForm] = useState(false)
-  const [deUnaForm, setDeUnaForm] = useState(false)
-  const [wyLlcForm, setWyLlcForm] = useState(false)
-  const [swissVereinForm, setSwissVereinForm] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { handleSubmit, register, reset } = useForm();
+  const [selection, setSelection] = useState("");
 
-  const [delawareLlc, setDelawareLlc] = useState({})
-  const [delawareIc, setDelawareIc] = useState({})
-  const [delawareUna, setDelawareUna] = useState({})
-  const [wyomingLlc, setWyomingLlc] = useState({})
-  const [swissVerein, setSwissVerein] = useState({})
+  // Toggle Legal Form
+  const [deLlcForm, setDeLlcForm] = useState(false);
+  const [deIcForm, setDeIcForm] = useState(false);
+  const [deUnaForm, setDeUnaForm] = useState(false);
+  const [wyLlcForm, setWyLlcForm] = useState(false);
+  const [swissVereinForm, setSwissVereinForm] = useState(false);
+
+  // State per Legal Form
+  const [delawareLlc, setDelawareLlc] = useState({});
+  const [delawareIc, setDelawareIc] = useState({});
+  const [delawareUna, setDelawareUna] = useState({});
+  const [wyomingLlc, setWyomingLlc] = useState({});
+  const [swissVerein, setSwissVerein] = useState({});
 
   const generateDoc = (values) => {
-    values.agreement = selection
+    values.agreement = selection;
     switch (selection) {
       case "delaware-llc":
         setDelawareLlc({
           name: values.name,
           chain: values.chain,
-        })
-        setDeLlcForm(true)
+        });
+        setDeLlcForm(true);
       case "delaware-ic":
         setDelawareIc({
           name: values.name,
           chain: values.chain,
-        })
-        setDeIcForm(true)
+        });
+        setDeIcForm(true);
       case "delaware-una":
         setDelawareUna({
           name: values.name,
           chain: values.chain,
           url: values.url,
-        })
-        setDeUnaForm(true)
+        });
+        setDeUnaForm(true);
       case "wyoming-llc":
         setWyomingLlc({
           name: values.name,
           chain: values.chain,
-        })
-        setWyLlcForm(true)
+        });
+        setWyLlcForm(true);
+      case "swiss-verein":
+        setSwissVerein({
+          name: values.name,
+          city: values.city,
+          project: values.project,
+          purpose: values.purpose,
+        });
+        setSwissVereinForm(true);
     }
 
-    console.log(values)
-  }
+    console.log(values);
+  };
 
   useEffect(() => {
-    console.log(selection)
+    console.log(selection);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selection])
+  }, [selection]);
 
   return (
     <>
@@ -110,12 +120,12 @@ function DraftDoc() {
                 <FormLabel htmlFor="name">Select an agreement:</FormLabel>
                 <Select
                   onChange={(e) => {
-                    setSelection(e.target.value)
-                    setDeLlcForm(false)
-                    setDeIcForm(false)
-                    setDeUnaForm(false)
-                    setWyLlcForm(false)
-                    reset()
+                    setSelection(e.target.value);
+                    setDeLlcForm(false);
+                    setDeIcForm(false);
+                    setDeUnaForm(false);
+                    setWyLlcForm(false);
+                    reset();
                   }}
                   id="agreement"
                   placeholder="Select option"
@@ -202,6 +212,32 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
+              {selection === "swiss-verein" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="name">
+                      Verein Name
+                    </FormLabel>
+                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <FormLabel mt={3} htmlFor="city">
+                      City of Switzerland
+                    </FormLabel>
+                    <Input
+                      id="city"
+                      placeholder="Zug"
+                      {...register("city")}
+                    />
+                    <FormLabel mt={3} htmlFor="project">
+                      Project Name
+                    </FormLabel>
+                    <Input id="project" placeholder="name of your project" {...register("project")} />
+                    <FormLabel mt={3} htmlFor="purpose">
+                      Link to DAO Mission
+                    </FormLabel>
+                    <Input id="purpose" placeholder="purpose" {...register("purpose")} />
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </DrawerBody>
           <DrawerFooter>
@@ -281,6 +317,27 @@ function DraftDoc() {
                     )
                   }
                 </PDFDownloadLink>
+              )) ||
+              (swissVereinForm && (
+                <PDFDownloadLink
+                  document={
+                    <WyomingOAtemplate
+                      name={swissVerein.name}
+                      city={swissVerein.city}
+                      project={swissVerein.project}
+                      purpose={swissVerein.purpose}
+                    />
+                  }
+                  fileName="Swiss Verein Article of Association"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <Button mr={3}>Loading Document...</Button>
+                    ) : (
+                      <Button mr={3}>Download</Button>
+                    )
+                  }
+                </PDFDownloadLink>
               ))}
             {}
             {}
@@ -290,7 +347,7 @@ function DraftDoc() {
             <Button
               variant="outline"
               onClick={() => {
-                onClose(), reset(), setSelection("")
+                onClose(), reset(), setSelection("");
               }}
             >
               Cancel
@@ -299,7 +356,7 @@ function DraftDoc() {
         </DrawerContent>
       </Drawer>
     </>
-  )
+  );
 }
 
-export default DraftDoc
+export default DraftDoc;
