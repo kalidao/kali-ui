@@ -1,44 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import Link from "next/link";
 import {
-  Flex,
   Heading,
-  Text,
   Icon,
   HStack,
-  UnorderedList,
-  ListItem,
   Grid,
   Box,
-  Divider,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import Reload from "../elements/Reload.js";
 import { BiGridAlt } from "react-icons/bi";
-import { convertVotingPeriod, fromDecimals } from "../../utils/formatters";
 import { fetchStaticInfo, fetchMoreInfo } from "../../utils/fetchDaoInfo";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { dashboardHelper } from "../../constants/dashboardHelper";
-import { correctNetwork } from "../../utils/network";
-
-const proposalTypes = require("../../constants/params");
+import WelcomeAlert from "../elements/WelcomeAlert";
 
 export default function Dashboard() {
   const value = useContext(AppContext);
-  const {
-    web3,
-    loading,
-    account,
-    abi,
-    chainId,
-    visibleView,
-    dao,
-    address,
-    daoChain,
-  } = value.state;
+  const { web3, account, abi, chainId, dao, address, daoChain } = value.state;
 
   const reloadDao = async () => {
     fetchData();
@@ -49,6 +30,8 @@ export default function Dashboard() {
       fetchData();
     }
   }, [chainId, dao]);
+
+  const toast = useToast();
 
   async function fetchData() {
     value.setLoading(true);
@@ -71,8 +54,16 @@ export default function Dashboard() {
       console.log(dao_, "static info");
       value.setLoading(false);
 
-      if(dao_ == undefined) {
-        value.toast("Error loading your DAO. Please try refreshing in about 30 seconds.")
+      console.log("dao_", dao_);
+      if (dao_ == undefined) {
+        if (!toast.isActive("welcome")) {
+          toast({
+            position: "bottom",
+            duration: 100000,
+            isClosable: true,
+            render: () => <WelcomeAlert />,
+          });
+        }
         return;
       }
 
@@ -89,7 +80,7 @@ export default function Dashboard() {
       dao_["extensions"] = extensions;
 
       value.setDao(dao_);
-      console.log(dao_)
+      console.log(dao_);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
