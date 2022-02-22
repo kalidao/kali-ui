@@ -258,8 +258,8 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
-    console.log("extensionsArray", extensionsArray);
-    console.log("extensionsData", extensionsData);
+    // console.log("extensionsArray", extensionsArray);
+    // console.log("extensionsData", extensionsData);
 
     console.log(
       "deployment param",
@@ -279,33 +279,33 @@ export default function Checkout({ details, daoNames }) {
     var BN = web3.utils.BN;
     let gasPrice = new BN(gasPrice_).toString();
 
-    try {
-      let result = await factory.methods
-        .deployKaliDAO(
-          daoName,
-          symbol,
-          docs,
-          paused,
-          extensionsArray,
-          extensionsData,
-          members,
-          shares,
-          govSettings
-        )
-        .send({ from: account, gasPrice: gasPrice });
+    // try {
+    //   let result = await factory.methods
+    //     .deployKaliDAO(
+    //       daoName,
+    //       symbol,
+    //       docs,
+    //       paused,
+    //       extensionsArray,
+    //       extensionsData,
+    //       members,
+    //       shares,
+    //       govSettings
+    //     )
+    //     .send({ from: account, gasPrice: gasPrice });
 
-      let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-      console.log(dao);
-      console.log(result);
+    //   let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+    //   console.log(dao);
+    //   console.log(result);
 
-      Router.push({
-        pathname: "/daos/[dao]",
-        query: { dao: dao },
-      });
-    } catch (e) {
-      value.toast(e);
-      console.log(e);
-    }
+    //   Router.push({
+    //     pathname: "/daos/[dao]",
+    //     query: { dao: dao },
+    //   });
+    // } catch (e) {
+    //   value.toast(e);
+    //   console.log(e);
+    // }
 
     value.setLoading(false);
   };

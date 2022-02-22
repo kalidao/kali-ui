@@ -64,6 +64,8 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           <option value="0">None</option>
           <option value="1">Series LLC (Instant)</option>
           <option value="2">Custom Docs</option>
+          <option value="3">Delaware Investment Club</option>
+          <option value="4">Wyoming LLC</option>
         </Select>
         <br></br>
         {selectedType == 2 || details["legal"]["docType"] == 2 ? (
