@@ -25,6 +25,7 @@ import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
+import UploadDoc from "./UploadDoc";
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -113,6 +114,7 @@ function DraftDoc() {
         <DrawerContent>
           <DrawerHeader>✍️</DrawerHeader>
           <DrawerBody>
+            <UploadDoc /> 
             <Stack
               as="form"
               id="contact-form"
