@@ -110,7 +110,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
-    console.log("docs to be pushed", docs)
+    console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
@@ -138,10 +138,9 @@ export default function Checkout({ details, daoNames }) {
     let extensionsArray = new Array();
     let extensionsData = new Array();
 
-    if (tribute["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
-      extensionsData.push("0x");
-    }
+    // tribute
+    extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
+    extensionsData.push("0x");
 
     if (crowdsale["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
@@ -274,7 +273,6 @@ export default function Checkout({ details, daoNames }) {
       govSettings
     );
 
-
     var gasPrice_ = await web3.eth.getGasPrice();
     var BN = web3.utils.BN;
     let gasPrice = new BN(gasPrice_).toString();
@@ -403,9 +401,12 @@ export default function Checkout({ details, daoNames }) {
       </KaliButton>
       <br></br>
       <HStack>
-        <Text fontWeight={400}>{" "}<Link href="https://kalico.typeform.com/to/FNsxHBKX">
+        <Text fontWeight={400}>
+          {" "}
+          <Link href="https://kalico.typeform.com/to/FNsxHBKX">
             <i>Need LLC Filing Help?</i>
-          </Link></Text>
+          </Link>
+        </Text>
       </HStack>
       <br></br>
       <HStack>
