@@ -64,7 +64,7 @@ export default function Dashboard() {
             render: () => <WelcomeAlert />,
           });
         }
-        setTimeout(reloadDao, 10000);
+        setTimeout(reloadDao, 30000);
         return;
       }
 
