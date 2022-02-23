@@ -11,11 +11,17 @@ import {
 } from "@chakra-ui/react";
 import Reload from "../elements/Reload.js";
 import { BiGridAlt } from "react-icons/bi";
-import { fetchStaticInfo, fetchMoreInfo } from "../../utils/fetchDaoInfo";
+import {
+  fetchStaticInfo,
+  fetchExtensions,
+  fetchBalances,
+  fetchRicardian,
+} from "../../utils/fetchDaoInfo";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { dashboardHelper } from "../../constants/dashboardHelper";
 import WelcomeAlert from "../elements/WelcomeAlert";
+import { blocks } from "../../constants/blocks";
 
 export default function Dashboard() {
   const value = useContext(AppContext);
@@ -69,14 +75,25 @@ export default function Dashboard() {
         return;
       }
 
-      const { balances, ricardian, extensions } = await fetchMoreInfo(
-        instance,
-        factory,
+      const balances = await fetchBalances(address, web3, daoChain);
+
+      const ricardianBlock = blocks["ricardian"][daoChain];
+      const ricardian = await await fetchRicardian(
         address,
         web3,
+        factory,
         daoChain,
-        account
+        ricardianBlock
       );
+
+      const extensions = await fetchExtensions(
+        instance,
+        daoChain,
+        web3,
+        address,
+        balances
+      );
+
       dao_["balances"] = balances;
       dao_["ricardian"] = ricardian;
       dao_["extensions"] = extensions;
