@@ -39,6 +39,7 @@ export default function Checkout({ details, daoNames }) {
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
+  const [incorporation, setIncorporation] = useState("")
   const [doc, setDoc] = useState("");
   const [docInputs, setDocInputs] = useState({})
   const [blobOn, setBlobOn] = useState(false);
@@ -59,7 +60,7 @@ export default function Checkout({ details, daoNames }) {
     disclaimers_[num] = !disclaimers_[num];
     setDisclaimers(disclaimers_);
     let deployable_ = true;
-    if (details["legal"]["docType"] == 1) {
+    if (details["legal"]["docType"] == "Delaware Ricardian LLC") {
       for (let i = 0; i < disclaimers_.length; i++) {
         if (disclaimers_[i] == false) {
           deployable_ = false;
@@ -106,36 +107,37 @@ export default function Checkout({ details, daoNames }) {
   }
 
   const construct = async () => {
-    console.log(details["legal"]["docType"])
     let _blob
     switch (details["legal"]["docType"]) {
-      case "delaware-llc":
+      case "none":
+        setIncorporation("None")
+      case "Delaware LLC":
         _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
+        setIncorporation("Delaware LLC")
         break
-      case "delaware-ic":
+      case "Delaware IC":
          _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        console.log("pdf from render", _blob)
+        setIncorporation("Delaware Investment Club")
         break
-      case "wyoming-llc":
+      case "Wyoming LLC":
         _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        console.log("pdf from render 4", _blob)
+        setIncorporation("Wyoming LLC")
         break
-      case "delaware-una":
+      case "Delaware UNA":
         _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
-        console.log("pdf from render 5", _blob)
+        setIncorporation("Delaware UNA")
         break
-        case "swiss-verein":
-        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: "123", mission: details["misc"]["mission"]})).toBlob();
-        console.log("pdf from render 6", _blob)
+        case "Swiss Verein":
+        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: details["misc"]["project"], mission: details["misc"]["mission"]})).toBlob();
+        setIncorporation("Swiss Verein")
         break
     }
 
-    console.log(_blob)
     const input = {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: "Summoner of " + details["identity"]["daoName"] + " " + account,
+      key: "Summoner of " + details["identity"]["daoName"] + " - " + account,
       data: _blob,
       httpUploadProgressCallback: (event) => {
         console.log(Math.round((event.loaded / event.total) * 100) + "% done");
@@ -418,7 +420,7 @@ export default function Checkout({ details, daoNames }) {
     },
     {
       name: "Docs",
-      details: docs,
+      details: details["legal"]["docType"],
     },
   ];
 
@@ -454,7 +456,7 @@ export default function Checkout({ details, daoNames }) {
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
       </Checkbox>
-      {details["legal"]["docType"] == 1 ? (
+      {details["legal"]["docType"] == "Delaware Ricardian LLC" ? (
         <Checkbox onChange={() => handleDisclaimer(1)}>
           I agree to the{" "}
           <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">

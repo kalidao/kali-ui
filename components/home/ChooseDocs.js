@@ -43,21 +43,21 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         details["legal"]["docType"] = "none";
       case "1":
         details["legal"]["docs"] = "";
-        details["legal"]["docType"] = "delaware-ricardian-llc";
+        details["legal"]["docType"] = "Delaware Ricardian LLC";
       case "2":
-        details["legal"]["docType"] = "delaware-llc";
+        details["legal"]["docType"] = "Delaware LLC";
         break;
       case "3":
-        details["legal"]["docType"] = "delaware-ic";
+        details["legal"]["docType"] = "Delaware IC";
         break;
       case "4":
-        details["legal"]["docType"] = "wyoming-llc";
+        details["legal"]["docType"] = "Wyoming LLC";
         break;
       case "5":
-        details["legal"]["docType"] = "delaware-una";
+        details["legal"]["docType"] = "Delaware UNA";
         break;
       case "6":
-        details["legal"]["docType"] = "swiss-verein";
+        details["legal"]["docType"] = "Swiss Verein";
         break;
       case "7":
         details["legal"]["docType"] = "none";
@@ -185,7 +185,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
                   href="https://docs.kalidao.xyz/#kalico-ricardian-llc"
                   target="_blank"
                   isExternal
-                  rel="noopener noreferrer"
+                  rel="open referrer"
                   color="kali.800"
                 >
                   establishing its own LLC.
