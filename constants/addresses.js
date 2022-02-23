@@ -1,6 +1,7 @@
 export const addresses =
   // organized by chainId
   {
+    // Ethereum
     1: {
       factory: "0x8bD48C45d40724E8424C3aAa4097257A38A98024",
       ricardian: "0x2017d429Ad722e1cf8df9F1A2504D4711cDedC49",
@@ -14,6 +15,7 @@ export const addresses =
       },
       blockExplorer: "https://etherscan.io"
     },
+    // Rinkeby
     4: {
       factory: "0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548",
       ricardian: "0xd45f8734539792619B3C4BE0e24639845371A481",
@@ -27,6 +29,7 @@ export const addresses =
       },
       blockExplorer: "https://rinkeby.etherscan.io"
     },
+    // Polygon
     137: {
       factory: "0xeb37fc7F7781C4B6395b093359aaaFD285DaA6b9",
       ricardian: "0xbE7aDeD5dFCAA0E51F885748AA4DFf457f0c52A0",
@@ -40,6 +43,7 @@ export const addresses =
       },
       blockExplorer: "https://polygonscan.com"
     },
+    // Arbitrum
     42161: {
       factory: "0x045cbcBA76a7EcF82d0f6B5DCc0881B3C12E37d0",
       ricardian: "0xB572aC31AB7FE0f8b65E6be10bd36eE81DA71f2B",
