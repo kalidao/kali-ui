@@ -25,7 +25,7 @@ import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
 import { uploadDoc } from "../tools/UploadDoc";
-import { usePDF } from "@react-pdf/renderer";
+import { pdf, BlobProvider } from "@react-pdf/renderer";
 import fleek from "@fleekhq/fleek-storage-js";
 import DelawareOAtemplate from "../legal/DelawareOAtemplate";
 import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
@@ -38,9 +38,10 @@ export default function Checkout({ details, daoNames }) {
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
-  const [instance, updateInstance] = usePDF({
-    document: "",
-  });
+  const [doc, setDoc] = useState("");
+  const [docInputs, setDocInputs] = useState({})
+  const [blobOn, setBlobOn] = useState(false);
+  const [blob, setBlob] = useState("");
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -97,28 +98,29 @@ export default function Checkout({ details, daoNames }) {
 
   const construct = async () => {
     console.log(details["legal"]["docType"])
+    const _blob
     switch (details["legal"]["docType"]) {
-      case "0":
-
       case "1":
-        
       case "2":
-        
+        _blob = await pdf(DelawareOAtemplate({name: "123", chain: "123"})).toBlob();
       case "3":
-        updateInstance({ document: DelawareInvestmentClubTemplate({ name: details["identity"]["daoName"], chain: details["network"]})}
-        );
-        console.log("hello")
+         _blob = await pdf(DelawareInvestmentClubTemplate({name: "123", chain: "123"})).toBlob();
+        console.log("pdf from render", _blob)
       case "4":
-
+        _blob = await pdf(WyomingOAtemplate({name: "123", chain: "123"})).toBlob();
       case "5":
+        _blob = await pdf(DelawareUNAtemplate({name: "123", chain: "123"})).toBlob();
+        case "6":
+        _blob = await pdf(SwissVerein({name: "123", chain: "123"})).toBlob();
+        case "7":
     }
 
     const input = {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: "hello",
-      data: instance.blob,
+      key: "new stuff",
+      data: _blob,
       httpUploadProgressCallback: (event) => {
         console.log(Math.round((event.loaded / event.total) * 100) + "% done");
       },
@@ -464,6 +466,16 @@ export default function Checkout({ details, daoNames }) {
         <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
       </HStack>
+      {/* {blobOn && (<BlobProvider document={<DelawareInvestmentClubTemplate name={docInputs.name}
+                    chain={docInputs.chain}
+                  />}>
+      {({ blob, url, loading, error }) => {
+        // Do whatever you need with blob here
+        setBlob(blob)
+        console.log("this is blobbbb", blob, docInputs.name, docInputs.chain)
+        return 
+      }}
+      </BlobProvider>)} */}
     </>
   );
 }
