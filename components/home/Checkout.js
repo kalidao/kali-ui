@@ -32,6 +32,7 @@ import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
+import { supportedChains } from "../../constants/supportedChains";
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
@@ -96,6 +97,14 @@ export default function Checkout({ details, daoNames }) {
     docs = details["legal"]["docs"];
   }
 
+  const getChain = () => {
+    for (var i = 0; i < supportedChains.length; i++) {
+      if (supportedChains[i]["chainId"] == chainId) {
+        return supportedChains[i]["name"];
+      }
+    }
+  }
+
   const construct = async () => {
     console.log(details["legal"]["docType"])
     let _blob
@@ -103,22 +112,22 @@ export default function Checkout({ details, daoNames }) {
       case "1":
         
       case "2":
-        _blob = await pdf(DelawareOAtemplate({name: "123", chain: "123"})).toBlob();
+        _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         break
       case "3":
-         _blob = await pdf(DelawareInvestmentClubTemplate({name: "123", chain: "123"})).toBlob();
+         _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         console.log("pdf from render", _blob)
         break
       case "4":
-        _blob = await pdf(WyomingOAtemplate({name: "123", chain: "123"})).toBlob();
+        _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         console.log("pdf from render 4", _blob)
         break
       case "5":
-        _blob = await pdf(DelawareUNAtemplate({name: "123", chain: "123", url: "123"})).toBlob();
+        _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), url: "123"})).toBlob();
         console.log("pdf from render 5", _blob)
         break
         case "6":
-        _blob = await pdf(SwissVerein({name: "123", city: "123", project: "123", purpose: "123"})).toBlob();
+        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: "123", project: "123", purpose: "123"})).toBlob();
         console.log("pdf from render 6", _blob)
         break
       case "7":
@@ -130,7 +139,7 @@ export default function Checkout({ details, daoNames }) {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: "new stuff",
+      key: "Summoner of " + details["identity"]["daoName"] + " " + account,
       data: _blob,
       httpUploadProgressCallback: (event) => {
         console.log(Math.round((event.loaded / event.total) * 100) + "% done");
@@ -140,13 +149,14 @@ export default function Checkout({ details, daoNames }) {
     try {
       const result = await fleek.upload(input);
       console.log("Image hash from Fleek: " + result.hash);
+      return result.hash
     } catch (e) {
       console.log(e);
     }
   };
 
   const deploy = async () => {
-    construct()
+    const docHash = await construct()
 
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
@@ -173,6 +183,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
+    docs = docHash
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
@@ -238,8 +249,6 @@ export default function Checkout({ details, daoNames }) {
 
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
-
-      (docs != null) ? documentation = docs : documentation = "none"
 
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
