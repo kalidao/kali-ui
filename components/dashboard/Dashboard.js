@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/AppContext";
 import {
   Heading,
@@ -58,6 +58,7 @@ export default function Dashboard() {
       if (dao_ == undefined) {
         if (!toast.isActive("welcome")) {
           toast({
+            id: "welcome",
             position: "bottom",
             duration: 100000,
             isClosable: true,
