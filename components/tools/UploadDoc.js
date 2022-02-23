@@ -48,25 +48,25 @@ export default function uploadDoc({ doc, inputs }) {
         construct()
     })
 
-//   const upload = async () => {
-//     const input = {
-//       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-//       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-//       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-//       key: "hello",
-//       data: instance.blob,
-//       httpUploadProgressCallback: (event) => {
-//         console.log(Math.round((event.loaded / event.total) * 100) + "% done");
-//       },
-//     };
+  const upload = async () => {
+    const input = {
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+      bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+      key: "hello",
+      data: instance.blob,
+      httpUploadProgressCallback: (event) => {
+        console.log(Math.round((event.loaded / event.total) * 100) + "% done");
+      },
+    };
 
-//     try {
-//       const result = await fleek.upload(input);
-//       console.log("Image hash from Fleek: " + result.hash);
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   };
+    try {
+      const result = await fleek.upload(input);
+      console.log("Image hash from Fleek: " + result.hash);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
     return <></>
 }

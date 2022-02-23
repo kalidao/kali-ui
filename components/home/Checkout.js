@@ -109,29 +109,25 @@ export default function Checkout({ details, daoNames }) {
     console.log(details["legal"]["docType"])
     let _blob
     switch (details["legal"]["docType"]) {
-      case "1":
-        
-      case "2":
+      case "delaware-llc":
         _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         break
-      case "3":
+      case "delaware-ic":
          _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         console.log("pdf from render", _blob)
         break
-      case "4":
+      case "wyoming-llc":
         _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
         console.log("pdf from render 4", _blob)
         break
-      case "5":
-        _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), url: "123"})).toBlob();
+      case "delaware-una":
+        _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
         console.log("pdf from render 5", _blob)
         break
-        case "6":
-        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: "123", project: "123", purpose: "123"})).toBlob();
+        case "swiss-verein":
+        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: "123", mission: details["misc"]["mission"]})).toBlob();
         console.log("pdf from render 6", _blob)
         break
-      case "7":
-          
     }
 
     console.log(_blob)

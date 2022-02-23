@@ -70,7 +70,7 @@ const Tab = () => "  "
 const DelawareUNAtemplate = ({
   name,
   chain,
-  url
+  mission
 }) => {
   return (
     <Document>
@@ -100,7 +100,7 @@ const DelawareUNAtemplate = ({
           <Text style={{ textDecoration: "underline" }}>Purposes.</Text>
           <Tab />
           The DAO is organized to carry out the missions stated in its
-          membership portal (available at {url}), related websites or otherwise
+          membership portal (available at {mission}), related websites or otherwise
           memorialized in a writing by the DAO. The DAO is not intended to be or
           become an entity required to register as an “investment company” as
           defined in Section3(a)(1)(A) of the Investment Company Act of 1940, as
