@@ -47,7 +47,7 @@ export default function Extensions() {
       ) : (
         <>
           {Object.entries(dao["extensions"]).map(([name, key]) => (
-            <ExtensionCard name={name} />
+            <ExtensionCard key={key} name={name} />
           ))}
         </>
       )}
