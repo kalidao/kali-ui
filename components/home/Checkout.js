@@ -98,23 +98,34 @@ export default function Checkout({ details, daoNames }) {
 
   const construct = async () => {
     console.log(details["legal"]["docType"])
-    const _blob
+    let _blob
     switch (details["legal"]["docType"]) {
       case "1":
+        
       case "2":
         _blob = await pdf(DelawareOAtemplate({name: "123", chain: "123"})).toBlob();
+        break
       case "3":
          _blob = await pdf(DelawareInvestmentClubTemplate({name: "123", chain: "123"})).toBlob();
         console.log("pdf from render", _blob)
+        break
       case "4":
         _blob = await pdf(WyomingOAtemplate({name: "123", chain: "123"})).toBlob();
+        console.log("pdf from render 4", _blob)
+        break
       case "5":
-        _blob = await pdf(DelawareUNAtemplate({name: "123", chain: "123"})).toBlob();
+        _blob = await pdf(DelawareUNAtemplate({name: "123", chain: "123", url: "123"})).toBlob();
+        console.log("pdf from render 5", _blob)
+        break
         case "6":
-        _blob = await pdf(SwissVerein({name: "123", chain: "123"})).toBlob();
-        case "7":
+        _blob = await pdf(SwissVerein({name: "123", city: "123", project: "123", purpose: "123"})).toBlob();
+        console.log("pdf from render 6", _blob)
+        break
+      case "7":
+          
     }
 
+    console.log(_blob)
     const input = {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
