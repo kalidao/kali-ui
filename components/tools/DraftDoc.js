@@ -114,7 +114,6 @@ function DraftDoc() {
         <DrawerContent>
           <DrawerHeader>✍️</DrawerHeader>
           <DrawerBody>
-            <UploadDoc /> 
             <Stack
               as="form"
               id="contact-form"

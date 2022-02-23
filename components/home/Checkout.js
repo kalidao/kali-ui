@@ -24,12 +24,23 @@ import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
+import { uploadDoc } from "../tools/UploadDoc";
+import { usePDF } from "@react-pdf/renderer";
+import fleek from "@fleekhq/fleek-storage-js";
+import DelawareOAtemplate from "../legal/DelawareOAtemplate";
+import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
+import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
+import WyomingOAtemplate from "../legal/WyomingOAtemplate";
+import SwissVerein from "../legal/SwissVerein";
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
+  const [instance, updateInstance] = usePDF({
+    document: "",
+  });
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -84,7 +95,46 @@ export default function Checkout({ details, daoNames }) {
     docs = details["legal"]["docs"];
   }
 
+  const construct = async () => {
+    console.log(details["legal"]["docType"])
+    switch (details["legal"]["docType"]) {
+      case "0":
+
+      case "1":
+        
+      case "2":
+        
+      case "3":
+        updateInstance({ document: DelawareInvestmentClubTemplate({ name: details["identity"]["daoName"], chain: details["network"]})}
+        );
+        console.log("hello")
+      case "4":
+
+      case "5":
+    }
+
+    const input = {
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+      bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+      key: "hello",
+      data: instance.blob,
+      httpUploadProgressCallback: (event) => {
+        console.log(Math.round((event.loaded / event.total) * 100) + "% done");
+      },
+    };
+
+    try {
+      const result = await fleek.upload(input);
+      console.log("Image hash from Fleek: " + result.hash);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const deploy = async () => {
+    construct()
+
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
@@ -110,7 +160,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
-    console.log("docs to be pushed", docs)
+    console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
@@ -176,7 +226,7 @@ export default function Checkout({ details, daoNames }) {
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
 
-      documentation = docs;
+      (docs != null) ? documentation = docs : documentation = "none"
 
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
@@ -273,7 +323,6 @@ export default function Checkout({ details, daoNames }) {
       shares,
       govSettings
     );
-
 
     var gasPrice_ = await web3.eth.getGasPrice();
     var BN = web3.utils.BN;
@@ -403,9 +452,12 @@ export default function Checkout({ details, daoNames }) {
       </KaliButton>
       <br></br>
       <HStack>
-        <Text fontWeight={400}>{" "}<Link href="https://kalico.typeform.com/to/FNsxHBKX">
+        <Text fontWeight={400}>
+          {" "}
+          <Link href="https://kalico.typeform.com/to/FNsxHBKX">
             <i>Need LLC Filing Help?</i>
-          </Link></Text>
+          </Link>
+        </Text>
       </HStack>
       <br></br>
       <HStack>
