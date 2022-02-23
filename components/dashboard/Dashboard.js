@@ -60,12 +60,12 @@ export default function Dashboard() {
           toast({
             id: "welcome",
             position: "bottom",
-            duration: 100000,
+            duration: 9000,
             isClosable: true,
             render: () => <WelcomeAlert />,
           });
         }
-        setTimeout(reloadDao, 30000);
+        // setTimeout(reloadDao, 30000);
         return;
       }
 

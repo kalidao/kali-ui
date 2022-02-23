@@ -43,7 +43,6 @@ export async function fetchStaticInfo(
             }
             proposals
             extensions
-            extensionsData
           }
         }`,
       }),
@@ -51,6 +50,7 @@ export async function fetchStaticInfo(
     console.log("RESULT", result);
     const data = result["data"]["daos"][0];
     console.log("DAO", data);
+
     const name = data["token"]["name"];
 
     const symbol = data["token"]["symbol"];
@@ -76,6 +76,10 @@ export async function fetchStaticInfo(
     const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
     const members = await fetchMembers(data);
+
+    // const extArray = data["extensions"];
+    // console.log("Extensions", extArray);
+    // const extensions = validateExtensions(extArray);
 
     dao_ = {
       address,
@@ -297,3 +301,25 @@ async function fetchRicardian(
 
   return ricardian;
 }
+
+// async function validateExtensions(ext) {
+//   let extensions = [];
+//   let availableExt = addresses[daoChain]["extensions"];
+//   for (const [key, value] of Object.entries(availableExt)) {
+//     let bool = await instance.methods.extensions(value).call();
+//     if (ext[i]) console.log("bool", bool, key);
+//     if (bool == true) {
+//       extensionsCount++;
+//       let extAddress = value;
+//       let extDetails;
+//       if (key == "crowdsale") {
+//         extDetails = await fetchCrowdsale(web3, address, extAddress, balances);
+//       }
+//       if (key == "redemption") {
+//         extDetails = await fetchRedemption(web3, address, extAddress, balances);
+//       }
+//       extensionArray[key] = { address: extAddress, details: extDetails };
+//     }
+//   }
+//   return { extensions };
+// }
