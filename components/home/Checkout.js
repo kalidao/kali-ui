@@ -24,7 +24,6 @@ import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
-import { uploadDoc } from "../tools/UploadDoc";
 import { pdf, BlobProvider } from "@react-pdf/renderer";
 import fleek from "@fleekhq/fleek-storage-js";
 import DelawareOAtemplate from "../legal/DelawareOAtemplate";
