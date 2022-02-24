@@ -25,7 +25,6 @@ import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
-import UploadDoc from "./UploadDoc";
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,7 +64,7 @@ function DraftDoc() {
         setDelawareUna({
           name: values.name,
           chain: values.chain,
-          mission: values.mission,
+          url: values.url,
         });
         setDeUnaForm(true);
       case "wyoming-llc":
@@ -79,7 +78,7 @@ function DraftDoc() {
           name: values.name,
           city: values.city,
           project: values.project,
-          mission: values.mission,
+          purpose: values.purpose,
         });
         setSwissVereinForm(true);
     }
@@ -210,10 +209,10 @@ function DraftDoc() {
                       placeholder="Ethereum, Arbitrum, Polygon, etc."
                       {...register("chain")}
                     />
-                    <FormLabel mt={3} htmlFor="mission">
+                    <FormLabel mt={3} htmlFor="url">
                       Link to DAO Mission
                     </FormLabel>
-                    <Input id="mission" placeholder="mission" {...register("mission")} />
+                    <Input id="url" placeholder="URL" {...register("url")} />
                   </FormControl>
                 </>
               )}
@@ -236,15 +235,15 @@ function DraftDoc() {
                       placeholder="name of your project"
                       {...register("project")}
                     />
-                    <FormLabel mt={3} htmlFor="mission">
+                    <FormLabel mt={3} htmlFor="purpose">
                       Link to DAO Mission
                     </FormLabel>
                     <Input
-                      id="mission"
-                      placeholder="URL"
-                      {...register("mission")}
+                      id="purpose"
+                      placeholder="purpose"
+                      {...register("purpose")}
                     />
-                    <Text mt={5} align="center" htmlFor="mission">
+                    <Text mt={5} align="center" htmlFor="purpose">
                       <Link href="http://app.kalidao.xyz">
                         <i>Need help with Swiss Verein?</i>
                       </Link>
@@ -299,7 +298,7 @@ function DraftDoc() {
                     <DelawareUNAtemplate
                       name={delawareUna.name}
                       chain={delawareUna.chain}
-                      mission={delawareUna.mission}
+                      url={delawareUna.url}
                     />
                   }
                   fileName="Delaware UNA Agreement"
@@ -339,7 +338,7 @@ function DraftDoc() {
                       name={swissVerein.name}
                       city={swissVerein.city}
                       project={swissVerein.project}
-                      mission={swissVerein.mission}
+                      purpose={swissVerein.purpose}
                     />
                   }
                   fileName="Swiss Verein Article of Association"

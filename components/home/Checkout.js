@@ -24,26 +24,12 @@ import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
-import { uploadDoc } from "../tools/UploadDoc";
-import { pdf, BlobProvider } from "@react-pdf/renderer";
-import fleek from "@fleekhq/fleek-storage-js";
-import DelawareOAtemplate from "../legal/DelawareOAtemplate";
-import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
-import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
-import WyomingOAtemplate from "../legal/WyomingOAtemplate";
-import SwissVerein from "../legal/SwissVerein";
-import { supportedChains } from "../../constants/supportedChains";
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
-  const [incorporation, setIncorporation] = useState("")
-  const [doc, setDoc] = useState("");
-  const [docInputs, setDocInputs] = useState({})
-  const [blobOn, setBlobOn] = useState(false);
-  const [blob, setBlob] = useState("");
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -60,7 +46,7 @@ export default function Checkout({ details, daoNames }) {
     disclaimers_[num] = !disclaimers_[num];
     setDisclaimers(disclaimers_);
     let deployable_ = true;
-    if (details["legal"]["docType"] == "Delaware Ricardian LLC") {
+    if (details["legal"]["docType"] == 1) {
       for (let i = 0; i < disclaimers_.length; i++) {
         if (disclaimers_[i] == false) {
           deployable_ = false;
@@ -98,64 +84,7 @@ export default function Checkout({ details, daoNames }) {
     docs = details["legal"]["docs"];
   }
 
-  const getChain = () => {
-    for (var i = 0; i < supportedChains.length; i++) {
-      if (supportedChains[i]["chainId"] == chainId) {
-        return supportedChains[i]["name"];
-      }
-    }
-  }
-
-  const construct = async () => {
-    let _blob
-    switch (details["legal"]["docType"]) {
-      case "none":
-        setIncorporation("None")
-      case "Delaware LLC":
-        _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Delaware LLC")
-        break
-      case "Delaware IC":
-         _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Delaware Investment Club")
-        break
-      case "Wyoming LLC":
-        _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Wyoming LLC")
-        break
-      case "Delaware UNA":
-        _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
-        setIncorporation("Delaware UNA")
-        break
-        case "Swiss Verein":
-        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: details["misc"]["project"], mission: details["misc"]["mission"]})).toBlob();
-        setIncorporation("Swiss Verein")
-        break
-    }
-
-    const input = {
-      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-      bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: "Summoner of " + details["identity"]["daoName"] + " - " + account,
-      data: _blob,
-      httpUploadProgressCallback: (event) => {
-        console.log(Math.round((event.loaded / event.total) * 100) + "% done");
-      },
-    };
-
-    try {
-      const result = await fleek.upload(input);
-      console.log("Image hash from Fleek: " + result.hash);
-      return result.hash
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const deploy = async () => {
-    const docHash = await construct()
-
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
@@ -181,7 +110,6 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
-    docs = docHash
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
@@ -246,6 +174,8 @@ export default function Checkout({ details, daoNames }) {
 
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
+
+      documentation = docs;
 
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
@@ -327,8 +257,8 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
-    // console.log("extensionsArray", extensionsArray);
-    // console.log("extensionsData", extensionsData);
+    console.log("extensionsArray", extensionsArray);
+    console.log("extensionsData", extensionsData);
 
     console.log(
       "deployment param",
@@ -347,33 +277,33 @@ export default function Checkout({ details, daoNames }) {
     var BN = web3.utils.BN;
     let gasPrice = new BN(gasPrice_).toString();
 
-    // try {
-    //   let result = await factory.methods
-    //     .deployKaliDAO(
-    //       daoName,
-    //       symbol,
-    //       docs,
-    //       paused,
-    //       extensionsArray,
-    //       extensionsData,
-    //       members,
-    //       shares,
-    //       govSettings
-    //     )
-    //     .send({ from: account, gasPrice: gasPrice });
+    try {
+      let result = await factory.methods
+        .deployKaliDAO(
+          daoName,
+          symbol,
+          docs,
+          paused,
+          extensionsArray,
+          extensionsData,
+          members,
+          shares,
+          govSettings
+        )
+        .send({ from: account, gasPrice: gasPrice });
 
-    //   let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-    //   console.log(dao);
-    //   console.log(result);
+      let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+      console.log(dao);
+      console.log(result);
 
-    //   Router.push({
-    //     pathname: "/daos/[dao]",
-    //     query: { dao: dao },
-    //   });
-    // } catch (e) {
-    //   value.toast(e);
-    //   console.log(e);
-    // }
+      Router.push({
+        pathname: "/daos/[dao]",
+        query: { dao: dao },
+      });
+    } catch (e) {
+      value.toast(e);
+      console.log(e);
+    }
 
     value.setLoading(false);
   };
@@ -419,7 +349,7 @@ export default function Checkout({ details, daoNames }) {
     },
     {
       name: "Docs",
-      details: details["legal"]["docType"],
+      details: docs,
     },
   ];
 
@@ -455,7 +385,7 @@ export default function Checkout({ details, daoNames }) {
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
       </Checkbox>
-      {details["legal"]["docType"] == "Delaware Ricardian LLC" ? (
+      {details["legal"]["docType"] == 1 ? (
         <Checkbox onChange={() => handleDisclaimer(1)}>
           I agree to the{" "}
           <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">
@@ -483,16 +413,6 @@ export default function Checkout({ details, daoNames }) {
         <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
       </HStack>
-      {/* {blobOn && (<BlobProvider document={<DelawareInvestmentClubTemplate name={docInputs.name}
-                    chain={docInputs.chain}
-                  />}>
-      {({ blob, url, loading, error }) => {
-        // Do whatever you need with blob here
-        setBlob(blob)
-        console.log("this is blobbbb", blob, docInputs.name, docInputs.chain)
-        return 
-      }}
-      </BlobProvider>)} */}
     </>
   );
 }
