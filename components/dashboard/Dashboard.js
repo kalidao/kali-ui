@@ -26,6 +26,8 @@ import { blocks } from "../../constants/blocks";
 export default function Dashboard() {
   const value = useContext(AppContext);
   const { web3, account, abi, chainId, dao, address, daoChain } = value.state;
+  const toastIdRef = React.useRef();
+  var done = false; // for testing the welcome alert
 
   const reloadDao = async () => {
     fetchData();
@@ -62,17 +64,23 @@ export default function Dashboard() {
 
       console.log("dao_", dao_);
       if (dao_ == undefined) {
+        //if (done == false) {
+        done = true;
+        console.log(done, "done");
         if (!toast.isActive("welcome")) {
-          toast({
+          toastIdRef.current = toast({
             id: "welcome",
+            duration: 100000,
             position: "bottom",
-            duration: 9000,
             isClosable: true,
             render: () => <WelcomeAlert />,
           });
         }
-        // setTimeout(reloadDao, 30000);
+        setTimeout(reloadDao, 5000);
+        console.log("reset");
         return;
+      } else {
+        toast.closeAll();
       }
 
       const balances = await fetchBalances(address, web3, daoChain);
