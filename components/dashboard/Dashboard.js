@@ -86,7 +86,7 @@ export default function Dashboard() {
       const balances = await fetchBalances(address, web3, daoChain);
 
       const ricardianBlock = blocks["ricardian"][daoChain];
-      const ricardian = await await fetchRicardian(
+      const ricardian = await fetchRicardian(
         address,
         web3,
         factory,

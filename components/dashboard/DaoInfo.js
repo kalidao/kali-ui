@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import { Text, HStack, Link, Icon, Spacer } from "@chakra-ui/react";
 import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
@@ -10,9 +10,10 @@ import { addresses } from "../../constants/addresses";
 export default function DaoInfo() {
   const value = useContext(AppContext);
   const { dao, chainId } = value.state;
-
+  const [info, setInfo] = useState([])
   const blockExplorer = addresses[chainId]['blockExplorer'];
-  const array = [
+
+  const notRicardianDao = [
     {
       name: "Name",
       info: dao["name"],
@@ -45,13 +46,41 @@ export default function DaoInfo() {
     },
   ];
 
+  const ricardianDao = [
+    {
+      name: "Name",
+      info: dao["name"],
+      link: null,
+    },
+    {
+      name: "Address",
+      info: truncateAddress(dao["address"]),
+      link: `${blockExplorer}/address/${dao["address"]}`,
+    },
+    {
+      name: "Symbol",
+      info: dao["token"]["symbol"],
+      link: null,
+    },
+    {
+      name: "Shares",
+      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      link: null,
+    },
+    {
+      name: "Members",
+      info: dao["members"].length,
+      link: null,
+    },
+  ];
+
   useEffect(() => {
-    console.log(dao)
+    dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao)
   })
 
   return (
     <div>
-      {array.map((item, index) => (
+      {info.map((item, index) => (
         <>
           {item.info != undefined ? (
             <>

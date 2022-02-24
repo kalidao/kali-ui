@@ -36,19 +36,20 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     setMission("");
     setProject("");
     let type = e.target.value;
-
     switch (type) {
       case "0":
         details["legal"]["docs"] = "none";
         details["legal"]["docType"] = "none";
+        break
       case "1":
         details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware Ricardian LLC";
+        break
       case "2":
         details["legal"]["docType"] = "Delaware LLC";
         break;
       case "3":
-        details["legal"]["docType"] = "Delaware IC";
+        details["legal"]["docType"] = "Delaware Investment Club";
         break;
       case "4":
         details["legal"]["docType"] = "Wyoming LLC";
@@ -60,7 +61,8 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         details["legal"]["docType"] = "Swiss Verein";
         break;
       case "7":
-        details["legal"]["docType"] = "none";
+        details["legal"]["docType"] = "Custom";
+        break
     }
 
     setSelectedType(type);

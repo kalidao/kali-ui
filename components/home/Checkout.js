@@ -39,11 +39,6 @@ export default function Checkout({ details, daoNames }) {
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
-  const [incorporation, setIncorporation] = useState("")
-  const [doc, setDoc] = useState("");
-  const [docInputs, setDocInputs] = useState({})
-  const [blobOn, setBlobOn] = useState(false);
-  const [blob, setBlob] = useState("");
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -110,26 +105,26 @@ export default function Checkout({ details, daoNames }) {
     let _blob
     switch (details["legal"]["docType"]) {
       case "none":
-        // setIncorporation("None")
+        break
+      case "Delaware Ricardian LLC":
+        console.log(details["legal"]["docs"])
+        break
       case "Delaware LLC":
         _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        // setIncorporation("Delaware LLC")
         break
-      case "Delaware IC":
+      case "Delaware Investment Club":
          _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        // setIncorporation("Delaware Investment Club")
         break
       case "Wyoming LLC":
         _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        // setIncorporation("Wyoming LLC")
         break
       case "Delaware UNA":
         _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
-        // setIncorporation("Delaware UNA")
         break
-        case "Swiss Verein":
+      case "Swiss Verein":
         _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: details["misc"]["project"], mission: details["misc"]["mission"]})).toBlob();
-        // setIncorporation("Swiss Verein")
+        break
+      case "Custom":
         break
     }
 
@@ -181,7 +176,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
-    docs = docHash
+    (docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC") ? docs = docHash : docs
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
