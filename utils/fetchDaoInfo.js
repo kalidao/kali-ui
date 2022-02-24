@@ -30,6 +30,7 @@ export async function fetchStaticInfo(
               id
               name
               symbol
+              totalSupply
               paused
             }
             docs
@@ -57,7 +58,7 @@ export async function fetchStaticInfo(
 
     const decimals = 18;
 
-    const totalSupply = parseInt(await instance.methods.totalSupply().call());
+    const totalSupply = data["token"]["totalSupply"];
 
     const paused = data["token"]["paused"];
 

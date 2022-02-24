@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 const Br = () => "\n";
 const Tab = () => "  ";
 
-const SwissVerein = ({ name, city, project, mission }) => {
+const SwissVerein = ({ name, city, project, purpose }) => {
   return (
     <Document>
       <Page style={styles.body}>
@@ -96,7 +96,7 @@ const SwissVerein = ({ name, city, project, mission }) => {
         <Text style={styles.underlined_text}>Article II - Purpose</Text>
         <Text style={styles.text}>
           The purpose of the Association is to develop the {project} project
-          which aims to {mission} The Association may purchase, encumber, sell
+          which aims to {purpose} The Association may purchase, encumber, sell
           and manage real estate in Switzerland and abroad. The Association is
           not subject to the authorization requirement of the acquisition of
           real estate pursuant to the Federal Law on the Acquisition of Real
