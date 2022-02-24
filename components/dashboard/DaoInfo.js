@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import { Text, HStack, Link, Icon, Spacer } from "@chakra-ui/react";
 import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
@@ -12,7 +12,6 @@ export default function DaoInfo() {
   const { dao, chainId } = value.state;
 
   const blockExplorer = addresses[chainId]['blockExplorer'];
-
   const array = [
     {
       name: "Name",
@@ -36,8 +35,8 @@ export default function DaoInfo() {
     },
     {
       name: "Docs",
-      info: dao["docs"],
-      link: `${dao["docs"]}`,
+      info: "",
+      link: `https://ipfs.io/ipfs/${dao["docs"]}`,
     },
     {
       name: "Members",
@@ -45,6 +44,10 @@ export default function DaoInfo() {
       link: null,
     },
   ];
+
+  useEffect(() => {
+    console.log(dao)
+  })
 
   return (
     <div>

@@ -43,6 +43,7 @@ export default function FactoryWrapper() {
         purchaseLimit: null,
         saleEnds: 0,
         listId: null,
+        documentation: "",
       },
     },
     daoType: null,

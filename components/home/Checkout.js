@@ -91,12 +91,12 @@ export default function Checkout({ details, daoNames }) {
     daoType = presets[details["daoType"]]["type"];
   }
 
-  let docs;
-  if (details["legal"]["docs"] == "") {
-    docs = "Ricardian";
-  } else {
-    docs = details["legal"]["docs"];
-  }
+  // let docs;
+  // if (details["legal"]["docs"] == "") {
+  //   docs = "Ricardian";
+  // } else {
+  //   docs = details["legal"]["docs"];
+  // }
 
   const getChain = () => {
     for (var i = 0; i < supportedChains.length; i++) {
@@ -110,26 +110,26 @@ export default function Checkout({ details, daoNames }) {
     let _blob
     switch (details["legal"]["docType"]) {
       case "none":
-        setIncorporation("None")
+        // setIncorporation("None")
       case "Delaware LLC":
         _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Delaware LLC")
+        // setIncorporation("Delaware LLC")
         break
       case "Delaware IC":
          _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Delaware Investment Club")
+        // setIncorporation("Delaware Investment Club")
         break
       case "Wyoming LLC":
         _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        setIncorporation("Wyoming LLC")
+        // setIncorporation("Wyoming LLC")
         break
       case "Delaware UNA":
         _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
-        setIncorporation("Delaware UNA")
+        // setIncorporation("Delaware UNA")
         break
         case "Swiss Verein":
         _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: details["misc"]["project"], mission: details["misc"]["mission"]})).toBlob();
-        setIncorporation("Swiss Verein")
+        // setIncorporation("Swiss Verein")
         break
     }
 
@@ -348,33 +348,33 @@ export default function Checkout({ details, daoNames }) {
     var BN = web3.utils.BN;
     let gasPrice = new BN(gasPrice_).toString();
 
-    // try {
-    //   let result = await factory.methods
-    //     .deployKaliDAO(
-    //       daoName,
-    //       symbol,
-    //       docs,
-    //       paused,
-    //       extensionsArray,
-    //       extensionsData,
-    //       members,
-    //       shares,
-    //       govSettings
-    //     )
-    //     .send({ from: account, gasPrice: gasPrice });
+    try {
+      let result = await factory.methods
+        .deployKaliDAO(
+          daoName,
+          symbol,
+          docs,
+          paused,
+          extensionsArray,
+          extensionsData,
+          members,
+          shares,
+          govSettings
+        )
+        .send({ from: account, gasPrice: gasPrice });
 
-    //   let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-    //   console.log(dao);
-    //   console.log(result);
+      let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
+      console.log(dao);
+      console.log(result);
 
-    //   Router.push({
-    //     pathname: "/daos/[dao]",
-    //     query: { dao: dao },
-    //   });
-    // } catch (e) {
-    //   value.toast(e);
-    //   console.log(e);
-    // }
+      Router.push({
+        pathname: "/daos/[dao]",
+        query: { dao: dao },
+      });
+    } catch (e) {
+      value.toast(e);
+      console.log(e);
+    }
 
     value.setLoading(false);
   };
@@ -484,16 +484,6 @@ export default function Checkout({ details, daoNames }) {
         <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
       </HStack>
-      {/* {blobOn && (<BlobProvider document={<DelawareInvestmentClubTemplate name={docInputs.name}
-                    chain={docInputs.chain}
-                  />}>
-      {({ blob, url, loading, error }) => {
-        // Do whatever you need with blob here
-        setBlob(blob)
-        console.log("this is blobbbb", blob, docInputs.name, docInputs.chain)
-        return 
-      }}
-      </BlobProvider>)} */}
     </>
   );
 }

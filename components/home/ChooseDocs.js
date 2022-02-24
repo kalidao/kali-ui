@@ -68,14 +68,14 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
   };
 
   const validate = () => {
-    if (selectedType == 5 && mission == null) {
-      value.toast("Please enter a valid link.");
+    if (selectedType == 5 && mission == "") {
+      value.toast("Please fill in the required field.");
     } else if (
       selectedType == 6 &&
-      (mission == null || city == null || project == null)
+      (mission == "" || city == "" || project == "")
     ) {
       value.toast("Please fill in the required fields.");
-    } else if (selectedType == 7 && url == null) {
+    } else if (selectedType == 7 && url == "") {
       value.toast("Please enter a valid link.");
     } else {
       url ? (details["legal"]["docs"] = url) : null;
