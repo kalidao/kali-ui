@@ -43,6 +43,7 @@ export default function FactoryWrapper() {
         purchaseLimit: null,
         saleEnds: 0,
         listId: null,
+        documentation: "",
       },
     },
     daoType: null,
@@ -50,6 +51,11 @@ export default function FactoryWrapper() {
       docs: null,
       docType: 999,
     },
+    misc: {
+      mission: null,
+      city: null,
+      project: null,
+    }
   });
   console.log("details", details);
 

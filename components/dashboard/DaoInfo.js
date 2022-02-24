@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
 import { Text, HStack, Link, Icon, Spacer } from "@chakra-ui/react";
 import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
@@ -10,10 +10,10 @@ import { addresses } from "../../constants/addresses";
 export default function DaoInfo() {
   const value = useContext(AppContext);
   const { dao, chainId } = value.state;
-
+  const [info, setInfo] = useState([])
   const blockExplorer = addresses[chainId]['blockExplorer'];
 
-  const array = [
+  const notRicardianDao = [
     {
       name: "Name",
       info: dao["name"],
@@ -36,8 +36,8 @@ export default function DaoInfo() {
     },
     {
       name: "Docs",
-      info: dao["docs"],
-      link: `${dao["docs"]}`,
+      info: "",
+      link: `https://ipfs.io/ipfs/${dao["docs"]}`,
     },
     {
       name: "Members",
@@ -46,9 +46,75 @@ export default function DaoInfo() {
     },
   ];
 
+  const ricardianDao = [
+    {
+      name: "Name",
+      info: dao["name"],
+      link: null,
+    },
+    {
+      name: "Address",
+      info: truncateAddress(dao["address"]),
+      link: `${blockExplorer}/address/${dao["address"]}`,
+    },
+    {
+      name: "Symbol",
+      info: dao["token"]["symbol"],
+      link: null,
+    },
+    {
+      name: "Shares",
+      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      link: null,
+    },
+    {
+      name: "Members",
+      info: dao["members"].length,
+      link: null,
+    },
+  ];
+
+  const customDao = [
+    {
+      name: "Name",
+      info: dao["name"],
+      link: null,
+    },
+    {
+      name: "Address",
+      info: truncateAddress(dao["address"]),
+      link: `${blockExplorer}/address/${dao["address"]}`,
+    },
+    {
+      name: "Symbol",
+      info: dao["token"]["symbol"],
+      link: null,
+    },
+    {
+      name: "Shares",
+      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      link: null,
+    },
+    {
+      name: "Docs",
+      info: "",
+      link: dao["docs"],
+    },
+    {
+      name: "Members",
+      info: dao["members"].length,
+      link: null,
+    },
+  ];
+
+  useEffect(() => {
+    dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao)
+    dao["docs"].substring(0,4) == "http" ? setInfo(customDao) : null
+  })
+
   return (
     <div>
-      {array.map((item, index) => (
+      {info.map((item, index) => (
         <>
           {item.info != undefined ? (
             <>
