@@ -4,7 +4,7 @@ import { Text, HStack, Spacer, Spinner, Center } from "@chakra-ui/react";
 import DashedDivider from "../elements/DashedDivider";
 import InfoTip from "../elements/InfoTip";
 
-const ExtensionCard = ({ key, name }) => {
+const ExtensionCard = ({ name }) => {
   const assignLabel = (name) => {
     if (name === "crowdsale")
       return "Sell membership in ETH or designated token";
@@ -16,7 +16,7 @@ const ExtensionCard = ({ key, name }) => {
   };
 
   return (
-    <React.Fragment key={key}>
+    <React.Fragment>
       <HStack>
         <Text>{name.replace(/^\w/, (s) => s.toUpperCase())}</Text>
         <Spacer />

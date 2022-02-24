@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/AppContext";
 import {
   Heading,
@@ -11,15 +11,23 @@ import {
 } from "@chakra-ui/react";
 import Reload from "../elements/Reload.js";
 import { BiGridAlt } from "react-icons/bi";
-import { fetchStaticInfo, fetchMoreInfo } from "../../utils/fetchDaoInfo";
+import {
+  fetchStaticInfo,
+  fetchExtensions,
+  fetchBalances,
+  fetchRicardian,
+} from "../../utils/fetchDaoInfo";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
 import { dashboardHelper } from "../../constants/dashboardHelper";
 import WelcomeAlert from "../elements/WelcomeAlert";
+import { blocks } from "../../constants/blocks";
 
 export default function Dashboard() {
   const value = useContext(AppContext);
   const { web3, account, abi, chainId, dao, address, daoChain } = value.state;
+  const toastIdRef = React.useRef();
+  var done = false; // for testing the welcome alert
 
   const reloadDao = async () => {
     fetchData();
@@ -56,25 +64,44 @@ export default function Dashboard() {
 
       console.log("dao_", dao_);
       if (dao_ == undefined) {
+        //if (done == false) {
+        done = true;
+        console.log(done, "done");
         if (!toast.isActive("welcome")) {
-          toast({
-            position: "bottom",
+          toastIdRef.current = toast({
+            id: "welcome",
             duration: 100000,
+            position: "bottom",
             isClosable: true,
             render: () => <WelcomeAlert />,
           });
         }
+        setTimeout(reloadDao, 5000);
+        console.log("reset");
         return;
+      } else {
+        toast.closeAll();
       }
 
-      const { balances, ricardian, extensions } = await fetchMoreInfo(
-        instance,
-        factory,
+      const balances = await fetchBalances(address, web3, daoChain);
+
+      const ricardianBlock = blocks["ricardian"][daoChain];
+      const ricardian = await await fetchRicardian(
         address,
         web3,
+        factory,
         daoChain,
-        account
+        ricardianBlock
       );
+
+      const extensions = await fetchExtensions(
+        instance,
+        daoChain,
+        web3,
+        address,
+        balances
+      );
+
       dao_["balances"] = balances;
       dao_["ricardian"] = ricardian;
       dao_["extensions"] = extensions;

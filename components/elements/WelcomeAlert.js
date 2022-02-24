@@ -3,6 +3,8 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Spinner,
+  CloseButton,
 } from "@chakra-ui/react";
 
 export default function WelcomeAlert() {
@@ -18,6 +20,7 @@ export default function WelcomeAlert() {
       borderRadius="2xl"
       bg="kali.400"
     >
+      <CloseButton position="absolute" right="8px" top="8px" />
       <AlertIcon boxSize="40px" mr={0} />
       <AlertTitle mt={4} mb={1} fontSize="xl">
         DAO Summoned!
@@ -27,6 +30,7 @@ export default function WelcomeAlert() {
         created. We are fetching it from the blockchain. This process may take a
         while, make yourself a cup of coffee ☕
       </AlertDescription>
+      <Spinner />
     </Alert>
   );
 }
