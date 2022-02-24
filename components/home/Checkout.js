@@ -24,6 +24,15 @@ import KaliButton from "../elements/KaliButton";
 import ContactForm from "../elements/ContactForm";
 import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
+import { uploadDoc } from "../tools/UploadDoc";
+import { pdf, BlobProvider } from "@react-pdf/renderer";
+import fleek from "@fleekhq/fleek-storage-js";
+import DelawareOAtemplate from "../legal/DelawareOAtemplate";
+import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
+import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
+import WyomingOAtemplate from "../legal/WyomingOAtemplate";
+import SwissVerein from "../legal/SwissVerein";
+import { supportedChains } from "../../constants/supportedChains";
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
@@ -46,7 +55,7 @@ export default function Checkout({ details, daoNames }) {
     disclaimers_[num] = !disclaimers_[num];
     setDisclaimers(disclaimers_);
     let deployable_ = true;
-    if (details["legal"]["docType"] == 1) {
+    if (details["legal"]["docType"] == "Delaware Ricardian LLC") {
       for (let i = 0; i < disclaimers_.length; i++) {
         if (disclaimers_[i] == false) {
           deployable_ = false;
@@ -139,6 +148,8 @@ export default function Checkout({ details, daoNames }) {
   };
 
   const deploy = async () => {
+    const docHash = await construct()
+
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
@@ -231,8 +242,6 @@ export default function Checkout({ details, daoNames }) {
       console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
 
-      documentation = docs;
-
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
       const saleContract = new web3.eth.Contract(sale, saleAddress);
@@ -313,8 +322,8 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
-    console.log("extensionsArray", extensionsArray);
-    console.log("extensionsData", extensionsData);
+    // console.log("extensionsArray", extensionsArray);
+    // console.log("extensionsData", extensionsData);
 
     console.log(
       "deployment param",
@@ -405,7 +414,7 @@ export default function Checkout({ details, daoNames }) {
     },
     {
       name: "Docs",
-      details: docs,
+      details: details["legal"]["docType"],
     },
   ];
 
@@ -441,7 +450,7 @@ export default function Checkout({ details, daoNames }) {
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
       </Checkbox>
-      {details["legal"]["docType"] == 1 ? (
+      {details["legal"]["docType"] == "Delaware Ricardian LLC" ? (
         <Checkbox onChange={() => handleDisclaimer(1)}>
           I agree to the{" "}
           <Link href="https://gateway.pinata.cloud/ipfs/QmdHFNxtecmCNcTscWJqnA4AiASyk3SHCgKamugLHqR23i">

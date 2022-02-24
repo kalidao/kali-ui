@@ -9,6 +9,8 @@ import {
   Input,
   Heading,
   Icon,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Select from "../elements/Select";
@@ -17,6 +19,10 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [selectedType, setSelectedType] = useState(999);
+  const [url, setUrl] = useState(null);
+  const [mission, setMission] = useState(null);
+  const [city, setCity] = useState(null);
+  const [project, setProject] = useState(null);
 
   useEffect(() => {
     if (details["legal"]["docType"] != null) {
@@ -25,6 +31,10 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
   }, [details]);
 
   const handleSelect = (e) => {
+    setUrl("");
+    setCity("");
+    setMission("");
+    setProject("");
     let type = e.target.value;
     switch (type) {
       case "0":
@@ -60,12 +70,8 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         details["legal"]["docType"] = "Custom";
         break
     }
-    setSelectedType(type);
-    setDetails(details);
-  };
 
-  const handleChange = (e) => {
-    details["legal"]["docs"] = e.target.value;
+    setSelectedType(type);
     setDetails(details);
   };
 
@@ -80,9 +86,15 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     } else if (selectedType == 7 && url == "") {
       value.toast("Please enter a valid link.");
     } else {
+      url ? (details["legal"]["docs"] = url) : null;
+      details["misc"]["mission"] = mission;
+      details["misc"]["city"] = city;
+      details["misc"]["project"] = project;
       handleNext();
     }
-  }
+
+    console.log(details);
+  };
 
   return (
     <>
@@ -94,33 +106,94 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           onChange={handleSelect}
           defaultValue={details["legal"]["docType"]}
         >
-          <option className="option" value="999"></option>
+          {/* <option className="option" value="999"></option> */}
           <option value="0">None</option>
           <option value="1">Series LLC (Instant)</option>
-          <option value="2">Custom Docs</option>
+          <option value="2">Delaware LLC</option>
+          <option value="3">Delaware Investment Club</option>
+          <option value="4">Wyoming LLC</option>
+          <option value="5">UNA</option>
+          <option value="6">Swiss Verein</option>
+          <option value="7">Custom</option>
         </Select>
-        <br></br>
-        {selectedType == 2 || details["legal"]["docType"] == 2 ? (
-          <Input
-            defaultValue={details["legal"]["docs"]}
-            onChange={handleChange}
-          />
+        {selectedType == 5 ? (
+          <VStack w="90%">
+            <FormControl isRequired>
+              <FormLabel mt={3} htmlFor="url">
+                Link to DAO Mission
+              </FormLabel>
+              <Input
+                isRequired
+                id="url"
+                placeholder="URL"
+                value={mission}
+                onChange={(e) => setMission(e.target.value)}
+              />
+            </FormControl>
+          </VStack>
+        ) : null}
+        {selectedType == 6 ? (
+          <FormControl isRequired>
+            <FormLabel mt={3} htmlFor="city">
+              City of Switzerland
+            </FormLabel>
+            <Input
+              id="city"
+              placeholder="Zug"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            <FormLabel mt={3} htmlFor="project">
+              Project Name
+            </FormLabel>
+            <Input
+              id="project"
+              placeholder="Name of project"
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+            />
+            <FormLabel mt={3} htmlFor="url">
+              Link to DAO Mission
+            </FormLabel>
+            <Input
+              id="url"
+              placeholder="URL"
+              value={mission}
+              onChange={(e) => setMission(e.target.value)}
+            />
+          </FormControl>
+        ) : null}
+        {selectedType == 7 ? (
+          <VStack w="90%">
+            <FormControl isRequired>
+              <FormLabel mt={3} htmlFor="url">
+                Link to Custom Document
+              </FormLabel>
+              <Input
+                isRequired
+                id="url"
+                placeholder="URL"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </FormControl>
+          </VStack>
         ) : null}
       </VStack>
       <VStack>
         <br></br>
         <>
           {selectedType == 1 ? (
-            <HStack>
+            <HStack w="70%">
               <Icon as={AiOutlineInfoCircle} />
               <Text as="i">
-                Your DAO will mint a NFT under KaliCo Ricardian LLC,
-                a Delaware Series, {" "}
+                Your DAO will mint a NFT under KaliCo Ricardian LLC, a Delaware
+                Series,{" "}
                 <Link
                   href="https://docs.kalidao.xyz/#kalico-ricardian-llc"
                   target="_blank"
                   isExternal
-                  rel="noopener noreferrer"
+                  rel="open referrer"
                   color="kali.800"
                 >
                   establishing its own LLC.
@@ -131,7 +204,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           ) : null}
           <br></br>
           {selectedType != 999 ? (
-            <Button className="transparent-btn" onClick={() => validate()}>
+            <Button className="transparent-btn" onClick={validate}>
               Next
             </Button>
           ) : null}

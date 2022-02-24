@@ -51,6 +51,11 @@ export default function FactoryWrapper() {
       docs: null,
       docType: 999,
     },
+    misc: {
+      mission: null,
+      city: null,
+      project: null,
+    }
   });
   console.log("details", details);
 
