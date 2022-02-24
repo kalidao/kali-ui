@@ -107,7 +107,6 @@ export default function Checkout({ details, daoNames }) {
       case "none":
         break
       case "Delaware Ricardian LLC":
-        console.log(details["legal"]["docs"])
         break
       case "Delaware LLC":
         _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
@@ -141,7 +140,7 @@ export default function Checkout({ details, daoNames }) {
 
     try {
       const result = await fleek.upload(input);
-      console.log("Image hash from Fleek: " + result.hash);
+      console.log("Document hash from Fleek: " + result.hash);
       return result.hash
     } catch (e) {
       console.log(e);
@@ -176,6 +175,7 @@ export default function Checkout({ details, daoNames }) {
       details["governance"];
 
     const { docs } = details["legal"];
+    console.log("docs to before push", docs);
     (docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC") ? docs = docHash : docs
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];

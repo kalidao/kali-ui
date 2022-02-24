@@ -74,8 +74,42 @@ export default function DaoInfo() {
     },
   ];
 
+  const customDao = [
+    {
+      name: "Name",
+      info: dao["name"],
+      link: null,
+    },
+    {
+      name: "Address",
+      info: truncateAddress(dao["address"]),
+      link: `${blockExplorer}/address/${dao["address"]}`,
+    },
+    {
+      name: "Symbol",
+      info: dao["token"]["symbol"],
+      link: null,
+    },
+    {
+      name: "Shares",
+      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      link: null,
+    },
+    {
+      name: "Docs",
+      info: "",
+      link: dao["docs"],
+    },
+    {
+      name: "Members",
+      info: dao["members"].length,
+      link: null,
+    },
+  ];
+
   useEffect(() => {
     dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao)
+    dao["docs"].substring(0,4) == "http" ? setInfo(customDao) : null
   })
 
   return (

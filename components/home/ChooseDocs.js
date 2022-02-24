@@ -46,21 +46,27 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
         details["legal"]["docType"] = "Delaware Ricardian LLC";
         break
       case "2":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware LLC";
         break;
       case "3":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware Investment Club";
         break;
       case "4":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Wyoming LLC";
         break;
       case "5":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware UNA";
         break;
       case "6":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Swiss Verein";
         break;
       case "7":
+        details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Custom";
         break
     }
