@@ -43,7 +43,6 @@ export async function fetchStaticInfo(
             }
             proposals
             extensions
-            extensionsData
           }
         }`,
       }),
@@ -51,6 +50,7 @@ export async function fetchStaticInfo(
     console.log("RESULT", result);
     const data = result["data"]["daos"][0];
     console.log("DAO", data);
+
     const name = data["token"]["name"];
 
     const symbol = data["token"]["symbol"];
@@ -68,10 +68,6 @@ export async function fetchStaticInfo(
     const supermajority = parseInt(data["supermajority"]);
 
     const docs = data["docs"];
-
-    const factoryBlock = blocks["factory"][daoChain];
-
-    const ricardianBlock = blocks["ricardian"][daoChain];
 
     const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
@@ -100,39 +96,6 @@ export async function fetchStaticInfo(
   return { dao_ };
 }
 
-export async function fetchMoreInfo(
-  instance,
-  factory,
-  address,
-  web3,
-  daoChain,
-  account
-) {
-  const factoryBlock = blocks["factory"][daoChain];
-
-  const ricardianBlock = blocks["ricardian"][daoChain];
-
-  const balances = await fetchBalances(address, web3, daoChain);
-
-  const ricardian = await fetchRicardian(
-    address,
-    web3,
-    factory,
-    daoChain,
-    ricardianBlock
-  );
-
-  const extensions = await fetchExtensions(
-    instance,
-    daoChain,
-    web3,
-    address,
-    balances
-  );
-
-  return { balances, ricardian, extensions };
-}
-
 async function fetchProposalVoteTypes(instance) {
   const proposalVoteTypes_ = [];
   for (const [key, value] of Object.entries(proposalTypes)) {
@@ -142,7 +105,7 @@ async function fetchProposalVoteTypes(instance) {
   return proposalVoteTypes_;
 }
 
-async function fetchBalances(address, web3, daoChain) {
+export async function fetchBalances(address, web3, daoChain) {
   const abi = require("../abi/ERC20.json");
   const tokenBalances = [];
   let tokenArray = tokens[daoChain];
@@ -179,7 +142,13 @@ export async function fetchMembers(data) {
   return membersArray;
 }
 
-async function fetchExtensions(instance, daoChain, web3, address, balances) {
+export async function fetchExtensions(
+  instance,
+  daoChain,
+  web3,
+  address,
+  balances
+) {
   let result;
   var extensionsCount = 0;
   const extensionArray = [];
@@ -255,7 +224,7 @@ async function fetchRedemption(web3, address, extAddress, balances) {
   return details;
 }
 
-async function fetchRicardian(
+export async function fetchRicardian(
   address,
   web3,
   factory,

@@ -210,10 +210,9 @@ export default function Checkout({ details, daoNames }) {
     let extensionsArray = new Array();
     let extensionsData = new Array();
 
-    if (tribute["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
-      extensionsData.push("0x");
-    }
+    // tribute
+    extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
+    extensionsData.push("0x");
 
     if (crowdsale["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
