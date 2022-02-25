@@ -109,7 +109,7 @@ const DelawareUNAtemplate = ({
           <Br />
           Section 1.3
           <Tab />
-          <Text style={{ textDecoration: "underline" }}></Text>Nondiscrimination.
+          <Text style={{ textDecoration: "underline" }}>Nondiscrimination.</Text>
           <Tab />
           The DAO shall not arbitrarily discriminate on the basis of race,
           nationality, religion, age, gender, sexual orientation, disability,
@@ -118,7 +118,7 @@ const DelawareUNAtemplate = ({
           <Br />
           Section 1.4
           <Tab />
-          <Text style={{ textDecoration: "underline" }}></Text>Decentralized Autonomous Organization (DAO).
+          <Text style={{ textDecoration: "underline" }}>Decentralized Autonomous Organization (DAO).</Text>
           <Tab />
           The DAO is an unincorporated association of individuals, corporations,
           statutory trusts, business trusts, estates, trusts, partnerships,
