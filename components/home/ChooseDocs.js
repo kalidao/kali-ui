@@ -40,11 +40,11 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
       case "0":
         details["legal"]["docs"] = "none";
         details["legal"]["docType"] = "none";
-        break
+        break;
       case "1":
         details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware Ricardian LLC";
-        break
+        break;
       case "2":
         details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Delaware LLC";
@@ -68,7 +68,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
       case "7":
         details["legal"]["docs"] = "";
         details["legal"]["docType"] = "Custom";
-        break
+        break;
     }
 
     setSelectedType(type);
@@ -76,6 +76,13 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
   };
 
   const validate = () => {
+    // none case
+    if (details["legal"]["docType"] == 999) {
+      details["legal"]["docs"] = "none";
+      details["legal"]["docType"] = "none";
+      setDetails(details);
+    }
+
     if (selectedType == 5 && mission == "") {
       value.toast("Please fill in the required field.");
     } else if (
