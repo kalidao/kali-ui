@@ -3,12 +3,26 @@ import AppContext from "../../context/AppContext";
 import { Text, HStack, Spacer, Spinner, Center } from "@chakra-ui/react";
 import { fromDecimals } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
+import DAI from "../../public/img/coins/DAI.png"
+import ETH from "../../public/img/coins/ETH.svg"
+import USDC from "../../public/img/coins/USDC.svg"
+import USDT from "../../public/img/coins/USDT.svg"
+
+const displayCoinLogo = (coin) => {
+  console.log(coin)
+  switch (coin) {
+    case "USDC":
+      break
+  }
+} 
 
 const TreasuryCard = ({ key, token, balance }) => {
   return (
     <>
       <HStack color="kali.900">
         <Text>{token}</Text>
+        <Image boxSize="20px" borderRadius="full" fallbackSrc='https://via.placeholder.com/150' src={DAI.src} />
+
         <Spacer />
         <Text>{balance}</Text>
       </HStack>
