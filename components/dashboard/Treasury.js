@@ -38,7 +38,7 @@ export default function Treasury() {
         return DAI.src
       case "USDC":
         return USDC.src
-      case "eth":
+      case "ETH":
         return ETH.src
       case "WETH":
         return WETH.src

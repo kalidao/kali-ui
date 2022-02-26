@@ -123,7 +123,7 @@ export async function fetchBalances(address, web3, daoChain) {
   }
   const ethBalance = await web3.eth.getBalance(address);
   tokenBalances.push({
-    token: "eth",
+    token: "ETH",
     address: "0x0000000000000000000000000000000000000000",
     decimals: 18,
     balance: ethBalance,
