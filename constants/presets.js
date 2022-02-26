@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 
 import { HiUserGroup } from "react-icons/hi";
-import { FaMoneyBillAlt } from "react-icons/fa";
+import { FaMoneyBillAlt, FaHandsHelping } from "react-icons/fa";
 import { BsTools } from "react-icons/bs";
 
 export const presets = [
@@ -53,6 +53,20 @@ export const presets = [
       crowdsale: {
         description:
           "Form a digital company and tokenize cap table. Voting is quicker to manage payments.",
+      },
+    },
+  },
+  {
+    type: "Nonprofit",
+    icon: FaHandsHelping,
+    voting: 14,
+    quorum: 20,
+    supermajority: 60,
+    paused: 1,
+    extensions: {
+      tribute: {
+        description:
+          "Includes 'tribute' extension to allow membership in exchange for a donation or membership fee.",
       },
     },
   },
