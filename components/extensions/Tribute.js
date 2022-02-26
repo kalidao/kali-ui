@@ -18,6 +18,27 @@ export default function BuyCrowdsale() {
     dao,
   } = value.state;
 
+  const resolveAddressAndEns = async (ens) => {
+    let address
+
+    if (ens.slice(-4) === ".eth") {
+      address = await web3.eth.ens.getAddress(ens).catch(() => {
+        value.toast(ens + " is not a valid ENS.")
+      })
+    } else if (web3.utils.isAddress(ens) == false) {
+      value.toast(ens + " is not a valid Ethereum address.")
+      return
+    } else {
+      address = ens
+    }
+
+    if (ens === undefined) {
+      return
+    }
+
+    return address
+  }
+
   const submitProposal = async (event) => {
     event.preventDefault();
     value.setLoading(true);
@@ -46,6 +67,9 @@ export default function BuyCrowdsale() {
 
       const instance = new web3.eth.Contract(tribAbi, tribAddress);
 
+      account_ = await resolveAddressAndEns(account_)
+      console.log(account_)
+
       amount_ = web3.utils.toWei(amount_);
 
       assetAmount_ = web3.utils.toWei(assetAmount_);
@@ -54,25 +78,25 @@ export default function BuyCrowdsale() {
 
       const nft = "false";
 
-      try {
-        let result = await instance.methods
-          .submitTributeProposal(
-            address,
-            proposalType_,
-            description_,
-            [account_],
-            [amount_],
-            [payload_],
-            nft,
-            asset_,
-            assetAmount_
-          )
-          .send({ from: account, value: assetAmount_ });
-        value.setVisibleView(1);
-      } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
-      }
+      // try {
+      //   let result = await instance.methods
+      //     .submitTributeProposal(
+      //       address,
+      //       proposalType_,
+      //       description_,
+      //       [account_],
+      //       [amount_],
+      //       [payload_],
+      //       nft,
+      //       asset_,
+      //       assetAmount_
+      //     )
+      //     .send({ from: account, value: assetAmount_ });
+      //   value.setVisibleView(1);
+      // } catch (e) {
+      //   value.toast(e);
+      //   value.setLoading(false);
+      // }
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
