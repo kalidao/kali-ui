@@ -18,26 +18,26 @@ import { GrGroup } from "react-icons/gr";
 // populates tiles on desktop view of New Proposal view
 export const newProposalHelper = [
   {
-    title: "Mint Shares",
-    description: "update members and cap table",
+    title: "Membership",
+    description: "update cap table",
     component: <SendShares />,
     icon: FiSend
   },
   {
-    title: "Send Assets",
-    description: "pay treasury tokens and ETH",
+    title: "Payments",
+    description: "send assets",
     component: <SendToken />,
     icon: MdOutlineGeneratingTokens
   },
   {
-    title: "Call Contracts",
+    title: "Calls",
     description: "manage externals like DeFi",
     component: <ContractCall />,
     icon: BiLoaderCircle
   },
   {
-    title: "Update Rules",
-    description: "adjust governance settings",
+    title: "Rules",
+    description: "adjust governance",
     component: <GovernanceSettings />,
     icon: FiSettings
   },/*
@@ -48,8 +48,8 @@ export const newProposalHelper = [
     icon: BsPuzzle
   },*/
   {
-    title: "Remove Members",
-    description: "kick for misconduct or security",
+    title: "Removal",
+    description: "kick members",
     component: <RemoveMember />,
     icon: FiTrash2
   }
