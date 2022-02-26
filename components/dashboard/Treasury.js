@@ -1,28 +1,25 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Text, HStack, Spacer, Spinner, Center } from "@chakra-ui/react";
+import { Text, HStack, Spacer, Spinner, Center, Image } from "@chakra-ui/react";
 import { fromDecimals } from "../../utils/formatters";
 import DashedDivider from "../elements/DashedDivider";
-import DAI from "../../public/img/coins/DAI.png"
-import ETH from "../../public/img/coins/ETH.svg"
-import USDC from "../../public/img/coins/USDC.svg"
+import DAI from "../../public/img/coins/DAI.png";
+import ETH from "../../public/img/coins/ETH.svg";
+import USDC from "../../public/img/coins/USDC.svg";
 import USDT from "../../public/img/coins/USDT.svg"
 
-const displayCoinLogo = (coin) => {
-  console.log(coin)
-  switch (coin) {
-    case "USDC":
-      break
-  }
-} 
-
-const TreasuryCard = ({ key, token, balance }) => {
+const TreasuryCard = ({ key, token, balance, src }) => {
+  console.log(token, src)
   return (
     <>
       <HStack color="kali.900">
-        <Text>{token}</Text>
-        <Image boxSize="20px" borderRadius="full" fallbackSrc='https://via.placeholder.com/150' src={DAI.src} />
-
+        {/* <Text>{token}</Text> */}
+        <Image
+          boxSize="20px"
+          borderRadius="full"
+          fallbackSrc="https://via.placeholder.com/150"
+          src={src}
+        />
         <Spacer />
         <Text>{balance}</Text>
       </HStack>
@@ -34,6 +31,19 @@ const TreasuryCard = ({ key, token, balance }) => {
 export default function Treasury() {
   const value = useContext(AppContext);
   const { dao } = value.state;
+
+  const displayLogo = (source) => {
+    switch (source) {
+      case "DAI":
+        return DAI.src
+      case "USDC":
+        return USDC.src
+      case "eth":
+        return ETH.src
+      case "USDT":
+        return USDT.src
+    }
+  }
 
   return (
     <>
@@ -47,6 +57,7 @@ export default function Treasury() {
                 ? fromDecimals(b["balance"], 6)
                 : fromDecimals(b["balance"], 18)
             }
+            src={displayLogo(b["token"])}
           />
         ))
       ) : (
