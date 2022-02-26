@@ -10,8 +10,8 @@ import { addresses } from "../../constants/addresses";
 export default function DaoInfo() {
   const value = useContext(AppContext);
   const { dao, chainId } = value.state;
-  const [info, setInfo] = useState([])
-  const blockExplorer = addresses[chainId]['blockExplorer'];
+  const [info, setInfo] = useState([]);
+  const blockExplorer = addresses[chainId]["blockExplorer"];
 
   const notRicardianDao = [
     {
@@ -108,9 +108,9 @@ export default function DaoInfo() {
   ];
 
   useEffect(() => {
-    dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao)
-    dao["docs"].substring(0,4) == "http" ? setInfo(customDao) : null
-  })
+    dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao);
+    dao["docs"].substring(0, 4) == "http" ? setInfo(customDao) : null;
+  }, []);
 
   return (
     <div>
