@@ -19,25 +19,25 @@ import { GrGroup } from "react-icons/gr";
 export const newProposalHelper = [
   {
     title: "Mint Members",
-    description: "",
+    description: "mint voting shares",
     component: <SendShares />,
     icon: FiSend
   },
   {
     title: "Make Payments",
-    description: "",
+    description: "send assets from treasury",
     component: <SendToken />,
     icon: MdOutlineGeneratingTokens
   },
   {
-    title: "Make Calls",
-    description: "",
+    title: "Call Contracts",
+    description: "manage externals like defi",
     component: <ContractCall />,
     icon: BiLoaderCircle
   },
   {
     title: "Amend Rules",
-    description: "",
+    description: "update governance settings",
     component: <GovernanceSettings />,
     icon: FiSettings
   },/*
