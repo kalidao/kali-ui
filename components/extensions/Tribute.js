@@ -110,22 +110,30 @@ export default function BuyCrowdsale() {
       <Stack>
         <Text>
           <b>Details</b>
+          <br />
+          Make a tribute for membership
         </Text>
 
-        <Textarea name="description_" size="lg" placeholder=". . ." />
+        <Textarea name="description_" size="lg" placeholder="dropdown to pick template or custom, upload to ipfs, then store ipfs hash here" />
 
         <Text>
           <b>Recipient</b>
+          <br/>
+          Taking talents to [NAME], along with
         </Text>
         <Input name="account_" size="lg" placeholder="0x or .eth"></Input>
 
         <Text>
           <b>Shares</b>
+          <br />
+          Asking for [NUMBER] shares: 
         </Text>
         <NumInputField name="amount_" />
 
         <Text>
           <b>Tribute (ETH)</b>
+          <br/>
+          extra bag of ERC20 or ERC721 
         </Text>
         <NumInputField name="assetAmount_" min=".000000000000000001" />
 
