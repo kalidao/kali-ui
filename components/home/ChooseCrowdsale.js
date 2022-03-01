@@ -59,7 +59,7 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handlePurchaseLimit = (limit) => {
-    details["extensions"]["crowdsale"]["purchaseLimit"] = parseInt(limit);
+    details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
   };
 

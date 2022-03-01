@@ -244,7 +244,7 @@ export default function Checkout({ details, daoNames }) {
       } = crowdsale;
 
       console.log("purchaseLimit", purchaseLimit);
-      purchaseLimit = (purchaseLimit * 1000000000000000000).toString();
+      purchaseLimit = purchaseLimit + "000000000000000000";
       saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
 
       if (purchaseToken === null) {
