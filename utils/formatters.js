@@ -2,7 +2,7 @@
 import { scientificNotation } from "../constants/numbers";
 import { supportedChains } from "../constants/supportedChains";
 import { tokens } from "../constants/tokens";
-import Big from 'big.js';
+import Big from "big.js";
 
 export function convertVotingPeriod(seconds) {
   let time;
@@ -48,10 +48,9 @@ export function votingPeriodToSeconds(period, type) {
 }
 
 export function toDecimals(amount, decimals) {
-
   var number = "";
 
-  let big = Big((amount * scientificNotation[decimals]).toString())
+  let big = Big((amount * scientificNotation[decimals]).toString());
   console.log("big", big);
 
   // this methodology is necessary to avoid javascript autoconverting large numbers to scientific notation
@@ -59,33 +58,33 @@ export function toDecimals(amount, decimals) {
   let coeff = big["c"];
   var digits = big["e"];
   var sign = 1;
-  if(digits < 1) {
+  if (digits < 1) {
     digits = digits * -1;
     sign = -1;
   }
   let remaining = digits - coeff.length + 1;
   console.log("remaining", remaining);
 
-  if(sign == 1) {
-    for(let i=0; i < coeff.length; i++) {
+  if (sign == 1) {
+    for (let i = 0; i < coeff.length; i++) {
       number += coeff[i].toString();
     }
-    for(let i=0; i < remaining; i++) {
+    for (let i = 0; i < remaining; i++) {
       number += "0";
     }
-  } else if(sign == -1) {
+  } else if (sign == -1) {
     number += "0.";
-    for(let i=0; i < remaining.length; i++) {
+    for (let i = 0; i < remaining.length; i++) {
       number += "0";
     }
-    for(let i=0; i < coeff.length; i++) {
+    for (let i = 0; i < coeff.length; i++) {
       number += coeff[i].toString();
     }
   } else {
-    alert("error")
+    alert("error");
   }
 
-  console.log("bignum", number)
+  console.log("bignum", number);
   return number; // if between 0 and 1, will return 0
 }
 
@@ -168,10 +167,9 @@ export function decodeBytes(type, p, web3, chainId) {
     let bytecode;
     var item = [];
 
-    if(bytes == "0x") {
-      item = null
+    if (bytes == "0x") {
+      item = null;
     } else {
-
       if (type == 9) {
         decodeType = p["extensions"][k];
         bytecode = bytes;
@@ -193,24 +191,27 @@ export function decodeBytes(type, p, web3, chainId) {
             if (types[i] == "date") {
               formatted = unixToDate(v);
             }
-            if(types[i] == "decimals") {
+            if (types[i] == "decimals") {
               let token;
 
-                console.log("types", types)
-                for(var j=0; j < types.length; j++) {
-                  if(type == 9 && types[j] == 'token') {
-                    token = decoded[j];
-                    let decimals = getDecimals(token, chainId);
-                    formatted = fromDecimals(parseInt(formatted), decimals)
-                    console.log("decoded[i]", decoded[i])
-                  } else if(type == 2 && decodeType == "erc20" && params[j] == "uint256") {
-                    token = contracts[k];
-                    let decimals = getDecimals(token, chainId);
-                    formatted = fromDecimals(parseInt(formatted), decimals)
-                    console.log("formatted "+[i])
-                  }
+              console.log("types", types);
+              for (var j = 0; j < types.length; j++) {
+                if (type == 9 && types[j] == "token") {
+                  token = decoded[j];
+                  let decimals = getDecimals(token, chainId);
+                  formatted = fromDecimals(parseInt(formatted), decimals);
+                  console.log("decoded[i]", decoded[i]);
+                } else if (
+                  type == 2 &&
+                  decodeType == "erc20" &&
+                  params[j] == "uint256"
+                ) {
+                  token = contracts[k];
+                  let decimals = getDecimals(token, chainId);
+                  formatted = fromDecimals(parseInt(formatted), decimals);
+                  console.log("formatted " + [i]);
                 }
-
+              }
             }
             item.push(labels[i] + ": " + formatted);
           }
@@ -226,9 +227,15 @@ export function decodeBytes(type, p, web3, chainId) {
 
 export function getTokenName(address, chainId) {
   let token;
-  for (const [key, value] of Object.entries(tokens[chainId])) {
-    if(tokens[chainId][key]["address"].toLowerCase() == address.toLowerCase()) {
-      token = key;
+  if (address == "0x0000000000000000000000000000000000000000") {
+    token = "ETH";
+  } else {
+    for (const [key, value] of Object.entries(tokens[chainId])) {
+      if (
+        tokens[chainId][key]["address"].toLowerCase() == address.toLowerCase()
+      ) {
+        token = key;
+      }
     }
   }
   return token;
@@ -243,7 +250,7 @@ export function formatContract(type, p, chainId) {
 
   for (var i = 0; i < accounts.length; i++) {
     let contract;
-    if(type == 2 && payloads[i] != "0x") {
+    if (type == 2 && payloads[i] != "0x") {
       contract = getTokenName(accounts[i], chainId);
     } else {
       contract = null;
@@ -306,17 +313,18 @@ export function formatAmounts(type, p) {
 }
 
 export function truncateAddress(account) {
-  return account.substr(0, 5) +
-  "..." +
-  account.substr(account.length - 4, account.length);
+  return (
+    account.substr(0, 5) +
+    "..." +
+    account.substr(account.length - 4, account.length)
+  );
 }
 
 export function getNetworkName(chainId) {
-
   var networkName = "unsupported";
-  for(var i=0; i < supportedChains.length; i++) {
-    if(supportedChains[i]['chainId']==chainId) {
-      networkName = supportedChains[i]['name'];
+  for (var i = 0; i < supportedChains.length; i++) {
+    if (supportedChains[i]["chainId"] == chainId) {
+      networkName = supportedChains[i]["name"];
     }
   }
   return networkName;
@@ -325,7 +333,7 @@ export function getNetworkName(chainId) {
 export function getDecimals(token, chainId) {
   let decimals;
   for (const [key, value] of Object.entries(tokens[chainId])) {
-    if(tokens[chainId][key]["address"].toLowerCase() == token.toLowerCase()) {
+    if (tokens[chainId][key]["address"].toLowerCase() == token.toLowerCase()) {
       decimals = tokens[chainId][key]["decimals"];
     }
   }
@@ -334,9 +342,9 @@ export function getDecimals(token, chainId) {
 
 export function convertRedeemables(redeemables) {
   const converted = [];
-  for(var i=0; i < redeemables.length; i++) {
-    for(var j=0; j < tokens.length; j++) {
-      if(tokens[j]["address"].toLowerCase() == redeemables[i].toLowerCase()) {
+  for (var i = 0; i < redeemables.length; i++) {
+    for (var j = 0; j < tokens.length; j++) {
+      if (tokens[j]["address"].toLowerCase() == redeemables[i].toLowerCase()) {
         converted.push(tokens[j]["token"]);
       }
     }
@@ -346,8 +354,8 @@ export function convertRedeemables(redeemables) {
 
 export function getChainInfo(chain) {
   let chainInfo;
-  for(let i=0; i < supportedChains.length; i++) {
-    if(chain==supportedChains[i].chainId) {
+  for (let i = 0; i < supportedChains.length; i++) {
+    if (chain == supportedChains[i].chainId) {
       chainInfo = supportedChains[i];
     }
   }
