@@ -28,6 +28,7 @@ export default function Layout(props) {
           style={{
             overflowX: "hidden !important",
           }}
+          draftActive={props.draftActive}
         />
         <Container
           minH="80vh"
