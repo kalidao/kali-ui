@@ -54,12 +54,12 @@ function ChooseCrowdsale({ details, setDetails }) {
   const handleCustomToken = (e) => {
     const token = e.target.value;
     console.log("token", token);
-    details["extensions"]["crowdsale"]["purchaseToken"] = parseInt(token);
+    details["extensions"]["crowdsale"]["purchaseToken"] = token;
     setDetails(details);
   };
 
   const handlePurchaseLimit = (limit) => {
-    details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
+    details["extensions"]["crowdsale"]["purchaseLimit"] = parseInt(limit);
     setDetails(details);
   };
 
