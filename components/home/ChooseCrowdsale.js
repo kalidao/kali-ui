@@ -183,7 +183,7 @@ function ChooseCrowdsale({ details, setDetails }) {
           </VStack>
           <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
-            <InfoTip label="This limit the number of tokens that can be purchased by an account" />
+            <InfoTip label="This limits the total number of tokens that can be purchased" />
             <Spacer />
             <NumInputField
               id="purchaseLimit"
