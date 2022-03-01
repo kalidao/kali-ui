@@ -120,7 +120,7 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
           <option value="3">Delaware Investment Club</option>
           <option value="4">Wyoming LLC</option>
           <option value="5">UNA</option>
-          <option value="6">Swiss Verein</option>
+          {/* <option value="6">Swiss Verein</option> */}
           <option value="7">Custom</option>
         </Select>
         {selectedType == 5 ? (
