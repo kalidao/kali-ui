@@ -14,6 +14,7 @@ import InfoTip from "../elements/InfoTip";
 import DateSelect from "../elements/DateSelect";
 import Slider from "../elements/Slider";
 import Select from "../elements/Select";
+import NumInputField from "../elements/NumInputField";
 
 function ChooseCrowdsale({ details, setDetails }) {
   const [crowdsale, setCrowdsale] = useState(
@@ -41,6 +42,7 @@ function ChooseCrowdsale({ details, setDetails }) {
     let token = e.target.value;
     switch (token) {
       case "0":
+        setCustomToken(false);
         details["extensions"]["crowdsale"]["purchaseToken"] =
           "0x000000000000000000000000000000000000dEaD";
         break;
@@ -54,12 +56,11 @@ function ChooseCrowdsale({ details, setDetails }) {
   const handleCustomToken = (e) => {
     const token = e.target.value;
     console.log("token", token);
-    details["extensions"]["crowdsale"]["purchaseToken"] = token;
+    details["extensions"]["crowdsale"]["purchaseToken"] = parseInt(token);
     setDetails(details);
   };
 
-  const handlePurchaseLimit = (e) => {
-    const limit = e.target.value;
+  const handlePurchaseLimit = (limit) => {
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
   };
@@ -182,16 +183,17 @@ function ChooseCrowdsale({ details, setDetails }) {
               />
             )}
           </VStack>
-          {/* <HStack w={"100%"}>
+          <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
             <InfoTip label="This limit the number of tokens that can be purchased by an account" />
             <Spacer />
-            <Input
+            <NumInputField
               id="purchaseLimit"
-              placeholder="1000"
+              defaultValue={1000}
+              min={1}
               onChange={handlePurchaseLimit}
             />
-          </HStack> */}
+          </HStack>
         </>
       ) : null}
     </>

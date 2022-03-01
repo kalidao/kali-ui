@@ -243,8 +243,17 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      purchaseLimit = presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
+      console.log("purchaseLimit", purchaseLimit);
+      purchaseLimit = (purchaseLimit * 1000000000000000000).toString();
       saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
+
+      if (purchaseToken === null) {
+        purchaseToken = "0x000000000000000000000000000000000000dead";
+      }
+
+      if (purchaseLimit === null) {
+        purchaseLimit = "10000000000000000000";
+      }
 
       console.log(
         "crowdsale param",
