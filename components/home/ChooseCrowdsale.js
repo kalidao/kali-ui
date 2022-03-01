@@ -34,8 +34,6 @@ function ChooseCrowdsale({ details, setDetails }) {
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(1);
   const [showSlider, setShowSlider] = useState(false);
-
-  const [purchaseToken, setPurchaseToken] = useState(0);
   const [showCustomToken, setCustomToken] = useState(false);
 
   const handlePurchaseToken = (e) => {
