@@ -6,10 +6,10 @@ import DashedDivider from "../elements/DashedDivider";
 import DAI from "../../public/img/coins/DAI.png";
 import ETH from "../../public/img/coins/ETH.svg";
 import USDC from "../../public/img/coins/USDC.svg";
-import WETH from "../../public/img/coins/WETH.svg"
+import WETH from "../../public/img/coins/WETH.svg";
 
 const TreasuryCard = ({ key, token, balance, src }) => {
-  console.log(token, src)
+  console.log(token, src);
   return (
     <>
       <HStack color="kali.900">
@@ -18,6 +18,7 @@ const TreasuryCard = ({ key, token, balance, src }) => {
           borderRadius="full"
           fallbackSrc="https://via.placeholder.com/150"
           src={src}
+          alt=""
         />
         <Text>{token}</Text>
         <Spacer />
@@ -35,15 +36,15 @@ export default function Treasury() {
   const displayLogo = (source) => {
     switch (source) {
       case "DAI":
-        return DAI.src
+        return DAI.src;
       case "USDC":
-        return USDC.src
+        return USDC.src;
       case "ETH":
-        return ETH.src
+        return ETH.src;
       case "WETH":
-        return WETH.src
+        return WETH.src;
     }
-  }
+  };
 
   return (
     <>
