@@ -59,6 +59,17 @@
 }
 
 /* //////////////// BUTTONS AND FORM ELEMENTS //////////////// */
+.glass {
+  background: rgb(31, 0, 0);
+  background: linear-gradient(
+    to right bottom,
+    rgba(24, 19, 19, 0.7),
+    rgba(93, 7, 7, 0.3)
+  );
+  backdrop-filter: blur(2rem);
+}
+
+/* //////////////// BUTTONS AND FORM ELEMENTS //////////////// */
 
 .transparent-btn {
   position: relative;
