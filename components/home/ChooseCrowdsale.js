@@ -166,7 +166,7 @@ function ChooseCrowdsale({ details, setDetails }) {
                 onClick={() => presentSlider()}
                 color="white"
               >
-                {purchaseMultiplier}%
+                {purchaseMultiplier}
               </Button>
             </HStack>
             {showSlider && (
