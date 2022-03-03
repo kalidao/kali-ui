@@ -14,6 +14,7 @@ import InfoTip from "../elements/InfoTip";
 import DateSelect from "../elements/DateSelect";
 import Slider from "../elements/Slider";
 import Select from "../elements/Select";
+import NumInputField from "../elements/NumInputField";
 
 function ChooseCrowdsale({ details, setDetails }) {
   const [crowdsale, setCrowdsale] = useState(
@@ -27,15 +28,19 @@ function ChooseCrowdsale({ details, setDetails }) {
       nowSale.getDate() + details["extensions"]["crowdsale"]["saleEnds"]
     )
   );
+
   const [listId, setListId] = useState(
     Boolean(details["extensions"]["crowdsale"]["listId"])
   );
 
-  const [purchaseMultiplier, setPurchaseMultiplier] = useState(1);
+  const [purchaseMultiplier, setPurchaseMultiplier] = useState(
+    details["extensions"]["crowdsale"]["purchaseMultiplier"]
+  );
   const [showSlider, setShowSlider] = useState(false);
-
-  const [purchaseToken, setPurchaseToken] = useState(0);
   const [showCustomToken, setCustomToken] = useState(false);
+  const [purchaseLimit, setPurchaseLimit] = useState(
+    details["extensions"]["crowdsale"]["purchaseLimit"]
+  );
 
   const handlePurchaseToken = (e) => {
     let token = e.target.value;
@@ -65,12 +70,11 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   };
 
-  useEffect(() => {
-    details["extensions"]["crowdsale"][
-      "purchaseMultiplier"
-    ] = purchaseMultiplier;
-    setDetails(details);
-  }, [purchaseMultiplier]);
+  // useEffect(() => {
+  //   details["extensions"]["crowdsale"]["purchaseMultiplier"] =
+  //     purchaseMultiplier;
+  //   setDetails(details);
+  // }, [purchaseMultiplier]);
 
   const presentSlider = () => {
     if (!showSlider) {
@@ -80,25 +84,25 @@ function ChooseCrowdsale({ details, setDetails }) {
     }
   };
 
-  useEffect(() => {
-    details["extensions"]["crowdsale"]["active"] = crowdsale;
-    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
-    details["extensions"]["crowdsale"]["listId"] = Number(listId);
-    setDetails(details);
-  }, [crowdsale, saleEnds, listId]);
+  // useEffect(() => {
+  //   details["extensions"]["crowdsale"]["active"] = crowdsale;
+  //   details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+  //   details["extensions"]["crowdsale"]["listId"] = Number(listId);
+  //   setDetails(details);
+  // }, [crowdsale, saleEnds, listId]);
 
-  useEffect(() => {
-    if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
-      details["extensions"]["crowdsale"]["purchaseToken"] =
-        "0x000000000000000000000000000000000000dEaD";
-      setDetails(details);
-      console.log("set default token to ETH");
-    }
-    if (details["extensions"]["crowdsale"]["purchaseLimit"] == null) {
-      details["extensions"]["crowdsale"]["purchaseLimit"] = 1000;
-      setDetails(details);
-    }
-  }, [crowdsale]);
+  // useEffect(() => {
+  //   if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
+  //     details["extensions"]["crowdsale"]["purchaseToken"] =
+  //       "0x000000000000000000000000000000000000dEaD";
+  //     setDetails(details);
+  //     console.log("set default token to ETH");
+  //   }
+  //   if (details["extensions"]["crowdsale"]["purchaseLimit"] == null) {
+  //     details["extensions"]["crowdsale"]["purchaseLimit"] = 1000;
+  //     setDetails(details);
+  //   }
+  // }, [crowdsale]);
 
   return (
     <>
@@ -123,6 +127,7 @@ function ChooseCrowdsale({ details, setDetails }) {
             </Text>
             <ReactDatePicker
               id="date-picker"
+              defaultValue={saleEnds}
               selected={saleEnds}
               onChange={(date) => setSaleEnds(date)}
               showTimeSelect
@@ -197,16 +202,17 @@ function ChooseCrowdsale({ details, setDetails }) {
               />
             )}
           </VStack>
-          {/* <HStack w={"100%"}>
+          <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
             <InfoTip label="This limit the number of tokens that can be purchased by an account" />
             <Spacer />
-            <Input
+            <NumInputField
               id="purchaseLimit"
-              placeholder="1000"
+              defaultValue={purchaseLimit}
+              min={1}
               onChange={handlePurchaseLimit}
             />
-          </HStack> */}
+          </HStack>
         </>
       ) : null}
     </>
