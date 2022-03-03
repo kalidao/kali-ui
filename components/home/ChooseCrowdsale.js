@@ -14,12 +14,13 @@ import InfoTip from "../elements/InfoTip";
 import DateSelect from "../elements/DateSelect";
 import Slider from "../elements/Slider";
 import Select from "../elements/Select";
-import NumInputField from "../elements/NumInputField";
 
 function ChooseCrowdsale({ details, setDetails }) {
   const [crowdsale, setCrowdsale] = useState(
     details["extensions"]["crowdsale"]["active"]
   );
+
+  const handleToggle = () => {};
 
   // sale date conversion
   const nowSale = new Date();
@@ -34,21 +35,23 @@ function ChooseCrowdsale({ details, setDetails }) {
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(1);
   const [showSlider, setShowSlider] = useState(false);
+
+  const [purchaseToken, setPurchaseToken] = useState(0);
   const [showCustomToken, setCustomToken] = useState(false);
 
   const handlePurchaseToken = (e) => {
     let token = e.target.value;
     switch (token) {
       case "0":
-        setCustomToken(false);
         details["extensions"]["crowdsale"]["purchaseToken"] =
           "0x000000000000000000000000000000000000dEaD";
+        setDetails(details);
         break;
       case "333":
         setCustomToken(true);
+        setDetails(details);
         break;
     }
-    setDetails(details);
   };
 
   const handleCustomToken = (e) => {
@@ -58,14 +61,16 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   };
 
-  const handlePurchaseLimit = (limit) => {
+  const handlePurchaseLimit = (e) => {
+    const limit = e.target.value;
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
   };
 
   useEffect(() => {
-    details["extensions"]["crowdsale"]["purchaseMultiplier"] =
-      purchaseMultiplier;
+    details["extensions"]["crowdsale"][
+      "purchaseMultiplier"
+    ] = purchaseMultiplier;
     setDetails(details);
   }, [purchaseMultiplier]);
 
@@ -83,6 +88,15 @@ function ChooseCrowdsale({ details, setDetails }) {
     details["extensions"]["crowdsale"]["listId"] = Number(listId);
     setDetails(details);
   }, [crowdsale, saleEnds, listId]);
+
+  useEffect(() => {
+    if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
+      details["extensions"]["crowdsale"]["purchaseToken"] =
+        "0x000000000000000000000000000000000000dEaD";
+      setDetails(details);
+      console.log("set default token to ETH");
+    }
+  }, [crowdsale]);
 
   return (
     <>
@@ -181,17 +195,16 @@ function ChooseCrowdsale({ details, setDetails }) {
               />
             )}
           </VStack>
-          <HStack w={"100%"}>
+          {/* <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
-            <InfoTip label="This limits the total number of tokens that can be purchased" />
+            <InfoTip label="This limit the number of tokens that can be purchased by an account" />
             <Spacer />
-            <NumInputField
+            <Input
               id="purchaseLimit"
-              defaultValue={1000}
-              min={1}
+              placeholder="1000"
               onChange={handlePurchaseLimit}
             />
-          </HStack>
+          </HStack> */}
         </>
       ) : null}
     </>
