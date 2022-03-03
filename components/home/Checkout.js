@@ -245,6 +245,11 @@ export default function Checkout({ details, daoNames }) {
 
       console.log("purchaseLimit", purchaseLimit);
       purchaseLimit = purchaseLimit + "000000000000000000";
+      if (saleEnds == 30) {
+        let date = new Date();
+        saleEnds = date.setDate(date.getDate() + 30);
+      }
+
       saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
 
       if (purchaseToken === null) {
