@@ -171,6 +171,8 @@ ul.alternating-list > li:nth-child(2n) {
   color: #5a2686;
 }
 
+/* //////////////// LAYOUT //////////////// */
+
 /* //////////////// DEPLOYER //////////////// */
 
 #deployer-container {
@@ -249,44 +251,29 @@ div.dao-type:hover {
   width: 100%;
   height: auto;
 }
-/* //////////////// APP //////////////// */
+/* //////////////// DAO APP //////////////// */
 
-div#dao-main {
-  background: #fafafa;
-  padding: 10px 20px !important;
-}
-
-div#footer {
-  margin: 0 -45px;
-  padding: 20px 45px !important;
-}
-
-#dao-main h1 {
-  color: #5a2686 !important;
-  margin-bottom: 20px;
-}
-
-.h1-icon {
-  color: #5a2686 !important;
-  margin-bottom: 20px;
+#dao-app {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  min-width: 100vw;
 }
 
 #dao-sidebar {
-  padding: 60px 0 0 0;
-  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 1rem;
 }
 
 #action-menu {
-  padding-top: 50px;
-}
-
-#action-menu button {
-  padding: 10px;
-}
-
-#dao-sidebar button,
-#dao-sidebar #kali-logo {
-  color: #5a2686;
+  display: grid;
+  gap: 2rem;
 }
 
 #dashboard {

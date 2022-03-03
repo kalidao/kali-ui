@@ -30,18 +30,8 @@ export default function Layout(props) {
           }}
           draftActive={props.draftActive}
         />
-        <Container
-          minH="80vh"
-          maxW="container.lg"
-          alignItems="center"
-          justifyContent="center"
-          style={{
-            overflowX: "hidden !important",
-          }}
-        >
-          <Box minH="70vh">{props.children}</Box>
-          <Footer />
-        </Container>
+        <Box>{props.children}</Box>
+        <Footer />
       </Box>
     </>
   );

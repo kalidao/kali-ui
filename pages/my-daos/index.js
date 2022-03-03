@@ -5,7 +5,7 @@ import Layout from "../../components/structure/Layout";
 import {
   Button,
   List,
-  ListItem,
+  Container,
   Text,
   Box,
   Link,
@@ -104,47 +104,57 @@ export default function MyDaos() {
 
   return (
     <Layout>
-      {account == null ? (
-        <Button className="transparent-btn" onClick={value.connect}>
-          Connect to see your DAOs
-        </Button>
-      ) : (
-        <>
-          {daos == null ? null : (
-            <List>
-              <VStack>
-                <Heading as="h2">My DAOs</Heading>
+      <Container
+        minH="80vh"
+        maxW="container.lg"
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          overflowX: "hidden !important",
+        }}
+      >
+        {account == null ? (
+          <Button className="transparent-btn" onClick={value.connect}>
+            Connect to see your DAOs
+          </Button>
+        ) : (
+          <>
+            {daos == null ? null : (
+              <List>
+                <VStack>
+                  <Heading as="h2">My DAOs</Heading>
 
-                {isMobile == true ? null : (
-                  <>
-                    <Text fontSize="2xl" fontWeight="600">
-                      Select chain:
-                    </Text>
-                    <Select onChange={handleChange} defaultValue={chainId}>
-                      {supportedChains.map((item, index) => (
-                        <option key={index} value={item.chainId}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </>
-                )}
-                <Wrap>
-                  {daos.map((item, index) => (
-                    <Link href={`../daos/${item.dao.id}`} key={index}>
-                      <DaoCard
-                        key={index}
-                        name={item.dao.token.name}
-                        dao={item.dao.id}
-                      />
-                    </Link>
-                  ))}
-                </Wrap>
-              </VStack>
-            </List>
-          )}
-        </>
-      )}
+                  {isMobile == true ? null : (
+                    <>
+                      <Text fontSize="2xl" fontWeight="600">
+                        Select chain:
+                      </Text>
+                      <Select onChange={handleChange} defaultValue={chainId}>
+                        {supportedChains.map((item, index) => (
+                          <option key={index} value={item.chainId}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                  <Wrap>
+                    {daos.map((item, index) => (
+                      <Link href={`../daos/${item.dao.id}`} key={index}>
+                        <DaoCard
+                          key={index}
+                          name={item.dao.token.name}
+                          dao={item.dao.id}
+                        />
+                      </Link>
+                    ))}
+                  </Wrap>
+                </VStack>
+              </List>
+            )}
+          </>
+        )}
+      </Container>
     </Layout>
   );
 }
