@@ -40,9 +40,9 @@ export default function FactoryWrapper() {
         active: false,
         purchaseToken: null,
         purchaseMultiplier: 10,
-        purchaseLimit: null,
+        purchaseLimit: 1000,
         saleEnds: 0,
-        listId: null,
+        listId: 0,
         documentation: "",
       },
     },
@@ -55,7 +55,7 @@ export default function FactoryWrapper() {
       mission: null,
       city: null,
       project: null,
-    }
+    },
   });
   console.log("details", details);
 

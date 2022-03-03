@@ -43,6 +43,7 @@ function ChooseCrowdsale({ details, setDetails }) {
   );
 
   const handlePurchaseToken = (e) => {
+    e.preventDefault();
     let token = e.target.value;
     switch (token) {
       case "0":
@@ -58,6 +59,7 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handleCustomToken = (e) => {
+    e.preventDefault();
     const token = e.target.value;
     console.log("token", token);
     details["extensions"]["crowdsale"]["purchaseToken"] = token;
@@ -65,16 +67,11 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handlePurchaseLimit = (e) => {
+    e.preventDefault();
     const limit = e.target.value;
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
   };
-
-  // useEffect(() => {
-  //   details["extensions"]["crowdsale"]["purchaseMultiplier"] =
-  //     purchaseMultiplier;
-  //   setDetails(details);
-  // }, [purchaseMultiplier]);
 
   const presentSlider = () => {
     if (!showSlider) {
@@ -84,12 +81,17 @@ function ChooseCrowdsale({ details, setDetails }) {
     }
   };
 
-  // useEffect(() => {
-  //   details["extensions"]["crowdsale"]["active"] = crowdsale;
-  //   details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
-  //   details["extensions"]["crowdsale"]["listId"] = Number(listId);
-  //   setDetails(details);
-  // }, [crowdsale, saleEnds, listId]);
+  useEffect(() => {
+    console.log("listId", listId);
+    details["extensions"]["crowdsale"]["listId"] = Number(listId);
+    setDetails(details);
+  }, [listId]);
+
+  useEffect(() => {
+    details["extensions"]["crowdsale"]["purchaseMultiplier"] =
+      purchaseMultiplier;
+    setDetails(details);
+  }, [purchaseMultiplier]);
 
   // useEffect(() => {
   //   if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
@@ -151,7 +153,7 @@ function ChooseCrowdsale({ details, setDetails }) {
               <Input
                 id="purchaseToken"
                 placeholder="Enter Token Address"
-                onChange={handleCustomToken}
+                onChange={(value) => handleCustomToken(value)}
               />
             )}
           </VStack>
