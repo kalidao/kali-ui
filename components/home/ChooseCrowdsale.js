@@ -20,8 +20,6 @@ function ChooseCrowdsale({ details, setDetails }) {
     details["extensions"]["crowdsale"]["active"]
   );
 
-  const handleToggle = () => {};
-
   // sale date conversion
   const nowSale = new Date();
   const [saleEnds, setSaleEnds] = useState(
@@ -95,6 +93,10 @@ function ChooseCrowdsale({ details, setDetails }) {
         "0x000000000000000000000000000000000000dEaD";
       setDetails(details);
       console.log("set default token to ETH");
+    }
+    if (details["extensions"]["crowdsale"]["purchaseLimit"] == null) {
+      details["extensions"]["crowdsale"]["purchaseLimit"] = 1000;
+      setDetails(details);
     }
   }, [crowdsale]);
 
