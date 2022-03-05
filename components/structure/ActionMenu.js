@@ -1,15 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/AppContext";
 import { BrowserView, MobileView } from "react-device-detect";
-import {
-  Button,
-  Center,
-  HStack,
-  VStack,
-  Container,
-  Divider,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { BiGridAlt, BiEdit } from "react-icons/bi";
 import { RiStackLine } from "react-icons/ri";
 import { VscNewFile } from "react-icons/vsc";
@@ -23,7 +15,7 @@ const ActionButton = (props) => {
       background={props.background}
       border="none"
       p="1rem"
-      size={{ sm: "sm", md: "md", lg: "md", xl: "md", "2xl": "md" }}
+      display={["flex", "flex", "flex", "flex", "flex"]}
       color="#fff"
       _hover={{
         background:
@@ -78,7 +70,15 @@ export default function ActionMenu(props) {
   }, [dao]);
 
   return (
-    <div id="action-menu">
+    <Flex
+      flexDir={["row", "row", "column", "column", "column"]}
+      align={["center", "center", "center", "flex-start", "flex-start"]}
+      wrap={["wrap", "wrap", "nowrap", "nowrap", "nowrap"]}
+      justifyContent="center"
+      as="nav"
+      id="action-menu"
+      gap="1rem"
+    >
       {actions.map((item, index) => (
         <ActionButton
           onClick={() => handleClick(index + 1)}
@@ -93,6 +93,6 @@ export default function ActionMenu(props) {
           {item.name}
         </ActionButton>
       ))}
-    </div>
+    </Flex>
   );
 }

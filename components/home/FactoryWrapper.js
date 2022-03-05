@@ -55,7 +55,7 @@ export default function FactoryWrapper() {
       mission: null,
       city: null,
       project: null,
-    }
+    },
   });
   console.log("details", details);
 
@@ -120,7 +120,7 @@ export default function FactoryWrapper() {
   ];
 
   return (
-    <VStack>
+    <VStack id="deployer-container">
       <StepProgressBar
         steps={views.length}
         visible={visible}

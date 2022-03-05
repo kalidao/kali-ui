@@ -7,7 +7,7 @@ import NewProposal from "../../components/newproposal/NewProposal";
 import Dashboard from "../../components/dashboard/Dashboard";
 import ActionMenu from "../../components/structure/ActionMenu";
 import Extensions from "../../components/extensions/Extensions";
-import { VStack, Spacer, Link, Box } from "@chakra-ui/react";
+import { VStack, Spacer, Link, Flex, Box } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
 
 export default function Dao() {
@@ -27,45 +27,35 @@ export default function Dao() {
 
   return (
     <Layout draftActive={false}>
-      <Box id="dao-app">
-        <Box
-          id="dao-sidebar"
-          display={{ base: "block", sm: "none", md: "block", lg: "block" }}
-        >
-          <ActionMenu />
-          <Spacer />
-          <Link href="https://airtable.com/shr29w0Bm0sTvygyI" isExternal>
-            Looking for Contributors?
-          </Link>
-        </Box>
-        <Box>
-          {daoChain == null ? null : (
-            <>
-              {visibleView == 1 ? (
-                <Dashboard />
-              ) : visibleView == 2 ? (
-                <Proposals />
-              ) : visibleView == 3 ? (
-                <NewProposal />
-              ) : visibleView == 4 ? (
-                <Extensions />
-              ) : null}
-            </>
-          )}
-        </Box>
-      </Box>
-      <Box
-        id="mobile-menu"
-        display={{
-          base: "none",
-          sm: "block",
-          md: "none",
-          lg: "none",
-          xl: "none",
-          "2xl": "none",
-        }}
+      <Flex
+        w={["100%", "100%", "10%", "15%", "15%"]}
+        flexDir={["row", "row", "column", "column", "column"]}
+        alignItems="center"
+        justifyContent="space-between"
       >
         <ActionMenu />
+        <Link
+          display={["none", "none", "none", "flex", "flex", "flex"]}
+          href="https://airtable.com/shr29w0Bm0sTvygyI"
+          isExternal
+        >
+          Looking for Contributors?
+        </Link>
+      </Flex>
+      <Box w={["100%", "100%", "90%", "85%"]}>
+        {daoChain == null ? null : (
+          <>
+            {visibleView == 1 ? (
+              <Dashboard />
+            ) : visibleView == 2 ? (
+              <Proposals />
+            ) : visibleView == 3 ? (
+              <NewProposal />
+            ) : visibleView == 4 ? (
+              <Extensions />
+            ) : null}
+          </>
+        )}
       </Box>
     </Layout>
   );

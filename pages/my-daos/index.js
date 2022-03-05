@@ -30,7 +30,7 @@ const DaoCard = ({ name, dao, key }) => {
   return (
     <WrapItem
       bg="hsl(0, 92%, 6%, 20%)"
-      color="kali.800"
+      color="kali.900"
       p="3"
       m="2"
       borderRadius="3xl"

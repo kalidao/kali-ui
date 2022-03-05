@@ -168,17 +168,14 @@ ul.alternating-list > li:nth-child(2n) {
 }
 
 #copy-address {
-  color: #5a2686;
+  color: #fff !important;
 }
 
 /* //////////////// LAYOUT //////////////// */
-
-/* //////////////// DEPLOYER //////////////// */
-
-#deployer-container {
-  padding: 20px;
-  min-height: 100vh;
+#main-container {
+  padding: 1rem;
 }
+/* //////////////// DEPLOYER //////////////// */
 
 #deployer-container p,
 #deployer-container h1,
@@ -269,11 +266,6 @@ div.dao-type:hover {
   justify-content: space-between;
   align-items: center;
   margin-right: 1rem;
-}
-
-#action-menu {
-  display: grid;
-  gap: 2rem;
 }
 
 #dashboard {
