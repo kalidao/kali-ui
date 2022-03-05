@@ -61,7 +61,7 @@ function ChooseSupermajority({ details, setDetails }) {
       {showSlider && (
         <Slider
           id="slider"
-          min={51}
+          min={52}
           max={100}
           aria-label="supermajority slider"
           defaultValue={details["governance"]["supermajority"]}
