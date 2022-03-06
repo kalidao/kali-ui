@@ -23,6 +23,7 @@ export default function EntityDetails({ details, setDetails, handleNext }) {
 
   const handleChange = (e) => {
     details["legal"]["docs"] = e.target.value;
+    details["legal"]["docType"] = "Existing entity";
     console.log(e.target.value);
     setDetails(details);
   };

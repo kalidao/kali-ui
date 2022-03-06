@@ -458,7 +458,7 @@ export default function Checkout({ details, daoNames }) {
       details: details["governance"]["supermajority"] + "%",
     },
     {
-      name: "Docs",
+      name: "Legal Entity",
       details: details["legal"]["docType"],
     },
   ];
