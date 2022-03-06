@@ -39,6 +39,11 @@ export default function Checkout({ details, daoNames }) {
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
 
+  const handleEmail = () => {
+    // email sent to Kali following deployment
+    alert("Send email to " + details["email"]);
+  };
+
   const isNameUnique = (name) => {
     if (daoNames != null) {
       if (name != null && daoNames.includes(name) === true) {
@@ -191,8 +196,9 @@ export default function Checkout({ details, daoNames }) {
       return;
     }
 
-    const { votingPeriod, paused, quorum, supermajority } =
-      details["governance"];
+    const { votingPeriod, paused, quorum, supermajority } = details[
+      "governance"
+    ];
 
     const { docs } = details["legal"];
     console.log("docs to before push", docs);
@@ -395,6 +401,9 @@ export default function Checkout({ details, daoNames }) {
         pathname: "/daos/[dao]",
         query: { dao: dao },
       });
+      if (details["email"] != null) {
+        handleEmail();
+      }
     } catch (e) {
       value.toast(e);
       console.log(e);

@@ -11,6 +11,7 @@ import StepProgressBar from "./StepProgressBar";
 
 export default function FactoryWrapper() {
   const [visible, setVisible] = useState(0);
+  //const visible = 5; // for testing!
   const [details, setDetails] = useState({
     network: 1,
     identity: {
@@ -51,6 +52,7 @@ export default function FactoryWrapper() {
       docs: null,
       docType: 999,
     },
+    email: null,
     misc: {
       mission: null,
       city: null,
