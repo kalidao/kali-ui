@@ -59,5 +59,16 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
     />,
   ];
 
-  return <>{steps[active]}</>;
+  return (
+    <>
+      {steps[active]}
+      {active == 0 ? null : (
+        <Text>
+          <Link onClick={() => setActive(0)}>
+            <i>« Back</i>
+          </Link>
+        </Text>
+      )}
+    </>
+  );
 }
