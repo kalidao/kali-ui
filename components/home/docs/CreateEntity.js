@@ -99,6 +99,15 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
       message:
         "We will contact you to provide options for registering a Swiss Verein and the associated costs.",
     },
+    {
+      text: "Custom Entity Type (est. TBD)",
+      template: "none",
+      docType: "Custom Entity Type (pending)",
+      email: true,
+      mission: false,
+      message:
+        "We will contact you to provide options for your desired entity type and the associated costs.",
+    },
   ];
 
   return (

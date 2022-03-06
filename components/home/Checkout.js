@@ -41,7 +41,13 @@ export default function Checkout({ details, daoNames }) {
 
   const handleEmail = () => {
     // email sent to Kali following deployment
-    alert("Send email to " + details["email"]);
+    const to = "kalidao@protonmail.com";
+    const from = details["email"];
+    const subject = "Entity Registration";
+    const body =
+      from + " requests help forming a " + details["legal"]["docType"];
+    // send email here!
+    alert("Send email!"); // for testing
   };
 
   const isNameUnique = (name) => {
