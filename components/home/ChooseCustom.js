@@ -31,31 +31,16 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       votingPeriod: details["governance"]["votingPeriod"],
-      votingPeriodUnit: 0,
+      votingPeriodUnit: details["governance"]["votingPeriodUnit"],
     },
   });
-
-  const calculateVotingPeriod = (period, unit) => {
-    let seconds;
-    if (unit == 0) {
-      seconds = period * 60 * 60 * 24;
-    } else if (unit == 1) {
-      seconds = period * 60 * 60;
-    } else {
-      seconds = period * 60;
-    }
-    console.log(seconds);
-    return seconds;
-  };
 
   const submit = (values) => {
     const { votingPeriod, votingPeriodUnit, paused } = values;
 
     // setting governance
-    details["governance"]["votingPeriod"] = calculateVotingPeriod(
-      votingPeriod,
-      votingPeriodUnit
-    );
+    details["governance"]["votingPeriod"] = votingPeriod;
+    details["governance"]["votingPeriodUnit"] = votingPeriodUnit;
 
     if (paused != undefined) {
       details["governance"]["paused"] = Number(paused);
