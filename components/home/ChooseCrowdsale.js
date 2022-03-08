@@ -93,18 +93,11 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   }, [purchaseMultiplier]);
 
-  // useEffect(() => {
-  //   if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
-  //     details["extensions"]["crowdsale"]["purchaseToken"] =
-  //       "0x000000000000000000000000000000000000dEaD";
-  //     setDetails(details);
-  //     console.log("set default token to ETH");
-  //   }
-  //   if (details["extensions"]["crowdsale"]["purchaseLimit"] == null) {
-  //     details["extensions"]["crowdsale"]["purchaseLimit"] = 1000;
-  //     setDetails(details);
-  //   }
-  // }, [crowdsale]);
+  useEffect(() => {
+    console.log("saleEnds", saleEnds);
+    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+    setDetails(details);
+  }, [saleEnds]);
 
   return (
     <>
