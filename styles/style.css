@@ -3,7 +3,7 @@
 #mobile-menu {
   position: fixed;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: rgba(34, 0, 0, 0.8) !important;
   width: 100%;
   padding: 5px 10px;
 }
@@ -56,6 +56,17 @@
   right: 0;
   bottom: 0;
   z-index: -1;
+}
+
+/* //////////////// BUTTONS AND FORM ELEMENTS //////////////// */
+.glass {
+  background: rgb(31, 0, 0);
+  background: linear-gradient(
+    to right bottom,
+    rgba(24, 19, 19, 0.7),
+    rgba(93, 7, 7, 0.3)
+  );
+  backdrop-filter: blur(2rem);
 }
 
 /* //////////////// BUTTONS AND FORM ELEMENTS //////////////// */
@@ -157,15 +168,14 @@ ul.alternating-list > li:nth-child(2n) {
 }
 
 #copy-address {
-  color: #5a2686;
+  color: #fff !important;
 }
 
+/* //////////////// LAYOUT //////////////// */
+#main-container {
+  padding: 1rem;
+}
 /* //////////////// DEPLOYER //////////////// */
-
-#deployer-container {
-  padding: 20px;
-  min-height: 100vh;
-}
 
 #deployer-container p,
 #deployer-container h1,
@@ -238,44 +248,24 @@ div.dao-type:hover {
   width: 100%;
   height: auto;
 }
-/* //////////////// APP //////////////// */
+/* //////////////// DAO APP //////////////// */
 
-div#dao-main {
-  background: #fafafa;
-  padding: 10px 20px !important;
-}
-
-div#footer {
-  margin: 0 -45px;
-  padding: 20px 45px !important;
-}
-
-#dao-main h1 {
-  color: #5a2686 !important;
-  margin-bottom: 20px;
-}
-
-.h1-icon {
-  color: #5a2686 !important;
-  margin-bottom: 20px;
+#dao-app {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  min-width: 100vw;
 }
 
 #dao-sidebar {
-  padding: 60px 0 0 0;
-  background: #ffffff;
-}
-
-#action-menu {
-  padding-top: 50px;
-}
-
-#action-menu button {
-  padding: 10px;
-}
-
-#dao-sidebar button,
-#dao-sidebar #kali-logo {
-  color: #5a2686;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 1rem;
 }
 
 #dashboard {
@@ -357,6 +347,10 @@ div#footer {
 }
 
 /* //////////////// MISC //////////////// */
+
+#account {
+  color: #fff !important;
+}
 
 #tos {
   border: none;

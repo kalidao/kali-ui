@@ -9,15 +9,7 @@ export default function Kali() {
     console.log("click");
   };
   return (
-    <Box
-      display={{
-        sm: "block",
-        md: "block",
-        lg: "block",
-        xl: "block",
-        "2xl": "block",
-      }}
-    >
+    <Box display="flex">
       <Image
         id="logo"
         src={logo.src}

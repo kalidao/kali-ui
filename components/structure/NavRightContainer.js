@@ -16,8 +16,7 @@ export default function NavRightContainer(props) {
 
   return (
     <HStack
-      color={props.color}
-      border="1.5px solid"
+      border="2px solid"
       borderRadius="xl"
       spacing={1}
       pl={3}
