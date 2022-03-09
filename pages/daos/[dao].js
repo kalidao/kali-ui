@@ -26,37 +26,53 @@ export default function Dao() {
   }, [address, value]);
 
   return (
-    <Layout draftActive={false}>
-      <Flex
-        w={["100%", "100%", "10%", "15%", "15%"]}
-        flexDir={["row", "row", "column", "column", "column"]}
-        alignItems="center"
-        justifyContent="space-between"
+    <>
+      <Layout draftActive={false}>
+        <Flex
+          w={["100%", "100%", "10%", "15%", "15%"]}
+          flexDir={["row", "row", "column", "column", "column"]}
+          alignItems="center"
+          justifyContent="space-between"
+          display={["none", "none", "flex", "flex", "flex", "flex"]}
+        >
+          <ActionMenu />
+          <Link
+            display={["none", "none", "none", "flex", "flex", "flex"]}
+            href="https://airtable.com/shr29w0Bm0sTvygyI"
+            isExternal
+          >
+            Looking for Contributors?
+          </Link>
+        </Flex>
+        <Box w={["100%", "100%", "90%", "85%"]}>
+          {daoChain == null ? null : (
+            <>
+              {visibleView == 1 ? (
+                <Dashboard />
+              ) : visibleView == 2 ? (
+                <Proposals />
+              ) : visibleView == 3 ? (
+                <NewProposal />
+              ) : visibleView == 4 ? (
+                <Extensions />
+              ) : null}
+            </>
+          )}
+        </Box>
+      </Layout>
+      <Box
+        id="mobile-menu"
+        display={{
+          base: "block",
+          sm: "block",
+          md: "none",
+          lg: "none",
+          xl: "none",
+          "2xl": "none",
+        }}
       >
         <ActionMenu />
-        <Link
-          display={["none", "none", "none", "flex", "flex", "flex"]}
-          href="https://airtable.com/shr29w0Bm0sTvygyI"
-          isExternal
-        >
-          Looking for Contributors?
-        </Link>
-      </Flex>
-      <Box w={["100%", "100%", "90%", "85%"]}>
-        {daoChain == null ? null : (
-          <>
-            {visibleView == 1 ? (
-              <Dashboard />
-            ) : visibleView == 2 ? (
-              <Proposals />
-            ) : visibleView == 3 ? (
-              <NewProposal />
-            ) : visibleView == 4 ? (
-              <Extensions />
-            ) : null}
-          </>
-        )}
       </Box>
-    </Layout>
+    </>
   );
 }
