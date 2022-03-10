@@ -27,7 +27,7 @@ const SocialButton = (props) => {
 
 export default function Footer() {
   return (
-    <HStack minH="10vh" minW="auto" id="footer">
+    <HStack minH="10vh" minW="auto" spacing={4} id="footer">
       <Text fontSize="xs">
         Summoned with{" "}
         <a href="https://twitter.com/lex_DAO" target="_blank" rel="noreferrer">
@@ -35,6 +35,15 @@ export default function Footer() {
         </a>
       </Text>
       <ToS label="ToS" id="tos-button" />
+      {/* <Text as="button" onClick={TOS} direction={"column"} fontSize="xs">
+        <a
+          href="https://bold-thing-f55.notion.site/KaliCo-Terms-of-Service-91ef53c0763d423dbc035a29dabc4ca9"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <i>ToS</i>
+        </a>
+      </Text> */}
       <Spacer />
       <Stack
         direction={"row"}

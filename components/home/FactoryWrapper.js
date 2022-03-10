@@ -121,7 +121,7 @@ export default function FactoryWrapper() {
   ];
 
   return (
-    <VStack id="deployer-container">
+    <VStack>
       <StepProgressBar
         steps={views.length}
         visible={visible}

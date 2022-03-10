@@ -14,18 +14,18 @@ export default function Chain() {
     <>
       {chainId == null ? null : (
         <>
-          <Icon as={IoIosGitNetwork} />
-          <Button id="account" variant="link" border="none">
-            {getNetworkName(chainId)}
-            <Divider
-              orientation="vertical"
-              height="20px"
-              border="1px solid"
-              opacity="1.0"
-              ml={2}
-              mr={1}
-            />
-          </Button>
+        <Icon as={IoIosGitNetwork} />
+        <Button variant="link" border="none">
+          {getNetworkName(chainId)}
+          <Divider
+            orientation="vertical"
+            height="20px"
+            border="1px solid"
+            opacity="1.0"
+            ml={2}
+            mr={1}
+          />
+        </Button>
         </>
       )}
     </>

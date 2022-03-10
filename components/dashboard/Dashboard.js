@@ -139,7 +139,7 @@ export default function Dashboard() {
             {Object.entries(dashboardHelper).map(([k, v]) =>
               dashboardHelper[k]["check"] != null &&
               dao[dashboardHelper[k]["check"]] == null ? null : (
-                <div className="glass dashboard-tile">
+                <div className="gradient-item dashboard-tile">
                   <Box key={`component-${k}`}>
                     <Heading>{dashboardHelper[k]["title"]}</Heading>
                     {dashboardHelper[k]["component"]}

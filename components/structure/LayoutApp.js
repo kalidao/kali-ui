@@ -1,16 +1,6 @@
 import React, { useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
-import {
-  Container,
-  HStack,
-  Center,
-  Spacer,
-  VStack,
-  Wrap,
-  WrapItem,
-  Box,
-  Button,
-} from "@chakra-ui/react";
+import { Container, HStack, Center, Spacer, VStack, Wrap, WrapItem, Box, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import NavRightContainer from "./NavRightContainer";
 import Kali from "./Kali";
@@ -25,8 +15,8 @@ export default function Layout(props) {
   const { loading } = value.state;
 
   const openInNewTab = () => {
-    window.open("https://airtable.com/shr29w0Bm0sTvygyI").focus();
-  };
+    window.open("https://airtable.com/shr29w0Bm0sTvygyI").focus()
+  }
 
   return (
     <>
@@ -67,7 +57,9 @@ export default function Layout(props) {
               <ActionMenu />
               <Spacer />
               <Button variant="ghost" border="0px" onClick={openInNewTab}>
-                Looking for Contributors?
+                
+                  Looking for Contributors?
+                
               </Button>
             </VStack>
           </Container>
@@ -86,7 +78,9 @@ export default function Layout(props) {
               <Spacer />
               <NavRightContainer color="#5a2686" borderColor="#5a2686" />
             </HStack>
+
             <Box minH="100vh">{props.children}</Box>
+
             <Footer />
           </Box>
         </WrapItem>
@@ -105,5 +99,5 @@ export default function Layout(props) {
         <ActionMenu />
       </Box>
     </>
-  );
+  )
 }
