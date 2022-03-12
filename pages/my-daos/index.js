@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import Layout from "../../components/structure/Layout";
 import {
@@ -15,13 +14,11 @@ import {
   VStack,
   Wrap,
   WrapItem,
+  Flex,
 } from "@chakra-ui/react";
-import { factoryInstance } from "../../eth/factory";
-import { addresses } from "../../constants/addresses";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 import { isMobile } from "react-device-detect";
-const abi = require("../../abi/KaliDAO.json");
 import Select from "../../components/elements/Select";
 import { graph } from "../../constants/graph";
 import { truncateAddress } from "../../utils/formatters";
@@ -114,9 +111,11 @@ export default function MyDaos() {
         }}
       >
         {account == null ? (
-          <Button className="transparent-btn" onClick={value.connect}>
-            Connect to see your DAOs
-          </Button>
+          <Flex justifyContent="center" mt="5vh">
+            <Button className="transparent-btn" onClick={value.connect}>
+              Connect to see your DAOs
+            </Button>
+          </Flex>
         ) : (
           <>
             {daos == null ? null : (
