@@ -34,6 +34,8 @@ export default function Dao() {
           alignItems="center"
           justifyContent="space-between"
           display={["none", "none", "flex", "flex", "flex", "flex"]}
+          mt={[0, 0, "10px", "10px", "10px"]}
+          mr={[0, 0, "10px", "10px", "10px"]}
         >
           <ActionMenu />
           <Link
