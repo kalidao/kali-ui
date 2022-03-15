@@ -46,6 +46,7 @@ function ChooseCrowdsale({ details, setDetails }) {
     let token = e.target.value;
     switch (token) {
       case "0":
+        setCustomToken(false);
         details["extensions"]["crowdsale"]["purchaseToken"] =
           "0x000000000000000000000000000000000000dEaD";
         setDetails(details);
