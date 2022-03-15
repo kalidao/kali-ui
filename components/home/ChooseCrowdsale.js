@@ -43,7 +43,6 @@ function ChooseCrowdsale({ details, setDetails }) {
   );
 
   const handlePurchaseToken = (e) => {
-    e.preventDefault();
     let token = e.target.value;
     switch (token) {
       case "0":
@@ -59,7 +58,6 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handleCustomToken = (e) => {
-    e.preventDefault();
     const token = e.target.value;
     console.log("token", token);
     details["extensions"]["crowdsale"]["purchaseToken"] = token;
@@ -67,7 +65,6 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handlePurchaseLimit = (e) => {
-    e.preventDefault();
     const limit = e.target.value;
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
@@ -80,6 +77,11 @@ function ChooseCrowdsale({ details, setDetails }) {
       setShowSlider(false);
     }
   };
+
+  useEffect(() => {
+    console.log("crowdsale active", crowdsale);
+    details["extensions"]["crowdsale"]["active"] = crowdsale;
+  }, [crowdsale]);
 
   useEffect(() => {
     console.log("listId", listId);
