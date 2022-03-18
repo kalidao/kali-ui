@@ -116,7 +116,9 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
       <Select onChange={handleChange} maxW={500}>
         <option value="999">Select an option</option>
         {options.map((item, index) => (
-          <option value={index}>{item.text}</option>
+          <option key={index} value={index}>
+            {item.text}
+          </option>
         ))}
       </Select>
       {options[selected] != undefined &&

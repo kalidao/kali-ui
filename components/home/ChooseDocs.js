@@ -29,30 +29,35 @@ export default function ChooseDocs({ details, setDetails, handleNext }) {
 
   const steps = [
     <HaveEntity
+      key="1"
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
       setActive={setActive}
     />,
     <WantToLinkDetails
+      key="2"
       setActive={setActive}
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
     />,
     <WantEntity
+      key="3"
       setActive={setActive}
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
     />,
     <EntityDetails
+      key="4"
       setActive={setActive}
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
     />,
     <CreateEntity
+      key="5"
       details={details}
       setDetails={setDetails}
       handleNext={handleNext}
