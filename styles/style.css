@@ -374,6 +374,7 @@ div.dao-type:hover {
 
 option {
   color: rgb(0, 0, 0) !important;
+  background-color: #eeeeee !important;
 }
 /* color scheme */
 /* purple: #5a2686, darkBlue: 594cfb, lightBlue: a0b1dc, pink: e65170, purple: 3b074e */
