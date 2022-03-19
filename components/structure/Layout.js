@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Flex, Box, Container } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import Nav from "./Nav";
 import LoadingIndicator from "./Loading";
@@ -14,7 +14,7 @@ export default function Layout(props) {
     <>
       {loading == true ? <LoadingIndicator /> : ""}
       <Flex
-        h={[null, null, "100vh"]}
+        minHeight="100vh"
         maxW="2000px"
         flexDir={["column", "column", "column"]}
         id="main-container"
@@ -38,9 +38,7 @@ export default function Layout(props) {
           }}
           draftActive={props.draftActive}
         />
-        <Flex h={[null, null, "80vh"]} id="app-container">
-          {props.children}
-        </Flex>
+        <Flex minH="80vh">{props.children}</Flex>
         <Footer />
       </Flex>
     </>
