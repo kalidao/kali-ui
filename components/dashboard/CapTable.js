@@ -31,8 +31,8 @@ export default function CapTable() {
         <Tbody background="blackAlpha.300">
           {dao["members"].map((m, index) => (
             <Tr key={index}>
-              <Td>{m["member"]}</Td>
-              <Td>{fromDecimals(m["shares"], 18)}</Td>
+              <Td color="#fff">{m["member"]}</Td>
+              <Td color="#fff">{fromDecimals(m["shares"], 18)}</Td>
             </Tr>
           ))}
         </Tbody>
