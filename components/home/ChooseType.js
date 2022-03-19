@@ -11,6 +11,7 @@ import {
   Divider,
   Heading,
   UnorderedList,
+  ListItem,
   Button,
   Center,
 } from "@chakra-ui/react";
@@ -107,12 +108,9 @@ export default function ChooseType({ details, setDetails, handleNext }) {
           <Spacer p={5} />
           {Object.keys(item.type["extensions"]).length !== 0 ? (
             <Text>
-              <UnorderedList>
+              <UnorderedList styleType="none" m="0">
                 {Object.entries(item.type["extensions"]).map(([key, value]) => (
-                  <>
-                    {console.log(key, value)}
-                    <Text key={key}>{value["description"]}</Text>
-                  </>
+                  <ListItem key={key}>{value["description"]}</ListItem>
                 ))}
               </UnorderedList>
             </Text>
@@ -129,8 +127,8 @@ export default function ChooseType({ details, setDetails, handleNext }) {
       <Grid
         templateColumns={{
           sm: "repeat(1, 1fr)",
-          md: "repeat(3, 1fr)",
-          lg: "repeat(3, 1fr)",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(2, 1fr)",
         }}
         gap={15}
       >

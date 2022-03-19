@@ -15,7 +15,7 @@ import {
   Center,
   HStack,
   Spacer,
-  IconButton
+  IconButton,
 } from "@chakra-ui/react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import NumInputField from "../elements/NumInputField";
@@ -55,8 +55,8 @@ export default function SendShares() {
           members[i].address = await web3.eth.ens
             .getAddress(members[i].address)
             .catch(() => {
-              value.toast(members[i].address + " is not a valid ENS.")
-            })
+              value.toast(members[i].address + " is not a valid ENS.");
+            });
         }
         accounts_.push(members[i].address);
       }
@@ -117,7 +117,7 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2} className="alternating-list">
+        <List spacing={2} width="100%">
           {fields.map((member, index) => (
             <ListItem
               display="flex"
@@ -125,6 +125,9 @@ export default function SendShares() {
               alignContent="center"
               justifyContent="center"
               key={member.id}
+              className="glass"
+              p="10px 20px"
+              borderRadius="2xl"
             >
               <Controller
                 name={`members.${index}.address`}
@@ -133,7 +136,7 @@ export default function SendShares() {
                 render={({ field }) => (
                   <FormControl>
                     <FormLabel htmlFor={`members.${index}.address`}>
-                      member {index + 1}
+                      Member {index + 1}
                     </FormLabel>
                     <Input
                       placeholder="0x address or ENS"
@@ -156,10 +159,20 @@ export default function SendShares() {
             </ListItem>
           ))}
         </List>
-        <HStack><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add</Button></HStack>
+        <HStack>
+          <Spacer />
+          <Button
+            className="transparent-btn"
+            onClick={() => append({ address: "" })}
+          >
+            +Add
+          </Button>
+        </HStack>
 
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="transparent-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </Stack>
     </form>
