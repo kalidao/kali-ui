@@ -97,7 +97,7 @@ export default function Extensions(props) {
         <Heading as="h1">Extensions</Heading>
       </HStack>
       {dao == null ? null : account == null ? (
-        <Box className="gradient-item dashboard-tile" mt={10} color="white">
+        <Box className="glass dashboard-tile" mt={10} color="white">
           <Text mb={5}>
             Please connect your account to start using extensions!
           </Text>
