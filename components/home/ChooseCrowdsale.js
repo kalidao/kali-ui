@@ -43,10 +43,10 @@ function ChooseCrowdsale({ details, setDetails }) {
   );
 
   const handlePurchaseToken = (e) => {
-    e.preventDefault();
     let token = e.target.value;
     switch (token) {
       case "0":
+        setCustomToken(false);
         details["extensions"]["crowdsale"]["purchaseToken"] =
           "0x000000000000000000000000000000000000dEaD";
         setDetails(details);
@@ -59,7 +59,6 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handleCustomToken = (e) => {
-    e.preventDefault();
     const token = e.target.value;
     console.log("token", token);
     details["extensions"]["crowdsale"]["purchaseToken"] = token;
@@ -67,7 +66,6 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   const handlePurchaseLimit = (e) => {
-    e.preventDefault();
     const limit = e.target.value;
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
     setDetails(details);
@@ -82,6 +80,11 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   useEffect(() => {
+    console.log("crowdsale active", crowdsale);
+    details["extensions"]["crowdsale"]["active"] = crowdsale;
+  }, [crowdsale]);
+
+  useEffect(() => {
     console.log("listId", listId);
     details["extensions"]["crowdsale"]["listId"] = Number(listId);
     setDetails(details);
@@ -93,18 +96,11 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   }, [purchaseMultiplier]);
 
-  // useEffect(() => {
-  //   if (details["extensions"]["crowdsale"]["purchaseToken"] == null) {
-  //     details["extensions"]["crowdsale"]["purchaseToken"] =
-  //       "0x000000000000000000000000000000000000dEaD";
-  //     setDetails(details);
-  //     console.log("set default token to ETH");
-  //   }
-  //   if (details["extensions"]["crowdsale"]["purchaseLimit"] == null) {
-  //     details["extensions"]["crowdsale"]["purchaseLimit"] = 1000;
-  //     setDetails(details);
-  //   }
-  // }, [crowdsale]);
+  useEffect(() => {
+    console.log("saleEnds", saleEnds);
+    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+    setDetails(details);
+  }, [saleEnds]);
 
   return (
     <>

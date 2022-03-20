@@ -16,7 +16,7 @@ import {
   FormLabel,
   Spacer,
   IconButton,
-  Center
+  Center,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -66,19 +66,19 @@ export default function SendShares() {
           recipients[i].address = await web3.eth.ens
             .getAddress(recipients[i].address)
             .catch(() => {
-              value.toast(recipients[i].address + " is not a valid ENS.")
-              value.setLoading(false)
-            })
+              value.toast(recipients[i].address + " is not a valid ENS.");
+              value.setLoading(false);
+            });
         } else if (web3.utils.isAddress(recipients[i].address) == false) {
           value.toast(
             recipients[i].address + " is not a valid Ethereum address."
-          )
-          value.setLoading(false)
-          return
+          );
+          value.setLoading(false);
+          return;
         }
 
         if (recipients[i].address === undefined) {
-          return
+          return;
         }
         accounts_.push(recipients[i].address);
       }
@@ -131,7 +131,7 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2} width="100%" className="alternating-list">
+        <List spacing={2} width="100%">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -139,6 +139,9 @@ export default function SendShares() {
               alignContent="center"
               justifyContent="center"
               key={recipient.id}
+              className="glass"
+              p="10px 20px"
+              borderRadius="2xl"
             >
               <Controller
                 name={`recipients.${index}.address`}
@@ -147,7 +150,7 @@ export default function SendShares() {
                 render={({ field }) => (
                   <FormControl isRequired>
                     <FormLabel htmlFor={`recipients.${index}.address`}>
-                      recipient
+                      Recipient
                     </FormLabel>
                     <Input
                       className="member-address"
@@ -189,10 +192,17 @@ export default function SendShares() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
+        <HStack width="100%">
+          <Spacer />
+          <Button className="solid-btn" onClick={() => append({ address: "" })}>
+            +Add Recipient
+          </Button>
+        </HStack>
 
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </VStack>
     </form>

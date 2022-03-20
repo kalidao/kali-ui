@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Text,
+import {
+  Text,
   UnorderedList,
   ListItem,
   Table,
@@ -10,7 +11,7 @@ import { Text,
   Tr,
   Th,
   Td,
-  TableCaption
+  TableCaption,
 } from "@chakra-ui/react";
 import { fromDecimals } from "../../utils/formatters";
 
@@ -18,24 +19,24 @@ export default function CapTable() {
   const value = useContext(AppContext);
   const { dao } = value.state;
 
-  return(
+  return (
     <>
-    <Table>
-      <Thead>
-        <Tr>
-          <Th>Member</Th>
-          <Th>Shares</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-      {dao["members"].map((m, index) => (
-        <Tr key={index}>
-          <Td>{m['member']}</Td>
-          <Td>{fromDecimals(m['shares'], 18)}</Td>
-        </Tr>
-      ))}
-    </Tbody>
-    </Table>
+      <Table variant="simple" colorScheme="blackAlpha">
+        <Thead>
+          <Tr>
+            <Th color="#fff">Member</Th>
+            <Th color="#fff">Shares</Th>
+          </Tr>
+        </Thead>
+        <Tbody background="blackAlpha.300">
+          {dao["members"].map((m, index) => (
+            <Tr key={index}>
+              <Td color="#fff">{m["member"]}</Td>
+              <Td color="#fff">{fromDecimals(m["shares"], 18)}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
     </>
   );
 }

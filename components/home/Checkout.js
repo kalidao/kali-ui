@@ -33,6 +33,7 @@ import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
 import { supportedChains } from "../../constants/supportedChains";
+import { calculateVotingPeriod } from "../../utils/helpers";
 import { init, send } from "emailjs-com";
 
 init(process.env.NEXT_PUBLIC_EMAIL_ID);
@@ -240,7 +241,7 @@ export default function Checkout({ details, daoNames }) {
       return;
     }
 
-    const { votingPeriod, paused, quorum, supermajority } =
+    const { votingPeriod, votingPeriodUnit, paused, quorum, supermajority } =
       details["governance"];
 
     const { docs } = details["legal"];
@@ -254,8 +255,11 @@ export default function Checkout({ details, daoNames }) {
     const { tribute, redemption, crowdsale } = details["extensions"];
     console.log("tribute", tribute);
 
+    const voting = calculateVotingPeriod(votingPeriod, votingPeriodUnit);
+    console.log(voting);
+
     const govSettings = Array(
-      votingPeriod,
+      voting,
       0,
       quorum,
       supermajority,
@@ -481,7 +485,12 @@ export default function Checkout({ details, daoNames }) {
     },
     {
       name: "Voting period",
-      details: convertVotingPeriod(details["governance"]["votingPeriod"]),
+      details: convertVotingPeriod(
+        calculateVotingPeriod(
+          details["governance"]["votingPeriod"],
+          details["governance"]["votingPeriodUnit"]
+        )
+      ),
     },
     {
       name: "Share transferability",

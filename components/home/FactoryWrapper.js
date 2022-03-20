@@ -25,6 +25,7 @@ export default function FactoryWrapper() {
     },
     governance: {
       votingPeriod: 1,
+      votingPeriodUnit: 0,
       paused: 1,
       quorum: 10,
       supermajority: 60,
@@ -122,7 +123,7 @@ export default function FactoryWrapper() {
   ];
 
   return (
-    <VStack>
+    <VStack id="deployer-container">
       <StepProgressBar
         steps={views.length}
         visible={visible}

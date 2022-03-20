@@ -15,7 +15,7 @@ export default function Account(props) {
   };
 
   return (
-    <Button variant="link" onClick={value.connect} border="none">
+    <Button id="account" variant="link" onClick={value.connect} border="none">
       {ensAvatar && (
         <Image
           src={ensAvatar}

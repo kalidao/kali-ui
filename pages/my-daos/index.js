@@ -1,11 +1,10 @@
 import { useState, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import Layout from "../../components/structure/Layout";
 import {
   Button,
   List,
-  ListItem,
+  Container,
   Text,
   Box,
   Link,
@@ -15,13 +14,11 @@ import {
   VStack,
   Wrap,
   WrapItem,
+  Flex,
 } from "@chakra-ui/react";
-import { factoryInstance } from "../../eth/factory";
-import { addresses } from "../../constants/addresses";
 import { supportedChains } from "../../constants/supportedChains";
 import DashedDivider from "../../components/elements/DashedDivider";
 import { isMobile } from "react-device-detect";
-const abi = require("../../abi/KaliDAO.json");
 import Select from "../../components/elements/Select";
 import { graph } from "../../constants/graph";
 import { truncateAddress } from "../../utils/formatters";
@@ -30,7 +27,7 @@ const DaoCard = ({ name, dao, key }) => {
   return (
     <WrapItem
       bg="hsl(0, 92%, 6%, 20%)"
-      color="kali.800"
+      color="kali.900"
       p="3"
       m="2"
       borderRadius="3xl"
@@ -104,47 +101,59 @@ export default function MyDaos() {
 
   return (
     <Layout>
-      {account == null ? (
-        <Button className="transparent-btn" onClick={value.connect}>
-          Connect to see your DAOs
-        </Button>
-      ) : (
-        <>
-          {daos == null ? null : (
-            <List>
-              <VStack>
-                <Heading as="h2">My DAOs</Heading>
+      <Container
+        minH="80vh"
+        maxW="container.lg"
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          overflowX: "hidden !important",
+        }}
+      >
+        {account == null ? (
+          <Flex justifyContent="center" mt="5vh">
+            <Button className="transparent-btn" onClick={value.connect}>
+              Connect to see your DAOs
+            </Button>
+          </Flex>
+        ) : (
+          <>
+            {daos == null ? null : (
+              <List>
+                <VStack>
+                  <Heading as="h2">My DAOs</Heading>
 
-                {isMobile == true ? null : (
-                  <>
-                    <Text fontSize="2xl" fontWeight="600">
-                      Select chain:
-                    </Text>
-                    <Select onChange={handleChange} defaultValue={chainId}>
-                      {supportedChains.map((item, index) => (
-                        <option key={index} value={item.chainId}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </>
-                )}
-                <Wrap>
-                  {daos.map((item, index) => (
-                    <Link href={`../daos/${item.dao.id}`} key={index}>
-                      <DaoCard
-                        key={index}
-                        name={item.dao.token.name}
-                        dao={item.dao.id}
-                      />
-                    </Link>
-                  ))}
-                </Wrap>
-              </VStack>
-            </List>
-          )}
-        </>
-      )}
+                  {isMobile == true ? null : (
+                    <>
+                      <Text fontSize="2xl" fontWeight="600">
+                        Select chain:
+                      </Text>
+                      <Select onChange={handleChange} defaultValue={chainId}>
+                        {supportedChains.map((item, index) => (
+                          <option key={index} value={item.chainId}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                  <Wrap>
+                    {daos.map((item, index) => (
+                      <Link href={`../daos/${item.dao.id}`} key={index}>
+                        <DaoCard
+                          key={index}
+                          name={item.dao.token.name}
+                          dao={item.dao.id}
+                        />
+                      </Link>
+                    ))}
+                  </Wrap>
+                </VStack>
+              </List>
+            )}
+          </>
+        )}
+      </Container>
     </Layout>
   );
 }

@@ -5,7 +5,7 @@ import {
   Input,
   Button,
   Select,
-  Text,
+  Flex,
   Textarea,
   VStack,
   HStack,
@@ -14,7 +14,7 @@ import {
   FormControl,
   FormLabel,
   Spacer,
-  IconButton
+  IconButton,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -71,31 +71,30 @@ export default function SendToken() {
           recipients[i].address = await web3.eth.ens
             .getAddress(recipients[i].address)
             .catch(() => {
-              value.toast(recipients[i].address + " is not a valid ENS.")
-              value.setLoading(false)
-            })
+              value.toast(recipients[i].address + " is not a valid ENS.");
+              value.setLoading(false);
+            });
         }
 
-        console.log(recipients[i].address)
+        console.log(recipients[i].address);
         if (recipients[i].address === undefined) {
-          return
+          return;
         }
-        let element = document.getElementById(`recipients.${i}.share`)
+        let element = document.getElementById(`recipients.${i}.share`);
         let value_ = element.value;
 
-        if(selectedOptions[i] == "ETH") {
-          amounts_.push(toDecimals(value_, 18))
+        if (selectedOptions[i] == "ETH") {
+          amounts_.push(toDecimals(value_, 18));
         } else {
           amounts_.push(0);
         }
-
       }
       console.log("Amounts Array", amounts_);
 
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
         let address_;
-        if(selectedOptions[i] == "ETH") {
+        if (selectedOptions[i] == "ETH") {
           address_ = recipients[i].address;
         } else {
           address_ = tokens[chainId][selectedOptions[i]]["address"];
@@ -106,18 +105,24 @@ export default function SendToken() {
 
       let payloads_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        if(selectedOptions[i] == "ETH") {
+        if (selectedOptions[i] == "ETH") {
           payloads_.push("0x");
         } else {
           const ierc20 = require("../../abi/ERC20.json");
           let address_ = tokens[chainId][selectedOptions[i]]["address"];
           let decimals = tokens[chainId][selectedOptions[i]]["decimals"];
-          let element = document.getElementById(`recipients.${i}.share`)
+          let element = document.getElementById(`recipients.${i}.share`);
           let value_ = element.value;
 
           const tokenContract = new web3.eth.Contract(ierc20, address_);
           var payload_ = tokenContract.methods
-            .transfer(recipients[i].address, toDecimals(value_, tokens[chainId][selectedOptions[i]]["decimals"]))
+            .transfer(
+              recipients[i].address,
+              toDecimals(
+                value_,
+                tokens[chainId][selectedOptions[i]]["decimals"]
+              )
+            )
             .encodeABI();
           payloads_.push(payload_);
         }
@@ -164,7 +169,7 @@ export default function SendToken() {
           )}
         />
 
-        <List spacing={2} width="100%" className="alternating-list">
+        <List spacing={2} width="100%">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -172,64 +177,70 @@ export default function SendToken() {
               alignContent="center"
               justifyContent="center"
               key={recipient.id}
+              className="glass"
+              p="10px 20px"
+              borderRadius="2xl"
+              spacing="2"
             >
-              <Controller
-                name={`recipients.${index}.address`}
-                control={control}
-                defaultValue={recipient.address}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormLabel htmlFor={`recipients.${index}.address`}>
-                      Recipient {index + 1}
-                    </FormLabel>
-                    <Input
-                      placeholder="0x address or ENS"
-                      {...field}
-                      {...register(`recipients.${index}.address`, {
-                        required: "You must assign share!",
-                      })}
-                    />
-                  </FormControl>
-                )}
-              />
-              <Controller
-                name={`recipients.${index}.token`}
-                control={control}
-                defaultValue={recipient.token}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormLabel htmlFor={`recipients.${index}.token`}>
-                      Token
-                    </FormLabel>
-                    <Select id={index} onChange={handleSelect}>
-                      <option>Select a token</option>
-                      <option value="ETH">ETH</option>
-                      {Object.keys(tokens[chainId]).map((key, value) => (
-                        <option key={key} value={key}>
-                          {key}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-              <Controller
-                name={`recipients.${index}.share`}
-                control={control}
-                defaultValue={recipient.share}
-                render={({ field }) => (
-                  <FormControl isRequired>
-                    <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Amount
-                    </FormLabel>
-                    <NumInputField
-                      min="0.000000000000000001"
-                      defaultValue="1"
-                      id={`recipients.${index}.share`}
-                    />
-                  </FormControl>
-                )}
-              />
+              <Flex>
+                <Controller
+                  name={`recipients.${index}.address`}
+                  control={control}
+                  defaultValue={recipient.address}
+                  render={({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor={`recipients.${index}.address`}>
+                        Recipient {index + 1}
+                      </FormLabel>
+                      <Input
+                        placeholder="0x address or ENS"
+                        {...field}
+                        {...register(`recipients.${index}.address`, {
+                          required: "You must assign share!",
+                        })}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  name={`recipients.${index}.token`}
+                  control={control}
+                  defaultValue={recipient.token}
+                  render={({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor={`recipients.${index}.token`}>
+                        Token
+                      </FormLabel>
+                      <Select id={index} onChange={handleSelect}>
+                        <option>Select a token</option>
+                        <option value="ETH">ETH</option>
+                        {Object.keys(tokens[chainId]).map((key, value) => (
+                          <option key={key} value={key}>
+                            {key}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  name={`recipients.${index}.share`}
+                  control={control}
+                  defaultValue={recipient.share}
+                  render={({ field }) => (
+                    <FormControl isRequired>
+                      <FormLabel htmlFor={`recipients.${index}.share`}>
+                        Amount
+                      </FormLabel>
+                      <NumInputField
+                        min="0.000000000000000001"
+                        defaultValue="1"
+                        id={`recipients.${index}.share`}
+                      />
+                    </FormControl>
+                  )}
+                />
+              </Flex>
               <IconButton
                 className="delete-icon"
                 aria-label="delete recipient"
@@ -242,9 +253,16 @@ export default function SendToken() {
           ))}
         </List>
 
-        <HStack width="100%"><Spacer /><Button className="solid-btn" onClick={() => append({ address: "" })}>+Add Recipient</Button></HStack>
+        <HStack width="100%">
+          <Spacer />
+          <Button className="solid-btn" onClick={() => append({ address: "" })}>
+            +Add Recipient
+          </Button>
+        </HStack>
 
-        <Button className="solid-btn" onClick={handleSubmit(submitProposal)}>Submit Proposal</Button>
+        <Button className="solid-btn" onClick={handleSubmit(submitProposal)}>
+          Submit Proposal
+        </Button>
       </VStack>
     </form>
   );
