@@ -10,6 +10,7 @@ import {
   Spacer,
   Checkbox,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import {
   getNetworkName,
@@ -33,12 +34,60 @@ import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
 import { supportedChains } from "../../constants/supportedChains";
 import { calculateVotingPeriod } from "../../utils/helpers";
+import { init, send } from "emailjs-com";
+
+init(process.env.NEXT_PUBLIC_EMAIL_ID);
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
+
+  const toast = useToast();
+  const handleEmail = (dao) => {
+    // email sent to Kali following deployment
+    // const to = "kalidao@protonmail.com";
+    // const from = details["email"];
+    // const subject = "Entity Registration";
+    // const body =
+    //   from + " requests help forming a " + details["legal"]["docType"];
+    // send email here!
+    const network = getChain(chainId);
+    console.log("network", network);
+    const params = {
+      dao: dao,
+      network: network,
+      email: details["email"],
+      entity_type: details["legal"]["docType"],
+    };
+
+    send("default_service", "template_c37vmuw", params).then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+        toast({
+          title: "Success",
+          description: "Email sent successfully!",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      },
+      function (error) {
+        console.log("FAILED!", error);
+        toast({
+          title: "Failed",
+          description:
+            "We were not able to send this email. Please contact us on our discord or at kalidao@protonmail.com.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    );
+
+    alert("Send email!"); // for testing
+  };
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -399,6 +448,10 @@ export default function Checkout({ details, daoNames }) {
         pathname: "/daos/[dao]",
         query: { dao: dao },
       });
+
+      if (details["email"] != null) {
+        handleEmail(dao);
+      }
     } catch (e) {
       value.toast(e);
       console.log(e);
@@ -452,7 +505,7 @@ export default function Checkout({ details, daoNames }) {
       details: details["governance"]["supermajority"] + "%",
     },
     {
-      name: "Docs",
+      name: "Legal Entity",
       details: details["legal"]["docType"],
     },
   ];

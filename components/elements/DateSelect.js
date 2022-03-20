@@ -7,6 +7,7 @@ export default function DateSelect(props) {
 
   return (
     <DatePicker
+      id="date-picker"
       name={props.name}
       selected={startDate}
       onChange={(date) => setStartDate(date)}
