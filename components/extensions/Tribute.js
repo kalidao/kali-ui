@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import {
   Input,
@@ -31,17 +30,14 @@ export default function BuyCrowdsale() {
   } = value.state;
   const tribAbi = require("../../abi/KaliDAOtribute.json");
   const tokenAbi = require("../../abi/ERC20.json");
+  const nftAbi = require("../../abi/KaliNFT.json");
+ 
   const tribAddress = dao["extensions"]["tribute"]["address"];
   const [selection, setSelection] = useState("");
   const [approveButton, setApproveButton] = useState(false);
   const [submitButtonActive, setSubmitButtonActive] = useState(true);
-  const [tokenContract, setTokenContract] = useState("");
-
-  // Toggle token forms
-  // const [erc20Form, setErc20Form] = useState(false);
-  // const [erc721Form, setErc721Form] = useState(false);
-  // const [erc1155Form, setErc1155Form] = useState(false);
-  // const [comboForm, setComboForm] = useState(false);
+  const [proposalDetail, setProposalDetail] = useState({})
+  const [ownershipError, setOwnershipError] = useState("")
 
   const resolveAddressAndEns = async (ens) => {
     let address;
@@ -64,8 +60,35 @@ export default function BuyCrowdsale() {
     return address;
   };
 
-  const submitTributeProposal = async (proposalDetail) => {
-    value.setLoading(true)
+  const submitTribProposalWithEth = async (proposalDetail) => {
+    value.setLoading(true);
+    const instance = new web3.eth.Contract(tribAbi, tribAddress);
+    console.log(proposalDetail)
+    try {
+      let result = await instance.methods
+        .submitTributeProposal(
+          proposalDetail.dao,
+          proposalDetail.proposalType,
+          proposalDetail.description,
+          proposalDetail.accounts,
+          proposalDetail.amounts,
+          proposalDetail.payloads,
+          proposalDetail.nft,
+          proposalDetail.asset,
+          proposalDetail.assetValue
+        )
+        .send({ from: account, value: proposalDetail.assetValue });
+      console.log("This is result - ", result);
+      value.setVisibleView(1);
+    } catch (e) {
+      value.toast(e);
+      value.setLoading(false);
+    }
+    value.setLoading(false);
+  };
+
+  const submitTribProposal = async (proposalDetail) => {
+    value.setLoading(true);
     const instance = new web3.eth.Contract(tribAbi, tribAddress);
 
     try {
@@ -86,11 +109,12 @@ export default function BuyCrowdsale() {
       value.setVisibleView(1);
     } catch (e) {
       value.toast(e);
+      value.setLoading(false);
     }
+    value.setLoading(false);
   };
 
   const checkTokenAllowance = async (proposalDetail) => {
-    const tribAddress = dao["extensions"]["tribute"]["address"];
     const instance = new web3.eth.Contract(tokenAbi, proposalDetail.asset);
 
     try {
@@ -100,32 +124,76 @@ export default function BuyCrowdsale() {
       console.log("This is result for allowance - ", result);
       if (result == 0) {
         setApproveButton(true);
-        setTokenContract(proposalDetail.asset)
         setSubmitButtonActive(false);
       } else {
-        submitTributeProposal(proposalDetail);
+        submitTribProposal(proposalDetail);
       }
     } catch (e) {
       value.toast(e);
     }
   };
 
-  const approveToken = async () => {
-    value.setLoading(true)
-    const instance = new web3.eth.Contract(tokenAbi, tokenContract);
-    const approvedAmount = web3.utils.toWei("100000");
+  const checkNftAllowance = async (proposalDetail) => {
+    const instance = new web3.eth.Contract(nftAbi, proposalDetail.asset);
+    console.log(proposalDetail.assetValue)
     try {
-      let result = await instance.methods
-        .approve(tribAddress, approvedAmount)
-        .send({ from: account });
-      console.log("This is result for approve - ", result);
-      setSubmitButtonActive(true);
-      setApproveButton(false);
+      setOwnershipError("");
+      let owner = await instance.methods.ownerOf(proposalDetail.assetValue).call();
+      if (owner.toLowerCase() === account.toLowerCase()) {
+        let result = await instance.methods
+          .getApproved(proposalDetail.assetValue)
+          .call();
+        console.log("This is result for approval - ", result);
+        if (result == 0) {
+          setApproveButton(true);
+          setSubmitButtonActive(false);
+        } else {
+          submitTribProposal(proposalDetail);
+        }
+      } else {
+        setOwnershipError("Please check the token ID again. It doesn't seem like you own this NFT.")
+      }
     } catch (e) {
       value.toast(e);
-      value.setLoading(false)
     }
-    value.setLoading(false)
+  };
+
+  const approve = async () => {
+    value.setLoading(true);
+
+    switch (selection) {
+      case "erc20":
+        const erc20 = new web3.eth.Contract(tokenAbi, proposalDetail.asset);
+        const approvedAmount = web3.utils.toWei("100000");
+        try {
+          let result = await erc20.methods
+            .approve(tribAddress, approvedAmount)
+            .send({ from: account });
+          console.log("This is result for approve - ", result);
+          setSubmitButtonActive(true);
+          setApproveButton(false);
+        } catch (e) {
+          value.toast(e);
+          value.setLoading(false);
+        }
+        break;
+      case "erc721":
+        const erc721 = new web3.eth.Contract(nftAbi, proposalDetail.asset);
+        try {
+          let result = await erc721.methods
+            .approve(tribAddress, proposalDetail.assetValue)
+            .send({ from: account });
+          console.log("This is result for approve - ", result);
+          setSubmitButtonActive(true);
+          setApproveButton(false);
+        } catch (e) {
+          value.toast(e);
+          value.setLoading(false);
+        }
+        break;
+    }
+
+    value.setLoading(false);
   };
 
   const submitProposal = async (event) => {
@@ -143,6 +211,7 @@ export default function BuyCrowdsale() {
         proposer,
         description,
         askAmount,
+        ethAmount,
         erc20Contract,
         erc20Amount,
         erc721Contract,
@@ -160,7 +229,7 @@ export default function BuyCrowdsale() {
         ? (nft = "true")
         : (nft = "false");
 
-      const proposalDetail = {
+      const proposalDetail_ = {
         dao: dao.address,
         proposalType: 0,
         description: description,
@@ -173,19 +242,29 @@ export default function BuyCrowdsale() {
       };
 
       switch (selection) {
+        case "eth":
+          proposalDetail_.asset = "0x0000000000000000000000000000000000000000";
+          proposalDetail_.assetValue = web3.utils.toWei(ethAmount);
+          submitTribProposalWithEth(proposalDetail_)
+          break;
         case "erc20":
-          proposalDetail.asset = erc20Contract;
-          proposalDetail.assetValue = erc20Amount;
-          checkTokenAllowance(proposalDetail);
+          proposalDetail_.asset = erc20Contract;
+          proposalDetail_.assetValue = erc20Amount;
+          setProposalDetail(proposalDetail_)
+          checkTokenAllowance(proposalDetail_);
           break;
         case "erc721":
-          asset = erc721Contract;
-          assetValue = erc721Id;
+          proposalDetail_.asset = erc721Contract;
+          proposalDetail_.assetValue = erc721Id;
+          setProposalDetail(proposalDetail_)
+          checkNftAllowance(proposalDetail_);
           break;
-        case "erc1155":
-          asset = erc1155Contract;
-          assetValue = erc1155Id;
-          break;
+        // case "erc1155":
+        //   proposalDetail.asset = erc1155Contract;
+        //   proposalDetail.assetValue = erc1155Id;
+        //   setProposalDetail(proposalDetail)
+        //   checkNftAllowance(proposalDetail);
+        //   break;
       }
     } catch (e) {
       value.toast(e);
@@ -204,8 +283,7 @@ export default function BuyCrowdsale() {
             <i>
               {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
             </i>
-            . You may tribute any ERC20 tokens, NFTs (e.g., ERC721 or ERC1155),
-            or a combination.
+            . You may tribute ERC20 tokens or NFTs.
           </Text>
           <br />
           <HStack w="100%">
@@ -232,51 +310,28 @@ export default function BuyCrowdsale() {
           </HStack>
           <br />
           <Text>
-            <b>in exchange for...</b>
+            <b>with a tribute in the form of...</b>
           </Text>
-          <Select
+          <Select w="90%"
             onChange={(e) => {
               setSelection(e.target.value);
             }}
             placeholder="Please select"
           >
+            <option value="eth">ETH</option>
             <option value="erc20">ERC20</option>
             <option value="erc721">ERC721</option>
-            <option value="erc1155">ERC1155</option>
+            {/* <option value="erc1155">ERC1155</option> */}
           </Select>
-          {/* <HStack w="100%">
-            <Checkbox
-              w="33%"
-              name="erc20Form"
-              value="erc20Form"
-              isChecked={erc20Form}
-              defaultValue={erc20Form}
-              onChange={() => setErc20Form(!erc20Form)}
-            >
-              <Text>ERC20</Text>
-            </Checkbox>
-            <Checkbox
-              w="33%"
-              name="erc721Form"
-              value="erc721Form"
-              isChecked={erc721Form}
-              defaultValue={erc721Form}
-              onChange={() => setErc721Form(!erc721Form)}
-            >
-              <Text>ERC721</Text>
-            </Checkbox>
-            <Checkbox
-              w="33%"
-              name="erc1155Form"
-              value="erc1155Form"
-              isChecked={erc1155Form}
-              defaultValue={erc1155Form}
-              onChange={() => setErc1155Form(!erc1155Form)}
-            >
-              <Text>ERC1155</Text>
-            </Checkbox>
-          </HStack> */}
         </VStack>
+        {selection === "eth" && (
+          <HStack w="100%">
+            <VStack pt="10px" align="flex-start">
+              <Text>Amount</Text>
+              <NumInputField name="ethAmount" min="0.0000001" />
+            </VStack>
+          </HStack>
+        )}
         {selection === "erc20" && (
           <HStack w="100%">
             <VStack w="90%" pt="10px" align="flex-start">
@@ -316,31 +371,23 @@ export default function BuyCrowdsale() {
         <br />
         <VStack align="flex-start">
           <VStack w="90%" pt="10px" align="flex-start">
-            <HStack>
-              <Text>
-                <b>Notes</b>
-              </Text>
-              <InfoTip label="You may add notes or document here to your proposal." />
-            </HStack>
+            <Text>
+              <b>Notes</b>
+            </Text>
+            <Textarea
+              name="description"
+              size="lg"
+              placeholder="You may add notes or document here to your proposal..."
+            />
           </VStack>
-
-          <Textarea
-            name="description"
-            size="lg"
-            placeholder="dropdown to pick template or custom, upload to ipfs, then store ipfs hash here"
-          />
-
-          {/* <Text>
-          <b>Tribute (ETH)</b>
-          <br />
-          extra bag of ERC20 or ERC721
-          </Text>
-        <NumInputField name="assetAmount_" min=".000000000000000001" /> */}
 
           {submitButtonActive && <Button type="submit">Submit Proposal</Button>}
           {approveButton && (
-            <Button onClick={approveToken}>Allow the tribute contract to use your tribute</Button>
+            <Button onClick={approve}>
+              Allow the tribute contract to use your tribute
+            </Button>
           )}
+          {ownershipError && <Text>{ownershipError}</Text>}
         </VStack>
       </Stack>
     </form>
