@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import AppContext from "../../context/AppContext";
-import { Box, Container } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import Nav from "./Nav";
 import LoadingIndicator from "./Loading";
@@ -13,7 +13,15 @@ export default function Layout(props) {
   return (
     <>
       {loading == true ? <LoadingIndicator /> : ""}
-      <Box id="deployer-container" color="kali.900" className="gradient">
+      <Flex
+        minHeight="100vh"
+        maxW="2000px"
+        flexDir={["column", "column", "column"]}
+        id="main-container"
+        color="kali.900"
+        className="gradient"
+        overflow="hidden"
+      >
         <Head>
           <title>KaliDAO</title>
           <meta
@@ -28,20 +36,11 @@ export default function Layout(props) {
           style={{
             overflowX: "hidden !important",
           }}
+          draftActive={props.draftActive}
         />
-        <Container
-          minH="80vh"
-          maxW="container.lg"
-          alignItems="center"
-          justifyContent="center"
-          style={{
-            overflowX: "hidden !important",
-          }}
-        >
-          <Box minH="70vh">{props.children}</Box>
-          <Footer />
-        </Container>
-      </Box>
+        <Flex minH="80vh">{props.children}</Flex>
+        <Footer />
+      </Flex>
     </>
   );
 }

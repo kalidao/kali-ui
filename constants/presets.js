@@ -32,7 +32,7 @@ export const presets = [
           "Create a fund with your friends. Voting is stricter and slower. Includes month fundraiser, 1 ETH per 10 Shares. Ragequit allowed after.",
         purchaseToken: "0x000000000000000000000000000000000000dEaD",
         purchaseMultiplier: 10,
-        purchaseLimit: "1000000000000000000000", // 1000 shares - string, to avoid BigNumber errors
+        purchaseLimit: "1000", // 1000 shares - string, to avoid BigNumber errors
         saleEnds: 30, // 30 days from today
         listId: 1,
       },

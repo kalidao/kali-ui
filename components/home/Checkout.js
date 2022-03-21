@@ -10,6 +10,7 @@ import {
   Spacer,
   Checkbox,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import {
   getNetworkName,
@@ -32,12 +33,61 @@ import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
 import { supportedChains } from "../../constants/supportedChains";
+import { calculateVotingPeriod } from "../../utils/helpers";
+import { init, send } from "emailjs-com";
+
+init(process.env.NEXT_PUBLIC_EMAIL_ID);
 
 export default function Checkout({ details, daoNames }) {
   const value = useContext(AppContext);
   const { web3, chainId, loading, account } = value.state;
   const [disclaimers, setDisclaimers] = useState([false, false]);
   const [deployable, setDeployable] = useState(false);
+
+  const toast = useToast();
+  const handleEmail = (dao) => {
+    // email sent to Kali following deployment
+    // const to = "kalidao@protonmail.com";
+    // const from = details["email"];
+    // const subject = "Entity Registration";
+    // const body =
+    //   from + " requests help forming a " + details["legal"]["docType"];
+    // send email here!
+    const network = getChain(chainId);
+    console.log("network", network);
+    const params = {
+      dao: dao,
+      network: network,
+      email: details["email"],
+      entity_type: details["legal"]["docType"],
+    };
+
+    send("default_service", "template_c37vmuw", params).then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+        toast({
+          title: "Success",
+          description: "Email sent successfully!",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      },
+      function (error) {
+        console.log("FAILED!", error);
+        toast({
+          title: "Failed",
+          description:
+            "We were not able to send this email. Please contact us on our discord or at kalidao@protonmail.com.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    );
+
+    alert("Send email!"); // for testing
+  };
 
   const isNameUnique = (name) => {
     if (daoNames != null) {
@@ -85,45 +135,66 @@ export default function Checkout({ details, daoNames }) {
     daoType = presets[details["daoType"]]["type"];
   }
 
-  // let docs;
-  // if (details["legal"]["docs"] == "") {
-  //   docs = "Ricardian";
-  // } else {
-  //   docs = details["legal"]["docs"];
-  // }
-
   const getChain = () => {
     for (var i = 0; i < supportedChains.length; i++) {
       if (supportedChains[i]["chainId"] == chainId) {
         return supportedChains[i]["name"];
       }
     }
-  }
+  };
 
   const construct = async () => {
-    let _blob
+    let _blob;
     switch (details["legal"]["docType"]) {
       case "none":
-        break
+        break;
       case "Delaware Ricardian LLC":
-        break
+        break;
       case "Delaware LLC":
-        _blob = await pdf(DelawareOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        break
+        _blob = await pdf(
+          DelawareOAtemplate({
+            name: details["identity"]["daoName"],
+            chain: getChain(),
+          })
+        ).toBlob();
+        break;
       case "Delaware Investment Club":
-         _blob = await pdf(DelawareInvestmentClubTemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        break
+        _blob = await pdf(
+          DelawareInvestmentClubTemplate({
+            name: details["identity"]["daoName"],
+            chain: getChain(),
+          })
+        ).toBlob();
+        break;
       case "Wyoming LLC":
-        _blob = await pdf(WyomingOAtemplate({name: details["identity"]["daoName"], chain: getChain()})).toBlob();
-        break
+        _blob = await pdf(
+          WyomingOAtemplate({
+            name: details["identity"]["daoName"],
+            chain: getChain(),
+          })
+        ).toBlob();
+        break;
       case "Delaware UNA":
-        _blob = await pdf(DelawareUNAtemplate({name: details["identity"]["daoName"], chain: getChain(), mission: details["misc"]["mission"]})).toBlob();
-        break
+        _blob = await pdf(
+          DelawareUNAtemplate({
+            name: details["identity"]["daoName"],
+            chain: getChain(),
+            mission: details["misc"]["mission"],
+          })
+        ).toBlob();
+        break;
       case "Swiss Verein":
-        _blob = await pdf(SwissVerein({name: details["identity"]["daoName"], city: details["misc"]["city"], project: details["misc"]["project"], mission: details["misc"]["mission"]})).toBlob();
-        break
+        _blob = await pdf(
+          SwissVerein({
+            name: details["identity"]["daoName"],
+            city: details["misc"]["city"],
+            project: details["misc"]["project"],
+            mission: details["misc"]["mission"],
+          })
+        ).toBlob();
+        break;
       case "Custom":
-        break
+        break;
     }
 
     const input = {
@@ -140,14 +211,14 @@ export default function Checkout({ details, daoNames }) {
     try {
       const result = await fleek.upload(input);
       console.log("Document hash from Fleek: " + result.hash);
-      return result.hash
+      return result.hash;
     } catch (e) {
       console.log(e);
     }
   };
 
   const deploy = async () => {
-    const docHash = await construct()
+    const docHash = await construct();
 
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
@@ -170,20 +241,25 @@ export default function Checkout({ details, daoNames }) {
       return;
     }
 
-    const { votingPeriod, paused, quorum, supermajority } =
+    const { votingPeriod, votingPeriodUnit, paused, quorum, supermajority } =
       details["governance"];
 
     const { docs } = details["legal"];
     console.log("docs to before push", docs);
-    (docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC") ? docs = docHash : docs
+    docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC"
+      ? (docs = docHash)
+      : docs;
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
     console.log("tribute", tribute);
 
+    const voting = calculateVotingPeriod(votingPeriod, votingPeriodUnit);
+    console.log(voting);
+
     const govSettings = Array(
-      votingPeriod,
+      voting,
       0,
       quorum,
       supermajority,
@@ -220,10 +296,22 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      purchaseToken = presets[1]["extensions"]["crowdsale"]["purchaseToken"];
-      purchaseMultiplier =
-        presets[1]["extensions"]["crowdsale"]["purchaseMultiplier"];
-      purchaseLimit = presets[1]["extensions"]["crowdsale"]["purchaseLimit"];
+      console.log("purchaseLimit", purchaseLimit);
+      purchaseLimit = purchaseLimit + "000000000000000000";
+      if (saleEnds == 30) {
+        let date = new Date();
+        saleEnds = date.setDate(date.getDate() + 30);
+      }
+
+      saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
+
+      if (purchaseToken === null) {
+        purchaseToken = "0x000000000000000000000000000000000000dead";
+      }
+
+      if (purchaseLimit === null) {
+        purchaseLimit = "10000000000000000000";
+      }
 
       console.log(
         "crowdsale param",
@@ -235,10 +323,6 @@ export default function Checkout({ details, daoNames }) {
         documentation
       );
 
-      // let now = parseInt(new Date().getTime() / 1000);
-      saleEnds = parseInt(new Date(saleEnds).getTime() / 1000);
-
-      console.log("saleEnds", saleEnds);
       const sale = require("../../abi/KaliDAOcrowdsale.json");
 
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
@@ -364,6 +448,10 @@ export default function Checkout({ details, daoNames }) {
         pathname: "/daos/[dao]",
         query: { dao: dao },
       });
+
+      if (details["email"] != null) {
+        handleEmail(dao);
+      }
     } catch (e) {
       value.toast(e);
       console.log(e);
@@ -397,7 +485,12 @@ export default function Checkout({ details, daoNames }) {
     },
     {
       name: "Voting period",
-      details: convertVotingPeriod(details["governance"]["votingPeriod"]),
+      details: convertVotingPeriod(
+        calculateVotingPeriod(
+          details["governance"]["votingPeriod"],
+          details["governance"]["votingPeriodUnit"]
+        )
+      ),
     },
     {
       name: "Share transferability",
@@ -412,7 +505,7 @@ export default function Checkout({ details, daoNames }) {
       details: details["governance"]["supermajority"] + "%",
     },
     {
-      name: "Docs",
+      name: "Legal Entity",
       details: details["legal"]["docType"],
     },
   ];

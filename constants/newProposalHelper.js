@@ -2,12 +2,19 @@
 import SendShares from "../components/newproposal/SendShares";
 import RemoveMember from "../components/newproposal/RemoveMember";
 import SendToken from "../components/newproposal/SendToken";
+import SendNFT from "../components/newproposal/SendNFT";
 import ContractCall from "../components/newproposal/ContractCall";
 import GovernanceSettings from "../components/newproposal/GovernanceSettings";
 import Extensions from "../components/newproposal/Extensions";
 import Escape from "../components/newproposal/Escape";
 
-import { IoFlagOutline, IoExtensionPuzzleOutline, IoTrashOutline, IoRibbonOutline, IoPeopleOutline } from "react-icons/io";
+import {
+  IoFlagOutline,
+  IoExtensionPuzzleOutline,
+  IoTrashOutline,
+  IoRibbonOutline,
+  IoPeopleOutline,
+} from "react-icons/io";
 import { FiSettings, FiSend, FiTrash2 } from "react-icons/fi";
 import { MdOutlineGeneratingTokens, MdGroups } from "react-icons/md";
 import { BiLoaderCircle, BiCoinStack } from "react-icons/bi";
@@ -18,39 +25,45 @@ import { GrGroup } from "react-icons/gr";
 // populates tiles on desktop view of New Proposal view
 export const newProposalHelper = [
   {
-    title: "Mint Shares",
-    description: "update members and cap table",
+    title: "Members",
+    description: "mint voting shares",
     component: <SendShares />,
-    icon: FiSend
+    icon: FiSend,
   },
   {
-    title: "Send Assets",
-    description: "pay treasury tokens and ETH",
+    title: "Payments",
+    description: "send assets from treasury",
     component: <SendToken />,
-    icon: MdOutlineGeneratingTokens
+    icon: MdOutlineGeneratingTokens,
   },
   {
-    title: "Call Contracts",
-    description: "manage externals like DeFi",
+    title: "NFTs",
+    description: "send NFTs from treasury",
+    component: <SendNFT />,
+    icon: MdOutlineGeneratingTokens,
+  },
+  {
+    title: "Calls",
+    description: "manage externals like defi",
     component: <ContractCall />,
-    icon: BiLoaderCircle
+    icon: BiLoaderCircle,
   },
   {
-    title: "Update Rules",
-    description: "adjust governance settings",
+    title: "Rules",
+    description: "update governance settings",
     component: <GovernanceSettings />,
-    icon: FiSettings
-  },/*
+    icon: FiSettings,
+  } /*
   {
     title: "Update Extensions",
     description: "configure extension apps",
     component: <Extensions />,
     icon: BsPuzzle
-  },*/
+  },*/,
   {
-    title: "Remove Members",
-    description: "kick for misconduct or security",
+    title: "Removal",
+    description: "kick member out for security or misconduct",
     component: <RemoveMember />,
-    icon: FiTrash2
-  }
+    icon: FiTrash2,
+  },
 ];

@@ -11,6 +11,7 @@ import StepProgressBar from "./StepProgressBar";
 
 export default function FactoryWrapper() {
   const [visible, setVisible] = useState(0);
+  //const visible = 5; // for testing!
   const [details, setDetails] = useState({
     network: 1,
     identity: {
@@ -24,6 +25,7 @@ export default function FactoryWrapper() {
     },
     governance: {
       votingPeriod: 1,
+      votingPeriodUnit: 0,
       paused: 1,
       quorum: 10,
       supermajority: 60,
@@ -40,9 +42,9 @@ export default function FactoryWrapper() {
         active: false,
         purchaseToken: null,
         purchaseMultiplier: 10,
-        purchaseLimit: null,
+        purchaseLimit: 1000,
         saleEnds: 0,
-        listId: null,
+        listId: 0,
         documentation: "",
       },
     },
@@ -51,11 +53,12 @@ export default function FactoryWrapper() {
       docs: null,
       docType: 999,
     },
+    email: null,
     misc: {
       mission: null,
       city: null,
       project: null,
-    }
+    },
   });
   console.log("details", details);
 
@@ -120,7 +123,7 @@ export default function FactoryWrapper() {
   ];
 
   return (
-    <VStack>
+    <VStack id="deployer-container">
       <StepProgressBar
         steps={views.length}
         visible={visible}

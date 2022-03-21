@@ -5,7 +5,7 @@ import {
   Input,
   Button,
   Select,
-  Flex,
+  Text,
   Textarea,
   VStack,
   HStack,
@@ -22,7 +22,7 @@ import { toDecimals, fromDecimals } from "../../utils/formatters";
 import { tokens } from "../../constants/tokens";
 import { AiOutlineDelete } from "react-icons/ai";
 
-export default function SendToken() {
+export default function SendNFT() {
   const value = useContext(AppContext);
   const { web3, loading, account, abi, address, dao, chainId } = value.state;
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -80,52 +80,27 @@ export default function SendToken() {
         if (recipients[i].address === undefined) {
           return;
         }
-        let element = document.getElementById(`recipients.${i}.share`);
-        let value_ = element.value;
-
-        if (selectedOptions[i] == "ETH") {
-          amounts_.push(toDecimals(value_, 18));
-        } else {
-          amounts_.push(0);
-        }
+        amounts_.push(0);
       }
-      console.log("Amounts Array", amounts_);
 
       let accounts_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        let address_;
-        if (selectedOptions[i] == "ETH") {
-          address_ = recipients[i].address;
-        } else {
-          address_ = tokens[chainId][selectedOptions[i]]["address"];
-        }
+        let address_ = recipients[i].token;
         accounts_.push(address_);
       }
       console.log("Tokens Array", accounts_);
 
       let payloads_ = [];
       for (let i = 0; i < recipients.length; i++) {
-        if (selectedOptions[i] == "ETH") {
-          payloads_.push("0x");
-        } else {
-          const ierc20 = require("../../abi/ERC20.json");
-          let address_ = tokens[chainId][selectedOptions[i]]["address"];
-          let decimals = tokens[chainId][selectedOptions[i]]["decimals"];
-          let element = document.getElementById(`recipients.${i}.share`);
-          let value_ = element.value;
+        const ierc721 = require("../../abi/ERC721.json");
+        let address_ = recipients[i].token;
+        let tokenId = recipients[i].tokenId;
 
-          const tokenContract = new web3.eth.Contract(ierc20, address_);
-          var payload_ = tokenContract.methods
-            .transfer(
-              recipients[i].address,
-              toDecimals(
-                value_,
-                tokens[chainId][selectedOptions[i]]["decimals"]
-              )
-            )
-            .encodeABI();
-          payloads_.push(payload_);
-        }
+        const tokenContract = new web3.eth.Contract(ierc721, address_);
+        var payload_ = tokenContract.methods
+          .transferFrom(dao.address, recipients[i].address, tokenId)
+          .encodeABI();
+        payloads_.push(payload_);
       }
 
       console.log(payloads_);
@@ -169,7 +144,7 @@ export default function SendToken() {
           )}
         />
 
-        <List spacing={2} width="100%">
+        <List spacing={2} width="100%" className="alternating-list">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -177,70 +152,65 @@ export default function SendToken() {
               alignContent="center"
               justifyContent="center"
               key={recipient.id}
-              className="glass"
-              p="10px 20px"
-              borderRadius="2xl"
-              spacing="2"
             >
-              <Flex>
-                <Controller
-                  name={`recipients.${index}.address`}
-                  control={control}
-                  defaultValue={recipient.address}
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel htmlFor={`recipients.${index}.address`}>
-                        Recipient {index + 1}
-                      </FormLabel>
-                      <Input
-                        placeholder="0x address or ENS"
-                        {...field}
-                        {...register(`recipients.${index}.address`, {
-                          required: "You must assign share!",
-                        })}
-                      />
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  name={`recipients.${index}.token`}
-                  control={control}
-                  defaultValue={recipient.token}
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel htmlFor={`recipients.${index}.token`}>
-                        Token
-                      </FormLabel>
-                      <Select id={index} onChange={handleSelect}>
-                        <option>Select a token</option>
-                        <option value="ETH">ETH</option>
-                        {Object.keys(tokens[chainId]).map((key, value) => (
-                          <option key={key} value={key}>
-                            {key}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  name={`recipients.${index}.share`}
-                  control={control}
-                  defaultValue={recipient.share}
-                  render={({ field }) => (
-                    <FormControl isRequired>
-                      <FormLabel htmlFor={`recipients.${index}.share`}>
-                        Amount
-                      </FormLabel>
-                      <NumInputField
-                        min="0.000000000000000001"
-                        defaultValue="1"
-                        id={`recipients.${index}.share`}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </Flex>
+              <Controller
+                name={`recipients.${index}.address`}
+                control={control}
+                defaultValue={recipient.address}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.address`}>
+                      Recipient {index + 1}
+                    </FormLabel>
+                    <Input
+                      placeholder="0x address or ENS"
+                      {...field}
+                      {...register(`recipients.${index}.address`, {
+                        required: "You must assign share!",
+                      })}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name={`recipients.${index}.token`}
+                control={control}
+                defaultValue={recipient.token}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.token`}>
+                      Token
+                    </FormLabel>
+                    <Input
+                      placeholder="0x address"
+                      {...field}
+                      {...register(`recipients.${index}.token`, {
+                        required: "You must specify NFT contract address!",
+                      })}
+                    />
+                  </FormControl>
+                )}
+              />
+
+              <Controller
+                name={`recipients.${index}.tokenId`}
+                control={control}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor={`recipients.${index}.tokenId`}>
+                      Token Id
+                    </FormLabel>
+                    <Input
+                      placeholder=""
+                      {...field}
+                      {...register(`recipients.${index}.tokenId`, {
+                        required: "You must specify NFT token Id!",
+                      })}
+                    />
+                  </FormControl>
+                )}
+              />
+
               <IconButton
                 className="delete-icon"
                 aria-label="delete recipient"

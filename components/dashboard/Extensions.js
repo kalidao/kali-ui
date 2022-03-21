@@ -9,9 +9,9 @@ const ExtensionCard = ({ name }) => {
     if (name === "crowdsale")
       return "Sell membership in ETH or designated token";
     if (name === "tribute")
-      return "Burn token to claim fair share of DAO capital aka ragequit";
-    if (name === "redemption")
       return "Make a proposal with ETH, token or NFT as membership tribute";
+    if (name === "redemption")
+      return "Burn token to claim fair share of DAO capital aka ragequit";
     return null;
   };
 

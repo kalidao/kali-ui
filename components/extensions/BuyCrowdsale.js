@@ -9,24 +9,35 @@ import {
   Textarea,
   Stack,
   HStack,
-  Center
+  Center,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
-import { toDecimals, fromDecimals, unixToDate } from "../../utils/formatters";
+import {
+  toDecimals,
+  fromDecimals,
+  unixToDate,
+  getTokenName,
+} from "../../utils/formatters";
 
 export default function Tribute() {
   const value = useContext(AppContext);
-  const { web3, loading, account, address, abi, dao } = value.state;
-  const [amt, setAmt] = useState(0); // amount to be spent on shares, not converted to wei/decimals
-  const handleChange = (value) => setAmt(value);
-  const token = dao["extensions"]["crowdsale"]["details"]["tokenName"];
+  const { web3, loading, account, address, abi, dao, chainId } = value.state;
+  const [amt, setAmt] = useState(1); // amount to be spent on shares, not converted to wei/decimals
+  const tokenName = getTokenName(
+    dao["extensions"]["crowdsale"]["details"]["purchaseToken"],
+    chainId
+  );
   const purchaseToken =
     dao["extensions"]["crowdsale"]["details"]["purchaseToken"];
+  console.log("TOKEN", tokenName);
+  console.log("TOKEN", purchaseToken);
   const purchaseMultiplier =
     dao["extensions"]["crowdsale"]["details"]["purchaseMultiplier"];
   const purchaseLimit =
     dao["extensions"]["crowdsale"]["details"]["purchaseLimit"];
   const saleEnds = dao["extensions"]["crowdsale"]["details"]["saleEnds"];
+
+  // no decimals in dao object
   const decimals = dao["extensions"]["crowdsale"]["details"]["decimals"];
   const extAddress = dao["extensions"]["crowdsale"]["address"];
 
@@ -40,7 +51,7 @@ export default function Tribute() {
         .approve(extAddress, amt_)
         .send({ from: account });
       value.setLoading(false);
-    } catch(e) {
+    } catch (e) {
       value.toast(e);
     }
   };
@@ -51,6 +62,7 @@ export default function Tribute() {
 
     try {
       let object = event.target;
+      console.log("object", object);
       var array = [];
       for (let i = 0; i < object.length; i++) {
         array[object[i].name] = object[i].value;
@@ -64,10 +76,13 @@ export default function Tribute() {
 
       amount_ = toDecimals(amount_, decimals).toString();
 
-      console.log("amount_", amount_)
+      console.log("amount_", amount_);
 
       var value_ = 0;
-      if (purchaseToken == "0x0000000000000000000000000000000000000000" || purchaseToken == "0x000000000000000000000000000000000000dEaD") {
+      if (
+        purchaseToken == "0x0000000000000000000000000000000000000000" ||
+        purchaseToken == "0x000000000000000000000000000000000000dEaD"
+      ) {
         value_ = amount_;
       }
 
@@ -92,23 +107,26 @@ export default function Tribute() {
     value.setLoading(false);
   };
 
+  const handleChange = (value) => setAmt(value);
+
   return (
     <>
       <form onSubmit={submitProposal}>
         <Stack>
           <Text>Sale Details</Text>
           <Text>
-            Price: {1 / purchaseMultiplier} {token} ({purchaseMultiplier} shares
-            per {token})
+            Price: {1 / purchaseMultiplier} {tokenName} ({purchaseMultiplier}{" "}
+            shares per {tokenName ? tokenName : "ETH"})
           </Text>
           <Text>Maximum shares allowed: {fromDecimals(purchaseLimit, 18)}</Text>
           <Text>Sale ends {unixToDate(saleEnds)}</Text>
           <HStack>
             <Text>
-              <b>Purchase Amount ({token}):</b>
+              <b>Purchase Amount ({tokenName ? tokenName : "ETH"}):</b>
             </Text>
             <NumInputField
               name="amount_"
+              defaultValue={1}
               min=".000000000000000001"
               max={purchaseLimit / purchaseMultiplier}
               onChange={handleChange}
@@ -119,12 +137,15 @@ export default function Tribute() {
             </Text>
             <Input value={amt * purchaseMultiplier} disabled />
           </HStack>
-          {(purchaseToken != "0x0000000000000000000000000000000000000000" && purchaseToken != "0x000000000000000000000000000000000000dEaD") ? (
+          {purchaseToken != "0x0000000000000000000000000000000000000000" &&
+          purchaseToken != "0x000000000000000000000000000000000000dEaD" ? (
             <Button onClick={approveSpend}>Approve</Button>
           ) : null}
 
           <Center>
-            <Button className="solid-btn" type="submit">Buy Shares</Button>
+            <Button className="solid-btn" type="submit">
+              Buy Shares
+            </Button>
           </Center>
         </Stack>
       </form>
