@@ -154,6 +154,11 @@ export function decodeBytes(type, p, web3, chainId) {
       labels: ["to", "amount"],
       types: ["address", "decimals"],
     },
+    erc721: {
+      decode: ["address", "address", "uint256"],
+      labels: ["from", "to", "tokenId"],
+      types: ["address", "address", "uint256"],
+    },
   };
 
   let array = [];
@@ -175,12 +180,27 @@ export function decodeBytes(type, p, web3, chainId) {
         bytecode = bytes;
       }
       if (type == 2) {
-        decodeType = "erc20";
-        bytecode = "0x" + bytes.replace("0xa9059cbb", "");
+        if (bytes.includes("0xa9059cbb")) {
+          decodeType = "erc20";
+          bytecode = "0x" + bytes.replace("0xa9059cbb", "");
+        } else if (bytes.includes("0x23b872dd")) {
+          decodeType = "erc721";
+          bytecode = "0x" + bytes.replace("0x23b872dd", "");
+        } else {
+          decodeType = null;
+          bytecode = bytes;
+        }
       }
-      const params = paramArray[decodeType]["decode"];
-      const labels = paramArray[decodeType]["labels"];
-      const types = paramArray[decodeType]["types"];
+
+      let params;
+      let labels;
+      let types;
+
+      if (decodeType != null) {
+        params = paramArray[decodeType]["decode"];
+        labels = paramArray[decodeType]["labels"];
+        types = paramArray[decodeType]["types"];
+      }
 
       if (params != null) {
         decoded = web3.eth.abi.decodeParameters(params, bytecode);
