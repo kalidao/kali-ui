@@ -26,8 +26,8 @@ export default function HaveEntity({ setActive }) {
       <VStack>
         <Heading as="h2">Do you have a legal entity for your DAO?</Heading>
         <HStack>
-          <Button onClick={() => setActive(1)}>Yes!</Button>
-          <Button onClick={() => setActive(2)}>Not yet!</Button>
+          <Button onClick={() => setActive(1)}>Yes</Button>
+          <Button onClick={() => setActive(2)}>Not yet</Button>
         </HStack>
       </VStack>
     </>
