@@ -24,7 +24,12 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import Select from "../../elements/Select";
 import DateSelect from "../../elements/DateSelect";
 import InfoTip from "../../elements/InfoTip";
+import DelawareInvestmentClubTemplate from "../../legal/DelawareInvestmentClubTemplate";
+import DelawareOAtemplate from "../../legal/DelawareOAtemplate";
 import DelawareUNAtemplate from "../../legal/DelawareUNAtemplate";
+import RicardianTemplate from "../../legal/RicardianTemplate";
+import SwissVerein from "../../legal/SwissVerein";
+import WyomingOAtemplate from "../../legal/WyomingOAtemplate";
 import { useDisclosure } from "@chakra-ui/react";
 
 export default function CreateEntity({ details, setDetails, handleNext }) {
@@ -57,7 +62,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
   const options = [
     {
       text: "Series LLC (formed instantly!)",
-      template: "http://asdf",
+      template: <RicardianTemplate />,
       docType: "Delaware Series LLC (instant)",
       email: true,
       mission: false,
@@ -66,7 +71,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     },
     {
       text: "Delaware LLC (est. 1-2 weeks)",
-      template: "none",
+      template: <DelawareOAtemplate />,
       docType: "Delaware LLC (pending)",
       email: true,
       mission: false,
@@ -75,7 +80,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     },
     {
       text: "Wyoming LLC (est. 1-2 weeks)",
-      template: "none",
+      template: <WyomingOAtemplate />,
       docType: "Wyoming LLC (pending)",
       email: true,
       mission: false,
@@ -92,7 +97,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     },
     {
       text: "Swiss Verein (est. 1-2 weeks)",
-      template: "none",
+      template: <SwissVerein />,
       docType: "Swiss Verein (pending)",
       email: true,
       mission: false,
