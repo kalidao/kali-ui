@@ -312,7 +312,7 @@ export default function BuyCrowdsale() {
           <Text>
             <b>with a tribute in the form of...</b>
           </Text>
-          <Select
+          <Select w="90%"
             onChange={(e) => {
               setSelection(e.target.value);
             }}
