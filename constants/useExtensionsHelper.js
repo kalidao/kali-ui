@@ -2,6 +2,7 @@
 import Tribute from "../components/extensions/Tribute";
 import BuyCrowdsale from "../components/extensions/BuyCrowdsale";
 import Redemption from "../components/extensions/Redemption";
+import SAFE from "../components/extensions/SAFE";
 
 import { MdGroups } from "react-icons/md";
 import { BiCoinStack } from "react-icons/bi";
@@ -14,20 +15,27 @@ export const useExtensionsHelper = [
     description: "escrow tribute for membership",
     component: <Tribute />,
     extension: "tribute",
-    icon: GiPayMoney
+    icon: GiPayMoney,
   },
   {
     title: "Purchase Shares",
     description: "join membership by crowdsale",
     component: <BuyCrowdsale />,
     extension: "crowdsale",
-    icon: MdGroups
+    icon: MdGroups,
   },
   {
     title: "Redeem Shares",
     description: "burn shares for treasury assets",
     component: <Redemption />,
     extension: "redemption",
-    icon: BiCoinStack
+    icon: BiCoinStack,
+  },
+  {
+    title: "Make Investment",
+    description: "make investment for SAFE NFT",
+    component: <SAFE />,
+    extension: "safe",
+    icon: GiPayMoney,
   },
 ];

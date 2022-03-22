@@ -169,6 +169,14 @@ export async function fetchExtensions(
       extensionArray[key] = { address: extAddress, details: extDetails };
     }
   }
+  if (address == "0xa0831e5F14AF13d4322fB290c4aA378bD0Be24c7") {
+    const extAddress = addresses[daoChain]["extensions"]["safe"];
+    const extDetails = await fetchSAFE(web3);
+    extensionArray["safe"] = {
+      address: extAddress,
+      details: extDetails,
+    };
+  }
   console.log("extensionArray", extensionArray);
   if (extensionsCount > 0) {
     result = extensionArray;
@@ -266,3 +274,20 @@ export async function fetchRicardian(
 
   return ricardian;
 }
+
+const fetchSAFE = async (web3) => {
+  const abi = require("../abi/SafeMinter.json");
+  const contract = "0x38ffbd2036be8b82707f89e6d404142ad6907b59";
+  const safe = new web3.eth.Contract(abi, contract);
+
+  const safeTemplate =
+    "https://gateway.pinata.cloud/ipfs/QmX7uTXnvoigV8pcArRdaT2S4DZjFh2uTPhBSn9aHFgA4D";
+  const purchaseToken = "0x8ad3aA5d5ff084307d28C8f514D7a193B2Bfe725";
+
+  const details = {
+    safeTemplate: safeTemplate,
+    purchaseToken: purchaseToken,
+  };
+
+  return details;
+};
