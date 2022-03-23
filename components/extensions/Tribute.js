@@ -283,7 +283,7 @@ export default function BuyCrowdsale() {
             <i>
               {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
             </i>
-            . You may tribute ERC20 tokens or NFTs.
+            . You may tribute ETH, ERC20 tokens or NFTs.
           </Text>
           <br />
           <HStack w="100%">
