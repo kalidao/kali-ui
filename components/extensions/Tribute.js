@@ -90,7 +90,7 @@ export default function BuyCrowdsale() {
   const submitTribProposal = async (proposalDetail) => {
     value.setLoading(true);
     const instance = new web3.eth.Contract(tribAbi, tribAddress);
-
+    // console.log(proposalDetail)
     try {
       let result = await instance.methods
         .submitTributeProposal(
@@ -222,7 +222,6 @@ export default function BuyCrowdsale() {
 
       proposer = await resolveAddressAndEns(proposer);
       askAmount = web3.utils.toWei(askAmount);
-
       // Get asset contract and value
       let nft, asset, assetValue;
       selection === "erc721" || selection === "erc1155"
@@ -249,7 +248,7 @@ export default function BuyCrowdsale() {
           break;
         case "erc20":
           proposalDetail_.asset = erc20Contract;
-          proposalDetail_.assetValue = erc20Amount;
+          proposalDetail_.assetValue = web3.utils.toWei(erc20Amount);
           setProposalDetail(proposalDetail_)
           checkTokenAllowance(proposalDetail_);
           break;
