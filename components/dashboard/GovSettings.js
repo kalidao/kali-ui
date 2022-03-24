@@ -10,9 +10,7 @@ export default function GovSettings() {
   const array = [
     {
       name: "Shares Restricted",
-      info: dao["token"]["paused"]
-        .toString()
-        .replace(/^\w/, (s) => s.toUpperCase()),
+      info: (dao["token"]["paused"]) ? "✔️" : "❌",
     },
     {
       name: "Voting Period",

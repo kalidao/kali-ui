@@ -9,7 +9,6 @@ import USDC from "../../public/img/coins/USDC.svg";
 import WETH from "../../public/img/coins/WETH.svg";
 
 const TreasuryCard = ({ key, token, balance, src }) => {
-  console.log(token, src);
   return (
     <>
       <HStack color="kali.900">
