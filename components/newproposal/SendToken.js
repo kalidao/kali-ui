@@ -14,6 +14,7 @@ import {
   FormControl,
   FormLabel,
   Spacer,
+  Stack,
   IconButton,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
@@ -182,73 +183,79 @@ export default function SendToken() {
               borderRadius="2xl"
               spacing="2"
             >
-              <Flex>
-                <Controller
-                  name={`recipients.${index}.address`}
-                  control={control}
-                  defaultValue={recipient.address}
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel htmlFor={`recipients.${index}.address`}>
-                        Recipient {index + 1}
-                      </FormLabel>
-                      <Input
-                        placeholder="0x address or ENS"
-                        {...field}
-                        {...register(`recipients.${index}.address`, {
-                          required: "You must assign share!",
-                        })}
-                      />
-                    </FormControl>
-                  )}
+              <HStack w="100%" spacing={4}>
+                <Stack w="60%">
+                  <Controller
+                    name={`recipients.${index}.address`}
+                    control={control}
+                    defaultValue={recipient.address}
+                    render={({ field }) => (
+                      <FormControl>
+                        <FormLabel htmlFor={`recipients.${index}.address`}>
+                          Recipient {index + 1}
+                        </FormLabel>
+                        <Input
+                          placeholder="0x address or ENS"
+                          {...field}
+                          {...register(`recipients.${index}.address`, {
+                            required: "You must assign share!",
+                          })}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </Stack>
+                <Stack w="15%">
+                  <Controller
+                    name={`recipients.${index}.token`}
+                    control={control}
+                    defaultValue={recipient.token}
+                    render={({ field }) => (
+                      <FormControl>
+                        <FormLabel htmlFor={`recipients.${index}.token`}>
+                          Token
+                        </FormLabel>
+                        <Select id={index} onChange={handleSelect}>
+                          <option>Select</option>
+                          <option value="ETH">ETH</option>
+                          {Object.keys(tokens[chainId]).map((key, value) => (
+                            <option key={key} value={key}>
+                              {key}
+                            </option>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    )}
+                  />
+                </Stack>
+                <Stack w="15%">
+                  <Controller
+                    name={`recipients.${index}.share`}
+                    control={control}
+                    defaultValue={recipient.share}
+                    render={({ field }) => (
+                      <FormControl isRequired>
+                        <FormLabel htmlFor={`recipients.${index}.share`}>
+                          Amount
+                        </FormLabel>
+                        <NumInputField
+                          min="0.000000000000000001"
+                          defaultValue="1"
+                          id={`recipients.${index}.share`}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </Stack>
+                <IconButton
+                  className="delete-icon"
+                  aria-label="delete recipient"
+                  mt={8}
+                  ml={2}
+                  icon={<AiOutlineDelete />}
+                  onClick={() => remove(index)}
                 />
-                <Controller
-                  name={`recipients.${index}.token`}
-                  control={control}
-                  defaultValue={recipient.token}
-                  render={({ field }) => (
-                    <FormControl>
-                      <FormLabel htmlFor={`recipients.${index}.token`}>
-                        Token
-                      </FormLabel>
-                      <Select id={index} onChange={handleSelect}>
-                        <option>Select a token</option>
-                        <option value="ETH">ETH</option>
-                        {Object.keys(tokens[chainId]).map((key, value) => (
-                          <option key={key} value={key}>
-                            {key}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  name={`recipients.${index}.share`}
-                  control={control}
-                  defaultValue={recipient.share}
-                  render={({ field }) => (
-                    <FormControl isRequired>
-                      <FormLabel htmlFor={`recipients.${index}.share`}>
-                        Amount
-                      </FormLabel>
-                      <NumInputField
-                        min="0.000000000000000001"
-                        defaultValue="1"
-                        id={`recipients.${index}.share`}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </Flex>
-              <IconButton
-                className="delete-icon"
-                aria-label="delete recipient"
-                mt={8}
-                ml={2}
-                icon={<AiOutlineDelete />}
-                onClick={() => remove(index)}
-              />
+              </HStack>
             </ListItem>
           ))}
         </List>
