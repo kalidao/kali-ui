@@ -146,14 +146,7 @@ export default function SendNFT() {
           )}
         />
 
-        <List
-          spacing={2}
-          width="100%"
-          className="glass"
-          display="grid"
-          p={2}
-          borderRadius="2xl"
-        >
+        <List spacing={2} width="100%" display="grid">
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
@@ -161,6 +154,9 @@ export default function SendNFT() {
               alignContent="center"
               justifyContent="center"
               gap={2}
+              className="glass"
+              p={1.5}
+              borderRadius="2xl"
               key={recipient.id}
             >
               <Controller
