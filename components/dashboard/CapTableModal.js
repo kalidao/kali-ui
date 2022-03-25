@@ -37,7 +37,7 @@ function CapTableModal() {
           boxShadow="5px 6px 3px 1px #450000 "
         >
           <ModalHeader color="#fff">Cap Table</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton _focus={{ border: "none" }} />
           <ModalBody>
             <CapTable />
           </ModalBody>
