@@ -132,7 +132,9 @@ export default function SendNFT() {
           control={control}
           render={({ field }) => (
             <FormControl>
-              <FormLabel htmlFor="description_">Description</FormLabel>
+              <FormLabel fontWeight="600" htmlFor="description_">
+                Description
+              </FormLabel>
               <Textarea
                 placeholder=". . ."
                 {...field}
@@ -144,13 +146,21 @@ export default function SendNFT() {
           )}
         />
 
-        <List spacing={2} width="100%" className="alternating-list">
+        <List
+          spacing={2}
+          width="100%"
+          className="glass"
+          display="grid"
+          p={2}
+          borderRadius="2xl"
+        >
           {fields.map((recipient, index) => (
             <ListItem
               display="flex"
               flexDirection="row"
               alignContent="center"
               justifyContent="center"
+              gap={2}
               key={recipient.id}
             >
               <Controller
@@ -159,7 +169,10 @@ export default function SendNFT() {
                 defaultValue={recipient.address}
                 render={({ field }) => (
                   <FormControl>
-                    <FormLabel htmlFor={`recipients.${index}.address`}>
+                    <FormLabel
+                      fontWeight="600"
+                      htmlFor={`recipients.${index}.address`}
+                    >
                       Recipient {index + 1}
                     </FormLabel>
                     <Input
@@ -178,7 +191,10 @@ export default function SendNFT() {
                 defaultValue={recipient.token}
                 render={({ field }) => (
                   <FormControl>
-                    <FormLabel htmlFor={`recipients.${index}.token`}>
+                    <FormLabel
+                      fontWeight="600"
+                      htmlFor={`recipients.${index}.token`}
+                    >
                       Token
                     </FormLabel>
                     <Input
@@ -197,7 +213,10 @@ export default function SendNFT() {
                 control={control}
                 render={({ field }) => (
                   <FormControl>
-                    <FormLabel htmlFor={`recipients.${index}.tokenId`}>
+                    <FormLabel
+                      fontWeight="600"
+                      htmlFor={`recipients.${index}.tokenId`}
+                    >
                       Token Id
                     </FormLabel>
                     <Input
@@ -230,7 +249,10 @@ export default function SendNFT() {
           </Button>
         </HStack>
 
-        <Button className="solid-btn" onClick={handleSubmit(submitProposal)}>
+        <Button
+          className="transparent-btn"
+          onClick={handleSubmit(submitProposal)}
+        >
           Submit Proposal
         </Button>
       </VStack>
