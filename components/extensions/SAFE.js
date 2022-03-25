@@ -11,10 +11,8 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
-import { addresses } from "../../constants/addresses";
 import AppContext from "../../context/AppContext";
-import { getTokenName, toDecimals } from "../../utils/formatters";
+import { toDecimals } from "../../utils/formatters";
 
 const tokenABI = require("../../abi/ERC20.json");
 
@@ -24,58 +22,45 @@ export default function SAFE() {
   const [amount, setAmount] = useState(1);
 
   const value = useContext(AppContext);
-  const { web3, dao, daoChain, account } = value.state;
+  const { web3, dao, account } = value.state;
 
   const safeAddress = dao["extensions"]["safe"]["address"];
   const tokenAddress = dao["extensions"]["safe"]["details"]["purchaseToken"];
 
-  async function invest() {
-    value.setLoading(true);
-    const safeAbi = require("../../abi/SafeMinter.json");
-    console.log("web3", web3);
-    const safe = new web3.eth.Contract(safeAbi, safeAddress);
-    const details = "TEST";
-    console.log("amount", amount);
-
-    const amount_ = toDecimals(amount, 18);
-    try {
-      try {
-        const result = await safe.methods
-          .makeInvestment(amount_, details)
-          .send({ from: account });
-        console.log("result", result);
-        value.setVisibleView(1);
-      } catch (e) {
-        value.toast(e);
-      }
-    } catch (e) {
-      value.toast(e);
+  const handleInvestment = async () => {
+    if (!approve) {
+      checkAllowance();
+    } else {
+      invest();
     }
-    value.setLoading(false);
-  }
+  };
 
-  const checkAllowance = async (token) => {
+  const checkAllowance = async () => {
     value.setLoading(true);
     const token = new web3.eth.Contract(tokenABI, tokenAddress);
+    const amount_ = toDecimals(amount, 18);
+
     try {
       const result = await token.methods.allowance(account, safeAddress).call();
-      console.log("This is result for allowance - ", result);
+      console.log("Allowance", result);
+
       if (result == 0) {
         setApprove(true);
         setSubmit(false);
       } else {
-        invest(amount_);
+        invest();
       }
     } catch (e) {
       value.toast(e);
     }
+
     value.setLoading(false);
   };
 
   async function handleApprove() {
     value.setLoading(true);
     const token = new web3.eth.Contract(tokenABI, tokenAddress);
-    const amount_ = toDecimals(amount, 18);
+    const amount_ = web3.utils.toWei("100000");
     console.log("amount", amount_);
     try {
       const result = await token.methods
@@ -90,23 +75,37 @@ export default function SAFE() {
     value.setLoading(false);
   }
 
-  const handleInvestment = async () => {
-    if (!approve) {
-      checkAllowance();
-    } else {
-      try {
-        invest();
-      } catch (e) {
-        value.toast(e);
-      }
+  async function invest() {
+    value.setLoading(true);
+
+    // initialise safe
+    const safeAbi = require("../../abi/SafeMinter.json");
+    const safe = new web3.eth.Contract(safeAbi, safeAddress);
+
+    // params
+    const details = "";
+    const amount_ = toDecimals(amount, 18);
+
+    console.log("amount", amount_);
+
+    try {
+      const result = await safe.methods
+        .makeInvestment(amount_, details)
+        .send({ from: account });
+      console.log("result", result);
+      value.setVisibleView(1);
+    } catch (e) {
+      value.toast(e);
     }
-  };
+
+    value.setLoading(false);
+  }
 
   return (
-    <div>
-      Add SAFE Investment List
-      <VStack>
-        <HStack>
+    <>
+      {/* TODO: Add SAFE Investment List */}
+      <VStack gap={2}>
+        <HStack width="100%" borderRadius="2xl">
           <FormLabel htmlFor="amount">Investment Amount</FormLabel>
           <NumberInput
             min="0"
@@ -123,16 +122,16 @@ export default function SAFE() {
           <Text fontWeight={600}>DAI</Text>
         </HStack>
         {submit && (
-          <Button className="solid-btn" onClick={handleInvestment}>
+          <Button className="transparent-btn" onClick={handleInvestment}>
             Submit
           </Button>
         )}
         {approve && (
-          <Button className="solid-btn" onClick={handleApprove}>
+          <Button className="transparent-btn" onClick={handleApprove}>
             Approve Token
           </Button>
         )}
       </VStack>
-    </div>
+    </>
   );
 }
