@@ -8,6 +8,7 @@ import {
   Spacer,
   Button,
   Input,
+  Textarea,
 } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import InfoTip from "../elements/InfoTip";
@@ -38,6 +39,7 @@ function ChooseCrowdsale({ details, setDetails }) {
   );
   const [showSlider, setShowSlider] = useState(false);
   const [showCustomToken, setCustomToken] = useState(false);
+  const [showCustomList, setCustomList] = useState(false);
   const [purchaseLimit, setPurchaseLimit] = useState(
     details["extensions"]["crowdsale"]["purchaseLimit"]
   );
@@ -68,6 +70,30 @@ function ChooseCrowdsale({ details, setDetails }) {
   const handlePurchaseLimit = (e) => {
     const limit = e.target.value;
     details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
+    setDetails(details);
+  };
+
+  const handlePurchaseList = (e) => {
+    let list = e.target.value;
+    switch (list) {
+      case "dos-commas":
+        setCustomList(false);
+        // details["extensions"]["crowdsale"]["purchaseToken"] =
+        //   "0x000000000000000000000000000000000000dEaD";
+        // setDetails(details);
+        console.log("fill in dos commas")
+        break;
+      case "custom":
+        setCustomList(true);
+        // setDetails(details);
+        break;
+    }
+  };
+
+  const handleCustomList = (e) => {
+    const token = e.target.value;
+    console.log("token", token);
+    details["extensions"]["crowdsale"]["purchaseToken"] = token;
     setDetails(details);
   };
 
@@ -120,7 +146,7 @@ function ChooseCrowdsale({ details, setDetails }) {
       {crowdsale ? (
         <>
           <HStack>
-            <Text fontSize="md" htmlFor="saleEnds">
+            <Text w="60%" fontSize="md" htmlFor="saleEnds">
               Sale Ends Date
             </Text>
             <ReactDatePicker
@@ -140,7 +166,7 @@ function ChooseCrowdsale({ details, setDetails }) {
               <label htmlFor="purchaseToken">Purchase Token</label>
               <InfoTip label="This token will be used to purchase from the sale" />
               <Spacer />
-              <Select id="purchaseToken" onChange={handlePurchaseToken}>
+              <Select w="35%" id="purchaseToken" onChange={handlePurchaseToken}>
                 <option value="0">ETH</option>
                 <option value="333">Custom</option>
               </Select>
@@ -151,6 +177,27 @@ function ChooseCrowdsale({ details, setDetails }) {
                 placeholder="Enter Token Address"
                 onChange={(value) => handleCustomToken(value)}
               />
+            )}
+          </VStack>
+          <VStack w={"100%"} spacing="8" align="flex-start">
+            <HStack w={"100%"}>
+              <label htmlFor="purchaseList">Purchase List</label>
+              <InfoTip label="This token will be used to purchase from the sale" />
+              <Spacer />
+              <Select w="45%" id="purchaseList" onChange={handlePurchaseList}>
+                <option value="dos-commas">Dos Commas</option>
+                <option value="custom">Custom</option>
+              </Select>
+            </HStack>
+            {showCustomList && (
+              <HStack w="100%">
+                <Textarea
+                  id="purchaseList"
+                  placeholder="Paste a list of addresses, each separated by ',' "
+                  onChange={(value) => handleCustomList(value)}
+                />
+                <Button>Build</Button>
+              </HStack>
             )}
           </VStack>
           <HStack w={"100%"}>
