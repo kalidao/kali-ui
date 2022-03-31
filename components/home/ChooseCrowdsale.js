@@ -65,11 +65,11 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   };
 
-  const handlePurchaseLimit = (e) => {
-    const limit = e.target.value;
-    details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
-    setDetails(details);
-  };
+  // const handlePurchaseLimit = (e) => {
+  //   const limit = e.target.value;
+  //   details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
+  //   setDetails(details);
+  // };
 
   const presentSlider = () => {
     if (!showSlider) {
@@ -78,6 +78,12 @@ function ChooseCrowdsale({ details, setDetails }) {
       setShowSlider(false);
     }
   };
+
+  useEffect(() => {
+    console.log('purchase limit', purchaseLimit);
+    details["extensions"]["crowdsale"]["purchaseLimit"] = purchaseLimit;
+    setDetails(details);
+  }, [purchaseLimit])
 
   useEffect(() => {
     console.log("crowdsale active", crowdsale);
@@ -202,17 +208,18 @@ function ChooseCrowdsale({ details, setDetails }) {
           </VStack>
           <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
-            <InfoTip label="This limit the number of tokens that can be purchased by an account" />
+            <InfoTip label="This limit the number of tokens that can be purchased in the crowdsale" />
             <Spacer />
             <NumInputField
               id="purchaseLimit"
               defaultValue={purchaseLimit}
               min={1}
-              onChange={handlePurchaseLimit}
+              onChange={(value) => setPurchaseLimit(value)}
             />
           </HStack>
         </>
       ) : null}
+      
     </>
   );
 }
