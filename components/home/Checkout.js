@@ -284,7 +284,6 @@ export default function Checkout({ details, daoNames }) {
       listManager,
       listManagerAddress
     );
-    let listManagerEncodedParams;
     let listManagerPayload;
 
     if (crowdsale["active"]) {
@@ -300,7 +299,7 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      if (listId == 0) {
+      if (listId == 333) {
         const listCount = await listManagerContract.methods.listCount().call();
         listId = parseInt(listCount) + 1;
       }

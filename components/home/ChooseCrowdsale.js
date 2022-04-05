@@ -111,7 +111,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
       case "custom":
         setShowCustomListInput(true);
         // setDetails(details);
-        details["extensions"]["crowdsale"]["listId"] = 0;
+        details["extensions"]["crowdsale"]["listId"] = 333;
         setDetails(details);
         break;
     }
