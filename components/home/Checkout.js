@@ -46,12 +46,6 @@ export default function Checkout({ details, daoNames }) {
 
   const toast = useToast();
   const handleEmail = (dao) => {
-    // email sent to Kali following deployment
-    // const to = "kalidao@protonmail.com";
-    // const from = details["email"];
-    // const subject = "Entity Registration";
-    // const body =
-    //   from + " requests help forming a " + details["legal"]["docType"];
     // send email here!
     const network = getChain(chainId);
     console.log("network", network);
@@ -85,8 +79,6 @@ export default function Checkout({ details, daoNames }) {
         });
       }
     );
-
-    alert("Send email!"); // for testing
   };
 
   const isNameUnique = (name) => {
