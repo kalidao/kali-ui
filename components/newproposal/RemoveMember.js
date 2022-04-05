@@ -21,10 +21,12 @@ import { useForm, Controller, useFieldArray } from "react-hook-form";
 import NumInputField from "../elements/NumInputField";
 import DeleteButton from "../elements/DeleteButton";
 import { AiOutlineDelete } from "react-icons/ai";
+import { getDefaultProvider } from "@ethersproject/providers";
 
 export default function SendShares() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address } = value.state;
+  const { web3, loading, account, abi, address, dao } = value.state;
+  const [members, setMembers] = useState(null);
 
   const {
     handleSubmit,
@@ -41,6 +43,60 @@ export default function SendShares() {
   useEffect(() => {
     append({ address: "" }); // add first member input field
   }, [append]);
+
+  useEffect(() => {
+    const getMembers = async () => {
+      if (!members) {
+        const members_ = await loadMembers();
+        const _members = await convertAddressToEns(members_)
+        console.log(_members)
+        setMembers(_members)
+      } else {
+        return
+      }
+    }
+    getMembers();
+  }, [members]);
+
+  const convertAddressToEns = async (addresses) => {
+    const provider = await getDefaultProvider();
+    let addresses_;
+    for (let i = 0; i < addresses.length; i++) {
+      if (addresses[i]) {
+        // console.log(addresses[i])
+        let ens;
+        ens = await provider.lookupAddress(addresses[i]).catch(() => {
+          value.toast(ens + " is not a valid ENS.");
+        });
+
+        if (ens) {
+          // console.log("ENS Checks out ", ens)
+          addresses[i] = ens
+          // addresses_.push(ens)
+        } else {
+          // console.log("ENS not found")
+          addresses[i] = addresses[i]
+          
+        } 
+      } else {
+        console.log("RemoveMember.js - address not found")
+      }
+    }
+
+
+    // console.log("this should be the output:", addresses)
+    return addresses.sort();
+  };
+
+  const loadMembers = async () => {
+    let members_ = [];
+    for (var i = 0; i < dao["members"].length; i++) {
+      const member = dao["members"][i].member
+      members_.push(member);
+      // setMembers([...members_]);
+    }
+    return members_
+  };
 
   const submitProposal = async (values) => {
     event.preventDefault();
@@ -100,6 +156,14 @@ export default function SendShares() {
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
       <Stack>
+        <Select placeholder={members ? "Pick a member" : "Loading Members and ENS names..."}>
+          {/* {dao["members"].map((m, index) => (
+            <option value={m["member"]}>{m["member"]}</option>
+          ))} */}
+          {members && members.map((m, index) => (
+            <option value={m}>{m}</option>
+          ))}
+        </Select>
         <Controller
           name="description_"
           control={control}
@@ -117,7 +181,7 @@ export default function SendShares() {
           )}
         />
 
-        <List spacing={2} width="100%">
+        {/* <List spacing={2} width="100%">
           {fields.map((member, index) => (
             <ListItem
               display="flex"
@@ -167,7 +231,7 @@ export default function SendShares() {
           >
             +Add
           </Button>
-        </HStack>
+        </HStack> */}
 
         <Center>
           <Button className="transparent-btn" type="submit">
