@@ -161,7 +161,7 @@ export default function SendShares() {
             <option value={m["member"]}>{m["member"]}</option>
           ))} */}
           {members && members.map((m, index) => (
-            <option value={m}>{m}</option>
+            <option key={index} value={m}>{m}</option>
           ))}
         </Select>
         <Controller
