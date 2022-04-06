@@ -174,7 +174,7 @@ export default function SendShares() {
         {console.log(membersToRemove)}
         {membersToRemove &&
           membersToRemove.map((member, index) => (
-            <Text>
+            <Text key={index}>
               {index + 1}. {member}
             </Text>
           ))}
