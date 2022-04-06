@@ -99,12 +99,11 @@ export default function SendShares() {
     // setMembersToRemove(membersToRemove_);
 
     console.log(membersToRemove_);
-
   };
 
-const lockList = () => {
-  setMembersToRemove(membersToRemove_)
-}
+  const lockList = () => {
+    setMembersToRemove(membersToRemove_);
+  };
 
   const loadMembers = async () => {
     let members_ = [];
@@ -122,8 +121,8 @@ const lockList = () => {
 
     try {
       console.log(membersToRemove, file.name, values);
-     
-      description_ = file.name
+
+      description_ = file.name;
 
       const proposalType_ = 1;
 
@@ -145,7 +144,13 @@ const lockList = () => {
 
       try {
         let result = await instance.methods
-          .propose(proposalType_, description_, membersToRemove, amounts_, payloads_)
+          .propose(
+            proposalType_,
+            description_,
+            membersToRemove,
+            amounts_,
+            payloads_
+          )
           .send({ from: account });
         value.setVisibleView(2);
       } catch (e) {
@@ -163,7 +168,7 @@ const lockList = () => {
   return (
     <VStack align="flex-start" w="50%" spacing="5">
       <Text>
-        <b>Select & Confirm Member(s) to Remove:</b>
+        <b>Select and Confirm Member(s) to Remove:</b>
       </Text>
       <VStack align="flex-start">
         {console.log(membersToRemove)}
@@ -194,7 +199,12 @@ const lockList = () => {
               </option>
             ))}
         </Select>
-        <Button variant="ghost" color="white" border="none" onClick={addToRemoveList}>
+        <Button
+          variant="ghost"
+          color="white"
+          border="none"
+          onClick={addToRemoveList}
+        >
           ➕
         </Button>
         <Button variant="ghost" color="white" border="none" onClick={lockList}>
@@ -215,7 +225,7 @@ const lockList = () => {
           }}
         />
       </Box>
-        <br/>
+      <br />
       <VStack w="100%">
         <Button
           className="transparent-btn"
