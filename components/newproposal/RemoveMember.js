@@ -4,7 +4,6 @@ import AppContext from "../../context/AppContext";
 import {
   Input,
   Button,
-  Select,
   Text,
   Textarea,
   Stack,
@@ -19,11 +18,30 @@ import {
   IconButton,
   Box,
 } from "@chakra-ui/react";
+import Select from "react-select";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import NumInputField from "../elements/NumInputField";
 import DeleteButton from "../elements/DeleteButton";
 import { AiOutlineDelete } from "react-icons/ai";
 import { getDefaultProvider } from "@ethersproject/providers";
+
+const styles={
+  app:{
+    backgroundColor:'rgba(0,0,0,0.1)',
+    justifyItems:'center',
+    alignItems:'center',
+    display:'grid',
+    height:'100vh',
+    fontFamily:'Arial',
+    color:'rgba(0,0,100,1)',
+    gridTemplateColumns:'1fr',
+    fontSize:25
+  },
+  select:{
+    width:'100%',
+    maxWidth:600
+  }
+}
 
 export default function SendShares() {
   const value = useContext(AppContext);
@@ -42,21 +60,21 @@ export default function SendShares() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "members",
-  });
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "members",
+  // });
 
-  useEffect(() => {
-    append({ address: "" }); // add first member input field
-  }, [append]);
+  // useEffect(() => {
+  //   append({ address: "" }); // add first member input field
+  // }, [append]);
 
   useEffect(() => {
     const getMembers = async () => {
       if (!members) {
         const members_ = await loadMembers();
+        // console.log(members_);
         const _members = await convertAddressToEns(members_);
-        console.log(_members);
         setMembers(_members);
       } else {
         return;
@@ -68,101 +86,107 @@ export default function SendShares() {
   const convertAddressToEns = async (addresses) => {
     const provider = await getDefaultProvider();
     for (let i = 0; i < addresses.length; i++) {
-      if (addresses[i]) {
+      if (addresses[i].value) {
         // console.log(addresses[i])
         let ens;
-        ens = await provider.lookupAddress(addresses[i]).catch(() => {
+        ens = await provider.lookupAddress(addresses[i].value).catch(() => {
           value.toast(ens + " is not a valid ENS.");
         });
 
         if (ens) {
           // console.log("ENS Checks out ", ens)
-          addresses[i] = ens;
+          addresses[i].label = ens;
           // addresses_.push(ens)
         } else {
           // console.log("ENS not found")
-          addresses[i] = addresses[i];
+          addresses[i].label = addresses[i].value.slice(0, 8) + "..." + addresses[i].value.slice(-6);
         }
       } else {
         console.log("RemoveMember.js - address not found");
       }
     }
-
-    // console.log("this should be the output:", addresses)
-    return addresses.sort();
+    
+    console.log("this should be the output:", addresses.sort((a, b) => {a.label < b.label}))
+    return addresses.sort((a, b) => {a.label > b.label});
   };
 
-  const addToRemoveList = () => {
-    console.log(selection);
-    membersToRemove_.push(selection);
+  // const addToRemoveList = (member) => {
+  //   console.log(member);
+  //   membersToRemove_.push(member);
 
-    // setMembersToRemove(membersToRemove_);
+  //   // setMembersToRemove(membersToRemove_);
 
-    console.log(membersToRemove_);
-  };
+  //   console.log(membersToRemove_);
+  // };
 
-  const lockList = () => {
-    setMembersToRemove(membersToRemove_);
-  };
+  // const lockList = () => {
+  //   setMembersToRemove(membersToRemove_);
+  // };
 
   const loadMembers = async () => {
     let members_ = [];
     for (var i = 0; i < dao["members"].length; i++) {
-      const member = dao["members"][i].member;
+      const member = {
+        value: dao["members"][i].member,
+        label:
+          dao["members"][i].member.slice(0, 8) +
+          "..." +
+          dao["members"][i].member.slice(-6),
+      };
       members_.push(member);
       setMembers([...members_]);
     }
     return members_;
   };
 
-  const submitProposal = async (values) => {
+  const submitProposal = async () => {
     event.preventDefault();
-    value.setLoading(true);
+    // value.setLoading(true);
 
-    try {
-      console.log(membersToRemove, file.name, values);
+    console.log(selection);
+    // try {
 
-      description_ = file.name;
+    //   description_ = file.name;
 
-      const proposalType_ = 1;
+    //   const proposalType_ = 1;
 
-      const instance = new web3.eth.Contract(abi, address);
+    //   const instance = new web3.eth.Contract(abi, address);
 
-      let amounts_ = [];
-      for (let i = 0; i < membersToRemove.length; i++) {
-        const amount_ = await instance.methods
-          .balanceOf(membersToRemove[i])
-          .call();
-        amounts_.push(amount_);
-      }
-      console.log("Shares Array", amounts_);
+    //   let amounts_ = [];
+    //   for (let i = 0; i < membersToRemove.length; i++) {
+    //     const amount_ = await instance.methods
+    //       .balanceOf(membersToRemove[i])
+    //       .call();
+    //     amounts_.push(amount_);
+    //   }
+    //   console.log("Shares Array", amounts_);
 
-      let payloads_ = [];
-      for (let i = 0; i < membersToRemove.length; i++) {
-        payloads_.push("0x");
-      }
+    //   let payloads_ = [];
+    //   for (let i = 0; i < membersToRemove.length; i++) {
+    //     payloads_.push("0x");
+    //   }
 
-      try {
-        let result = await instance.methods
-          .propose(
-            proposalType_,
-            description_,
-            membersToRemove,
-            amounts_,
-            payloads_
-          )
-          .send({ from: account });
-        value.setVisibleView(2);
-      } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
-      }
-    } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
-    }
+    //   try {
+    //     let result = await instance.methods
+    //       .propose(
+    //         proposalType_,
+    //         description_,
+    //         membersToRemove,
+    //         amounts_,
+    //         payloads_
+    //       )
+    //       .send({ from: account });
+    //     value.setVisibleView(2);
+    //   } catch (e) {
+    //     value.toast(e);
+    //     value.setLoading(false);
+    //   }
+    // } catch (e) {
+    //   value.toast(e);
+    //   value.setLoading(false);
+    // }
 
-    value.setLoading(false);
+    // value.setLoading(false);
   };
 
   return (
@@ -170,7 +194,7 @@ export default function SendShares() {
       <Text>
         <b>Select and Confirm Member(s) to Remove:</b>
       </Text>
-      <VStack align="flex-start">
+      {/* <VStack align="flex-start">
         {console.log(membersToRemove)}
         {membersToRemove &&
           membersToRemove.map((member, index) => (
@@ -178,39 +202,65 @@ export default function SendShares() {
               {index + 1}. {member}
             </Text>
           ))}
+      </VStack> */}
+      <VStack align="flex-start">
+        {/* <Text>Selected Members: </Text> */}
+        {selection ? (
+          <>
+            {selection.map((member, index) => (
+              <Text align="left" key={member.value}>{index+1}. {member.label}</Text>
+            ))}
+          </>
+          
+        ) : null}
       </VStack>
-      <HStack>
-        <Select
+      <Box w={"100%"}>
+        {/* <Select
           name="members"
-          onChange={(e) => {
-            setSelection(e.target.value);
-          }}
           placeholder={
             members ? "Pick a member" : "Loading Members and ENS names..."
           }
+          value={selection}
+          onChange={(e) => {
+            setSelection(e.target.value);
+            console.log(selection)
+          }}
         >
-          {/* {dao["members"].map((m, index) => (
+          {dao["members"].map((m, index) => (
             <option value={m["member"]}>{m["member"]}</option>
-          ))} */}
+          ))}
           {members &&
             members.map((m, index) => (
               <option key={index} value={m}>
                 {m}
               </option>
             ))}
-        </Select>
+        </Select> */}
+        <Select
+          styles={styles}
+          isMulti={true}
+          value={selection}
+          placeholder="Select member(s)"
+          onChange={(e) => {
+            setSelection(e);
+          }}
+          options={members}
+        ></Select>
+        {/* <Spacer />
         <Button
           variant="ghost"
           color="white"
           border="none"
-          onClick={addToRemoveList}
+          onClick={() => {
+            addToRemoveList(selection);
+          }}
         >
           ➕
         </Button>
         <Button variant="ghost" color="white" border="none" onClick={lockList}>
           {didLockList ? "🔒" : "🔓"}{" "}
-        </Button>
-      </HStack>
+        </Button> */}
+      </Box>
       <br />
       <Text>
         <b>Notes:</b>
