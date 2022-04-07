@@ -15,6 +15,52 @@ import { getDefaultProvider } from "@ethersproject/providers";
 import { uploadIpfs } from "../../utils/helpers";
 import InfoTip from "../elements/InfoTip";
 
+
+const customStyles = {
+  control: (base, state) => ({
+    ...base,
+    background: "#ffffff",
+    // match with the menu
+    borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
+    // Overwrittes the different states of border
+    // borderColor: state.isFocused ? "yellow" : "green",
+    // Removes weird border around container
+    boxShadow: state.isFocused ? null : null,
+    "&:hover": {
+      // Overwrittes the different states of border
+      // borderColor: state.isFocused ? "red" : "purple"
+    }
+  }),
+  multiValueLabel: (styles, { data }) => ({
+    ...styles,
+    color: "#000000",
+    backgroundColor: "#D2D8FE"
+  }),
+  // multiValueRemove: (styles, { data }) => ({
+  //   ...styles,
+  //   color: "#000000",
+  //   backgroundColor: "#CF9FFF",
+  //   ':hover': {
+  //     color: 'white',
+  //   },
+  // }),
+  menu: base => ({
+    ...base,
+    backgroundColor: "#ffffff",
+    // override border radius to match the box
+    borderRadius: 2,
+    // kill the gap
+    marginTop: 0
+  }),
+  menuList: base => ({
+    ...base,
+    // kill the white space on first and last option
+    padding: 0,
+    backgroundColor: "#ffffff",
+    color: "#000000"
+  })
+};
+
 export default function SendShares() {
   const value = useContext(AppContext);
   const { web3, account, abi, address, dao } = value.state;
@@ -164,6 +210,7 @@ export default function SendShares() {
             isMulti={true}
             value={selection}
             placeholder="Select member(s)"
+            styles={customStyles}
             onChange={(e) => {
               setSelection(e);
             }}
@@ -171,10 +218,10 @@ export default function SendShares() {
             theme={(theme) => ({
               ...theme,
               borderRadius: 5,
+              backgroundColor: "purple",
               colors: {
                 ...theme.colors,
-                primary25: "purple",
-                primary: "pink",
+                primary25: "#4C9AFF",
               },
             })}
           ></Select>
