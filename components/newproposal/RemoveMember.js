@@ -54,6 +54,7 @@ const customStyles = {
   }),
   menuList: base => ({
     ...base,
+    fontSize: 14,
     // kill the white space on first and last option
     padding: 0,
     backgroundColor: "#ffffff",
@@ -190,9 +191,12 @@ export default function SendShares() {
   };
 
   return (
-      <VStack align="flex-start" w="50%" spacing="5">
+      <VStack align="flex-start" w="50%" >
         <Text>
           <b>Select and Confirm Member(s) to Remove:</b>
+        </Text>
+        <Text fontSize="14px">
+          Address with ENS will update when available.
         </Text>
         <VStack align="flex-start">
           {selection ? (
