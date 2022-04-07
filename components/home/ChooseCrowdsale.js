@@ -231,7 +231,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
           <VStack w={"100%"} spacing="8" align="flex-start">
             <HStack w={"100%"}>
               <label htmlFor="purchaseList">Purchase List</label>
-              <InfoTip label="Crowdsale for DAO token is limited to the selected group of purchasers, e.g., Dos Commas is a group of accredited investors" />
+              <InfoTip label="Crowdsale for DAO token is limited to the selected group of purchasers ('whitelist')" />
               <Spacer />
               <Select
                 w="45%"
@@ -239,7 +239,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
                 onChange={handlePurchaseList}
                 placeholder="Select"
               >
-                <option value="dos-commas">Dos Commas</option>
+                <option value="dos-commas">Accredited</option>
                 <option value="custom">Custom</option>
               </Select>
             </HStack>
