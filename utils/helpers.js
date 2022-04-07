@@ -1,5 +1,6 @@
-// helper functions to assemble final `proposals` and `dao` objects
+import fleek from "@fleekhq/fleek-storage-js";
 
+// helper functions to assemble final `proposals` and `dao` objects
 // votingPeriod
 export const calculateVotingPeriod = (period, unit) => {
   let seconds;
@@ -14,12 +15,12 @@ export const calculateVotingPeriod = (period, unit) => {
   return seconds;
 };
 
-export async function uploadIpfs() {
+export async function uploadIpfs(account, file) {
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
     bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-    key: file.name,
+    key: account + " " + file.name,
     data: file,
     httpUploadProgressCallback: (event) => {
       console.log(Math.round((event.loaded / event.total) * 100) + "% done");

@@ -112,7 +112,7 @@ export default function NewProposal(props) {
             menuItem == k ? (
               <Box key={`component-${k}`} p={5} id="new-proposal">
                 <Heading as="h2">{newProposalHelper[k]["title"]}</Heading>
-                <Box align={"center"}>{newProposalHelper[k]["component"]}</Box>
+                <Box>{newProposalHelper[k]["component"]}</Box>
               </Box>
             ) : null
           )}

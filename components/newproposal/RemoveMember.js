@@ -6,77 +6,32 @@ import {
   Button,
   Text,
   Textarea,
-  Stack,
-  List,
-  ListItem,
-  FormControl,
-  FormLabel,
-  Center,
   VStack,
   HStack,
-  Spacer,
-  IconButton,
   Box,
 } from "@chakra-ui/react";
 import Select from "react-select";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import NumInputField from "../elements/NumInputField";
-import DeleteButton from "../elements/DeleteButton";
-import { AiOutlineDelete } from "react-icons/ai";
 import { getDefaultProvider } from "@ethersproject/providers";
-
-const styles={
-  app:{
-    backgroundColor:'rgba(0,0,0,0.1)',
-    justifyItems:'center',
-    alignItems:'center',
-    display:'grid',
-    height:'100vh',
-    fontFamily:'Arial',
-    color:'rgba(0,0,100,1)',
-    gridTemplateColumns:'1fr',
-    fontSize:25
-  },
-  select:{
-    width:'100%',
-    maxWidth:600
-  }
-}
+import { uploadIpfs } from "../../utils/helpers";
+import InfoTip from "../elements/InfoTip";
 
 export default function SendShares() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao } = value.state;
+  const { web3, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
   const [selection, setSelection] = useState(null);
   const [file, setFile] = useState(null);
-  const [didLockList, setDidLockList] = useState(false);
-  const [membersToRemove, setMembersToRemove] = useState([]);
-  let membersToRemove_ = [];
-
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm();
-
-  // const { fields, append, remove } = useFieldArray({
-  //   control,
-  //   name: "members",
-  // });
-
-  // useEffect(() => {
-  //   append({ address: "" }); // add first member input field
-  // }, [append]);
+  const [note, setNote] = useState(null);
 
   useEffect(() => {
     const getMembers = async () => {
       if (!members) {
         const members_ = await loadMembers();
-        // console.log(members_);
         const _members = await convertAddressToEns(members_);
+        _members.sort((a, b) => a.label - b.label);
         setMembers(_members);
       } else {
+        // console.log("ooooooooooooops");
         return;
       }
     };
@@ -99,29 +54,19 @@ export default function SendShares() {
           // addresses_.push(ens)
         } else {
           // console.log("ENS not found")
-          addresses[i].label = addresses[i].value.slice(0, 8) + "..." + addresses[i].value.slice(-6);
+          addresses[i].label =
+            addresses[i].value.slice(0, 8) +
+            "..." +
+            addresses[i].value.slice(-6);
         }
       } else {
         console.log("RemoveMember.js - address not found");
       }
     }
-    
-    console.log("this should be the output:", addresses.sort((a, b) => {a.label < b.label}))
-    return addresses.sort((a, b) => {a.label > b.label});
+
+    // console.log("this should be the output:", addresses);
+    return addresses;
   };
-
-  // const addToRemoveList = (member) => {
-  //   console.log(member);
-  //   membersToRemove_.push(member);
-
-  //   // setMembersToRemove(membersToRemove_);
-
-  //   console.log(membersToRemove_);
-  // };
-
-  // const lockList = () => {
-  //   setMembersToRemove(membersToRemove_);
-  // };
 
   const loadMembers = async () => {
     let members_ = [];
@@ -141,150 +86,140 @@ export default function SendShares() {
 
   const submitProposal = async () => {
     event.preventDefault();
-    // value.setLoading(true);
+    let description_;
 
-    console.log(selection);
-    // try {
+    try {
+      if (note && file) {
+        description_ = await uploadIpfs(dao["address"], file);
+      } else if (note && !file) {
+        description_ = note;
+      } else if (!note && !file) {
+        description_ = "";
+      }
 
-    //   description_ = file.name;
+      const proposalType_ = 1;
 
-    //   const proposalType_ = 1;
+      const instance = new web3.eth.Contract(abi, address);
+      let accounts_ = [];
+      for (let i = 0; i < selection.length; i++) {
+        accounts_.push(selection[i].value);
+      }
 
-    //   const instance = new web3.eth.Contract(abi, address);
+      let amounts_ = [];
+      for (let i = 0; i < selection.length; i++) {
+        const amount_ = await instance.methods
+          .balanceOf(selection[i].value)
+          .call();
+        amounts_.push(amount_);
+      }
 
-    //   let amounts_ = [];
-    //   for (let i = 0; i < membersToRemove.length; i++) {
-    //     const amount_ = await instance.methods
-    //       .balanceOf(membersToRemove[i])
-    //       .call();
-    //     amounts_.push(amount_);
-    //   }
-    //   console.log("Shares Array", amounts_);
+      let payloads_ = [];
+      for (let i = 0; i < selection.length; i++) {
+        payloads_.push("0x");
+      }
 
-    //   let payloads_ = [];
-    //   for (let i = 0; i < membersToRemove.length; i++) {
-    //     payloads_.push("0x");
-    //   }
+      console.log(
+        "Shares Array",
+        proposalType_,
+        description_,
+        accounts_,
+        amounts_,
+        payloads_
+      );
+      try {
+        let result = await instance.methods
+          .propose(proposalType_, description_, accounts_, amounts_, payloads_)
+          .send({ from: account });
+        value.setVisibleView(2);
+      } catch (e) {
+        value.toast(e);
+        value.setLoading(false);
+      }
+    } catch (e) {
+      value.toast(e);
+      value.setLoading(false);
+    }
 
-    //   try {
-    //     let result = await instance.methods
-    //       .propose(
-    //         proposalType_,
-    //         description_,
-    //         membersToRemove,
-    //         amounts_,
-    //         payloads_
-    //       )
-    //       .send({ from: account });
-    //     value.setVisibleView(2);
-    //   } catch (e) {
-    //     value.toast(e);
-    //     value.setLoading(false);
-    //   }
-    // } catch (e) {
-    //   value.toast(e);
-    //   value.setLoading(false);
-    // }
-
-    // value.setLoading(false);
+    value.setLoading(false);
   };
 
   return (
-    <VStack align="flex-start" w="50%" spacing="5">
-      <Text>
-        <b>Select and Confirm Member(s) to Remove:</b>
-      </Text>
-      {/* <VStack align="flex-start">
-        {console.log(membersToRemove)}
-        {membersToRemove &&
-          membersToRemove.map((member, index) => (
-            <Text key={index}>
-              {index + 1}. {member}
-            </Text>
-          ))}
-      </VStack> */}
-      <VStack align="flex-start">
-        {/* <Text>Selected Members: </Text> */}
-        {selection ? (
-          <>
-            {selection.map((member, index) => (
-              <Text align="left" key={member.value}>{index+1}. {member.label}</Text>
-            ))}
-          </>
-          
-        ) : null}
+      <VStack align="flex-start" w="50%" spacing="5">
+        <Text>
+          <b>Select and Confirm Member(s) to Remove:</b>
+        </Text>
+        <VStack align="flex-start">
+          {selection ? (
+            <>
+              {selection.map((member, index) => (
+                <Text align="left" key={member.value}>
+                  {index + 1}. {member.label}
+                </Text>
+              ))}
+            </>
+          ) : null}
+        </VStack>
+        <Box w={"100%"}>
+          <Select
+            isMulti={true}
+            value={selection}
+            placeholder="Select member(s)"
+            onChange={(e) => {
+              setSelection(e);
+            }}
+            options={members}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 5,
+              colors: {
+                ...theme.colors,
+                primary25: "purple",
+                primary: "pink",
+              },
+            })}
+          ></Select>
+        </Box>
+        <br />
+        <HStack>
+          <Text>
+            <b>Notes:</b>
+          </Text>
+          <InfoTip
+            label={
+              "You may accompany this proposal with notes or a doc. Notes will be recorded directly onchain, while doc will be uploaded to IPFS. If both are supplied, note is ignored."
+            }
+          ></InfoTip>
+        </HStack>
+        <Box w="100%" pt="10px">
+          <Textarea
+            placeholder=". . ."
+            value={note}
+            onChange={(e) => {
+              setNote(e.target.value);
+            }}
+          />
+          <Box h="20px" />
+          <Text>-- OR --</Text>
+          <br />
+          <input
+            id="file"
+            name="file"
+            type="file"
+            onChange={(e) => {
+              setFile(e.target.files[0]);
+            }}
+          />
+        </Box>
+        <br />
+        <VStack w="100%">
+          <Button
+            className="transparent-btn"
+            type="submit"
+            onClick={submitProposal}
+          >
+            Submit Proposal
+          </Button>
+        </VStack>
       </VStack>
-      <Box w={"100%"}>
-        {/* <Select
-          name="members"
-          placeholder={
-            members ? "Pick a member" : "Loading Members and ENS names..."
-          }
-          value={selection}
-          onChange={(e) => {
-            setSelection(e.target.value);
-            console.log(selection)
-          }}
-        >
-          {dao["members"].map((m, index) => (
-            <option value={m["member"]}>{m["member"]}</option>
-          ))}
-          {members &&
-            members.map((m, index) => (
-              <option key={index} value={m}>
-                {m}
-              </option>
-            ))}
-        </Select> */}
-        <Select
-          styles={styles}
-          isMulti={true}
-          value={selection}
-          placeholder="Select member(s)"
-          onChange={(e) => {
-            setSelection(e);
-          }}
-          options={members}
-        ></Select>
-        {/* <Spacer />
-        <Button
-          variant="ghost"
-          color="white"
-          border="none"
-          onClick={() => {
-            addToRemoveList(selection);
-          }}
-        >
-          ➕
-        </Button>
-        <Button variant="ghost" color="white" border="none" onClick={lockList}>
-          {didLockList ? "🔒" : "🔓"}{" "}
-        </Button> */}
-      </Box>
-      <br />
-      <Text>
-        <b>Notes:</b>
-      </Text>
-      <Box w="100%" pt="10px">
-        <input
-          id="file"
-          name="file"
-          type="file"
-          onChange={(e) => {
-            setFile(e.target.files[0]);
-          }}
-        />
-      </Box>
-      <br />
-      <VStack w="100%">
-        <Button
-          className="transparent-btn"
-          type="submit"
-          onClick={submitProposal}
-        >
-          Submit Proposal
-        </Button>
-      </VStack>
-    </VStack>
   );
 }
