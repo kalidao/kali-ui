@@ -276,17 +276,33 @@ export default function Checkout({ details, daoNames }) {
     extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
     extensionsData.push("0x");
 
+    // Set up Encoded Params for Access List and Supply appropriate listId to Crowdsale
+    // Encoded Params is pushed to extensionArray and extensionData at end of deploy()
+    const listManager = require("../../abi/KaliAccessManager.json");
+    const listManagerAddress = addresses[chainId]["access"];
+    const listManagerContract = new web3.eth.Contract(
+      listManager,
+      listManagerAddress
+    );
+    let listManagerPayload;
+
     if (crowdsale["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
       var {
         listId,
+        list,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
         saleEnds,
         documentation,
       } = crowdsale;
+
+      if (listId == 333) {
+        const listCount = await listManagerContract.methods.listCount().call();
+        listId = parseInt(listCount) + 1;
+      }
 
       console.log("purchaseLimit", purchaseLimit);
       purchaseLimit = purchaseLimit + "000000000000000000";
@@ -308,6 +324,7 @@ export default function Checkout({ details, daoNames }) {
       console.log(
         "crowdsale param",
         listId,
+        list,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
@@ -320,14 +337,6 @@ export default function Checkout({ details, daoNames }) {
       const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
 
       const saleContract = new web3.eth.Contract(sale, saleAddress);
-      console.log(
-        listId,
-        purchaseToken,
-        purchaseMultiplier,
-        purchaseLimit,
-        saleEnds,
-        documentation
-      );
 
       const encodedParams = web3.eth.abi.encodeParameters(
         ["uint256", "address", "uint8", "uint96", "uint32", "string"],
@@ -346,6 +355,10 @@ export default function Checkout({ details, daoNames }) {
         .encodeABI();
 
       extensionsData.push(payload);
+
+      listManagerPayload = listManagerContract.methods
+      .createList(list, "0x0")
+      .encodeABI();
     }
 
     if (redemption["active"]) {
@@ -397,8 +410,10 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
-    // console.log("extensionsArray", extensionsArray);
-    // console.log("extensionsData", extensionsData);
+    extensionsArray.push(listManagerAddress)
+    extensionsData.push(listManagerPayload)
+    console.log("extensionsArray", extensionsArray);
+    console.log("extensionsData", extensionsData);
 
     console.log(
       "deployment param",

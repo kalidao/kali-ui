@@ -8,6 +8,7 @@ import {
   Spacer,
   Button,
   Input,
+  Textarea,
 } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import InfoTip from "../elements/InfoTip";
@@ -15,8 +16,9 @@ import DateSelect from "../elements/DateSelect";
 import Slider from "../elements/Slider";
 import Select from "../elements/Select";
 import NumInputField from "../elements/NumInputField";
+import { resolve } from "path";
 
-function ChooseCrowdsale({ details, setDetails }) {
+function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [crowdsale, setCrowdsale] = useState(
     details["extensions"]["crowdsale"]["active"]
   );
@@ -29,18 +31,45 @@ function ChooseCrowdsale({ details, setDetails }) {
     )
   );
 
-  const [listId, setListId] = useState(
-    Boolean(details["extensions"]["crowdsale"]["listId"])
-  );
+  // const [listId, setListId] = useState(
+  //   Boolean(details["extensions"]["crowdsale"]["listId"])
+  // );
+  const [list, setList] = useState("");
+  const [islistValidated, setIsListValidated] = useState(false);
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(
     details["extensions"]["crowdsale"]["purchaseMultiplier"]
   );
   const [showSlider, setShowSlider] = useState(false);
   const [showCustomToken, setCustomToken] = useState(false);
+  const [showCustomListInput, setShowCustomListInput] = useState(false);
   const [purchaseLimit, setPurchaseLimit] = useState(
     details["extensions"]["crowdsale"]["purchaseLimit"]
   );
+
+  const resolveAddressAndEnsList = async (list) => {
+    let list_ = [];
+
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].slice(-4) === ".eth") {
+        const address = await web3.eth.ens.getAddress(list[i]).catch(() => {
+          value.toast(list[i] + " is not a valid ENS.");
+        });
+        list_.push(address);
+      } else if (web3.utils.isAddress(list[i]) == false) {
+        value.toast(list[i] + " is not a valid Ethereum address.");
+        return;
+      } else {
+        list_.push(list[i]);
+      }
+
+      if (list[i] === undefined) {
+        return;
+      }
+    }
+
+    return list_;
+  };
 
   const handlePurchaseToken = (e) => {
     let token = e.target.value;
@@ -65,11 +94,57 @@ function ChooseCrowdsale({ details, setDetails }) {
     setDetails(details);
   };
 
-  // const handlePurchaseLimit = (e) => {
-  //   const limit = e.target.value;
-  //   details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
-  //   setDetails(details);
-  // };
+  const handlePurchaseLimit = (e) => {
+    const limit = e.target.value;
+    details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
+    setDetails(details);
+  };
+
+  const handlePurchaseList = (e) => {
+    let list = e.target.value;
+    switch (list) {
+      case "dos-commas":
+        setShowCustomListInput(false);
+        details["extensions"]["crowdsale"]["listId"] = 1;
+        setDetails(details);
+        break;
+      case "custom":
+        setShowCustomListInput(true);
+        // setDetails(details);
+        details["extensions"]["crowdsale"]["listId"] = 333;
+        setDetails(details);
+        break;
+    }
+  };
+
+  const handleCustomList = async () => {
+    let newList;
+    let resolvedList;
+    let finalList = [];
+    newList = list.split(", ");
+
+    resolvedList = await resolveAddressAndEnsList(newList);
+
+    if (resolvedList === undefined) {
+      setIsListValidated(false);
+      return;
+    } else {
+      for (let i = 0; i < resolvedList.length; i++) {
+        if (newList[i] === undefined) {
+          setIsListValidated(false);
+          return;
+        } else {
+          setIsListValidated(true);
+          finalList.push(resolvedList[i]);
+        }
+      }
+    }
+
+    // console.log(finalList);
+    details["extensions"]["crowdsale"]["list"] = finalList;
+    console.log(details);
+    setDetails(details);
+  };
 
   const presentSlider = () => {
     if (!showSlider) {
@@ -80,21 +155,15 @@ function ChooseCrowdsale({ details, setDetails }) {
   };
 
   useEffect(() => {
-    console.log('purchase limit', purchaseLimit);
-    details["extensions"]["crowdsale"]["purchaseLimit"] = purchaseLimit;
-    setDetails(details);
-  }, [purchaseLimit])
-
-  useEffect(() => {
-    console.log("crowdsale active", crowdsale);
+    // console.log("crowdsale active", crowdsale);
     details["extensions"]["crowdsale"]["active"] = crowdsale;
   }, [crowdsale]);
 
-  useEffect(() => {
-    console.log("listId", listId);
-    details["extensions"]["crowdsale"]["listId"] = Number(listId);
-    setDetails(details);
-  }, [listId]);
+  // useEffect(() => {
+  //   console.log("listId - ", Number(listId));
+  //   details["extensions"]["crowdsale"]["listId"] = Number(listId);
+  //   setDetails(details);
+  // }, [listId]);
 
   useEffect(() => {
     details["extensions"]["crowdsale"]["purchaseMultiplier"] =
@@ -103,7 +172,7 @@ function ChooseCrowdsale({ details, setDetails }) {
   }, [purchaseMultiplier]);
 
   useEffect(() => {
-    console.log("saleEnds", saleEnds);
+    // console.log("saleEnds", saleEnds);
     details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
     setDetails(details);
   }, [saleEnds]);
@@ -126,7 +195,7 @@ function ChooseCrowdsale({ details, setDetails }) {
       {crowdsale ? (
         <>
           <HStack>
-            <Text fontSize="md" htmlFor="saleEnds">
+            <Text w="60%" fontSize="md" htmlFor="saleEnds">
               Sale Ends Date
             </Text>
             <ReactDatePicker
@@ -146,7 +215,7 @@ function ChooseCrowdsale({ details, setDetails }) {
               <label htmlFor="purchaseToken">Purchase Token</label>
               <InfoTip label="This token will be used to purchase from the sale" />
               <Spacer />
-              <Select id="purchaseToken" onChange={handlePurchaseToken}>
+              <Select w="35%" id="purchaseToken" onChange={handlePurchaseToken}>
                 <option value="0">ETH</option>
                 <option value="333">Custom</option>
               </Select>
@@ -159,7 +228,51 @@ function ChooseCrowdsale({ details, setDetails }) {
               />
             )}
           </VStack>
-          <HStack w={"100%"}>
+          <VStack w={"100%"} spacing="8" align="flex-start">
+            <HStack w={"100%"}>
+              <label htmlFor="purchaseList">Purchase List</label>
+              <InfoTip label="Crowdsale for DAO token is limited to the selected group of purchasers, e.g., Dos Commas is a group of accredited investors" />
+              <Spacer />
+              <Select
+                w="45%"
+                id="purchaseList"
+                onChange={handlePurchaseList}
+                placeholder="Select"
+              >
+                <option value="dos-commas">Dos Commas</option>
+                <option value="custom">Custom</option>
+              </Select>
+            </HStack>
+            {showCustomListInput && (
+              <VStack w="100%">
+                <HStack w="100%">
+                  <Textarea
+                    h="initial"
+                    id="purchaseList"
+                    placeholder="Separate ENS/address by single comma, e.g., *, * "
+                    onChange={(e) => setList(e.target.value)}
+                  />
+                  <Button
+                    variant="ghost"
+                    border="clear"
+                    onClick={handleCustomList}
+                  >
+                    🕵️‍♂️
+                  </Button>
+                </HStack>
+                {islistValidated ? (
+                  <Text fontSize="small" fontStyle="italic">
+                    ENS/addresses validated ✔️
+                  </Text>
+                ) : (
+                  <Text fontSize="small" fontStyle="italic">
+                    Please Validate ENS/addresses with 🕵️‍♂️ before "Next"
+                  </Text>
+                )}
+              </VStack>
+            )}
+          </VStack>
+          {/* <HStack w={"100%"}>
             <Text fontSize="md" htmlFor="listId">
               Accredited Investor Whitelist
             </Text>
@@ -174,7 +287,7 @@ function ChooseCrowdsale({ details, setDetails }) {
               defaultChecked={listId}
               onChange={() => setListId(!listId)}
             />
-          </HStack>
+          </HStack> */}
           <VStack w={"100%"} spacing="8" align="flex-start">
             <HStack w={"100%"}>
               <label htmlFor="purchaseMultiplier">Purchase Mulitplier</label>
@@ -208,18 +321,17 @@ function ChooseCrowdsale({ details, setDetails }) {
           </VStack>
           <HStack w={"100%"}>
             <label htmlFor="purchaseLimit">Purchase Limit</label>
-            <InfoTip label="This limit the number of tokens that can be purchased in the crowdsale" />
+            <InfoTip label="This limit the number of tokens that can be purchased by an account" />
             <Spacer />
             <NumInputField
               id="purchaseLimit"
               defaultValue={purchaseLimit}
               min={1}
-              onChange={(value) => setPurchaseLimit(value)}
+              onChange={handlePurchaseLimit}
             />
           </HStack>
         </>
       ) : null}
-      
     </>
   );
 }

@@ -45,6 +45,7 @@ export default function FactoryWrapper() {
         purchaseLimit: 1000,
         saleEnds: 0,
         listId: 0,
+        list: null, 
         documentation: "",
       },
     },
