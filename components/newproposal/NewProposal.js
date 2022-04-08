@@ -20,8 +20,8 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import { BrowserView, MobileView } from "react-device-detect";
-import { newProposalHelper } from "../../constants/newProposalHelper";
 import { BiEdit } from "react-icons/bi";
+import { newProposalHelper } from "../../constants/newProposalHelper";
 
 export default function NewProposal(props) {
   const [menuItem, setMenuItem] = useState(999); // arbitrary number where no proposal type is selected. if changed, must change below, too
@@ -112,7 +112,7 @@ export default function NewProposal(props) {
             menuItem == k ? (
               <Box key={`component-${k}`} p={5} id="new-proposal">
                 <Heading as="h2">{newProposalHelper[k]["title"]}</Heading>
-                {newProposalHelper[k]["component"]}
+                <Box>{newProposalHelper[k]["component"]}</Box>
               </Box>
             ) : null
           )}
