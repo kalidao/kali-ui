@@ -40,7 +40,7 @@ function ChooseSupermajority({ details, setDetails }) {
   return (
     <VStack w={"100%"} spacing="8" align="flex-start">
       <HStack w={"100%"} pt={"4"}>
-        <label>Supermajority</label>
+        <label>Approval Needed</label>
         <InfoTip
           label={
             "Minimum % of member approvals required for proposals to pass, e.g., a 75% supermajority needs at least 75% of DAO tokens in favor of a proposal for the proposal to pass"
