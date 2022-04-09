@@ -15,7 +15,6 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  toast,
 } from "@chakra-ui/react";
 import Select from "../elements/Select";
 import { useForm, Controller } from "react-hook-form";
@@ -37,11 +36,6 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
   });
 
   const submit = (values) => {
-    if (details["extensions"]["crowdsale"]["listId"] === 333 && details["extensions"]["crowdsale"]["list"] === null) {
-      value.toast("Please validate custom purchase list with 🕵️‍♂️")
-      return
-    }
-    
     const { votingPeriod, votingPeriodUnit, paused } = values;
 
     // setting governance
@@ -53,7 +47,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     }
 
     setDetails(details);
-    console.log("details at ChooseCustom", details);
+    console.log("details", details);
     handleNext();
   };
 
@@ -135,7 +129,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </label>
           <Divider w="50%" />
           <ChooseRedemption details={details} setDetails={setDetails} />
-          <ChooseCrowdsale details={details} setDetails={setDetails} web3={web3} value={value} />
+          <ChooseCrowdsale details={details} setDetails={setDetails} />
           {/* <ChooseTribute details={details} setDetails={setDetails} /> */}
         </VStack>
         <Box w="100%" align="center">
