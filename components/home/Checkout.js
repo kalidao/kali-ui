@@ -27,6 +27,7 @@ import ToS from "../elements/ToS";
 import { fetchTokens } from "../../utils/fetchTokens";
 import { pdf, BlobProvider } from "@react-pdf/renderer";
 import fleek from "@fleekhq/fleek-storage-js";
+import RicardianTemplate from "../legal/RicardianTemplate";
 import DelawareOAtemplate from "../legal/DelawareOAtemplate";
 import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
@@ -137,12 +138,18 @@ export default function Checkout({ details, daoNames }) {
 
   const construct = async () => {
     let _blob;
+    console.log("this is doctype at construct - ", details["legal"]["docType"])
     switch (details["legal"]["docType"]) {
       case "none":
         break;
-      case "Delaware Ricardian LLC":
+      case "Delaware Series LLC (instant)":
+        _blob = await pdf(
+          RicardianTemplate({
+            ricardianId: "[Token ID]",
+          })
+        ).toBlob();
         break;
-      case "Delaware LLC":
+      case "Delaware LLC (pending)":
         _blob = await pdf(
           DelawareOAtemplate({
             name: details["identity"]["daoName"],
@@ -158,7 +165,7 @@ export default function Checkout({ details, daoNames }) {
           })
         ).toBlob();
         break;
-      case "Wyoming LLC":
+      case "Wyoming LLC (pending)":
         _blob = await pdf(
           WyomingOAtemplate({
             name: details["identity"]["daoName"],
@@ -166,7 +173,7 @@ export default function Checkout({ details, daoNames }) {
           })
         ).toBlob();
         break;
-      case "Delaware UNA":
+      case "Delaware UNA (instant)":
         _blob = await pdf(
           DelawareUNAtemplate({
             name: details["identity"]["daoName"],
@@ -175,7 +182,7 @@ export default function Checkout({ details, daoNames }) {
           })
         ).toBlob();
         break;
-      case "Swiss Verein":
+      case "Swiss Verein (pending)":
         _blob = await pdf(
           SwissVerein({
             name: details["identity"]["daoName"],
@@ -185,7 +192,7 @@ export default function Checkout({ details, daoNames }) {
           })
         ).toBlob();
         break;
-      case "Custom":
+      case "Custom Entity Type (est. TBD)":
         break;
     }
 
@@ -236,12 +243,8 @@ export default function Checkout({ details, daoNames }) {
     const { votingPeriod, votingPeriodUnit, paused, quorum, supermajority } =
       details["governance"];
 
-    const { docs } = details["legal"];
-    console.log("docs to before push", docs);
-    docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC"
-      ? (docs = docHash)
-      : docs;
-    console.log("docs to be pushed", docs);
+    const docs = docHash;
+    console.log("docs to before push", docs, details["legal"]["docType"], docHash);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
@@ -307,7 +310,7 @@ export default function Checkout({ details, daoNames }) {
         .encodeABI();
       }
 
-      console.log("purchaseLimit", purchaseLimit);
+      // console.log("purchaseLimit", purchaseLimit);
       purchaseLimit = purchaseLimit + "000000000000000000";
       if (saleEnds == 30) {
         let date = new Date();
@@ -362,16 +365,16 @@ export default function Checkout({ details, daoNames }) {
 
     if (redemption["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
-      console.log(redemption);
+      // console.log(redemption);
       let { redemptionStart } = redemption;
 
       // getting token array
       let tokenArray = fetchTokens(chainId);
-      console.log(tokenArray);
+      // console.log(tokenArray);
 
       // let now = parseInt(new Date().getTime() / 1000);
       redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000);
-      console.log("redemption param", redemptionStart, tokenArray);
+      // console.log("redemption param", redemptionStart, tokenArray);
 
       const redemptionABI = require("../../abi/KaliDAOredemption.json");
 
@@ -414,8 +417,8 @@ export default function Checkout({ details, daoNames }) {
       extensionsData.push(listManagerPayload)
     } 
 
-    console.log("extensionsArray", extensionsArray);
-    console.log("extensionsData", extensionsData);
+    // console.log("extensionsArray", extensionsArray);
+    // console.log("extensionsData", extensionsData);
 
     console.log(
       "deployment param",
