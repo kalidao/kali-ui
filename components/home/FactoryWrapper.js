@@ -50,7 +50,7 @@ export default function FactoryWrapper() {
     },
     daoType: null,
     legal: {
-      docs: null,
+      docs: "none",
       docType: 999,
     },
     email: null,

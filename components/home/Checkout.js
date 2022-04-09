@@ -137,56 +137,14 @@ export default function Checkout({ details, daoNames }) {
 
   const construct = async () => {
     let _blob;
-    switch (details["legal"]["docType"]) {
-      case "none":
-        break;
-      case "Delaware Ricardian LLC":
-        break;
-      case "Delaware LLC":
-        _blob = await pdf(
-          DelawareOAtemplate({
-            name: details["identity"]["daoName"],
-            chain: getChain(),
-          })
-        ).toBlob();
-        break;
-      case "Delaware Investment Club":
-        _blob = await pdf(
-          DelawareInvestmentClubTemplate({
-            name: details["identity"]["daoName"],
-            chain: getChain(),
-          })
-        ).toBlob();
-        break;
-      case "Wyoming LLC":
-        _blob = await pdf(
-          WyomingOAtemplate({
-            name: details["identity"]["daoName"],
-            chain: getChain(),
-          })
-        ).toBlob();
-        break;
-      case "Delaware UNA":
-        _blob = await pdf(
-          DelawareUNAtemplate({
-            name: details["identity"]["daoName"],
-            chain: getChain(),
-            mission: details["misc"]["mission"],
-          })
-        ).toBlob();
-        break;
-      case "Swiss Verein":
-        _blob = await pdf(
-          SwissVerein({
-            name: details["identity"]["daoName"],
-            city: details["misc"]["city"],
-            project: details["misc"]["project"],
-            mission: details["misc"]["mission"],
-          })
-        ).toBlob();
-        break;
-      case "Custom":
-        break;
+    if (details["legal"]["docs"] == "UNA") {
+      _blob = await pdf(
+        DelawareUNAtemplate({
+          name: details["identity"]["daoName"],
+          chain: getChain(),
+          mission: details["misc"]["mission"],
+        })
+      ).toBlob();
     }
 
     const input = {
@@ -233,14 +191,20 @@ export default function Checkout({ details, daoNames }) {
       return;
     }
 
-    const { votingPeriod, votingPeriodUnit, paused, quorum, supermajority } =
-      details["governance"];
+    const {
+      votingPeriod,
+      votingPeriodUnit,
+      paused,
+      quorum,
+      supermajority,
+    } = details["governance"];
 
-    const { docs } = details["legal"];
+    var { docs } = details["legal"];
     console.log("docs to before push", docs);
-    docs == "" && details["legal"]["docType"] != "Delaware Ricardian LLC"
-      ? (docs = docHash)
-      : docs;
+    if (docs == "UNA") {
+      docs = docHash;
+    }
+
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
     const { network, daoType } = details;

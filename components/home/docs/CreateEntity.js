@@ -41,7 +41,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
   const handleChange = (e) => {
     console.log(e.target.value);
     setSelected(e.target.value);
-    details["legal"]["docs"] = options[e.target.value]["template"];
+    details["legal"]["docs"] = options[e.target.value]["docs"];
     details["legal"]["docType"] = options[e.target.value]["docType"];
     setDetails(details);
     console.log(options[e.target.value]["template"]);
@@ -63,6 +63,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     {
       text: "Series LLC (formed instantly!)",
       template: <RicardianTemplate />,
+      docs: "",
       docType: "Delaware Series LLC (instant)",
       email: true,
       mission: false,
@@ -71,7 +72,8 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     },
     {
       text: "Delaware LLC (est. 1-2 weeks)",
-      template: <DelawareOAtemplate />,
+      template: "none",
+      docs: "none",
       docType: "Delaware LLC (pending)",
       email: true,
       mission: false,
@@ -80,7 +82,8 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     },
     {
       text: "Wyoming LLC (est. 1-2 weeks)",
-      template: <WyomingOAtemplate />,
+      template: "none",
+      docs: "none",
       docType: "Wyoming LLC (pending)",
       email: true,
       mission: false,
@@ -90,14 +93,16 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     {
       text: "Delaware Unincorporated Nonprofit Association (formed instantly!)",
       template: <DelawareUNAtemplate />,
+      docs: "UNA",
       docType: "Delaware UNA (instant)",
       email: false,
       mission: true,
       message: null,
     },
     {
-      text: "Swiss Verein (est. 1-2 weeks)",
-      template: <SwissVerein />,
+      text: "Swiss Verein (est. 1-2 months)",
+      template: "none",
+      docs: "none",
       docType: "Swiss Verein (pending)",
       email: true,
       mission: false,
@@ -107,6 +112,7 @@ export default function CreateEntity({ details, setDetails, handleNext }) {
     {
       text: "Custom Entity Type (est. TBD)",
       template: "none",
+      docs: "none",
       docType: "Custom Entity Type (pending)",
       email: true,
       mission: false,
