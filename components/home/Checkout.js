@@ -302,9 +302,6 @@ export default function Checkout({ details, daoNames }) {
       if (listId == 333) {
         const listCount = await listManagerContract.methods.listCount().call();
         listId = parseInt(listCount) + 1;
-        listManagerPayload = listManagerContract.methods
-        .createList(list, "0x0")
-        .encodeABI();
       }
 
       console.log("purchaseLimit", purchaseLimit);
@@ -358,6 +355,10 @@ export default function Checkout({ details, daoNames }) {
         .encodeABI();
 
       extensionsData.push(payload);
+
+      listManagerPayload = listManagerContract.methods
+      .createList(list, "0x0")
+      .encodeABI();
     }
 
     if (redemption["active"]) {
@@ -409,11 +410,8 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
-    if (crowdsale["active"] && crowdsale["listId"] === 333) {
-      extensionsArray.push(listManagerAddress)
-      extensionsData.push(listManagerPayload)
-    } 
-
+    extensionsArray.push(listManagerAddress)
+    extensionsData.push(listManagerPayload)
     console.log("extensionsArray", extensionsArray);
     console.log("extensionsData", extensionsData);
 
