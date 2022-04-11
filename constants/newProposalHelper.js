@@ -53,13 +53,13 @@ export const newProposalHelper = [
     description: "update governance settings",
     component: <GovernanceSettings />,
     icon: FiSettings,
-  } /*
+  },
   {
     title: "Update Extensions",
     description: "configure extension apps",
     component: <Extensions />,
-    icon: BsPuzzle
-  },*/,
+    icon: BsPuzzle,
+  },
   {
     title: "Removal",
     description: "kick member out for security or misconduct",

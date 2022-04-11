@@ -176,7 +176,7 @@ export function decodeBytes(type, p, web3, chainId) {
       item = null;
     } else {
       if (type == 9) {
-        decodeType = p["extensions"][k];
+        decodeType = null;
         bytecode = bytes;
       }
       if (type == 2) {

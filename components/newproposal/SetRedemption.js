@@ -1,7 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, Stack, Select, Checkbox, CheckboxGroup, HStack, Center } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Text,
+  Textarea,
+  Stack,
+  Select,
+  Checkbox,
+  CheckboxGroup,
+  HStack,
+  Center,
+} from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import DateSelect from "../elements/DateSelect";
 import { addresses } from "../../constants/addresses";
@@ -9,13 +20,22 @@ import { tokens } from "../../constants/tokens";
 
 export default function SetRedemption() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, chainId, dao, daoChain } = value.state;
+  const {
+    web3,
+    loading,
+    account,
+    abi,
+    address,
+    chainId,
+    dao,
+    daoChain,
+  } = value.state;
   const [startDate, setStartDate] = useState(new Date());
   const [checked, setChecked] = useState();
 
   useEffect(() => {
     let array = [];
-    for(var i=0; i < tokens.length; i++) {
+    for (var i = 0; i < dao["balances"].length; i++) {
       array.push(false);
     }
     setChecked(array);
@@ -26,8 +46,8 @@ export default function SetRedemption() {
     let array = checked;
     array[id] = !array[id];
     setChecked(array);
-    console.log(array)
-  }
+    console.log(array);
+  };
 
   const submitProposal = async (event) => {
     event.preventDefault();
@@ -39,34 +59,32 @@ export default function SetRedemption() {
       var array = [];
       for (let i = 0; i < object.length; i++) {
         array[object[i].name] = object[i].value;
-        console.log(object[i].value)
+        console.log(object[i].value);
       }
 
-      var {
-        description_,
-        account_,
-        proposalType_,
-        redemptionStart_,
-      } = array; // this must contain any inputs from custom forms
-      console.log(array)
+      var { description_, account_, proposalType_, redemptionStart_ } = array; // this must contain any inputs from custom forms
+      console.log(array);
 
       var amount_ = 0;
 
-      if (dao["extensions"]["redemption"] == null) {
+      if (
+        "redemption" in dao["extensions"] != null &&
+        dao["extensions"]["redemption"] == null
+      ) {
         amount_ = 1; // prevent toggling extension back off
       }
-      console.log("amount:" + amount_);
 
       const tokenArray = [];
-      for(var i=0; i < tokens.length; i++) {
-        if(checked[i]==true) {
-          tokenArray.push(tokens[i]["address"])
+      for (var i = 0; i < dao["balances"].length; i++) {
+        if (checked[i] == true) {
+          tokenArray.push(dao["balances"][i]["address"]);
         }
       }
 
-      console.log(tokenArray);
+      console.log(tokenArray, "TOKENARRAY");
 
       redemptionStart_ = new Date(redemptionStart_).getTime() / 1000;
+      console.log(redemptionStart_, "redemption start");
 
       const payload_ = web3.eth.abi.encodeParameters(
         ["address[]", "uint256"],
@@ -113,17 +131,19 @@ export default function SetRedemption() {
           <b>Tokens for Redemption</b>
         </Text>
 
-        <CheckboxGroup colorScheme='green'>
+        <CheckboxGroup colorScheme="green">
           <HStack>
-            {tokens.map((token, index) => (
+            {dao["balances"].map((token, index) => (
               <Checkbox
                 name={`tokens_[${index}]`}
                 id={index}
                 key={index}
-                value={token['address']}
+                value={token["address"]}
                 isChecked={`checked[${index}]`}
                 onChange={handleCheck}
-                >{token['token']}</Checkbox>
+              >
+                {token["token"]}
+              </Checkbox>
             ))}
           </HStack>
         </CheckboxGroup>
@@ -140,7 +160,9 @@ export default function SetRedemption() {
         />
 
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </Stack>
     </form>

@@ -1,7 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, Stack, Select, Center } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Text,
+  Textarea,
+  Stack,
+  Select,
+  Center,
+} from "@chakra-ui/react";
 import { addresses } from "../../constants/addresses";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,7 +17,16 @@ import NumInputField from "../elements/NumInputField";
 
 export default function SetCrowdsale() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, chainId, dao, daoChain } = value.state;
+  const {
+    web3,
+    loading,
+    account,
+    abi,
+    address,
+    chainId,
+    dao,
+    daoChain,
+  } = value.state;
   const [startDate, setStartDate] = useState(new Date());
 
   const updateExtType = (e) => {
@@ -37,29 +54,33 @@ export default function SetCrowdsale() {
         purchaseLimit_,
         saleEnds_,
       } = array; // this must contain any inputs from custom forms
-      console.log(array)
+      console.log(array);
       saleEnds_ = new Date(saleEnds_).getTime() / 1000;
 
       const listId_ = 0;
 
       var amount_ = 0;
 
-      if (dao["extensions"] != null && dao["extensions"]["crowdsale"] == null) {
+      if (
+        "crowdsale" in dao["extensions"] != null &&
+        dao["extensions"]["crowdsale"] == null
+      ) {
         amount_ = 1; // prevent toggling extension back off
       }
 
-      console.log("amount", amount_)
+      console.log("amount", amount_);
 
       purchaseLimit_ = web3.utils.toWei(purchaseLimit_);
 
       const payload_ = web3.eth.abi.encodeParameters(
-        ["uint256", "address", "uint8", "uint96", "uint32"],
+        ["uint256", "address", "uint8", "uint96", "uint32", "string"],
         [
           listId_,
           purchaseToken_,
           purchaseMultiplier_,
           purchaseLimit_,
           saleEnds_,
+          description_,
         ]
       );
       console.log(payload_);
@@ -126,7 +147,9 @@ export default function SetCrowdsale() {
           value={addresses[daoChain]["extensions"]["crowdsale"]}
         />
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </Stack>
     </form>
