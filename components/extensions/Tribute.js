@@ -15,7 +15,7 @@ import {
 import NumInputField from "../elements/NumInputField";
 import InfoTip from "../elements/InfoTip";
 
-export default function BuyCrowdsale() {
+export default function Tribute() {
   const value = useContext(AppContext);
   const {
     web3,
@@ -31,13 +31,13 @@ export default function BuyCrowdsale() {
   const tribAbi = require("../../abi/KaliDAOtribute.json");
   const tokenAbi = require("../../abi/ERC20.json");
   const nftAbi = require("../../abi/KaliNFT.json");
- 
+
   const tribAddress = dao["extensions"]["tribute"]["address"];
   const [selection, setSelection] = useState("");
   const [approveButton, setApproveButton] = useState(false);
   const [submitButtonActive, setSubmitButtonActive] = useState(true);
-  const [proposalDetail, setProposalDetail] = useState({})
-  const [ownershipError, setOwnershipError] = useState("")
+  const [proposalDetail, setProposalDetail] = useState({});
+  const [ownershipError, setOwnershipError] = useState("");
 
   const resolveAddressAndEns = async (ens) => {
     let address;
@@ -63,7 +63,7 @@ export default function BuyCrowdsale() {
   const submitTribProposalWithEth = async (proposalDetail) => {
     value.setLoading(true);
     const instance = new web3.eth.Contract(tribAbi, tribAddress);
-    console.log(proposalDetail)
+    console.log(proposalDetail);
     try {
       let result = await instance.methods
         .submitTributeProposal(
@@ -135,10 +135,12 @@ export default function BuyCrowdsale() {
 
   const checkNftAllowance = async (proposalDetail) => {
     const instance = new web3.eth.Contract(nftAbi, proposalDetail.asset);
-    console.log(proposalDetail.assetValue)
+    console.log(proposalDetail.assetValue);
     try {
       setOwnershipError("");
-      let owner = await instance.methods.ownerOf(proposalDetail.assetValue).call();
+      let owner = await instance.methods
+        .ownerOf(proposalDetail.assetValue)
+        .call();
       if (owner.toLowerCase() === account.toLowerCase()) {
         let result = await instance.methods
           .getApproved(proposalDetail.assetValue)
@@ -151,7 +153,9 @@ export default function BuyCrowdsale() {
           submitTribProposal(proposalDetail);
         }
       } else {
-        setOwnershipError("Please check the token ID again. It doesn't seem like you own this NFT.")
+        setOwnershipError(
+          "Please check the token ID again. It doesn't seem like you own this NFT."
+        );
       }
     } catch (e) {
       value.toast(e);
@@ -244,18 +248,18 @@ export default function BuyCrowdsale() {
         case "eth":
           proposalDetail_.asset = "0x0000000000000000000000000000000000000000";
           proposalDetail_.assetValue = web3.utils.toWei(ethAmount);
-          submitTribProposalWithEth(proposalDetail_)
+          submitTribProposalWithEth(proposalDetail_);
           break;
         case "erc20":
           proposalDetail_.asset = erc20Contract;
           proposalDetail_.assetValue = web3.utils.toWei(erc20Amount);
-          setProposalDetail(proposalDetail_)
+          setProposalDetail(proposalDetail_);
           checkTokenAllowance(proposalDetail_);
           break;
         case "erc721":
           proposalDetail_.asset = erc721Contract;
           proposalDetail_.assetValue = erc721Id;
-          setProposalDetail(proposalDetail_)
+          setProposalDetail(proposalDetail_);
           checkNftAllowance(proposalDetail_);
           break;
         // case "erc1155":
@@ -311,7 +315,8 @@ export default function BuyCrowdsale() {
           <Text>
             <b>with a tribute in the form of...</b>
           </Text>
-          <Select w="90%"
+          <Select
+            w="90%"
             onChange={(e) => {
               setSelection(e.target.value);
             }}

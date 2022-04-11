@@ -19,7 +19,7 @@ import {
   getTokenName,
 } from "../../utils/formatters";
 
-export default function Tribute() {
+export default function BuyCrowdsale() {
   const value = useContext(AppContext);
   const { web3, loading, account, address, abi, dao, chainId } = value.state;
   const [amt, setAmt] = useState(1); // amount to be spent on shares, not converted to wei/decimals
