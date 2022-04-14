@@ -67,7 +67,7 @@ export default function SendShares() {
   const { web3, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
   const [selection, setSelection] = useState(null);
-  const [doc, setDoc] = useState([]);
+  const [doc, setDoc] = useState(["Notice of Removal", "Invoice", "Membership Application"]);
   const [note, setNote] = useState(null);
   const [file, setFile] = useState(null);
 
