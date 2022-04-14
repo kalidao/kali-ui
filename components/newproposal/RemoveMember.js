@@ -14,6 +14,7 @@ import Select from "react-select";
 import { getDefaultProvider } from "@ethersproject/providers";
 import { uploadIpfs } from "../../utils/helpers";
 import InfoTip from "../elements/InfoTip";
+import ProposalDescription from "../elements/ProposalDescription";
 
 const customStyles = {
   control: (base, state) => ({
@@ -66,8 +67,9 @@ export default function SendShares() {
   const { web3, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
   const [selection, setSelection] = useState(null);
-  const [file, setFile] = useState(null);
+  const [doc, setDoc] = useState([]);
   const [note, setNote] = useState(null);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const getMembers = async () => {
@@ -77,7 +79,6 @@ export default function SendShares() {
         _members.sort((a, b) => a.label - b.label);
         setMembers(_members);
       } else {
-        // console.log("ooooooooooooops");
         return;
       }
     };
@@ -134,6 +135,7 @@ export default function SendShares() {
     event.preventDefault();
     let description_;
 
+    // console.log(doc)
     try {
       if (note && file) {
         description_ = await uploadIpfs(dao["address"], "removal proposal", file);
@@ -144,7 +146,7 @@ export default function SendShares() {
       } else if (!note && file) {
         description_ = await uploadIpfs(dao["address"], "removal proposal", file);
       }
- 
+
       const proposalType_ = 1;
 
       const instance = new web3.eth.Contract(abi, address);
@@ -192,86 +194,57 @@ export default function SendShares() {
   };
 
   return (
-      <VStack align="flex-start" w="50%" >
-        <Text>
-          <b>Select and Confirm Member(s) to Remove:</b>
-        </Text>
-        <Text fontSize="14px">
-          Address with ENS will update when available.
-        </Text>
-        <VStack align="flex-start">
-          {selection ? (
-            <>
-              {selection.map((member, index) => (
-                <Text align="left" key={member.value}>
-                  {index + 1}. {member.label}
-                </Text>
-              ))}
-            </>
-          ) : null}
-        </VStack>
-        <Box w={"100%"}>
-          <Select
-            isMulti={true}
-            value={selection}
-            placeholder="Select member(s)"
-            styles={customStyles}
-            onChange={(e) => {
-              setSelection(e);
-            }}
-            options={members}
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 5,
-              backgroundColor: "purple",
-              colors: {
-                ...theme.colors,
-                primary25: "#4C9AFF",
-              },
-            })}
-          ></Select>
-        </Box>
-        <br />
-        <HStack>
-          <Text>
-            <b>Notes:</b>
-          </Text>
-          <InfoTip
-            label={
-              "You may accompany this proposal with notes or a doc. Notes will be recorded directly onchain, while doc will be uploaded to IPFS. If both are supplied, note is ignored."
-            }
-          ></InfoTip>
-        </HStack>
-        <Box w="100%" pt="10px">
-          <Textarea
-            placeholder=". . ."
-            value={note}
-            onChange={(e) => {
-              setNote(e.target.value);
-            }}
-          />
-          <Box h="20px" />
-          <Text>-- OR --</Text>
-          <br />
-          <input
-            id="file"
-            name="file"
-            type="file"
-            onChange={(e) => {
-              setFile(e.target.files[0]);
-            }}
-          />
-        </Box>
-        <br />
-        <VStack w="100%">
-          <Button
-            className="transparent-btn"
-            type="submit"
-            onClick={submitProposal}
-          >
-            Submit Proposal
-          </Button>
-        </VStack>
+    <VStack align="flex-start" w="50%" >
+      <Text>
+        <b>Select and Confirm Member(s) to Remove:</b>
+      </Text>
+      <Text fontSize="14px">
+        Address with ENS will update when available.
+      </Text>
+      <VStack align="flex-start">
+        {selection ? (
+          <>
+            {selection.map((member, index) => (
+              <Text align="left" key={member.value}>
+                {index + 1}. {member.label}
+              </Text>
+            ))}
+          </>
+        ) : null}
       </VStack>
+      <Box w={"100%"}>
+        <Select
+          isMulti={true}
+          value={selection}
+          placeholder="Select member(s)"
+          styles={customStyles}
+          onChange={(e) => {
+            setSelection(e);
+          }}
+          options={members}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 5,
+            backgroundColor: "purple",
+            colors: {
+              ...theme.colors,
+              primary25: "#4C9AFF",
+            },
+          })}
+        ></Select>
+      </Box>
+      <br />
+      <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
+      <br />
+      <VStack w="100%">
+        <Button
+          className="transparent-btn"
+          type="submit"
+          onClick={submitProposal}
+        >
+          Submit Proposal
+        </Button>
+      </VStack>
+    </VStack>
   );
 }
