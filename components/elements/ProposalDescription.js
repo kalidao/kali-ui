@@ -36,8 +36,8 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
                 setDoc(e.target.value);
               }}
               placeholder="Please select">
-              {doc_.map((option) => (
-                <option value={option}>{option}</option>
+              {doc_.map((option, index) => (
+                <option key={index} value={option}>{option}</option>
               ))}
             </Select>
             <Box h="5px" />
