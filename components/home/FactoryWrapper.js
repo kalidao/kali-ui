@@ -45,6 +45,7 @@ export default function FactoryWrapper() {
         purchaseLimit: 1000,
         saleEnds: 0,
         listId: 0,
+        list: null,
         documentation: "",
       },
     },
@@ -60,7 +61,7 @@ export default function FactoryWrapper() {
       project: null,
     },
   });
-  console.log("details", details);
+  // console.log("details", details);
 
   const [daoNames, setDaoNames] = useState(null);
 

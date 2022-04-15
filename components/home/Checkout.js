@@ -48,7 +48,7 @@ export default function Checkout({ details, daoNames }) {
   const handleEmail = (dao) => {
     // send email here!
     const network = getChain(chainId);
-    console.log("network", network);
+    // console.log("network", network);
     const params = {
       dao: dao,
       network: network,
@@ -207,12 +207,12 @@ export default function Checkout({ details, daoNames }) {
 
     console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
-    const { network, daoType } = details;
+    // const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
-    console.log("tribute", tribute);
+    // console.log("tribute", tribute);
 
     const voting = calculateVotingPeriod(votingPeriod, votingPeriodUnit);
-    console.log(voting);
+    // console.log(voting);
 
     const govSettings = Array(
       voting,
@@ -240,11 +240,22 @@ export default function Checkout({ details, daoNames }) {
     extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
     extensionsData.push("0x");
 
+    // Set up Encoded Params for Access List and Supply appropriate listId to Crowdsale
+    // Encoded Params is pushed to extensionArray and extensionData at end of deploy()
+    const listManager = require("../../abi/KaliAccessManager.json");
+    const listManagerAddress = addresses[chainId]["access"];
+    const listManagerContract = new web3.eth.Contract(
+      listManager,
+      listManagerAddress
+    );
+    let listManagerPayload;
+
     if (crowdsale["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
       var {
         listId,
+        list,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
@@ -252,7 +263,15 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      console.log("purchaseLimit", purchaseLimit);
+      if (listId == 333) {
+        const listCount = await listManagerContract.methods.listCount().call();
+        listId = parseInt(listCount) + 1;
+        listManagerPayload = listManagerContract.methods
+        .createList(list, "0x0")
+        .encodeABI();
+      }
+      
+      // console.log("purchaseLimit", purchaseLimit);
       purchaseLimit = purchaseLimit + "000000000000000000";
       if (saleEnds == 30) {
         let date = new Date();
@@ -272,6 +291,7 @@ export default function Checkout({ details, daoNames }) {
       console.log(
         "crowdsale param",
         listId,
+        list,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
@@ -314,7 +334,7 @@ export default function Checkout({ details, daoNames }) {
 
     if (redemption["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
-      console.log(redemption);
+      // console.log(redemption);
       let { redemptionStart } = redemption;
 
       // getting token array
@@ -361,6 +381,11 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
+    if (crowdsale["active"] && crowdsale["listId"] === 333) {
+      extensionsArray.push(listManagerAddress)
+      extensionsData.push(listManagerPayload)
+    } 
+    
     // console.log("extensionsArray", extensionsArray);
     // console.log("extensionsData", extensionsData);
 
@@ -397,8 +422,8 @@ export default function Checkout({ details, daoNames }) {
         .send({ from: account, gasPrice: gasPrice });
 
       let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-      console.log(dao);
-      console.log(result);
+      // console.log(dao);
+      // console.log(result);
 
       Router.push({
         pathname: "/daos/[dao]",
