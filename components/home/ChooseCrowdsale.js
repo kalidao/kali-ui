@@ -36,6 +36,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
 
   const [list, setList] = useState("");
   const [islistValidated, setIsListValidated] = useState(false);
+  const [isTokenValidated, setIsTokenValidated] = useState(false);
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(
     details["extensions"]["crowdsale"]["purchaseMultiplier"]
@@ -87,9 +88,22 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     }
   };
 
-  const handleCustomToken = (e) => {
+  const handleCustomToken = async (e) => {
+    let token_;
     const token = e.target.value;
-    console.log("token", token);
+
+    if (token.length == 42) {
+      token_ = await resolveAddressAndEnsList([token])
+    } else {
+      return
+    }
+
+    if (token_ != undefined) {
+      setIsTokenValidated(true);
+    } else {
+      return
+    }
+
     details["extensions"]["crowdsale"]["purchaseToken"] = token;
     setDetails(details);
   };
@@ -140,9 +154,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
       }
     }
 
-    // console.log(finalList);
     details["extensions"]["crowdsale"]["list"] = finalList;
-    console.log(details);
     setDetails(details);
   };
 
@@ -227,11 +239,14 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
               </Select>
             </HStack>
             {showCustomToken && (
-              <Input
-                id="purchaseToken"
-                placeholder="Enter Token Address"
-                onChange={(value) => handleCustomToken(value)}
-              />
+              <VStack w="100%" >
+                <Input
+                  id="purchaseToken"
+                  placeholder="Enter Token Address"
+                  onChange={(value) => handleCustomToken(value)}
+                />
+                {isTokenValidated && <Text fontSize="small" fontStyle="italic">Token contract is valid ✅</Text>}
+              </VStack>
             )}
           </VStack>
           <VStack w={"100%"} spacing="8" align="flex-start">
@@ -268,7 +283,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
                 </HStack>
                 {islistValidated ? (
                   <Text fontSize="small" fontStyle="italic">
-                    ENS/addresses validated ✔️
+                    ENS/addresses validated ✅
                   </Text>
                 ) : (
                   <Text fontSize="small" fontStyle="italic">
