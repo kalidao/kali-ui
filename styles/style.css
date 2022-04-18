@@ -33,8 +33,7 @@
   isolation: isolate;
 }
 #gradient1 {
-  background: linear-gradient(90deg, #422646, #cf2710),
-    url(/public/img/noise.svg);
+  background: linear-gradient(90deg, #422646, #cf2710);
   position: absolute;
   filter: contrast(80%) brightness(90%);
   top: 0;
@@ -46,8 +45,7 @@
 
 #gradient2 {
   mask-image: linear-gradient(to bottom, transparent, #fff);
-  background: linear-gradient(90deg, #20172e, #294a25),
-    url(/public/img/noise.svg);
+  background: linear-gradient(90deg, #20172e, #294a25);
   /* mix-blend-mode: multiply; */
   filter: contrast(120%) brightness(150%);
   position: absolute;
