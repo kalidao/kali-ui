@@ -4,38 +4,40 @@ import AppContext from "../../context/AppContext";
 import {
   Input,
   Button,
-  Select,
   Text,
-  Textarea,
+  Link,
   Stack,
   HStack,
   VStack,
   Center,
   Spacer,
   Checkbox,
+  IconButton,
   Box,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import {
   toDecimals,
   fromDecimals,
-  unixToDate,
   getTokenName,
 } from "../../utils/formatters";
 import { addresses } from "../../constants/addresses";
+import { getChainInfo } from "../../utils/formatters";
 
 export default function BuyCrowdsale() {
   const value = useContext(AppContext);
   const { web3, loading, account, address, abi, dao, chainId } = value.state;
 
-  const tokenName = getTokenName(
-    dao["extensions"]["crowdsale"]["details"]["purchaseToken"],
-    chainId
-  );
+  // Contract setups
+  const tokenAbi = require("../../abi/ERC20.json");
+  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsale.json")
+  const crowdsaleAddress = dao["extensions"]["crowdsale"]["address"];
+  const accessListAbi = require("../../abi/KaliAccessManager.json")
+  const accessListAddress = addresses[chainId]["access"];
+
+  // Crowdsale details
   const purchaseToken =
     dao["extensions"]["crowdsale"]["details"]["purchaseToken"];
-  // console.log("TOKEN", tokenName);
-  // console.log("TOKEN", purchaseToken);
   const purchaseMultiplier =
     dao["extensions"]["crowdsale"]["details"]["purchaseMultiplier"];
   const purchaseMultiplierRatio = 1 / purchaseMultiplier
@@ -45,31 +47,31 @@ export default function BuyCrowdsale() {
   const date = new Date(saleEnds * 1000)
 
   const [purchaseAmount, setPurchaseAmount] = useState(purchaseMultiplier); // amount to be spent on shares, not converted to wei/decimals
-  // const [purchaseAllowance, setPurchaseAllowance] = useState(0);
   const [purchaseTokenSymbol, setPurchaseTokenSymbol] = useState(null);
+  const [purchaseTokenDecimals, setPurchaseTokenDecimals] = useState(null);
   const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0);
   const [approveButton, setApproveButton] = useState(false);
   const [amountAvailable, setAmountAvailable] = useState(0);
   const [eligibleBuyer, setEligibleBuyer] = useState(null);
   const [error, setError] = useState(null);
 
-  // no decimals in dao object
-  // const decimals = dao["extensions"]["crowdsale"]["details"]["decimals"];
-  // const extAddress = dao["extensions"]["crowdsale"]["address"];
-
-  const tokenAbi = require("../../abi/ERC20.json");
-  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsale.json")
-  const crowdsaleAddress = dao["extensions"]["crowdsale"]["address"];
-  const accessListAbi = require("../../abi/KaliAccessManager.json")
-  const accessListAddress = addresses[chainId]["access"];
-
-  const getPurchaseTokenSymbol = async () => {
+  const getPurchaseTokenInfo = async () => {
     try {
       const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken);
       let symbol_ = await instance_.methods
         .symbol()
         .call();
       setPurchaseTokenSymbol(symbol_.toUpperCase())
+    } catch (e) {
+      value.toast(e);
+    }
+
+    try {
+      const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken);
+      let decimals_ = await instance_.methods
+        .decimals()
+        .call();
+      setPurchaseTokenDecimals(decimals_)
     } catch (e) {
       value.toast(e);
     }
@@ -99,6 +101,7 @@ export default function BuyCrowdsale() {
       // setPurchaseAllowance(result)
       if (result == 0) {
         setApproveButton(true);
+        console.log("not approved yet")
       } else {
         console.log("already approved this much", result)
       }
@@ -134,45 +137,55 @@ export default function BuyCrowdsale() {
 
     try {
       let result = await instance.methods.isListed(listId, account).call()
-      // console.log(result)
       setEligibleBuyer(result)
     } catch (e) {
       value.toast(e)
     }
   }
 
+  const getExplorerLink = (type, address) => {
+    const { blockExplorerUrls } = getChainInfo(chainId)
+
+    switch (type) {
+      case "address":
+        return (blockExplorerUrls[0] + "/address/" + address);
+      case "token":
+        return (blockExplorerUrls[0] + "/token/" + address);
+    };
+  }
+
   useEffect(() => {
-    getPurchaseTokenSymbol()
+    getPurchaseTokenInfo()
     getPurchaseTokenBalance()
     checkPurchaseTokenAllowance()
     getAmountPurchased()
     getAccessListId()
   }, [account])
 
-  function CrowdsaleDetail(props) {
-    return (
-      <HStack w="100%">
-        <Text>{props.name}</Text>
-        <Spacer />
-        <Text>{props.input}</Text>
-      </HStack>
-    )
+  const concatDecimals = (baseAmount) => {
+    let result;
+
+    switch (purchaseTokenDecimals) {
+      case "6":
+        result = toDecimals(baseAmount, 6).toString();
+        break;
+      case "18":
+        result = toDecimals(baseAmount, 18).toString();
+        console.log(result)
+        break;
+    };
+    return result;
   }
 
   const approveSpend = async () => {
-    let amt_;
     let allowance_ = 1000000000;
+    const approvalAmount = concatDecimals(allowance_)
 
-    if (purchaseTokenSymbol.toUpperCase() == "USDC") {
-      amt_ = toDecimals(allowance_, 6).toString(); // toWei() won't work for tokens with less than 18 decimals
-    } else {
-      amt_ = web3.utils.toWei(allowance_.toString(), "ether");
-    }
     try {
       value.setLoading(true);
       const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken);
       let result = await instance_.methods
-        .approve(crowdsaleAddress, amt_)
+        .approve(crowdsaleAddress, approvalAmount)
         .send({ from: account });
       value.setLoading(false);
       console.log(result)
@@ -187,51 +200,22 @@ export default function BuyCrowdsale() {
     value.setLoading(true);
 
     let object = event.target;
-    // console.log("object", object);
     var array = [];
     for (let i = 0; i < object.length; i++) {
       array[object[i].name] = object[i].value;
     }
 
-    // console.log(purchaseToken)
     var { amount_ } = array; // this must contain any inputs from custom forms
-
-
-    if (purchaseTokenSymbol.toUpperCase() == "USDC") {
-      amount_ = toDecimals(amount_, 6).toString(); // toWei() won't work for tokens with less than 18 decimals
-    } else {
-      amount_ = web3.utils.toWei(amount_, "ether");
-    }
+    const purchaseAmount_ = concatDecimals(amount_);
+    const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
 
     try {
-      // var value_ = 0;
-      // if (
-      //   purchaseToken == "0x0000000000000000000000000000000000000000" ||
-      //   purchaseToken == "0x000000000000000000000000000000000000dEaD"
-      // ) {
-      //   value_ = amount_;
-      // }
-
-      const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
-
-      try {
-        // let result = await instance.methods
-        //   .callExtension(address, amount_)
-        //   .send({ from: account, value: amount_ });
-        console.log(amount_, address, instance, account)
-
-
-        let result = await instance.methods
-          .callExtension(address, amount_)
-          .send({ from: account });
-        value.setVisibleView(1);
-      } catch (e) {
-        console.log("error here contract interaction")
-        value.toast(e);
-        value.setLoading(false);
-      }
+      // console.log(purchaseAmount_, address, instance, account)
+      let result = await instance.methods
+        .callExtension(address, purchaseAmount_)
+        .send({ from: account });
+      value.setVisibleView(1);
     } catch (e) {
-      console.log("error here")
       value.toast(e);
       value.setLoading(false);
     }
@@ -252,6 +236,24 @@ export default function BuyCrowdsale() {
     }
   }
 
+  function CrowdsaleDetail(props) {
+    return (
+      <HStack w="100%">
+        <Text>{props.name}</Text>
+        <Spacer />
+        {(props.link) ? (
+          <>
+            <Link href={props.link} isExternal>
+              {props.input}
+            </Link>
+          </>
+        ) :
+          <Text>{props.input}</Text>
+        }
+      </HStack>
+    )
+  }
+
   return (
     <>
       <form onSubmit={submitProposal}>
@@ -262,15 +264,13 @@ export default function BuyCrowdsale() {
           {/* <Box h="20px"/> */}
           <VStack align="flex-start">
             <CrowdsaleDetail name={"DAO Token: "} input={dao.token["symbol"].toUpperCase()} />
-            <CrowdsaleDetail name={"DAO Token Contract Address: "} input={dao.address} />
-            <CrowdsaleDetail name={"Purchase Token Contract Address: "} input={purchaseToken} />
+            <CrowdsaleDetail name={"DAO Token Contract Address: "} input={dao.address.slice(0, 4) + "..." + dao.address.slice(-4)} link={getExplorerLink("address", dao.address)} />
+            <CrowdsaleDetail name={"Purchase Token Contract Address: "} input={purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4)} link={getExplorerLink("token", purchaseToken)} />
             <CrowdsaleDetail name={"Price of 1 DAO Token: "} input={`~${purchaseMultiplierRatio.toFixed(4)} ${purchaseTokenSymbol} token (${purchaseMultiplier} 
             ${dao.token["symbol"].toUpperCase()} per ${purchaseTokenSymbol ? purchaseTokenSymbol : "ETH"})`} />
             <CrowdsaleDetail name={"Amount of DAO Tokens available for sale: "} input={`${amountAvailable} ${dao.token["symbol"].toUpperCase()}`} />
             <CrowdsaleDetail name={"Deadline: "} input={date.toString()} />
           </VStack>
-          {/* <Box h="20px"/> */}
-
           <>
             {(eligibleBuyer) ? (
               <>
@@ -295,7 +295,15 @@ export default function BuyCrowdsale() {
                 </HStack>
                 <Center>
                   <VStack w="50%">
-                    {/* <Checkbox>I agree to the terms of crowdsale</Checkbox> */}
+                    <Checkbox>
+                      I agree to the {" "}
+                      <Text as="u">
+                        <Link href="https://www.espn.com" isExternal>
+                          terms
+                        </Link>
+                      </Text>
+                      {" "} of crowdsale
+                    </Checkbox>
                     <Box h="5px" />
                     {approveButton ? (
                       <Button w="100%" className="solid-btn" onClick={approveSpend}>
