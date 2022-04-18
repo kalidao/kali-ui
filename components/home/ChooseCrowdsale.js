@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   HStack,
   Checkbox,
@@ -8,7 +8,8 @@ import {
   Spacer,
   Button,
   Input,
-  Textarea
+  Textarea,
+  Box,
 } from "@chakra-ui/react";
 import ReactDatePicker from "react-datepicker";
 import InfoTip from "../elements/InfoTip";
@@ -16,6 +17,7 @@ import DateSelect from "../elements/DateSelect";
 import Slider from "../elements/Slider";
 import Select from "../elements/Select";
 import NumInputField from "../elements/NumInputField";
+import FileUploader from "../tools/FileUpload";
 
 function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [crowdsale, setCrowdsale] = useState(
@@ -37,6 +39,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [list, setList] = useState("");
   const [islistValidated, setIsListValidated] = useState(false);
   const [isTokenValidated, setIsTokenValidated] = useState(false);
+  const [file, setFile] = useState(null);
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(
     details["extensions"]["crowdsale"]["purchaseMultiplier"]
@@ -195,8 +198,13 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     setDetails(details);
   }, [saleEnds]);
 
+  useEffect(() => {
+    console.log("upload file - ", file);
+    details["extensions"]["crowdsale"]["terms"] = file;
+  }, [file]);
+
   return (
-    <>
+    <VStack align="flex-start" w="100%" >
       <HStack>
         <Checkbox
           name="crowdsale"
@@ -211,7 +219,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
         <InfoTip label={"Sell DAO token for ETH or any ERC20 tokens 🚀"} />
       </HStack>
       {crowdsale ? (
-        <>
+        <VStack spacing={"15px"}>
           <HStack>
             <Text fontSize="md" htmlFor="saleEnds">
               Sale Ends Date
@@ -351,10 +359,29 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
               onChange={(value) => setPurchaseLimit(value)}
             />
           </HStack>
-        </>
+          <HStack w={"100%"}>
+            <label htmlFor="purchaseLimit">Purchase Terms</label>
+            <InfoTip label="Upload purchase terms to IPFS for purchasers to sign as clickwrap agreement." />
+            <Spacer />
+            <Box>
+              <FileUploader setFile={setFile}/>
+              {/* <Button className="solid-btn" variant={"ghost"} h={"35px"} onClick={handleUpload}>Upload</Button>
+              <input
+                style={{display: "none"}}
+                id="file"
+                name="file"
+                type="file"
+                ref={hiddenFileInput}
+                onChange={(e) => {
+                  // setFile(e.target.files[0]);
+                }}
+              /> */}
+            </Box>
+          </HStack>
+        </VStack>
       ) : null}
-      
-    </>
+
+    </VStack>
   );
 }
 

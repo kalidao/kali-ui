@@ -43,6 +43,7 @@ export default function FactoryWrapper() {
         purchaseToken: null,
         purchaseMultiplier: 10,
         purchaseLimit: 1000,
+        terms: null,
         saleEnds: 0,
         listId: 0,
         list: null,
@@ -61,7 +62,7 @@ export default function FactoryWrapper() {
       project: null,
     },
   });
-  // console.log("details", details);
+  console.log("details", details);
 
   const [daoNames, setDaoNames] = useState(null);
 
