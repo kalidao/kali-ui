@@ -37,6 +37,7 @@ export default function BuyCrowdsale() {
   const accessListAddress = addresses[chainId]["access"];
 
   // Crowdsale details
+  const ether = "0x000000000000000000000000000000000000dEaD"
   const purchaseToken =
     dao["extensions"]["crowdsale"]["details"]["purchaseToken"];
   const purchaseMultiplier =
@@ -51,7 +52,7 @@ export default function BuyCrowdsale() {
   const [purchaseTokenSymbol, setPurchaseTokenSymbol] = useState(null);
   const [purchaseTokenDecimals, setPurchaseTokenDecimals] = useState(null);
   const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0);
-  const [purchaseTerms, setPurchaseTerms] = useState("");
+  const [purchaseTerms, setPurchaseTerms] = useState(null);
   const [didCheckTerms, setDidCheckTerms] = useState(false);
   const [canPurchase, setCanPurchase] = useState(false);
   const [approveButton, setApproveButton] = useState(false);
@@ -60,6 +61,7 @@ export default function BuyCrowdsale() {
   const [error, setError] = useState(null);
 
   const getPurchaseTokenInfo = async () => {
+    console.log(purchaseToken)
     try {
       const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken);
       let symbol_ = await instance_.methods
@@ -67,7 +69,8 @@ export default function BuyCrowdsale() {
         .call();
       setPurchaseTokenSymbol(symbol_.toUpperCase())
     } catch (e) {
-      value.toast(e);
+      // value.toast(e);
+      console.log("Can't find purchase token symbol")
     }
 
     try {
@@ -77,8 +80,8 @@ export default function BuyCrowdsale() {
         .call();
       setPurchaseTokenDecimals(decimals_)
     } catch (e) {
-      value.toast(e);
-      console.log("no purchase token")
+      // value.toast(e);
+      console.log("Can't find purchase token decimal")
     }
   }
 
@@ -91,8 +94,19 @@ export default function BuyCrowdsale() {
       result = web3.utils.fromWei(result, "ether")
       setPurchaseTokenBalance(result)
     } catch (e) {
-      value.toast(e);
-      console.log("no token balance")
+      // value.toast(e);
+      console.log("Can't find token balance")
+    }
+  }
+
+  const getEthBalance = async () => {
+    try {
+      const ethBalance = await web3.eth.getBalance(account)
+      ethBalance = web3.utils.fromWei(ethBalance, "ether")
+      console.log(ethBalance)
+      setPurchaseTokenBalance(ethBalance)
+    } catch (e) {
+      console.log("Can't get eth balance")
     }
   }
 
@@ -111,19 +125,21 @@ export default function BuyCrowdsale() {
         console.log("already approved this much", result)
       }
     } catch (e) {
-      value.toast(e);
-      console.log("no token allowance")
+      // value.toast(e);
+      console.log("Can't find token allowance")
     }
   };
 
-  const getAmountPurchased = async () => {
+  const getOutstandingAmount = async () => {
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress)
 
     try {
       let result = await instance.methods.crowdsales(dao.address).call()
+      console.log(result[4])
       setAmountAvailable(fromDecimals(purchaseLimit, 18) - fromDecimals(result[4], 18))
     } catch (e) {
       value.toast(e)
+      console.log("Can't find amount purchased")
     }
   }
 
@@ -134,7 +150,7 @@ export default function BuyCrowdsale() {
       let result = await instance.methods.crowdsales(dao.address).call()
       checkEligibility(result[0])
     } catch (e) {
-      value.toast(e)
+      // value.toast(e)
       console.log("access list not accessible")
     }
   }
@@ -146,7 +162,7 @@ export default function BuyCrowdsale() {
       let result = await instance.methods.isListed(listId, account).call()
       setEligibleBuyer(result)
     } catch (e) {
-      value.toast(e)
+      // value.toast(e)
       console.log("not eligible")
     }
   }
@@ -164,25 +180,45 @@ export default function BuyCrowdsale() {
 
   const getPurchaseTerms = async () => {
     let hash;
-    
+    let terms;
+
     try {
       hash = await fetchCrowdsaleTermsHash(dao.name, dao["members"][0].member);
+      if (hash == "none") {
+        setPurchaseTerms(null)
+
+        console.log(approveButton)
+        if (!approveButton) {
+          setCanPurchase(true)
+        } else {
+          setCanPurchase(false)
+        }
+      } else {
+        terms = "https://ipfs.io/ipfs/" + hash.hash
+        setPurchaseTerms(terms)
+      }
     } catch (e) {
       console.log("Error retrieving crowdsale terms.")
     }
-
-    const terms = "https://ipfs.io/ipfs/" + hash.hash
-    setPurchaseTerms(terms)
   }
 
   useEffect(() => {
-    getPurchaseTokenInfo()
-    getPurchaseTokenBalance()
-    checkPurchaseTokenAllowance()
-    getAmountPurchased()
+    if (purchaseToken != ether) {
+      getPurchaseTokenInfo()
+      getPurchaseTokenBalance()
+      checkPurchaseTokenAllowance()
+    } else {
+      setPurchaseTokenSymbol("Ether")
+      setPurchaseTokenDecimals("18")
+      getEthBalance()
+    }
+    getOutstandingAmount()
     getAccessListId()
-    getPurchaseTerms()
   }, [account])
+
+  useEffect(() => {
+    getPurchaseTerms()
+  }, [approveButton])
 
   const concatDecimals = (baseAmount) => {
     let result;
@@ -212,6 +248,10 @@ export default function BuyCrowdsale() {
       value.setLoading(false);
       console.log(result)
       setApproveButton(false)
+
+      if (!purchaseTerms) {
+        setCanPurchase(true)
+      }
     } catch (e) {
       value.toast(e);
     }
@@ -230,12 +270,12 @@ export default function BuyCrowdsale() {
     var { amount_ } = array; // this must contain any inputs from custom forms
     const purchaseAmount_ = concatDecimals(amount_);
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
+    // console.log(purchaseAmount_, address, instance, account)
 
     try {
-      // console.log(purchaseAmount_, address, instance, account)
       let result = await instance.methods
         .callExtension(address, purchaseAmount_)
-        .send({ from: account });
+        .send({ from: account, value: (purchaseToken != ether) ? 0 : purchaseAmount_ });
       value.setVisibleView(1);
     } catch (e) {
       value.toast(e);
@@ -297,15 +337,33 @@ export default function BuyCrowdsale() {
           <Text><i>
             {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
           </i> is currently running a sale of its token with the following details:</Text>
-          {/* <Box h="20px"/> */}
           <VStack align="flex-start">
-            <CrowdsaleDetail name={"DAO Token: "} input={dao.token["symbol"].toUpperCase()} />
-            <CrowdsaleDetail name={"DAO Token Contract Address: "} input={dao.address.slice(0, 4) + "..." + dao.address.slice(-4)} link={getExplorerLink("address", dao.address)} />
-            <CrowdsaleDetail name={"Purchase Token Contract Address: "} input={purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4)} link={getExplorerLink("token", purchaseToken)} />
-            <CrowdsaleDetail name={"Price of 1 DAO Token: "} input={`~${purchaseMultiplierRatio.toFixed(4)} ${purchaseTokenSymbol} token (${purchaseMultiplier} 
-            ${dao.token["symbol"].toUpperCase()} per ${purchaseTokenSymbol ? purchaseTokenSymbol : "ETH"})`} />
-            <CrowdsaleDetail name={"Amount of DAO Tokens available for sale: "} input={`${amountAvailable} ${dao.token["symbol"].toUpperCase()}`} />
-            <CrowdsaleDetail name={"Deadline: "} input={date.toString()} />
+            <CrowdsaleDetail
+              name={"DAO Token: "}
+              input={dao.token["symbol"].toUpperCase()}
+            />
+            <CrowdsaleDetail
+              name={"DAO Token Contract Address: "}
+              input={dao.address.slice(0, 4) + "..." + dao.address.slice(-4)}
+              link={getExplorerLink("address", dao.address)}
+            />
+            <CrowdsaleDetail
+              name={(purchaseToken != ether) ? "Purchase Token Contract Address: " : "Purchase Token: "}
+              input={(purchaseToken != ether) ? purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4) : "Ether"}
+              link={getExplorerLink("token", purchaseToken)}
+            />
+            <CrowdsaleDetail
+              name={"Price of 1 DAO Token: "}
+              input={`~${purchaseMultiplierRatio.toFixed(4)} ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"} (${purchaseMultiplier} ${dao.token["symbol"].toUpperCase()} per ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"})`}
+            />
+            <CrowdsaleDetail
+              name={"Amount of DAO Tokens available for sale: "}
+              input={`${amountAvailable} ${dao.token["symbol"].toUpperCase()}`}
+            />
+            <CrowdsaleDetail
+              name={"Deadline: "}
+              input={date.toString()}
+            />
           </VStack>
           <>
             {(eligibleBuyer) ? (
@@ -331,15 +389,17 @@ export default function BuyCrowdsale() {
                 </HStack>
                 <Center>
                   <VStack w="50%">
-                    <Checkbox onChange={() => handleDisclaimer()}>
-                      I agree to the {" "}
-                      <Text as="u">
-                        <Link href={purchaseTerms} isExternal>
-                          terms
-                        </Link>
-                      </Text>
-                      {" "} of crowdsale
-                    </Checkbox>
+                    {purchaseTerms && (
+                      <Checkbox onChange={() => handleDisclaimer()}>
+                        I agree to the {" "}
+                        <Text as="u">
+                          <Link href={purchaseTerms} isExternal>
+                            terms
+                          </Link>
+                        </Text>
+                        {" "} of crowdsale
+                      </Checkbox>
+                    )}
                     <Box h="5px" />
                     {approveButton ? (
                       <Button w="100%" className="solid-btn" onClick={approveSpend}>
@@ -348,7 +408,6 @@ export default function BuyCrowdsale() {
                     ) :
                       null
                     }
-                    {console.log(canPurchase)}
                     {canPurchase ? (
                       <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
                         Buy DAO token

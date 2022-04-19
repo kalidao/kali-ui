@@ -75,13 +75,18 @@ export async function uploadIpfs(dao, content, attachment) {
 export async function fetchCrowdsaleTermsHash(name, summoner) {
   let hash;
   try {
-    hash = await fleekStorage.get({
+    const hash_ = await fleekStorage.get({
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
       key: name + "'s Crowdsale Terms as prepared by " + summoner,
       getOptions: ["hash"],
     });
+    if (hash_.hash) {
+      hash = hash_.hash
+    } else {
+      hash = "none"
+    }
   } catch (e) {
     console.log("Error retrieving terms.")  
   }
