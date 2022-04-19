@@ -42,7 +42,23 @@ export async function fetchStaticInfo(
               shares
             }
             proposals
-            extensions
+            tribute {
+              active
+            }
+            crowdsale {
+              active
+              amountPurchased
+              details
+              listId
+              purchaseLimit
+              purchaseMultiplier
+              purchaseToken
+              saleEnds
+            }
+            redemption {
+              active
+              starts
+            }
           }
         }`,
       }),
