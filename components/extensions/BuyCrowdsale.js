@@ -135,7 +135,6 @@ export default function BuyCrowdsale() {
 
     try {
       let result = await instance.methods.crowdsales(dao.address).call()
-      console.log(result[4])
       setAmountAvailable(fromDecimals(purchaseLimit, 18) - fromDecimals(result[4], 18))
     } catch (e) {
       value.toast(e)
@@ -148,7 +147,12 @@ export default function BuyCrowdsale() {
 
     try {
       let result = await instance.methods.crowdsales(dao.address).call()
-      checkEligibility(result[0])
+
+      if (result[0] == 0) {
+        setEligibleBuyer(true)
+      } else {
+        checkEligibility(result[0])
+      }
     } catch (e) {
       // value.toast(e)
       console.log("access list not accessible")
@@ -270,7 +274,7 @@ export default function BuyCrowdsale() {
     var { amount_ } = array; // this must contain any inputs from custom forms
     const purchaseAmount_ = concatDecimals(amount_);
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
-    // console.log(purchaseAmount_, address, instance, account)
+    console.log(purchaseAmount_, address, instance, account)
 
     try {
       let result = await instance.methods
@@ -350,7 +354,7 @@ export default function BuyCrowdsale() {
             <CrowdsaleDetail
               name={(purchaseToken != ether) ? "Purchase Token Contract Address: " : "Purchase Token: "}
               input={(purchaseToken != ether) ? purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4) : "Ether"}
-              link={getExplorerLink("token", purchaseToken)}
+              link={(purchaseToken != ether) ? getExplorerLink("token", purchaseToken) : null}
             />
             <CrowdsaleDetail
               name={"Price of 1 DAO Token: "}

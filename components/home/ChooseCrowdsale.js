@@ -119,8 +119,9 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
 
   const handlePurchaseList = (e) => {
     let list = e.target.value;
+    console.log(list)
     switch (list) {
-      case "dos-commas":
+      case "1":
         setShowCustomListInput(false);
         details["extensions"]["crowdsale"]["listId"] = 1;
         setDetails(details);
@@ -267,8 +268,10 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
                 id="purchaseList"
                 onChange={handlePurchaseList}
                 placeholder="Select"
+                value={details["extensions"]["crowdsale"]["listId"]}
               >
-                <option value="dos-commas">Accredited</option>
+                <option value="0">Public</option>
+                <option value="1">Accredited</option>
                 <option value="custom">Custom</option>
               </Select>
             </HStack>
@@ -301,22 +304,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
               </VStack>
             )}
           </VStack>
-          {/* <HStack w={"100%"}>
-            <Text fontSize="md" htmlFor="listId">
-              Accredited Investor Whitelist
-            </Text>
-            <InfoTip
-              label={"Turning this on limits the crowdsale to Dos Commas"}
-            />
-            <Spacer />
-            <Switch
-              id="listId"
-              size="md"
-              colorScheme="red"
-              defaultChecked={listId}
-              onChange={() => setListId(!listId)}
-            />
-          </HStack> */}
           <VStack w={"100%"} spacing="8" align="flex-start">
             <HStack w={"100%"}>
               <label htmlFor="purchaseMultiplier">Purchase Mulitplier</label>
