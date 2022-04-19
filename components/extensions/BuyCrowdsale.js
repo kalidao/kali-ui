@@ -23,6 +23,7 @@ import {
 } from "../../utils/formatters";
 import { addresses } from "../../constants/addresses";
 import { getChainInfo } from "../../utils/formatters";
+import { fetchCrowdsaleTermsHash } from "../tools/ipfsHelpers";
 
 export default function BuyCrowdsale() {
   const value = useContext(AppContext);
@@ -50,6 +51,9 @@ export default function BuyCrowdsale() {
   const [purchaseTokenSymbol, setPurchaseTokenSymbol] = useState(null);
   const [purchaseTokenDecimals, setPurchaseTokenDecimals] = useState(null);
   const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0);
+  const [purchaseTerms, setPurchaseTerms] = useState("");
+  const [didCheckTerms, setDidCheckTerms] = useState(false);
+  const [canPurchase, setCanPurchase] = useState(false);
   const [approveButton, setApproveButton] = useState(false);
   const [amountAvailable, setAmountAvailable] = useState(0);
   const [eligibleBuyer, setEligibleBuyer] = useState(null);
@@ -74,6 +78,7 @@ export default function BuyCrowdsale() {
       setPurchaseTokenDecimals(decimals_)
     } catch (e) {
       value.toast(e);
+      console.log("no purchase token")
     }
   }
 
@@ -85,9 +90,9 @@ export default function BuyCrowdsale() {
         .call();
       result = web3.utils.fromWei(result, "ether")
       setPurchaseTokenBalance(result)
-      console.log(result)
     } catch (e) {
       value.toast(e);
+      console.log("no token balance")
     }
   }
 
@@ -107,6 +112,7 @@ export default function BuyCrowdsale() {
       }
     } catch (e) {
       value.toast(e);
+      console.log("no token allowance")
     }
   };
 
@@ -129,6 +135,7 @@ export default function BuyCrowdsale() {
       checkEligibility(result[0])
     } catch (e) {
       value.toast(e)
+      console.log("access list not accessible")
     }
   }
 
@@ -140,6 +147,7 @@ export default function BuyCrowdsale() {
       setEligibleBuyer(result)
     } catch (e) {
       value.toast(e)
+      console.log("not eligible")
     }
   }
 
@@ -154,12 +162,26 @@ export default function BuyCrowdsale() {
     };
   }
 
+  const getPurchaseTerms = async () => {
+    let hash;
+    
+    try {
+      hash = await fetchCrowdsaleTermsHash(dao.name, dao["members"][0].member);
+    } catch (e) {
+      console.log("Error retrieving crowdsale terms.")
+    }
+
+    const terms = "https://ipfs.io/ipfs/" + hash.hash
+    setPurchaseTerms(terms)
+  }
+
   useEffect(() => {
     getPurchaseTokenInfo()
     getPurchaseTokenBalance()
     checkPurchaseTokenAllowance()
     getAmountPurchased()
     getAccessListId()
+    getPurchaseTerms()
   }, [account])
 
   const concatDecimals = (baseAmount) => {
@@ -236,6 +258,20 @@ export default function BuyCrowdsale() {
     }
   }
 
+  const handleDisclaimer = () => {
+    let didCheckTerms_ = didCheckTerms;
+    didCheckTerms_ = !didCheckTerms_
+    setDidCheckTerms(didCheckTerms_)
+
+
+    console.log(didCheckTerms_, approveButton)
+    if (didCheckTerms_ && !approveButton) {
+      setCanPurchase(true)
+    } else {
+      setCanPurchase(false)
+    }
+  }
+
   function CrowdsaleDetail(props) {
     return (
       <HStack w="100%">
@@ -295,10 +331,10 @@ export default function BuyCrowdsale() {
                 </HStack>
                 <Center>
                   <VStack w="50%">
-                    <Checkbox>
+                    <Checkbox onChange={() => handleDisclaimer()}>
                       I agree to the {" "}
                       <Text as="u">
-                        <Link href="https://www.espn.com" isExternal>
+                        <Link href={purchaseTerms} isExternal>
                           terms
                         </Link>
                       </Text>
@@ -312,7 +348,8 @@ export default function BuyCrowdsale() {
                     ) :
                       null
                     }
-                    {!approveButton ? (
+                    {console.log(canPurchase)}
+                    {canPurchase ? (
                       <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
                         Buy DAO token
                       </Button>
@@ -321,6 +358,15 @@ export default function BuyCrowdsale() {
                         Buy DAO token
                       </Button>
                     )}
+                    {/* {!approveButton ? (
+                      <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
+                        Buy DAO token
+                      </Button>
+                    ) : (
+                      <Button w="100%" variant="ghost" fontStyle="unset" type="submit" isDisabled>
+                        Buy DAO token
+                      </Button>
+                    )} */}
                   </VStack>
                 </Center>
                 <VStack w="100%" align="center">
