@@ -14,7 +14,6 @@ import {
   Checkbox,
   IconButton,
   Box,
-  Progress,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import {
@@ -47,34 +46,19 @@ export default function BuyCrowdsale() {
   const purchaseLimit =
     dao["extensions"]["crowdsale"]["details"]["purchaseLimit"];
   const saleEnds = dao["extensions"]["crowdsale"]["details"]["saleEnds"];
-  // const date = new Date(saleEnds * 1000)
-  const remainingTime = ((saleEnds * 1000) - Date.now())
-
-  function calculateTimeLeft(duration) {
-    var seconds = Math.floor((duration / 1000) % 60),
-      minutes = Math.floor((duration / (1000 * 60)) % 60),
-      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-    return hours + " hr " + minutes + " min " + seconds + " sec ";
-  }
+  const date = new Date(saleEnds * 1000)
 
   const [purchaseAmount, setPurchaseAmount] = useState(purchaseMultiplier); // amount to be spent on shares, not converted to wei/decimals
   const [purchaseTokenSymbol, setPurchaseTokenSymbol] = useState(null);
   const [purchaseTokenDecimals, setPurchaseTokenDecimals] = useState(null);
   const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0);
   const [purchaseTerms, setPurchaseTerms] = useState(null);
-  const [purchaseList, setPurchaseList] = useState(null);
   const [didCheckTerms, setDidCheckTerms] = useState(false);
   const [canPurchase, setCanPurchase] = useState(false);
   const [approveButton, setApproveButton] = useState(false);
-  const [purchasedAmount, setPurchasedAmount] = useState(0);
+  const [amountAvailable, setAmountAvailable] = useState(0);
   const [eligibleBuyer, setEligibleBuyer] = useState(null);
   const [error, setError] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(remainingTime));
 
   const getPurchaseTokenInfo = async () => {
     console.log(purchaseToken)
@@ -146,35 +130,12 @@ export default function BuyCrowdsale() {
     }
   };
 
-  const getPurchasedAmount = async () => {
+  const getOutstandingAmount = async () => {
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress)
 
     try {
       let result = await instance.methods.crowdsales(dao.address).call()
-      setPurchasedAmount(fromDecimals(result[4], 18))
-    } catch (e) {
-      value.toast(e)
-      console.log("Can't find amount purchased")
-    }
-  }
-
-  const getPurchaseList = async () => {
-    const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress)
-
-    try {
-      let result = await instance.methods.crowdsales(dao.address).call()
-
-      console.log(result[0])
-
-      switch (result[0]) {
-        case "0":
-          setPurchaseList("Public Sale")
-          break;
-        case "1":
-          setPurchaseList("Accredited Investors")
-        default:
-          setPurchaseList("Private Sale")
-      }
+      setAmountAvailable(fromDecimals(purchaseLimit, 18) - fromDecimals(result[4], 18))
     } catch (e) {
       value.toast(e)
       console.log("Can't find amount purchased")
@@ -255,23 +216,13 @@ export default function BuyCrowdsale() {
       setPurchaseTokenDecimals("18")
       getEthBalance()
     }
-    getPurchaseList()
-    getPurchasedAmount()
+    getOutstandingAmount()
     getAccessListId()
   }, [account])
 
   useEffect(() => {
     getPurchaseTerms()
   }, [approveButton])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const remain = calculateTimeLeft(remainingTime)
-      setTimeLeft(remain)
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  })
 
   const concatDecimals = (baseAmount) => {
     let result;
@@ -326,31 +277,9 @@ export default function BuyCrowdsale() {
     console.log(purchaseAmount_, address, instance, account)
 
     try {
-
-      if (purchaseToken != ether) {
-        try {
-          let result = await instance.methods
-            .callExtension(address, purchaseAmount_)
-            .send({ from: account });
-        } catch (e) {
-          console.log("purchaseToken tx didn't go through")
-          value.toast(e);
-          value.setLoading(false);
-        }
-      } else {
-        try {
-          let result = await instance.methods
-            .callExtension(address, purchaseAmount_)
-            .send({ from: account, value: purchaseAmount_ });
-        } catch (e) {
-          console.log("ether tx didn't go through")
-          value.toast(e);
-          value.setLoading(false);
-        }
-
-      }
-
-
+      let result = await instance.methods
+        .callExtension(address, purchaseAmount_)
+        .send({ from: account, value: (purchaseToken != ether) ? 0 : purchaseAmount_ });
       value.setVisibleView(1);
     } catch (e) {
       value.toast(e);
@@ -364,12 +293,8 @@ export default function BuyCrowdsale() {
     const purchaseAmount_ = value * purchaseMultiplier;
     setPurchaseAmount(purchaseAmount_);
 
-    console.log(purchasedAmount + " - " + purchaseAmount_)
-
-    const purchaseLimit_ = purchasedAmount + purchaseAmount_;
-
-    if (purchaseLimit_ > purchaseLimit) {
-      setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${purchaseLimit} ⛔️`)
+    if (purchaseAmount_ > amountAvailable) {
+      setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${amountAvailable} ⛔️`)
     } else if (parseInt(value) > parseInt(purchaseTokenBalance)) {
       setError(`⛔️ You do not have enough ${purchaseTokenSymbol}! ⛔️`)
     } else {
@@ -382,6 +307,8 @@ export default function BuyCrowdsale() {
     didCheckTerms_ = !didCheckTerms_
     setDidCheckTerms(didCheckTerms_)
 
+
+    console.log(didCheckTerms_, approveButton)
     if (didCheckTerms_ && !approveButton) {
       setCanPurchase(true)
     } else {
@@ -434,31 +361,27 @@ export default function BuyCrowdsale() {
               input={`~${purchaseMultiplierRatio.toFixed(4)} ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"} (${purchaseMultiplier} ${dao.token["symbol"].toUpperCase()} per ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"})`}
             />
             <CrowdsaleDetail
-              name={"Eligibility: "}
-              input={purchaseList}
+              name={"Amount of DAO Tokens available for sale: "}
+              input={`${amountAvailable} ${dao.token["symbol"].toUpperCase()}`}
             />
             <CrowdsaleDetail
-              name={"Sale Progress: "}
-              input={`ending in ${timeLeft}`}
+              name={"Deadline: "}
+              input={date.toString()}
             />
-            <br />
-            <Progress w="100%" value={(purchasedAmount / fromDecimals(purchaseLimit, 18)) * 100} colorScheme={"green"} size={"sm"} />
-            <VStack align={"flex-end"} w="100%">
-              <Text>{purchasedAmount} / {fromDecimals(purchaseLimit, 18)} DAO Tokens</Text>
-
-            </VStack>
           </VStack>
           <>
             {(eligibleBuyer) ? (
-              <VStack w="100%">
-                <HStack w="100%" justify={"center"}>
+              <>
+                <HStack w="100%">
                   <Text pr="5px">
                     <b>I'd like to purhcase</b>
                   </Text>
                   <Input w="15%" value={purchaseAmount} disabled />
                   <Text>
-                    <b>DAO Token with</b>
+                    <b>DAO Token</b>
                   </Text>
+
+                  <Text> <b>with</b> </Text>
                   <NumInputField
                     name="amount_"
                     defaultValue={1}
@@ -468,9 +391,8 @@ export default function BuyCrowdsale() {
                   />
                   <Text><b>Purhcase Token</b></Text>
                 </HStack>
-                <br />
                 <Center>
-                  <VStack>
+                  <VStack w="50%">
                     {purchaseTerms && (
                       <Checkbox onChange={() => handleDisclaimer()}>
                         I agree to the {" "}
@@ -499,12 +421,21 @@ export default function BuyCrowdsale() {
                         Buy DAO token
                       </Button>
                     )}
+                    {/* {!approveButton ? (
+                      <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
+                        Buy DAO token
+                      </Button>
+                    ) : (
+                      <Button w="100%" variant="ghost" fontStyle="unset" type="submit" isDisabled>
+                        Buy DAO token
+                      </Button>
+                    )} */}
                   </VStack>
                 </Center>
                 <VStack w="100%" align="center">
                   {error && <Text color="red.400">{error}</Text>}
                 </VStack>
-              </VStack>
+              </>
             ) : (
               <Center>
                 <Text><b>🚫 You are not eligible to participate in this crowdsale 🚫</b></Text>
