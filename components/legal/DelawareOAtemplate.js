@@ -425,7 +425,7 @@ const DelawareOAtemplate = ({ name, chain }) => {
           <Text style={{ textDecoration: "underline" }}>Books and Records.</Text>
           <Tab />
           The books and records of the DAO LLC may be kept in such manner, and within or outside the
-          State of Wyoming at such place or places as may from time to time be
+          State of Delaware at such place or places as may from time to time be
           designated by the Members.
           <Br />
           <Br />
