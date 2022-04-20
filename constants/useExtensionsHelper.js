@@ -17,7 +17,7 @@ export const useExtensionsHelper = [
     icon: GiPayMoney
   },
   {
-    title: "Purchase Shares",
+    title: "Purchase DAO Tokens",
     description: "join membership by crowdsale",
     component: <BuyCrowdsale />,
     extension: "crowdsale",

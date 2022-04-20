@@ -129,7 +129,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
           </label>
           <Divider w="50%" />
           <ChooseRedemption details={details} setDetails={setDetails} />
-          <ChooseCrowdsale details={details} setDetails={setDetails} />
+          <ChooseCrowdsale details={details} setDetails={setDetails} web3={web3} value={value} />
           {/* <ChooseTribute details={details} setDetails={setDetails} /> */}
         </VStack>
         <Box w="100%" align="center">

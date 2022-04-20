@@ -35,6 +35,7 @@ import SwissVerein from "../legal/SwissVerein";
 import { supportedChains } from "../../constants/supportedChains";
 import { calculateVotingPeriod } from "../../utils/helpers";
 import { init, send } from "emailjs-com";
+import { ipfsIncorporationDoc, ipfsCrowdsaleTerms } from "../tools/ipfsHelpers";
 
 init(process.env.NEXT_PUBLIC_EMAIL_ID);
 
@@ -48,7 +49,7 @@ export default function Checkout({ details, daoNames }) {
   const handleEmail = (dao) => {
     // send email here!
     const network = getChain(chainId);
-    console.log("network", network);
+    // console.log("network", network);
     const params = {
       dao: dao,
       network: network,
@@ -136,6 +137,7 @@ export default function Checkout({ details, daoNames }) {
   };
 
   const construct = async () => {
+    const { members } = details["founders"];
     let _blob;
     if (details["legal"]["docs"] == "UNA") {
       _blob = await pdf(
@@ -147,29 +149,30 @@ export default function Checkout({ details, daoNames }) {
       ).toBlob();
     }
 
-    const input = {
-      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-      bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-      key: "Summoner of " + details["identity"]["daoName"] + " - " + account,
-      data: _blob,
-      httpUploadProgressCallback: (event) => {
-        console.log(Math.round((event.loaded / event.total) * 100) + "% done");
-      },
-    };
+    const result = await ipfsIncorporationDoc(details["identity"]["daoName"], members[0], _blob)
+    console.log(result);
+    return result;
+    // const input = {
+    //   apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+    //   apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+    //   bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+    //   key: "Summoner of " + details["identity"]["daoName"] + " - " + account,
+    //   data: _blob,
+    //   httpUploadProgressCallback: (event) => {
+    //     console.log(Math.round((event.loaded / event.total) * 100) + "% done");
+    //   },
+    // };
 
-    try {
-      const result = await fleek.upload(input);
-      console.log("Document hash from Fleek: " + result.hash);
-      return result.hash;
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   const result = await fleek.upload(input);
+    //   console.log("Document hash from Fleek: " + result.hash);
+    //   return result.hash;
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const deploy = async () => {
-    const docHash = await construct();
-
     if (!web3 || web3 == null) {
       value.toast(errorMessages["connect"]);
       return;
@@ -200,19 +203,18 @@ export default function Checkout({ details, daoNames }) {
     } = details["governance"];
 
     var { docs } = details["legal"];
-    console.log("docs to before push", docs);
     if (docs == "UNA") {
+    const docHash = await construct();
       docs = docHash;
     }
 
-    console.log("docs to be pushed", docs);
     const { members, shares } = details["founders"];
-    const { network, daoType } = details;
+    // const { network, daoType } = details;
     const { tribute, redemption, crowdsale } = details["extensions"];
-    console.log("tribute", tribute);
+    // console.log("tribute", tribute);
 
     const voting = calculateVotingPeriod(votingPeriod, votingPeriodUnit);
-    console.log(voting);
+    // console.log(voting);
 
     const govSettings = Array(
       voting,
@@ -240,11 +242,23 @@ export default function Checkout({ details, daoNames }) {
     extensionsArray.push(addresses[chainId]["extensions"]["tribute"]);
     extensionsData.push("0x");
 
+    // Set up Encoded Params for Access List and Supply appropriate listId to Crowdsale
+    // Encoded Params is pushed to extensionArray and extensionData at end of deploy()
+    const listManager = require("../../abi/KaliAccessManager.json");
+    const listManagerAddress = addresses[chainId]["access"];
+    const listManagerContract = new web3.eth.Contract(
+      listManager,
+      listManagerAddress
+    );
+    let listManagerPayload;
+
     if (crowdsale["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
 
       var {
         listId,
+        list,
+        terms,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
@@ -252,7 +266,15 @@ export default function Checkout({ details, daoNames }) {
         documentation,
       } = crowdsale;
 
-      console.log("purchaseLimit", purchaseLimit);
+      if (listId == 333) {
+        const listCount = await listManagerContract.methods.listCount().call();
+        listId = parseInt(listCount) + 1;
+        listManagerPayload = listManagerContract.methods
+        .createList(list, "0x0")
+        .encodeABI();
+      }
+      
+      // console.log("purchaseLimit", purchaseLimit);
       purchaseLimit = purchaseLimit + "000000000000000000";
       if (saleEnds == 30) {
         let date = new Date();
@@ -268,10 +290,13 @@ export default function Checkout({ details, daoNames }) {
       if (purchaseLimit === null) {
         purchaseLimit = "10000000000000000000";
       }
+      const terms_ = await ipfsCrowdsaleTerms(details["identity"]["daoName"], members[0], terms)
 
       console.log(
         "crowdsale param",
         listId,
+        list,
+        terms_,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
@@ -314,7 +339,7 @@ export default function Checkout({ details, daoNames }) {
 
     if (redemption["active"]) {
       extensionsArray.push(addresses[chainId]["extensions"]["redemption"]);
-      console.log(redemption);
+      // console.log(redemption);
       let { redemptionStart } = redemption;
 
       // getting token array
@@ -361,6 +386,11 @@ export default function Checkout({ details, daoNames }) {
       }
     }
 
+    if (crowdsale["active"] && crowdsale["listId"] === 333) {
+      extensionsArray.push(listManagerAddress)
+      extensionsData.push(listManagerPayload)
+    } 
+    
     // console.log("extensionsArray", extensionsArray);
     // console.log("extensionsData", extensionsData);
 
@@ -397,8 +427,6 @@ export default function Checkout({ details, daoNames }) {
         .send({ from: account, gasPrice: gasPrice });
 
       let dao = result["events"]["DAOdeployed"]["returnValues"]["kaliDAO"];
-      console.log(dao);
-      console.log(result);
 
       Router.push({
         pathname: "/daos/[dao]",
