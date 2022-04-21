@@ -17,8 +17,8 @@ const FileUploader = (props) => {
     <>
       {hasFile ? (
         <HStack align={"flex-end"}>
-          <Button color={"green"} border="0" variant={"ghost"} h={"35px"} onClick={handleClick}>
-            ✅
+          <Button color={"green.500"} border="0" variant={"ghost"} h={"35px"} onClick={handleClick}>
+            Got it!
           </Button>
           <input
             style={{ width: "30px", display: "none" }}
@@ -29,7 +29,7 @@ const FileUploader = (props) => {
         </HStack>
       ) : (
         <>
-          <Button className="upload-btn" h={"35px"} onClick={handleClick}>
+          <Button className="hollow-btn" h={"35px"} onClick={handleClick}>
             Upload
           </Button>
           <input
