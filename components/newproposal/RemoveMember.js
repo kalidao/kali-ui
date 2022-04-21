@@ -16,7 +16,7 @@ import { uploadIpfs } from "../../utils/helpers";
 import InfoTip from "../elements/InfoTip";
 import ProposalDescription from "../elements/ProposalDescription";
 
-const customStyles = {
+const multiSelectStyles = {
   control: (base, state) => ({
     ...base,
     background: "#ffffff",
@@ -67,7 +67,9 @@ export default function SendShares() {
   const { web3, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
   const [selection, setSelection] = useState(null);
-  const [doc, setDoc] = useState(["Notice of Removal", "Invoice", "Membership Application"]);
+
+  // For Notes section
+  const [doc, setDoc] = useState([]);
   const [note, setNote] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -135,7 +137,6 @@ export default function SendShares() {
     event.preventDefault();
     let description_;
 
-    // console.log(doc)
     try {
       if (note && file) {
         description_ = await uploadIpfs(dao["address"], "removal proposal", file);
@@ -217,7 +218,7 @@ export default function SendShares() {
           isMulti={true}
           value={selection}
           placeholder="Select member(s)"
-          styles={customStyles}
+          styles={multiSelectStyles}
           onChange={(e) => {
             setSelection(e);
           }}
@@ -238,7 +239,7 @@ export default function SendShares() {
       <br />
       <VStack w="100%">
         <Button
-          className="transparent-btn"
+          className="solid-btn"
           type="submit"
           onClick={submitProposal}
         >
