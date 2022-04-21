@@ -29,7 +29,7 @@ const FileUploader = (props) => {
         </HStack>
       ) : (
         <>
-          <Button className="solid-btn" variant={"ghost"} h={"35px"} onClick={handleClick}>
+          <Button className="upload-btn" h={"35px"} onClick={handleClick}>
             Upload
           </Button>
           <input
