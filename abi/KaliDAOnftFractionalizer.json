@@ -1,0 +1,84 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name_",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol_",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "paused_",
+				"type": "bool"
+			},
+			{
+				"internalType": "address[]",
+				"name": "extensions_",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "extensionsData_",
+				"type": "bytes[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "voters_",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "shares_",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint32[16]",
+				"name": "govSettings_",
+				"type": "uint32[16]"
+			},
+			{
+				"components": [
+					{
+						"internalType": "contract IERC721minimal",
+						"name": "nft",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct KaliDAOnftFractionalizer.NFT[]",
+				"name": "nfts_",
+				"type": "tuple[]"
+			}
+		],
+		"name": "fractionalize",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "kaliDAO",
+				"type": "address"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IKaliDAOfactory",
+				"name": "kaliDAOfactory_",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]
