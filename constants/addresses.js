@@ -22,6 +22,7 @@ export const addresses =
       erc20factory: "0x8a23526eDe4d7222150C3dFEFC47902180A19323",
       nft: "0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0",
       access: "0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e",
+      fractionalizer: "0x925e330E9DC5AF45A7038219a4253433BDEC15cF",
       extensions: {
         tribute: "0xd62AB72CC6b53D98eed510646a69B21b77ce5A56",
         crowdsale: "0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36",
