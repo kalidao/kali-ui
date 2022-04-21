@@ -110,7 +110,7 @@
   background: #411d5f !important;
 }
 
-.upload-btn {
+.hollow-btn {
   padding: 10px 15px !important;
   font-size: 1em !important;
   font-weight: normal !important;
@@ -119,7 +119,7 @@
   color: white !important;
   border-radius: 10px !important;
 }
-.upload-btn:hover {
+.hollow-btn:hover {
   background: #411d5f !important;
 }
 
