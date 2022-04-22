@@ -33,6 +33,7 @@ export default function Extensions() {
   const { dao } = value.state;
 
   return (
+    // TODO: Check if null check is actually works here or not
     <>
       {dao["extensions"] == undefined ? (
         <>
@@ -42,7 +43,7 @@ export default function Extensions() {
             take a few minutes!
           </Center>
         </>
-      ) : dao["extensions"] == null ? (
+      ) : (dao["extensions"] == null ? (
         "No extensions installed"
       ) : (
         <>
@@ -50,7 +51,7 @@ export default function Extensions() {
             <ExtensionCard key={key} name={name} />
           ))}
         </>
-      )}
+      ))}
     </>
   );
 }

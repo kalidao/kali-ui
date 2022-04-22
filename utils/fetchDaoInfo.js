@@ -58,6 +58,7 @@ export async function fetchStaticInfo(
             redemption {
               active
               starts
+              redeemables
             }
           }
         }`,
@@ -65,7 +66,7 @@ export async function fetchStaticInfo(
     }).then((res) => res.json());
     console.log("RESULT", result);
     const data = result["data"]["daos"][0];
-    console.log("DAO", data);
+    console.log("DAO DATA", data);
 
     const name = data["token"]["name"];
 
@@ -89,6 +90,47 @@ export async function fetchStaticInfo(
 
     const members = await fetchMembers(data);
 
+    let extensions = {
+      tribute: {
+        address: addresses[daoChain]["extensions"]["tribute"]
+      }
+    }
+
+    // console.log('data crowdsale', data["crowdsale"])
+    console.log('data redemption', data["crowdsale"])
+    if (data["crowdsale"] != null) {
+      const crowdsaleObject = {
+        crowdsale: {
+          address: addresses[daoChain]["extensions"]["crowdsale"],
+          details: {
+            listId: data["crowdsale"]["listId"],
+            purchaseToken: data["crowdsale"]["purchaseToken"],
+            purchaseMultiplier: data["crowdsale"]["purchaseMultiplier"],
+            purchaseLimit: data["crowdsale"]["purchaseLimit"],
+            amountPurchased: data["crowdsale"]["amountPurchased"],
+            saleEnds: data["crowdsale"]["saleEnds"],
+            details: data["crowdsale"]["details"],
+          }
+        }
+      }
+      extensions = Object.assign(extensions, crowdsaleObject)
+      console.log('extensions crowdsale', extensions)
+    }
+    console.log('data redemption', data["redemption"])
+    if (data["redemption"] != null) {
+      const redemption = {
+        redemption: {
+          address: addresses[daoChain]["extensions"]["redemption"],
+          details: {
+            redeemables: data["redemption"]["redeemables"],
+            redemptionStarts: data["redemption"]["starts"],
+          }
+        }
+      }
+      extensions = Object.assign(extensions, redemption)
+      console.log('extensions redemption', extensions)
+    }
+
     dao_ = {
       address,
       name,
@@ -106,11 +148,45 @@ export async function fetchStaticInfo(
       },
       docs,
       members,
+      extensions
     };
   } catch (e) {}
 
   return { dao_ };
 }
+
+function validateCrowdsale(crowdsale_, daoChain) {
+  crowdsaleObject = {
+    address: addresses[daoChain]["extensions"]["crowdsale"],
+    details: {
+      listId: crowdsale_["listId"],
+      purchaseToken: crowdsale_["purchaseToken"],
+      purchaseMultiplier: crowdsale_["purchaseMultiplier"],
+      purchaseLimit: crowdsale_["purchaseLimit"],
+      amountPurchased: crowdsale_["amountPurchased"],
+      saleEnds: crowdsale_["saleEnds"],
+      details: crowdsale_["details"],
+    }
+  }
+
+  console.log('crowdsaleObj', crowdsaleObject);
+
+  return crowdsaleObject;
+};
+
+function validateRedemption(redemption_, daoChain) {
+  redemptionObject = {
+    address: addresses[daoChain]["extensions"]["redemption"],
+    details: {
+      redeemables: redemption_["redeembles"],
+      redemptionStarts: redemption_["starts"],
+    }
+  }
+
+  console.log('redemptionObj', redemptionObject);
+
+  return redemptionObject;
+};
 
 async function fetchProposalVoteTypes(instance) {
   const proposalVoteTypes_ = [];
