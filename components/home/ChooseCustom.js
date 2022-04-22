@@ -43,7 +43,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
     details["governance"]["votingPeriodUnit"] = votingPeriodUnit;
 
     if (paused != undefined) {
-      details["governance"]["paused"] = Number(paused);
+      details["governance"]["paused"] = Number(!paused);
     }
 
     setDetails(details);
@@ -106,14 +106,14 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         <ChooseSupermajority details={details} setDetails={setDetails} />
         <br></br>
         <HStack pt={"4"} w={"100%"}>
-          <FormLabel htmlFor="paused">Shares Restricted</FormLabel>
+          <FormLabel htmlFor="paused">Shares Transferable</FormLabel>
           <Spacer></Spacer>
           <Controller
             control={control}
             name="paused"
             render={({ field }) => (
               <Switch
-                defaultChecked={Boolean(details["governance"]["paused"])}
+                defaultChecked={!Boolean(details["governance"]["paused"])}
                 id="paused"
                 size="md"
                 colorScheme="red"

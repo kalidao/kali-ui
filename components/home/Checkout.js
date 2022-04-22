@@ -116,9 +116,9 @@ export default function Checkout({ details, daoNames }) {
   // for use at the end
   let paused;
   if (details["governance"]["paused"] == 1) {
-    paused = "restricted";
+    paused = "❌";
   } else {
-    paused = "unrestricted";
+    paused = "✔️";
   }
 
   let daoType;
@@ -201,6 +201,8 @@ export default function Checkout({ details, daoNames }) {
       quorum,
       supermajority,
     } = details["governance"];
+
+    
 
     var { docs } = details["legal"];
     if (docs == "UNA") {
