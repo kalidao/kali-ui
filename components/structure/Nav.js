@@ -17,7 +17,7 @@ export default function Nav({ draftActive }) {
 
   return (
     <HStack minH="10vh" minW="auto" id="nav" alignItems="top">
-      <Kali />
+      {/* <Kali /> */}
       <Spacer />
       {draftActive && <DraftDoc />}
       <NavRightContainer />
