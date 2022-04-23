@@ -3,11 +3,12 @@ import AppContext from "../../context/AppContext";
 import { Input, Button } from "@chakra-ui/react";
 import { createToast } from "../../utils/toast";
 import tribAbi from "../../abi/KaliDAOtribute.json";
+import { addresses } from "../../constants/addresses";
 
 export default function ProcessModule(props) {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao } = value.state;
-  const tribAddress = dao["extensions"]["tribute"]["address"];
+  const { web3, chainId, loading, account, abi, address, dao } = value.state;
+  const tribAddress = addresses[chainId]["extensions"]["tribute"]
   const p = props["p"];
   const i = props["i"];
   var disabled = true;
