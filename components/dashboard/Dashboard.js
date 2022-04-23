@@ -63,25 +63,25 @@ export default function Dashboard() {
       value.setLoading(false);
 
       console.log("dao_", dao_);
-      // if (dao_ == undefined) {
-      //   //if (done == false) {
-      //   done = true;
-      //   console.log(done, "done");
-      //   if (!toast.isActive("welcome")) {
-      //     toastIdRef.current = toast({
-      //       id: "welcome",
-      //       duration: 100000,
-      //       position: "bottom",
-      //       isClosable: true,
-      //       render: () => <WelcomeAlert />,
-      //     });
-      //   }
-      //   setTimeout(reloadDao, 5000);
-      //   console.log("reset");
-      //   return;
-      // } else {
-      //   toast.closeAll();
-      // }
+      if (dao_ == undefined) {
+        //if (done == false) {
+        done = true;
+        console.log(done, "done");
+        if (!toast.isActive("welcome")) {
+          toastIdRef.current = toast({
+            id: "welcome",
+            duration: 100000,
+            position: "bottom",
+            isClosable: true,
+            render: () => <WelcomeAlert />,
+          });
+        }
+        setTimeout(reloadDao, 5000);
+        console.log("reset");
+        return;
+      } else {
+        toast.closeAll();
+      }
 
       const balances = await fetchBalances(address, web3, daoChain);
 
@@ -94,18 +94,9 @@ export default function Dashboard() {
         ricardianBlock
       );
 
-      // const extensions = await fetchExtensions(
-      //   instance,
-      //   daoChain,
-      //   web3,
-      //   address,
-      //   balances
-      // );
-
       dao_["balances"] = balances;
       dao_["ricardian"] = ricardian;
-      //dao_["extensions"] = extensions;
-
+      
       value.setDao(dao_);
       console.log(dao_);
     } catch (e) {
