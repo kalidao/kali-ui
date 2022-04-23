@@ -146,7 +146,8 @@ export default function Tribute() {
         console.log("Can't find purchase token decimal")
       }
     } else {
-      console.log("NFT contract not found / Not valid contract")
+      // console.log("NFT contract not found / Not valid contract")
+      return
     }
   }
 
@@ -448,14 +449,16 @@ export default function Tribute() {
         <br />
         <VStack w={"60%"}>
           <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
-          <br />
-          <VStack h={"50px"} w={"60%"}>
+          <Box h={"5px"} />
+          <VStack h={"40px"} w={"60%"}>
             {approveButton && (
               <Button w={"100%"} className="solid-btn" onClick={approve}>
                 Allow KALI to use your tribute
               </Button>
             )}
             {error && <Text>{error}</Text>}
+          </VStack>
+          <VStack w={"60%"}>
             {canPurchase ? (
               <Button w={"100%"} className="solid-btn" type="submit">Submit Proposal</Button>
             ) : (
