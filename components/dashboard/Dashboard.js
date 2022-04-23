@@ -94,18 +94,9 @@ export default function Dashboard() {
         ricardianBlock
       );
 
-      const extensions = await fetchExtensions(
-        instance,
-        daoChain,
-        web3,
-        address,
-        balances
-      );
-
       dao_["balances"] = balances;
       dao_["ricardian"] = ricardian;
-      dao_["extensions"] = extensions;
-
+      
       value.setDao(dao_);
       console.log(dao_);
     } catch (e) {
