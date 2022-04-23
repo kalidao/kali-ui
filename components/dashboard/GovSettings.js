@@ -9,8 +9,8 @@ export default function GovSettings() {
   const { dao } = value.state;
   const array = [
     {
-      name: "Shares Restricted",
-      info: (dao["token"]["paused"]) ? "✔️" : "❌",
+      name: "Shares Transferable",
+      info: (dao["token"]["paused"]) ? "❌": "✔️",
     },
     {
       name: "Voting Period",
