@@ -38,7 +38,7 @@ export default function BuyCrowdsale() {
   const accessListAddress = addresses[chainId]["access"];
 
   // Crowdsale details
-  const ether = "0x000000000000000000000000000000000000dEaD"
+  const ether = "0x000000000000000000000000000000000000dead"
   const purchaseToken =
     dao["extensions"]["crowdsale"]["details"]["purchaseToken"];
   const purchaseMultiplier =
@@ -327,9 +327,11 @@ export default function BuyCrowdsale() {
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
     console.log(purchaseAmount_, address, instance, account)
 
+    console.log('purchaseToken', purchaseToken);
+
     try {
 
-      if (purchaseToken != ether) {
+      if (purchaseToken.toLowerCase() != ether) {
         try {
           let result = await instance.methods
             .callExtension(address, purchaseAmount_)
@@ -468,7 +470,7 @@ export default function BuyCrowdsale() {
                     max={purchaseLimit / purchaseMultiplier}
                     onChange={handleChange}
                   />
-                  <Text><b>Purhcase Token</b></Text>
+                  <Text><b>Purchase Token</b></Text>
                 </HStack>
                 <br />
                 <Center>
