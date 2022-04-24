@@ -79,7 +79,7 @@ export default function Tribute() {
         )
         .send({ from: account, value: proposalDetail.assetValue });
       console.log("This is result - ", result);
-      value.setVisibleView(1);
+      value.setVisibleView(2);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
@@ -106,7 +106,7 @@ export default function Tribute() {
         )
         .send({ from: account });
       console.log("This is result - ", result);
-      value.setVisibleView(1);
+      value.setVisibleView(2);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
