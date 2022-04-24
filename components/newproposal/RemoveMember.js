@@ -16,7 +16,7 @@ import { uploadIpfs } from "../../utils/helpers";
 import InfoTip from "../elements/InfoTip";
 import ProposalDescription from "../elements/ProposalDescription";
 
-const customStyles = {
+const multiSelectStyles = {
   control: (base, state) => ({
     ...base,
     background: "#ffffff",
@@ -67,7 +67,9 @@ export default function SendShares() {
   const { web3, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
   const [selection, setSelection] = useState(null);
-  const [doc, setDoc] = useState(["Notice of Removal", "Invoice", "Membership Application"]);
+
+  // For Notes section
+  const [doc, setDoc] = useState([]);
   const [note, setNote] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -135,7 +137,6 @@ export default function SendShares() {
     event.preventDefault();
     let description_;
 
-    // console.log(doc)
     try {
       if (note && file) {
         description_ = await uploadIpfs(dao["address"], "removal proposal", file);
@@ -194,12 +195,9 @@ export default function SendShares() {
   };
 
   return (
-    <VStack align="flex-start" w="50%" >
-      <Text>
-        <b>Select and Confirm Member(s) to Remove:</b>
-      </Text>
+    <VStack align="flex-start" w="70%" >
       <Text fontSize="14px">
-        Address with ENS will update when available.
+        Select member(s) to remove. Address with ENS will update when available.
       </Text>
       <VStack align="flex-start">
         {selection ? (
@@ -217,7 +215,7 @@ export default function SendShares() {
           isMulti={true}
           value={selection}
           placeholder="Select member(s)"
-          styles={customStyles}
+          styles={multiSelectStyles}
           onChange={(e) => {
             setSelection(e);
           }}
@@ -238,7 +236,7 @@ export default function SendShares() {
       <br />
       <VStack w="100%">
         <Button
-          className="transparent-btn"
+          className="solid-btn"
           type="submit"
           onClick={submitProposal}
         >

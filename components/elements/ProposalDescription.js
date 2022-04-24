@@ -8,6 +8,7 @@ import {
   Select
 } from "@chakra-ui/react";
 import InfoTip from './InfoTip';
+import FileUploader from '../tools/FileUpload';
 
 function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   const [doc_, setDoc_] = useState([])
@@ -17,8 +18,8 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   }, []);
 
   return (
-    <VStack align="flex-start" w="100%">
-      <HStack>
+    <VStack align="flex-start" w="100%" >
+      <HStack pb={"5px"}>
         <Text>
           <b>Notes:</b>
         </Text>
@@ -28,7 +29,7 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
           }
         ></InfoTip>
       </HStack>
-      <VStack align="flex-start" w="100%" pt="5px">
+      <HStack w="100%" spacing={"20px"} justify={"stretch"}>
         {doc_.length > 0 ? (
           <>
             <Select
@@ -46,24 +47,26 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
           </>
         ) : null}
         <Textarea
+          w="50%"
           placeholder=". . ."
           value={note}
           onChange={(e) => {
             setNote(e.target.value);
           }}
         />
-        <Box h="5px" />
-        <Text>-- OR --</Text>
-        <Box h="5px" />
-        <input
+        <Box w={"1%"}/>
+        <Text>- OR -</Text>
+        <Box w={"1%"}/>
+          <FileUploader setFile={setFile} />
+        {/* <input
           id="file"
           name="file"
           type="file"
           onChange={(e) => {
             setFile(e.target.files[0]);
           }}
-        />
-      </VStack>
+        /> */}
+      </HStack>
     </VStack>
   );
 }

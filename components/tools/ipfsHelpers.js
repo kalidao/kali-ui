@@ -56,7 +56,7 @@ export async function uploadIpfs(dao, content, attachment) {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
     bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-    key: "DAO (" + dao + ")'s " + content + " is attached with "  + attachment.name,
+    key: "DAO (" + dao + ")'s " + content + " is attached with "  + attachment.name + " at " + new Date().getTime(),
     data: attachment,
     httpUploadProgressCallback: (event) => {
       console.log(Math.round((event.loaded / event.total) * 100) + "% done");
