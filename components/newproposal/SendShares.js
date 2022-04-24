@@ -16,18 +16,25 @@ import {
   FormLabel,
   Spacer,
   IconButton,
-  Center,
+  Box,
+  NumberInput
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
+import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { toDecimals } from "../../utils/formatters";
-import DeleteButton from "../elements/DeleteButton";
-import SolidButton from "../elements/SolidButton";
-import { AiOutlineDelete } from "react-icons/ai";
+import ProposalDescription from "../elements/ProposalDescription";
+import { uploadIpfs } from "../tools/ipfsHelpers";
+import { validateEns } from "../tools/ensHelpers";
 
 export default function SendShares() {
   const value = useContext(AppContext);
-  const { web3, loading, account, address, chainId, abi } = value.state;
+  const { web3, loading, account, address, chainId, dao, abi } = value.state;
+
+  // For Notes section
+  const [doc, setDoc] = useState([]);
+  const [note, setNote] = useState(null);
+  const [file, setFile] = useState(null);
 
   const {
     handleSubmit,
@@ -47,65 +54,63 @@ export default function SendShares() {
 
   const submitProposal = async (values) => {
     value.setLoading(true);
+    
+    var { recipients } = values; // this must contain any inputs from custom forms
+    console.log(values);
+    
+    // Configure proposal type
+    const proposalType_ = 0;
+    
+    // Configure description and upload to IPFS if necessary
+    let description;
+    (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
+    (note) ? description = note : (description = "none");
+    (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
 
+    // Configure accounts and validate address or ENS
+    let accounts_ = [];
+    for (let i = 0; i < recipients.length; i++) {
+      const account = await validateEns(recipients[i].address, web3, value)
+      if (account === undefined) {
+        value.setLoading(false);
+        return;
+      }
+      accounts_.push(account);
+    }
+    console.log("Voters Array", accounts_);
+    
+    // Configure token amounts
+    let amounts_ = [];
+    for (let i = 0; i < recipients.length; i++) {
+      let element = document.getElementById(`recipients.${i}.share`);
+      let value = element.value;
+      amounts_.push(toDecimals(value, 18));
+    }
+
+    // Configure payloads
+    let payloads_ = [];
+    for (let i = 0; i < recipients.length; i++) {
+      payloads_.push("0x");
+    }
     try {
-      var { description_, recipients } = values; // this must contain any inputs from custom forms
-      console.log(values);
-      let amounts_ = [];
-      for (let i = 0; i < recipients.length; i++) {
-        let element = document.getElementById(`recipients.${i}.share`);
-        let value = element.value;
-        amounts_.push(toDecimals(value, 18));
-      }
-      console.log("Shares Array", amounts_);
 
-      // voters ENS check
-      let accounts_ = [];
-      for (let i = 0; i < recipients.length; i++) {
-        if (recipients[i].address.slice(-4) === ".eth") {
-          recipients[i].address = await web3.eth.ens
-            .getAddress(recipients[i].address)
-            .catch(() => {
-              value.toast(recipients[i].address + " is not a valid ENS.");
-              value.setLoading(false);
-            });
-        } else if (web3.utils.isAddress(recipients[i].address) == false) {
-          value.toast(
-            recipients[i].address + " is not a valid Ethereum address."
-          );
-          value.setLoading(false);
-          return;
-        }
-
-        if (recipients[i].address === undefined) {
-          return;
-        }
-        accounts_.push(recipients[i].address);
-      }
-      console.log("Voters Array", accounts_);
-
-      const proposalType_ = 0;
-
-      let payloads_ = [];
-      for (let i = 0; i < recipients.length; i++) {
-        payloads_.push("0x");
-      }
-      console.log(payloads_);
-      console.log(proposalType_, description_, accounts_, amounts_, payloads_);
-      const instance = new web3.eth.Contract(abi, address);
-
+      console.log(proposalType_, description, accounts_, amounts_, payloads_);
+      
       try {
+        const instance = new web3.eth.Contract(abi, address);
         let result = await instance.methods
-          .propose(proposalType_, description_, accounts_, amounts_, payloads_)
+          .propose(proposalType_, description, accounts_, amounts_, payloads_)
           .send({ from: account });
         value.setVisibleView(2);
       } catch (e) {
         value.toast(e);
         value.setLoading(false);
+        console.log("error here")
       }
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
+      console.log("error here 2")
     }
 
     value.setLoading(false);
@@ -113,97 +118,83 @@ export default function SendShares() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <VStack width="100%">
-        <Controller
-          name="description_"
-          control={control}
-          render={({ field }) => (
-            <FormControl>
-              <FormLabel htmlFor="description_">Description</FormLabel>
-              <Textarea
-                placeholder=". . ."
-                {...field}
-                {...register(`description_`, {
-                  required: "Please enter a description.",
-                })}
-              />
-            </FormControl>
-          )}
-        />
-
-        <List spacing={2} width="100%">
+      <VStack width="70%" align="flex-start">
+        <HStack w="100%">
+        <Text fontSize="14px">Mint DAO tokens to the following addresses</Text>
+          <Spacer />
+          <Button
+            border="0px"
+            variant="ghost"
+            _hover={{
+              background: "green.400",
+            }}
+            onClick={() => append({ address: "" })}
+          >
+            <AiOutlineUserAdd color="white" />
+          </Button>
+        </HStack>
+            <br />
+        <List w={"100%"} spacing={"10px"}>
           {fields.map((recipient, index) => (
             <ListItem
-              display="flex"
+              // display="flex"
               flexDirection="row"
               alignContent="center"
-              justifyContent="center"
+              // justifyContent="center"
               key={recipient.id}
-              className="glass"
-              p="10px 20px"
-              borderRadius="2xl"
             >
-              <Controller
-                name={`recipients.${index}.address`}
-                control={control}
-                defaultValue={recipient.address}
-                render={({ field }) => (
-                  <FormControl isRequired>
-                    <FormLabel htmlFor={`recipients.${index}.address`}>
-                      Recipient
-                    </FormLabel>
-                    <Input
-                      className="member-address"
-                      placeholder="0x address"
-                      {...field}
-                      {...register(`recipients.${index}.address`, {
-                        required: "You must assign share!",
-                      })}
-                    />
-                  </FormControl>
-                )}
-              />
-              <Controller
-                name={`recipients.${index}.share`}
-                control={control}
-                defaultValue={recipient.share}
-                render={({ field }) => (
-                  <FormControl isRequired>
-                    <FormLabel htmlFor={`recipients.${index}.share`}>
-                      Shares
-                    </FormLabel>
+              <HStack >
+                <Controller
+                  name={`recipients.${index}.address`}
+                  control={control}
+                  defaultValue={recipient.address}
+                  render={({ field }) => (
+                    <FormControl w={"100%"} isRequired>
+                      <Input
+                        className="member-address"
+                        placeholder="0xKALI or ENS"
+                        fontSize={"md"}
+                        {...field}
+                        {...register(`recipients.${index}.address`, {
+                          required: "You must assign share!",
+                        })}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  name={`recipients.${index}.share`}
+                  control={control}
+                  defaultValue={recipient.share}
+                  render={({ field }) => (
+                    <FormControl w={"20%"} isRequired>
                     <NumInputField
-                      min="1"
-                      defaultValue="1"
-                      id={`recipients.${index}.share`}
-                    />
-                  </FormControl>
-                )}
-              />
-              <IconButton
-                className="delete-icon"
-                aria-label="delete recipient"
-                mt={8}
-                ml={2}
-                icon={<AiOutlineDelete />}
-                onClick={() => remove(index)}
-              />
+                        min="1"
+                        defaultValue="1"
+                        id={`recipients.${index}.share`}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <IconButton
+                  w={"12%"}
+                  className="delete-icon"
+                  aria-label="delete recipient"
+                  icon={<AiOutlineDelete />}
+                  onClick={() => remove(index)}
+                />
+              </HStack>
             </ListItem>
           ))}
         </List>
-
-        <HStack width="100%">
-          <Spacer />
-          <Button className="solid-btn" onClick={() => append({ address: "" })}>
-            +Add Recipient
-          </Button>
-        </HStack>
-
-        <Center>
-          <Button className="solid-btn" type="submit">
-            Submit Proposal
-          </Button>
-        </Center>
+        <br />
+        <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
+      </VStack>
+      <br />
+      <VStack w={"70%"}>
+        <Button className="solid-btn" type="submit">
+          Submit Proposal
+        </Button>
       </VStack>
     </form>
   );
