@@ -195,12 +195,9 @@ export default function SendShares() {
   };
 
   return (
-    <VStack align="flex-start" w="50%" >
-      <Text>
-        <b>Select and Confirm Member(s) to Remove:</b>
-      </Text>
+    <VStack align="flex-start" w="70%" >
       <Text fontSize="14px">
-        Address with ENS will update when available.
+        Select member(s) to remove. Address with ENS will update when available.
       </Text>
       <VStack align="flex-start">
         {selection ? (
