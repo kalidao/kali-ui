@@ -54,6 +54,10 @@ export async function fetchStaticInfo(
               purchaseMultiplier
               purchaseToken
               saleEnds
+              purchase {
+                purchaser
+                purchased
+              }
             }
             redemption {
               active
@@ -110,6 +114,7 @@ export async function fetchStaticInfo(
             amountPurchased: data["crowdsale"]["amountPurchased"],
             saleEnds: data["crowdsale"]["saleEnds"],
             details: data["crowdsale"]["details"],
+            purchase: data["crowdsale"]["purchase"]
           }
         }
       }

@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
 import {
   Input,
@@ -25,6 +24,7 @@ import {
 import { addresses } from "../../constants/addresses";
 import { getChainInfo } from "../../utils/formatters";
 import { fetchCrowdsaleTermsHash } from "../tools/ipfsHelpers";
+import Crowdsales from "./Crowdsales";
 
 export default function BuyCrowdsale() {
   const value = useContext(AppContext);
@@ -512,8 +512,10 @@ export default function BuyCrowdsale() {
                 <Text><b>🚫 You are not eligible to participate in this crowdsale 🚫</b></Text>
               </Center>)}
           </>
+          <Crowdsales sales={dao["extensions"]["crowdsale"]["details"]["purchase"]} />
         </Stack>
       </form>
+      
     </>
   );
 }
