@@ -79,7 +79,6 @@ export default function BuyCrowdsale() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(remainingTime));
 
   const getPurchaseTokenInfo = async () => {
-    console.log(purchaseToken)
     try {
       const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken);
       let symbol_ = await instance_.methods
@@ -138,9 +137,9 @@ export default function BuyCrowdsale() {
       // setPurchaseAllowance(result)
       if (result == 0) {
         setApproveButton(true);
-        console.log("not approved yet")
+        console.log("Token contract not yet approved")
       } else {
-        console.log("already approved this much", result)
+        console.log("Token contract already approved")
       }
     } catch (e) {
       // value.toast(e);
@@ -232,7 +231,6 @@ export default function BuyCrowdsale() {
       if (hash == "none") {
         setPurchaseTerms(null)
 
-        console.log(approveButton)
         if (!approveButton) {
           setCanPurchase(true)
         } else {
@@ -414,7 +412,7 @@ export default function BuyCrowdsale() {
   return (
     <>
       <form onSubmit={submitProposal}>
-        <Stack w="90%" spacing="40px">
+        <Stack w="60%" spacing="40px">
           <Text><i>
             {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
           </i> is currently running a sale of its token with the following details:</Text>

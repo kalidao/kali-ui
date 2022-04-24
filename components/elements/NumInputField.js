@@ -45,6 +45,7 @@ export default function NumInputField(props) {
       max={max}
       onChange={onChange}
       id={id}
+      w={"100%"}
     >
       <NumberInputField focusBorderColor="red.200" />
 

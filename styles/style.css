@@ -110,6 +110,19 @@
   background: #411d5f !important;
 }
 
+.hollow-btn {
+  padding: 10px 15px !important;
+  font-size: 1em !important;
+  font-weight: normal !important;
+  background: none !important;
+  border: 2px solid white;
+  color: white !important;
+  border-radius: 10px !important;
+}
+.hollow-btn:hover {
+  background: #411d5f !important;
+}
+
 select {
   border-radius: 20px !important;
 }
