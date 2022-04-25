@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Flex, Spacer, HStack, Button } from "@chakra-ui/react";
 import NavRightContainer from "./NavRightContainer";
 import Hamburger from "./Hamburger";
-import Kali from "./Kali";
+import Kali from "../elements/Kali";
 import KaliMobile from "./KaliMobile";
 import Account from "./Account";
 import Chain from "./Chain";

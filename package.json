@@ -16,6 +16,7 @@
     "@fontsource/open-sans": "^4.5.2",
     "@fontsource/poppins": "^4.5.0",
     "@react-pdf/renderer": "^2.1.0",
+    "@stitches/react": "^1.2.8",
     "@walletconnect/web3-provider": "^1.7.1",
     "big.js": "^6.1.1",
     "emailjs-com": "^3.2.0",
