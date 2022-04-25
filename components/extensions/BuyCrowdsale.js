@@ -464,7 +464,7 @@ export default function BuyCrowdsale() {
               <VStack w="100%">
                 <HStack w="100%" justify={"center"}>
                   <Text pr="5px">
-                    <b>I'd like to purhcase</b>
+                    <b>I'd like to purchase</b>
                   </Text>
                   <Input w="15%" value={purchaseAmount} disabled />
                   <Text>
