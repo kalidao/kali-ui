@@ -4,20 +4,15 @@ import AppContext from "../../context/AppContext";
 import {
   Input,
   Button,
-  Select,
   Text,
-  Textarea,
-  Stack,
   VStack,
   HStack,
   List,
   ListItem,
   FormControl,
-  FormLabel,
   Spacer,
   IconButton,
   Box,
-  NumberInput
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
@@ -54,13 +49,12 @@ export default function SendShares() {
 
   const submitProposal = async (values) => {
     value.setLoading(true);
-    
+
     var { recipients } = values; // this must contain any inputs from custom forms
-    console.log(values);
-    
+
     // Configure proposal type
     const proposalType_ = 0;
-    
+
     // Configure description and upload to IPFS if necessary
     let description;
     (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
@@ -77,8 +71,7 @@ export default function SendShares() {
       }
       accounts_.push(account);
     }
-    console.log("Voters Array", accounts_);
-    
+
     // Configure token amounts
     let amounts_ = [];
     for (let i = 0; i < recipients.length; i++) {
@@ -92,25 +85,17 @@ export default function SendShares() {
     for (let i = 0; i < recipients.length; i++) {
       payloads_.push("0x");
     }
-    try {
 
-      console.log(proposalType_, description, accounts_, amounts_, payloads_);
-      
-      try {
-        const instance = new web3.eth.Contract(abi, address);
-        let result = await instance.methods
-          .propose(proposalType_, description, accounts_, amounts_, payloads_)
-          .send({ from: account });
-        value.setVisibleView(2);
-      } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
-        console.log("error here")
-      }
+    // console.log(proposalType_, description, accounts_, amounts_, payloads_);
+    try {
+      const instance = new web3.eth.Contract(abi, address);
+      let result = await instance.methods
+        .propose(proposalType_, description, accounts_, amounts_, payloads_)
+        .send({ from: account });
+      value.setVisibleView(2);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
-      console.log("error here 2")
     }
 
     value.setLoading(false);
@@ -120,7 +105,7 @@ export default function SendShares() {
     <form onSubmit={handleSubmit(submitProposal)}>
       <VStack width="70%" align="flex-start">
         <HStack w="100%">
-        <Text fontSize="14px">Mint DAO tokens to the following addresses</Text>
+          <Text fontSize="14px">Mint DAO tokens to the following addresses</Text>
           <Spacer />
           <Button
             border="0px"
@@ -133,7 +118,7 @@ export default function SendShares() {
             <AiOutlineUserAdd color="white" />
           </Button>
         </HStack>
-            <br />
+        <Box h={"2%"} />
         <List w={"100%"} spacing={"10px"}>
           {fields.map((recipient, index) => (
             <ListItem
@@ -167,8 +152,8 @@ export default function SendShares() {
                   control={control}
                   defaultValue={recipient.share}
                   render={({ field }) => (
-                    <FormControl w={"20%"} isRequired>
-                    <NumInputField
+                    <FormControl w={"30%"} isRequired>
+                      <NumInputField
                         min="1"
                         defaultValue="1"
                         id={`recipients.${index}.share`}
