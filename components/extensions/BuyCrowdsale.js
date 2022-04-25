@@ -51,17 +51,26 @@ export default function BuyCrowdsale() {
   const remainingTime = ((saleEnds * 1000) - Date.now())
 
   function calculateTimeLeft(duration) {
-    var seconds = Math.floor((duration / 1000) % 60),
+    let seconds = Math.floor((duration / 1000) % 60),
       minutes = Math.floor((duration / (1000 * 60)) % 60),
       hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
       days = Math.floor((duration / (1000 * 60 * 60 * 24)) % 365);
 
-    days = (hours < 10) ? "0" + days : days;
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-    return days + " days " + hours + " hr " + minutes + " min " + seconds + " sec ";
+    console.log('time: ', days, hours, minutes, seconds)
+    const timeleft = seconds + minutes + hours + days;
+    
+    days = (hours < 10) ? 0 + days : days;
+    hours = (hours < 10) ? 0 + hours : hours;
+    minutes = (minutes < 10) ? 0 + minutes : minutes;
+    seconds = (seconds < 10) ? 0 + seconds : seconds;
+    
+    console.log('time: ', days, hours, minutes, seconds)
+    
+    if (timeleft < 0) {
+      return "SALE ENDED";
+    } else {
+      return days + " days " + hours + " hr " + minutes + " min " + seconds + " sec "; 
+    }
   }
 
   const [purchaseAmount, setPurchaseAmount] = useState(purchaseMultiplier); // amount to be spent on shares, not converted to wei/decimals
@@ -417,15 +426,15 @@ export default function BuyCrowdsale() {
             {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
           </i> is currently running a sale of its token with the following details:</Text>
           <VStack align="flex-start">
-            <CrowdsaleDetail
+            {/* <CrowdsaleDetail
               name={"DAO Token: "}
               input={dao.token["symbol"].toUpperCase()}
-            />
-            <CrowdsaleDetail
+            /> */}
+            {/* <CrowdsaleDetail
               name={"DAO Token Contract Address: "}
               input={dao.address.slice(0, 4) + "..." + dao.address.slice(-4)}
               link={getExplorerLink("address", dao.address)}
-            />
+            /> */}
             <CrowdsaleDetail
               name={(purchaseToken != ether) ? "Purchase Token Contract Address: " : "Purchase Token: "}
               input={(purchaseToken != ether) ? purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4) : "Ether"}
@@ -512,7 +521,7 @@ export default function BuyCrowdsale() {
                 <Text><b>🚫 You are not eligible to participate in this crowdsale 🚫</b></Text>
               </Center>)}
           </>
-          <Crowdsales sales={dao["extensions"]["crowdsale"]["details"]["purchase"]} />
+          <Crowdsales sales={dao["extensions"]["crowdsale"]["details"]["purchase"]} symbol={dao.token["symbol"].toUpperCase()} />
         </Stack>
       </form>
       
