@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, HStack } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 
 const FileUploader = (props) => {
   const [hasFile, setHasFile] = useState(false);
@@ -16,7 +16,7 @@ const FileUploader = (props) => {
   return (
     <>
       {hasFile ? (
-        <HStack align={"flex-end"}>
+        <VStack align={"flex-end"}>
           <Button color={"green.500"} border="0" variant={"ghost"} h={"35px"} onClick={handleClick}>
             Got it!
           </Button>
@@ -26,9 +26,9 @@ const FileUploader = (props) => {
             ref={hiddenFileInput}
             onChange={handleChange}
           />
-        </HStack>
+        </VStack>
       ) : (
-        <>
+        <VStack align={"flex-end"}>
           <Button className="hollow-btn" h={"35px"} onClick={handleClick}>
             Upload
           </Button>
@@ -38,7 +38,7 @@ const FileUploader = (props) => {
             ref={hiddenFileInput}
             onChange={handleChange}
           />
-        </>
+        </VStack>
       )}
     </>
   );
