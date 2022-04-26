@@ -56,7 +56,7 @@ export default function BuyCrowdsale() {
       hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
       days = Math.floor((duration / (1000 * 60 * 60 * 24)) % 365);
 
-    console.log('time: ', days, hours, minutes, seconds)
+    // console.log('time: ', days, hours, minutes, seconds)
     const timeleft = seconds + minutes + hours + days;
     
     days = (hours < 10) ? 0 + days : days;
@@ -64,7 +64,7 @@ export default function BuyCrowdsale() {
     minutes = (minutes < 10) ? 0 + minutes : minutes;
     seconds = (seconds < 10) ? 0 + seconds : seconds;
     
-    console.log('time: ', days, hours, minutes, seconds)
+    // console.log('time: ', days, hours, minutes, seconds)
     
     if (timeleft < 0) {
       return "SALE ENDED";
@@ -376,11 +376,12 @@ export default function BuyCrowdsale() {
     setPurchaseAmount(purchaseAmount_);
 
     console.log(purchasedAmount + " - " + purchaseAmount_)
-
-    const purchaseLimit_ = purchasedAmount + purchaseAmount_;
-
-    if (purchaseLimit_ > purchaseLimit) {
-      setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${purchaseLimit} ⛔️`)
+    
+    const purchaseLimit_ = parseInt(purchasedAmount) + parseInt(purchaseAmount_);
+    console.log(purchaseLimit_, purchaseLimit)
+    
+    if (purchaseLimit_ > fromDecimals(purchaseLimit, 18)) {
+      setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)} ⛔️`)
     } else if (parseInt(value) > parseInt(purchaseTokenBalance)) {
       setError(`⛔️ You do not have enough ${purchaseTokenSymbol}! ⛔️`)
     } else {
@@ -421,7 +422,7 @@ export default function BuyCrowdsale() {
   return (
     <>
       <form onSubmit={submitProposal}>
-        <Stack w="60%" spacing="40px">
+        <Stack w="100%" spacing="40px">
           <Text><i>
             {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
           </i> is currently running a sale of its token with the following details:</Text>
