@@ -44,24 +44,24 @@ export default function SendShares() {
   });
 
   useEffect(() => {
-    append({ address: "" }); // add first recipient input field
+    append({ address: "" });
   }, [append]);
 
   const submitProposal = async (values) => {
     value.setLoading(true);
 
-    var { recipients } = values; // this must contain any inputs from custom forms
+    var { recipients } = values; 
 
     // Configure proposal type
     const proposalType_ = 0;
 
-    // Configure description and upload to IPFS if necessary
+    // Configure description param and upload to IPFS if necessary
     let description;
     (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
     (note) ? description = note : (description = "none");
     (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
 
-    // Configure accounts and validate address or ENS
+    // Configure accounts param and validate address or ENS
     let accounts_ = [];
     for (let i = 0; i < recipients.length; i++) {
       const account = await validateEns(recipients[i].address, web3, value)
@@ -72,7 +72,7 @@ export default function SendShares() {
       accounts_.push(account);
     }
 
-    // Configure token amounts
+    // Configure token amounts param
     let amounts_ = [];
     for (let i = 0; i < recipients.length; i++) {
       let element = document.getElementById(`recipients.${i}.share`);
@@ -80,7 +80,7 @@ export default function SendShares() {
       amounts_.push(toDecimals(value, 18));
     }
 
-    // Configure payloads
+    // Configure payloads param
     let payloads_ = [];
     for (let i = 0; i < recipients.length; i++) {
       payloads_.push("0x");
@@ -103,7 +103,7 @@ export default function SendShares() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <VStack width="70%" align="flex-start">
+      <VStack width="100%" align="flex-start">
         <HStack w="100%">
           <Text fontSize="14px">Mint DAO tokens to the following addresses</Text>
           <Spacer />
@@ -119,7 +119,7 @@ export default function SendShares() {
           </Button>
         </HStack>
         <Box h={"2%"} />
-        <List w={"100%"} spacing={"10px"}>
+        <List w={"100%"} spacing={3}>
           {fields.map((recipient, index) => (
             <ListItem
               // display="flex"
@@ -176,7 +176,7 @@ export default function SendShares() {
         <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
       </VStack>
       <br />
-      <VStack w={"70%"}>
+      <VStack w={"100%"}>
         <Button className="solid-btn" type="submit">
           Submit Proposal
         </Button>
