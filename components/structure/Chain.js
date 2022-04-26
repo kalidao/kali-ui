@@ -7,8 +7,8 @@ import { IoIosGitNetwork } from "react-icons/io";
 export default function Chain() {
   const value = useContext(AppContext);
   const { account, chainId, daoChain } = value.state;
-  console.log(daoChain);
-  console.log(chainId);
+  // console.log(daoChain);
+  // console.log(chainId);
 
   return (
     <>
