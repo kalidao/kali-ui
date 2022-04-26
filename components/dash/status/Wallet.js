@@ -6,6 +6,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, D
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useIsMounted } from "../../hooks";
 import Profile from "./Profile";
+import Avatar from './Avatar';
 
 const Connect = styled('button', {
   border: "none",
@@ -14,6 +15,7 @@ const Connect = styled('button', {
   boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.25)",
 
   display: "flex",
+  flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
 
@@ -25,6 +27,10 @@ const Connect = styled('button', {
   // TODO: Add hover animation
   '&:hover': { backgroundColor: '$green' },
 })
+
+const ConnectProfile = styled('div', {
+
+});
 
 const Button = styled('button', {
   fontWeight: "700",
@@ -82,7 +88,7 @@ export default function Wallet() {
     // TODO: Persist wallet state 
     <Dialog>
       <DialogTrigger>
-        <Connect>{account ? ensName || truncateAddress(account.address) : "Connect Wallet"} </Connect>
+        <Connect>{account ? <ConnectProfile> <Avatar /> {ensName} </ConnectProfile> || truncateAddress(account.address) : "Connect Wallet"} </Connect>
         {/* TODO: Add ens avatar */}
         {/* {ensAvatar && (
           <Image
@@ -101,7 +107,6 @@ export default function Wallet() {
           activeConnector && (
             <>
               <DialogTitle>Profile</DialogTitle>
-              {/* TODO: Add Profile */}
               <Profile ensName={ensName} address={account.address} />
               <Button onClick={() => disconnect()} variant='red'>
                 Disconnect from {activeConnector.name}
@@ -125,9 +130,6 @@ export default function Wallet() {
           ))}
           </>
         }
-        {/* <Flex>
-          <Connectors />
-        </Flex> */}
         <DialogClose>
           <CloseButton />
         </DialogClose>
