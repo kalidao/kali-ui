@@ -5,7 +5,8 @@ import {
   Text,
   Box,
   Textarea,
-  Select
+  Select,
+  Spacer,
 } from "@chakra-ui/react";
 import InfoTip from './InfoTip';
 import FileUploader from '../tools/FileUpload';
@@ -18,7 +19,7 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   }, []);
 
   return (
-    <VStack align="flex-start" w="100%" >
+    <VStack align="flex-start" w="100%">
       <HStack pb={"5px"}>
         <Text>
           <b>Notes:</b>
@@ -54,18 +55,11 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
             setNote(e.target.value);
           }}
         />
-        <Box w={"1%"}/>
+        <Spacer />
         <Text>- OR -</Text>
-        <Box w={"1%"}/>
+        <VStack w={"30%"}>
           <FileUploader setFile={setFile} />
-        {/* <input
-          id="file"
-          name="file"
-          type="file"
-          onChange={(e) => {
-            setFile(e.target.files[0]);
-          }}
-        /> */}
+        </VStack>
       </HStack>
     </VStack>
   );
