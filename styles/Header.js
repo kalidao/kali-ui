@@ -4,7 +4,15 @@ export const HeaderLayout = styled('div', {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottom: "1px solid $border"
+    borderBottom: "1px solid $border",
+    minWidth: "100%"
+})
+
+export const HeaderRight = styled('div', {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItem: "center",
+    minWidth: "90vw"
 })
 
 export const Heading = styled('h1', {

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from "react";
+import AppContext from "../../../context/AppContext";
 import { styled } from '../../../styles/stitches.config'
 import Network from './Network';
 import Wallet from './Wallet';
@@ -9,11 +10,13 @@ export const UserBar = styled('div', {
 });
 
 export default function User() {
+  const value = useContext(AppContext);
+  const { account, chainId } = value.state;
+
   return (
     <UserBar>
-        {/* Network, Wallet */}
-        <Network />
-        <Wallet />
+        <Network chainId={chainId} />
+        <Wallet account={account} connect={value.connect} />
     </UserBar>
   )
 }
