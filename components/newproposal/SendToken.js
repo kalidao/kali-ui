@@ -79,23 +79,23 @@ export default function SendToken() {
 
       // Configure accounts param and validate address or ENS
       let recipients_ = []; 
-      let accounts_ = []; // For CALL
+      let tokenAddress_ = []; // For CALL
       for (let i = 0; i < recipients.length; i++) {
-        const account = await validateEns(recipients[i].address, web3, value)
-        if (account === undefined) {
+        const recipientAddress = await validateEns(recipients[i].address, web3, value)
+        if (recipientAddress === undefined) {
           value.setLoading(false);
           return;
         }
-        recipients_.push(account)
+        recipients_.push(recipientAddress)
 
         // Replace accounts with token address to CALL token transfers via payload
         let address_;
         if (selectedOptions[i] == "ETH") {
-          address_ = account;
+          address_ = recipientAddress;
         } else {
           address_ = tokens[chainId][selectedOptions[i]]["address"];
         }
-        accounts_.push(address_);
+        tokenAddress_.push(address_);
       }
 
       // Configure token amounts param
@@ -137,11 +137,11 @@ export default function SendToken() {
         }
       }
 
-      console.log(proposalType_, description, recipients_, accounts_, amounts_, payloads_);
+      // console.log(proposalType_, description, recipients_, tokenAddress_, amounts_, payloads_);
       try {
         const instance = new web3.eth.Contract(abi, address);
         let result = await instance.methods
-          .propose(proposalType_, description, accounts_, amounts_, payloads_)
+          .propose(proposalType_, description, tokenAddress_, amounts_, payloads_)
           .send({ from: account });
         value.setVisibleView(2);
       } catch (e) {
@@ -186,14 +186,11 @@ export default function SendToken() {
                     defaultValue={recipient.address}
                     render={({ field }) => (
                       <FormControl>
-                        {/* <FormLabel htmlFor={`recipients.${index}.address`}>
-                          Recipient {index + 1}
-                        </FormLabel> */}
                         <Input
                           placeholder="0x address or ENS"
                           {...field}
                           {...register(`recipients.${index}.address`, {
-                            required: "You must assign share!",
+                            required: "You must input an address!",
                           })}
                         />
                       </FormControl>
@@ -207,9 +204,6 @@ export default function SendToken() {
                     defaultValue={recipient.token}
                     render={({ field }) => (
                       <FormControl>
-                        {/* <FormLabel htmlFor={`recipients.${index}.token`}>
-                          Token
-                        </FormLabel> */}
                         <Select id={index} onChange={handleSelect}>
                           <option>Select</option>
                           <option value="ETH">ETH</option>
@@ -230,9 +224,6 @@ export default function SendToken() {
                     defaultValue={recipient.share}
                     render={({ field }) => (
                       <FormControl isRequired>
-                        {/* <FormLabel htmlFor={`recipients.${index}.share`}>
-                          Amount
-                        </FormLabel> */}
                         <NumInputField
                           min="0.000000000000000001"
                           defaultValue="1"

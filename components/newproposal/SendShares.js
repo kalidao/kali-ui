@@ -64,12 +64,12 @@ export default function SendShares() {
     // Configure accounts param and validate address or ENS
     let accounts_ = [];
     for (let i = 0; i < recipients.length; i++) {
-      const account = await validateEns(recipients[i].address, web3, value)
-      if (account === undefined) {
+      const recipientAddress = await validateEns(recipients[i].address, web3, value)
+      if (recipientAddress === undefined) {
         value.setLoading(false);
         return;
       }
-      accounts_.push(account);
+      accounts_.push(recipientAddress);
     }
 
     // Configure token amounts param
