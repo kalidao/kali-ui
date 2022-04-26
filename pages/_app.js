@@ -13,6 +13,55 @@ import { correctNetwork } from "../utils/network";
 import { getNetworkName, getChainInfo } from "../utils/formatters";
 import { supportedChains } from "../constants/supportedChains";
 import "../styles/style.css";
+import { providers } from "ethers";
+import { Provider, chain, createClient, defaultChains } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+
+const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
+const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+const chains = defaultChains;
+const defaultChain = chain.mainnet;
+
+const isChainSupported = (chainId) =>
+  chains.some((x) => x.id === chainId)
+
+  const client = createClient({
+    autoConnect: true,
+    connectors({ chainId }) {
+      const chain = chains.find((x) => x.id === chainId) ?? defaultChain
+      const rpcUrl = chain.rpcUrls.infura
+        ? `${chain.rpcUrls.infura}/${infuraId}`
+        : chain.rpcUrls.default
+      return [
+        new InjectedConnector({ chains }),
+        new CoinbaseWalletConnector({
+          chains,
+          options: {
+            appName: 'KALI',
+            chainId: chain.id,
+            jsonRpcUrl: rpcUrl,
+          },
+        }),
+        new WalletConnectConnector({
+          chains,
+          options: {
+            qrcode: true,
+            rpc: {
+              [chain.id]: rpcUrl,
+            },
+          },
+        }),
+      ]
+    },
+    provider({ chainId }) {
+      return new providers.InfuraProvider(
+        isChainSupported(chainId) ? chainId : defaultChain.id,
+        alchemyId,
+      )
+    },
+  })
 
 function MyApp({ Component, pageProps }) {
   const [web3, setWeb3] = useState(null);
@@ -170,40 +219,42 @@ function MyApp({ Component, pageProps }) {
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      <AppContext.Provider
-        value={{
-          state: {
-            web3: web3,
-            account: account,
-            chainId: chainId,
-            daoChain: daoChain,
-            loading: loading,
-            address: address,
-            abi: abi,
-            visibleView: visibleView,
-            dao: dao,
-            proposals: proposals,
-            remount: remount,
-          },
-          setWeb3: setWeb3,
-          setAccount: setAccount,
-          setChainId: setChainId,
-          setDaoChain: setDaoChain,
-          setLoading: setLoading,
-          setAddress: setAddress,
-          connect: connect,
-          setVisibleView: setVisibleView,
-          setDao: setDao,
-          setProposals: setProposals,
-          toast: toast,
-          setRemount: setRemount,
-          switchChain: switchChain,
-        }}
-      >
-        <Component {...pageProps} />
-      </AppContext.Provider>
-    </ChakraProvider>
+    <Provider client={client}>
+      <ChakraProvider theme={theme}>
+        <AppContext.Provider
+          value={{
+            state: {
+              web3: web3,
+              account: account,
+              chainId: chainId,
+              daoChain: daoChain,
+              loading: loading,
+              address: address,
+              abi: abi,
+              visibleView: visibleView,
+              dao: dao,
+              proposals: proposals,
+              remount: remount,
+            },
+            setWeb3: setWeb3,
+            setAccount: setAccount,
+            setChainId: setChainId,
+            setDaoChain: setDaoChain,
+            setLoading: setLoading,
+            setAddress: setAddress,
+            connect: connect,
+            setVisibleView: setVisibleView,
+            setDao: setDao,
+            setProposals: setProposals,
+            toast: toast,
+            setRemount: setRemount,
+            switchChain: switchChain,
+          }}
+        >
+          <Component {...pageProps} />
+        </AppContext.Provider>
+      </ChakraProvider>
+    </Provider>
   );
 }
 

@@ -16,7 +16,7 @@ export default function User() {
   return (
     <UserBar>
         <Network chainId={chainId} />
-        <Wallet account={account} connect={value.connect} />
+        <Wallet />
     </UserBar>
   )
 }
