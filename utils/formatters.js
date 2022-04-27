@@ -94,7 +94,7 @@ export function fromDecimals(amount, decimals) {
   let demoninator = Big(scientificNotation[decimals]);
 
   let big = numerator.div(demoninator);
-  console.log("big", big);
+  // console.log("big", big);
 
   return big.toString(); // if between 0 and 1, will return 0
 }

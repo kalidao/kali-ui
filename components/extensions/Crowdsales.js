@@ -3,7 +3,7 @@ import Sale from "./Sale";
 
 export default function Crowdsales({ sales, symbol }) {
 
-  console.log("sales", sales)
+  // console.log("sales", sales)
   return (
     <Box maxWidth="100%" >
         <Heading>Sales</Heading>

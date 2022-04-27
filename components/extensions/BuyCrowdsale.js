@@ -174,7 +174,7 @@ export default function BuyCrowdsale() {
     try {
       let result = await instance.methods.crowdsales(dao.address).call()
 
-      console.log(result[0])
+      // console.log(result[0])
 
       switch (result[0]) {
         case "0":
@@ -291,7 +291,7 @@ export default function BuyCrowdsale() {
         break;
       case "18":
         result = toDecimals(baseAmount, 18).toString();
-        console.log(result)
+        // console.log(result)
         break;
     };
     return result;
@@ -308,7 +308,7 @@ export default function BuyCrowdsale() {
         .approve(crowdsaleAddress, approvalAmount)
         .send({ from: account });
       value.setLoading(false);
-      console.log(result)
+      // console.log(result)
       setApproveButton(false)
 
       if (!purchaseTerms) {
@@ -332,9 +332,9 @@ export default function BuyCrowdsale() {
     var { amount_ } = array; // this must contain any inputs from custom forms
     const purchaseAmount_ = concatDecimals(amount_);
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
-    console.log(purchaseAmount_, address, instance, account)
+    // console.log(purchaseAmount_, address, instance, account)
 
-    console.log('purchaseToken', purchaseToken);
+    // console.log('purchaseToken', purchaseToken);
 
     try {
 
@@ -375,10 +375,10 @@ export default function BuyCrowdsale() {
     const purchaseAmount_ = value * purchaseMultiplier;
     setPurchaseAmount(purchaseAmount_);
 
-    console.log(purchasedAmount + " - " + purchaseAmount_)
+    // console.log(purchasedAmount + " - " + purchaseAmount_)
     
     const purchaseLimit_ = parseInt(purchasedAmount) + parseInt(purchaseAmount_);
-    console.log(purchaseLimit_, purchaseLimit)
+    // console.log(purchaseLimit_, purchaseLimit)
     
     if (purchaseLimit_ > fromDecimals(purchaseLimit, 18)) {
       setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)} ⛔️`)
