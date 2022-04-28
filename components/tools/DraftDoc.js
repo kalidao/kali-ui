@@ -25,6 +25,7 @@ import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
 import WyomingOAtemplate from "../legal/WyomingOAtemplate";
 import SwissVerein from "../legal/SwissVerein";
+import PropertyTokenizer from "../legal/PropertyTokenizer";
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,6 +38,7 @@ function DraftDoc() {
   const [deUnaForm, setDeUnaForm] = useState(false);
   const [wyLlcForm, setWyLlcForm] = useState(false);
   const [swissVereinForm, setSwissVereinForm] = useState(false);
+  const [propertyTokenizerForm, setPropertyTokenizerForm] = useState(false);
 
   // State per Legal Form
   const [delawareLlc, setDelawareLlc] = useState({});
@@ -44,6 +46,7 @@ function DraftDoc() {
   const [delawareUna, setDelawareUna] = useState({});
   const [wyomingLlc, setWyomingLlc] = useState({});
   const [swissVerein, setSwissVerein] = useState({});
+  const [propertyTokenizer, setPropertyTokenizer] = useState({});
 
   const generateDoc = (values) => {
     values.agreement = selection;
@@ -81,6 +84,29 @@ function DraftDoc() {
           mission: values.mission,
         });
         setSwissVereinForm(true);
+      case "property-tokenizer":
+        setPropertyTokenizer({
+          header: values.header,
+          effectiveDate: values.effectiveDate,
+          ownerAddress: values.ownerAddress,
+          holder: values.holder,
+          holderAddress: values.holderAddress,
+          propertyDesc: values.propertyDesc,
+          licenseLang: values.licenseLang,
+          token: values.token,
+          amount: values.amount,
+          term: values.term,
+          licenseFee: values.licenseFee,
+          prohibitions: values.prohibitions,
+          choiceOfLaw: values.choiceOfLaw,
+          designatedClient: values.designatedClient,
+          network: values.network,
+          networkId: values.networkId,
+          chainId: values.chainId,
+          smartAddress: values.smartAddress,
+          imageLink: values.imageLink,
+        });
+        setPropertyTokenizerForm(true);
     }
 
     console.log(values);
@@ -128,6 +154,8 @@ function DraftDoc() {
                     setDeIcForm(false);
                     setDeUnaForm(false);
                     setWyLlcForm(false);
+                    setSwissVerein(false);
+                    setPropertyTokenizer(false);
                     reset();
                   }}
                   id="agreement"
@@ -138,6 +166,7 @@ function DraftDoc() {
                   <option value="delaware-ic">Investment Club</option>
                   <option value="delaware-una">UNA</option>
                   <option value="swiss-verein">Swiss Verein</option>
+                  <option value="property-tokenizer">Property Tokenizer</option>
                 </Select>
               </FormControl>
               {selection === "delaware-llc" && (
@@ -251,6 +280,92 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
+              {selection === "property-tokenizer" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="header">
+                      Header
+                    </FormLabel>
+                    <Input id="header" placeholder="KALI" {...register("header")} />
+                    <FormLabel mt={3} htmlFor="effectiveDate">
+                      Effective Date
+                    </FormLabel>
+                    <Input
+                      id="effectiveDate"
+                      placeholder="Effective Date"
+                      {...register("effectiveDate")}
+                    />
+                    <FormLabel mt={3} htmlFor="ownerAddress">
+                      Owner Address
+                    </FormLabel>
+                    <Input id="ownerAddress" placeholder="Owner Address" {...register("ownerAddress")} />
+                    <FormLabel mt={3} htmlFor="ownerAddress">
+                      Holder
+                    </FormLabel>
+                    <Input id="holder" placeholder="Holder" {...register("holder")} />
+                    <FormLabel mt={3} htmlFor="holderAddress">
+                      Holder Address
+                    </FormLabel>
+                    <Input id="holderAddress" placeholder="Holder Address" {...register("holderAddress")} />
+                    <FormLabel mt={3} htmlFor="propertyDesc">
+                      Property Description
+                    </FormLabel>
+                    <Input id="propertyDesc" placeholder="Property Description" {...register("propertyDesc")} />
+                    <FormLabel mt={3} htmlFor="licenseLang">
+                      Licensing Language
+                    </FormLabel>
+                    <Input id="licenseLang" placeholder="Licensing Language" {...register("licenseLang")} />
+                    <FormLabel mt={3} htmlFor="token">
+                      Token
+                    </FormLabel>
+                    <Input id="token" placeholder="Token" {...register("token")} />
+                    <FormLabel mt={3} htmlFor="amount">
+                      Amount
+                    </FormLabel>
+                    <Input id="amount" placeholder="Amount" {...register("amount")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Term
+                    </FormLabel>
+                    <Input id="term" placeholder="Term" {...register("term")} />
+                    <FormLabel mt={3} htmlFor="">
+                      License Fee
+                    </FormLabel>
+                    <Input id="licenseFee" placeholder="License Fee" {...register("licenseFee")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Prohibitions
+                    </FormLabel>
+                    <Input id="prohibitions" placeholder="Prohibitions" {...register("prohibitions")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Choice of Law
+                    </FormLabel>
+                    <Input id="choiceOfLaw" placeholder="Choice of Law" {...register("choiceOfLaw")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Designated Client
+                    </FormLabel>
+                    <Input id="designatedClient" placeholder="Designated Client" {...register("designatedClient")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Network
+                    </FormLabel>
+                    <Input id="network" placeholder="Network" {...register("network")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Network ID
+                    </FormLabel>
+                    <Input id="networkId" placeholder="Network ID" {...register("networkId")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Chain ID
+                    </FormLabel>
+                    <Input id="chainId" placeholder="Chain ID" {...register("chainId")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Smart Address
+                    </FormLabel>
+                    <Input id="smartAddress" placeholder="Smart Address" {...register("smartAddress")} />
+                    <FormLabel mt={3} htmlFor="">
+                      Image Link
+                    </FormLabel>
+                    <Input id="imageLink" placeholder="Image Link" {...register("imageLink")} />
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </DrawerBody>
           <DrawerFooter>
@@ -351,9 +466,42 @@ function DraftDoc() {
                     )
                   }
                 </PDFDownloadLink>
+              )) ||
+              (propertyTokenizerForm && (
+                <PDFDownloadLink
+                  document={
+                    <PropertyTokenizer
+                      header={propertyTokenizer.header}
+                      effectiveDate={propertyTokenizer.effectiveDate}
+                      ownerAddress={propertyTokenizer.ownerAddress}
+                      holderAddress={propertyTokenizer.holderAddress}
+                      propertyDesc={propertyTokenizer.propertyDesc}
+                      licenseLang={propertyTokenizer.licenseLang}
+                      token={propertyTokenizer.token}
+                      amount={propertyTokenizer.amount}
+                      term={propertyTokenizer.term}
+                      licenseFee={propertyTokenizer.licenseFee}
+                      prohibitions={propertyTokenizer.prohibitions}
+                      choiceOfLaw={propertyTokenizer.choiceOfLaw}
+                      designatedClient={propertyTokenizer.designatedClient}
+                      network={propertyTokenizer.network}
+                      networkId={propertyTokenizer.networkId}
+                      chainId={propertyTokenizer.chainId}
+                      smartAddress={propertyTokenizer.smartAddress}
+                      imageLink={propertyTokenizer.imageLink}
+                    />
+                  }
+                  fileName="Property Tokenizer"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <Button mr={3}>Loading Document...</Button>
+                    ) : (
+                      <Button mr={3}>Download</Button>
+                    )
+                  }
+                </PDFDownloadLink>
               ))}
-            {}
-            {}
             <Button type="submit" form="contact-form" mr={3}>
               Draft
             </Button>
