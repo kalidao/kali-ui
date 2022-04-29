@@ -59,7 +59,7 @@ export const presets = [
   {
     type: "Nonprofit",
     icon: FaHandsHelping,
-    voting: 14,
+    voting: 3,
     quorum: 20,
     supermajority: 60,
     paused: 1,
