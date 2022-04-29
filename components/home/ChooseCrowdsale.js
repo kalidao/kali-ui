@@ -32,10 +32,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     )
   );
 
-  // const [listId, setListId] = useState(
-  //   Boolean(details["extensions"]["crowdsale"]["listId"])
-  // );
-
   const [list, setList] = useState("");
   const [islistValidated, setIsListValidated] = useState(false);
   const [isTokenValidated, setIsTokenValidated] = useState(false);
@@ -118,15 +114,20 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
   // };
 
   const handlePurchaseList = (e) => {
-    let list = e.target.value;
-    console.log(list)
+    let list = e.target.selectedOptions[0].value;
+    console.log("listId", list)
     switch (list) {
+      case "0":
+        setShowCustomListInput(false);
+        details["extensions"]["crowdsale"]["listId"] = 0;
+        setDetails(details);
+        break;
       case "1":
         setShowCustomListInput(false);
         details["extensions"]["crowdsale"]["listId"] = 1;
         setDetails(details);
         break;
-      case "custom":
+      case "333":
         setShowCustomListInput(true);
         // setDetails(details);
         details["extensions"]["crowdsale"]["listId"] = 333;
@@ -180,12 +181,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     console.log("crowdsale active", crowdsale);
     details["extensions"]["crowdsale"]["active"] = crowdsale;
   }, [crowdsale]);
-
-  // useEffect(() => {
-  //   console.log("listId", listId);
-  //   details["extensions"]["crowdsale"]["listId"] = Number(listId);
-  //   setDetails(details);
-  // }, [listId]);
 
   useEffect(() => {
     details["extensions"]["crowdsale"]["purchaseMultiplier"] =
@@ -268,11 +263,11 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
                 id="purchaseList"
                 onChange={handlePurchaseList}
                 placeholder="Select"
-                value={details["extensions"]["crowdsale"]["listId"]}
+                defaultValue={details["extensions"]["crowdsale"]["listId"]}
               >
                 <option value="0">Public</option>
                 <option value="1">Accredited</option>
-                <option value="custom">Custom</option>
+                <option value="333">Custom</option>
               </Select>
             </HStack>
             {showCustomListInput && (
