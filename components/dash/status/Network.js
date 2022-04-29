@@ -1,7 +1,59 @@
-import { NetworkBox, Dot } from '../../../styles/User'
-import { useNetwork } from 'wagmi'
+import { styled } from '../../../styles/stitches.config';
+import { useNetwork } from 'wagmi';
 
-export default function Network({ chainId }) {
+export const Network = styled('div', {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "0.5rem",
+  borderRadius: "2rem",
+  margin: "0px 6px",  
+  padding: "6px 14px",
+  
+  fontWeight: "700",
+  fontSize: "16px",
+  lineHeight: "19px",
+
+  
+  variants: {
+    variant: {
+      "green": {
+        color: "$green",
+        border: "1px solid $green",
+      },
+      "yellow": {
+        color: "$yellow",
+        border: "1px solid $yellow",
+      },
+      "red": {
+        color: "$red",
+        border: "1px solid $red",
+      }
+    }
+  }
+});
+
+export const Dot = styled('div', {
+  width: "8px",
+  height: "8px",
+  borderRadius: "2rem",
+  
+  variants: {
+    variant: {
+      "green": {
+        background: "$green",
+      },
+      "yellow": {
+        background: "$yellow",
+      },
+      "red": {
+        background: "$red",
+      }
+    }
+  }
+});
+
+export default function NetworkComponent() {
   const {
     activeChain,
     chains,
@@ -17,13 +69,12 @@ export default function Network({ chainId }) {
   return (
     <>
       {activeChain ? 
-        <NetworkBox color="green">
-          <Dot color="green"/>{activeChain?.name}
-        </NetworkBox> : 
-        <NetworkBox color="red">
-          <Dot color="red" />Not Connected
-        </NetworkBox>
-      }
-    </>
-  );
+        <Network variant="green">
+          <Dot variant="green"/>{activeChain?.name}
+        </Network> : 
+        <Network variant="red">
+          <Dot variant="red" />Not Connected
+        </Network>
+      } 
+    </>);
 }

@@ -1,4 +1,3 @@
-import useENS from "../../hooks/useENS";
 import { styled } from "../../../styles/stitches.config";
 import { truncateAddress } from "../../../utils/formatters";
 import { CopyIcon } from "@radix-ui/react-icons"; 
@@ -38,9 +37,7 @@ const Utility = styled('button', {
   '&:hover': { backgroundColor: '$darkgray' },
 });
 
-export default function ProfileComponent({ address, ensName }) {
-  const { ensAvatar } = useENS(address);
-  
+export default function ProfileComponent({ address, ensName, ensAvatar }) {  
   return (
     <ProfileBox>
         <Profile>

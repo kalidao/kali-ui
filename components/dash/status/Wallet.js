@@ -1,5 +1,4 @@
 import { styled } from '../../../styles/stitches.config';
-import Image from 'next/image';
 import { truncateAddress } from "../../../utils/formatters";
 import { useAccount, useConnect, useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../../styles/User';
@@ -18,8 +17,10 @@ const Connect = styled('button', {
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
+  gap: "0.5rem",
 
-  fontWeight: "700",
+  // TODO: Add https://optimo.ch/typefaces/px_grotesk screen  
+  fontWeight: "800",
   fontSize: "16px",
   lineHeight: "19px",
   padding: "6px 14px",
@@ -27,10 +28,6 @@ const Connect = styled('button', {
   // TODO: Add hover animation
   '&:hover': { backgroundColor: '$green' },
 })
-
-const ConnectProfile = styled('div', {
-
-});
 
 const Button = styled('button', {
   fontWeight: "700",
@@ -79,35 +76,32 @@ const CloseButton = () => {
 export default function Wallet() {
   const isMounted = useIsMounted();
   const { data: account } = useAccount();
-  const { data: ensName } = useEnsName({ address: account?.address });
+  // Fetches ensName and ensAvatar from mainnet
+  const { data: ensName } = useEnsName({ address: account?.address, chainId: 1 });
+  const { data: ensAvatar } = useEnsAvatar({ address: account?.address, chainId: 1 });
   const { activeConnector, connect, connectors, error, isConnecting, pendingConnector} = useConnect();
   const { disconnect } = useDisconnect();
 
+  console.log('ensName', ensName)
+  // TODO: Add error toast if not connected
   return (
-    // TODO: Add disconnect wallet
-    // TODO: Persist wallet state 
     <Dialog>
       <DialogTrigger>
-        <Connect>{account ? <ConnectProfile> <Avatar /> {ensName} </ConnectProfile> || truncateAddress(account.address) : "Connect Wallet"} </Connect>
-        {/* TODO: Add ens avatar */}
-        {/* {ensAvatar && (
-          <Image
-            src={ensAvatar}
-            alt={account}
-            rounded="full"
-            height={25}
-            width={25}
-            marginRight={2}
-          />
-        )} */}
-        
+        <Connect onClick={() => connect()}>
+          {account ? 
+          <>
+            <Avatar ensAvatar={ensAvatar}/> 
+            {ensName ? ensName : truncateAddress(account.address)}
+          </> : 
+        "Connect Wallet"} 
+      </Connect>        
       </DialogTrigger>
       <DialogContent>
         {
           activeConnector && (
             <>
               <DialogTitle>Profile</DialogTitle>
-              <Profile ensName={ensName} address={account.address} />
+              <Profile ensName={ensName} ensAvatar={ensAvatar} address={account.address} />
               <Button onClick={() => disconnect()} variant='red'>
                 Disconnect from {activeConnector.name}
               </Button>
