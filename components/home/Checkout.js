@@ -149,27 +149,13 @@ export default function Checkout({ details, daoNames }) {
       ).toBlob();
     }
 
-    const result = await ipfsIncorporationDoc(details["identity"]["daoName"], members[0], _blob)
-    console.log(result);
-    return result;
-    // const input = {
-    //   apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
-    //   apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-    //   bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
-    //   key: "Summoner of " + details["identity"]["daoName"] + " - " + account,
-    //   data: _blob,
-    //   httpUploadProgressCallback: (event) => {
-    //     console.log(Math.round((event.loaded / event.total) * 100) + "% done");
-    //   },
-    // };
-
-    // try {
-    //   const result = await fleek.upload(input);
-    //   console.log("Document hash from Fleek: " + result.hash);
-    //   return result.hash;
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      const result = await ipfsIncorporationDoc(details["identity"]["daoName"], members[0], _blob)
+      console.log(result);
+      return result;
+    } catch (e) {
+    console.log(e)     
+    }
   };
 
   const deploy = async () => {
@@ -292,13 +278,13 @@ export default function Checkout({ details, daoNames }) {
       if (purchaseLimit === null) {
         purchaseLimit = "10000000000000000000";
       }
-      const terms_ = await ipfsCrowdsaleTerms(details["identity"]["daoName"], members[0], terms)
+      documentation = await ipfsCrowdsaleTerms(details["identity"]["daoName"], members[0], terms)
 
       console.log(
         "crowdsale param",
         listId,
         list,
-        terms_,
+        documentation,
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
