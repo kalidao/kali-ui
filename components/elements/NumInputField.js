@@ -12,6 +12,7 @@ export default function NumInputField(props) {
   let onChange;
   let defaultValue;
   let id;
+  let w;
   if (props.min) {
     min = props.min;
   } else {
@@ -35,6 +36,11 @@ export default function NumInputField(props) {
   } else {
     id = 1;
   }
+  if (props.w) {
+    w = props.w;
+  } else {
+    w = "100%"
+  }
 
   return (
     <NumberInput
@@ -45,7 +51,7 @@ export default function NumInputField(props) {
       max={max}
       onChange={onChange}
       id={id}
-      w={"100%"}
+      w={w}
     >
       <NumberInputField focusBorderColor="red.200" />
 
