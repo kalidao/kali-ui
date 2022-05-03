@@ -148,6 +148,7 @@ export default function BuyCrowdsale() {
         setApproveButton(true);
         console.log("Token contract not yet approved")
       } else {
+        setApproveButton(false);
         console.log("Token contract already approved")
       }
     } catch (e) {
