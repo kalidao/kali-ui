@@ -278,7 +278,12 @@ export default function Checkout({ details, daoNames }) {
       if (purchaseLimit === null) {
         purchaseLimit = "10000000000000000000";
       }
-      documentation = await ipfsCrowdsaleTerms(details["identity"]["daoName"], members[0], terms)
+
+      if (terms === "none") {
+        documentation = "none"
+      } else {
+        documentation = await ipfsCrowdsaleTerms(details["identity"]["daoName"], members[0], terms)
+      }
 
       console.log(
         "crowdsale param",
