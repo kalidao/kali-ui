@@ -1,8 +1,7 @@
 import { styled } from '../../../styles/stitches.config';
 import { truncateAddress } from "../../../utils/formatters";
 import { useAccount, useConnect, useDisconnect, useEnsName, useEnsAvatar } from "wagmi";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../../styles/User';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../../styles/Dialog';
 import { useIsMounted } from "../../hooks";
 import Profile from "./Profile";
 import Avatar from './Avatar';
@@ -49,30 +48,6 @@ const Button = styled('button', {
   }
 });
 
-const IconButton = styled('button', {
-  all: 'unset',
-  fontFamily: 'inherit',
-  borderRadius: '100%',
-  height: 25,
-  width: 25,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '$red',
-  position: 'absolute',
-  top: 10,
-  right: 10,
-
-  '&:hover': { backgroundColor: '$redAlpha' },
-  '&:focus': { boxShadow: `0 0 0 2px $redAlpha` },
-});
-
-const CloseButton = () => {
-  return <IconButton>
-    <Cross2Icon />
-  </IconButton>
-}
-
 export default function Wallet() {
   const isMounted = useIsMounted();
   const { data: account } = useAccount();
@@ -101,7 +76,7 @@ export default function Wallet() {
           activeConnector && (
             <>
               <DialogTitle>Profile</DialogTitle>
-              <Profile ensName={ensName} ensAvatar={ensAvatar} address={account.address} />
+              <Profile ensName={ensName} ensAvatar={ensAvatar} address={account?.address} />
               <Button onClick={() => disconnect()} variant='red'>
                 Disconnect from {activeConnector.name}
               </Button>
@@ -124,9 +99,7 @@ export default function Wallet() {
           ))}
           </>
         }
-        <DialogClose>
-          <CloseButton />
-        </DialogClose>
+      <DialogClose/>
       </DialogContent>
     </Dialog>
   )

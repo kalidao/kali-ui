@@ -1,5 +1,6 @@
 import { styled, keyframes } from './stitches.config';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -29,8 +30,8 @@ const StyledContent = styled(DialogPrimitive.Content, {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '90vw',
-  maxWidth: '450px',
-  maxHeight: '85vh',
+  maxWidth: '600px',
+  maxHeight: '90vh',
   padding: 25,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
@@ -50,7 +51,7 @@ function Content({ children, ...props }) {
 const StyledTitle = styled(DialogPrimitive.Title, {
   margin: 0,
   fontWeight: 700,
-  color: '$purple',
+  color: '$black',
   fontSize: 17,
 });
 
@@ -64,13 +65,38 @@ const StyledDescription = styled(DialogPrimitive.Description, {
   lineHeight: 1.5,
 });
 
+export const IconButton = styled('button', {
+  all: 'unset',
+  fontFamily: 'inherit',
+  borderRadius: '100%',
+  height: 25,
+  width: 25,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '$red',
+  position: 'absolute',
+  top: 10,
+  right: 10,
+
+  '&:hover': { backgroundColor: '$redAlpha' },
+  '&:focus': { boxShadow: `0 0 0 2px $redAlpha` },
+});
+
 // Exports
 export const Dialog = DialogPrimitive.Root;
 export const DialogTrigger = DialogPrimitive.Trigger;
 export const DialogContent = Content;
 export const DialogTitle = StyledTitle;
 export const DialogDescription = StyledDescription;
-export const DialogClose = DialogPrimitive.Close;
+
+export const DialogClose = () => {
+  return (<DialogPrimitive.Close>
+    <IconButton>
+      <Cross2Icon />
+    </IconButton>
+  </DialogPrimitive.Close>);
+} 
 
 
 

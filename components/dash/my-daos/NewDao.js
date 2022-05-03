@@ -1,6 +1,7 @@
-import React from 'react'
 import { styled } from '../../../styles/stitches.config'
 import { Name } from './DaoCard';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../../styles/Dialog';
+import DeployDAO from '../../deploy-dao/DeployDAO';
 
 const Card = styled('div', {
     background: '$white',
@@ -17,14 +18,22 @@ const Card = styled('div', {
 const Plus = styled('div', {
     fontWeight: '700',
     fontSize: '144.69px',
-    lineHeight: '100%'
+    lineHeight: '100%',
 });
 
 export default function NewDao() {
+
   return (
-    <Card>
-        <Plus>+</Plus>
-        <Name>Create New</Name>
-    </Card>
+    <Dialog>
+      <DialogTrigger>
+        <Card>
+          <Plus>+</Plus>
+          <Name>Create New</Name>
+        </Card>
+      </DialogTrigger>
+      <DialogContent>
+        <DeployDAO />
+      </DialogContent>
+    </Dialog>
   )
 }

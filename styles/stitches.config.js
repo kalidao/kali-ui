@@ -13,7 +13,7 @@ export const { styled, keyframes } = createStitches({
       yellow: "#FDCC6E",
       purple: "#7000FF",
       border: "#DDDDDD",
-      blackAlpha: "rgba(19, 19, 21, 0.98)",
+      blackAlpha: "rgba(19, 19, 21, 0.9)",
     },
     media: {
       bp1: "(min-width: 575px)",
