@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Select, Text, Textarea, Spacer, Box, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Input, Button, Select, Text, Textarea, Spacer, Box, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Center } from "@chakra-ui/react";
 import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
 import ProposalDescription from "../elements/ProposalDescription";
 import { uploadIpfs } from "../tools/ipfsHelpers";
@@ -21,6 +21,8 @@ export default function ContractCall() {
   const [functionName, setFunctionName] = useState(null);
   const [inputs, setInputs] = useState(null);
   const [inputParams, setInputParams] = useState(null);
+  const [selection, setSelection] = useState(null);
+  const [readResponse, setReadResponse] = useState("Pick a function to query.");
 
   const updateABI = (event) => {
     setAbi_(event.target.value);
@@ -35,14 +37,14 @@ export default function ContractCall() {
       for (var i = 0; i < array.length; i++) {
         let item = array[i];
         const funcType = item["stateMutability"]
-        // if (item["type"] == "function") {
-        //   functions_.push(item);
-        // }
-
-        if (funcType == "payable") {
+        if (funcType == "nonpayable" || funcType == "payable") {
           writeFuncs_.push(item)
+          writeFuncs_.sort((a, b) => a.name > b.name)
+          console.log(writeFuncs_)
         } else if (funcType == "view") {
           readFuncs_.push(item)
+          readFuncs_.sort((a, b) => a.name > b.name)
+          console.log(readFuncs_)
         }
       }
 
@@ -64,6 +66,7 @@ export default function ContractCall() {
       let name_ = writeFuncs[id]["name"];
       setInputs(inputs_);
       setFunctionName(name_);
+      setSelection(id);
     }
   };
 
@@ -80,6 +83,26 @@ export default function ContractCall() {
     console.log(array);
     setInputParams(JSON.stringify(array));
   };
+
+  const handleQuery = async (event) => {
+
+    const func_ = web3.eth.abi.encodeFunctionCall(readFuncs[selection], []);
+
+    try {
+      
+      const instance = new web3.eth.Contract(abi, address);
+      console.log(instance)
+        let result = await instance.methods[func_]().call()
+        console.log(result)
+        setReadResponse(result)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() =>{ 
+
+  }, [readResponse])
 
   const submitProposal = async (event) => {
     event.preventDefault();
@@ -177,6 +200,86 @@ export default function ContractCall() {
           </VStack>
         </HStack>
 
+        {/* <Input type="hidden" name="abi_" value={abi_} />
+        <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} /> */}
+        <Box h={"2%"} />
+
+        {(readFuncs || writeFuncs) ? (
+          <Tabs>
+            <TabList>
+              {readFuncs ? <Tab>Read Contract</Tab> : null}
+              {writeFuncs ? <Tab>Write Contract</Tab> : null}
+            </TabList>
+
+            <TabPanels>
+              {readFuncs ?
+                <TabPanel>
+                  <VStack w={"100%"} align={"flex-start"}>
+                    <HStack w={"100%"}>
+                      <Select w={"25%"} onChange={onFunctionSelect}>
+                        <option value="999">Select</option>
+                        {readFuncs.map((f, index) => (
+                          <option key={index} value={index}>
+                            {f["name"]}
+                          </option>
+                        ))}
+                      </Select>
+
+                      <Button className="solid-btn" onClick={handleQuery}>Query</Button>
+                      <Box background={"whiteAlpha.100"} w="70%" borderRadius={"10px"} align={"flex-start"} pl={"5%"} pt={"2%"} pb={"2%"}>
+                        {readResponse && <Text>{readResponse}</Text>}
+                      </Box>
+                    </HStack>
+                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
+                    <br />
+
+
+                  </VStack>
+                </TabPanel>
+                : null}
+              {writeFuncs ?
+                <TabPanel>
+                  <VStack w={"100%"} align={"flex-start"}>
+                    <Select w={"70%"} onChange={onFunctionSelect}>
+                      <option value="999">Select a function</option>
+                      {writeFuncs.map((f, index) => (
+                        <option key={index} value={index}>
+                          {f["name"]}
+                        </option>
+                      ))}
+                    </Select>
+                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
+                    {inputs == null ? null : (
+                      <>
+                        {/* <Input type="hidden" name="inputParams" value={inputParams} /> */}
+                        <div id="inputFields">
+                          {inputs.map((input, index) => (
+                            <>
+                              <Text>{input["name"]}</Text>
+                              <Input onChange={onInputChange} />
+                            </>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                    <br />
+                    <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
+                    <br />
+                    <Center>
+                      <Button className="solid-btn" type="submit">Submit Proposal</Button>
+
+                    </Center>
+                  </VStack>
+                </TabPanel>
+                : null}
+            </TabPanels>
+          </Tabs>
+        ) : (
+          <VStack w={"100%"}>
+            <br />
+            <Text>Enter contract ABI above to parse and interact with contract functions!</Text>
+          </VStack>
+        )}
         {/* <Input type="hidden" name="abi_" value={abi_} />
         <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} /> */}
         <Box h={"2%"} />
