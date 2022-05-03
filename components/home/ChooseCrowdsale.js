@@ -18,6 +18,7 @@ import Slider from "../elements/Slider";
 import Select from "../elements/Select";
 import NumInputField from "../elements/NumInputField";
 import FileUploader from "../tools/FileUpload";
+import { validateEns, validateEnsList } from "../tools/ensHelpers"
 
 function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [crowdsale, setCrowdsale] = useState(
@@ -47,30 +48,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     details["extensions"]["crowdsale"]["purchaseLimit"]
   );
 
-  const resolveAddressAndEnsList = async (list) => {
-    let list_ = [];
-
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].slice(-4) === ".eth") {
-        const address = await web3.eth.ens.getAddress(list[i]).catch(() => {
-          value.toast(list[i] + " is not a valid ENS.");
-        });
-        list_.push(address);
-      } else if (web3.utils.isAddress(list[i]) == false) {
-        value.toast(list[i] + " is not a valid Ethereum address.");
-        return;
-      } else {
-        list_.push(list[i]);
-      }
-
-      if (list[i] === undefined) {
-        return;
-      }
-    }
-
-    return list_;
-  };
-
   const handlePurchaseToken = (e) => {
     let token = e.target.value;
     switch (token) {
@@ -92,7 +69,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     const token = e.target.value;
 
     if (token.length == 42) {
-      token_ = await resolveAddressAndEnsList([token])
+      token_ = await validateEns(token, web3, value)
     } else {
       return
     }
@@ -114,8 +91,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
   // };
 
   const handlePurchaseList = (e) => {
-    let list = e.target.selectedOptions[0].value;
-    console.log("listId", list)
+    let list = e.target.value;
     switch (list) {
       case "0":
         setShowCustomListInput(false);
@@ -129,7 +105,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
         break;
       case "333":
         setShowCustomListInput(true);
-        // setDetails(details);
         details["extensions"]["crowdsale"]["listId"] = 333;
         setDetails(details);
         break;
@@ -142,7 +117,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     let finalList = [];
     newList = list.split(", ");
 
-    resolvedList = await resolveAddressAndEnsList(newList);
+    resolvedList = await validateEnsList(newList, web3, value);
 
     if (resolvedList === undefined) {
       setIsListValidated(false);
@@ -196,7 +171,12 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
 
   useEffect(() => {
     console.log("upload file - ", file);
-    details["extensions"]["crowdsale"]["terms"] = file;
+    console.log(details["extensions"]["crowdsale"]["listId"])
+    if (file) {
+      details["extensions"]["crowdsale"]["terms"] = file;
+    } else {
+      details["extensions"]["crowdsale"]["terms"] = "none";
+    }
   }, [file]);
 
   return (
@@ -216,10 +196,11 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
       </HStack>
       {crowdsale ? (
         <VStack spacing={"15px"}>
-          <HStack>
-            <Text fontSize="md" htmlFor="saleEnds">
-              Sale Ends Date
+          <HStack w={"100%"}>
+            <Text fontSize="md" htmlFor="saleEnds" w={"60%"}>
+              Sale End Date
             </Text>
+            <Spacer />
             <ReactDatePicker
               id="date-picker"
               defaultValue={saleEnds}
@@ -232,28 +213,26 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
               dateFormat="MMMM d, yyyy h:mm aa"
             />
           </HStack>
-          <VStack w={"100%"} spacing="8" align="flex-start">
-            <HStack w={"100%"}>
-              <label htmlFor="purchaseToken">Purchase Token</label>
-              <InfoTip label="This token will be used to purchase from the sale" />
-              <Spacer />
-              <Select id="purchaseToken" onChange={handlePurchaseToken}>
-                <option value="0">ETH</option>
-                <option value="333">Custom</option>
-              </Select>
-            </HStack>
-            {showCustomToken && (
-              <VStack w="100%" >
-                <Input
-                  id="purchaseToken"
-                  placeholder="Enter Token Address"
-                  onChange={(value) => handleCustomToken(value)}
-                />
-                {isTokenValidated && <Text fontSize="small" fontStyle="italic">Token contract is valid ✅</Text>}
-              </VStack>
-            )}
-          </VStack>
-          <VStack w={"100%"} spacing="8" align="flex-start">
+          <HStack w={"100%"}>
+            <label htmlFor="purchaseToken">Purchase Token</label>
+            <InfoTip label="This token will be used to purchase from the sale" />
+            <Spacer />
+            <Select w={"45%"} id="purchaseToken" onChange={handlePurchaseToken}>
+              <option value="0">ETH</option>
+              <option value="333">Custom</option>
+            </Select>
+          </HStack>
+          {showCustomToken && (
+            <VStack w="100%" >
+              <Input
+                id="purchaseToken"
+                placeholder="Enter Token Address"
+                onChange={(value) => handleCustomToken(value)}
+              />
+              {isTokenValidated && <Text fontSize="small" fontStyle="italic">Token contract is valid ✅</Text>}
+            </VStack>
+          )}
+          <VStack w={"100%"} spacing="4" align="flex-start">
             <HStack w={"100%"}>
               <label htmlFor="purchaseList">Purchase List</label>
               <InfoTip label="Crowdsale for DAO token is limited to the selected group of purchasers ('whitelist')" />
@@ -331,7 +310,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             )}
           </VStack>
           <HStack w={"100%"}>
-            <label htmlFor="purchaseLimit">Purchase Limit</label>
+            <Text w={"55%"} htmlFor="purchaseLimit">Purchase Limit</Text>
             <InfoTip label="This limit the number of tokens that can be purchased in the crowdsale" />
             <Spacer />
             <NumInputField
@@ -346,7 +325,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             <InfoTip label="Upload purchase terms to IPFS for purchasers to sign as clickwrap agreement." />
             <Spacer />
             <Box>
-              <FileUploader setFile={setFile}/>
+              <FileUploader setFile={setFile} />
               {/* <Button className="solid-btn" variant={"ghost"} h={"35px"} onClick={handleUpload}>Upload</Button>
               <input
                 style={{display: "none"}}

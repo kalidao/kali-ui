@@ -9,7 +9,7 @@ export async function ipfsIncorporationDoc(name, summoner, doc) {
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-    bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+    bucket: "fa221543-b374-4588-8026-c2c9aefa4206-bucket",
     key: name + "'s Incoporation Document as summoned by " + summoner,
     data: doc,
     httpUploadProgressCallback: (event) => {
@@ -31,7 +31,7 @@ export async function ipfsCrowdsaleTerms(name, summoner, terms) {
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-    bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+    bucket: "fa221543-b374-4588-8026-c2c9aefa4206-bucket",
     key: name + "'s Crowdsale Terms as prepared by " + summoner.toLowerCase(),
     data: terms,
     httpUploadProgressCallback: (event) => {
@@ -55,7 +55,7 @@ export async function uploadIpfs(dao, content, attachment) {
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-    bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+    bucket: "fa221543-b374-4588-8026-c2c9aefa4206-bucket",
     key: "DAO (" + dao + ")'s " + content + " is attached with "  + attachment.name + " at " + new Date().getTime(),
     data: attachment,
     httpUploadProgressCallback: (event) => {
@@ -74,14 +74,16 @@ export async function uploadIpfs(dao, content, attachment) {
 
 export async function fetchCrowdsaleTermsHash(name, summoner) {
   let hash;
+  console.log(name, summoner)
   try {
     const hash_ = await fleekStorage.get({
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
-      bucket: "f4a2a9f1-7442-4cf2-8b0e-106f14be163b-bucket",
+      bucket: "fa221543-b374-4588-8026-c2c9aefa4206-bucket",
       key: name + "'s Crowdsale Terms as prepared by " + summoner,
       getOptions: ["hash"],
     });
+    console.log(hash_)
     if (hash_.hash) {
       hash = hash_.hash
     } else {
