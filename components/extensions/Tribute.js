@@ -5,18 +5,17 @@ import {
   Button,
   Select,
   Text,
-  Textarea,
   Stack,
   VStack,
   HStack,
   Spacer,
   Box,
-  Center,
 } from "@chakra-ui/react";
 import NumInputField from "../elements/NumInputField";
 import ProposalDescription from "../elements/ProposalDescription";
 import { toDecimals } from "../../utils/formatters";
 import { uploadIpfs } from "../tools/ipfsHelpers";
+import { validateEns } from "../tools/ensHelpers";
 
 export default function Tribute() {
   const value = useContext(AppContext);
@@ -33,10 +32,8 @@ export default function Tribute() {
   const [selection, setSelection] = useState("");
   const [approveButton, setApproveButton] = useState(false);
   const [canPurchase, setCanPurchase] = useState(false);
-  const [proposalDetail, setProposalDetail] = useState({});
-  const [isContract, setIsContract] = useState(false);
   const [tokenContract, setTokenContract] = useState(null);
-  const [tokenSymbol, setTokenSymbol] = useState(null);
+  const [tokenSymbol, setTokenSymbol] = useState("Contract");
   const [tokenDecimals, setTokenDecimals] = useState(null);
   const [nftContract, setNftContract] = useState(null);
   const [nftId, setNftId] = useState(null);
@@ -46,27 +43,6 @@ export default function Tribute() {
   const [doc, setDoc] = useState([]);
   const [note, setNote] = useState(null);
   const [file, setFile] = useState(null);
-
-  const resolveAddressAndEns = async (ens) => {
-    let address;
-
-    if (ens.slice(-4) === ".eth") {
-      address = await web3.eth.ens.getAddress(ens).catch(() => {
-        value.toast(ens + " is not a valid ENS.");
-      });
-    } else if (web3.utils.isAddress(ens) == false) {
-      value.toast(ens + " is not a valid Ethereum address.");
-      return;
-    } else {
-      address = ens;
-    }
-
-    if (ens === undefined) {
-      return;
-    }
-
-    return address;
-  };
 
   const submitTribProposalWithEth = async (proposalDetail) => {
     value.setLoading(true);
@@ -129,7 +105,7 @@ export default function Tribute() {
         let symbol_ = await instance_.methods
           .symbol()
           .call();
-        setTokenSymbol(symbol_.toUpperCase())
+        setTokenSymbol("$" + symbol_.toUpperCase())
       } catch (e) {
         // value.toast(e);
         console.log("Can't find purchase token symbol")
@@ -156,7 +132,6 @@ export default function Tribute() {
     const instance = new web3.eth.Contract(tokenAbi, address);
 
     if (web3.utils.isAddress(address)) {
-      setIsContract(true);
       setTokenContract(address)
       try {
         let result = await instance.methods
@@ -173,7 +148,7 @@ export default function Tribute() {
           console.log("Token contract already approved")
         }
       } catch (e) {
-        value.toast(e);
+        value.toast("This does not appear to be an ERC20 contract.");
       }
     } else {
       console.log("Not valid eth address");
@@ -184,10 +159,9 @@ export default function Tribute() {
     const id = e;
 
     if (nftContract && web3.utils.isAddress(nftContract)) {
-      setIsContract(true);
       const instance = new web3.eth.Contract(nftAbi, nftContract);
       try {
-        setError("");
+        setError("")
         let owner = await instance.methods
           .ownerOf(id)
           .call();
@@ -201,15 +175,13 @@ export default function Tribute() {
             setNftId(id)
             setApproveButton(true);
             setCanPurchase(false);
-            setError("")
           } else {
             setCanPurchase(true)
             setApproveButton(false)
-            setError("")
           }
         } else {
           setError(
-            "⛔️ You don't own this NFT ⛔️"
+            "You don't own this NFT."
           );
           setApproveButton(false);
           setCanPurchase(false);
@@ -237,11 +209,23 @@ export default function Tribute() {
     return result;
   }
 
+  const onSelect = (e) => {
+    setSelection(e.target.value)
+
+    if (e.target.value == "eth") {
+      setCanPurchase(true)
+      setApproveButton(false)
+      setError("")
+    } else {
+      setCanPurchase(false)
+    }
+  }
+
   const approve = async () => {
     value.setLoading(true);
     switch (selection) {
       case "erc20":
-        const erc20 = new web3.eth.Contract(tokenAbi, nftContract);
+        const erc20 = new web3.eth.Contract(tokenAbi, tokenContract);
         let allowance_ = 1000000000;
         const approvalAmount = concatDecimals(allowance_)
         try {
@@ -283,18 +267,20 @@ export default function Tribute() {
 
   const submitProposal = async (event) => {
     event.preventDefault();
-    value.setLoading(true);
-
-    try {
-      let object = event.target;
+    value.setLoading(true);      let object = event.target;
       var array = [];
       for (let i = 0; i < object.length; i++) {
         array[object[i].name] = object[i].value;
       }
 
+      // Configure description param and upload to IPFS if necessary
+      let description;
+      (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
+      (note) ? description = note : (description = "none");
+      (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
+
       var {
         proposer,
-        description,
         askAmount,
         ethAmount,
         erc20Contract,
@@ -304,11 +290,11 @@ export default function Tribute() {
       } = array; // this must contain any inputs from custom forms
 
       if (!proposer || !askAmount) {
-        value.toast("The Address proposing this tribute is missing")
+        value.toast("The Address proposing this tribute is missing.")
         value.setLoading(false)
         return
       } else {
-        proposer = await resolveAddressAndEns(proposer);
+        proposer = await validateEns(proposer, web3, value);
         askAmount = web3.utils.toWei(askAmount);
       }
 
@@ -339,22 +325,14 @@ export default function Tribute() {
         case "erc20":
           proposalDetail_.asset = erc20Contract;
           proposalDetail_.assetValue = concatDecimals(erc20Amount);
-          (file) ? proposalDetail_.description = await uploadIpfs(dao.address, "Token Tribute Proposal", file.name) : proposalDetail_.description = "none"
-          setProposalDetail(proposalDetail_);
           submitTribProposal(proposalDetail_)
           break;
         case "erc721":
           proposalDetail_.asset = erc721Contract;
           proposalDetail_.assetValue = erc721Id;
-          (file) ? proposalDetail_.description = await uploadIpfs(dao.address, "NFT Tribute Proposal", file.name) : proposalDetail_.description = "none"
-          setProposalDetail(proposalDetail_);
           submitTribProposal(proposalDetail_)
           break;
       }
-    } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
-    }
 
     value.setLoading(false);
   };
@@ -362,7 +340,7 @@ export default function Tribute() {
   return (
     <form onSubmit={submitProposal}>
       <Stack>
-        <VStack w="70%" align="flex-start">
+        <VStack w="100%" align="flex-start">
           <Text>
             Make a tribute to join{" "}
             <i>
@@ -399,9 +377,7 @@ export default function Tribute() {
           <HStack w="100%">
             <Select
               w="23%"
-              onChange={(e) => {
-                setSelection(e.target.value);
-              }}
+              onChange={onSelect}
               placeholder="Select"
             >
               <option value="eth">ETH</option>
@@ -419,9 +395,9 @@ export default function Tribute() {
             {selection === "erc20" && (
               <HStack w="80%" justify={"flex-end"}>
                 <HStack w="70%" pl="5px">
-                  <Text>Contract</Text>
+                  <Text>{tokenSymbol}</Text>
                   <Input name="erc20Contract" placeholder="0xKALI" onChange={checkTokenAllowance}></Input>
-                  {isContract && <Text>✅</Text>}
+                  {/* {isContract && <Text>✅</Text>} */}
                 </HStack>
                 <Spacer />
                 <HStack>
@@ -433,38 +409,38 @@ export default function Tribute() {
             {selection === "erc721" && (
               <HStack w="80%" justify={"flex-end"}>
                 <HStack w="70%" pl="5px">
-                  {tokenSymbol ? <Text>${tokenSymbol}</Text> : <Text>Contract</Text>}
+                  <Text>Contract</Text>
                   <Input name="erc721Contract" placeholder="0xKALI" value={nftContract} onChange={(e) => setNftContract(e.target.value)}></Input>
                 </HStack>
                 <Spacer />
                 <HStack>
                   <Text>Id</Text>
                   <NumInputField name="erc721Id" onChange={checkNftAllowance} />
-                  {isContract && <Text>✅</Text>}
+                  {/* {isContract && <Text>✅</Text>} */}
                 </HStack>
               </HStack>
             )}
           </HStack>
         </VStack>
         <br />
-        <VStack w={"60%"}>
-          <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
-          <Box h={"5px"} />
-          <VStack h={"40px"} w={"60%"}>
+        <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
+        <VStack w={"100%"}>
+          <Box h={"2%"} />
+          <Box w={"50%"} h={"40px"}>
             {approveButton && (
               <Button w={"100%"} className="solid-btn" onClick={approve}>
                 Allow KALI to use your tribute
               </Button>
             )}
-            {error && <Text>{error}</Text>}
-          </VStack>
-          <VStack w={"60%"}>
+          {error && <Box w={"100%"} align={"center"} p={2}>{error}</Box>}
+          </Box>
+          <Box w={"50%"}>
             {canPurchase ? (
               <Button w={"100%"} className="solid-btn" type="submit">Submit Proposal</Button>
             ) : (
               <Button w={"100%"} className="hollow-btn" type="submit" isDisabled>Submit Proposal</Button>
             )}
-          </VStack>
+          </Box>
         </VStack>
       </Stack>
     </form>
