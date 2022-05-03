@@ -58,18 +58,18 @@ export default function BuyCrowdsale() {
 
     // console.log('time: ', days, hours, minutes, seconds)
     const timeleft = seconds + minutes + hours + days;
-    
+
     days = (hours < 10) ? 0 + days : days;
     hours = (hours < 10) ? 0 + hours : hours;
     minutes = (minutes < 10) ? 0 + minutes : minutes;
     seconds = (seconds < 10) ? 0 + seconds : seconds;
-    
+
     // console.log('time: ', days, hours, minutes, seconds)
-    
+
     if (timeleft < 0) {
       return "SALE ENDED";
     } else {
-      return days + " days " + hours + " hr " + minutes + " min " + seconds + " sec "; 
+      return days + " days " + hours + " hr " + minutes + " min " + seconds + " sec ";
     }
   }
 
@@ -129,7 +129,7 @@ export default function BuyCrowdsale() {
     try {
       const ethBalance = await web3.eth.getBalance(account)
       ethBalance = web3.utils.fromWei(ethBalance, "ether")
-      console.log(ethBalance)
+      // console.log(ethBalance)
       setPurchaseTokenBalance(ethBalance)
     } catch (e) {
       console.log("Can't get eth balance")
@@ -232,25 +232,19 @@ export default function BuyCrowdsale() {
   }
 
   const getPurchaseTerms = async () => {
-    let hash;
-    let terms;
+    const hash = dao["extensions"]["crowdsale"]["details"]["details"];
+    const terms = "https://ipfs.io/ipfs/" + hash
 
-    try {
-      hash = await fetchCrowdsaleTermsHash(dao.name, dao["members"][0].member);
-      if (hash == "none") {
-        setPurchaseTerms(null)
+    if (hash == "none") {
+      setPurchaseTerms(null)
 
-        if (!approveButton) {
-          setCanPurchase(true)
-        } else {
-          setCanPurchase(false)
-        }
+      if (!approveButton) {
+        setCanPurchase(true)
       } else {
-        terms = "https://ipfs.io/ipfs/" + hash.hash
-        setPurchaseTerms(terms)
+        setCanPurchase(false)
       }
-    } catch (e) {
-      console.log("Error retrieving crowdsale terms.")
+    } else {
+      setPurchaseTerms(terms)
     }
   }
 
@@ -374,16 +368,11 @@ export default function BuyCrowdsale() {
   const handleChange = (value) => {
     const purchaseAmount_ = value * purchaseMultiplier;
     setPurchaseAmount(purchaseAmount_);
-
-    // console.log(purchasedAmount + " - " + purchaseAmount_)
-    
     const purchaseLimit_ = parseInt(purchasedAmount) + parseInt(purchaseAmount_);
-    // console.log(purchaseLimit_, purchaseLimit)
-    
     if (purchaseLimit_ > fromDecimals(purchaseLimit, 18)) {
-      setError(`⛔️ Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)} ⛔️`)
+      setError(`Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)}`)
     } else if (parseInt(value) > parseInt(purchaseTokenBalance)) {
-      setError(`⛔️ You do not have enough ${purchaseTokenSymbol}! ⛔️`)
+      setError(`You do not have enough ${purchaseTokenSymbol}!`)
     } else {
       setError(null)
     }
@@ -427,15 +416,6 @@ export default function BuyCrowdsale() {
             {dao.name.substring(0, 1).toUpperCase() + dao.name.substring(1)}
           </i> is currently running a sale of its token with the following details:</Text>
           <VStack align="flex-start">
-            {/* <CrowdsaleDetail
-              name={"DAO Token: "}
-              input={dao.token["symbol"].toUpperCase()}
-            /> */}
-            {/* <CrowdsaleDetail
-              name={"DAO Token Contract Address: "}
-              input={dao.address.slice(0, 4) + "..." + dao.address.slice(-4)}
-              link={getExplorerLink("address", dao.address)}
-            /> */}
             <CrowdsaleDetail
               name={(purchaseToken != ether) ? "Purchase Token Contract Address: " : "Purchase Token: "}
               input={(purchaseToken != ether) ? purchaseToken.slice(0, 4) + "..." + purchaseToken.slice(-4) : "Ether"}
@@ -443,7 +423,7 @@ export default function BuyCrowdsale() {
             />
             <CrowdsaleDetail
               name={"Price of 1 DAO Token: "}
-              input={`~${purchaseMultiplierRatio.toFixed(4)} ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"} (${purchaseMultiplier} ${dao.token["symbol"].toUpperCase()} per ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"})`}
+              input={`~${purchaseMultiplierRatio.toFixed(4)} ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"} (${purchaseMultiplier} ${dao.token["symbol"].toUpperCase()} / ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"})`}
             />
             <CrowdsaleDetail
               name={"Eligibility: "}
@@ -457,32 +437,31 @@ export default function BuyCrowdsale() {
             <Progress w="100%" value={(purchasedAmount / fromDecimals(purchaseLimit, 18)) * 100} colorScheme={"green"} size={"sm"} />
             <VStack align={"flex-end"} w="100%">
               <Text>{purchasedAmount} / {fromDecimals(purchaseLimit, 18)} DAO Tokens</Text>
-
             </VStack>
           </VStack>
           <>
             {(eligibleBuyer) ? (
               <VStack w="100%">
-                <HStack w="100%" justify={"center"}>
-                  <Text pr="5px">
-                    <b>I'd like to purchase</b>
-                  </Text>
-                  <Input w="15%" value={purchaseAmount} disabled />
-                  <Text>
-                    <b>DAO Token with</b>
-                  </Text>
+                <HStack justify="center" >
+
+                  <Text fontSize={"sm"}>I'd like to purchase</Text>
+                  <Box backgroundColor={"whiteAlpha.300"} borderRadius={"5px"} pl={"2%"} pr={"2%"} align={"center"} >
+
+                  <Text fontSize={"xl"}>{purchaseAmount}</Text>
+                  </Box>
+                  <Text fontSize={"sm"}>DAO Token with</Text>
                   <NumInputField
+                    w="20%"
                     name="amount_"
                     defaultValue={1}
                     min=".000000000000000001"
                     max={purchaseLimit / purchaseMultiplier}
                     onChange={handleChange}
                   />
-                  <Text><b>Purchase Token</b></Text>
+                  <Text fontSize={"sm"}>Purchase Token</Text>
                 </HStack>
                 <br />
-                <Center>
-                  <VStack>
+                  <VStack w={"50%"}>
                     {purchaseTerms && (
                       <Checkbox onChange={() => handleDisclaimer()}>
                         I agree to the {" "}
@@ -491,7 +470,7 @@ export default function BuyCrowdsale() {
                             terms
                           </Link>
                         </Text>
-                        {" "} of crowdsale
+                        {" "} of sale
                       </Checkbox>
                     )}
                     <Box h="5px" />
@@ -512,20 +491,20 @@ export default function BuyCrowdsale() {
                       </Button>
                     )}
                   </VStack>
-                </Center>
+                  <Box h={"2%"} />
                 <VStack w="100%" align="center">
-                  {error && <Text color="red.400">{error}</Text>}
+                  {error && <Text>{error}</Text>}
                 </VStack>
               </VStack>
             ) : (
               <Center>
-                <Text><b>🚫 You are not eligible to participate in this crowdsale 🚫</b></Text>
+                <Text><b>You are not eligible to participate in this crowdsale.</b></Text>
               </Center>)}
           </>
           <Crowdsales sales={dao["extensions"]["crowdsale"]["details"]["purchase"]} symbol={dao.token["symbol"].toUpperCase()} />
         </Stack>
       </form>
-      
+
     </>
   );
 }
