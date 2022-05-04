@@ -22,14 +22,14 @@ import { validateEns, validateEnsList } from "../tools/ensHelpers"
 
 function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [crowdsale, setCrowdsale] = useState(
-    details["extensions"]["crowdsale"]["active"]
+    details["extensions"]["crowdsale2"]["active"]
   );
 
   // sale date conversion
   const nowSale = new Date();
   const [saleEnds, setSaleEnds] = useState(
     nowSale.setDate(
-      nowSale.getDate() + details["extensions"]["crowdsale"]["saleEnds"]
+      nowSale.getDate() + details["extensions"]["crowdsale2"]["saleEnds"]
     )
   );
 
@@ -39,13 +39,13 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [file, setFile] = useState(null);
 
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(
-    details["extensions"]["crowdsale"]["purchaseMultiplier"]
+    details["extensions"]["crowdsale2"]["purchaseMultiplier"]
   );
   const [showSlider, setShowSlider] = useState(false);
   const [showCustomToken, setCustomToken] = useState(false);
   const [showCustomListInput, setShowCustomListInput] = useState(false);
   const [purchaseLimit, setPurchaseLimit] = useState(
-    details["extensions"]["crowdsale"]["purchaseLimit"]
+    details["extensions"]["crowdsale2"]["purchaseLimit"]
   );
 
   const handlePurchaseToken = (e) => {
@@ -53,7 +53,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     switch (token) {
       case "0":
         setCustomToken(false);
-        details["extensions"]["crowdsale"]["purchaseToken"] =
+        details["extensions"]["crowdsale2"]["purchaseToken"] =
           "0x000000000000000000000000000000000000dEaD";
         setDetails(details);
         break;
@@ -80,13 +80,13 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
       return
     }
 
-    details["extensions"]["crowdsale"]["purchaseToken"] = token;
+    details["extensions"]["crowdsale2"]["purchaseToken"] = token;
     setDetails(details);
   };
 
   // const handlePurchaseLimit = (e) => {
   //   const limit = e.target.value;
-  //   details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
+  //   details["extensions"]["crowdsale2"]["purchaseLimit"] = limit;
   //   setDetails(details);
   // };
 
@@ -95,17 +95,17 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     switch (list) {
       case "0":
         setShowCustomListInput(false);
-        details["extensions"]["crowdsale"]["listId"] = 0;
+        details["extensions"]["crowdsale2"]["listId"] = 0;
         setDetails(details);
         break;
       case "1":
         setShowCustomListInput(false);
-        details["extensions"]["crowdsale"]["listId"] = 1;
+        details["extensions"]["crowdsale2"]["listId"] = 1;
         setDetails(details);
         break;
       case "333":
         setShowCustomListInput(true);
-        details["extensions"]["crowdsale"]["listId"] = 333;
+        details["extensions"]["crowdsale2"]["listId"] = 333;
         setDetails(details);
         break;
     }
@@ -134,7 +134,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
       }
     }
 
-    details["extensions"]["crowdsale"]["list"] = finalList;
+    details["extensions"]["crowdsale2"]["list"] = finalList;
     setDetails(details);
   };
 
@@ -148,34 +148,34 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
 
   useEffect(() => {
     console.log('purchase limit', purchaseLimit);
-    details["extensions"]["crowdsale"]["purchaseLimit"] = purchaseLimit;
+    details["extensions"]["crowdsale2"]["purchaseLimit"] = purchaseLimit;
     setDetails(details);
   }, [purchaseLimit])
 
   useEffect(() => {
     console.log("crowdsale active", crowdsale);
-    details["extensions"]["crowdsale"]["active"] = crowdsale;
+    details["extensions"]["crowdsale2"]["active"] = crowdsale;
   }, [crowdsale]);
 
   useEffect(() => {
-    details["extensions"]["crowdsale"]["purchaseMultiplier"] =
+    details["extensions"]["crowdsale2"]["purchaseMultiplier"] =
       purchaseMultiplier;
     setDetails(details);
   }, [purchaseMultiplier]);
 
   useEffect(() => {
     console.log("saleEnds", saleEnds);
-    details["extensions"]["crowdsale"]["saleEnds"] = saleEnds;
+    details["extensions"]["crowdsale2"]["saleEnds"] = saleEnds;
     setDetails(details);
   }, [saleEnds]);
 
   useEffect(() => {
     console.log("upload file - ", file);
-    console.log(details["extensions"]["crowdsale"]["listId"])
+    console.log(details["extensions"]["crowdsale2"]["listId"])
     if (file) {
-      details["extensions"]["crowdsale"]["terms"] = file;
+      details["extensions"]["crowdsale2"]["terms"] = file;
     } else {
-      details["extensions"]["crowdsale"]["terms"] = "none";
+      details["extensions"]["crowdsale2"]["terms"] = "none";
     }
   }, [file]);
 
@@ -183,12 +183,12 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     <VStack align="flex-start" w="100%" >
       <HStack>
         <Checkbox
-          name="crowdsale"
-          value="crowdsale"
+          name="crowdsale2"
+          value="crowdsale2"
           size="sm"
-          isChecked={crowdsale}
-          defaultValue={crowdsale}
-          onChange={() => setCrowdsale(!crowdsale)}
+          isChecked={crowdsale2}
+          defaultValue={crowdsale2}
+          onChange={() => setCrowdsale(!crowdsale2)}
         >
           <Text fontSize="sm">Crowdsale</Text>
         </Checkbox>
@@ -242,7 +242,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
                 id="purchaseList"
                 onChange={handlePurchaseList}
                 placeholder="Select"
-                defaultValue={details["extensions"]["crowdsale"]["listId"]}
+                defaultValue={details["extensions"]["crowdsale2"]["listId"]}
               >
                 <option value="0">Public</option>
                 <option value="1">Accredited</option>
