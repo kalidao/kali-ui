@@ -40,11 +40,11 @@ export const addresses =
       erc20factory: "0xf8468a8A356B1b9DB2E918DbC1Ca31D597c9E54F",
       nft: "0x9BD8D05c793dc5ba044Fe4656b25092b269DfB5D",
       access: "0x43Cc55157d3A4e51ab99CaD6189726D768d7A124",
-      //access2: "",
+      access2: "0x00F8F3660de269124378572C4F342F2d81970d7F",
       extensions: {
         tribute: "0xAe3357E4D401495Cfe6e6022734E11293BC63dfb",
         crowdsale: "0x0AE06840C05bf261B1798571696F58F9Ac3b3174",
-        //crowdsale2: ""
+        crowdsale2: "0x77eC90818fD2116D29A7C39ea3D21808F09986EE",
         redemption: "0xC43AE97f12d979FCAe346E93b62d747963956d63",
       },
       blockExplorer: "https://polygonscan.com"
