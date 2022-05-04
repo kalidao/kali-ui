@@ -42,7 +42,7 @@ export default function TokenForm() {
   const submit = async (values) => {
     const { members, merkle } = values;
 
-    const factory = kaliAccessManager(addresses[chainId]["access"], web3);
+    const factory = kaliAccessManager(addresses[chainId]["access2"], web3);
 
     let array = [];
 
@@ -72,7 +72,7 @@ export default function TokenForm() {
 
     try {
       let result = await factory.methods
-        .createList(array, web3.utils.asciiToHex(merkle))
+        .createList(array, web3.utils.asciiToHex(merkle), "")
         .send({ from: account });
 
       setListCreated(true);
