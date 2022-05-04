@@ -16,6 +16,7 @@ import {
   getNetworkName,
   convertVotingPeriod,
   fromDecimals,
+  toDecimals,
 } from "../../utils/formatters";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
@@ -264,7 +265,10 @@ export default function Checkout({ details, daoNames }) {
       }
       
       // console.log("purchaseLimit", purchaseLimit);
-      purchaseLimit = purchaseLimit + "000000000000000000";
+      // purchaseLimit = purchaseLimit + "000000000000000000";
+      purchaseLimit = toDecimals(purchaseLimit, 18);
+      personalLimit = toDecimals(personalLimit, 18);
+
       if (saleEnds == 30) {
         let date = new Date();
         saleEnds = date.setDate(date.getDate() + 30);
@@ -279,8 +283,6 @@ export default function Checkout({ details, daoNames }) {
       if (purchaseLimit === null) {
         purchaseLimit = "10000000000000000000";
       }
-      
-      personalLimit = purchaseLimit;
 
       if (terms === "none") {
         documentation = "none"
@@ -298,7 +300,6 @@ export default function Checkout({ details, daoNames }) {
         purchaseLimit,
         personalLimit,
         saleEnds,
-        documentation
       );
 
       const sale = require("../../abi/KaliDAOcrowdsaleV2.json");
