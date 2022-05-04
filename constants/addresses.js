@@ -12,6 +12,7 @@ export const addresses =
         tribute: "0x561D9C4EdB64524556856133Bf7B5640dB904656",
         crowdsale: "0xD76B629c528548582Af14c4D3a851830BB0c6978",
         redemption: "0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0",
+        manager: "0x4648964b748aaF4615bD4be2EeBa336d46e4750E",
       },
       blockExplorer: "https://etherscan.io"
     },
@@ -26,6 +27,7 @@ export const addresses =
         tribute: "0xd62AB72CC6b53D98eed510646a69B21b77ce5A56",
         crowdsale: "0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36",
         redemption: "0x11f44975e1B204E50108Af6BCB6539798cb15F75",
+        manager: "0x4a9aE201661A22F4fb6A13BD97135AEE45600aa1",
       },
       blockExplorer: "https://rinkeby.etherscan.io"
     },
@@ -40,6 +42,7 @@ export const addresses =
         tribute: "0xAe3357E4D401495Cfe6e6022734E11293BC63dfb",
         crowdsale: "0x0AE06840C05bf261B1798571696F58F9Ac3b3174",
         redemption: "0xC43AE97f12d979FCAe346E93b62d747963956d63",
+        manager: "0xA7cB7C26074be0e5242D4664a95F144CB49a2909",
       },
       blockExplorer: "https://polygonscan.com"
     },
@@ -54,6 +57,7 @@ export const addresses =
         tribute: "0xf1D291A527281049e66ABD3A41624B13D962868f",
         crowdsale: "0x0bb3F43533FBf16d69dBdccf6AaAef81acd76FAB",
         redemption: "0x7452BDCED6f344e0E4e1169377D369aDE1cB0Ca0",
+        manager: "0x1Dfceb7c44385c3Bc3D3Ea2A26717C034D278ca3",
       },
       blockExplorer: "https://arbiscan.io"
     },
