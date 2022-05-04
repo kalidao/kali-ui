@@ -32,10 +32,10 @@ export default function BuyCrowdsale() {
 
   // Contract setups
   const tokenAbi = require("../../abi/ERC20.json");
-  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsale.json")
-  const crowdsaleAddress = dao["extensions"]["crowdsale"]["address"];
-  const accessListAbi = require("../../abi/KaliAccessManager.json")
-  const accessListAddress = addresses[chainId]["access"];
+  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsaleV2.json")
+  const crowdsaleAddress = dao["extensions"]["crowdsale2"]["address"];
+  const accessListAbi = require("../../abi/KaliAccessManagerV2.json")
+  const accessListAddress = addresses[chainId]["access2"];
 
   // Crowdsale details
   const ether = "0x000000000000000000000000000000000000dead"
@@ -213,8 +213,8 @@ export default function BuyCrowdsale() {
     const instance = new web3.eth.Contract(accessListAbi, accessListAddress)
 
     try {
-      let result = await instance.methods.isListed(listId, account).call()
-      setEligibleBuyer(result)
+      let result = await instance.methods.balanceOf(account, listId).call()
+      if (result > 0) setEligibleBuyer(true)
     } catch (e) {
       // value.toast(e)
       console.log("not eligible")
