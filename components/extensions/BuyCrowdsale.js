@@ -32,10 +32,10 @@ export default function BuyCrowdsale() {
 
   // Contract setups
   const tokenAbi = require("../../abi/ERC20.json");
-  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsale.json")
+  const crowdsaleAbi = require("../../abi/KaliDAOcrowdsaleV2.json")
   const crowdsaleAddress = dao["extensions"]["crowdsale"]["address"];
-  const accessListAbi = require("../../abi/KaliAccessManager.json")
-  const accessListAddress = addresses[chainId]["access"];
+  const accessListAbi = require("../../abi/KaliAccessManagerV2.json")
+  const accessListAddress = addresses[chainId]["access2"];
 
   // Crowdsale details
   const ether = "0x000000000000000000000000000000000000dead"
@@ -46,6 +46,10 @@ export default function BuyCrowdsale() {
   const purchaseMultiplierRatio = 1 / purchaseMultiplier
   const purchaseLimit =
     dao["extensions"]["crowdsale"]["details"]["purchaseLimit"];
+  const purchasedAmount = dao["extensions"]["crowdsale"]["details"]["amountPurchased"];
+
+  const personalLimit =
+    dao["extensions"]["crowdsale"]["details"]["personalLimit"];
   const saleEnds = dao["extensions"]["crowdsale"]["details"]["saleEnds"];
   // const date = new Date(saleEnds * 1000)
   const remainingTime = ((saleEnds * 1000) - Date.now())
@@ -79,10 +83,11 @@ export default function BuyCrowdsale() {
   const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0);
   const [purchaseTerms, setPurchaseTerms] = useState(null);
   const [purchaseList, setPurchaseList] = useState(null);
+  const [personalPurchased, setPersonalPurchased] = useState(0);
+  const [personalRemainder, setPersonalRemainder] = useState(0);
   const [didCheckTerms, setDidCheckTerms] = useState(false);
   const [canPurchase, setCanPurchase] = useState(false);
   const [approveButton, setApproveButton] = useState(false);
-  const [purchasedAmount, setPurchasedAmount] = useState(0);
   const [eligibleBuyer, setEligibleBuyer] = useState(null);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(remainingTime));
@@ -157,15 +162,15 @@ export default function BuyCrowdsale() {
     }
   };
 
-  const getPurchasedAmount = async () => {
-    const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress)
-
+  const checkPersonalLimit = async () => {
     try {
-      let result = await instance.methods.crowdsales(dao.address).call()
-      setPurchasedAmount(fromDecimals(result[4], 18))
+      const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress)
+      const result = await instance.methods.checkPersonalPurchased(account, dao.address).call()
+      const personalRemainder_ = personalLimit - result
+      setPersonalPurchased(result)
+      setPersonalRemainder(personalRemainder_)
     } catch (e) {
-      value.toast(e)
-      console.log("Can't find amount purchased")
+      console.log("Error retrieving personal purchased amount.")
     }
   }
 
@@ -213,8 +218,8 @@ export default function BuyCrowdsale() {
     const instance = new web3.eth.Contract(accessListAbi, accessListAddress)
 
     try {
-      let result = await instance.methods.isListed(listId, account).call()
-      setEligibleBuyer(result)
+      let result = await instance.methods.balanceOf(account, listId).call()
+      if (result > 0) setEligibleBuyer(true)
     } catch (e) {
       // value.toast(e)
       console.log("not eligible")
@@ -260,12 +265,13 @@ export default function BuyCrowdsale() {
       getEthBalance()
     }
     getPurchaseList()
-    getPurchasedAmount()
+    checkPersonalLimit()
     getAccessListId()
   }, [account])
 
   useEffect(() => {
     getPurchaseTerms()
+    console.log(dao)
   }, [approveButton])
 
   useEffect(() => {
@@ -303,7 +309,6 @@ export default function BuyCrowdsale() {
         .approve(crowdsaleAddress, approvalAmount)
         .send({ from: account });
       value.setLoading(false);
-      // console.log(result)
       setApproveButton(false)
 
       if (!purchaseTerms) {
@@ -329,8 +334,6 @@ export default function BuyCrowdsale() {
     const instance = new web3.eth.Contract(crowdsaleAbi, crowdsaleAddress);
     // console.log(purchaseAmount_, address, instance, account)
 
-    // console.log('purchaseToken', purchaseToken);
-
     try {
 
       if (purchaseToken.toLowerCase() != ether) {
@@ -338,6 +341,8 @@ export default function BuyCrowdsale() {
           let result = await instance.methods
             .callExtension(address, purchaseAmount_)
             .send({ from: account });
+          value.setVisibleView(1);
+
         } catch (e) {
           console.log("purchaseToken tx didn't go through")
           value.toast(e);
@@ -348,16 +353,14 @@ export default function BuyCrowdsale() {
           let result = await instance.methods
             .callExtension(address, purchaseAmount_)
             .send({ from: account, value: purchaseAmount_ });
+          value.setVisibleView(1);
+
         } catch (e) {
           console.log("ether tx didn't go through")
           value.toast(e);
           value.setLoading(false);
         }
-
       }
-
-
-      value.setVisibleView(1);
     } catch (e) {
       value.toast(e);
       value.setLoading(false);
@@ -369,14 +372,22 @@ export default function BuyCrowdsale() {
   const handleChange = (value) => {
     const purchaseAmount_ = value * purchaseMultiplier;
     setPurchaseAmount(purchaseAmount_);
-    const purchaseLimit_ = parseInt(purchasedAmount) + parseInt(purchaseAmount_);
-    if (purchaseLimit_ > fromDecimals(purchaseLimit, 18)) {
-      setError(`Purchase amount of ${purchaseAmount_} exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)}`)
-    } else if (parseInt(value) > parseInt(purchaseTokenBalance)) {
-      setError(`You do not have enough ${purchaseTokenSymbol}!`)
-    } else {
-      setError(null)
-    }
+    
+    // Check if purchase amount exceeds crowdsale limit
+    const purchaseLimit_ = parseFloat(purchasedAmount) + parseFloat(toDecimals(purchaseAmount_, 18));
+    if (purchaseLimit_ > parseFloat(purchaseLimit)) {
+      setError(`Purchase amount of ${purchaseAmount_} DAO Tokens exceeds amount available for sale, ${fromDecimals(purchaseLimit, 18)}.`)
+    }  
+    
+    // Check if purchase amount exceeds personal token balance
+    if (parseFloat(value) > parseFloat(purchaseTokenBalance)) {
+      setError(`You do not have enough ${purchaseTokenSymbol}.`)
+    } 
+
+    // Check if purchase amount exceeds personal limit
+    if (toDecimals(purchaseAmount_, 18) > personalRemainder) {
+      setError(`Purchase amount of ${purchaseAmount_} DAO Tokens exceeds personal limit, ${fromDecimals(personalLimit, 18)}.`)
+    }   
   }
 
   const handleDisclaimer = () => {
@@ -427,6 +438,10 @@ export default function BuyCrowdsale() {
               input={`~${purchaseMultiplierRatio.toFixed(4)} ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"} (${purchaseMultiplier} ${dao.token["symbol"].toUpperCase()} / ${(purchaseToken != ether) ? purchaseTokenSymbol : "Ether"})`}
             />
             <CrowdsaleDetail
+              name={"Individual Purchase Limit: "}
+              input={`${fromDecimals(personalPurchased, 18)} / ${fromDecimals(personalLimit, 18)} DAO Tokens`}
+            />
+            <CrowdsaleDetail
               name={"Eligibility: "}
               input={purchaseList}
             />
@@ -435,9 +450,9 @@ export default function BuyCrowdsale() {
               input={`ending in ${timeLeft}`}
             />
             <br />
-            <Progress w="100%" value={(purchasedAmount / fromDecimals(purchaseLimit, 18)) * 100} colorScheme={"green"} size={"sm"} />
+            <Progress w="100%" value={(fromDecimals(purchasedAmount, 18) / fromDecimals(purchaseLimit, 18)) * 100} colorScheme={"green"} size={"sm"} />
             <VStack align={"flex-end"} w="100%">
-              <Text>{purchasedAmount} / {fromDecimals(purchaseLimit, 18)} DAO Tokens</Text>
+              <Text>{fromDecimals(purchasedAmount, 18)} / {fromDecimals(purchaseLimit, 18)} ({((fromDecimals(purchasedAmount, 18) / fromDecimals(purchaseLimit, 18)) * 100).toFixed(2)}%)</Text>
             </VStack>
           </VStack>
           <>
@@ -447,8 +462,7 @@ export default function BuyCrowdsale() {
 
                   <Text fontSize={"sm"}>I'd like to purchase</Text>
                   <Box backgroundColor={"whiteAlpha.300"} borderRadius={"5px"} pl={"2%"} pr={"2%"} align={"center"} >
-
-                  <Text fontSize={"xl"}>{purchaseAmount}</Text>
+                    <Text fontSize={"xl"}>{purchaseAmount}</Text>
                   </Box>
                   <Text fontSize={"sm"}>DAO Token with</Text>
                   <NumInputField
@@ -459,40 +473,40 @@ export default function BuyCrowdsale() {
                     max={purchaseLimit / purchaseMultiplier}
                     onChange={handleChange}
                   />
-                  <Text fontSize={"sm"}>Purchase Token</Text>
+                  <Text fontSize={"sm"}>${purchaseTokenSymbol}</Text>
                 </HStack>
                 <br />
-                  <VStack w={"50%"}>
-                    {purchaseTerms && (
-                      <Checkbox onChange={() => handleDisclaimer()}>
-                        I agree to the {" "}
-                        <Text as="u">
-                          <Link href={purchaseTerms} isExternal>
-                            terms
-                          </Link>
-                        </Text>
-                        {" "} of sale
-                      </Checkbox>
-                    )}
-                    <Box h="5px" />
-                    {approveButton ? (
-                      <Button w="100%" className="solid-btn" onClick={approveSpend}>
-                        Allow KALI to use your {purchaseTokenSymbol}
-                      </Button>
-                    ) :
-                      null
-                    }
-                    {canPurchase ? (
-                      <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
-                        Buy DAO token
-                      </Button>
-                    ) : (
-                      <Button w="100%" variant="ghost" fontStyle="unset" type="submit" isDisabled>
-                        Buy DAO token
-                      </Button>
-                    )}
-                  </VStack>
-                  <Box h={"2%"} />
+                <VStack w={"50%"}>
+                  {purchaseTerms && (
+                    <Checkbox onChange={() => handleDisclaimer()}>
+                      I agree to the {" "}
+                      <Text as="u">
+                        <Link href={purchaseTerms} isExternal>
+                          terms
+                        </Link>
+                      </Text>
+                      {" "} of sale
+                    </Checkbox>
+                  )}
+                  <Box h="5px" />
+                  {approveButton ? (
+                    <Button w="100%" className="solid-btn" onClick={approveSpend}>
+                      Allow KALI to use your {purchaseTokenSymbol}
+                    </Button>
+                  ) :
+                    null
+                  }
+                  {canPurchase ? (
+                    <Button w="100%" className="solid-btn" type="submit" isDisabled={error}>
+                      Buy DAO token
+                    </Button>
+                  ) : (
+                    <Button w="100%" variant="ghost" fontStyle="unset" type="submit" isDisabled>
+                      Buy DAO token
+                    </Button>
+                  )}
+                </VStack>
+                <Box h={"2%"} />
                 <VStack w="100%" align="center">
                   {error && <Text>{error}</Text>}
                 </VStack>

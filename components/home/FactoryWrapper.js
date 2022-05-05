@@ -43,6 +43,7 @@ export default function FactoryWrapper() {
         purchaseToken: null,
         purchaseMultiplier: 10,
         purchaseLimit: 1000,
+        personalLimit: 100,
         terms: null,
         saleEnds: 0,
         listId: 0,

@@ -47,6 +47,7 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
   const [purchaseLimit, setPurchaseLimit] = useState(
     details["extensions"]["crowdsale"]["purchaseLimit"]
   );
+  const [personalLimit, setPersonalLimit] = useState(details["extensions"]["crowdsale"]["personalLimit"])
 
   const handlePurchaseToken = (e) => {
     let token = e.target.value;
@@ -83,12 +84,6 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     details["extensions"]["crowdsale"]["purchaseToken"] = token;
     setDetails(details);
   };
-
-  // const handlePurchaseLimit = (e) => {
-  //   const limit = e.target.value;
-  //   details["extensions"]["crowdsale"]["purchaseLimit"] = limit;
-  //   setDetails(details);
-  // };
 
   const handlePurchaseList = (e) => {
     let list = e.target.value;
@@ -150,7 +145,13 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
     console.log('purchase limit', purchaseLimit);
     details["extensions"]["crowdsale"]["purchaseLimit"] = purchaseLimit;
     setDetails(details);
-  }, [purchaseLimit])
+  }, [purchaseLimit]);
+
+  useEffect(() => {
+    console.log('personal limit', personalLimit);
+    details["extensions"]["crowdsale"]["personalLimit"] = personalLimit;
+    setDetails(details);
+  }, [personalLimit])
 
   useEffect(() => {
     console.log("crowdsale active", crowdsale);
@@ -310,10 +311,11 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             )}
           </VStack>
           <HStack w={"100%"}>
-            <Text w={"55%"} htmlFor="purchaseLimit">Purchase Limit</Text>
+            <Text htmlFor="purchaseLimit">Purchase Limit</Text>
             <InfoTip label="This limit the number of tokens that can be purchased in the crowdsale" />
             <Spacer />
             <NumInputField
+              w={"35%"}
               id="purchaseLimit"
               defaultValue={purchaseLimit}
               min={1}
@@ -321,7 +323,19 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             />
           </HStack>
           <HStack w={"100%"}>
-            <label htmlFor="purchaseLimit">Purchase Terms</label>
+            <Text htmlFor="personalLimit">Personal Limit</Text>
+            <InfoTip label="This limit the number of tokens that can be purchased by a single address in the crowdsale" />
+            <Spacer />
+            <NumInputField
+              w={"35%"}
+              id="personalLimit"
+              defaultValue={personalLimit}
+              min={1}
+              onChange={(value) => setPersonalLimit(value)}
+            />
+          </HStack>
+          <HStack w={"100%"}>
+            <label htmlFor="purchaseTerm">Purchase Terms</label>
             <InfoTip label="Upload purchase terms to IPFS for purchasers to sign as clickwrap agreement." />
             <Spacer />
             <Box>

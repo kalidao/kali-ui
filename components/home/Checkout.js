@@ -16,6 +16,7 @@ import {
   getNetworkName,
   convertVotingPeriod,
   fromDecimals,
+  toDecimals,
 } from "../../utils/formatters";
 import { addresses } from "../../constants/addresses";
 import { factoryInstance } from "../../eth/factory";
@@ -232,8 +233,8 @@ export default function Checkout({ details, daoNames }) {
 
     // Set up Encoded Params for Access List and Supply appropriate listId to Crowdsale
     // Encoded Params is pushed to extensionArray and extensionData at end of deploy()
-    const listManager = require("../../abi/KaliAccessManager.json");
-    const listManagerAddress = addresses[chainId]["access"];
+    const listManager = require("../../abi/KaliAccessManagerV2.json");
+    const listManagerAddress = addresses[chainId]["access2"];
     const listManagerContract = new web3.eth.Contract(
       listManager,
       listManagerAddress
@@ -241,7 +242,7 @@ export default function Checkout({ details, daoNames }) {
     let listManagerPayload;
 
     if (crowdsale["active"]) {
-      extensionsArray.push(addresses[chainId]["extensions"]["crowdsale"]);
+      extensionsArray.push(addresses[chainId]["extensions"]["crowdsale2"]);
 
       var {
         listId,
@@ -250,6 +251,7 @@ export default function Checkout({ details, daoNames }) {
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
+        personalLimit,
         saleEnds,
         documentation,
       } = crowdsale;
@@ -258,12 +260,15 @@ export default function Checkout({ details, daoNames }) {
         const listCount = await listManagerContract.methods.listCount().call();
         listId = parseInt(listCount) + 1;
         listManagerPayload = listManagerContract.methods
-        .createList(list, "0x0")
+        .createList(list, "0x0", "")
         .encodeABI();
       }
       
       // console.log("purchaseLimit", purchaseLimit);
-      purchaseLimit = purchaseLimit + "000000000000000000";
+      // purchaseLimit = purchaseLimit + "000000000000000000";
+      purchaseLimit = toDecimals(purchaseLimit, 18);
+      personalLimit = toDecimals(personalLimit, 18);
+
       if (saleEnds == 30) {
         let date = new Date();
         saleEnds = date.setDate(date.getDate() + 30);
@@ -293,13 +298,13 @@ export default function Checkout({ details, daoNames }) {
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
+        personalLimit,
         saleEnds,
-        documentation
       );
 
-      const sale = require("../../abi/KaliDAOcrowdsale.json");
+      const sale = require("../../abi/KaliDAOcrowdsaleV2.json");
 
-      const saleAddress = addresses[chainId]["extensions"]["crowdsale"];
+      const saleAddress = addresses[chainId]["extensions"]["crowdsale2"];
 
       const saleContract = new web3.eth.Contract(sale, saleAddress);
       console.log(
@@ -307,18 +312,20 @@ export default function Checkout({ details, daoNames }) {
         purchaseToken,
         purchaseMultiplier,
         purchaseLimit,
+        personalLimit,
         saleEnds,
         documentation
       );
 
       const encodedParams = web3.eth.abi.encodeParameters(
-        ["uint256", "address", "uint8", "uint96", "uint32", "string"],
+        ["uint256", "uint8", "address", "uint32", "uint96", "uint96", "string"],
         [
           listId,
-          purchaseToken,
           purchaseMultiplier,
-          purchaseLimit,
+          purchaseToken,
           saleEnds,
+          purchaseLimit,
+          personalLimit,
           documentation,
         ]
       );

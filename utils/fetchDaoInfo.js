@@ -47,10 +47,12 @@ export async function fetchStaticInfo(
             }
             crowdsale {
               active
+              version
               amountPurchased
               details
               listId
               purchaseLimit
+              personalLimit
               purchaseMultiplier
               purchaseToken
               saleEnds
@@ -105,11 +107,13 @@ export async function fetchStaticInfo(
     if (data["crowdsale"] != null) {
       const crowdsaleObject = {
         crowdsale: {
-          address: addresses[daoChain]["extensions"]["crowdsale"],
+          address: addresses[daoChain]["extensions"][`crowdsale${data["crowdsale"]["version"]}`],
           details: {
+            version: data["crowdsale"]["version"],
             listId: data["crowdsale"]["listId"],
             purchaseToken: data["crowdsale"]["purchaseToken"],
             purchaseMultiplier: data["crowdsale"]["purchaseMultiplier"],
+            personalLimit: data["crowdsale"]["personalLimit"],
             purchaseLimit: data["crowdsale"]["purchaseLimit"],
             amountPurchased: data["crowdsale"]["amountPurchased"],
             saleEnds: data["crowdsale"]["saleEnds"],
@@ -118,6 +122,11 @@ export async function fetchStaticInfo(
           }
         }
       }
+
+      if (crowdsaleObject["crowdsale"]["details"]["version"] == 2) {
+        crowdsaleObject["crowdsale"]["details"]["personalLimit"] = data["crowdsale"]["personalLimit"]
+      }
+
       extensions = Object.assign(extensions, crowdsaleObject)
       console.log('extensions crowdsale', extensions)
     }
@@ -159,39 +168,6 @@ export async function fetchStaticInfo(
 
   return { dao_ };
 }
-
-function validateCrowdsale(crowdsale_, daoChain) {
-  crowdsaleObject = {
-    address: addresses[daoChain]["extensions"]["crowdsale"],
-    details: {
-      listId: crowdsale_["listId"],
-      purchaseToken: crowdsale_["purchaseToken"],
-      purchaseMultiplier: crowdsale_["purchaseMultiplier"],
-      purchaseLimit: crowdsale_["purchaseLimit"],
-      amountPurchased: crowdsale_["amountPurchased"],
-      saleEnds: crowdsale_["saleEnds"],
-      details: crowdsale_["details"],
-    }
-  }
-
-  console.log('crowdsaleObj', crowdsaleObject);
-
-  return crowdsaleObject;
-};
-
-function validateRedemption(redemption_, daoChain) {
-  redemptionObject = {
-    address: addresses[daoChain]["extensions"]["redemption"],
-    details: {
-      redeemables: redemption_["redeembles"],
-      redemptionStarts: redemption_["starts"],
-    }
-  }
-
-  console.log('redemptionObj', redemptionObject);
-
-  return redemptionObject;
-};
 
 async function fetchProposalVoteTypes(instance) {
   const proposalVoteTypes_ = [];
