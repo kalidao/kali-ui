@@ -311,10 +311,11 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             )}
           </VStack>
           <HStack w={"100%"}>
-            <Text w={"55%"} htmlFor="purchaseLimit">Purchase Limit</Text>
+            <Text htmlFor="purchaseLimit">Purchase Limit</Text>
             <InfoTip label="This limit the number of tokens that can be purchased in the crowdsale" />
             <Spacer />
             <NumInputField
+              w={"35%"}
               id="purchaseLimit"
               defaultValue={purchaseLimit}
               min={1}
@@ -322,10 +323,11 @@ function ChooseCrowdsale({ details, setDetails, web3, value }) {
             />
           </HStack>
           <HStack w={"100%"}>
-            <Text w={"55%"} htmlFor="personalLimit">Personal Limit</Text>
+            <Text htmlFor="personalLimit">Personal Limit</Text>
             <InfoTip label="This limit the number of tokens that can be purchased by a single address in the crowdsale" />
             <Spacer />
             <NumInputField
+              w={"35%"}
               id="personalLimit"
               defaultValue={personalLimit}
               min={1}
