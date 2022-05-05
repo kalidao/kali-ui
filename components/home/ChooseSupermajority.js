@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   VStack,
@@ -10,26 +10,23 @@ import {
   SliderFilledTrack,
   Spacer,
   Tooltip,
-} from "@chakra-ui/react";
-import InfoTip from "../elements/InfoTip";
+} from '@chakra-ui/react'
+import InfoTip from '../elements/InfoTip'
 
 function ChooseSupermajority({ details, setDetails }) {
-  const [supermajority, setSupermajority] = useState(
-    parseInt(details["governance"]["supermajority"])
-  );
-  const [showSupermajorityTooltip, setShowSupermajorityTooltip] =
-    useState(false);
-  const [showSlider, setShowSlider] = useState(false);
+  const [supermajority, setSupermajority] = useState(parseInt(details['governance']['supermajority']))
+  const [showSupermajorityTooltip, setShowSupermajorityTooltip] = useState(false)
+  const [showSlider, setShowSlider] = useState(false)
 
   console.log(showSlider)
 
   useEffect(() => {
-    details["governance"]["supermajority"] = supermajority;
-    setDetails(details);
-  }, [supermajority]);
+    details['governance']['supermajority'] = supermajority
+    setDetails(details)
+  }, [supermajority])
 
   const presentSlider = () => {
-    console.log("hi")
+    console.log('hi')
     if (!showSlider) {
       setShowSlider(true)
     } else {
@@ -38,21 +35,21 @@ function ChooseSupermajority({ details, setDetails }) {
   }
 
   return (
-    <VStack w={"100%"} spacing="8" align="flex-start">
-      <HStack w={"100%"} pt={"4"}>
+    <VStack w={'100%'} spacing="8" align="flex-start">
+      <HStack w={'100%'} pt={'4'}>
         <label>Supermajority</label>
         <InfoTip
           label={
-            "Minimum % of member approvals required for proposals to pass, e.g., a 75% supermajority needs at least 75% of DAO tokens in favor of a proposal for the proposal to pass"
+            'Minimum % of member approvals required for proposals to pass, e.g., a 75% supermajority needs at least 75% of DAO tokens in favor of a proposal for the proposal to pass'
           }
         />
         <Spacer />
         <Button
-          h={"100%"}
+          h={'100%'}
           bg="clear"
           border="0px"
           fontWeight="normal"
-          _hover={{ bg: "red" }}
+          _hover={{ bg: 'red' }}
           onClick={() => presentSlider()}
         >
           {supermajority}%
@@ -64,7 +61,7 @@ function ChooseSupermajority({ details, setDetails }) {
           min={52}
           max={100}
           aria-label="supermajority slider"
-          defaultValue={details["governance"]["supermajority"]}
+          defaultValue={details['governance']['supermajority']}
           colorScheme="red"
           onChangeEnd={(v) => setSupermajority(v)}
           onMouseEnter={() => setShowSupermajorityTooltip(true)}
@@ -95,4 +92,4 @@ function ChooseSupermajority({ details, setDetails }) {
   )
 }
 
-export default ChooseSupermajority;
+export default ChooseSupermajority

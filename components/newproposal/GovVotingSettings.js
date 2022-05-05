@@ -1,63 +1,51 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import {
-  Textarea,
-  Button,
-  Input,
-  Select,
-  Text,
-  HStack,
-  VStack,
-  Center
-} from "@chakra-ui/react";
-import { proposalTypes, voteTypes } from "../../constants/params";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import { Textarea, Button, Input, Select, Text, HStack, VStack, Center } from '@chakra-ui/react'
+import { proposalTypes, voteTypes } from '../../constants/params'
 
 export default function GovVotingSettings() {
-  const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao } = value.state;
+  const value = useContext(AppContext)
+  const { web3, loading, account, abi, address, dao } = value.state
 
   const submitProposal = async (event) => {
-    event.preventDefault();
-    value.setLoading(true);
+    event.preventDefault()
+    value.setLoading(true)
 
     try {
-      let object = event.target;
-      var array = [];
+      let object = event.target
+      var array = []
       for (let i = 0; i < object.length; i++) {
-        array[object[i].name] = object[i].value;
+        array[object[i].name] = object[i].value
       }
 
-      var { description_, pType_, vType_, proposalType_ } = array; // this must contain any inputs from custom forms
-      console.log(array);
-      var account_ = Array(
-        "0x0000000000000000000000000000000000000000",
-        "0x0000000000000000000000000000000000000000"
-      );
-      console.log(account_);
-      var amount_ = Array(parseInt(pType_), parseInt(vType_));
-      console.log("amount");
-      console.log(amount_);
+      var { description_, pType_, vType_, proposalType_ } = array // this must contain any inputs from custom forms
+      console.log(array)
+      var account_ = Array('0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000')
+      console.log(account_)
+      var amount_ = Array(parseInt(pType_), parseInt(vType_))
+      console.log('amount')
+      console.log(amount_)
 
-      const payload_ = Array("0x", "0x");
-      console.log(payload_);
-      const instance = new web3.eth.Contract(abi, address);
+      const payload_ = Array('0x', '0x')
+      console.log(payload_)
+      const instance = new web3.eth.Contract(abi, address)
 
       try {
         let result = await instance.methods
           .propose(proposalType_, description_, account_, amount_, payload_)
-          .send({ from: account });
-        value.setVisibleView(2);
+          .send({ from: account })
+        value.setVisibleView(2)
       } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
+        value.toast(e)
+        value.setLoading(false)
       }
     } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+      value.toast(e)
+      value.setLoading(false)
     }
 
-    value.setLoading(false);
-  };
+    value.setLoading(false)
+  }
 
   return (
     <form onSubmit={submitProposal}>
@@ -84,9 +72,11 @@ export default function GovVotingSettings() {
         </HStack>
         <Input type="hidden" name="proposalType_" value="7" />
         <Center>
-          <Button className="solid-btn" type="submit">Submit Proposal</Button>
+          <Button className="solid-btn" type="submit">
+            Submit Proposal
+          </Button>
         </Center>
       </VStack>
     </form>
-  );
+  )
 }

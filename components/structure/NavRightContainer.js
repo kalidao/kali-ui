@@ -1,18 +1,18 @@
-import React, { useContext } from "react";
-import AppContext from "../../context/AppContext";
-import { IconButton, HStack } from "@chakra-ui/react";
-import Hamburger from "./Hamburger";
-import Account from "./Account";
-import Chain from "./Chain";
-import { BiCopy } from "react-icons/bi";
+import React, { useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import { IconButton, HStack } from '@chakra-ui/react'
+import Hamburger from './Hamburger'
+import Account from './Account'
+import Chain from './Chain'
+import { BiCopy } from 'react-icons/bi'
 
 export default function NavRightContainer(props) {
-  const value = useContext(AppContext);
-  const { account } = value.state;
+  const value = useContext(AppContext)
+  const { account } = value.state
 
   const copy = async () => {
-    await navigator.clipboard.writeText(account);
-  };
+    await navigator.clipboard.writeText(account)
+  }
 
   return (
     <HStack
@@ -23,11 +23,11 @@ export default function NavRightContainer(props) {
       borderColor={props.borderColor}
       height="45px"
       margin={{
-        sm: "10px 0 20px 0 !important",
-        md: "0 !important",
-        lg: "0 !important",
-        xl: "0 !important",
-        "2xl": "0 !important",
+        sm: '10px 0 20px 0 !important',
+        md: '0 !important',
+        lg: '0 !important',
+        xl: '0 !important',
+        '2xl': '0 !important',
       }}
     >
       <Chain />
@@ -46,5 +46,5 @@ export default function NavRightContainer(props) {
       ) : null}
       <Hamburger />
     </HStack>
-  );
+  )
 }

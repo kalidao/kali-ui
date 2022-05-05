@@ -11,4 +11,4 @@ The following actions will disqualify you from eligibility under any forthcoming
 
 ### The right way to disclose
 
-Please email us at [kalidao@protonmail.com](mailto:kalidao@protonmail.com). We appreciate detailed instructions for confirming the vulnerability. 
+Please email us at [kalidao@protonmail.com](mailto:kalidao@protonmail.com). We appreciate detailed instructions for confirming the vulnerability.

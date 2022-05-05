@@ -1,49 +1,49 @@
-import { BsPlusCircle, BsXCircle } from "react-icons/bs";
-import { AiFillTool } from "react-icons/ai";
-import { BiLoaderCircle } from "react-icons/bi";
-import { MdOutlineHowToVote } from "react-icons/md";
-import { IoIosPeople, IoIosGitNetwork } from "react-icons/io";
-import { RiScales3Line, RiPauseCircleFill } from "react-icons/ri";
-import { TiCancel } from "react-icons/ti";
+import { BsPlusCircle, BsXCircle } from 'react-icons/bs'
+import { AiFillTool } from 'react-icons/ai'
+import { BiLoaderCircle } from 'react-icons/bi'
+import { MdOutlineHowToVote } from 'react-icons/md'
+import { IoIosPeople, IoIosGitNetwork } from 'react-icons/io'
+import { RiScales3Line, RiPauseCircleFill } from 'react-icons/ri'
+import { TiCancel } from 'react-icons/ti'
 
 // populates data on proposal tiles
 // if decode = true, will invoke function to decode `payloads`
 
 export const viewProposalsHelper = {
   0: {
-    title: "Mint Shares",
+    title: 'Mint Shares',
     details: {
-      amounts: "shares",
-      accounts: "account(s)",
+      amounts: 'shares',
+      accounts: 'account(s)',
       payloads: null,
     },
     icon: BsPlusCircle,
     decode: false,
   },
   1: {
-    title: "Remove Members",
+    title: 'Remove Members',
     details: {
-      amounts: "shares",
-      accounts: "account(s)",
+      amounts: 'shares',
+      accounts: 'account(s)',
       payloads: null,
     },
     icon: BsXCircle,
     decode: false,
   },
   2: {
-    title: "Call Contracts",
+    title: 'Call Contracts',
     details: {
-      amounts: "value of transaction(s)",
-      accounts: "contract(s)",
-      payloads: "payload(s)",
+      amounts: 'value of transaction(s)',
+      accounts: 'contract(s)',
+      payloads: 'payload(s)',
     },
     icon: BiLoaderCircle,
     decode: true,
   },
   3: {
-    title: "Modify Voting Period",
+    title: 'Modify Voting Period',
     details: {
-      amounts: "proposed voting period",
+      amounts: 'proposed voting period',
       accounts: null,
       payloads: null,
     },
@@ -51,9 +51,9 @@ export const viewProposalsHelper = {
     decode: false,
   },
   4: {
-    title: "Modify Grace Period",
+    title: 'Modify Grace Period',
     details: {
-      amounts: "proposed grace period",
+      amounts: 'proposed grace period',
       accounts: null,
       payloads: null,
     },
@@ -61,9 +61,9 @@ export const viewProposalsHelper = {
     decode: false,
   },
   5: {
-    title: "Modify Quorum Threshold",
+    title: 'Modify Quorum Threshold',
     details: {
-      amounts: "proposed quorum threshold",
+      amounts: 'proposed quorum threshold',
       accounts: null,
       payloads: null,
     },
@@ -71,9 +71,9 @@ export const viewProposalsHelper = {
     decode: false,
   },
   6: {
-    title: "Modify Supermajority Threshold",
+    title: 'Modify Supermajority Threshold',
     details: {
-      amounts: "proposed supermajority threshold",
+      amounts: 'proposed supermajority threshold',
       accounts: null,
       payloads: null,
     },
@@ -81,9 +81,9 @@ export const viewProposalsHelper = {
     decode: false,
   },
   7: {
-    title: "Modify Proposal Vote Type",
+    title: 'Modify Proposal Vote Type',
     details: {
-      amounts: "proposed proposal/vote type",
+      amounts: 'proposed proposal/vote type',
       accounts: null,
       payloads: null,
     },
@@ -91,7 +91,7 @@ export const viewProposalsHelper = {
     decode: false,
   },
   8: {
-    title: "Pause/Unpause Share Transfer",
+    title: 'Pause/Unpause Share Transfer',
     details: {
       amounts: null,
       accounts: null,
@@ -101,19 +101,19 @@ export const viewProposalsHelper = {
     decode: false,
   },
   9: {
-    title: "Update Extensions",
+    title: 'Update Extensions',
     details: {
       amounts: null,
-      accounts: "address(es) of extension(s)",
-      payloads: "params",
+      accounts: 'address(es) of extension(s)',
+      payloads: 'params',
     },
     icon: IoIosGitNetwork,
     decode: true,
   },
   10: {
-    title: "Escape",
+    title: 'Escape',
     details: {
-      amounts: "proposal number(s)",
+      amounts: 'proposal number(s)',
       accounts: null,
       payloads: null,
     },
@@ -121,7 +121,7 @@ export const viewProposalsHelper = {
     decode: false,
   },
   11: {
-    title: "Change Docs",
+    title: 'Change Docs',
     details: {
       amounts: null,
       accounts: null,
@@ -130,4 +130,4 @@ export const viewProposalsHelper = {
     icon: null,
     decode: false,
   },
-};
+}

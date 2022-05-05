@@ -1,6 +1,6 @@
-import "react-step-progress-bar/styles.css";
-import { ProgressBar, Step } from "react-step-progress-bar";
-import { Icon, Box } from "@chakra-ui/react";
+import 'react-step-progress-bar/styles.css'
+import { ProgressBar, Step } from 'react-step-progress-bar'
+import { Icon, Box } from '@chakra-ui/react'
 
 const SVG = () => {
   return (
@@ -12,14 +12,8 @@ const SVG = () => {
       viewBox="0 0 132.000000 204.000000"
       preserveAspectRatio="xMidYMid meet"
     >
-      <metadata>
-        Created by potrace 1.16, written by Peter Selinger 2001-2019
-      </metadata>
-      <g
-        transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)"
-        fill="#ffffff"
-        fillOpacity="100%"
-      >
+      <metadata>Created by potrace 1.16, written by Peter Selinger 2001-2019</metadata>
+      <g transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)" fill="#ffffff" fillOpacity="100%">
         <path
           d="M126 2018 c-8 -13 -40 -63 -71 -113 l-56 -90 29 -3 29 -3 5 -127 c6
     -151 25 -213 95 -316 80 -118 192 -184 349 -207 l74 -11 0 -59 0 -59 -145 0
@@ -38,8 +32,8 @@ const SVG = () => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
 const SVGtransparent = () => {
   return (
@@ -51,14 +45,8 @@ const SVGtransparent = () => {
       viewBox="0 0 132.000000 204.000000"
       preserveAspectRatio="xMidYMid meet"
     >
-      <metadata>
-        Created by potrace 1.16, written by Peter Selinger 2001-2019
-      </metadata>
-      <g
-        transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)"
-        fill="#ffffff"
-        fillOpacity="40%"
-      >
+      <metadata>Created by potrace 1.16, written by Peter Selinger 2001-2019</metadata>
+      <g transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)" fill="#ffffff" fillOpacity="40%">
         <path
           d="M126 2018 c-8 -13 -40 -63 -71 -113 l-56 -90 29 -3 29 -3 5 -127 c6
     -151 25 -213 95 -316 80 -118 192 -184 349 -207 l74 -11 0 -59 0 -59 -145 0
@@ -77,92 +65,78 @@ const SVGtransparent = () => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export default function StepProgressBar(props) {
-  const visible = props.visible;
-  const steps = props.steps;
-  const array = [];
+  const visible = props.visible
+  const steps = props.steps
+  const array = []
   for (let i = 0; i < steps; i++) {
-    array.push(i);
+    array.push(i)
   }
 
   return (
-    <Box
-      width={{sm: '400px', md: '750px', lg: '750px', xl: '750px', '2xl': '750px'}}
-    >
+    <Box width={{ sm: '400px', md: '750px', lg: '750px', xl: '750px', '2xl': '750px' }}>
       <div style={{ margin: 50 }}>
         <ProgressBar
-          display={{sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block'}}
-          width='100%'
+          display={{ sm: 'none', md: 'block', lg: 'block', xl: 'lg', '2xl': 'block' }}
+          width="100%"
           height={1}
           percent={100 * (visible / (steps - 1))}
           filledBackground="none"
         >
           {array.map((step, index) => {
-            let cursor;
+            let cursor
             if (index <= visible) {
-              cursor = "pointer";
+              cursor = 'pointer'
             } else {
-              cursor = "default";
+              cursor = 'default'
             }
             return (
-              <Step
-                key={index}
-                position={100 * (index / steps)}
-                transition="scale"
-              >
+              <Step key={index} position={100 * (index / steps)} transition="scale">
                 {({ accomplished }) => (
                   <>
                     {index < steps - 1 ? (
                       <Box
                         onClick={() => props.handleBack(index)}
-                        width={{sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px'}}
-                        height={{sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px'}}
+                        width={{ sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px' }}
+                        height={{ sm: '15px', md: '30px', lg: '30px', xl: '30px', '2xl': '30px' }}
                         style={{
-                          display: "flex",
+                          display: 'flex',
                           cursor: cursor,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "50%",
-                          color: "white",
-                          backgroundColor: accomplished
-                            ? "white"
-                            : "rgba(255,255,255,.5)",
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          color: 'white',
+                          backgroundColor: accomplished ? 'white' : 'rgba(255,255,255,.5)',
                         }}
                       ></Box>
                     ) : (
                       <div
                         onClick={() => props.handleBack(index)}
                         style={{
-                          display: "flex",
+                          display: 'flex',
                           cursor: cursor,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "50%",
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
                           width: 40,
                           height: 40,
-                          color: "white",
-                          backgroundColor: accomplished
-                            ? "transparent"
-                            : "transparent",
+                          color: 'white',
+                          backgroundColor: accomplished ? 'transparent' : 'transparent',
                         }}
                       >
-                        {visible == steps - 1 ? (
-                          <Icon as={SVG} />
-                        ) : (
-                          <Icon as={SVGtransparent} />
-                        )}
+                        {visible == steps - 1 ? <Icon as={SVG} /> : <Icon as={SVGtransparent} />}
                       </div>
                     )}
                   </>
                 )}
               </Step>
-            );
+            )
           })}
         </ProgressBar>
       </div>
     </Box>
-  );
+  )
 }

@@ -1,25 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import AppContext from "../../../context/AppContext";
-import {
-  VStack,
-  HStack,
-  Button,
-  Text,
-  Link,
-  Input,
-  Heading,
-  Icon,
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import Select from "../../elements/Select";
-import DateSelect from "../../elements/DateSelect";
-import InfoTip from "../../elements/InfoTip";
+import React, { useState, useContext, useEffect } from 'react'
+import AppContext from '../../../context/AppContext'
+import { VStack, HStack, Button, Text, Link, Input, Heading, Icon, FormControl, FormLabel } from '@chakra-ui/react'
+import { AiOutlineInfoCircle } from 'react-icons/ai'
+import Select from '../../elements/Select'
+import DateSelect from '../../elements/DateSelect'
+import InfoTip from '../../elements/InfoTip'
 
 export default function HaveEntity({ setActive }) {
-  const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
+  const value = useContext(AppContext)
+  const { web3, chainId, loading, account } = value.state
 
   return (
     <>
@@ -31,5 +20,5 @@ export default function HaveEntity({ setActive }) {
         </HStack>
       </VStack>
     </>
-  );
+  )
 }

@@ -115,4 +115,4 @@ With respect to all persons and entities, regardless of whether they have obtain
 ## **Contacting Us**
 
 Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at *kalidao@protonmail.xyz*.
-`;
+`

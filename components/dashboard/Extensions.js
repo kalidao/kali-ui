@@ -1,19 +1,16 @@
-import React, { useContext } from "react";
-import AppContext from "../../context/AppContext";
-import { Text, HStack, Spacer, Spinner, Center } from "@chakra-ui/react";
-import DashedDivider from "../elements/DashedDivider";
-import InfoTip from "../elements/InfoTip";
+import React, { useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import { Text, HStack, Spacer, Spinner, Center } from '@chakra-ui/react'
+import DashedDivider from '../elements/DashedDivider'
+import InfoTip from '../elements/InfoTip'
 
 const ExtensionCard = ({ name }) => {
   const assignLabel = (name) => {
-    if (name === "crowdsale")
-      return "Sell membership in ETH or designated token";
-    if (name === "tribute")
-      return "Make a proposal with ETH, token or NFT as membership tribute";
-    if (name === "redemption")
-      return "Burn token to claim fair share of DAO capital aka ragequit";
-    return null;
-  };
+    if (name === 'crowdsale') return 'Sell membership in ETH or designated token'
+    if (name === 'tribute') return 'Make a proposal with ETH, token or NFT as membership tribute'
+    if (name === 'redemption') return 'Burn token to claim fair share of DAO capital aka ragequit'
+    return null
+  }
 
   return (
     <React.Fragment>
@@ -25,33 +22,30 @@ const ExtensionCard = ({ name }) => {
 
       <DashedDivider />
     </React.Fragment>
-  );
-};
+  )
+}
 
 export default function Extensions() {
-  const value = useContext(AppContext);
-  const { dao } = value.state;
+  const value = useContext(AppContext)
+  const { dao } = value.state
 
   return (
     // TODO: Check if null check is actually works here or not
     <>
-      {dao["extensions"] == undefined ? (
+      {dao['extensions'] == undefined ? (
         <>
           <Spinner />
-          <Center>
-            We're fetching this data from the blockchain. Hang tight, it may
-            take a few minutes!
-          </Center>
+          <Center>We're fetching this data from the blockchain. Hang tight, it may take a few minutes!</Center>
         </>
-      ) : (dao["extensions"] == null ? (
-        "No extensions installed"
+      ) : dao['extensions'] == null ? (
+        'No extensions installed'
       ) : (
         <>
-          {Object.entries(dao["extensions"]).map(([name, key]) => (
+          {Object.entries(dao['extensions']).map(([name, key]) => (
             <ExtensionCard key={key} name={name} />
           ))}
         </>
-      ))}
+      )}
     </>
-  );
+  )
 }

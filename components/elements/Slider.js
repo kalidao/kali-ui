@@ -5,10 +5,10 @@ import {
   SliderThumb,
   SliderFilledTrack,
   Spacer,
-} from "@chakra-ui/react";
-import { useState } from "react";
+} from '@chakra-ui/react'
+import { useState } from 'react'
 function Slider({ id, min, max, defaultValue, label, onChangeEnd, marks }) {
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false)
 
   return (
     <ChakraSlider
@@ -32,7 +32,7 @@ function Slider({ id, min, max, defaultValue, label, onChangeEnd, marks }) {
       </SliderTrack>
       <SliderThumb />
     </ChakraSlider>
-  );
+  )
 }
 
-export default Slider;
+export default Slider

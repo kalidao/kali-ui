@@ -1,5 +1,5 @@
-import { Text, VStack, HStack, Box } from "@chakra-ui/react";
-import KaliButton from "../elements/KaliButton";
+import { Text, VStack, HStack, Box } from '@chakra-ui/react'
+import KaliButton from '../elements/KaliButton'
 
 export default function HomeTile(props) {
   return (
@@ -10,11 +10,9 @@ export default function HomeTile(props) {
         </Text>
         <br></br>
         <HStack>
-          <KaliButton onClick={props.setDeployerVisible}>
-            Get Started
-          </KaliButton>
+          <KaliButton onClick={props.setDeployerVisible}>Get Started</KaliButton>
         </HStack>
       </VStack>
     </HStack>
-  );
+  )
 }

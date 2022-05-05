@@ -1,4 +1,4 @@
-import { Button, Divider } from "@chakra-ui/react";
+import { Button, Divider } from '@chakra-ui/react'
 
 const SVG = () => {
   return (
@@ -10,14 +10,8 @@ const SVG = () => {
       viewBox="0 0 132.000000 204.000000"
       preserveAspectRatio="xMidYMid meet"
     >
-      <metadata>
-        Created by potrace 1.16, written by Peter Selinger 2001-2019
-      </metadata>
-      <g
-        transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)"
-        fill="#000000"
-        stroke="none"
-      >
+      <metadata>Created by potrace 1.16, written by Peter Selinger 2001-2019</metadata>
+      <g transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
         <path
           d="M126 2018 c-8 -13 -40 -63 -71 -113 l-56 -90 29 -3 29 -3 5 -127 c6
     -151 25 -213 95 -316 80 -118 192 -184 349 -207 l74 -11 0 -59 0 -59 -145 0
@@ -36,21 +30,21 @@ const SVG = () => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
 const KaliButton = (props) => {
-  let id;
+  let id
   if (props.id) {
-    id = props.id;
+    id = props.id
   } else {
-    id = 1;
+    id = 1
   }
-  let disabled;
+  let disabled
   if (props.disabled) {
-    disabled = props.disabled;
+    disabled = props.disabled
   } else {
-    disabled = false;
+    disabled = false
   }
   return (
     <Button
@@ -65,7 +59,7 @@ const KaliButton = (props) => {
       <Divider orientation="vertical" mr={2} />
       {props.children}
     </Button>
-  );
-};
+  )
+}
 
-export default KaliButton;
+export default KaliButton

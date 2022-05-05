@@ -1,12 +1,12 @@
-import { Icon } from "@chakra-ui/react";
+import { Icon } from '@chakra-ui/react'
 
-import { HiUserGroup } from "react-icons/hi";
-import { FaMoneyBillAlt, FaHandsHelping } from "react-icons/fa";
-import { BsTools } from "react-icons/bs";
+import { HiUserGroup } from 'react-icons/hi'
+import { FaMoneyBillAlt, FaHandsHelping } from 'react-icons/fa'
+import { BsTools } from 'react-icons/bs'
 
 export const presets = [
   {
-    type: "Social",
+    type: 'Social',
     icon: HiUserGroup,
     voting: 3,
     quorum: 10,
@@ -20,7 +20,7 @@ export const presets = [
     },
   },
   {
-    type: "Investment Club",
+    type: 'Investment Club',
     icon: FaMoneyBillAlt,
     voting: 5,
     quorum: 30,
@@ -29,10 +29,10 @@ export const presets = [
     extensions: {
       crowdsale: {
         description:
-          "Create a fund with your friends. Voting is stricter and slower. Includes month fundraiser, 1 ETH per 10 Shares. Ragequit allowed after.",
-        purchaseToken: "0x000000000000000000000000000000000000dEaD",
+          'Create a fund with your friends. Voting is stricter and slower. Includes month fundraiser, 1 ETH per 10 Shares. Ragequit allowed after.',
+        purchaseToken: '0x000000000000000000000000000000000000dEaD',
         purchaseMultiplier: 10,
-        purchaseLimit: "1000", // 1000 shares - string, to avoid BigNumber errors
+        purchaseLimit: '1000', // 1000 shares - string, to avoid BigNumber errors
         saleEnds: 30, // 30 days from today
         listId: 1,
       },
@@ -43,7 +43,7 @@ export const presets = [
     },
   },
   {
-    type: "Company",
+    type: 'Company',
     icon: BsTools,
     voting: 2,
     quorum: 20,
@@ -51,13 +51,12 @@ export const presets = [
     paused: 1,
     extensions: {
       crowdsale: {
-        description:
-          "Form a digital company and tokenize cap table. Voting is quicker to manage payments.",
+        description: 'Form a digital company and tokenize cap table. Voting is quicker to manage payments.',
       },
     },
   },
   {
-    type: "Nonprofit",
+    type: 'Nonprofit',
     icon: FaHandsHelping,
     voting: 3,
     quorum: 20,
@@ -65,9 +64,8 @@ export const presets = [
     paused: 1,
     extensions: {
       tribute: {
-        description:
-          "Includes 'tribute' extension to allow membership in exchange for a donation or membership fee.",
+        description: "Includes 'tribute' extension to allow membership in exchange for a donation or membership fee.",
       },
     },
   },
-];
+]

@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import {
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Tooltip,
-} from "@chakra-ui/react";
+import React, { useState } from 'react'
+import { Slider, SliderTrack, SliderFilledTrack, SliderThumb, Tooltip } from '@chakra-ui/react'
 
 function CustomSlider(props) {
-  const [sliderValue, setSliderValue] = useState(props.defaultValue);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [sliderValue, setSliderValue] = useState(props.defaultValue)
+  const [showTooltip, setShowTooltip] = useState(false)
 
   return (
     <Slider
@@ -26,16 +20,11 @@ function CustomSlider(props) {
       <SliderTrack>
         <SliderFilledTrack />
       </SliderTrack>
-      <Tooltip
-        hasArrow
-        placement="top"
-        isOpen={showTooltip}
-        label={`${sliderValue}`}
-      >
+      <Tooltip hasArrow placement="top" isOpen={showTooltip} label={`${sliderValue}`}>
         <SliderThumb />
       </Tooltip>
     </Slider>
-  );
+  )
 }
 
-export default CustomSlider;
+export default CustomSlider
