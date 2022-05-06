@@ -138,10 +138,10 @@ const LlcJoinder = ({ name, address, state }) => {
           <Br />
           (c)
           <Tab />
-          Upon consummation of the transactions contemplated by this Agreement, Seller shall have transferred to Buyer and Buyer shall have
-          obtained from Seller all right, title and interest in the Membership Interests, free and clear of any and all
-          liens, mortgages, hypothecations, collateral assignments, charges, encumbrances, title defects, security
-          interests or claims (whether recorded or unrecorded) of any kind;
+          Upon consummation of the transactions contemplated by this Agreement, Seller shall have transferred to Buyer
+          and Buyer shall have obtained from Seller all right, title and interest in the Membership Interests, free and
+          clear of any and all liens, mortgages, hypothecations, collateral assignments, charges, encumbrances, title
+          defects, security interests or claims (whether recorded or unrecorded) of any kind;
           <Br />
           <Br />
           (d)
