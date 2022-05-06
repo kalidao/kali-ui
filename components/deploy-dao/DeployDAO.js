@@ -9,6 +9,7 @@ import Members from "./Members";
 import Legal from "./Legal";
 import Confirm from "./Confirm";
 import {  Progress, ProgressIndicator } from "../../styles/Progress";
+import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
 
 const Flex = styled('div', {
     display: 'flex',
@@ -23,28 +24,8 @@ const SubmitButton = styled('button', {
     padding: '0.2rem 0.5rem'
 });
 
-const Navigation = styled('div', {
-    display: 'flex',
-    gap: '1rem',
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-});
-
-const PreviousButton = styled('button', {
-    color: '$darkgray'
-});
-
-const NextButton = styled('button', {
-    background: '$purple',
-    color: '$white',
-    borderRadius: '22.81px',
-    padding: '0.2rem 0.5rem'
-});
-
 export default function DeployDAO() {
   const [step, setStep] = useState(0);
-  const [previousActive, setPreviousActive] = useState(false);
-  const [nextActive, setNextActive] = useState(false);
   const [details, setDetails] = useState({
     network: 1,
     identity: {
@@ -103,20 +84,8 @@ export default function DeployDAO() {
     <Members details={details} setDetails={setDetails} />,
     <Legal details={details} setDetails={setDetails} />,
     <Confirm details={details} setDetails={setDetails} />
-  ]
-
-  const next = () => {
-    if (step < steps.length) {
-        setStep(step+1);
-    }
-  };
-
-  const previous = () => {
-    if (step != 0) {
-        setStep(step-1);
-    }
-  }
-
+  ] 
+ 
   return (
     <Flex>
         <DialogTitle>Create New DAO</DialogTitle>
@@ -126,8 +95,8 @@ export default function DeployDAO() {
         <Template details={details} setDetails={setDetails} />
         {steps[step]}
         <Navigation>
-            {step === 0 ? null : <PreviousButton onClick={previous}>Previous</PreviousButton>}
-            {step === steps.length-1 ? null : <NextButton onClick={next}>Next</NextButton>}
+            {step === 0 ? null : <PreviousButton onClick={() => setStep((prev) => --prev)}>Previous</PreviousButton>}
+            {step === steps.length-1 ? null : <NextButton onClick={() => setStep((prev) => ++prev)}>Next</NextButton>}
         </Navigation>
         {step === steps.length-1 && <SubmitButton>Submit</SubmitButton>}
     </Flex>
