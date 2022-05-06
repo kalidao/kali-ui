@@ -17,15 +17,15 @@ import {
   VStack,
   Link,
   Text,
-} from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import DelawareOAtemplate from "../legal/DelawareOAtemplate";
-import DelawareInvestmentClubTemplate from "../legal/DelawareInvestmentClubTemplate";
-import DelawareUNAtemplate from "../legal/DelawareUNAtemplate";
-import WyomingOAtemplate from "../legal/WyomingOAtemplate";
-import SwissVerein from "../legal/SwissVerein";
-import LlcJoinder from "../legal/LlcJoinder";
+} from '@chakra-ui/react'
+import { useForm } from 'react-hook-form'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import DelawareOAtemplate from '../legal/DelawareOAtemplate'
+import DelawareInvestmentClubTemplate from '../legal/DelawareInvestmentClubTemplate'
+import DelawareUNAtemplate from '../legal/DelawareUNAtemplate'
+import WyomingOAtemplate from '../legal/WyomingOAtemplate'
+import SwissVerein from '../legal/SwissVerein'
+import LlcJoinder from '../legal/LlcJoinder'
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,20 +33,20 @@ function DraftDoc() {
   const [selection, setSelection] = useState('')
 
   // Toggle Legal Form
-  const [deLlcForm, setDeLlcForm] = useState(false);
-  const [deIcForm, setDeIcForm] = useState(false);
-  const [deUnaForm, setDeUnaForm] = useState(false);
-  const [wyLlcForm, setWyLlcForm] = useState(false);
-  const [swissVereinForm, setSwissVereinForm] = useState(false);
-  const [memberJoinderForm, setMemberJoinderForm] = useState(false);
+  const [deLlcForm, setDeLlcForm] = useState(false)
+  const [deIcForm, setDeIcForm] = useState(false)
+  const [deUnaForm, setDeUnaForm] = useState(false)
+  const [wyLlcForm, setWyLlcForm] = useState(false)
+  const [swissVereinForm, setSwissVereinForm] = useState(false)
+  const [memberJoinderForm, setMemberJoinderForm] = useState(false)
 
   // State per Legal Form
-  const [delawareLlc, setDelawareLlc] = useState({});
-  const [delawareIc, setDelawareIc] = useState({});
-  const [delawareUna, setDelawareUna] = useState({});
-  const [wyomingLlc, setWyomingLlc] = useState({});
-  const [swissVerein, setSwissVerein] = useState({});
-  const [memberJoinder, setMemberJoinder] = useState({});
+  const [delawareLlc, setDelawareLlc] = useState({})
+  const [delawareIc, setDelawareIc] = useState({})
+  const [delawareUna, setDelawareUna] = useState({})
+  const [wyomingLlc, setWyomingLlc] = useState({})
+  const [swissVerein, setSwissVerein] = useState({})
+  const [memberJoinder, setMemberJoinder] = useState({})
 
   const generateDoc = (values) => {
     values.agreement = selection
@@ -82,15 +82,15 @@ function DraftDoc() {
           city: values.city,
           project: values.project,
           mission: values.mission,
-        });
-        setSwissVereinForm(true);
-      case "member-joinder":
+        })
+        setSwissVereinForm(true)
+      case 'member-joinder':
         setMemberJoinder({
           name: values.name,
           address: values.address,
           state: values.state,
-        });
-        setMemberJoinderForm(true);
+        })
+        setMemberJoinderForm(true)
     }
 
     console.log(values)
@@ -233,25 +233,21 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
-              {selection === "member-joinder" && (
+              {selection === 'member-joinder' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       DAO Name
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={3} htmlFor="address">
                       DAO Contract Address
                     </FormLabel>
-                    <Input id="address" placeholder="0xKALI" {...register("address")} />
+                    <Input id="address" placeholder="0xKALI" {...register('address')} />
                     <FormLabel mt={3} htmlFor="state">
                       State of Incorporation
                     </FormLabel>
-                    <Input
-                      id="state"
-                      placeholder="State of Incorporation"
-                      {...register("state")}
-                    />
+                    <Input id="state" placeholder="State of Incorporation" {...register('state')} />
                   </FormControl>
                 </>
               )}
@@ -324,25 +320,17 @@ function DraftDoc() {
               (memberJoinderForm && (
                 <PDFDownloadLink
                   document={
-                    <LlcJoinder
-                      name={memberJoinder.name}
-                      address={memberJoinder.address}
-                      state={memberJoinder.state}
-                    />
+                    <LlcJoinder name={memberJoinder.name} address={memberJoinder.address} state={memberJoinder.state} />
                   }
                   fileName="LLC Member Joinder Agreement"
                 >
                   {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                   }
                 </PDFDownloadLink>
               ))}
-            { }
-            { }
+            {}
+            {}
             <Button type="submit" form="contact-form" mr={3}>
               Draft
             </Button>
