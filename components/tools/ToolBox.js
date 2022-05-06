@@ -1,8 +1,8 @@
-import React, { useState } from "react"
-import { Button, HStack } from "@chakra-ui/react"
-import TokenForm from "./TokenForm.js"
-import NftForm from "./NftForm.js"
-import ListManagerForm from "./ListManagerForm.js"
+import React, { useState } from 'react'
+import { Button, HStack } from '@chakra-ui/react'
+import TokenForm from './TokenForm.js'
+import NftForm from './NftForm.js'
+import ListManagerForm from './ListManagerForm.js'
 
 export default function ToolBox() {
   const [tokenVisible, setTokenVisible] = useState(false)

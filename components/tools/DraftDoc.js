@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Button,
   Drawer,
@@ -28,9 +28,9 @@ import SwissVerein from "../legal/SwissVerein";
 import LlcJoinder from "../legal/LlcJoinder";
 
 function DraftDoc() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, register, reset } = useForm();
-  const [selection, setSelection] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { handleSubmit, register, reset } = useForm()
+  const [selection, setSelection] = useState('')
 
   // Toggle Legal Form
   const [deLlcForm, setDeLlcForm] = useState(false);
@@ -49,34 +49,34 @@ function DraftDoc() {
   const [memberJoinder, setMemberJoinder] = useState({});
 
   const generateDoc = (values) => {
-    values.agreement = selection;
+    values.agreement = selection
     switch (selection) {
-      case "delaware-llc":
+      case 'delaware-llc':
         setDelawareLlc({
           name: values.name,
           chain: values.chain,
-        });
-        setDeLlcForm(true);
-      case "delaware-ic":
+        })
+        setDeLlcForm(true)
+      case 'delaware-ic':
         setDelawareIc({
           name: values.name,
           chain: values.chain,
-        });
-        setDeIcForm(true);
-      case "delaware-una":
+        })
+        setDeIcForm(true)
+      case 'delaware-una':
         setDelawareUna({
           name: values.name,
           chain: values.chain,
           mission: values.mission,
-        });
-        setDeUnaForm(true);
-      case "wyoming-llc":
+        })
+        setDeUnaForm(true)
+      case 'wyoming-llc':
         setWyomingLlc({
           name: values.name,
           chain: values.chain,
-        });
-        setWyLlcForm(true);
-      case "swiss-verein":
+        })
+        setWyLlcForm(true)
+      case 'swiss-verein':
         setSwissVerein({
           name: values.name,
           city: values.city,
@@ -93,14 +93,14 @@ function DraftDoc() {
         setMemberJoinderForm(true);
     }
 
-    console.log(values);
-  };
+    console.log(values)
+  }
 
   useEffect(() => {
-    console.log(selection);
+    console.log(selection)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selection]);
+  }, [selection])
 
   return (
     <>
@@ -108,11 +108,11 @@ function DraftDoc() {
         className="transparent-btn"
         onClick={onOpen}
         display={{
-          sm: "none",
-          md: "block",
-          lg: "block",
-          xl: "lg",
-          "2xl": "block",
+          sm: 'none',
+          md: 'block',
+          lg: 'block',
+          xl: 'lg',
+          '2xl': 'block',
         }}
         margin="0px 5px !important"
       >
@@ -123,22 +123,17 @@ function DraftDoc() {
         <DrawerContent>
           <DrawerHeader>✍️</DrawerHeader>
           <DrawerBody>
-            <Stack
-              as="form"
-              id="contact-form"
-              onSubmit={handleSubmit(generateDoc)}
-              spacing={2}
-            >
+            <Stack as="form" id="contact-form" onSubmit={handleSubmit(generateDoc)} spacing={2}>
               <FormControl>
                 <FormLabel htmlFor="name">Select an agreement:</FormLabel>
                 <Select
                   onChange={(e) => {
-                    setSelection(e.target.value);
-                    setDeLlcForm(false);
-                    setDeIcForm(false);
-                    setDeUnaForm(false);
-                    setWyLlcForm(false);
-                    reset();
+                    setSelection(e.target.value)
+                    setDeLlcForm(false)
+                    setDeIcForm(false)
+                    setDeUnaForm(false)
+                    setWyLlcForm(false)
+                    reset()
                   }}
                   id="agreement"
                   placeholder="Select option"
@@ -151,109 +146,85 @@ function DraftDoc() {
                   <option value="member-joinder">LLC Member Joinder</option>
                 </Select>
               </FormControl>
-              {selection === "delaware-llc" && (
+              {selection === 'delaware-llc' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC Name
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
-                    <Input
-                      id="chain"
-                      placeholder="Ethereum, Arbitrum, Polygon, etc."
-                      {...register("chain")}
-                    />
+                    <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
                   </FormControl>
                 </>
               )}
-              {selection === "delaware-ic" && (
+              {selection === 'delaware-ic' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC NAME
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={2} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
-                    <Input
-                      id="chain"
-                      placeholder="Ethereum, Arbitrum, Polygon, etc."
-                      {...register("chain")}
-                    />
+                    <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
                   </FormControl>
                 </>
               )}
-              {selection === "wyoming-llc" && (
+              {selection === 'wyoming-llc' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       DAO LLC Name
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
-                    <Input
-                      id="chain"
-                      placeholder="Ethereum, Arbitrum, Polygon, etc."
-                      {...register("chain")}
-                    />
+                    <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
                   </FormControl>
                 </>
               )}
-              {selection === "delaware-una" && (
+              {selection === 'delaware-una' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       UNA Name
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={3} htmlFor="chain">
                       Designated Blockchain
                     </FormLabel>
-                    <Input
-                      id="chain"
-                      placeholder="Ethereum, Arbitrum, Polygon, etc."
-                      {...register("chain")}
-                    />
+                    <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
                     <FormLabel mt={3} htmlFor="mission">
                       Link to DAO Mission
                     </FormLabel>
-                    <Input id="mission" placeholder="mission" {...register("mission")} />
+                    <Input id="mission" placeholder="mission" {...register('mission')} />
                   </FormControl>
                 </>
               )}
-              {selection === "swiss-verein" && (
+              {selection === 'swiss-verein' && (
                 <>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="name">
                       Verein Name
                     </FormLabel>
-                    <Input id="name" placeholder="KALI" {...register("name")} />
+                    <Input id="name" placeholder="KALI" {...register('name')} />
                     <FormLabel mt={3} htmlFor="city">
                       City of Switzerland
                     </FormLabel>
-                    <Input id="city" placeholder="Zug" {...register("city")} />
+                    <Input id="city" placeholder="Zug" {...register('city')} />
                     <FormLabel mt={3} htmlFor="project">
                       Project Name
                     </FormLabel>
-                    <Input
-                      id="project"
-                      placeholder="name of your project"
-                      {...register("project")}
-                    />
+                    <Input id="project" placeholder="name of your project" {...register('project')} />
                     <FormLabel mt={3} htmlFor="mission">
                       Link to DAO Mission
                     </FormLabel>
-                    <Input
-                      id="mission"
-                      placeholder="URL"
-                      {...register("mission")}
-                    />
+                    <Input id="mission" placeholder="URL" {...register('mission')} />
                     <Text mt={5} align="center" htmlFor="mission">
                       <Link href="http://app.kalidao.xyz">
                         <i>Need help with Swiss Verein?</i>
@@ -289,39 +260,21 @@ function DraftDoc() {
           <DrawerFooter>
             {(deLlcForm && (
               <PDFDownloadLink
-                document={
-                  <DelawareOAtemplate
-                    name={delawareLlc.name}
-                    chain={delawareLlc.chain}
-                  />
-                }
+                document={<DelawareOAtemplate name={delawareLlc.name} chain={delawareLlc.chain} />}
                 fileName="Delaware DAO LLC Operating Agreement"
               >
                 {({ loading }) =>
-                  loading ? (
-                    <Button mr={3}>Loading Document...</Button>
-                  ) : (
-                    <Button mr={3}>Download</Button>
-                  )
+                  loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                 }
               </PDFDownloadLink>
             )) ||
               (deIcForm && (
                 <PDFDownloadLink
-                  document={
-                    <DelawareInvestmentClubTemplate
-                      name={delawareIc.name}
-                      chain={delawareIc.chain}
-                    />
-                  }
+                  document={<DelawareInvestmentClubTemplate name={delawareIc.name} chain={delawareIc.chain} />}
                   fileName="Investment Club DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                   }
                 </PDFDownloadLink>
               )) ||
@@ -337,30 +290,17 @@ function DraftDoc() {
                   fileName="Delaware UNA Agreement"
                 >
                   {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                   }
                 </PDFDownloadLink>
               )) ||
               (wyLlcForm && (
                 <PDFDownloadLink
-                  document={
-                    <WyomingOAtemplate
-                      name={wyomingLlc.name}
-                      chain={wyomingLlc.chain}
-                    />
-                  }
+                  document={<WyomingOAtemplate name={wyomingLlc.name} chain={wyomingLlc.chain} />}
                   fileName="Wyoming DAO LLC Operating Agreement"
                 >
                   {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                   }
                 </PDFDownloadLink>
               )) ||
@@ -377,11 +317,7 @@ function DraftDoc() {
                   fileName="Swiss Verein Article of Association"
                 >
                   {({ loading }) =>
-                    loading ? (
-                      <Button mr={3}>Loading Document...</Button>
-                    ) : (
-                      <Button mr={3}>Download</Button>
-                    )
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
                   }
                 </PDFDownloadLink>
               )) ||
@@ -413,7 +349,7 @@ function DraftDoc() {
             <Button
               variant="outline"
               onClick={() => {
-                onClose(), reset(), setSelection("");
+                onClose(), reset(), setSelection('')
               }}
             >
               Cancel
@@ -422,7 +358,7 @@ function DraftDoc() {
         </DrawerContent>
       </Drawer>
     </>
-  );
+  )
 }
 
-export default DraftDoc;
+export default DraftDoc

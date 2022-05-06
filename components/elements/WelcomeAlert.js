@@ -1,11 +1,4 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Spinner,
-  CloseButton,
-} from "@chakra-ui/react";
+import { Alert, AlertIcon, AlertTitle, AlertDescription, Spinner, CloseButton } from '@chakra-ui/react'
 
 export default function WelcomeAlert() {
   return (
@@ -26,11 +19,10 @@ export default function WelcomeAlert() {
         DAO Summoned!
       </AlertTitle>
       <AlertDescription maxWidth="sm">
-        Thanks for creating a DAO with KALI! Your DAO has been successfully
-        created. We are fetching it from the blockchain. This process may take a
-        while, make yourself a cup of coffee ☕
+        Thanks for creating a DAO with KALI! Your DAO has been successfully created. We are fetching it from the
+        blockchain. This process may take a while, make yourself a cup of coffee ☕
       </AlertDescription>
       <Spinner />
     </Alert>
-  );
+  )
 }

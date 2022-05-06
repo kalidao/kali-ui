@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { VStack } from "@chakra-ui/react";
-import ChooseNetwork from "./ChooseNetwork";
-import ChooseIdentity from "./ChooseIdentity";
-import ChooseType from "./ChooseType";
-import ChooseCustom from "./ChooseCustom";
-import ChooseMembers from "./ChooseMembers";
-import ChooseDocs from "./ChooseDocs";
-import Checkout from "./Checkout";
-import StepProgressBar from "./StepProgressBar";
+import React, { useState } from 'react'
+import { VStack } from '@chakra-ui/react'
+import ChooseNetwork from './ChooseNetwork'
+import ChooseIdentity from './ChooseIdentity'
+import ChooseType from './ChooseType'
+import ChooseCustom from './ChooseCustom'
+import ChooseMembers from './ChooseMembers'
+import ChooseDocs from './ChooseDocs'
+import Checkout from './Checkout'
+import StepProgressBar from './StepProgressBar'
 
 export default function FactoryWrapper() {
-  const [visible, setVisible] = useState(0);
+  const [visible, setVisible] = useState(0)
   //const visible = 5; // for testing!
   const [details, setDetails] = useState({
     network: 1,
@@ -48,12 +48,12 @@ export default function FactoryWrapper() {
         saleEnds: 0,
         listId: 0,
         list: null,
-        documentation: "",
+        documentation: '',
       },
     },
     daoType: null,
     legal: {
-      docs: "none",
+      docs: 'none',
       docType: 999,
     },
     email: null,
@@ -62,28 +62,23 @@ export default function FactoryWrapper() {
       city: null,
       project: null,
     },
-  });
-  console.log("details", details);
+  })
+  console.log('details', details)
 
-  const [daoNames, setDaoNames] = useState(null);
+  const [daoNames, setDaoNames] = useState(null)
 
   const handleNext = () => {
-    setVisible(visible + 1);
-  };
+    setVisible(visible + 1)
+  }
 
   const handleBack = (num) => {
     if (num < visible) {
-      setVisible(num);
+      setVisible(num)
     }
-  };
+  }
 
   const views = [
-    <ChooseNetwork
-      key="0"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-    />,
+    <ChooseNetwork key="0" details={details} setDetails={setDetails} handleNext={handleNext} />,
     <ChooseIdentity
       key="1"
       details={details}
@@ -92,47 +87,17 @@ export default function FactoryWrapper() {
       daoNames={daoNames}
       setDaoNames={setDaoNames}
     />,
-    <ChooseType
-      key="2"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-    />,
-    <ChooseCustom
-      key="3"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-    />,
-    <ChooseMembers
-      key="4"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-    />,
-    <ChooseDocs
-      key="5"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-    />,
-    <Checkout
-      key="6"
-      details={details}
-      setDetails={setDetails}
-      handleNext={handleNext}
-      daoNames={daoNames}
-    />,
-  ];
+    <ChooseType key="2" details={details} setDetails={setDetails} handleNext={handleNext} />,
+    <ChooseCustom key="3" details={details} setDetails={setDetails} handleNext={handleNext} />,
+    <ChooseMembers key="4" details={details} setDetails={setDetails} handleNext={handleNext} />,
+    <ChooseDocs key="5" details={details} setDetails={setDetails} handleNext={handleNext} />,
+    <Checkout key="6" details={details} setDetails={setDetails} handleNext={handleNext} daoNames={daoNames} />,
+  ]
 
   return (
     <VStack id="deployer-container">
-      <StepProgressBar
-        steps={views.length}
-        visible={visible}
-        handleBack={handleBack}
-      />
+      <StepProgressBar steps={views.length} visible={visible} handleBack={handleBack} />
       {views[visible]}
     </VStack>
-  );
+  )
 }

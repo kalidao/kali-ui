@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
-import AppContext from "../../context/AppContext";
+import { useState, useContext, useEffect } from 'react'
+import Router, { useRouter } from 'next/router'
+import AppContext from '../../context/AppContext'
 import {
   Input,
   Button,
@@ -18,139 +18,133 @@ import {
   IconButton,
   Text,
   Box,
-} from "@chakra-ui/react";
-import NumInputField from "../elements/NumInputField";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { toDecimals, fromDecimals } from "../../utils/formatters";
-import { tokens } from "../../constants/tokens";
-import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
-import ProposalDescription from "../elements/ProposalDescription";
-import { validateEns } from "../tools/ensHelpers";
-import { uploadIpfs } from "../tools/ipfsHelpers";
+} from '@chakra-ui/react'
+import NumInputField from '../elements/NumInputField'
+import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import { toDecimals, fromDecimals } from '../../utils/formatters'
+import { tokens } from '../../constants/tokens'
+import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
+import ProposalDescription from '../elements/ProposalDescription'
+import { validateEns } from '../tools/ensHelpers'
+import { uploadIpfs } from '../tools/ipfsHelpers'
 
 export default function SendToken() {
-  const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, dao, chainId } = value.state;
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const value = useContext(AppContext)
+  const { web3, loading, account, abi, address, dao, chainId } = value.state
+  const [selectedOptions, setSelectedOptions] = useState([])
 
   // For Notes section
-  const [doc, setDoc] = useState([]);
-  const [note, setNote] = useState(null);
-  const [file, setFile] = useState(null);
+  const [doc, setDoc] = useState([])
+  const [note, setNote] = useState(null)
+  const [file, setFile] = useState(null)
 
   const handleSelect = (select) => {
-    let value = select.target.value;
-    let id = select.target.id;
-    var array = selectedOptions;
-    array[id] = value;
-    setSelectedOptions(array);
-    console.log(array);
-  };
+    let value = select.target.value
+    let id = select.target.id
+    var array = selectedOptions
+    array[id] = value
+    setSelectedOptions(array)
+    console.log(array)
+  }
 
   const {
     handleSubmit,
     register,
     control,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm()
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "recipients",
-  });
+    name: 'recipients',
+  })
 
   useEffect(() => {
-    append({ address: "" });
-  }, [append]);
+    append({ address: '' })
+  }, [append])
 
   const submitProposal = async (values) => {
-    value.setLoading(true);
+    value.setLoading(true)
 
-      var { recipients } = values;
+    var { recipients } = values
 
-      // Configure proposal type 
-      const proposalType_ = 2;
+    // Configure proposal type
+    const proposalType_ = 2
 
-      // Configure description param and upload to IPFS if necessary
-      let description;
-      (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
-      (note) ? description = note : description = "none";
-      (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
+    // Configure description param and upload to IPFS if necessary
+    let description
+    note && file ? (description = await uploadIpfs(dao.address, 'Mint Proposal', file.name)) : (description = 'none')
+    note ? (description = note) : (description = 'none')
+    file ? (description = await uploadIpfs(dao.address, 'Mint Proposal', file.name)) : null
 
-      // Configure accounts param and validate address or ENS
-      let recipients_ = []; 
-      let tokenAddress_ = []; // For CALL
-      for (let i = 0; i < recipients.length; i++) {
-        const recipientAddress = await validateEns(recipients[i].address, web3, value)
-        if (recipientAddress === undefined) {
-          value.setLoading(false);
-          return;
-        }
-        recipients_.push(recipientAddress)
-
-        // Replace accounts with token address to CALL token transfers via payload
-        let address_;
-        if (selectedOptions[i] == "ETH") {
-          address_ = recipientAddress;
-        } else {
-          address_ = tokens[chainId][selectedOptions[i]]["address"];
-        }
-        tokenAddress_.push(address_);
+    // Configure accounts param and validate address or ENS
+    let recipients_ = []
+    let tokenAddress_ = [] // For CALL
+    for (let i = 0; i < recipients.length; i++) {
+      const recipientAddress = await validateEns(recipients[i].address, web3, value)
+      if (recipientAddress === undefined) {
+        value.setLoading(false)
+        return
       }
+      recipients_.push(recipientAddress)
 
-      // Configure token amounts param
-      let amounts_ = [];
-      for (let i = 0; i < recipients.length; i++) {
-        let element = document.getElementById(`recipients.${i}.share`);
-        let value_ = element.value;
-
-        if (selectedOptions[i] == "ETH") {
-          amounts_.push(toDecimals(value_, 18));
-        } else {
-          amounts_.push(0);
-        }
+      // Replace accounts with token address to CALL token transfers via payload
+      let address_
+      if (selectedOptions[i] == 'ETH') {
+        address_ = recipientAddress
+      } else {
+        address_ = tokens[chainId][selectedOptions[i]]['address']
       }
+      tokenAddress_.push(address_)
+    }
 
-      // Configure payloads param
-      let payloads_ = [];
-      for (let i = 0; i < recipients.length; i++) {
-        if (selectedOptions[i] == "ETH") {
-          payloads_.push("0x");
-        } else {
-          const tokenAbi = require("../../abi/ERC20.json");
-          let tokenAddress = tokens[chainId][selectedOptions[i]]["address"];
-          // let decimals = tokens[chainId][selectedOptions[i]]["decimals"];
-          let element = document.getElementById(`recipients.${i}.share`);
-          let value_ = element.value;
+    // Configure token amounts param
+    let amounts_ = []
+    for (let i = 0; i < recipients.length; i++) {
+      let element = document.getElementById(`recipients.${i}.share`)
+      let value_ = element.value
 
-          const tokenContract = new web3.eth.Contract(tokenAbi, tokenAddress);
-          var payload_ = tokenContract.methods
-            .transfer(
-              recipients_[i],
-              toDecimals(
-                value_,
-                tokens[chainId][selectedOptions[i]]["decimals"]
-              )
-            )
-            .encodeABI();
-          payloads_.push(payload_);
-        }
+      if (selectedOptions[i] == 'ETH') {
+        amounts_.push(toDecimals(value_, 18))
+      } else {
+        amounts_.push(0)
       }
+    }
 
-      // console.log(proposalType_, description, recipients_, tokenAddress_, amounts_, payloads_);
-      try {
-        const instance = new web3.eth.Contract(abi, address);
-        let result = await instance.methods
-          .propose(proposalType_, description, tokenAddress_, amounts_, payloads_)
-          .send({ from: account });
-        value.setVisibleView(2);
-      } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
+    // Configure payloads param
+    let payloads_ = []
+    for (let i = 0; i < recipients.length; i++) {
+      if (selectedOptions[i] == 'ETH') {
+        payloads_.push('0x')
+      } else {
+        const tokenAbi = require('../../abi/ERC20.json')
+        let tokenAddress = tokens[chainId][selectedOptions[i]]['address']
+        // let decimals = tokens[chainId][selectedOptions[i]]["decimals"];
+        let element = document.getElementById(`recipients.${i}.share`)
+        let value_ = element.value
+
+        const tokenContract = new web3.eth.Contract(tokenAbi, tokenAddress)
+        var payload_ = tokenContract.methods
+          .transfer(recipients_[i], toDecimals(value_, tokens[chainId][selectedOptions[i]]['decimals']))
+          .encodeABI()
+        payloads_.push(payload_)
       }
+    }
 
-    value.setLoading(false);
-  };
+    // console.log(proposalType_, description, recipients_, tokenAddress_, amounts_, payloads_);
+    try {
+      const instance = new web3.eth.Contract(abi, address)
+      let result = await instance.methods
+        .propose(proposalType_, description, tokenAddress_, amounts_, payloads_)
+        .send({ from: account })
+      value.setVisibleView(2)
+    } catch (e) {
+      value.toast(e)
+      value.setLoading(false)
+    }
+
+    value.setLoading(false)
+  }
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
@@ -162,22 +156,17 @@ export default function SendToken() {
             border="0px"
             variant="ghost"
             _hover={{
-              background: "green.400",
+              background: 'green.400',
             }}
-            onClick={() => append({ address: "" })}
+            onClick={() => append({ address: '' })}
           >
             <AiOutlineUserAdd color="white" />
           </Button>
         </HStack>
-        <Box h={"2%"} />
-        <List width={"100%"} spacing={3}>
+        <Box h={'2%'} />
+        <List width={'100%'} spacing={3}>
           {fields.map((recipient, index) => (
-            <ListItem
-              display="flex"
-              flexDirection="row"
-              alignContent="center"
-              key={recipient.id}
-            >
+            <ListItem display="flex" flexDirection="row" alignContent="center" key={recipient.id}>
               <HStack w="100%" spacing={4}>
                 <Stack w="60%">
                   <Controller
@@ -190,7 +179,7 @@ export default function SendToken() {
                           placeholder="0x address or ENS"
                           {...field}
                           {...register(`recipients.${index}.address`, {
-                            required: "You must input an address!",
+                            required: 'You must input an address!',
                           })}
                         />
                       </FormControl>
@@ -224,11 +213,7 @@ export default function SendToken() {
                     defaultValue={recipient.share}
                     render={({ field }) => (
                       <FormControl isRequired>
-                        <NumInputField
-                          min="0.000000000000000001"
-                          defaultValue="1"
-                          id={`recipients.${index}.share`}
-                        />
+                        <NumInputField min="0.000000000000000001" defaultValue="1" id={`recipients.${index}.share`} />
                       </FormControl>
                     )}
                   />
@@ -247,7 +232,7 @@ export default function SendToken() {
         <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
       </VStack>
       <br />
-      <VStack w={"100%"}>
+      <VStack w={'100%'}>
         <Button
           className="solid-btn"
           // onClick={handleSubmit(submitProposal)}
@@ -257,5 +242,5 @@ export default function SendToken() {
         </Button>
       </VStack>
     </form>
-  );
+  )
 }

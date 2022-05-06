@@ -1,43 +1,29 @@
-import React, { useState, useContext } from "react";
-import AppContext from "../../context/AppContext";
-import {
-  Container,
-  HStack,
-  Center,
-  Spacer,
-  VStack,
-  Wrap,
-  WrapItem,
-  Box,
-  Button,
-} from "@chakra-ui/react";
-import Head from "next/head";
-import NavRightContainer from "./NavRightContainer";
-import Kali from "./Kali";
-import KaliIcon from "../elements/KaliIcon";
-import ActionMenu from "./ActionMenu";
-import LoadingIndicator from "./Loading";
-import Footer from "./Footer";
-import { BrowserView, MobileView } from "react-device-detect";
+import React, { useState, useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import { Container, HStack, Center, Spacer, VStack, Wrap, WrapItem, Box, Button } from '@chakra-ui/react'
+import Head from 'next/head'
+import NavRightContainer from './NavRightContainer'
+import Kali from './Kali'
+import KaliIcon from '../elements/KaliIcon'
+import ActionMenu from './ActionMenu'
+import LoadingIndicator from './Loading'
+import Footer from './Footer'
+import { BrowserView, MobileView } from 'react-device-detect'
 
 export default function Layout(props) {
-  const value = useContext(AppContext);
-  const { loading } = value.state;
+  const value = useContext(AppContext)
+  const { loading } = value.state
 
   const openInNewTab = () => {
-    window.open("https://airtable.com/shr29w0Bm0sTvygyI").focus();
-  };
+    window.open('https://airtable.com/shr29w0Bm0sTvygyI').focus()
+  }
 
   return (
     <>
-      {loading == true ? <LoadingIndicator /> : ""}
+      {loading == true ? <LoadingIndicator /> : ''}
       <Head>
         <title>KaliDAO</title>
-        <meta
-          property="og:title"
-          content="DAO Launcher with Legal Benefits"
-          key="title"
-        />
+        <meta property="og:title" content="DAO Launcher with Legal Benefits" key="title" />
       </Head>
       <style jsx global>{`
         body {
@@ -52,13 +38,10 @@ export default function Layout(props) {
         minH="100vh"
         p={0}
         style={{
-          overflowX: "hidden !important",
+          overflowX: 'hidden !important',
         }}
       >
-        <WrapItem
-          display={{ base: "block", sm: "none", md: "block", lg: "block" }}
-          width="20vw"
-        >
+        <WrapItem display={{ base: 'block', sm: 'none', md: 'block', lg: 'block' }} width="20vw">
           <Container id="dao-sidebar" h="100vh" m={0} minH="100vh" width="100%">
             <Center>
               <KaliIcon />
@@ -72,16 +55,8 @@ export default function Layout(props) {
             </VStack>
           </Container>
         </WrapItem>
-        <WrapItem
-          w={{ sm: "100vw", md: "80vw", lg: "80vw", xl: "80vw", "2xl": "80vw" }}
-          minH="100vh"
-        >
-          <Box
-            id="dao-main"
-            alignItems="center"
-            justifyContent="center"
-            w="100%"
-          >
+        <WrapItem w={{ sm: '100vw', md: '80vw', lg: '80vw', xl: '80vw', '2xl': '80vw' }} minH="100vh">
+          <Box id="dao-main" alignItems="center" justifyContent="center" w="100%">
             <HStack>
               <Spacer />
               <NavRightContainer color="#5a2686" borderColor="#5a2686" />
@@ -94,16 +69,16 @@ export default function Layout(props) {
       <Box
         id="mobile-menu"
         display={{
-          base: "none",
-          sm: "block",
-          md: "none",
-          lg: "none",
-          xl: "none",
-          "2xl": "none",
+          base: 'none',
+          sm: 'block',
+          md: 'none',
+          lg: 'none',
+          xl: 'none',
+          '2xl': 'none',
         }}
       >
         <ActionMenu />
       </Box>
     </>
-  );
+  )
 }

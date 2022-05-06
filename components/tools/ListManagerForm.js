@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import kaliAccessManager from "../../eth/kaliAccessManager";
+import React, { useState, useEffect, useContext } from 'react'
+import kaliAccessManager from '../../eth/kaliAccessManager'
 import {
   Button,
   Checkbox,
@@ -14,81 +14,74 @@ import {
   IconButton,
   Spacer,
   Text,
-} from "@chakra-ui/react";
-import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import InfoTip from "../elements/InfoTip";
-import AppContext from "../../context/AppContext";
-import { addresses } from "../../constants/addresses";
+} from '@chakra-ui/react'
+import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
+import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import InfoTip from '../elements/InfoTip'
+import AppContext from '../../context/AppContext'
+import { addresses } from '../../constants/addresses'
 
 export default function TokenForm() {
-  const value = useContext(AppContext);
-  const { web3, account, chainId } = value.state;
-  const [listCreated, setListCreated] = useState(false);
-  const [merkle, setMerkle] = useState("");
+  const value = useContext(AppContext)
+  const { web3, account, chainId } = value.state
+  const [listCreated, setListCreated] = useState(false)
+  const [merkle, setMerkle] = useState('')
 
   const {
     handleSubmit,
     register,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "members",
-  });
+    name: 'members',
+  })
 
   const submit = async (values) => {
-    const { members, merkle } = values;
+    const { members, merkle } = values
 
-    const factory = kaliAccessManager(addresses[chainId]["access2"], web3);
+    const factory = kaliAccessManager(addresses[chainId]['access2'], web3)
 
-    let array = [];
+    let array = []
 
     for (let i = 0; i < members.length; i++) {
-      if (members[i].address.slice(-4) === ".eth") {
-        members[i].address = await web3.eth.ens
-          .getAddress(members[i].address)
-          .catch(() => {
-            value.toast(members[i].address + " is not a valid ENS.");
-          });
+      if (members[i].address.slice(-4) === '.eth') {
+        members[i].address = await web3.eth.ens.getAddress(members[i].address).catch(() => {
+          value.toast(members[i].address + ' is not a valid ENS.')
+        })
       } else if (!web3.utils.isAddress(members[i].address)) {
-        value.toast(members[i].address + " is not a valid Ethereum address.");
-        return;
+        value.toast(members[i].address + ' is not a valid Ethereum address.')
+        return
       } else if (members[i].address.length > 64) {
-        value.toast(members[i].address + " is too long.");
-        return;
+        value.toast(members[i].address + ' is too long.')
+        return
       }
 
       if (members[i].address === undefined) {
-        return;
+        return
       }
 
-      array.push(members[i].address);
+      array.push(members[i].address)
     }
 
-    array = [...new Set(array)];
+    array = [...new Set(array)]
 
     try {
-      let result = await factory.methods
-        .createList(array, web3.utils.asciiToHex(merkle), "")
-        .send({ from: account });
+      let result = await factory.methods.createList(array, web3.utils.asciiToHex(merkle), '').send({ from: account })
 
-      setListCreated(true);
+      setListCreated(true)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   return (
     <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
       <Heading as="h1">Create a list of addresses</Heading>
-      <Text w="70%">
-        A list for drops, a list for swaps, a list for everything yo mama wants
-        ✌️
-      </Text>
+      <Text w="70%">A list for drops, a list for swaps, a list for everything yo mama wants ✌️</Text>
       <br />
       <VStack w="100%" align="flex-start">
         <HStack w="100%">
@@ -98,22 +91,16 @@ export default function TokenForm() {
             border="0px"
             variant="ghost"
             _hover={{
-              background: "green.500",
+              background: 'green.500',
             }}
-            onClick={() => append({ address: "" })}
+            onClick={() => append({ address: '' })}
           >
-            <AiOutlineUserAdd color="white"/>
+            <AiOutlineUserAdd color="white" />
           </Button>
         </HStack>
         <List width="100%">
           {fields.map((Member, index) => (
-            <ListItem
-              display="flex"
-              flexDirection="row"
-              alignContent="center"
-              justifyContent="center"
-              key={Member.id}
-            >
+            <ListItem display="flex" flexDirection="row" alignContent="center" justifyContent="center" key={Member.id}>
               <Controller
                 name={`members.${index}.address`}
                 control={control}
@@ -125,7 +112,7 @@ export default function TokenForm() {
                       placeholder="0xKALI or ENS"
                       {...field}
                       {...register(`members.${index}.address`, {
-                        required: "You must assign amount!",
+                        required: 'You must assign amount!',
                       })}
                     />
                   </FormControl>
@@ -154,17 +141,10 @@ export default function TokenForm() {
               >
                 <label htmlFor="merkle">Merkle Root</label>
               </Checkbox>
-              <InfoTip hasArrow label={"Merkle root is of type byte32"} />
+              <InfoTip hasArrow label={'Merkle root is of type byte32'} />
             </HStack>
 
-            {merkle && (
-              <Input
-                w="90%"
-                name="merkle"
-                placeholder="bytes32"
-                {...register("merkle")}
-              />
-            )}
+            {merkle && <Input w="90%" name="merkle" placeholder="bytes32" {...register('merkle')} />}
             {errors.owner && value.toast(errors.owner.message)}
           </VStack>
         </FormControl>
@@ -174,5 +154,5 @@ export default function TokenForm() {
         Create »
       </Button>
     </VStack>
-  );
+  )
 }

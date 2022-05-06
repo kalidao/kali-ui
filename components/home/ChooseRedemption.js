@@ -1,27 +1,22 @@
-import { useState, useEffect } from "react";
-import { HStack, Checkbox, VStack, Text } from "@chakra-ui/react";
-import ReactDatePicker from "react-datepicker";
-import InfoTip from "../elements/InfoTip";
-import DateSelect from "../elements/DateSelect";
+import { useState, useEffect } from 'react'
+import { HStack, Checkbox, VStack, Text } from '@chakra-ui/react'
+import ReactDatePicker from 'react-datepicker'
+import InfoTip from '../elements/InfoTip'
+import DateSelect from '../elements/DateSelect'
 
 function ChooseRedemption({ details, setDetails }) {
-  const [redemption, setRedemption] = useState(
-    details["extensions"]["redemption"]["active"]
-  );
+  const [redemption, setRedemption] = useState(details['extensions']['redemption']['active'])
 
-  const nowRedemption = new Date();
+  const nowRedemption = new Date()
   const [redemptionStart, setRedemptionStart] = useState(
-    nowRedemption.setDate(
-      nowRedemption.getDate() +
-        details["extensions"]["redemption"]["redemptionStart"]
-    )
-  );
+    nowRedemption.setDate(nowRedemption.getDate() + details['extensions']['redemption']['redemptionStart']),
+  )
 
   useEffect(() => {
-    details["extensions"]["redemption"]["active"] = redemption;
-    details["extensions"]["redemption"]["redemptionStart"] = redemptionStart;
-    setDetails(details);
-  }, [redemption, redemptionStart]);
+    details['extensions']['redemption']['active'] = redemption
+    details['extensions']['redemption']['redemptionStart'] = redemptionStart
+    setDetails(details)
+  }, [redemption, redemptionStart])
 
   return (
     <>
@@ -36,11 +31,7 @@ function ChooseRedemption({ details, setDetails }) {
         >
           <Text fontSize="sm">Redemption</Text>
         </Checkbox>
-        <InfoTip
-          label={
-            "Members can burn their DAO tokens to claim proportional share of DAO 🔥"
-          }
-        />
+        <InfoTip label={'Members can burn their DAO tokens to claim proportional share of DAO 🔥'} />
       </HStack>
       {redemption ? (
         <VStack>
@@ -60,7 +51,7 @@ function ChooseRedemption({ details, setDetails }) {
         </VStack>
       ) : null}
     </>
-  );
+  )
 }
 
-export default ChooseRedemption;
+export default ChooseRedemption
