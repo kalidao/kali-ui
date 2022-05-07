@@ -92,17 +92,3 @@ const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButton
 const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles);
 
 // Exports
-export const Select = SelectPrimitive.Root;
-export const SelectTrigger = StyledTrigger;
-export const SelectValue = SelectPrimitive.Value;
-export const SelectIcon = SelectPrimitive.Icon;
-export const SelectContent = StyledContent;
-export const SelectViewport = StyledViewport;
-export const SelectGroup = SelectPrimitive.Group;
-export const SelectItem = StyledItem;
-export const SelectItemText = SelectPrimitive.ItemText;
-export const SelectItemIndicator = StyledItemIndicator;
-export const SelectLabel = StyledLabel;
-export const SelectSeparator = StyledSeparator;
-export const SelectScrollUpButton = StyledScrollUpButton;
-export const SelectScrollDownButton = StyledScrollDownButton;

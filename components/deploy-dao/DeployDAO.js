@@ -10,6 +10,8 @@ import Legal from "./Legal";
 import Confirm from "./Confirm";
 import {  Progress, ProgressIndicator } from "../../styles/Progress";
 import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
+import { StateMachineProvider, createStore } from 'little-state-machine';
+import { useAccount } from 'wagmi';
 
 const Flex = styled('div', {
     display: 'flex',
@@ -17,15 +19,23 @@ const Flex = styled('div', {
     gap: '1rem'
 });
 
-const SubmitButton = styled('button', {
-    background: '$purple',
-    color: '$white',
-    borderRadius: '22.81px',
-    padding: '0.2rem 0.5rem'
-});
+createStore({
+    name: 'KaliDAO',
+    symbol: 'KALI',
+    paused: true,
+    redemption: {
+        active: false
+    },
+    crowdsale: {
+        active: false,
+        purchaseLimit: 1000
+    },
+})
 
 export default function DeployDAO() {
   const [step, setStep] = useState(0);
+  const { data: account } = useAccount();
+
   const [details, setDetails] = useState({
     network: 1,
     identity: {
@@ -78,27 +88,24 @@ export default function DeployDAO() {
     });
 
   const steps = [
-    <Identity details={details} setDetails={setDetails} />,
-    <Governance details={details} setDetails={setDetails} />,
-    <Extensions details={details} setDetails={setDetails} />,
-    <Members details={details} setDetails={setDetails} />,
-    <Legal details={details} setDetails={setDetails} />,
-    <Confirm details={details} setDetails={setDetails} />
+    <Identity setStep={setStep} />,
+    <Governance setStep={setStep} />,
+    <Extensions setStep={setStep} />,
+    <Members setStep={setStep} />,
+    <Legal setStep={setStep} />,
+    <Confirm setStep={setStep} />
   ] 
  
   return (
-    <Flex>
-        <DialogTitle>Create New DAO</DialogTitle>
-        <Progress value={((step/(steps.length-1)) * 100)}>
-            <ProgressIndicator style={{ transform: `translateX(-${100 - ((step/(steps.length-1)) * 100)}%)` }}/>
-        </Progress>
-        <Template details={details} setDetails={setDetails} />
-        {steps[step]}
-        <Navigation>
-            {step === 0 ? null : <PreviousButton onClick={() => setStep((prev) => --prev)}>Previous</PreviousButton>}
-            {step === steps.length-1 ? null : <NextButton onClick={() => setStep((prev) => ++prev)}>Next</NextButton>}
-        </Navigation>
-        {step === steps.length-1 && <SubmitButton>Submit</SubmitButton>}
-    </Flex>
+      <StateMachineProvider>
+        <Flex>
+            <DialogTitle>Create New DAO</DialogTitle>
+            <Progress value={((step/(steps.length-1)) * 100)}>
+                <ProgressIndicator style={{ transform: `translateX(-${100 - ((step/(steps.length-1)) * 100)}%)` }}/>
+            </Progress>
+            <Template />
+            {steps[step]}
+        </Flex>
+      </StateMachineProvider>
   )
 }

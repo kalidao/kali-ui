@@ -1,6 +1,13 @@
-import { Input, Label, Title } from '../../styles/form';
+import { Form, Input, Error, Label, Title } from '../../styles/form';
 import { styled } from '../../styles/stitches.config';
-import { PlusIcon  } from '@radix-ui/react-icons';
+import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { useStateMachine } from 'little-state-machine';
+import updateAction from './updateAction';
+import { useAccount, useEnsName } from 'wagmi';
+import { Button } from '@chakra-ui/react';
+import { Cross2Icon } from '@radix-ui/react-icons';
+
 const Flex = styled('div', {
   display: 'flex', 
   gap: '0.1rem',
@@ -10,20 +17,109 @@ const Flex = styled('div', {
 });
 
 
-export default function Members() {
+export default function Members({ setStep }) {
+  const { actions, state } = useStateMachine({ updateAction });
+  const { data: account } = useAccount();
+  const { data: ensName } = useEnsName();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      founders: state.founders ?? [
+        { member: ensName ? ensName : account?.address, share: "1000" }
+      ]
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "founders"
+  });
+
+  const onPrevious = (data) => {
+    actions.updateAction(data);
+
+    setStep(prev => --prev)
+  };
+  const onNext = (data) => {
+    actions.updateAction(data);
+
+    setStep(prev => ++prev)
+  };
+
   return (
-    <>
-      <Title>Cap Table</Title>
-      <Flex>
-        <Flex css={{ flexDirection: 'column'}}>
-          <Label htmlFor="member">Member</Label>
-          <Input placeholder="0x address or ENS" />
+    <Form>
+      <Title>Build Cap Table</Title>
+      <Flex style={{ flexDirection: 'column', gap: '0.5rem'}}>
+        <Flex style={{ justifyContent: 'space-around'}}>
+          <div>Member</div> 
+          <div>Share</div>
         </Flex>
-        <Flex css={{ flexDirection: 'column'}}>
-          <Label htmlFor="member">Shares</Label>
-          <Input placeholder="1000" />
+        <Flex style={{ flexDirection: 'column', gap: '1rem'}}>
+        {fields.map((item, index) => {
+          return (
+            <Flex key={item.id} style={{ gap: '1rem' }}>
+              <div>
+                <Input
+                  id="member"
+                  {...register(`founders.${index}.member`, {
+                    required: true
+                  })}
+                  defaultValue={item.member}
+                />
+                {errors.member && <Error>This field is required</Error>}
+              </div>
+              <div>
+                <Input
+                  id="share"
+                  type="number"
+                  {...register(`founders.${index}.share`, {
+                    required: true
+                  })}
+                  defaultValue={item.share}
+                />
+                {errors.share && <Error>This field is required</Error>}
+              </div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  remove(index);
+                }}
+              >
+                <Cross2Icon />
+              </button>
+            </Flex>
+          );
+        })}
+         <NextButton
+          style={{
+            width: '100%'
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            append({
+              member: "",
+              share: "1000",
+            });
+          }}
+        >
+          Add a Member
+        </NextButton>
         </Flex>
       </Flex>
-    </>
-  )
+      <Navigation>
+        <PreviousButton onClick={handleSubmit(onPrevious)}>
+          Previous
+        </PreviousButton>
+        <NextButton onClick={handleSubmit(onNext)}>
+          Next
+        </NextButton>
+      </Navigation>
+    </Form>
+  );
 }

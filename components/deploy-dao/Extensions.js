@@ -1,33 +1,55 @@
 import { useState } from 'react';
-import { Box, Title, Label, Switch } from '../../styles/form';
+import { Form, FormElement, Title, Label, Input } from '../../styles/form';
 import Redemption from "./Redemption";
 import Crowdsale from "./Crowdsale";
+import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
+import { useForm } from 'react-hook-form';
+import { useStateMachine } from 'little-state-machine';
+import updateAction from './updateAction';
+import Switch from '../../styles/form/Switch';
 
-export default function Extensions() {
-  const [showRedemption, setShowRedemption] = useState(false);
-  const [showCrowdsale, setShowCrowdsale] = useState(false);
+export default function Extensions({ setStep }) {
+  const { watch, register, control, handleSubmit } = useForm();
+  const { actions, state } = useStateMachine({ updateAction });
+  const crowdsaleActive = state.crowdsale.active 
+  const { showCrowdsale, showRedemption } = watch();
+
+  const onSubmit = (data) => {
+    actions.updateAction(data);
+    setStep((prev) => ++prev)
+  };
 
   return (
-    <>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Title>Extensions</Title>
-      <Box>
-        <Label htmlFor="showRedemption">Redemption</Label>
+      <FormElement>
+        <Label htmlFor="redemption">Redemption</Label>
         <Switch 
-          id="showRedemption" 
-          checked={showRedemption} 
-          onCheckedChange={() => setShowRedemption(!showRedemption)} 
+          control={control} 
+          name='showRedemption'
+          value='showRedemption'
+          defaultValue={state.showRedemption}
         />
-      </Box>
+      </FormElement>
       {showRedemption && <Redemption />}
-      <Box>
-        <Label htmlFor="showCrowdsale">Crowdsale</Label>
+      <FormElement>
+        <Label htmlFor="crowdsale">Crowdsale</Label>
         <Switch 
-          id="showCrowdsale" 
-          checked={showCrowdsale} 
-          onCheckedChange={() => setShowCrowdsale(!showCrowdsale)} 
+          control={control} 
+          name='showCrowdsale'
+          value='showCrowdsale'
+          defaultValue={state.showCrowdsale}
         />
-      </Box>
+      </FormElement>
       {showCrowdsale && <Crowdsale />}
-    </>
+      <Navigation>
+        <PreviousButton onClick={() => setStep((prev) => --prev)}>
+          Previous
+        </PreviousButton>
+        <NextButton type="submit">
+          Next
+        </NextButton>
+      </Navigation>
+    </Form>
   )
 }
