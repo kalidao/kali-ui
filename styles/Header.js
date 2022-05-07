@@ -2,10 +2,11 @@ import { styled } from "./stitches.config";
 
 export const HeaderLayout = styled('div', {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
     borderBottom: "1px solid $border",
-    minWidth: "100%"
+    minWidth: "100%",
+    minHeight: '8vh'
 })
 
 export const HeaderRight = styled('div', {
