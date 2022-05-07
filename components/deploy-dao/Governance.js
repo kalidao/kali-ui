@@ -8,7 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
 import Checkbox from "../../styles/form/Checkbox";
-import Switch from "../../styles/form/Switch";
+import { Switch } from "../../styles/form/";
 
 const Input = styled('input', {
   border: '1px solid $border'
