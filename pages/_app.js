@@ -12,7 +12,7 @@ import { providers } from 'ethers';
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.rinkeby],
   [
-    apiProvider.alchemy(process.env.NEXT_PUBLIC_ALCHEMY_ID),
+    apiProvider.infura(process.env.NEXT_PUBLIC_INFURA_ID),
     apiProvider.fallback()
   ]
 );
