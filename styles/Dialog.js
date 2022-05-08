@@ -22,9 +22,10 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 });
 
 const StyledContent = styled(DialogPrimitive.Content, {
-  backgroundColor: '$white',
+  backgroundColor: '$gray100',
+  color: 'white',
   borderRadius: 6,
-  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
+  boxShadow: 'hsl(1 22% 7% / 35%) 2px 10px 38px -10px, hsl(1 22% 7% / 20%) 3px 10px 20px -15px',
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -65,6 +66,11 @@ const StyledDescription = styled(DialogPrimitive.Description, {
   lineHeight: 1.5,
 });
 
+export const StyledTrigger = styled(DialogPrimitive.Trigger, {
+  border: "none", 
+  background: '$background'
+})
+
 export const IconButton = styled('button', {
   all: 'unset',
   fontFamily: 'inherit',
@@ -85,7 +91,7 @@ export const IconButton = styled('button', {
 
 // Exports
 export const Dialog = DialogPrimitive.Root;
-export const DialogTrigger = DialogPrimitive.Trigger;
+export const DialogTrigger = StyledTrigger;
 export const DialogContent = Content;
 export const DialogTitle = StyledTitle;
 export const DialogDescription = StyledDescription;

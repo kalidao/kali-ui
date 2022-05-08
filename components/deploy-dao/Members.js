@@ -5,8 +5,8 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
 import { useAccount, useEnsName } from 'wagmi';
-import { Button } from '@chakra-ui/react';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import { Button } from "../../styles/elements";
 
 const Flex = styled('div', {
   display: 'flex', 
@@ -85,14 +85,15 @@ export default function Members({ setStep }) {
                 />
                 {errors.share && <Error>This field is required</Error>}
               </div>
-              <button
+              <Button
+                type="icon"
                 onClick={(e) => {
                   e.preventDefault();
                   remove(index);
                 }}
               >
                 <Cross2Icon />
-              </button>
+              </Button>
             </Flex>
           );
         })}

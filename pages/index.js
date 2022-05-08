@@ -1,15 +1,29 @@
 import React from 'react'
-import { DashboardLayout } from "../styles/Dashboard";
-import Header from "../components/dash/Header";
-import Sidebar from "../components/dash/Sidebar";
-import Main from '../components/dash/Main';
+import { Header, Sidebar } from '../components/layout';
+import { Box } from "../styles/elements";
+import globalStyles from '../styles/globalStyles';
+import MyDAOs from '../components/my-daos';
 
 export default function Home() {
+
+  globalStyles();
+
   return (
-    <DashboardLayout>
+    <Box css={{ minHeight: '100vh' }}>
+      <Box 
+        css={{
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          position: 'absolute',
+          zIndex: '-1',
+          background: '$background',
+        }}
+      />
         <Header />
         <Sidebar />
-        <Main />
-    </DashboardLayout>
+        <MyDAOs />
+    </Box>  
   );
 };

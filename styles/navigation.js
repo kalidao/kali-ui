@@ -8,14 +8,17 @@ export const Navigation = styled('div', {
 });
 
 export const PreviousButton = styled('button', {
-    color: '$darkgray'
+    color: '$foreground',
+    border: 'none',
+    background: 'none'
 });
 
 export const NextButton = styled('button', {
-    background: '$purple',
-    color: '$white',
+    background: '$accent',
+    border: 'none',
+    color: '$foreground',
     borderRadius: '22.81px',
-    padding: '0.2rem 0.5rem'
+    padding: '0.3rem 0.8rem'
 });
 
 

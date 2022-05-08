@@ -48,7 +48,7 @@ export default function Governance({ setStep }) {
           </select>
       </FormElement>
       <FormElement>
-        <Label htmlFor="quorum">Quorum</Label>
+        <Label htmlFor="quorum">Participation Needed</Label>
         <Input 
           type="number" 
           id="quorum" 
@@ -58,13 +58,13 @@ export default function Governance({ setStep }) {
         />
       </FormElement> 
       <FormElement>
-        <Label htmlFor="supermajority">Supermajority</Label>
+        <Label htmlFor="approval">Approval Needed</Label>
         <Input 
           type="number" 
-          id="supermajority" 
+          id="approval" 
           placeholder="60" 
-          {...register('supermajority')}
-          defaultValue={state.supermajority}
+          {...register('approval')}
+          defaultValue={state.approval}
         />
       </FormElement>
       <FormElement>

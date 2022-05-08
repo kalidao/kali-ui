@@ -1,8 +1,9 @@
-import { styled } from "../../../styles/stitches.config"
-import { truncateAddress } from "../../../utils/formatters";
+import { styled } from "../../styles/stitches.config";
+import { truncateAddress } from "../../utils/formatters";
 
 const Card = styled('a', {
-    background: '$lightgray',
+    background: '$background',
+    color: '$foreground',
     width: '250px',
     height: '300px',
     display: 'flex',
@@ -10,22 +11,29 @@ const Card = styled('a', {
     justifyContent: 'center',
     alignItems: 'center',
     gap: '0.2rem',
-    borderRadius: '16px'
+    boxShadow: '3px 4px 5.5px #d2a8ff',
+    borderRadius: '16px',
+    lineHeight: '100%',
+
+    textDecoration: 'none',
+
+    '&:hover': { 
+        backgroundColor: '$accent',
+    },
 });
 
 export const Name = styled('div', {
     // TODO: Add font Monument Grotesk
     fontWeight: '700',
-    size: '24px',
+    size: '64px',
     lineHeight: '100%',
-    color: '$black'
+   
 });
 
 const Address = styled('div', {
     // TODO: Add font Px Grotesk
     fontSize: '16px',
     lineHeight: '100%',
-    color: '$black'
 });
 
 export default function DaoCard({ dao }) {

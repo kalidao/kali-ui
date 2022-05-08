@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNetwork, useAccount } from "wagmi";
-import { graph } from "../../../constants/graph";
-import { styled } from "../../../styles/stitches.config";
+import { graph } from "../../constants/graph";
+import { styled } from "../../styles/stitches.config";
 import DaoCard from "./DaoCard";
 import NewDao from "./NewDao";
+import { Flex } from "../../styles/elements";
 
 const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
+  color: '$foreground',
   fontSize: '18px',
   lineHeight: '100%',
   fontWeight: '500',
@@ -57,13 +59,13 @@ export default function MyDAOs() {
     }
 
   return (
-    <div>
+    <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '1', margin: '1rem'}}>
         <ResultsText>Viewing {daos.length} results</ResultsText>
         <Results>
           {daos && daos.map(dao => <DaoCard dao={dao["dao"]} />)}
           <NewDao />
         </Results>
-    </div>
+    </Flex>
   )
 }
 

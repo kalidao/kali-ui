@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }) {
         coolMode
         chains={chains} 
         theme={darkTheme({
-          accentColor: '#7000FF',
+          accentColor: 'hsl(273, 100%, 45%)',
           accentColorForeground: 'white',
         })}
       >
