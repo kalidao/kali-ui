@@ -9,15 +9,31 @@ export const { styled, keyframes } = createStitches({
       purple300: "#7000FF",
       purple400: "#7000FF",
 
-      red100: '#660000',
+      red100: '#FF3131',
 
-      gold: '#D4AF37',
+
+      gray100: '#D5D1D1',
+      gray200: '#87878c',
+      gray400: '#141414',
+
+      yellow300: '#ffa00a',
+      yellow400: '#C28813',
+      yellow500: 'rgba(172, 108, 7)',
+      yellow600: 'rgba(51, 32, 2)',
+      
+      green100: '#08FF08',
+
+      black: '#000000',
+      white: '#ffffff',
+
       // token aliases
-      background: '#0B0A0A',
-      foreground: '#D5D1D1',
-      accent: '#C28813',
-      highlight: '#FF3131',
-      highlight2: '#08FF08'
+      background: '$black',
+      foreground: '$gray100',
+      accent: '$yellow400',
+      highlight: '$red100',
+      highlight2: '$green100',
+      sublight: '$gray100',
+
     },
     media: {
       bp1: "(min-width: 575px)",

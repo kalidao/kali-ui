@@ -1,16 +1,7 @@
 import { styled, keyframes } from './stitches.config';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from '@radix-ui/react-icons';
-
-const overlayShow = keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 },
-});
-
-const contentShow = keyframes({
-  '0%': { opacity: 0, transform: 'translate(-50%, -48%) scale(.96)' },
-  '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
-});
+import { pulse, contentShow, overlayShow } from './animation';
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backdropFilter: 'blur(100px) contrast(0.9)',
@@ -25,7 +16,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   background: '$background',
   color: 'white',
   borderRadius: 6,
-  boxShadow: '4px 6px 43px -2px rgba(8,255,8,1)',
+  // animation: `${pulse} 5ms infinite`,
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -36,6 +27,9 @@ const StyledContent = styled(DialogPrimitive.Content, {
   padding: 25,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+  },
+  '@media (prefers-reduced-motion: no-preference)': {
+    animation: `${pulse} 10s linear 0ms infinite alternate`,
   },
   // '&:focus': { outline: 'none' },
 });
@@ -68,7 +62,7 @@ const StyledDescription = styled(DialogPrimitive.Description, {
 
 export const StyledTrigger = styled(DialogPrimitive.Trigger, {
   border: "none", 
-  background: '$background'
+  background: '$background',
 })
 
 export const IconButton = styled('button', {
