@@ -2,7 +2,6 @@ import { createStitches } from "@stitches/react";
 import { globalStyles } from "./globalStyles";
 
 export const { styled, keyframes } = createStitches({
-  ...globalStyles,
   theme: {
     colors: {
       purple100: "hsl(273, 100%, 45%)",
@@ -10,23 +9,15 @@ export const { styled, keyframes } = createStitches({
       purple300: "#7000FF",
       purple400: "#7000FF",
 
-      red100: 'hsl(0, 100%, 48%)',
+      red100: '#660000',
 
-      gold: 'hsl(43.95, 88%, 55.29%)',
-
-      gray100: 'hsl(273, 20%, 8%)',
-      gray200: 'hsl(273, 30%, 2%)',
-      gray300: 'hsl(273, 100%, 16%)',
-      gray400: 'hsl(273, 50%, 5%)',
-      gray800: 'hsl(273, 100%, 95%)',
-
+      gold: '#D4AF37',
       // token aliases
-      background: '$gray100',
-      foreground: '$gray800',
-      border: "$gray300",
-      text: 'white',
-      accent: '$purple100',
-      highlight: '$red100'
+      background: '#0B0A0A',
+      foreground: '#D5D1D1',
+      accent: '#C28813',
+      highlight: '#FF3131',
+      highlight2: '#08FF08'
     },
     media: {
       bp1: "(min-width: 575px)",

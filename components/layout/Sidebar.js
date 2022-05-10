@@ -1,20 +1,20 @@
 import React from 'react'
 import { styled } from '../../styles/stitches.config'
 import { PlusIcon } from '@radix-ui/react-icons';
+import NewDaoSquare from "../my-daos/NewDaoSquare";
 
 const SidebarLayout = styled('div', {
   position: "absolute",
   width: "5rem",
   height: '100%',
   bottom: "0px",
-  borderRight: "1px solid $border",
   display: "flex",
   justifyContent: "center",
   alignItems: "flex-end"
 });
 
 const CreateIcon = styled('div', {
-  background: '$purple',
+  background: '$accent',
   width: '5rem',
   height: '5rem',
   fontWeight: '200',
@@ -27,9 +27,7 @@ const CreateIcon = styled('div', {
 export default function Sidebar() {
   return (
     <SidebarLayout>
-      <CreateIcon>
-        +
-      </CreateIcon>
+      <NewDaoSquare />
     </SidebarLayout>
   )
 }

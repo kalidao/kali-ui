@@ -1,21 +1,11 @@
-import { Form, Input, Error, Label, Title } from '../../styles/form';
+import { Form, Input, Error, Label, Title } from '../../styles/form-elements';
 import { styled } from '../../styles/stitches.config';
-import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
 import { useAccount, useEnsName } from 'wagmi';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { Button } from "../../styles/elements";
-
-const Flex = styled('div', {
-  display: 'flex', 
-  gap: '0.1rem',
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center'
-});
-
+import { Button, Flex } from "../../styles/elements";
 
 export default function Members({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction });
@@ -54,16 +44,16 @@ export default function Members({ setStep }) {
 
   return (
     <Form>
-      <Title>Build Cap Table</Title>
+      {/* TODO: Copy last share value in next field */}
       <Flex style={{ flexDirection: 'column', gap: '0.5rem'}}>
         <Flex style={{ justifyContent: 'space-around'}}>
-          <div>Member</div> 
+          <div>Account</div> 
           <div>Share</div>
         </Flex>
-        <Flex style={{ flexDirection: 'column', gap: '1rem'}}>
+        <Flex dir="col" css={{ gap: '1rem', width: '100%' }}>
         {fields.map((item, index) => {
           return (
-            <Flex key={item.id} style={{ gap: '1rem' }}>
+            <Flex key={item.id} css={{ gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
               <div>
                 <Input
                   id="member"
@@ -86,7 +76,7 @@ export default function Members({ setStep }) {
                 {errors.share && <Error>This field is required</Error>}
               </div>
               <Button
-                type="icon"
+                variant="icon"
                 onClick={(e) => {
                   e.preventDefault();
                   remove(index);
@@ -97,30 +87,38 @@ export default function Members({ setStep }) {
             </Flex>
           );
         })}
-         <NextButton
-          style={{
-            width: '100%'
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            append({
-              member: "",
-              share: "1000",
-            });
-          }}
-        >
-          Add a Member
-        </NextButton>
+        <Flex css={{
+              justifyContent: 'center'
+              }} 
+          >
+            {console.log(state.founders)}
+          <Button
+            variant="accent"
+            css={{
+              width: '85%',
+              
+            }} 
+            onClick={(e) => {
+              e.preventDefault();
+              append({
+                member: "",
+                share: '1000'
+              });
+            }}
+          >
+            Add 
+          </Button>
+        </Flex>
         </Flex>
       </Flex>
-      <Navigation>
-        <PreviousButton onClick={handleSubmit(onPrevious)}>
+      <Flex css={{ justifyContent: 'flex-end' }}>
+        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
-        </PreviousButton>
-        <NextButton onClick={handleSubmit(onNext)}>
+        </Button>
+        <Button variant="accent" onClick={handleSubmit(onNext)}>
           Next
-        </NextButton>
-      </Navigation>
+        </Button>
+      </Flex>
     </Form>
   );
 }

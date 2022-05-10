@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
-import { Form, Title, FormElement, Label } from '../../styles/form'
-import { Slider, SliderButton } from '../../styles/Slider'
-import { VotingPeriod } from '../../styles/VotingPeriod';
+import { Button, Flex } from '../../styles/elements';
+import { Input, Form, Title, FormElement, Label, Switch } from '../../styles/form-elements'
+import { Select } from '../../styles/form-elements/Select';
 import { styled } from '../../styles/stitches.config';
-import { Navigation, PreviousButton, NextButton } from "../../styles/navigation";
 import { useForm, Controller } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-import Checkbox from "../../styles/form/Checkbox";
-import { Switch } from "../../styles/form/";
 
-const Input = styled('input', {
-  border: '1px solid $border'
-});
 
 export default function Governance({ setStep }) {
-  const { register, control, handleSubmit } = useForm();
+  const { register, setValue, control, handleSubmit } = useForm();
   const { actions, state } = useStateMachine({ updateAction });
 
   // const [showQuorum, setShowQuorum] = useState(false);
@@ -28,24 +22,33 @@ export default function Governance({ setStep }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Title>Governance</Title>
       <FormElement>
         <Label htmlFor="votingPeriod">Voting Period</Label>
+        <Flex>
         <Input 
+          variant="voting"
           type="number" 
           id="quorum" 
           placeholder="5" 
           {...register('votingPeriod')}
           defaultValue={state.votingPeriod} 
           />
-          <select 
-            {...register('votingPeriodUnit')} 
-            defaultValue={state.votingPeriodUnit}
-          >
-            <option value="minutes">minutes</option>
-            <option value="hours">hours</option>
-            <option value="days">days</option>
-          </select>
+        <Select 
+          {...register('votingPeriodUnit')} 
+          defaultValue="days"
+          onValueChange={(value) => setValue('votingPeriodUnit', value)}
+        >  
+            <Select.Item value="minutes">
+              minutes
+            </Select.Item>
+            <Select.Item value="hours">
+              hours
+            </Select.Item>
+            <Select.Item value="days">
+              days
+            </Select.Item>
+          </Select>
+        </Flex>
       </FormElement>
       <FormElement>
         <Label htmlFor="quorum">Participation Needed</Label>
@@ -77,14 +80,14 @@ export default function Governance({ setStep }) {
           defaultValue={state.paused}
           />
       </FormElement>
-      <Navigation>
-        <PreviousButton onClick={() => setStep((prev) => --prev)}>
+      <Flex css={{ justifyContent: 'flex-end'}}>
+        <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
           Previous
-        </PreviousButton>
-        <NextButton type="submit">
+        </Button>
+        <Button variant="accent" type="submit">
           Next
-        </NextButton>
-      </Navigation>
+        </Button>
+      </Flex>
     </Form>
   )
 }

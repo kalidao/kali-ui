@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Form, FormElement, Title, Label, Input } from '../../styles/form';
+import { Button, Flex } from "../../styles/elements"
+import { Form, FormElement, Title, Label, Input, Switch } from '../../styles/form-elements';
 import Redemption from "./Redemption";
 import Crowdsale from "./Crowdsale";
-import { Navigation, PreviousButton, NextButton } from '../../styles/navigation';
 import { useForm } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-import Switch from '../../styles/form/Switch';
+
 
 export default function Extensions({ setStep }) {
   const { watch, register, control, handleSubmit } = useForm();
@@ -21,7 +21,6 @@ export default function Extensions({ setStep }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Title>Extensions</Title>
       <FormElement>
         <Label htmlFor="redemption">Redemption</Label>
         <Switch 
@@ -42,14 +41,14 @@ export default function Extensions({ setStep }) {
         />
       </FormElement>
       {showCrowdsale && <Crowdsale />}
-      <Navigation>
-        <PreviousButton onClick={() => setStep((prev) => --prev)}>
+      <Flex css={{ justifyContent: 'flex-end'}}>
+        <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
           Previous
-        </PreviousButton>
-        <NextButton type="submit">
+        </Button>
+        <Button variant="accent" type="submit">
           Next
-        </NextButton>
-      </Navigation>
+        </Button>
+      </Flex>
     </Form>
   )
 }

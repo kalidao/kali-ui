@@ -13,7 +13,7 @@ const contentShow = keyframes({
 });
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  backgroundColor: '$blackAlpha',
+  backdropFilter: 'blur(100px) contrast(0.9)',
   position: 'fixed',
   inset: 0,
   '@media (prefers-reduced-motion: no-preference)': {
@@ -22,10 +22,10 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 });
 
 const StyledContent = styled(DialogPrimitive.Content, {
-  backgroundColor: '$gray100',
+  background: '$background',
   color: 'white',
   borderRadius: 6,
-  boxShadow: 'hsl(1 22% 7% / 35%) 2px 10px 38px -10px, hsl(1 22% 7% / 20%) 3px 10px 20px -15px',
+  boxShadow: '4px 6px 43px -2px rgba(8,255,8,1)',
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -37,7 +37,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
   },
-  '&:focus': { outline: 'none' },
+  // '&:focus': { outline: 'none' },
 });
 
 function Content({ children, ...props }) {
@@ -51,9 +51,9 @@ function Content({ children, ...props }) {
 
 const StyledTitle = styled(DialogPrimitive.Title, {
   margin: 0,
-  fontWeight: 700,
-  color: '$black',
-  fontSize: 17,
+  fontWeight: 600,
+  color: '$foreground',
+  fontSize: 22,
 });
 
 const StyledDescription = styled(DialogPrimitive.Description, {

@@ -1,5 +1,6 @@
 import { styled } from "../../styles/stitches.config";
 import { truncateAddress } from "../../utils/formatters";
+import { Box } from "../../styles/elements";
 
 const Card = styled('a', {
     background: '$background',
@@ -11,14 +12,16 @@ const Card = styled('a', {
     justifyContent: 'center',
     alignItems: 'center',
     gap: '0.2rem',
-    boxShadow: '3px 4px 5.5px #d2a8ff',
+    boxShadow: '3px 4px 5.5px #fff',
     borderRadius: '16px',
     lineHeight: '100%',
 
     textDecoration: 'none',
 
     '&:hover': { 
-        backgroundColor: '$accent',
+        backgroundColor: '$foreground',
+        color: '$background',
+        boxShadow: '3px 4px 5.5px #08FF08',
     },
 });
 
@@ -30,18 +33,12 @@ export const Name = styled('div', {
    
 });
 
-const Address = styled('div', {
-    // TODO: Add font Px Grotesk
-    fontSize: '16px',
-    lineHeight: '100%',
-});
 
 export default function DaoCard({ dao }) {
     console.log('dao', dao)
     return <Card href={`../daos/${dao["id"]}`}>
-        {/* Image */}
         <Name>{dao["token"]["name"]}</Name>
-        <Address>{truncateAddress(dao["id"])}</Address>
+        <Box css={{ fontSize: '16px'}}>{truncateAddress(dao["id"])}</Box>
     </Card>
 };
 

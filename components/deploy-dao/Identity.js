@@ -1,12 +1,11 @@
 import React from 'react'
-import { styled } from '../../styles/stitches.config';
-import { Label, Input, Form, FormElement, Title } from '../../styles/form';
-import { Navigation, PreviousButton, NextButton } from "../../styles/navigation";
+import { Flex, Button } from '../../styles/elements';
+import { Form, FormElement, Label, Input } from "../../styles/form-elements"
 import { useForm } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from "./updateAction";
 
-export default function Identity({ setStep }) {
+export default function Identity({ setStep, onNext }) {
   const { register, handleSubmit } = useForm();
   const { actions, state } = useStateMachine({ updateAction });
 
@@ -18,7 +17,6 @@ export default function Identity({ setStep }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Title>Identity</Title>
       <FormElement>
         <Label htmlFor="name">Name</Label> 
         <Input 
@@ -39,9 +37,9 @@ export default function Identity({ setStep }) {
           defaultValue={state.symbol}
         />
       </FormElement>
-      <Navigation>
-        <NextButton type="submit">Next</NextButton>
-      </Navigation>
+      <Flex css={{ justifyContent: 'flex-end'}}>
+        <Button variant="accent" type="submit">Next</Button>
+      </Flex>
     </Form>
   )
 }

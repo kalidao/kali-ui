@@ -6,26 +6,26 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
     all: 'unset',
     width: 42,
     height: 25,
-    backgroundColor: '$red',
+    backgroundColor: '$foreground',
     borderRadius: '9999px',
     position: 'relative',
-    boxShadow: `0 2px 10px $blackAlpha`,
+    boxShadow: `inset 3px 0px 42px 1px #fff`,
     WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
     '&:focus': { boxShadow: `0 0 0 2px $border` },
-    '&[data-state="checked"]': { backgroundColor: '$green' },
+    '&[data-state="checked"]': { backgroundColor: '$highlight2' },
 });
   
 const StyledThumb = styled(SwitchPrimitive.Thumb, {
     display: 'block',
     width: 21,
     height: 21,
-    backgroundColor: 'white',
+    backgroundColor: '$background',
     borderRadius: '9999px',
-    boxShadow: `0 2px 2px '$blackAlpha'`,
-    transition: 'transform 100ms',
+    boxShadow: '0 2px 2px $accent',
+    transition: 'transform 50ms',
     transform: 'translateX(2px)',
     willChange: 'transform',
-    '&[data-state="checked"]': { transform: 'translateX(19px)' },
+    '&[data-state="checked"]': { transform: 'translateX(19px)', backgroundColor: '$background' },
 });
   
 export const Switch = (props) => (

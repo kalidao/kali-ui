@@ -8,13 +8,12 @@ export default function Header() {
     <Flex css={{
       justifyContent: 'space-between',
       alignItems: 'center',
-      borderBottom: "1px solid $border",
       maxWidth: '100vw',
       minHeight: '8vh',
       padding: '0 0.5rem'
     }}>
       <Kali />
-      <ConnectButton />
+      <ConnectButton>Connect</ConnectButton>
     </Flex>
   )
 }
