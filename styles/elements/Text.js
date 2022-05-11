@@ -4,9 +4,11 @@ const Text = styled('div', {
     color: '$foreground',
     
     variants: {
-        type: {
+        variant: {
             heading: {
-                fontSize: '32px'
+                fontSize: '2.3rem',
+                fontFamily: 'Screen',
+                color: '$foreground'
             }
         },
         color: {

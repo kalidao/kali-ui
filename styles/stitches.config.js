@@ -12,9 +12,15 @@ export const { styled, keyframes } = createStitches({
       red100: '#FF3131',
 
 
-      gray100: '#D5D1D1',
-      gray200: '#87878c',
-      gray400: '#141414',
+      gray100: 'hsl(0, 0%, 90%)',
+      gray200: 'hsl(0, 0%, 80%)',
+      gray300: 'hsl(0, 0%, 70%)',
+      gray400: 'hsl(0, 0%, 60%)',
+      gray500: 'hsl(0, 0%, 50%)',
+      gray600: 'hsl(0, 0%, 40%)',
+      gray700: 'hsl(0, 0%, 30%)',
+      gray800: 'hsl(0, 0%, 20%)',
+      gray900: 'hsl(0, 0%, 10%)',
 
       yellow300: '#ffa00a',
       yellow400: '#C28813',
@@ -23,11 +29,11 @@ export const { styled, keyframes } = createStitches({
       
       green100: '#08FF08',
 
-      black: '#000000',
+      black: 'hsl(0, 0%, 0%)',
       white: '#ffffff',
 
       // token aliases
-      background: '$black',
+      background: 'black',
       foreground: '$gray100',
       accent: '$yellow400',
       highlight: '$red100',

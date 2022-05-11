@@ -4,7 +4,7 @@ import Label from "./Label";
 import Input from "./Input";
 import Form from "./Form";
 import FormElement from "./FormElement"
-import Select from "./Select";
+import { Select } from "./Select";
 import DatePicker from "./DatePicker"; 
 import { ConnectForm } from "./ConnectForm";
 

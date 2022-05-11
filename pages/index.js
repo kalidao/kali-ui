@@ -13,7 +13,7 @@ export default function Home() {
     <Box css={{
       fontFamily: 'Display'
     }}>
-        <Header />
+        <Header heading="DAOs" />
         <MyDAOs />
         <NewDaoSquare />
     </Box>  

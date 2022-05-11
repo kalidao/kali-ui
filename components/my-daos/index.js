@@ -30,15 +30,15 @@ const Results = styled('div', {
     gridTemplateRows: 'auto',
   },
   '@media (min-width: 840px)': {
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gridTemplateRows: 'auto',
-  },
-  '@media (min-width: 940px)': {
     gridTemplateColumns: 'repeat(4, 1fr)',
     gridTemplateRows: 'auto',
   },
-  '@media (min-width: 1040px)': {
+  '@media (min-width: 940px)': {
     gridTemplateColumns: 'repeat(5, 1fr)',
+    gridTemplateRows: 'auto',
+  },
+  '@media (min-width: 1040px)': {
+    gridTemplateColumns: 'repeat(6, 1fr)',
     gridTemplateRows: 'auto',
   }
 });
@@ -82,10 +82,10 @@ export default function MyDAOs() {
     }
 
   return (
-    <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '1', margin: '1rem'}}>
+    <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem'}}>
         {daos.length > 1 ? <ResultsText> You are in {daos.length} DAOs </ResultsText> : (daos.length === 1 ? <ResultsText>You are in {daos.length} DAO</ResultsText> : <ResultsText>You are not in  any DAO. Create one!</ResultsText>)}
         <Results>
-          {daos && daos.map(dao => <DaoCard dao={dao["dao"]} />)}
+          {daos && daos.map(dao => <DaoCard key={dao["dao"]["id"]} dao={dao["dao"]} />)}
           <NewDao />
         </Results>
     </Flex>

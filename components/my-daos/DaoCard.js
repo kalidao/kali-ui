@@ -1,44 +1,47 @@
 import { styled } from "../../styles/stitches.config";
 import { truncateAddress } from "../../utils/formatters";
-import { Box } from "../../styles/elements";
+import { Box, Text } from "../../styles/elements";
 
-const Card = styled('a', {
+const Card = styled(Box, {
     background: '$background',
     color: '$foreground',
-    width: '250px',
-    height: '300px',
+    width: '180px',
+    height: '180px',
+    
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '0.2rem',
+    
+    gap: '1rem',
     boxShadow: '3px 4px 5.5px #fff',
-    borderRadius: '16px',
-    lineHeight: '100%',
 
+    lineHeight: '100%',
     textDecoration: 'none',
 
     '&:hover': { 
-        backgroundColor: '$foreground',
+        background: '$foreground',
         color: '$background',
         boxShadow: '3px 4px 5.5px #08FF08',
     },
 });
 
-export const Name = styled('div', {
-    // TODO: Add font Monument Grotesk
-    fontWeight: '700',
-    size: '64px',
-    lineHeight: '100%',
-    fontFamily: 'Bold'
-   
-});
+const Name = styled('div', {
 
+})
 
-export default function DaoCard({ dao }) {
-    return <Card href={`../daos/${dao["id"]}`}>
+const Address = styled('div', {
+    fontFamily: 'Screen'
+})
+
+export default function DaoCard({ dao, props }) {
+    return <Card 
+            as="a" 
+            href={`../daos/${dao["id"]}`} 
+            {...props} 
+            >
         <Name>{dao["token"]["name"]}</Name>
-        <Box css={{ fontSize: '16px', fontFamily: 'Screen'}}>{truncateAddress(dao["id"])}</Box>
+        <Address>{truncateAddress(dao["id"])}</Address>
     </Card>
 };
 

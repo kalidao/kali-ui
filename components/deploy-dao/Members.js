@@ -1,4 +1,4 @@
-import { Form, Input, Error, Label, Title } from '../../styles/form-elements';
+import { Form, Input, Label, Title } from '../../styles/form-elements';
 import { styled } from '../../styles/stitches.config';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
@@ -65,7 +65,7 @@ export default function Members({ setStep }) {
                     fontFamily: 'Screen'
                   }}
                 />
-                {errors.member && <Error>This field is required</Error>}
+                {errors.member && <span>This field is required</span>}
               </div>
               <div>
                 <Input
@@ -76,7 +76,7 @@ export default function Members({ setStep }) {
                   })}
                   defaultValue={item.share}
                 />
-                {errors.share && <Error>This field is required</Error>}
+                {errors.share && <span>This field is required</span>}
               </div>
               <Button
                 variant="icon"

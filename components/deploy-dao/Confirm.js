@@ -1,6 +1,5 @@
 import { useStateMachine } from 'little-state-machine';
-import updateAction from "./updateAction";
-import { ethers, AddressZero } from 'ethers';
+import { AddressZero } from "@ethersproject/address";
 import { Button, Flex } from '../../styles/elements';
 import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import { useCallback } from 'react';

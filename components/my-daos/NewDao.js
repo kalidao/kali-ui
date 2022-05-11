@@ -1,49 +1,46 @@
-import { styled } from '../../styles/stitches.config'
-import { Name } from './DaoCard';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../styles/Dialog';
 import DeployDAO from '../deploy-dao/DeployDAO';
-import { Box } from '../../styles/elements';
+import { Box, Text } from '../../styles/elements';
+import { styled } from '../../styles/stitches.config';
 
-const Card = styled('button', {
-    background: '$foreground',
-    color: '$background',
-    fontSize: '32px',
-    width: '250px',
-    height: '300px',
-    border: '1px solid $border',
-    borderRadius: '16px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // boxShadow: '3px 4px 5.5px #08FF08',
+const Card = styled(Box, {
+  width: '180px',
+  height: '180px',
+  background: '$foreground',
+  color: '$background',
+  boxShadow: '3px 4px 5.5px #08FF08',
 
-    '&:hover': {
-      background: '$foreground',
-      boxShadow: '3px 4px 5.5px #08FF08',
-    },
-    '&:active': {
-      background: '$foreground',
-      boxShadow: '3px 4px 5.5px #08FF08',
-    }
+  '&:hover': {
+    background: '$background',
+    color: '$foreground',
+    boxShadow: '3px 4px 5.5px #fff',
+  },
+  '&:active': {
+    background: '$background',
+    color: '$foreground',
+    boxShadow: '3px 4px 5.5px #fff',
+  }
+})
 
-});
+const New = styled('div', {
+  fontSize: '1rem',
+  fontFamily: 'screen'
+})
 
 export default function NewDao() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Card>
+        <Card >
           <Box 
             css={{ 
               fontWeight: '700',
               fontSize: '144.69px',
               lineHeight: '100%',
-              color: '$background' 
             }}>
               +
             </Box>
-          <Name>Create New</Name>
+          <New >Create New</New>
         </Card>
       </DialogTrigger>
       <DialogContent>
