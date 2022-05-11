@@ -17,20 +17,7 @@ const Flex = styled('div', {
     gap: '1rem'
 });
 
-createStore({
-    redemption: {
-        active: false,
-        redemptionStarts: 0,
-    },
-    crowdsale: {
-        active: false,
-        purchaseLimit: 1000,
-        personalLimit: 100,
-        purchaseMultiplier: 10,
-        purchaseToken: null,
-        saleEnds: null,
-    },
-})
+createStore({})
 
 export default function DeployDAO() {
   const [step, setStep] = useState(0);

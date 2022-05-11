@@ -36,8 +36,9 @@ export const { styled, keyframes } = createStitches({
 
     },
     media: {
-      bp1: "(min-width: 575px)",
-      bp2: "(min-width: 750px)",
+      bp1: "(min-width: 640px)",
+      bp2: "(min-width: 768px)",
+      bp3: "(min-width: 1024px)"
     },
     utils: {
       paddingX: (value) => ({

@@ -84,7 +84,7 @@ export default function Governance({ setStep }) {
         <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
           Previous
         </Button>
-        <Button variant="accent" type="submit">
+        <Button variant="primary" type="submit">
           Next
         </Button>
       </Flex>

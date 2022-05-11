@@ -10,11 +10,16 @@ const Button = styled('button', {
                 color: '$highlight',
                 borderRadius: '200px 200px 200px 200px'
             },
-            accent: {
+            primary: {
                 background: 'white',
                 color: 'black',
                 padding: '0.3rem 0.8rem',
                 borderRadius: '22.81px',
+
+                '&:disabled': {
+                    background: '$gray200',
+                    color: '$gray100',
+                }
             },
             transparent: {
                 background: 'none',
@@ -22,16 +27,11 @@ const Button = styled('button', {
                 padding: '0.3rem 0.8rem',
                 borderRadius: '22.81px',
             },
-            hover: {
-                display: 'none',
-                background: '$highlight',
-
-                '&:hover': {
-                    display: 'inline-block'
-                }
-            }
         },
-    }
+    },
+    defaultVariants: {
+        variant: 'primary'
+    } 
 })
 
 export default Button

@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { Button, Flex } from "../../styles/elements"
-import { Form, FormElement, Title, Label, Input, Switch } from '../../styles/form-elements';
+import { Form, FormElement, Title, Label, Input, Switch, DatePicker } from '../../styles/form-elements';
 import Redemption from "./Redemption";
 import Crowdsale from "./Crowdsale";
-import { useForm } from 'react-hook-form';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-
+import { StyledInput } from '../../styles/form-elements/DatePicker';
+// import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Extensions({ setStep }) {
-  const { watch, register, control, handleSubmit } = useForm();
+  const methods = useForm();
   const { actions, state } = useStateMachine({ updateAction });
-  const crowdsaleActive = state.crowdsale.active 
-  const { showCrowdsale, showRedemption } = watch();
+  const { showCrowdsale, showRedemption } = methods.watch();
 
   const onSubmit = (data) => {
     actions.updateAction(data);
@@ -20,35 +21,57 @@ export default function Extensions({ setStep }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider {...methods}>
+    <Form onSubmit={methods.handleSubmit(onSubmit)}>
       <FormElement>
         <Label htmlFor="redemption">Redemption</Label>
         <Switch 
-          control={control} 
+          control={methods.control} 
           name='showRedemption'
           value='showRedemption'
-          defaultValue={state.showRedemption}
+          defaultValue={false}
         />
       </FormElement>
       {showRedemption && <Redemption />}
       <FormElement>
         <Label htmlFor="crowdsale">Crowdsale</Label>
         <Switch 
-          control={control} 
+          control={methods.control} 
           name='showCrowdsale'
           value='showCrowdsale'
-          defaultValue={state.showCrowdsale}
+          defaultValue={false}
         />
       </FormElement>
-      {showCrowdsale && <Crowdsale />}
+      {showCrowdsale && <Crowdsale />
+      // <>
+      //   <FormElement>
+      //     <Label>
+      //       Sale Ends
+      //     </Label>
+      //     <Controller
+      //       control={control}
+      //       name="saleEnds"
+      //       regster={register('saleEnds')}
+      //       render={({ field: { onChange, onBlur, value, ref } }) => (
+      //         <DatePicker
+      //           onChange={onChange}
+      //           onBlur={onBlur}
+      //           selected={value}
+      //         />
+      //       )}
+      //     />
+      //   </FormElement>
+      // </>
+      }
       <Flex css={{ justifyContent: 'flex-end'}}>
         <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
           Previous
         </Button>
-        <Button variant="accent" type="submit">
+        <Button variant="primary" type="submit">
           Next
         </Button>
       </Flex>
     </Form>
+    </FormProvider>
   )
 }

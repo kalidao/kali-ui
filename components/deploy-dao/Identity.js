@@ -38,7 +38,7 @@ export default function Identity({ setStep, onNext }) {
         />
       </FormElement>
       <Flex css={{ justifyContent: 'flex-end'}}>
-        <Button variant="accent" type="submit">Next</Button>
+        <Button variant="primary" type="submit">Next</Button>
       </Flex>
     </Form>
   )

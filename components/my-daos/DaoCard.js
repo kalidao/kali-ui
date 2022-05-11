@@ -35,7 +35,6 @@ export const Name = styled('div', {
 
 
 export default function DaoCard({ dao }) {
-    console.log('dao', dao)
     return <Card href={`../daos/${dao["id"]}`}>
         <Name>{dao["token"]["name"]}</Name>
         <Box css={{ fontSize: '16px'}}>{truncateAddress(dao["id"])}</Box>

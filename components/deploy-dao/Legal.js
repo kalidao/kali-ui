@@ -4,7 +4,7 @@ import { Select } from "../../styles/form-elements/Select";
 import { useForm } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-import { Flex, Button } from '../../styles/elements';
+import { Flex, Button, Text } from '../../styles/elements';
 import { legalEntities } from '../../constants/legalEntities';
 
 export default function Legal({ setStep }) { 
@@ -57,19 +57,7 @@ export default function Legal({ setStep }) {
               {selectArray}
             </Select>
           </FormElement>
-          {watchDocs === 'existing' ? 
-          <FormElement>
-            <Label htmlFor="existingDocs">
-              Existing Docs
-            </Label>
-            <Input
-              type="text" 
-              name="existingDocs" 
-              placeholder="Any link" 
-              {...register('existingDocs')}
-              defaultValue={state.existingDocs}
-            />
-          </FormElement>  : 
+          {watchDocs && (legalEntities[watchDocs]["email"] === true && 
           <FormElement>
             <Label htmlFor="email">
               Email
@@ -81,7 +69,20 @@ export default function Legal({ setStep }) {
               {...register('email')}
               defaultValue={state.email}
             />
-          </FormElement>
+          </FormElement>)(legalEntities[watchDocs]["template"] && <Text as="a" href={legalEntities[watchDocs]["template"]} target="_blank">Review Template</Text>)}
+          {watchDocs === 'existing' &&
+          <FormElement>
+            <Label htmlFor="existingDocs">
+              Existing Docs
+            </Label>
+            <Input
+              type="text" 
+              name="existingDocs" 
+              placeholder="Any link" 
+              {...register('existingDocs')}
+              defaultValue={state.existingDocs}
+            />
+          </FormElement>  
           }
           {watchDocs && 
           <FormElement>
@@ -92,7 +93,7 @@ export default function Legal({ setStep }) {
 
       <Flex css={{ justifyContent: 'flex-end'}}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)} >Previous</Button>
-        <Button variant="accent" onClick={handleSubmit(onNext)}>Next</Button>
+        <Button variant="primary" onClick={handleSubmit(onNext)}>Next</Button>
       </Flex>
     </Form>
   )

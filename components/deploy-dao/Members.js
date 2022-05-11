@@ -93,7 +93,7 @@ export default function Members({ setStep }) {
           >
             {console.log(state.founders)}
           <Button
-            variant="accent"
+            variant="primary"
             css={{
               width: '85%',
               
@@ -115,7 +115,7 @@ export default function Members({ setStep }) {
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="accent" onClick={handleSubmit(onNext)}>
+        <Button variant="primary" onClick={handleSubmit(onNext)}>
           Next
         </Button>
       </Flex>

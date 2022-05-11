@@ -10,7 +10,7 @@ export const legalEntities = {
     },
     delawareUNA: {
       text: "Delaware UNA (formed instantly!)",
-      template: 'TODO',
+      template: 'https://gateway.pinata.cloud/ipfs/QmSEEcunxFs8oRQbPaoeV2pYBYJihpZUx6QYUsUqc89Gci',
       docs: "UNA",
       email: false,
       mission: true,
@@ -18,7 +18,7 @@ export const legalEntities = {
     },
     verein: {
       text: "Swiss Verein (formed instantly!)",
-      template: "none",
+      template: null,
       docs: "none",
       email: true,
       mission: false,
@@ -27,7 +27,7 @@ export const legalEntities = {
     },
     delawareLLC: {
       text: "Delaware LLC (est. 1-2 weeks)",
-      template: "none",
+      template: null,
       docs: "none",
       email: true,
       mission: false,
@@ -36,7 +36,7 @@ export const legalEntities = {
     },
     wyomingLLC: {
       text: "Wyoming LLC (est. 1-2 weeks)",
-      template: "none",
+      template: null,
       docs: "none",
       email: true,
       mission: false,
@@ -45,7 +45,7 @@ export const legalEntities = {
     },
     custom: {
       text: "Custom Entity Type (est. TBD)",
-      template: "none",
+      template: null,
       docs: "none",
       email: true,
       mission: false,
@@ -54,7 +54,7 @@ export const legalEntities = {
     },
     existing: {
       text: "Existing Entity",
-      template: "none",
+      template: null,
       docs: "none",
       email: false,
       mission: false,

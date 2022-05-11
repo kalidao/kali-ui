@@ -5,6 +5,12 @@ import DeployDAO from '../deploy-dao/DeployDAO';
 import { Box } from '../../styles/elements';
 
 const CreateIcon = styled('div', {
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    right: '0',
+
+
     background: '$highlight2',
     width: '5rem',
     height: '5rem',
