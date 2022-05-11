@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useContract } from "wagmi";
+import { chainId, useContract } from "wagmi";
 import { ethers } from "ethers";
 import { getDaoChain } from "../../utils/";
 
@@ -19,11 +19,13 @@ export default function Dao() {
   //   contractInterface: kaliDaoABI
   // })
 
-  useEffect(async () => {
-    const chainId = await getDaoChain(daoAddress)
-    setDaoChain(chainId)
-    
-  }, [])
+  useEffect(() => {
+    async function fetchData() {
+      const chainId = await getDaoChain(daoAddress)
+      setDaoChain(chainId)
+    }
+    fetchData();
+  }, [daoAddress])
 
   console.log(daoChain)
 
