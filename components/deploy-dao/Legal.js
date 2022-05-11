@@ -6,6 +6,7 @@ import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
 import { Flex, Button, Text } from '../../styles/elements';
 import { legalEntities } from '../../constants/legalEntities';
+import { OpenInNewWindowIcon } from '@radix-ui/react-icons';
 
 export default function Legal({ setStep }) { 
   const { control, watch, register, setValue, handleSubmit } = useForm();
@@ -69,7 +70,7 @@ export default function Legal({ setStep }) {
               {...register('email')}
               defaultValue={state.email}
             />
-          </FormElement>)(legalEntities[watchDocs]["template"] && <Text as="a" href={legalEntities[watchDocs]["template"]} target="_blank">Review Template</Text>)}
+          </FormElement>)}
           {watchDocs === 'existing' &&
           <FormElement>
             <Label htmlFor="existingDocs">
@@ -88,6 +89,26 @@ export default function Legal({ setStep }) {
           <FormElement>
             {legalEntities[watchDocs]["message"]}
           </FormElement>}
+          {watchDocs && (legalEntities[watchDocs]["template"] != null && 
+            <Text 
+              as="a" 
+              href={legalEntities[watchDocs]["template"]} 
+              target="_blank"
+              css={{
+                display: 'flex',
+                gap: '0.2rem',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                fontFamily: 'Italic',
+
+                '&:hover': {
+                  color: '$accent'
+                }
+              }}
+            >
+              Review Template 
+              <OpenInNewWindowIcon />
+            </Text>)}
         </>  
       )}  
 
