@@ -30,6 +30,7 @@ export const Name = styled('div', {
     fontWeight: '700',
     size: '64px',
     lineHeight: '100%',
+    fontFamily: 'Bold'
    
 });
 
@@ -37,7 +38,7 @@ export const Name = styled('div', {
 export default function DaoCard({ dao }) {
     return <Card href={`../daos/${dao["id"]}`}>
         <Name>{dao["token"]["name"]}</Name>
-        <Box css={{ fontSize: '16px'}}>{truncateAddress(dao["id"])}</Box>
+        <Box css={{ fontSize: '16px', fontFamily: 'Screen'}}>{truncateAddress(dao["id"])}</Box>
     </Card>
 };
 

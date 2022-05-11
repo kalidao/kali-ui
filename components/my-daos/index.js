@@ -10,6 +10,7 @@ const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
   color: '$foreground',
   fontSize: '18px',
+  fontFamily: 'Italic',
   fontStyle: 'italic',
   lineHeight: '100%',
   fontWeight: '500',

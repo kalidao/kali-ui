@@ -10,7 +10,9 @@ export default function Home() {
   globalStyles();
 
   return (
-    <Box>
+    <Box css={{
+      fontFamily: 'Display'
+    }}>
         <Header />
         <MyDAOs />
         <NewDaoSquare />

@@ -61,6 +61,9 @@ export default function Members({ setStep }) {
                     required: true
                   })}
                   defaultValue={item.member}
+                  css={{
+                    fontFamily: 'Screen'
+                  }}
                 />
                 {errors.member && <Error>This field is required</Error>}
               </div>
