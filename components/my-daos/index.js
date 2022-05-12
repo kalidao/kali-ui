@@ -6,7 +6,7 @@ import DaoCard from "./DaoCard";
 import NewDao from "./NewDao";
 import { Flex } from "../../styles/elements";
 
-const ResultsText = styled('div', {
+export const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
   color: '$foreground',
   fontSize: '18px',
@@ -17,10 +17,11 @@ const ResultsText = styled('div', {
   marginBottom: '0.6rem'
 });
 
-const Results = styled('div', {
+export const Results = styled('div', {
   display: 'grid',
   gap: '1rem',
   marginRight: '1rem',
+  
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
     gridTemplateRows: 'auto',

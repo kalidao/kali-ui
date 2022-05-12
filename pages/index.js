@@ -1,21 +1,14 @@
-import React from 'react'
-import { Header } from '../components/layout';
-import { Box } from "../styles/elements";
+import Layout from '../components/layout';
 import globalStyles from '../styles/globalStyles';
 import MyDAOs from '../components/my-daos';
 import NewDaoSquare from '../components/my-daos/NewDaoSquare';
 
 export default function Home() {
-
-  globalStyles();
-
+ 
   return (
-    <Box css={{
-      fontFamily: 'Display'
-    }}>
-        <Header heading="DAOs" />
+    <Layout heading="DAOs">
         <MyDAOs />
         <NewDaoSquare />
-    </Box>  
+    </Layout>  
   );
 };

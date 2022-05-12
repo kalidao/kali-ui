@@ -1,5 +1,5 @@
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../styles/Dialog';
-import DeployDAO from '../deploy-dao/DeployDAO';
+import DeployDaoWrapper from '../deploy-dao/';
 import { Box, Text } from '../../styles/elements';
 import { styled } from '../../styles/stitches.config';
 
@@ -46,7 +46,7 @@ export default function NewDao() {
         </Card>
       </DialogTrigger>
       <DialogContent>
-        <DeployDAO />
+        <DeployDaoWrapper />
       </DialogContent>
     </Dialog>
   )

@@ -5,6 +5,7 @@ import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import { useCallback } from 'react';
 import { addresses } from "../../constants/addresses";
 import FACTORY_ABI from '../../abi/KaliDAOfactory.json'
+import { votingPeriodToSeconds, validateDocs } from '../../utils/';
 
 export default function Confirm({ setStep }) {
   const { state } = useStateMachine();
@@ -35,22 +36,14 @@ export default function Confirm({ setStep }) {
       approval,
       founders,
       legal,
-      docs,
+      docType,
       email
     } = state;
 
-    let voteTime
-    if (votingPeriodUnit === "minutes") {
-      voteTime = votingPeriod * 60 * 60
-    }
-    if (votingPeriodUnit === "hours") {
-      voteTime = votingPeriod * 60 * 60 * 60
-    }
-    if (votingPeriodUnit === "days") {
-      voteTime = votingPeriod * 60 * 60 * 24
-    }
-
-    console.log(founders)
+    const docs_ = validateDocs(docType, state.existingDocs ?  state.existingDocs : null, name, state.mission ? state.mission : null)
+    const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit);
+    console.log('docs', docs_)
+    // get voters and shares array
     let voters = []
     let shares = []
     for (let i=0; i<founders.length; i++) {
@@ -76,7 +69,6 @@ export default function Confirm({ setStep }) {
     14: proposalVoteTypes[ProposalType.ESCAPE]
     15: proposalVoteTypes[ProposalType.DOCS]
     */
-
     const govSettings = Array(
       voteTime,
       0,
@@ -92,11 +84,12 @@ export default function Confirm({ setStep }) {
 
    const extensionArray = new Array()
    const extensionData = new Array()
+
    console.log(govSettings)
     const data = await writeAsync({ args: [
       name,
       symbol,
-      '',
+      docs_,
       Number(paused),
       extensionArray,
       extensionData,

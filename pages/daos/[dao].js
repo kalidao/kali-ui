@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import { chainId, useContract } from "wagmi";
 import { ethers } from "ethers";
 import { getDaoChain } from "../../utils/";
+import Layout from "../../components/layout";
+import globalStyles from "../../styles/globalStyles";
+import { Text } from "../../styles/elements";
+import { NewProposalSquare } from "../../components/dashboard/"
 
 export default function Dao() {
   // const value = useContext(AppContext);
@@ -28,10 +32,10 @@ export default function Dao() {
   }, [daoAddress])
 
   console.log(daoChain)
-
+  globalStyles();
   return (
-    <>
-      
-    </>
+    <Layout heading="DAO">
+      <NewProposalSquare />
+    </Layout>
   );
 }

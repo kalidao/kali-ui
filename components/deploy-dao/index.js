@@ -19,7 +19,7 @@ const Flex = styled('div', {
 
 createStore({})
 
-export default function DeployDAO() {
+export default function DeployDaoWrapper() {
   const [step, setStep] = useState(0);
 
   const steps = [

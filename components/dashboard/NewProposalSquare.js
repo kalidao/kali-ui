@@ -1,8 +1,8 @@
 import { styled } from '../../styles/stitches.config'
-import { Name } from './DaoCard';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from '../../styles/Dialog';
 import DeployDaoWrapper from '../deploy-dao/';
 import { Box } from '../../styles/elements';
+import { NewProposalModal } from '../newproposal';
 
 const CreateIcon = styled('div', {
     position: 'fixed',
@@ -21,7 +21,9 @@ const CreateIcon = styled('div', {
     alignItems: 'center'
   });
 
-export default function NewDao() {
+export function NewProposalSquare() {
+
+  // TODO: Disable when fetching 
   return (
     <Dialog>
       <DialogTrigger>
@@ -30,7 +32,7 @@ export default function NewDao() {
         </CreateIcon>
       </DialogTrigger>
       <DialogContent>
-        <DeployDaoWrapper />
+        <NewProposalModal />
       </DialogContent>
     </Dialog>
   )

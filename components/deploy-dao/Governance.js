@@ -24,7 +24,9 @@ export default function Governance({ setStep }) {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
         <Label htmlFor="votingPeriod">Voting Period</Label>
-        <Flex>
+        <Flex css={{ '&:hover': { 
+      boxShadow: '-2px 0px 20px 3px #ffa00a' 
+    } }}>
         <Input 
           variant="voting"
           type="number" 
@@ -32,19 +34,24 @@ export default function Governance({ setStep }) {
           placeholder="5" 
           {...register('votingPeriod')}
           defaultValue={state.votingPeriod} 
+          css={{
+            '&:hover': {
+              boxShadow: 'none'
+            }
+          }}
           />
         <Select 
           {...register('votingPeriodUnit')} 
-          defaultValue="days"
+          defaultValue="day"
           onValueChange={(value) => setValue('votingPeriodUnit', value)}
         >  
-            <Select.Item value="minutes">
+            <Select.Item value="min">
               minutes
             </Select.Item>
-            <Select.Item value="hours">
+            <Select.Item value="hour">
               hours
             </Select.Item>
-            <Select.Item value="days">
+            <Select.Item value="day">
               days
             </Select.Item>
           </Select>

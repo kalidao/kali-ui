@@ -42,6 +42,7 @@ export default function DaoCard({ dao, props }) {
             {...props} 
             >
         <Name>{dao["token"]["name"]}</Name>
+        {dao["members"] != undefined && <Name>{dao["members"].length} Members</Name>}
         <Address>{truncateAddress(dao["id"])}</Address>
     </Card>
 };

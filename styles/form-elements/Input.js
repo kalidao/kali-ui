@@ -15,7 +15,15 @@ const Input = styled('input', {
     backgroundColor: '$background',
     border: '1px solid $foreground',
     boxShadow: `4px 6px 10px -7px $highlight2`,
-    '&:focus': { boxShadow: `0 0 0 2px $purple` },
+    
+    '&:hover': { 
+      boxShadow: '-2px 0px 20px 3px #ffa00a' 
+    },
+
+    '&:focus': { 
+    
+      boxShadow: `-2px 0px 20px 3px #ffa00a` 
+    },
 
     variants: {
       variant: {

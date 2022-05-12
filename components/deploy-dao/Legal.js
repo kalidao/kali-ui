@@ -11,7 +11,7 @@ import { OpenInNewWindowIcon } from '@radix-ui/react-icons';
 export default function Legal({ setStep }) { 
   const { control, watch, register, setValue, handleSubmit } = useForm();
   const watchLegal = watch("legal", false);
-  const watchDocs = watch("docs", false);
+  const watchDocs = watch("docType", false);
   const { actions, state } = useStateMachine({ updateAction });
 
   const onPrevious = (data) => {
@@ -51,9 +51,9 @@ export default function Legal({ setStep }) {
                 Choose entity
             </Label>
             <Select 
-              {...register('docs')}
+              {...register('docType')}
               defaultValue="series"
-              onValueChange={(value) => setValue("docs", value)}
+              onValueChange={(value) => setValue("docType", value)}
             >
               {selectArray}
             </Select>

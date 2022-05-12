@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
 import { useAccount, useEnsName } from 'wagmi';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons';
 import { Button, Flex } from "../../styles/elements";
 
 export default function Members({ setStep }) {
@@ -98,6 +98,10 @@ export default function Members({ setStep }) {
           <Button
             variant="primary"
             css={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '1%',
               width: '85%',
               
             }} 
@@ -110,6 +114,7 @@ export default function Members({ setStep }) {
             }}
           >
             Add 
+            <PersonIcon />
           </Button>
         </Flex>
         </Flex>

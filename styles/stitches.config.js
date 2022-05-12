@@ -35,7 +35,7 @@ export const { styled, keyframes } = createStitches({
       // token aliases
       background: 'black',
       foreground: '$gray100',
-      accent: '$yellow400',
+      accent: '$yellow300',
       highlight: '$red100',
       highlight2: '$green100',
       sublight: '$gray100',
