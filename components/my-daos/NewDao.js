@@ -8,17 +8,19 @@ const Card = styled(Box, {
   height: '180px',
   background: '$foreground',
   color: '$background',
+  boxShadow: 'inset .313em .313em 0 #08FF08, inset -.313em -.313em 0 rgba(255,255,255,0.4), 0 1em 0.625em -.4em #08FF08',
   boxShadow: '3px 4px 5.5px #08FF08',
+  transition: 'linear .1s',
 
   '&:hover': {
     background: '$background',
     color: '$foreground',
-    boxShadow: '3px 4px 5.5px #fff',
+    boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.8), inset -.313em -.313em 0 rgba(255,255,255,0.6), 0 1em 0.625em -.4em rgba(255,255,255,0.8)',
   },
   '&:active': {
     background: '$background',
     color: '$foreground',
-    boxShadow: '3px 4px 5.5px #fff',
+    boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.8), inset -.313em -.313em 0 rgba(255,255,255,0.6), 0 1em 0.625em -.4em rgba(255,255,255,0.8)',
   }
 })
 
