@@ -1,12 +1,9 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { chainId, useContract } from "wagmi";
-import { ethers } from "ethers";
 import { getDaoChain } from "../../utils/";
 import Layout from "../../components/layout";
-import globalStyles from "../../styles/globalStyles";
-import { Text } from "../../styles/elements";
-import { NewProposalSquare } from "../../components/dashboard/"
+import { NewProposalSquare, Dashboard } from "../../components/dashboard/"
+import graph from "../../constants/graph";
 
 export default function Dao() {
   // const value = useContext(AppContext);
@@ -31,11 +28,43 @@ export default function Dao() {
     fetchData();
   }, [daoAddress])
 
-  console.log(daoChain)
-  globalStyles();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await fetch(graph[daoChain], {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `query {
+                daos(where: {
+                  id: "${account.address}}"
+                }) {
+                  id
+                  token {
+                    name
+                  }
+                  members {
+                    id
+                  }
+                }
+              }`,
+          }),
+        }).then((res) => res.json());
+        // sort by number of members
+        // const daos = result["data"]["daos"].sort((a, b) => b["members"].length - a["members"].length) 
+        // setDaos(daos);
+      } catch (e) {
+        console.log('error', e);
+      }
+    }
+    
+    fetchData()
+  }, [])
+
   return (
     <Layout heading="DAO">
       <NewProposalSquare />
+      <Dashboard />
     </Layout>
   );
 }

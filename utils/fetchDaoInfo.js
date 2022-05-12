@@ -9,11 +9,8 @@ import { graph } from "../constants/graph";
 
 export async function fetchStaticInfo(
   instance,
-  factory,
   address,
-  web3,
   daoChain,
-  account
 ) {
   let dao_;
   try {
@@ -31,6 +28,7 @@ export async function fetchStaticInfo(
               name
               symbol
               paused
+              totalSupply
             }
             docs
             votingPeriod
@@ -74,8 +72,6 @@ export async function fetchStaticInfo(
 
     const decimals = 18;
 
-    const totalSupply = parseInt(await instance.methods.totalSupply().call());
-
     const paused = data["token"]["paused"];
 
     const votingPeriod = parseInt(data["votingPeriod"]);
@@ -88,7 +84,7 @@ export async function fetchStaticInfo(
 
     const proposalVoteTypes = await fetchProposalVoteTypes(instance);
 
-    const members = await fetchMembers(data);
+    const members = await validateMembers(data);
 
     let extensions = {
       tribute: {
@@ -155,39 +151,6 @@ export async function fetchStaticInfo(
   return { dao_ };
 }
 
-function validateCrowdsale(crowdsale_, daoChain) {
-  crowdsaleObject = {
-    address: addresses[daoChain]["extensions"]["crowdsale"],
-    details: {
-      listId: crowdsale_["listId"],
-      purchaseToken: crowdsale_["purchaseToken"],
-      purchaseMultiplier: crowdsale_["purchaseMultiplier"],
-      purchaseLimit: crowdsale_["purchaseLimit"],
-      amountPurchased: crowdsale_["amountPurchased"],
-      saleEnds: crowdsale_["saleEnds"],
-      details: crowdsale_["details"],
-    }
-  }
-
-  console.log('crowdsaleObj', crowdsaleObject);
-
-  return crowdsaleObject;
-};
-
-function validateRedemption(redemption_, daoChain) {
-  redemptionObject = {
-    address: addresses[daoChain]["extensions"]["redemption"],
-    details: {
-      redeemables: redemption_["redeembles"],
-      redemptionStarts: redemption_["starts"],
-    }
-  }
-
-  console.log('redemptionObj', redemptionObject);
-
-  return redemptionObject;
-};
-
 async function fetchProposalVoteTypes(instance) {
   const proposalVoteTypes_ = [];
   for (const [key, value] of Object.entries(proposalTypes)) {
@@ -223,7 +186,7 @@ export async function fetchBalances(address, web3, daoChain) {
   return tokenBalances;
 }
 
-export async function fetchMembers(data) {
+export function validateMembers(data) {
   const membersArray = [];
   for (let i = 0; i < data["members"].length; i++) {
     membersArray.push({

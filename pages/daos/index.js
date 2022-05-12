@@ -35,7 +35,6 @@ export default function DAOs() {
     
             // sort by number of members
             const daos = result["data"]["daos"].sort((a, b) => b["members"].length - a["members"].length)
-            
             setDaos(daos);
           } catch (e) {
             console.log('error', e);
