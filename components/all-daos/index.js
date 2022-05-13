@@ -12,7 +12,7 @@ export default function AllDAOs({ daos, props }) {
     {daos !== undefined ?
         <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem'}}>
           {<ResultsText> There are {daos.length} DAOs on 
-          <ResultsText as="a" href={activeChain.blockExplorers.default.url} target="_blank" css={{
+          <ResultsText as="a" href={activeChain?.blockExplorers?.default.url} target="_blank" css={{
             '&:hover': {
               color: '$accent'
             }

@@ -2,7 +2,6 @@ import { styled } from "../stitches.config";
 
 const Input = styled('input', {
     all: 'unset',
-    width: 200,
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',

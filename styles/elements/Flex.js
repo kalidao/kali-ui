@@ -11,6 +11,35 @@ const Flex = styled('div', {
             row: {
                 flexDirection: 'row'
             }
+        },
+        align: {
+            center: {
+                justifyContent: 'center',
+                alignItems: 'center'
+            },
+            separate: {
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            },
+            end: {
+                justifyContent: 'flex-end',
+                alignItems: 'center'
+            }
+        },
+        gap: {
+            sm: {
+                gap: '0.2rem'
+            },
+            md: {
+                gap: '1.2em'
+            }
+        },
+        effect: {
+            glow: {
+                '&:hover': {
+                    color: '$accent'
+                }
+            } 
         }
     }
 })

@@ -1,6 +1,14 @@
+import { Flex } from "../../styles/elements/"
+import { DialogTitle } from "../../styles/Dialog";
+import { proposals } from "./proposals";
 
-export function NewProposalModal() {
+
+export function NewProposalModal({ heading, component }) {
+   
   return (
-    <div>index</div>
+    <Flex dir="col" css={{ gap: '1rem'}}>
+      <DialogTitle>{heading}</DialogTitle>
+      {component}
+    </Flex>
   )
 }

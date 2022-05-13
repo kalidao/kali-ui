@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Button, HStack } from '@chakra-ui/react';
+import { Button, Flex } from '../../styles/elements';
+import { UploadIcon } from '@radix-ui/react-icons';
 
 const FileUploader = (props) => {
   const [hasFile, setHasFile] = useState(false);
   const hiddenFileInput = React.useRef(null);
 
   const handleClick = (e) => {
+    e.preventDefault()
     hiddenFileInput.current.click();
   };
   const handleChange = (e) => {
+    e.preventDefault()
     const fileUploaded = e.target.files[0];
     props.setFile(fileUploaded);
     setHasFile(true);
@@ -16,8 +19,8 @@ const FileUploader = (props) => {
   return (
     <>
       {hasFile ? (
-        <HStack align={"flex-end"}>
-          <Button color={"green.500"} border="0" variant={"ghost"} h={"35px"} onClick={handleClick}>
+        <Flex align="end">
+          <Button>
             Got it!
           </Button>
           <input
@@ -26,11 +29,11 @@ const FileUploader = (props) => {
             ref={hiddenFileInput}
             onChange={handleChange}
           />
-        </HStack>
+        </Flex>
       ) : (
         <>
-          <Button className="hollow-btn" h={"35px"} onClick={handleClick}>
-            Upload
+          <Button variant="transparent" onClick={handleClick}>
+            Upload <UploadIcon /> 
           </Button>
           <input
             style={{ width: "30px", display: "none" }}

@@ -12,8 +12,19 @@ const Text = styled('div', {
             }
         },
         color: {
-            white: {
-                color: 'white'
+            background: {
+                color: '$background'
+            },
+            foreground: {
+                color: '$foreground'
+            },
+            highlight: {
+                color: '$highlight'
+            }
+        },
+        size: {
+            lg: {
+                fontSize: '2.5rem'
             }
         }
     }

@@ -1,5 +1,5 @@
 import { useStateMachine } from 'little-state-machine';
-import { AddressZero } from "@ethersproject/address";
+import { AddressZero } from "@ethersproject/constants";
 import { Button, Flex } from '../../styles/elements';
 import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import { useCallback } from 'react';

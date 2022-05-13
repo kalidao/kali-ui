@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
+import DaoContext from "../../context/DaoContext";
 import {
   Input,
   Button,
@@ -17,19 +17,18 @@ import NumInputField from "../elements/NumInputField";
 import ProposalDescription from "../elements/ProposalDescription";
 import { toDecimals } from "../../utils/formatters";
 import { uploadIpfs } from "../tools/ipfsHelpers";
+import { addresses } from "../../constants/addresses";
+import { useNetwork } from "wagmi";
 
 export default function Tribute() {
-  const value = useContext(AppContext);
-  const {
-    web3,
-    account,
-    dao,
-  } = value.state;
+  const value = useContext(DaoContext);
+  const dao = value.state.dao
   const tribAbi = require("../../abi/KaliDAOtribute.json");
   const tokenAbi = require("../../abi/ERC20.json");
   const nftAbi = require("../../abi/KaliNFT.json");
+  const { activeChain } = useNetwork();
+  const tribAddress = addresses[activeChain?.id]["extensions"]["tribute"];
 
-  const tribAddress = dao["extensions"]["tribute"]["address"];
   const [selection, setSelection] = useState("");
   const [approveButton, setApproveButton] = useState(false);
   const [canPurchase, setCanPurchase] = useState(false);
