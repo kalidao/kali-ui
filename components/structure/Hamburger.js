@@ -1,13 +1,6 @@
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuGroup,
-  IconButton,
-} from "@chakra-ui/react";
-import { TiThMenu } from "react-icons/ti";
-import Link from "next/link";
+import { Menu, MenuButton, MenuList, MenuItem, MenuGroup, IconButton } from '@chakra-ui/react'
+import { TiThMenu } from 'react-icons/ti'
+import Link from 'next/link'
 
 export default function Hamburger() {
   return (
@@ -31,21 +24,13 @@ export default function Hamburger() {
             <MenuItem color="kali.800">Tools</MenuItem>
           </a>
         </Link>
-        <a
-          href="https://docs.kalidao.xyz/faq/"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://docs.kalidao.xyz/faq/" target="_blank" rel="noreferrer">
           <MenuItem color="kali.800">FAQs</MenuItem>
         </a>
         <a href="https://docs.kalidao.xyz/" target="_blank" rel="noreferrer">
           <MenuItem color="kali.800">Docs</MenuItem>
         </a>
-        <a
-          href="https://discord.com/invite/UKCS9ghzUE"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://discord.com/invite/UKCS9ghzUE" target="_blank" rel="noreferrer">
           <MenuItem color="kali.800">Support</MenuItem>
         </a>
         <Link href="https://www.lexdao.coop/#/directory">
@@ -55,5 +40,5 @@ export default function Hamburger() {
         </Link>
       </MenuList>
     </Menu>
-  );
+  )
 }

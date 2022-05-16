@@ -1,11 +1,11 @@
-import { Box, Link } from "@chakra-ui/react";
-import { routeHome } from "../../utils/router";
+import { Box, Link } from '@chakra-ui/react'
+import { routeHome } from '../../utils/router'
 
 export default function Kali() {
   const home = () => {
-    routeHome();
-    console.log("click");
-  };
+    routeHome()
+    console.log('click')
+  }
   return (
     <>
       <Box
@@ -21,5 +21,5 @@ export default function Kali() {
         <Link onClick={home}>KaliDAO</Link>
       </Box>
     </>
-  );
+  )
 }

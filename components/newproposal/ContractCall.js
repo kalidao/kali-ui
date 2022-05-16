@@ -23,9 +23,10 @@ export default function ContractCall() {
   const [inputs, setInputs] = useState(null);
   const [inputParams, setInputParams] = useState([]);
 
+
   const updateABI = (event) => {
-    setAbi_(event.target.value);
-  };
+    setAbi_(event.target.value)
+  }
 
   const parseABI = (e) => {
     try {
@@ -54,7 +55,7 @@ export default function ContractCall() {
     } catch (e) {
       value.toast("Enter correct JSON");
     }
-  };
+  }
 
   const getExplorerLink = (address) => {
     const { blockExplorerUrls } = getChainInfo(chainId)
@@ -63,8 +64,8 @@ export default function ContractCall() {
 
   const onWriteFunctionSelect = (e) => {
     if (e.target.value == 999) {
-      setInputs(null);
-      setFunctionName(null);
+      setInputs(null)
+      setFunctionName(null)
     } else {
       let id = e.target.value;
       let inputs_ = writeFuncs[id]["inputs"];
@@ -73,21 +74,21 @@ export default function ContractCall() {
       setInputs(inputs_);
       setFunctionName(name_);
     }
-  };
+  }
 
   const onInputChange = (e) => {
-    let element = document.getElementById("inputFields");
-    let children = element.children;
-    let array = [];
+    let element = document.getElementById('inputFields')
+    let children = element.children
+    let array = []
     for (var i = 0; i < children.length; i++) {
-      let item = children[i].value;
+      let item = children[i].value
       if (item != undefined) {
-        array.push(children[i].value);
+        array.push(children[i].value)
       }
     }
-    console.log(array);
-    setInputParams(JSON.stringify(array));
-  };
+    console.log(array)
+    setInputParams(JSON.stringify(array))
+  }
 
   const submitProposal = async () => {
     value.setLoading(true);
@@ -126,12 +127,12 @@ export default function ContractCall() {
         .send({ from: account });
       value.setVisibleView(2);
     } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+      value.toast(e)
+      value.setLoading(false)
     }
 
-    value.setLoading(false);
-  };
+    value.setLoading(false)
+  }
 
   return (
     <form onSubmit={submitProposal}>
@@ -217,5 +218,5 @@ export default function ContractCall() {
         <Box h={"2%"} />
       </VStack>
     </form>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react"
-import kaliTokenFactory from "../../eth/kaliToken"
+import React, { useState, useEffect, useContext } from 'react'
+import kaliTokenFactory from '../../eth/kaliToken'
 import {
   Button,
   FormControl,
@@ -18,12 +18,12 @@ import {
   NumberDecrementStepper,
   Spacer,
   Switch,
-} from "@chakra-ui/react"
-import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai"
-import { useForm, Controller, useFieldArray } from "react-hook-form"
-import InfoTip from "../elements/InfoTip"
-import AppContext from "../../context/AppContext"
-import { addresses } from "../../constants/addresses"
+} from '@chakra-ui/react'
+import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
+import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import InfoTip from '../elements/InfoTip'
+import AppContext from '../../context/AppContext'
+import { addresses } from '../../constants/addresses'
 
 export default function TokenForm() {
   const value = useContext(AppContext)
@@ -37,28 +37,28 @@ export default function TokenForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      owner: "",
-      name: "",
-      symbol: "",
-      details: "",
+      owner: '',
+      name: '',
+      symbol: '',
+      details: '',
       paused: false,
     },
   })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "recipients",
+    name: 'recipients',
   })
 
   const resolveAddressAndEns = async (ens) => {
     let address
 
-    if (ens.slice(-4) === ".eth") {
+    if (ens.slice(-4) === '.eth') {
       address = await web3.eth.ens.getAddress(ens).catch(() => {
-        value.toast(ens + " is not a valid ENS.")
+        value.toast(ens + ' is not a valid ENS.')
       })
     } else if (web3.utils.isAddress(ens) == false) {
-      value.toast(ens + " is not a valid Ethereum address.")
+      value.toast(ens + ' is not a valid Ethereum address.')
       return
     } else {
       address = ens
@@ -74,7 +74,7 @@ export default function TokenForm() {
   const submit = async (values) => {
     const { owner, name, symbol, details, paused, recipients } = values
 
-    const factory = kaliTokenFactory(addresses[chainId]["erc20factory"], web3)
+    const factory = kaliTokenFactory(addresses[chainId]['erc20factory'], web3)
 
     owner = await resolveAddressAndEns(owner)
 
@@ -91,18 +91,10 @@ export default function TokenForm() {
 
     try {
       let result = await factory.methods
-        .deployKaliERC20(
-          name,
-          symbol,
-          details,
-          accounts,
-          amounts,
-          paused,
-          owner
-        )
+        .deployKaliERC20(name, symbol, details, accounts, amounts, paused, owner)
         .send({ from: account })
 
-      console.log("This is the result", result)
+      console.log('This is the result', result)
       setIsMinted(true)
     } catch (e) {
       alert(e)
@@ -118,13 +110,13 @@ export default function TokenForm() {
       <VStack w="100%" align="flex-start">
         <HStack>
           <label>Owner</label>
-          <InfoTip hasArrow label={"Manages minting and burning of tokens."} />
+          <InfoTip hasArrow label={'Manages minting and burning of tokens.'} />
         </HStack>
         <Input
           name="owner"
           placeholder="0xKALI or ENS"
-          {...register("owner", {
-            required: "Owner is required.",
+          {...register('owner', {
+            required: 'Owner is required.',
           })}
         />
       </VStack>
@@ -134,7 +126,7 @@ export default function TokenForm() {
         <Input
           name="name"
           placeholder="KALI Token"
-          {...register("name", {
+          {...register('name', {
             required: true,
           })}
         />
@@ -144,8 +136,8 @@ export default function TokenForm() {
         <Input
           name="symbol"
           placeholder="KALI"
-          {...register("symbol", {
-            required: "Symbol is required.",
+          {...register('symbol', {
+            required: 'Symbol is required.',
             maxLength: {
               value: 12,
               message: "Symbol shouldn't be greater than 12 characters.",
@@ -156,28 +148,16 @@ export default function TokenForm() {
       {errors.symbol && value.toast(errors.symbol.message)}
       <VStack w="100%" align="flex-start">
         <label>Details</label>
-        <Input
-          name="details"
-          placeholder="IPFS link"
-          {...register("details")}
-        />
+        <Input name="details" placeholder="IPFS link" {...register('details')} />
       </VStack>
       {errors.details && value.toast(errors.details.message)}
-      <HStack pt={"4"} w={"100%"}>
+      <HStack pt={'4'} w={'100%'}>
         <label>Tokens Transferable</label>
         <Spacer></Spacer>
         <Controller
           control={control}
           name="paused"
-          render={({ field }) => (
-            <Switch
-              defaultChecked="false"
-              id="paused"
-              size="md"
-              colorScheme="red"
-              {...field}
-            />
-          )}
+          render={({ field }) => <Switch defaultChecked="false" id="paused" size="md" colorScheme="red" {...field} />}
         />
       </HStack>
       <VStack w="100%" align="flex-start">
@@ -188,9 +168,9 @@ export default function TokenForm() {
             border="0px"
             variant="ghost"
             _hover={{
-              background: "green.500",
+              background: 'green.500',
             }}
-            onClick={() => append({ address: "" })}
+            onClick={() => append({ address: '' })}
           >
             <AiOutlineUserAdd color="white" />
           </Button>
@@ -218,7 +198,7 @@ export default function TokenForm() {
                       placeholder="0xKALI or ENS"
                       {...field}
                       {...register(`recipients.${index}.address`, {
-                        required: "You must assign amount!",
+                        required: 'You must assign amount!',
                       })}
                     />
                   </FormControl>

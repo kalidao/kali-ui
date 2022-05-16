@@ -1,9 +1,9 @@
-import Router, { useRouter } from "next/router";
+import Router, { useRouter } from 'next/router'
 
 export function routeHome() {
   Router.push({
-    pathname: "../",
+    pathname: '../',
     query: {},
-  });
-  console.log("worked");
+  })
+  console.log('worked')
 }

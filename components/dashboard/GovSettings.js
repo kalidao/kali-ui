@@ -1,30 +1,30 @@
-import { useContext } from "react";
-import AppContext from "../../context/AppContext";
-import { Text, HStack, Spacer, Link, Icon } from "@chakra-ui/react";
-import { convertVotingPeriod } from "../../utils/formatters";
-import DashedDivider from "../elements/DashedDivider";
+import { useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import { Text, HStack, Spacer, Link, Icon } from '@chakra-ui/react'
+import { convertVotingPeriod } from '../../utils/formatters'
+import DashedDivider from '../elements/DashedDivider'
 
 export default function GovSettings() {
-  const value = useContext(AppContext);
-  const { dao } = value.state;
+  const value = useContext(AppContext)
+  const { dao } = value.state
   const array = [
     {
-      name: "Shares Transferable",
-      info: (dao["token"]["paused"]) ? "❌": "✔️",
+      name: 'Shares Transferable',
+      info: dao['token']['paused'] ? '❌' : '✔️',
     },
     {
-      name: "Voting Period",
-      info: convertVotingPeriod(dao["gov"]["votingPeriod"]),
+      name: 'Voting Period',
+      info: convertVotingPeriod(dao['gov']['votingPeriod']),
     },
     {
-      name: "Participation Needed",
-      info: dao["gov"]["quorum"] + "%",
+      name: 'Participation Needed',
+      info: dao['gov']['quorum'] + '%',
     },
     {
-      name: "Approval Needed",
-      info: dao["gov"]["supermajority"] + "%",
+      name: 'Approval Needed',
+      info: dao['gov']['supermajority'] + '%',
     },
-  ];
+  ]
 
   return (
     <>
@@ -44,5 +44,5 @@ export default function GovSettings() {
         </>
       ))}
     </>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import AppContext from "../../context/AppContext";
-import { BrowserView, MobileView } from "react-device-detect";
-import { Button, Flex } from "@chakra-ui/react";
-import { BiGridAlt, BiEdit } from "react-icons/bi";
-import { RiStackLine } from "react-icons/ri";
-import { VscNewFile } from "react-icons/vsc";
-import { BsPuzzle } from "react-icons/bs";
+import { useContext, useEffect, useState } from 'react'
+import AppContext from '../../context/AppContext'
+import { BrowserView, MobileView } from 'react-device-detect'
+import { Button, Flex } from '@chakra-ui/react'
+import { BiGridAlt, BiEdit } from 'react-icons/bi'
+import { RiStackLine } from 'react-icons/ri'
+import { VscNewFile } from 'react-icons/vsc'
+import { BsPuzzle } from 'react-icons/bs'
 
 const ActionButton = (props) => {
   return (
@@ -15,65 +15,63 @@ const ActionButton = (props) => {
       background={props.background}
       border="none"
       p="1rem"
-      display={["flex", "flex", "flex", "flex", "flex"]}
+      display={['flex', 'flex', 'flex', 'flex', 'flex']}
       color="#fff"
       _hover={{
-        background:
-          "linear-gradient(to left top, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))",
+        background: 'linear-gradient(to left top, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))',
       }}
       _active={{
-        background:
-          "linear-gradient(to left top, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))",
+        background: 'linear-gradient(to left top, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))',
       }}
     >
       {props.children}
     </Button>
-  );
-};
+  )
+}
 
 const actions = [
   {
-    name: "Dashboard",
+    name: 'Dashboard',
     icon: <BiGridAlt />,
   },
   {
-    name: "Proposals",
+    name: 'Proposals',
     icon: <RiStackLine />,
   },
   {
-    name: "New Proposal",
+    name: 'New Proposal',
     icon: <BiEdit />,
   },
   {
-    name: "Extensions",
+    name: 'Extensions',
     icon: <BsPuzzle />,
   },
-];
+]
 
 export default function ActionMenu(props) {
-  const value = useContext(AppContext);
-  const { visibleView, remount, dao } = value.state;
-  const [ext, setExt] = useState();
+  const value = useContext(AppContext)
+  const { visibleView, remount, dao } = value.state
+  const [ext, setExt] = useState()
 
   const handleClick = (id) => {
-    value.setVisibleView(id);
-    value.setRemount(remount + 1);
-    console.log(remount, "remount");
-  };
+    value.setVisibleView(id)
+    value.setRemount(remount + 1)
+    console.log(remount, 'remount')
+  }
 
   useEffect(() => {
-    if (dao != null && "extensions" in dao) {
-      setExt(dao["extensions"]);
-      console.log("set");
-      console.log(dao["extensions"]);
+    if (dao != null && 'extensions' in dao) {
+      setExt(dao['extensions'])
+      console.log('set')
+      console.log(dao['extensions'])
     }
-  }, [dao]);
+  }, [dao])
 
   return (
     <Flex
-      flexDir={["row", "row", "column", "column", "column"]}
-      align={["center", "center", "center", "flex-start", "flex-start"]}
-      wrap={["wrap", "wrap", "nowrap", "nowrap", "nowrap"]}
+      flexDir={['row', 'row', 'column', 'column', 'column']}
+      align={['center', 'center', 'center', 'flex-start', 'flex-start']}
+      wrap={['wrap', 'wrap', 'nowrap', 'nowrap', 'nowrap']}
       justifyContent="center"
       as="nav"
       id="action-menu"
@@ -84,8 +82,8 @@ export default function ActionMenu(props) {
           onClick={() => handleClick(index + 1)}
           background={
             visibleView == index + 1
-              ? "linear-gradient(to right bottom, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))"
-              : "none"
+              ? 'linear-gradient(to right bottom, rgba(24, 19, 19, 0.7), rgba(93, 7, 7, 0.3))'
+              : 'none'
           }
           icon={item.icon}
           key={index}
@@ -94,5 +92,5 @@ export default function ActionMenu(props) {
         </ActionButton>
       ))}
     </Flex>
-  );
+  )
 }

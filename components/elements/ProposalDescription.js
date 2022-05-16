@@ -1,45 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import {
-  VStack,
-  HStack,
-  Text,
-  Box,
-  Textarea,
-  Select,
-  Spacer,
-} from "@chakra-ui/react";
-import InfoTip from './InfoTip';
-import FileUploader from '../tools/FileUpload';
+import React, { useState, useEffect } from 'react'
+import { VStack, HStack, Text, Box, Textarea, Select, Spacer } from '@chakra-ui/react'
+import InfoTip from './InfoTip'
+import FileUploader from '../tools/FileUpload'
 
 function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   const [doc_, setDoc_] = useState([])
 
   useEffect(() => {
-    setDoc_(doc);
-  }, []);
+    setDoc_(doc)
+  }, [])
 
   return (
     <VStack align="flex-start" w="100%">
-      <HStack pb={"5px"}>
+      <HStack pb={'5px'}>
         <Text>
           <b>Notes:</b>
         </Text>
         <InfoTip
           label={
-            "You may accompany this proposal with notes or a doc. Notes will be recorded directly onchain, while doc will be uploaded to IPFS. If both are supplied, note is ignored."
+            'You may accompany this proposal with notes or a doc. Notes will be recorded directly onchain, while doc will be uploaded to IPFS. If both are supplied, note is ignored.'
           }
         ></InfoTip>
       </HStack>
-      <HStack w="100%" spacing={"20px"} justify={"stretch"}>
+      <HStack w="100%" spacing={'20px'} justify={'stretch'}>
         {doc_.length > 0 ? (
           <>
             <Select
               onChange={(e) => {
-                setDoc(e.target.value);
+                setDoc(e.target.value)
               }}
-              placeholder="Please select">
+              placeholder="Please select"
+            >
               {doc_.map((option, index) => (
-                <option key={index} value={option}>{option}</option>
+                <option key={index} value={option}>
+                  {option}
+                </option>
               ))}
             </Select>
             <Box h="5px" />
@@ -52,17 +47,17 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
           placeholder=". . ."
           value={note}
           onChange={(e) => {
-            setNote(e.target.value);
+            setNote(e.target.value)
           }}
         />
         <Spacer />
         <Text>- OR -</Text>
-        <VStack w={"30%"}>
+        <VStack w={'30%'}>
           <FileUploader setFile={setFile} />
         </VStack>
       </HStack>
     </VStack>
-  );
+  )
 }
 
-export default ProposalDescription;
+export default ProposalDescription

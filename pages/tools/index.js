@@ -1,19 +1,12 @@
-import { useState, useContext } from "react"
-import AppContext from "../../context/AppContext"
-import Layout from "../../components/structure/Layout"
-import { AiOutlineCheckCircle, AiOutlineWarning } from "react-icons/ai"
-import {
-  Button,
-  Icon,
-  Text,
-  Spacer,
-  HStack,
-  VStack,
-} from "@chakra-ui/react"
-import { supportedChains } from "../../constants/supportedChains"
-import { getNetworkName } from "../../utils/formatters"
-import Select from "../../components/elements/Select"
-import ToolBox from "../../components/tools/ToolBox"
+import { useState, useContext } from 'react'
+import AppContext from '../../context/AppContext'
+import Layout from '../../components/structure/Layout'
+import { AiOutlineCheckCircle, AiOutlineWarning } from 'react-icons/ai'
+import { Button, Icon, Text, Spacer, HStack, VStack } from '@chakra-ui/react'
+import { supportedChains } from '../../constants/supportedChains'
+import { getNetworkName } from '../../utils/formatters'
+import Select from '../../components/elements/Select'
+import ToolBox from '../../components/tools/ToolBox'
 
 export default function Tools() {
   const value = useContext(AppContext)
@@ -52,13 +45,11 @@ export default function Tools() {
           </Select>
         </HStack>
         <br />
-        {(chainId != network || account == null) ? (
+        {chainId != network || account == null ? (
           <>
             <HStack id="not-connected">
               <Icon as={AiOutlineWarning} />
-              <Text>
-                please connect your wallet to {getNetworkName(network)}
-              </Text>
+              <Text>please connect your wallet to {getNetworkName(network)}</Text>
             </HStack>
             <Button className="transparent-btn" onClick={() => handleConnect()}>
               Connect

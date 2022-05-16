@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import AppContext from "../../context/AppContext";
+import React, { useContext } from 'react'
+import AppContext from '../../context/AppContext'
 import {
   Box,
   Divider,
@@ -15,41 +15,41 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-} from "@chakra-ui/react";
-import Select from "../elements/Select";
-import { useForm, Controller } from "react-hook-form";
-import ChooseCrowdsale from "./ChooseCrowdsale";
-import ChooseRedemption from "./ChooseRedemption";
-import ChooseTribute from "./ChooseTribute";
-import ChooseQuorum from "./ChooseQuorum";
-import ChooseSupermajority from "./ChooseSupermajority";
+} from '@chakra-ui/react'
+import Select from '../elements/Select'
+import { useForm, Controller } from 'react-hook-form'
+import ChooseCrowdsale from './ChooseCrowdsale'
+import ChooseRedemption from './ChooseRedemption'
+import ChooseTribute from './ChooseTribute'
+import ChooseQuorum from './ChooseQuorum'
+import ChooseSupermajority from './ChooseSupermajority'
 
 export default function ChooseCustom({ details, setDetails, handleNext }) {
-  const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
+  const value = useContext(AppContext)
+  const { web3, chainId, loading, account } = value.state
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      votingPeriod: details["governance"]["votingPeriod"],
-      votingPeriodUnit: details["governance"]["votingPeriodUnit"],
+      votingPeriod: details['governance']['votingPeriod'],
+      votingPeriodUnit: details['governance']['votingPeriodUnit'],
     },
-  });
+  })
 
   const submit = (values) => {
-    const { votingPeriod, votingPeriodUnit, paused } = values;
+    const { votingPeriod, votingPeriodUnit, paused } = values
 
     // setting governance
-    details["governance"]["votingPeriod"] = votingPeriod;
-    details["governance"]["votingPeriodUnit"] = votingPeriodUnit;
+    details['governance']['votingPeriod'] = votingPeriod
+    details['governance']['votingPeriodUnit'] = votingPeriodUnit
 
     if (paused != undefined) {
-      details["governance"]["paused"] = Number(!paused);
+      details['governance']['paused'] = Number(!paused)
     }
 
-    setDetails(details);
-    console.log("details", details);
-    handleNext();
-  };
+    setDetails(details)
+    console.log('details', details)
+    handleNext()
+  }
 
   return (
     <VStack as="form" onSubmit={handleSubmit(submit)}>
@@ -57,21 +57,17 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
       <br></br>
       <VStack align="flex-start" spacing="4" bg="">
         <Box p="1" />
-        <HStack w={"100%"}>
-          <VStack w={"100%"} align="flex-start">
+        <HStack w={'100%'}>
+          <VStack w={'100%'} align="flex-start">
             <label htmlFor="votingPeriod">Voting Period</label>
             <br></br>
-            <HStack w={"100%"}>
+            <HStack w={'100%'}>
               <Controller
                 control={control}
                 name="votingPeriod"
                 render={({ field: { ref, ...rest } }) => (
                   <NumberInput min="1" max="365" {...rest}>
-                    <NumberInputField
-                      fontSize="sm"
-                      ref={ref}
-                      name={rest.name}
-                    />
+                    <NumberInputField fontSize="sm" ref={ref} name={rest.name} />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
                       <NumberDecrementStepper />
@@ -84,13 +80,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
                 control={control}
                 name="votingPeriodUnit"
                 render={({ field: { ref, ...rest } }) => (
-                  <Select
-                    w={100}
-                    ref={ref}
-                    name={rest.name}
-                    {...rest}
-                    fontSize="sm"
-                  >
+                  <Select w={100} ref={ref} name={rest.name} {...rest} fontSize="sm">
                     <option value="0">days</option>
                     <option value="1">hours</option>
                     <option value="2">min</option>
@@ -105,7 +95,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         <br></br>
         <ChooseSupermajority details={details} setDetails={setDetails} />
         <br></br>
-        <HStack pt={"4"} w={"100%"}>
+        <HStack pt={'4'} w={'100%'}>
           <FormLabel htmlFor="paused">Shares Transferable</FormLabel>
           <Spacer></Spacer>
           <Controller
@@ -113,7 +103,7 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
             name="paused"
             render={({ field }) => (
               <Switch
-                defaultChecked={!Boolean(details["governance"]["paused"])}
+                defaultChecked={!Boolean(details['governance']['paused'])}
                 id="paused"
                 size="md"
                 colorScheme="red"
@@ -134,15 +124,11 @@ export default function ChooseCustom({ details, setDetails, handleNext }) {
         </VStack>
         <Box w="100%" align="center">
           <br></br>
-          <Button
-            disabled={account && chainId ? false : true}
-            className="transparent-btn"
-            type="submit"
-          >
+          <Button disabled={account && chainId ? false : true} className="transparent-btn" type="submit">
             Next »
           </Button>
         </Box>
       </VStack>
     </VStack>
-  );
+  )
 }

@@ -1,23 +1,11 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import {
-  Text,
-  UnorderedList,
-  ListItem,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from "@chakra-ui/react";
-import { fromDecimals } from "../../utils/formatters";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import { Text, UnorderedList, ListItem, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption } from '@chakra-ui/react'
+import { fromDecimals } from '../../utils/formatters'
 
 export default function CapTable() {
-  const value = useContext(AppContext);
-  const { dao } = value.state;
+  const value = useContext(AppContext)
+  const { dao } = value.state
 
   return (
     <>
@@ -29,14 +17,14 @@ export default function CapTable() {
           </Tr>
         </Thead>
         <Tbody background="blackAlpha.300">
-          {dao["members"].map((m, index) => (
+          {dao['members'].map((m, index) => (
             <Tr key={index}>
-              <Td color="#fff">{m["member"]}</Td>
-              <Td color="#fff">{fromDecimals(m["shares"], 18)}</Td>
+              <Td color="#fff">{m['member']}</Td>
+              <Td color="#fff">{fromDecimals(m['shares'], 18)}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
     </>
-  );
+  )
 }

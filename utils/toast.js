@@ -1,18 +1,18 @@
-import { createStandaloneToast } from '@chakra-ui/react';
+import { createStandaloneToast } from '@chakra-ui/react'
 
 export function createToast(props) {
-  const toast = createStandaloneToast();
-  let error;
-  if(typeof props === 'object') {
+  const toast = createStandaloneToast()
+  let error
+  if (typeof props === 'object') {
     error = props['message']
-    console.log("this is an object")
+    console.log('this is an object')
   } else {
-    error = props;
+    error = props
   }
-  console.log("error", props)
-  console.log("length", props['message'])
+  console.log('error', props)
+  console.log('length', props['message'])
   toast({
-    title: "Error",
+    title: 'Error',
     description: error,
     status: 'error',
     duration: 9000,

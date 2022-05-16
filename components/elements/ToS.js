@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Modal,
   ModalCloseButton,
@@ -8,26 +8,19 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-} from "@chakra-ui/react";
-import ReactMarkdown from "react-markdown";
-import { tos } from "../../constants/tos";
+} from '@chakra-ui/react'
+import ReactMarkdown from 'react-markdown'
+import { tos } from '../../constants/tos'
 
 function ToS({ label, ...props }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
       <button {...props} onClick={onOpen}>
         {label}
       </button>
-      <Modal
-        size="2xl"
-        closeOnOverlayClick={true}
-        isOpen={isOpen}
-        onClose={onClose}
-        scrollBehavior="inside"
-        id="tos"
-      >
+      <Modal size="2xl" closeOnOverlayClick={true} isOpen={isOpen} onClose={onClose} scrollBehavior="inside" id="tos">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>KaliCo Terms of Service</ModalHeader>
@@ -39,7 +32,7 @@ function ToS({ label, ...props }) {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
 
-export default ToS;
+export default ToS
