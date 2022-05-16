@@ -40,13 +40,11 @@ export default function ContractCall() {
           if (item["type"] != "constructor") {
             writeFuncs_.push(item)
             writeFuncs_.sort((a, b) => a.name > b.name)
-            // console.log(writeFuncs_)
           }
         } else if (funcType == "view") {
           readFuncs_.push(item)
           readFuncs_.sort((a, b) => a.name > b.name)
           setEtherscanLink(getExplorerLink(contract))
-          // console.log(getExplorerLink(contract))
         }
       }
 
@@ -62,63 +60,6 @@ export default function ContractCall() {
     const { blockExplorerUrls } = getChainInfo(chainId)
     return (blockExplorerUrls[0] + "/address/" + address + "#readContract");
   }
-
-  // const onReadFunctionSelect = (e) => {
-  //   setInputParams(JSON.stringify([]))
-  //   if (e.target.value == 999) {
-  //     setInputs(null);
-  //     setFunctionName(null);
-  //   } else {
-  //     let id = e.target.value;
-  //     let inputs_ = readFuncs[id]["inputs"];
-  //     let name_ = readFuncs[id]["name"];
-  //     setInputs(inputs_);
-  //     setFunctionName(name_);
-  //     setSelection(id);
-  //   }
-  // };
-
-  // const onReadInputChange = (e) => {
-  //   let element = document.getElementById("inputFields");
-  //   let children = element.children;
-  //   let array = [];
-  //   for (var i = 0; i < children.length; i++) {
-  //     let item = children[i].value;
-  //     if (item != undefined) {
-  //       array.push(children[i].value);
-  //     }
-  //   }
-  //   console.log(array);
-  //   setInputParams(JSON.stringify(array));
-  // };
-
-  // const handleQuery = async () => {
-  //   abi_ = JSON.parse(abi_)
-  //   inputParams = JSON.parse(inputParams)
-
-  //   if (inputParams.length == 0) {
-  //     try {
-  //       const func_ = web3.eth.abi.encodeFunctionCall(readFuncs[selection], inputParams);
-  //       const instance = new web3.eth.Contract(abi_, contract);
-  //       let result = await instance.methods[func_]().call()
-  //       setReadResponse(result)
-  //     } catch (e) {
-  //       console.log("Error when querying read functions without params.")
-  //       console.log(e)
-  //     }
-  //   } else {
-  //     try {
-  //       const func_ = web3.eth.abi.encodeFunctionSignature(readFuncs[selection]);
-  //       console.log(func_, inputParams)
-  //       const instance = new web3.eth.Contract(abi_, contract);
-  //       let result = await instance.methods[func_](inputParams).call()
-  //       setReadResponse(result)
-  //     } catch (e) {
-  //       console.log("Error when querying read functions with params.")
-  //       console.log(e)
-  //     }
-  //   }
-  // }
 
   const onWriteFunctionSelect = (e) => {
     if (e.target.value == 999) {
@@ -188,7 +129,6 @@ export default function ContractCall() {
       value.toast(e);
       value.setLoading(false);
     }
-
 
     value.setLoading(false);
   };
