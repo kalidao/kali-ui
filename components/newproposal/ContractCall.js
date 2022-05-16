@@ -1,28 +1,43 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import { Input, Button, Select, Text, Textarea, Link, Box, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Center } from "@chakra-ui/react";
-import ProposalDescription from "../elements/ProposalDescription";
-import { uploadIpfs } from "../tools/ipfsHelpers";
-import { getChainInfo } from "../../utils/formatters";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import {
+  Input,
+  Button,
+  Select,
+  Text,
+  Textarea,
+  Link,
+  Box,
+  HStack,
+  VStack,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Center,
+} from '@chakra-ui/react'
+import ProposalDescription from '../elements/ProposalDescription'
+import { uploadIpfs } from '../tools/ipfsHelpers'
+import { getChainInfo } from '../../utils/formatters'
 
 export default function ContractCall() {
-  const value = useContext(AppContext);
-  const { web3, account, abi, address, chainId } = value.state;
+  const value = useContext(AppContext)
+  const { web3, account, abi, address, chainId } = value.state
 
   // For Notes section
-  const [doc, setDoc] = useState([]);
-  const [note, setNote] = useState(null);
-  const [file, setFile] = useState(null);
+  const [doc, setDoc] = useState([])
+  const [note, setNote] = useState(null)
+  const [file, setFile] = useState(null)
 
-  const [abi_, setAbi_] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [etherscanLink, setEtherscanLink] = useState(null);
-  const [writeFuncs, setWriteFuncs] = useState(null);
-  const [readFuncs, setReadFuncs] = useState(null);
-  const [functionName, setFunctionName] = useState(null);
-  const [inputs, setInputs] = useState(null);
-  const [inputParams, setInputParams] = useState([]);
-
+  const [abi_, setAbi_] = useState(null)
+  const [contract, setContract] = useState(null)
+  const [etherscanLink, setEtherscanLink] = useState(null)
+  const [writeFuncs, setWriteFuncs] = useState(null)
+  const [readFuncs, setReadFuncs] = useState(null)
+  const [functionName, setFunctionName] = useState(null)
+  const [inputs, setInputs] = useState(null)
+  const [inputParams, setInputParams] = useState([])
 
   const updateABI = (event) => {
     setAbi_(event.target.value)
@@ -30,36 +45,36 @@ export default function ContractCall() {
 
   const parseABI = (e) => {
     try {
-      let array = JSON.parse(abi_);
+      let array = JSON.parse(abi_)
       const writeFuncs_ = []
       const readFuncs_ = []
 
       for (var i = 0; i < array.length; i++) {
-        let item = array[i];
-        const funcType = item["stateMutability"]
-        if (funcType == "nonpayable" || funcType == "payable") {
-          if (item["type"] != "constructor") {
+        let item = array[i]
+        const funcType = item['stateMutability']
+        if (funcType == 'nonpayable' || funcType == 'payable') {
+          if (item['type'] != 'constructor') {
             writeFuncs_.push(item)
             writeFuncs_.sort((a, b) => a.name > b.name)
           }
-        } else if (funcType == "view") {
+        } else if (funcType == 'view') {
           readFuncs_.push(item)
           readFuncs_.sort((a, b) => a.name > b.name)
           setEtherscanLink(getExplorerLink(contract))
         }
       }
 
-      setWriteFuncs(writeFuncs_);
-      setReadFuncs(readFuncs_);
-      setInputs(null);
+      setWriteFuncs(writeFuncs_)
+      setReadFuncs(readFuncs_)
+      setInputs(null)
     } catch (e) {
-      value.toast("Enter correct JSON");
+      value.toast('Enter correct JSON')
     }
   }
 
   const getExplorerLink = (address) => {
     const { blockExplorerUrls } = getChainInfo(chainId)
-    return (blockExplorerUrls[0] + "/address/" + address + "#readContract");
+    return blockExplorerUrls[0] + '/address/' + address + '#readContract'
   }
 
   const onWriteFunctionSelect = (e) => {
@@ -67,12 +82,12 @@ export default function ContractCall() {
       setInputs(null)
       setFunctionName(null)
     } else {
-      let id = e.target.value;
-      let inputs_ = writeFuncs[id]["inputs"];
-      let name_ = writeFuncs[id]["name"];
+      let id = e.target.value
+      let inputs_ = writeFuncs[id]['inputs']
+      let name_ = writeFuncs[id]['name']
       console.log(inputs_)
-      setInputs(inputs_);
-      setFunctionName(name_);
+      setInputs(inputs_)
+      setFunctionName(name_)
     }
   }
 
@@ -91,41 +106,35 @@ export default function ContractCall() {
   }
 
   const submitProposal = async () => {
-    value.setLoading(true);
+    value.setLoading(true)
 
     // Configure proposal type
-    const proposalType_ = 2;
+    const proposalType_ = 2
 
     // Configure description param and upload to IPFS if necessary
-    let description;
-    (note && file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : (description = "none");
-    (note) ? description = note : (description = "none");
-    (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
+    let description
+    note && file ? (description = await uploadIpfs(dao.address, 'Mint Proposal', file.name)) : (description = 'none')
+    note ? (description = note) : (description = 'none')
+    file ? (description = await uploadIpfs(dao.address, 'Mint Proposal', file.name)) : null
 
-    // Configure payload 
-    inputParams = JSON.parse(inputParams);
+    // Configure payload
+    inputParams = JSON.parse(inputParams)
     var payload_ = web3.eth.abi.encodeFunctionCall(
       {
         name: functionName,
-        type: "function",
+        type: 'function',
         inputs: inputs,
       },
-      inputParams
-    );
+      inputParams,
+    )
 
     // console.log(proposalType_, description, contract, 0, payload_);
     try {
-      const instance = new web3.eth.Contract(abi, address);
+      const instance = new web3.eth.Contract(abi, address)
       let result = await instance.methods
-        .propose(
-          proposalType_,
-          description,
-          [contract],
-          [0],
-          [payload_]
-        )
-        .send({ from: account });
-      value.setVisibleView(2);
+        .propose(proposalType_, description, [contract], [0], [payload_])
+        .send({ from: account })
+      value.setVisibleView(2)
     } catch (e) {
       value.toast(e)
       value.setLoading(false)
@@ -140,38 +149,45 @@ export default function ContractCall() {
         <HStack w="100%">
           <Text fontSize="14px">Interact with smart contracts programmatically</Text>
         </HStack>
-        <Box h={"2%"} />
+        <Box h={'2%'} />
         <Text>
           <b>Target Contract</b>
         </Text>
-        <Input placeholder="0x address of contract" onChange={(e) => { setContract(e.target.value) }}></Input>
-        <Box h={"2%"} />
+        <Input
+          placeholder="0x address of contract"
+          onChange={(e) => {
+            setContract(e.target.value)
+          }}
+        ></Input>
+        <Box h={'2%'} />
         <Text>
           <b>Contract ABI</b>
         </Text>
-        <HStack w={"100%"}>
-          <Textarea w={"80%"} placeholder=". . ." onChange={updateABI} />
-          <VStack w={"20%"} align={"center"}>
-            <Button className="hollow-btn" onClick={parseABI}>Parse ABI</Button>
+        <HStack w={'100%'}>
+          <Textarea w={'80%'} placeholder=". . ." onChange={updateABI} />
+          <VStack w={'20%'} align={'center'}>
+            <Button className="hollow-btn" onClick={parseABI}>
+              Parse ABI
+            </Button>
           </VStack>
         </HStack>
-        <Box h={"2%"} />
+        <Box h={'2%'} />
 
-        {(readFuncs || writeFuncs) ? (
+        {readFuncs || writeFuncs ? (
           <Tabs>
             <TabList>
               {writeFuncs ? <Tab>Write Functions</Tab> : null}
               {readFuncs ? <Tab>Read Functions</Tab> : null}
             </TabList>
             <TabPanels>
-              {writeFuncs ?
+              {writeFuncs ? (
                 <TabPanel>
-                  <VStack w={"100%"} align={"flex-start"}>
-                    <Select w={"70%"} onChange={onWriteFunctionSelect}>
+                  <VStack w={'100%'} align={'flex-start'}>
+                    <Select w={'70%'} onChange={onWriteFunctionSelect}>
                       <option value="999">Select a function</option>
                       {writeFuncs.map((f, index) => (
                         <option key={index} value={index}>
-                          {f["name"]}
+                          {f['name']}
                         </option>
                       ))}
                     </Select>
@@ -180,7 +196,7 @@ export default function ContractCall() {
                         <div id="inputFields">
                           {inputs.map((input, index) => (
                             <>
-                              <Text>{input["name"]}</Text>
+                              <Text>{input['name']}</Text>
                               <Input onChange={onInputChange} />
                             </>
                           ))}
@@ -191,14 +207,16 @@ export default function ContractCall() {
                     <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
                     <br />
                     <Center>
-                      <Button className="solid-btn" type="submit">Submit Proposal</Button>
+                      <Button className="solid-btn" type="submit">
+                        Submit Proposal
+                      </Button>
                     </Center>
                   </VStack>
                 </TabPanel>
-                : null}
-              {readFuncs ?
+              ) : null}
+              {readFuncs ? (
                 <TabPanel>
-                  <VStack w={"100%"} align={"flex-start"}>
+                  <VStack w={'100%'} align={'flex-start'}>
                     <Text as="u">
                       <Link href={etherscanLink} isExternal>
                         Etherscan
@@ -206,16 +224,16 @@ export default function ContractCall() {
                     </Text>
                   </VStack>
                 </TabPanel>
-                : null}
+              ) : null}
             </TabPanels>
           </Tabs>
         ) : (
-          <VStack w={"100%"}>
+          <VStack w={'100%'}>
             <br />
             <Text>Enter contract ABI to parse and interact with contract functions!</Text>
           </VStack>
         )}
-        <Box h={"2%"} />
+        <Box h={'2%'} />
       </VStack>
     </form>
   )
