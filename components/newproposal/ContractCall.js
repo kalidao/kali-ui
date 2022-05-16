@@ -1,14 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Select, Text, Textarea, Spacer, Box, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Center } from "@chakra-ui/react";
-import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
+import { Input, Button, Select, Text, Textarea, Link, Box, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Center } from "@chakra-ui/react";
 import ProposalDescription from "../elements/ProposalDescription";
 import { uploadIpfs } from "../tools/ipfsHelpers";
-import { validateEns } from "../tools/ensHelpers";
+import { getChainInfo } from "../../utils/formatters";
 
 export default function ContractCall() {
   const value = useContext(AppContext);
-  const { web3, loading, account, abi, address } = value.state;
+  const { web3, account, abi, address, chainId } = value.state;
 
   // For Notes section
   const [doc, setDoc] = useState([]);
@@ -16,13 +15,13 @@ export default function ContractCall() {
   const [file, setFile] = useState(null);
 
   const [abi_, setAbi_] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [etherscanLink, setEtherscanLink] = useState(null);
   const [writeFuncs, setWriteFuncs] = useState(null);
   const [readFuncs, setReadFuncs] = useState(null);
   const [functionName, setFunctionName] = useState(null);
   const [inputs, setInputs] = useState(null);
-  const [inputParams, setInputParams] = useState(null);
-  const [selection, setSelection] = useState(null);
-  const [readResponse, setReadResponse] = useState("Pick a function to query.");
+  const [inputParams, setInputParams] = useState([]);
 
   const updateABI = (event) => {
     setAbi_(event.target.value);
@@ -38,13 +37,16 @@ export default function ContractCall() {
         let item = array[i];
         const funcType = item["stateMutability"]
         if (funcType == "nonpayable" || funcType == "payable") {
-          writeFuncs_.push(item)
-          writeFuncs_.sort((a, b) => a.name > b.name)
-          console.log(writeFuncs_)
+          if (item["type"] != "constructor") {
+            writeFuncs_.push(item)
+            writeFuncs_.sort((a, b) => a.name > b.name)
+            // console.log(writeFuncs_)
+          }
         } else if (funcType == "view") {
           readFuncs_.push(item)
           readFuncs_.sort((a, b) => a.name > b.name)
-          console.log(readFuncs_)
+          setEtherscanLink(getExplorerLink(contract))
+          // console.log(getExplorerLink(contract))
         }
       }
 
@@ -56,7 +58,69 @@ export default function ContractCall() {
     }
   };
 
-  const onFunctionSelect = (e) => {
+  const getExplorerLink = (address) => {
+    const { blockExplorerUrls } = getChainInfo(chainId)
+    return (blockExplorerUrls[0] + "/address/" + address + "#readContract");
+  }
+
+  // const onReadFunctionSelect = (e) => {
+  //   setInputParams(JSON.stringify([]))
+  //   if (e.target.value == 999) {
+  //     setInputs(null);
+  //     setFunctionName(null);
+  //   } else {
+  //     let id = e.target.value;
+  //     let inputs_ = readFuncs[id]["inputs"];
+  //     let name_ = readFuncs[id]["name"];
+  //     setInputs(inputs_);
+  //     setFunctionName(name_);
+  //     setSelection(id);
+  //   }
+  // };
+
+  // const onReadInputChange = (e) => {
+  //   let element = document.getElementById("inputFields");
+  //   let children = element.children;
+  //   let array = [];
+  //   for (var i = 0; i < children.length; i++) {
+  //     let item = children[i].value;
+  //     if (item != undefined) {
+  //       array.push(children[i].value);
+  //     }
+  //   }
+  //   console.log(array);
+  //   setInputParams(JSON.stringify(array));
+  // };
+
+  // const handleQuery = async () => {
+  //   abi_ = JSON.parse(abi_)
+  //   inputParams = JSON.parse(inputParams)
+
+  //   if (inputParams.length == 0) {
+  //     try {
+  //       const func_ = web3.eth.abi.encodeFunctionCall(readFuncs[selection], inputParams);
+  //       const instance = new web3.eth.Contract(abi_, contract);
+  //       let result = await instance.methods[func_]().call()
+  //       setReadResponse(result)
+  //     } catch (e) {
+  //       console.log("Error when querying read functions without params.")
+  //       console.log(e)
+  //     }
+  //   } else {
+  //     try {
+  //       const func_ = web3.eth.abi.encodeFunctionSignature(readFuncs[selection]);
+  //       console.log(func_, inputParams)
+  //       const instance = new web3.eth.Contract(abi_, contract);
+  //       let result = await instance.methods[func_](inputParams).call()
+  //       setReadResponse(result)
+  //     } catch (e) {
+  //       console.log("Error when querying read functions with params.")
+  //       console.log(e)
+  //     }
+  //   }
+  // }
+
+  const onWriteFunctionSelect = (e) => {
     if (e.target.value == 999) {
       setInputs(null);
       setFunctionName(null);
@@ -64,9 +128,9 @@ export default function ContractCall() {
       let id = e.target.value;
       let inputs_ = writeFuncs[id]["inputs"];
       let name_ = writeFuncs[id]["name"];
+      console.log(inputs_)
       setInputs(inputs_);
       setFunctionName(name_);
-      setSelection(id);
     }
   };
 
@@ -84,48 +148,8 @@ export default function ContractCall() {
     setInputParams(JSON.stringify(array));
   };
 
-  const handleQuery = async (event) => {
-
-    const func_ = web3.eth.abi.encodeFunctionCall(readFuncs[selection], []);
-
-    try {
-      
-      const instance = new web3.eth.Contract(abi, address);
-      console.log(instance)
-        let result = await instance.methods[func_]().call()
-        console.log(result)
-        setReadResponse(result)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  useEffect(() =>{ 
-
-  }, [readResponse])
-
-  const submitProposal = async (event) => {
-    event.preventDefault();
+  const submitProposal = async () => {
     value.setLoading(true);
-
-    let object = event.target;
-    var array = [];
-    for (let i = 0; i < object.length; i++) {
-      array[object[i].name] = object[i].value;
-    }
-
-    var {
-      // proposalType_,
-      // description_,
-      account_,
-      amount_,
-      abi_,
-      functionName,
-      inputParams,
-      inputs,
-    } = array; // this must contain any inputs from custom forms
-
-    console.log(array);
 
     // Configure proposal type
     const proposalType_ = 2;
@@ -136,15 +160,8 @@ export default function ContractCall() {
     (note) ? description = note : (description = "none");
     (file) ? description = await uploadIpfs(dao.address, "Mint Proposal", file.name) : null;
 
-    abi_ = JSON.parse(abi_);
-
-    inputs = JSON.parse(inputs);
+    // Configure payload 
     inputParams = JSON.parse(inputParams);
-    // console.log("test");
-    // console.log(abi_);
-    // console.log(inputs);
-    // console.log(inputParams);
-
     var payload_ = web3.eth.abi.encodeFunctionCall(
       {
         name: functionName,
@@ -153,17 +170,16 @@ export default function ContractCall() {
       },
       inputParams
     );
-    // console.log(payload_);
 
-    console.log(proposalType_, description, accounts_, amounts_, payloads_);
+    // console.log(proposalType_, description, contract, 0, payload_);
     try {
       const instance = new web3.eth.Contract(abi, address);
       let result = await instance.methods
         .propose(
           proposalType_,
           description,
-          [account_],
-          [amount_],
+          [contract],
+          [0],
           [payload_]
         )
         .send({ from: account });
@@ -187,7 +203,7 @@ export default function ContractCall() {
         <Text>
           <b>Target Contract</b>
         </Text>
-        <Input name="account_" placeholder="0x address of contract"></Input>
+        <Input placeholder="0x address of contract" onChange={(e) => { setContract(e.target.value) }}></Input>
         <Box h={"2%"} />
         <Text>
           <b>Contract ABI</b>
@@ -196,51 +212,21 @@ export default function ContractCall() {
           <Textarea w={"80%"} placeholder=". . ." onChange={updateABI} />
           <VStack w={"20%"} align={"center"}>
             <Button className="hollow-btn" onClick={parseABI}>Parse ABI</Button>
-            {/* <Button w={"100%"} className="hollow-btn" onClick={parseABI}>Clear</Button> */}
           </VStack>
         </HStack>
-
-        {/* <Input type="hidden" name="abi_" value={abi_} />
-        <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} /> */}
         <Box h={"2%"} />
 
         {(readFuncs || writeFuncs) ? (
           <Tabs>
             <TabList>
-              {readFuncs ? <Tab>Read Contract</Tab> : null}
-              {writeFuncs ? <Tab>Write Contract</Tab> : null}
+              {writeFuncs ? <Tab>Write Functions</Tab> : null}
+              {readFuncs ? <Tab>Read Functions</Tab> : null}
             </TabList>
-
             <TabPanels>
-              {readFuncs ?
-                <TabPanel>
-                  <VStack w={"100%"} align={"flex-start"}>
-                    <HStack w={"100%"}>
-                      <Select w={"25%"} onChange={onFunctionSelect}>
-                        <option value="999">Select</option>
-                        {readFuncs.map((f, index) => (
-                          <option key={index} value={index}>
-                            {f["name"]}
-                          </option>
-                        ))}
-                      </Select>
-
-                      <Button className="solid-btn" onClick={handleQuery}>Query</Button>
-                      <Box background={"whiteAlpha.100"} w="70%" borderRadius={"10px"} align={"flex-start"} pl={"5%"} pt={"2%"} pb={"2%"}>
-                        {readResponse && <Text>{readResponse}</Text>}
-                      </Box>
-                    </HStack>
-                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
-                    <br />
-
-
-                  </VStack>
-                </TabPanel>
-                : null}
               {writeFuncs ?
                 <TabPanel>
                   <VStack w={"100%"} align={"flex-start"}>
-                    <Select w={"70%"} onChange={onFunctionSelect}>
+                    <Select w={"70%"} onChange={onWriteFunctionSelect}>
                       <option value="999">Select a function</option>
                       {writeFuncs.map((f, index) => (
                         <option key={index} value={index}>
@@ -248,10 +234,8 @@ export default function ContractCall() {
                         </option>
                       ))}
                     </Select>
-                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
                     {inputs == null ? null : (
                       <>
-                        {/* <Input type="hidden" name="inputParams" value={inputParams} /> */}
                         <div id="inputFields">
                           {inputs.map((input, index) => (
                             <>
@@ -267,76 +251,18 @@ export default function ContractCall() {
                     <br />
                     <Center>
                       <Button className="solid-btn" type="submit">Submit Proposal</Button>
-
                     </Center>
                   </VStack>
                 </TabPanel>
                 : null}
-            </TabPanels>
-          </Tabs>
-        ) : (
-          <VStack w={"100%"}>
-            <br />
-            <Text>Enter contract ABI above to parse and interact with contract functions!</Text>
-          </VStack>
-        )}
-        {/* <Input type="hidden" name="abi_" value={abi_} />
-        <Input type="hidden" name="inputs" value={JSON.stringify(inputs)} /> */}
-        <Box h={"2%"} />
-
-        {(readFuncs || writeFuncs) ? (
-          <Tabs>
-            <TabList>
-              {readFuncs ? <Tab>Read Contract</Tab> : null}
-              {writeFuncs ? <Tab>Write Contract</Tab> : null}
-            </TabList>
-
-            <TabPanels>
               {readFuncs ?
                 <TabPanel>
                   <VStack w={"100%"} align={"flex-start"}>
-                    <Select w={"40%"} onChange={onFunctionSelect}>
-                      <option value="999">Select</option>
-                      {readFuncs.map((f, index) => (
-                        <option key={index} value={index}>
-                          {f["name"]}
-                        </option>
-                      ))}
-                    </Select>
-                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
-                    <Button className="solid-btn" type="submit">Query</Button>
-
-                  </VStack>
-                </TabPanel>
-                : null}
-              {writeFuncs ?
-                <TabPanel>
-                  <VStack w={"100%"}>
-                    <Select w={"70%"} onChange={onFunctionSelect}>
-                      <option value="999">Select a function</option>
-                      {writeFuncs.map((f, index) => (
-                        <option key={index} value={index}>
-                          {f["name"]}
-                        </option>
-                      ))}
-                    </Select>
-                    {/* <Input type="hidden" name="functionName" value={functionName} /> */}
-                    {inputs == null ? null : (
-                      <>
-                        {/* <Input type="hidden" name="inputParams" value={inputParams} /> */}
-                        <div id="inputFields">
-                          {inputs.map((input, index) => (
-                            <>
-                              <Text>{input["name"]}</Text>
-                              <Input onChange={onInputChange} />
-                            </>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                    <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
-                    <br />
-                    <Button className="solid-btn" type="submit">Submit Proposal</Button>
+                    <Text as="u">
+                      <Link href={etherscanLink} isExternal>
+                        Etherscan
+                      </Link>
+                    </Text>
                   </VStack>
                 </TabPanel>
                 : null}
@@ -345,61 +271,10 @@ export default function ContractCall() {
         ) : (
           <VStack w={"100%"}>
             <br />
-            <Text>Enter contract ABI above to parse and interact with parsed functions!</Text>
+            <Text>Enter contract ABI to parse and interact with contract functions!</Text>
           </VStack>
         )}
-
-        {/* {readFuncs == null ? null : (
-          <VStack w={"100%"} align={"flex-start"}>
-            <Button className="hollow-btn">Read Contract</Button>
-
-            <Select w={"40%"} onChange={onFunctionSelect}>
-              <option value="999">Select</option>
-              {readFuncs.map((f, index) => (
-                <option key={index} value={index}>
-                  {f["name"]}
-                </option>
-              ))}
-            </Select>
-            <Input type="hidden" name="functionName" value={functionName} />
-            <Button className="solid-btn" type="submit">Query</Button>
-
-          </VStack>
-        )} */}
-        {/* <Box h={"2%"} /> */}
-        {/* {writeFuncs == null ? null : (
-          <VStack w={"100%"}>
-            <Text>Write Contract</Text>
-            <Select w={"70%"} onChange={onFunctionSelect}>
-              <option value="999">Select a function</option>
-              {writeFuncs.map((f, index) => (
-                <option key={index} value={index}>
-                  {f["name"]}
-                </option>
-              ))}
-            </Select>
-            <Input type="hidden" name="functionName" value={functionName} />
-            {inputs == null ? null : (
-              <>
-                <Input type="hidden" name="inputParams" value={inputParams} />
-                <div id="inputFields">
-                  {inputs.map((input, index) => (
-                    <>
-                      <Text>{input["name"]}</Text>
-                      <Input onChange={onInputChange} />
-                    </>
-                  ))}
-                </div>
-              </>
-            )}
-            <ProposalDescription doc={doc} setDoc={setDoc} note={note} setNote={setNote} setFile={setFile} />
-            <br />
-            <Button className="solid-btn" type="submit">Submit Proposal</Button>
-          </VStack>
-        )} */}
-
-
-        {/* <Input type="hidden" name="proposalType_" value="2" /> */}
+        <Box h={"2%"} />
       </VStack>
     </form>
   );
