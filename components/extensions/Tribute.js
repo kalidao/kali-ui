@@ -263,7 +263,7 @@ export default function Tribute() {
 
     // Get asset contract and value
     let nft, asset, assetValue
-    selection === 'erc721' || selection === 'erc1155' ? (nft = 'true') : (nft = 'false')
+    selection === 'erc721' || selection === 'erc1155' ? (nft = true) : (nft = false)
 
     const proposalDetail_ = {
       dao: dao.address,
