@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Router from 'next/router'
 import AppContext from '../../context/AppContext'
-import { Text, List, ListItem, Stack, HStack, Spacer, Checkbox, Link, useToast } from '@chakra-ui/react'
+import { Text, List, ListItem, Stack, VStack, HStack, Spacer, Checkbox, Link, useToast, Box, Center, Button } from '@chakra-ui/react'
 import { getNetworkName, convertVotingPeriod, fromDecimals, toDecimals } from '../../utils/formatters'
 import { addresses } from '../../constants/addresses'
 import { factoryInstance } from '../../eth/factory'
@@ -407,7 +407,7 @@ export default function Checkout({ details, daoNames }) {
   ]
 
   return (
-    <>
+    <VStack w={"100%"}>
       <Stack id="checkout">
         {checkoutDetails.map((item, index) => (
           <>
@@ -433,6 +433,15 @@ export default function Checkout({ details, daoNames }) {
           </>
         ))}
       </Stack>
+      <br />
+      <VStack w={"50%"}>
+        <Text>Options</Text>
+      <HStack h={"4em"} w={"100%"}>
+            <Button border={"2px"} borderRadius={"5px"} p="2%" w={"100%"}>LexDAO Clinic</Button>
+            <Spacer></Spacer>
+          <Button border={"2px"} borderRadius={"5px"} p="2%" w={"100%"}>Lawyer</Button>
+      </HStack>
+</VStack>
       <br></br>
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
@@ -445,26 +454,24 @@ export default function Checkout({ details, daoNames }) {
           </Link>
           .
         </Checkbox>
-      ) : null}
-      <br></br>
-
+      ) : null}        
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!
       </KaliButton>
       <br></br>
-      <HStack>
+      {/* <HStack>
         <Text fontWeight={400}>
           {' '}
           <Link href="https://kalico.typeform.com/to/FNsxHBKX">
             <i>Need LLC Filing Help?</i>
           </Link>
         </Text>
-      </HStack>
+      </HStack> */}
       <br></br>
-      <HStack>
+      {/* <HStack>
         <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
-      </HStack>
-    </>
+      </HStack> */}
+    </VStack>
   )
 }
