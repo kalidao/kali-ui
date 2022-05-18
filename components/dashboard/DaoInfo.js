@@ -36,8 +36,8 @@ export default function DaoInfo() {
     },
     {
       name: 'Docs',
-      info: '',
-      link: `https://ipfs.io/ipfs/${dao['docs']}`,
+      info: dao['docs'] == 'none' ? 'Pending' : '',
+      link: dao['docs'] == 'none' ? null : `https://ipfs.io/ipfs/${dao['docs']}`,
     },
     {
       name: 'Members',
@@ -133,6 +133,8 @@ export default function DaoInfo() {
           ) : null}
         </>
       ))}
+      {dao['docs'] == 'none' ? <Text fontSize='sm'>*If you need assistance with entity registration, please see Consult.</Text> : null}
+      <br />
       <CapTableModal />
     </div>
   )
