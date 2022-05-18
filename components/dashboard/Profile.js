@@ -5,6 +5,8 @@ import { ethers } from 'ethers';
 import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
 import { NewProposalModal } from '../newproposal';
 import { proposals } from '../newproposal/proposals';
+import Link from 'next/link';
+
 
 const Profile = styled(Flex, {
     justifyContent: 'flex-start',
@@ -19,6 +21,7 @@ const Profile = styled(Flex, {
 });
 
 export default function ProfileComponent({ dao }) {
+
   return (
     <Profile>
             <Text size="lg">{dao && dao["token"]["name"]}</Text>
@@ -32,13 +35,15 @@ export default function ProfileComponent({ dao }) {
                     <Text>{dao && Math.round(ethers.utils.formatEther(dao["token"]["totalSupply"]))}</Text>
                 </Flex>
                 <Flex dir="col" align="center" gap="sm">
-                    <Text>Members</Text>
+                    <Link href={`${dao ? dao["address"] : null}/members`}>
+                        <Text>Members</Text>
+                    </Link>
                     <Text>{dao && dao["members"].length}</Text>
                 </Flex>
             </Flex>
             <Dialog>
                 <DialogTrigger>
-                    <Button >Join</Button>
+                    <Button>Join</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <NewProposalModal heading={proposals["tribute"]["call"]["title"]} component={proposals["tribute"]["call"]["component"]} />

@@ -24,13 +24,16 @@ export default function Header({ heading, props}) {
       <Kali />
       <Flex css={{
         position: 'absolute',
-        left: '8rem',
-        right: '1rem',
-        paddingRight: '1rem',
+        right: '0',
+        left: '5',
+        marginRight: '2rem',
+        gap: '10rem',
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-        <Text as="h1" variant="heading">{heading}</Text>
+        <Text as="h1" variant="heading" css={{ '@media (max-width: 1040px)': {
+          display: 'none'
+        }}}>{heading}</Text>
         <ConnectButton>Connect</ConnectButton>
       </Flex>
     </StyledHeader>

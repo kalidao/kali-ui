@@ -122,7 +122,7 @@ export default function GiveTribute() {
         docs,
         [account?.address],
         [requested],
-        ['0x'],
+        [''],
         isNFT,
         asset,
         amount,
