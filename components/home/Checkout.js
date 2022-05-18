@@ -433,15 +433,6 @@ export default function Checkout({ details, daoNames }) {
           </>
         ))}
       </Stack>
-      <br />
-      <VStack w={"50%"}>
-        <Text>Options</Text>
-      <HStack h={"4em"} w={"100%"}>
-            <Button border={"2px"} borderRadius={"5px"} p="2%" w={"100%"}>LexDAO Clinic</Button>
-            <Spacer></Spacer>
-          <Button border={"2px"} borderRadius={"5px"} p="2%" w={"100%"}>Lawyer</Button>
-      </HStack>
-</VStack>
       <br></br>
       <Checkbox onChange={() => handleDisclaimer(0)}>
         I agree to the <ToS label="Terms of Service" id="tos" />
