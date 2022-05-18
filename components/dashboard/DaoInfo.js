@@ -133,7 +133,9 @@ export default function DaoInfo() {
           ) : null}
         </>
       ))}
-      {dao['docs'] == 'none' ? <Text fontSize='sm'>*If you need assistance with entity registration, please see Consult.</Text> : null}
+      {dao['docs'] == 'none' ? (
+        <Text fontSize="sm">*If you need assistance with entity registration, please see Consult.</Text>
+      ) : null}
       <br />
       <CapTableModal />
     </div>

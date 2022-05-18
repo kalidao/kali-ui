@@ -87,17 +87,16 @@ export default function Consult(props) {
         <>
           {menuItem < 999 ? null : (
             <Wrap>
-              {Object.entries(consultHelper).map(([k, v]) =>
-                  <ProposalTile
-                    key={`propTile-${k}`}
-                    id={k}
-                    title={consultHelper[k]['title']}
-                    description={consultHelper[k]['description']}
-                    icon={consultHelper[k]['icon']}
-                    link={consultHelper[k]['link']}
-                  />
-
-              )}
+              {Object.entries(consultHelper).map(([k, v]) => (
+                <ProposalTile
+                  key={`propTile-${k}`}
+                  id={k}
+                  title={consultHelper[k]['title']}
+                  description={consultHelper[k]['description']}
+                  icon={consultHelper[k]['icon']}
+                  link={consultHelper[k]['link']}
+                />
+              ))}
             </Wrap>
           )}
         </>
