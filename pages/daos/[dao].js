@@ -9,6 +9,7 @@ import ActionMenu from '../../components/structure/ActionMenu'
 import Extensions from '../../components/extensions/Extensions'
 import { VStack, Spacer, Link, Flex, Box } from '@chakra-ui/react'
 import { BrowserView, MobileView } from 'react-device-detect'
+import Consult from '../../components/consult/Consult'
 
 export default function Dao() {
   const value = useContext(AppContext)
@@ -57,6 +58,8 @@ export default function Dao() {
                 <NewProposal />
               ) : visibleView == 4 ? (
                 <Extensions />
+              ) : visibleView == 5 ? (
+                <Consult />
               ) : null}
             </>
           )}

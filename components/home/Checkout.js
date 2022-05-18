@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Router from 'next/router'
 import AppContext from '../../context/AppContext'
-import { Text, List, ListItem, Stack, HStack, Spacer, Checkbox, Link, useToast } from '@chakra-ui/react'
+import { Text, List, ListItem, Stack, VStack, HStack, Spacer, Checkbox, Link, useToast, Box, Center, Button } from '@chakra-ui/react'
 import { getNetworkName, convertVotingPeriod, fromDecimals, toDecimals } from '../../utils/formatters'
 import { addresses } from '../../constants/addresses'
 import { factoryInstance } from '../../eth/factory'
@@ -407,7 +407,7 @@ export default function Checkout({ details, daoNames }) {
   ]
 
   return (
-    <>
+    <VStack w={"100%"}>
       <Stack id="checkout">
         {checkoutDetails.map((item, index) => (
           <>
@@ -445,26 +445,24 @@ export default function Checkout({ details, daoNames }) {
           </Link>
           .
         </Checkbox>
-      ) : null}
-      <br></br>
-
+      ) : null}        
       <KaliButton id="deploy-btn" disabled={!deployable} onClick={deploy}>
         Deploy Your DAO!
       </KaliButton>
       <br></br>
-      <HStack>
+      {/* <HStack>
         <Text fontWeight={400}>
           {' '}
           <Link href="https://kalico.typeform.com/to/FNsxHBKX">
             <i>Need LLC Filing Help?</i>
           </Link>
         </Text>
-      </HStack>
+      </HStack> */}
       <br></br>
-      <HStack>
+      {/* <HStack>
         <Text fontWeight={400}>Have questions?</Text>
         <ContactForm />
-      </HStack>
-    </>
+      </HStack> */}
+    </VStack>
   )
 }

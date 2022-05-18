@@ -5,7 +5,7 @@ import { Button, Flex } from '@chakra-ui/react'
 import { BiGridAlt, BiEdit } from 'react-icons/bi'
 import { RiStackLine } from 'react-icons/ri'
 import { VscNewFile } from 'react-icons/vsc'
-import { BsPuzzle } from 'react-icons/bs'
+import { BsPuzzle, BsPerson } from 'react-icons/bs'
 
 const ActionButton = (props) => {
   return (
@@ -46,6 +46,10 @@ const actions = [
     name: 'Extensions',
     icon: <BsPuzzle />,
   },
+  {
+    name: 'Consult',
+    icon: <BsPerson />,
+  },
 ]
 
 export default function ActionMenu(props) {
@@ -56,14 +60,14 @@ export default function ActionMenu(props) {
   const handleClick = (id) => {
     value.setVisibleView(id)
     value.setRemount(remount + 1)
-    console.log(remount, 'remount')
+    // console.log(remount, 'remount')
   }
 
   useEffect(() => {
     if (dao != null && 'extensions' in dao) {
       setExt(dao['extensions'])
-      console.log('set')
-      console.log(dao['extensions'])
+      // console.log('set')
+      // console.log(dao['extensions'])
     }
   }, [dao])
 
