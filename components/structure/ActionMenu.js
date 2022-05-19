@@ -5,7 +5,7 @@ import { Button, Flex } from '@chakra-ui/react'
 import { BiGridAlt, BiEdit } from 'react-icons/bi'
 import { RiStackLine } from 'react-icons/ri'
 import { VscNewFile } from 'react-icons/vsc'
-import { BsPuzzle, BsPerson } from 'react-icons/bs'
+import { BsPuzzle, BsPerson, BsPlug } from 'react-icons/bs'
 
 const ActionButton = (props) => {
   return (
@@ -49,6 +49,10 @@ const actions = [
   {
     name: 'Consult',
     icon: <BsPerson />,
+  },
+  {
+    name: 'Services',
+    icon: <BsPlug />,
   },
 ]
 

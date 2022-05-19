@@ -10,6 +10,7 @@ import Extensions from '../../components/extensions/Extensions'
 import { VStack, Spacer, Link, Flex, Box } from '@chakra-ui/react'
 import { BrowserView, MobileView } from 'react-device-detect'
 import Consult from '../../components/consult/Consult'
+import Services from '../../components/service/Services'
 
 export default function Dao() {
   const value = useContext(AppContext)
@@ -39,13 +40,6 @@ export default function Dao() {
           mr={[0, 0, '10px', '10px', '10px']}
         >
           <ActionMenu />
-          <Link
-            display={['none', 'none', 'none', 'flex', 'flex', 'flex']}
-            href="https://airtable.com/shr29w0Bm0sTvygyI"
-            isExternal
-          >
-            Looking for Contributors?
-          </Link>
         </Flex>
         <Box w={['100%', '100%', '90%', '85%']}>
           {daoChain == null ? null : (
@@ -60,6 +54,8 @@ export default function Dao() {
                 <Extensions />
               ) : visibleView == 5 ? (
                 <Consult />
+              ) : visibleView == 6 ? (
+                <Services />
               ) : null}
             </>
           )}

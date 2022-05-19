@@ -1,28 +1,24 @@
 import { useState, useContext, useEffect } from 'react'
 import AppContext from '../../context/AppContext'
 import {
-  Select,
   Text,
   Box,
-  Grid,
   LinkBox,
   LinkOverlay,
   Heading,
-  Center,
-  VStack,
   HStack,
-  Icon,
+  VStack,
+  Image,
   Button,
-  Flex,
-  Container,
   Spacer,
   Wrap,
   WrapItem,
+  Icon,
 } from '@chakra-ui/react'
-import { BsPerson } from 'react-icons/bs'
-import { consultHelper } from '../../constants/consultHelper'
+import { BsPlug } from 'react-icons/bs'
+import { serviceHelper } from '../../constants/serviceHelper'
 
-export default function Consult(props) {
+export default function Services(props) {
   const [menuItem, setMenuItem] = useState(999) // arbitrary number where no proposal type is selected. if changed, must change below, too
   const value = useContext(AppContext)
   const { account, dao, remount } = value.state
@@ -32,6 +28,7 @@ export default function Consult(props) {
   }, [remount])
 
   const ProposalTile = (props) => {
+    console.log(props)
     return (
       <WrapItem>
         <LinkBox
@@ -52,13 +49,15 @@ export default function Consult(props) {
           }}
         >
           <LinkOverlay href={props.link} isExternal>
-            <HStack>
-              <Icon as={props.icon} boxSize={9} p={2} rounded={5} border="1px solid white" />
-              <Spacer />
-            </HStack>
-            <Heading>{props.title}</Heading>
+            <VStack h={"100%"}>
+              <VStack h="30%" w={"100%"}>
+
+                <Image fallbackSrc="https://via.placeholder.com/150" src={props.image} alt="" />
+              </VStack>
+              <Heading>{props.title}</Heading>
+              <Text>{props.description}</Text>
+            </VStack>
           </LinkOverlay>
-          <Text>{props.description}</Text>
         </LinkBox>
       </WrapItem>
     )
@@ -72,8 +71,8 @@ export default function Consult(props) {
   return (
     <>
       <HStack mb="2vh">
-        <Icon as={BsPerson} w={10} h={10} className="h1-icon" />
-        <Heading as="h1">Consult</Heading>
+        <Icon as={BsPlug} w={10} h={10} className="h1-icon" />
+        <Heading as="h1">Services</Heading>
       </HStack>
       {dao == null ? null : account == null ? (
         <Box className="glass dashboard-tile" mt={10} color="white">
@@ -86,14 +85,14 @@ export default function Consult(props) {
         <>
           {menuItem < 999 ? null : (
             <Wrap>
-              {Object.entries(consultHelper).map(([k, v]) => (
+              {Object.entries(serviceHelper).map(([k, v]) => (
                 <ProposalTile
                   key={`propTile-${k}`}
                   id={k}
-                  title={consultHelper[k]['title']}
-                  description={consultHelper[k]['description']}
-                  icon={consultHelper[k]['icon']}
-                  link={consultHelper[k]['link']}
+                  title={serviceHelper[k]['title']}
+                  description={serviceHelper[k]['description']}
+                  image={serviceHelper[k]['image']}
+                  link={serviceHelper[k]['link']}
                 />
               ))}
             </Wrap>
