@@ -49,9 +49,6 @@ export default function Layout(props) {
             <VStack id="action-menu" h="100%" gap={3}>
               <ActionMenu />
               <Spacer />
-              <Button variant="ghost" border="0px" onClick={openInNewTab}>
-                Looking for Contributors?
-              </Button>
             </VStack>
           </Container>
         </WrapItem>

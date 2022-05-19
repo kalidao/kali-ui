@@ -32,7 +32,6 @@ export default function Consult(props) {
   }, [remount])
 
   const ProposalTile = (props) => {
-    console.log(props)
     return (
       <WrapItem>
         <LinkBox
