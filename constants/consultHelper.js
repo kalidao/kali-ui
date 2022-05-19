@@ -14,16 +14,12 @@ export const consultHelper = [
   {
     title: 'LexDAO Clinic',
     description: 'Law students and professionals from around the world',
-    component: <Tribute />,
-    extension: 'tribute',
     icon: BsPencil,
     link: 'https://kalico.typeform.com/to/FNsxHBKX',
   },
   {
     title: 'US Lawyer',
     description: 'US based lawyers',
-    component: <BuyCrowdsale />,
-    extension: 'crowdsale',
     icon: MdGroups,
     link: 'https://hanllplaw.cliogrow.com/intake/64151189b551019438e941afbcf00d75',
   },
