@@ -51,7 +51,11 @@ export default function Services(props) {
           <LinkOverlay href={props.link} isExternal>
             <VStack h={'100%'}>
               <VStack h="30%" w={'100%'}>
-                <Image fallbackSrc="https://via.placeholder.com/150" src={props.image} alt="" />
+                <Image 
+                  // fallbackSrc="https://via.placeholder.com/150" 
+                  src={props.image} 
+                  alt="" 
+                  />
               </VStack>
               <Heading>{props.title}</Heading>
               <Text>{props.description}</Text>
