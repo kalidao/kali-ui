@@ -97,6 +97,9 @@ export async function fetchStaticInfo(
     let extensions = {
       tribute: {
         address: addresses[daoChain]["extensions"]["tribute"]
+      },
+      shareManager: {
+        address: addresses[daoChain]["extensions"]["manager"]
       }
     }
 
