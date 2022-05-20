@@ -16,7 +16,7 @@ const StyledHeader = styled(Flex, {
   padding: '0 0.5rem',
   zIndex: '99',
   
-  filter: 'contrast(1.2)'
+  filter: 'contrast(1.2)',
 })
 export default function Header({ heading, props}) {
   return (

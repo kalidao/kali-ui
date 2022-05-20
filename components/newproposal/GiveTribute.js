@@ -60,6 +60,7 @@ export default function GiveTribute() {
     console.log('proposeTribute', proposeTribute);
   };
 
+  // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
     console.log('type', type)

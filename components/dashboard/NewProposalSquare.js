@@ -32,7 +32,7 @@ export function NewProposalSquare() {
         </CreateIcon>
       </DialogTrigger>
       <DialogContent>
-        <NewProposalModal />
+        <NewProposalModal showMenu={true} />
       </DialogContent>
     </Dialog>
   )

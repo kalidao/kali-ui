@@ -6,6 +6,7 @@ import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
 import { NewProposalModal } from '../newproposal';
 import { proposals } from '../newproposal/proposals';
 import Link from 'next/link';
+import { PersonIcon } from '@radix-ui/react-icons';
 
 
 const Profile = styled(Flex, {
@@ -34,9 +35,11 @@ export default function ProfileComponent({ dao }) {
                     <Text>Total Supply</Text>
                     <Text>{dao && Math.round(ethers.utils.formatEther(dao["token"]["totalSupply"]))}</Text>
                 </Flex>
-                <Flex dir="col" align="center" gap="sm">
+                <Flex dir="col" align="center" gap="sm" >
                     <Link href={`${dao ? dao["address"] : null}/members`}>
-                        <Text>Members</Text>
+                        <Text css={{ display: 'flex', alignItems: 'center', gap: '0.1rem', '&:hover': {
+                        color: '$accent'
+                    }}}><PersonIcon />Members</Text>
                     </Link>
                     <Text>{dao && dao["members"].length}</Text>
                 </Flex>
@@ -46,7 +49,7 @@ export default function ProfileComponent({ dao }) {
                     <Button>Join</Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <NewProposalModal heading={proposals["tribute"]["call"]["title"]} component={proposals["tribute"]["call"]["component"]} />
+                    <NewProposalModal showMenu={false} proposal={"giveTribute"} />
                 </DialogContent>
             </Dialog>     
     </Profile>

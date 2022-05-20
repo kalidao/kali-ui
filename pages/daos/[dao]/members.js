@@ -55,7 +55,7 @@ export default function MembersPage() {
   return (
     <Layout heading={`Members: ${members ? members?.token?.name : ''}`}>
         <Members members={members} />
-        <NewProposalSquare />
+        {/* <NewProposalSquare /> */}
     </Layout>
   )
 }
