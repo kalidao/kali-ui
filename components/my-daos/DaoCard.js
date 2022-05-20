@@ -19,7 +19,8 @@ const Card = styled(Box, {
     transition: 'linear 0.4s',
     lineHeight: '100%',
     textDecoration: 'none',
-
+    overflow: 'hidden',
+    
     '&:hover': { 
         background: '$background',
         color: '$foreground',
