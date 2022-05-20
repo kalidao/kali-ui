@@ -10,7 +10,7 @@ export const serviceHelper = [
     link: 'https://twali.xyz/',
   },
   {
-    title: 'Multi',
+    title: 'Multis',
     description: "Manage your DAO's crypto finances",
     image: multis.src,
     link: 'https://app.multis.finance/signin',
