@@ -3,7 +3,7 @@ import DeployDaoWrapper from '../deploy-dao/';
 import { Box, Text } from '../../styles/elements';
 import { styled } from '../../styles/stitches.config';
 
-const Card = styled(Box, {
+export const Card = styled(Box, {
   width: '180px',
   height: '180px',
   background: '$foreground',
@@ -24,7 +24,7 @@ const Card = styled(Box, {
   }
 })
 
-const New = styled('div', {
+export const New = styled('div', {
   fontSize: '1rem',
   fontFamily: 'screen'
 })
@@ -42,7 +42,7 @@ export default function NewDao() {
             }}>
               +
             </Box>
-          <New >Create New</New>
+          <New>Create New</New>
         </Card>
       </DialogTrigger>
       <DialogContent>
