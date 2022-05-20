@@ -6,21 +6,21 @@ import { styled } from '../../styles/stitches.config';
 const Card = styled(Box, {
   width: '180px',
   height: '180px',
-  background: '$foreground',
-  color: '$background',
-  boxShadow: 'inset .313em .313em 0 #08FF08, inset -.313em -.313em 0 rgba(255,255,255,0.4), 0 1em 0.625em -.4em #08FF08',
-  boxShadow: '3px 4px 5.5px #08FF08',
-  transition: 'linear .1s',
+  background: '$background',
+  color: '$foreground',
+  border: '1px solid $gray800',
+  boxShadow: 'rgba(92, 210, 45, 0.4) 5px 5px, rgba(92, 210, 45, 0.3) 10px 10px, rgba(92, 210, 45, 0.2)15px 15px, rgba(92, 210, 45, 0.1) 20px 20px, rgba(92, 210, 45, 0.05) 25px 25px',
+  transition: 'linear 0.5s',
 
   '&:hover': {
     background: '$background',
     color: '$foreground',
-    boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.8), inset -.313em -.313em 0 rgba(255,255,255,0.6), 0 1em 0.625em -.4em rgba(255,255,255,0.8)',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',
   },
   '&:active': {
     background: '$background',
     color: '$foreground',
-    boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.8), inset -.313em -.313em 0 rgba(255,255,255,0.6), 0 1em 0.625em -.4em rgba(255,255,255,0.8)',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',
   }
 })
 

@@ -14,16 +14,17 @@ const Card = styled(Box, {
     alignItems: 'center',
     
     gap: '1rem',
-    outline: 'solid 0.25em #000',
-    boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.4), inset -.313em -.313em 0 rgba(255,255,255,0.4), 0 1em 0.625em -.4em rgba(0,0,0,0.8)',
-    transition: 'linear .1s',
+    border: '1px solid $gray800',
+    boxShadow: 'rgba(242, 154, 13, 0.4) 5px 5px, rgba(242, 154, 13, 0.3) 10px 10px, rgba(242, 154, 13, 0.2)15px 15px, rgba(242, 154, 13, 0.1) 20px 20px, rgba(242, 154, 13, 0.05) 25px 25px',
+    transition: 'linear 0.4s',
     lineHeight: '100%',
     textDecoration: 'none',
 
     '&:hover': { 
-        background: '$foreground',
-        color: '$background',
-        boxShadow: 'inset .313em .313em 0 rgba(0,0,0,0.8), inset -.313em -.313em 0 rgba(255,255,255,0.6), 0 1em 0.625em -.4em rgba(255,255,255,0.8)',
+        background: '$background',
+        color: '$foreground',
+        border: '1px solid $gray800',
+        boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',
     },
 });
 

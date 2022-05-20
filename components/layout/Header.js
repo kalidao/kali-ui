@@ -5,7 +5,9 @@ import { Flex, Text } from '../../styles/elements';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const StyledHeader = styled(Flex, {
-  borderBottom: '1px solid $gray700',
+  // borderBottom: '1px solid $gray800',
+  boxShadow: 'hsl(0, 0%, 15%) 0px 3px 8px',
+  background: '$gray900',
   width: '100%',
   position: 'fixed',
   left: '0',
@@ -15,9 +17,8 @@ const StyledHeader = styled(Flex, {
   alignItems: 'center',
   padding: '0 0.5rem',
   zIndex: '99',
-  
-  filter: 'contrast(1.2)',
 })
+
 export default function Header({ heading, props}) {
   return (
     <StyledHeader {...props}>
@@ -26,8 +27,8 @@ export default function Header({ heading, props}) {
         position: 'absolute',
         right: '0',
         left: '5',
+        width: '90vw',
         marginRight: '2rem',
-        gap: '10rem',
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
