@@ -1,4 +1,4 @@
-import { Form, Input, Label, Title } from '../../styles/form-elements';
+import { Form, FormElement, Input, Label, Title } from '../../styles/form-elements';
 import { styled } from '../../styles/stitches.config';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
@@ -102,7 +102,13 @@ export default function Members({ setStep }) {
               justifyContent: 'center',
               alignItems: 'center',
               gap: '1%',
-              width: '85%',
+              width: '70%',
+              background: 'none',
+              color: '$foreground',
+              '&:hover': {
+                background: 'hsla(37, 100%, 52%, 0.6)',
+                transition: 'linear 0.1s'
+              }
               
             }} 
             onClick={(e) => {
@@ -113,12 +119,23 @@ export default function Members({ setStep }) {
               });
             }}
           >
-            Add 
+            Add Member
             <PersonIcon />
           </Button>
         </Flex>
         </Flex>
       </Flex>
+      {/* TODO: Add out of */}
+      <Flex dir="col" gap="sm">
+        <Label htmlFor="quorum">Participation Needed</Label>
+        <Input 
+          type="number" 
+          id="quorum" 
+          placeholder="1" 
+          {...register('quorum')}
+          defaultValue={state.quorum}
+        />
+      </Flex> 
       <Flex css={{ justifyContent: 'flex-end' }}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous

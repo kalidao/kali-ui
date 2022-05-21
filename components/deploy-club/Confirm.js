@@ -3,7 +3,7 @@ import { Button, Flex } from '../../styles/elements';
 import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import { useCallback } from 'react';
 import FACTORY_ABI from '../../abi/KaliClubSigFactory.json'
-import { formatBytes32String, parseEther, formatUnits } from 'ethers/lib/utils';
+import { formatBytes32String, parseEther, formatUnits, formatEther } from 'ethers/lib/utils';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
@@ -41,12 +41,20 @@ export default function Confirm({ setStep }) {
     name = formatBytes32String(name);
     symbol = formatBytes32String(symbol);
     
+    console.log(founders[0]["signer"] > founders[1]["signer"])
+
     // club tuple
     let club = []
+    let members = new Array()
     for (let i=0; i<founders.length; i++) {
-      const loot = BigNumber.from(founders[i]["loot"])
-      club.push([founders[i]["signer"], i, formatUnits(loot, 0)])
+
     }
+    for (let i=0; i<founders.length; i++) {
+      // const loot = BigNumber.from(founders[i]["loot"])
+      club.push([founders[i]["signer"], i, parseEther(founders[i]["loot"])])
+    }
+    // sorting for smart contract
+    club = club.sort((a, b) => a[0] - b[0])
 
     const calls = new Array()
     const baseURI = ''

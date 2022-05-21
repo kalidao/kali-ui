@@ -23,16 +23,6 @@ export default function Governance({ setStep }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
-        <Label htmlFor="quorum">Participation Needed</Label>
-        <Input 
-          type="number" 
-          id="quorum" 
-          placeholder="20" 
-          {...register('quorum')}
-          defaultValue={state.quorum}
-        />
-      </FormElement> 
-      <FormElement>
         <Label htmlFor="lootPaused">Loot Transferablity</Label>
         <Switch 
           {...register('lootPaused')} 
