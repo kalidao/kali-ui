@@ -26,7 +26,7 @@ const Card = styled(Box, {
 
 const New = styled('div', {
   fontSize: '1rem',
-  fontFamily: 'screen'
+  fontFamily: 'Screen'
 })
 
 export default function NewDao() {
@@ -34,14 +34,16 @@ export default function NewDao() {
     <Dialog>
       <DialogTrigger>
         <Card >
-          <Box 
+          <Text 
             css={{ 
               fontWeight: '700',
               fontSize: '144.69px',
               lineHeight: '100%',
+              fontFamily: 'Screen',
+             
             }}>
               +
-            </Box>
+            </Text>
           <New >Create New</New>
         </Card>
       </DialogTrigger>
