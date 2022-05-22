@@ -24,13 +24,15 @@ export default function Header({ heading, props}) {
     <StyledHeader {...props}>
       <Kali />
       <Flex css={{
-        position: 'absolute',
-        right: '0',
-        left: '5',
-        width: '90vw',
-        marginRight: '2rem',
+        position: 'relative',
+        width: '100%',
+        padding: '0 1rem 0 1rem',
         justifyContent: 'space-between',
         alignItems: 'center',
+
+        '@media (max-width: 1040px)': {
+          margin: '0'
+        }
       }}>
         <Text as="h1" variant="heading" css={{ '@media (max-width: 1040px)': {
           display: 'none'

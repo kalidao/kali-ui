@@ -19,8 +19,8 @@ export const ResultsText = styled('div', {
 
 export const Results = styled('div', {
   display: 'grid',
-  gap: '1rem',
-  marginRight: '1rem',
+  gap: '1.5rem',
+  marginBottom: '5rem',
   
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',

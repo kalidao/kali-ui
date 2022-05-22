@@ -20,6 +20,14 @@ export const pulse = keyframes({
     }
 })
 
+export const bounce = keyframes({
+    '0%': {
+        transform: 'translate3d(0, 0, 0)'
+    },
+    '100%': {
+        transform: 'translate3d(0, 10px, 0)'
+    }
+})
 export const contentShow = keyframes({
     '0%': { opacity: 0, transform: 'translate(-50%, -48%) scale(.96)' },
     '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },

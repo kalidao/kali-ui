@@ -9,6 +9,7 @@ const Card = styled(Box, {
   background: '$background',
   color: '$foreground',
   border: '1px solid $gray800',
+  borderRadius: '15%',
   boxShadow: 'rgba(92, 210, 45, 0.4) 5px 5px, rgba(92, 210, 45, 0.3) 10px 10px, rgba(92, 210, 45, 0.2)15px 15px, rgba(92, 210, 45, 0.1) 20px 20px, rgba(92, 210, 45, 0.05) 25px 25px',
   transition: 'linear 0.5s',
 

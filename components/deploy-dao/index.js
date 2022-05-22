@@ -24,8 +24,8 @@ export default function DeployDaoWrapper() {
 
   const steps = [
       {
-      component: <Identity setStep={setStep} />,
-      title: 'Identity'
+        component: <Identity setStep={setStep} />,
+        title: 'ID'
       },
       {
         component: <Governance setStep={setStep} />,

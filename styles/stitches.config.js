@@ -4,13 +4,35 @@ import { globalStyles } from "./globalStyles";
 export const { styled, keyframes } = createStitches({
   theme: {
     colors: {
-      purple100: "hsl(273, 100%, 45%)",
-      purple200: "#7000FF",
-      purple300: "#7000FF",
-      purple400: "#7000FF",
+      purple100: "hsl(273, 100%, 90%)",
+      purple200: "hsl(273, 100%, 80%)",
+      purple300: "hsl(273, 100%, 70%)",
+      purple400: "hsl(273, 100%, 60%)",
+      purple500: "hsl(273, 100%, 50%)",
+      purple600: "hsl(273, 100%, 40%)",
+      purple700: "hsl(273, 100%, 30%)",
+      purple800: "hsl(273, 100%, 20%)",
+      purple900: "hsl(273, 100%, 10%)",
 
-      red100: '#FF3131',
-
+      yellow100: 'hsl(37, 100%, 90%)',
+      yellow200: 'hsl(37, 100%, 80%)',
+      yellow300: 'hsl(37, 100%, 70%)',
+      yellow400: 'hsl(37, 100%, 60%)',
+      yellow500: 'hsl(37, 100%, 50%)',
+      yellow600: 'hsl(37, 100%, 40%)',
+      yellow700: 'hsl(37, 100%, 30%)',
+      yellow800: 'hsl(37, 100%, 20%)',
+      yellow900: 'hsl(37, 100%, 10%)',
+      
+      green100: 'hsl(120, 100%, 90%)',
+      green200: 'hsl(120, 100%, 80%)',
+      green300: 'hsl(120, 100%, 70%)',
+      green400: 'hsl(120, 100%, 60%)',
+      green500: 'hsl(120, 100%, 50%)',
+      green600: 'hsl(120, 100%, 40%)',
+      green700: 'hsl(120, 100%, 30%)',
+      green800: 'hsl(120, 100%, 20%)',
+      green900: 'hsl(120, 100%, 10%)',
 
       gray100: 'hsl(0, 0%, 90%)',
       gray200: 'hsl(0, 0%, 80%)',
@@ -22,13 +44,6 @@ export const { styled, keyframes } = createStitches({
       gray800: 'hsl(0, 0%, 20%)',
       gray900: 'hsl(0, 0%, 10%)',
 
-      yellow300: '#ffa00a',
-      yellow400: '#C28813',
-      yellow500: 'rgba(172, 108, 7)',
-      yellow600: 'rgba(51, 32, 2)',
-      
-      green100: '#08FF08',
-
       black: 'hsl(0, 0%, 0%)',
       white: '#ffffff',
 
@@ -36,10 +51,9 @@ export const { styled, keyframes } = createStitches({
       background: '$gray900',
       foreground: '$gray100',
       accent: '$yellow300',
-      highlight: '$red100',
-      highlight2: '$green100',
+      highlight: '$purple100',
+      highlight2: '$green700',
       sublight: '$gray100',
-
     },
     media: {
       bp1: "(min-width: 640px)",
