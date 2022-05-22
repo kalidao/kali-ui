@@ -22,7 +22,7 @@ export const { styled, keyframes } = createStitches({
       gray800: 'hsl(0, 0%, 20%)',
       gray900: 'hsl(0, 0%, 10%)',
 
-      yellow300: '#ffa00a',
+      yellow300: 'hsl(37, 100%, 52%)',
       yellow400: '#C28813',
       yellow500: 'rgba(172, 108, 7)',
       yellow600: 'rgba(51, 32, 2)',

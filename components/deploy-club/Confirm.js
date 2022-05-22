@@ -3,9 +3,7 @@ import { Button, Flex } from '../../styles/elements';
 import { useAccount, useContractWrite, useNetwork } from 'wagmi';
 import { useCallback } from 'react';
 import FACTORY_ABI from '../../abi/KaliClubSigFactory.json'
-import { formatBytes32String, parseEther, formatUnits, formatEther } from 'ethers/lib/utils';
-import { AddressZero } from '@ethersproject/constants';
-import { BigNumber } from 'ethers';
+import { formatBytes32String, parseEther } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 
 export default function Confirm({ setStep }) {
@@ -62,10 +60,6 @@ export default function Confirm({ setStep }) {
     const redemptionStart = 0;
 
     console.log('deploy', calls, club, quorum, redemptionStart, name, symbol, lootPaused, signerPaused, baseURI, docs) 
-    const provider = new ethers.providers.InfuraProvider(4, process.env.NEXT_PUBLIC_INFURA_ID)
-    const code = await provider.getCode('0x8Ba8438024fCaFa94C37c6C69D01DDb2Db06ba3A');
-    console.log('code', code)
-
     const data = await writeAsync({ args: [
       calls,
       club,
