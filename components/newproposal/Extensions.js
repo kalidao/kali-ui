@@ -1,10 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import AppContext from "../../context/AppContext";
-import { Input, Button, Text, Textarea, VStack, Select } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Text,
+  Textarea,
+  VStack,
+  Select,
+} from "@chakra-ui/react";
 import { addresses } from "../../constants/addresses";
 import { extensionsHelper } from "../../constants/extensionsHelper";
 import NumInputField from "../elements/NumInputField";
+import DashedDivider from "../elements/DashedDivider";
 
 export default function Extensions() {
   const value = useContext(AppContext);
@@ -20,8 +28,8 @@ export default function Extensions() {
       let ext_ = addresses[daoChain]["extensions"][propType_];
       setExt(ext_);
       console.log(ext_);
-    } catch(e) {
-      value.toast(e)
+    } catch (e) {
+      value.toast(e);
     }
   };
 
@@ -79,7 +87,9 @@ export default function Extensions() {
           </option>
         ))}
       </Select>
-
+      <br />
+      <DashedDivider />
+      <br />
       {Object.entries(extensionsHelper).map(([key, value]) =>
         propType == key ? value : null
       )}
