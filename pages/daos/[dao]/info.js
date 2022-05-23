@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react'
 import NewProposal from '../../../components/dashboard/sidebar/NewProposal'
 import Layout from '../../../components/layout'
 import { getDaoChain } from '../../../utils'
-import Members from '../../../components/dashboard/members'
 import { graph } from "../../../constants/graph";
+import { Flex } from '../../../styles/elements'
 
-export default function MembersPage() {
+export default function InfoPage() {
   const router  = useRouter()
   const daoAddress = router.query.dao
   const [daoChain, setDaoChain] = useState();
@@ -53,8 +53,10 @@ export default function MembersPage() {
   }, [daoChain])
 
   return (
-    <Layout heading={`Members: ${members ? members?.token?.name : ''}`}>
-        <Members members={members} />
+    <Layout heading={`Info: ${members ? members?.token?.name : ''}`}>
+        <Flex>
+            
+        </Flex>
         <NewProposal />
     </Layout>
   )

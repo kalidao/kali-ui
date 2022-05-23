@@ -26,6 +26,7 @@ export default function Header({ heading, props}) {
       <Flex css={{
         position: 'relative',
         width: '100%',
+        height: '5rem',
         padding: '0 1rem 0 1rem',
         justifyContent: 'space-between',
         alignItems: 'center',

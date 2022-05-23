@@ -34,6 +34,16 @@ export const { styled, keyframes } = createStitches({
       green800: 'hsl(120, 100%, 20%)',
       green900: 'hsl(120, 100%, 10%)',
 
+      red100: 'hsl(6, 87%, 90%)',
+      red200: 'hsl(6, 87%, 80%)',
+      red300: 'hsl(6, 87%, 70%)',
+      red400: 'hsl(6, 87%, 60%)',
+      red500: 'hsl(6, 87%, 50%)',
+      red600: 'hsl(6, 87%, 40%)',
+      red700: 'hsl(6, 87%, 30%)',
+      red800: 'hsl(6, 87%, 20%)',
+      red900: 'hsl(6, 87%, 10%)',
+
       gray100: 'hsl(0, 0%, 90%)',
       gray200: 'hsl(0, 0%, 80%)',
       gray300: 'hsl(0, 0%, 70%)',

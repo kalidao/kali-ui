@@ -5,12 +5,15 @@ import Proposals from "./proposals/";
 import { styled } from '../../styles/stitches.config';
 
 const Layout = styled(Flex, {
+  position: 'absolute',
+  top: '7rem',
+  left: '8rem',
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
   flexDirection: 'row',
   gap: '1rem',
-  marginTop: '5rem',
-  marginLeft: '5rem',
+  
 
   '@media (max-width: 520px)': {
     flexDirection: 'column',
@@ -24,11 +27,8 @@ const Layout = styled(Flex, {
 export function Dashboard({ dao, props}) {
   return (
     <Layout>
-        <Profile dao={dao} />
+        {/* <Profile dao={dao} /> */}
         <Proposals dao={dao} />
     </Layout>
   )
 }
-
-
-export * from "./NewProposalSquare"

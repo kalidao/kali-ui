@@ -1,9 +1,9 @@
-import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
-import { Box } from '../../styles/elements';
-import { NewProposalModal } from '../newproposal';
+import { Dialog, DialogTrigger, DialogContent } from '../../../styles/Dialog';
+import { Box } from '../../../styles/elements';
+import { NewProposalModal } from '../../newproposal';
 
 
-export function NewProposalSquare() {
+export default function NewProposal() {
   // TODO: Disable when fetching 
   return (
     <Dialog>

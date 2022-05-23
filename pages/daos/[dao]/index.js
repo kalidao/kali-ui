@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getDaoChain } from "../../../utils/";
 import Layout from "../../../components/layout";
-import { NewProposalSquare, Dashboard } from "../../../components/dashboard/"
+import { Dashboard } from "../../../components/dashboard/"
 import { graph } from "../../../constants/graph";
 import { useAccount } from "wagmi"
 import updateAction from "../../../components/deploy-dao/updateAction"
 import DaoContext from "../../../context/DaoContext";
+import Sidebar from "../../../components/dashboard/sidebar";
 
 
 export default function Dao() {
@@ -130,8 +131,8 @@ export default function Dao() {
       }
     }
     >
-      <Layout heading="DAO">
-        <NewProposalSquare />
+      <Layout heading={dao?.token?.name}>
+        <Sidebar />
         <Dashboard dao={dao} />
       </Layout>
     </DaoContext.Provider>

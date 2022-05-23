@@ -6,8 +6,8 @@ export default function Proposals({ dao }) {
   const proposals = dao && dao["proposals"].sort((a, b) => b["creationTime"] - a["creationTime"])
   console.log(proposals)
   return (
-    <Flex dir="col">
-      <Text color="foreground" variant="heading">Proposals</Text>
+    <Flex dir="col" gap="md">
+      <Text color="foreground" variant="heading">Activity</Text>
       <Flex dir="col" gap="md">
       {proposals && proposals.map(proposal => <ProposalCard key={proposal["id"]} proposal={proposal} />)}
       </Flex>

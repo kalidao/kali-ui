@@ -7,7 +7,9 @@ import { NewProposalModal } from '../newproposal';
 import { proposals } from '../newproposal/proposals';
 import Link from 'next/link';
 import { PersonIcon } from '@radix-ui/react-icons';
-
+import Image from 'next/image';
+import { bounce } from '../../styles/animation';
+import { useRouter } from 'next/router';
 
 const Profile = styled(Flex, {
     justifyContent: 'flex-start',
@@ -22,6 +24,7 @@ const Profile = styled(Flex, {
 });
 
 export default function ProfileComponent({ dao }) {
+  const router = useRouter();
 
   return (
     <Profile>
@@ -52,6 +55,30 @@ export default function ProfileComponent({ dao }) {
                     <NewProposalModal showMenu={false} proposal={"giveTribute"} />
                 </DialogContent>
             </Dialog>     
+            {/* <Flex dir="col" gap="sm">
+            <Link href={{
+                pathname: '[dao]/treasury',
+                query: { dao: router.query.dao}
+            }}>
+                <Icon>
+                    <Image src={`/icons/money-bag.png`} width='30px' height="30px" />
+                    <Text>
+                        Treasury
+                    </Text>
+                </Icon>
+            </Link>
+            <Link href={{
+                pathname: '[dao]/info',
+                query: { dao: router.query.dao}
+            }}>
+                <Icon>
+                    <Image src={`/icons/scroll.png`} width='30px' height="30px" />
+                    <Text>
+                        Info
+                    </Text>
+                </Icon>   
+            </Link>
+            </Flex> */}
     </Profile>
   )
 }

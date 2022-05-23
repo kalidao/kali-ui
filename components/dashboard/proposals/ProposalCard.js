@@ -1,18 +1,27 @@
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from "../../../utils/formatters";
 import { Flex, Box, Text } from '../../../styles/elements';
+import Image from 'next/image';
+import { bounce } from '../../../styles/animation';
+import { styled } from '../../../styles/stitches.config';
+
+const Icon = styled(Image, {
+  '&:hover': {
+    animation: `${bounce} 0.5s infinite`
+  }
+});
 
 const validateProposalTag = (type) => {
   let tag
   switch (type) {
     case "MINT":
-      tag = "MEMBER";
+      tag = "MEMBERSHIP";
       break;
     case "BURN":
-      tag = "MEMBER";
+      tag = "MEMBERSHIP";
       break;
     case "CALL":
-      tag = "CALL";
+      tag = "EXTERNAL";
       break;
     case "VPERIOD":
       tag = "GOVERNANCE";
@@ -33,30 +42,24 @@ const validateProposalTag = (type) => {
       tag = "APP";
       break;
     case "ESCAPE":
-      tag = "ESCAPE";
+      tag = "GOVERNANCE";
       break;
     case "DOCS":
-      tag = "DOCUMENT"
+      tag = "GOVERNANCE"
   }
   let tagColor
   switch (tag) {
     case "GOVERNANCE":
-      tagColor = "$purple100"
+      tagColor = "$purple200"
       break;
-    case "ESCAPE":
-      tagColor = "$red100"
-      break;
-    case "MEMBER":
-      tagColor = "$green100"
-      break;
-    case "DOCS":
-      tagColor = "$blue100"
+    case "MEMBERSHIP":
+      tagColor = "$green200"
       break;
     case "APP":
-      tagColor = "$yellow100"
+      tagColor = "$yellow200"
       break;
-    case "CALL":
-      tagColor = "$gray100"
+    case "EXTERNAL":
+      tagColor = "$yellow200"
       break;
   }
   return { tag, tagColor }
@@ -72,11 +75,50 @@ export const ProposalCard = ({ proposal }) => {
 
     const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal["proposer"]) 
     console.log(tagColor)
-    return <Flex dir="col" gap="sm" css={{ background: '$gray900', padding: '1rem', minWidth: '60vw'}}>
-      <Flex color="foreground" align="start">
-        <Box css={{ background: `${tagColor}`, color: '$background', padding: '0.2rem', marginRight: '0.3rem'}}>{tag}</Box> by {proposer}
-      </Flex>
-      <Box>{proposal["description"]}</Box>
-      {proposal["status"] ? <Box css={{ background: '$green100', width: '3.8rem'}}>PASSED</Box> : <Text css={{ background: '$red100', width: '3.8rem'}}>FAILED</Text>}
+    return <Flex dir="row" gap="sm" css={{ background: '$gray800', padding: '1rem 0.5rem 1rem 0.5rem', minWidth: '50vw', borderRadius: '0.5rem', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Flex dir="col" gap="md" minWidth="10%" height="100%">
+              <Icon src={'/icons/upvote.png'} height="32px" width="32px"  />
+              <Icon src={'/icons/downvote.png'} height="32px" width="32px"  />
+            </Flex>
+        <Flex dir="col" gap="sm" css={{
+          minWidth: '80%',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start'
+        }}>
+        <Flex color="foreground" align="start" gap="sm" >
+          <Box css={{ 
+            // background: `${tagColor}`, 
+            color: `${tagColor}`,
+            fontWeight: '800', 
+            fontFamily: 'Screen',
+            borderRadius: '20rem'
+            // marginRight: '0.3rem'
+          }}
+          >
+            {tag}
+          </Box>{" "} proposal by 
+          <Text css={{
+            color: '$purple300'
+          }}>
+            {proposer}
+          </Text>
+        </Flex>
+          <Box>
+            {proposal["description"].length > 100 ? 
+            proposal["description"].slice(0, 100) + '...' : 
+            proposal["description"]}
+          </Box>
+        </Flex>
+        <Box css={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: '10%'
+        }}>
+            {proposal["status"] ? 
+              <Icon src={`/icons/checkmark.png`} height="32px" width="32px" /> : 
+              <Icon src={`/icons/cross.png`} height="32px" width="32px" />}
+        </Box>
     </Flex>
   }
