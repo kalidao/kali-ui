@@ -7,26 +7,9 @@
 				"type": "address"
 			},
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "account",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "mint",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct KaliShareManager.Update[]",
-				"name": "updates",
-				"type": "tuple[]"
+				"internalType": "bytes[]",
+				"name": "extensionData",
+				"type": "bytes[]"
 			}
 		],
 		"name": "callExtension",
@@ -65,27 +48,10 @@
 				"type": "address"
 			},
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "account",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "mint",
-						"type": "bool"
-					}
-				],
 				"indexed": false,
-				"internalType": "struct KaliShareManager.Update[]",
+				"internalType": "bytes[]",
 				"name": "updates",
-				"type": "tuple[]"
+				"type": "bytes[]"
 			}
 		],
 		"name": "ExtensionCalled",

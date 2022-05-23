@@ -27,7 +27,7 @@ export const addresses =
         tribute: "0xd62AB72CC6b53D98eed510646a69B21b77ce5A56",
         crowdsale: "0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36",
         redemption: "0x11f44975e1B204E50108Af6BCB6539798cb15F75",
-        manager: "0x4a9aE201661A22F4fb6A13BD97135AEE45600aa1",
+        manager: "0xCFAEA98787d835D127863ED4127F42d00F3D267d",
       },
       blockExplorer: "https://rinkeby.etherscan.io"
     },
