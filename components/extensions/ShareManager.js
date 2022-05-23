@@ -47,7 +47,7 @@ export default function ShareManager() {
 
   const { web3, chainId, account, address, dao } = value.state;
   const [members, setMembers] = useState(null);
-  const shareManagerAddress = addresses[chainId]["access"];
+  const shareManagerAddress = addresses[chainId]["extensions"]["manager"];
 
   useEffect(() => {
     const getMembers = async () => {
@@ -149,7 +149,7 @@ export default function ShareManager() {
     }
     try {
       const instance = new web3.eth.Contract(abi_, shareManagerAddress);
-      console.log(extensionData);
+      console.log(extensionData, address, account);
       try {
         let result = await instance.methods
           .callExtension(address, extensionData)
