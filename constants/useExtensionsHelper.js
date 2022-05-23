@@ -32,7 +32,7 @@ export const useExtensionsHelper = [
     icon: BiCoinStack
   },
   {
-    title: "Assign Manager",
+    title: "Allocate DAO Tokens",
     description: "managers do something",
     component: <ShareManager />,
     extension: "shareManager",
