@@ -49,19 +49,12 @@ export default function ShareManager() {
   const [members, setMembers] = useState(null);
   const shareManagerAddress = addresses[chainId]["access"];
 
-  const handleSelect = async (event) => {
-    // setDidSelect(true);
-    // console.log(members);
-    // members = members.filter((member) => member != members[event.target.value]);
-    // setNewList(members);
-  };
-
   useEffect(() => {
     const getMembers = async () => {
       if (!members) {
         const members_ = await loadMembers();
         const _members = await convertAddressToEns(members_);
-        _members.sort((a, b) => a - b);
+        _members.sort((a, b) => a.value - b.value);
         setMembers(_members);
       } else {
         return;
@@ -77,14 +70,19 @@ export default function ShareManager() {
   const convertAddressToEns = async (addresses) => {
     const provider = await getDefaultProvider();
     for (let i = 0; i < addresses.length; i++) {
-      if (addresses[i]) {
+      if (addresses[i].value) {
+        // console.log(addresses[i])
         let ens;
-        ens = await provider.lookupAddress(addresses[i]).catch(() => {
-          console.log(ens + " is not a valid ENS.");
+        ens = await provider.lookupAddress(addresses[i].value).catch(() => {
+          value.toast(ens + " is not a valid ENS.");
         });
 
         if (ens) {
-          addresses[i] = ens;
+          // console.log("ENS Checks out ", ens)
+          addresses[i].label = ens;
+          // addresses_.push(ens)
+        } else {
+          // console.log("ENS not found")
         }
       } else {
         console.log("RemoveMember.js - address not found");
@@ -98,7 +96,13 @@ export default function ShareManager() {
   const loadMembers = async () => {
     let members_ = [];
     for (var i = 0; i < dao["members"].length; i++) {
-      const member = dao["members"][i].member;
+      const member = {
+        value: dao["members"][i].member,
+        label:
+          dao["members"][i].member.slice(0, 8) +
+          "..." +
+          dao["members"][i].member.slice(-6),
+      };
 
       members_.push(member);
       setMembers([...members_]);
@@ -110,28 +114,50 @@ export default function ShareManager() {
     value.setLoading(true);
 
     var { recipients } = values;
+    console.log("this is radio - ", recipients);
+    let update;
+    let extensionData = [];
 
     // Configure updates param
-    let updates = [];
     for (let i = 0; i < recipients.length; i++) {
-      let element = document.getElementById(`recipients.${i}.share`);
-      let value = element.value;
-      const update = {address: members[recipients[i].address], amount: toDecimals(value, 18)}
-      console.log(update)
-      updates.push(update);
-    }
-    console.log(updates)
+      // Get shares
+      let amountElement = document.getElementById(`recipients.${i}.amount`);
+      let amount_ = amountElement.value;
 
+      if (recipients[i].mint == "mint") {
+        update = web3.eth.abi.encodeParameters(
+          ["address", "uint256", "bool"],
+          [
+            members[recipients[i].address].value,
+            toDecimals(amount_, 18),
+            true,
+          ]
+        );
+      } else {
+        update = web3.eth.abi.encodeParameters(
+          ["address", "uint256", "bool"],
+          [
+            members[recipients[i].address].value,
+            toDecimals(amount_, 18),
+            false,
+          ]
+        );
+      }
+
+      extensionData.push(update);
+      // console.log(updates)
+    }
     try {
       const instance = new web3.eth.Contract(abi_, shareManagerAddress);
-
+      console.log(extensionData);
       try {
         let result = await instance.methods
-          .callExtension(address, updates)
+          .callExtension(address, extensionData)
           .send({ from: account });
         value.setVisibleView(1);
       } catch (e) {
-        value.toast(e);
+        console.log(e);
+        console.log("Something wrong when calling extension.");
         value.setLoading(false);
       }
     } catch (e) {
@@ -147,7 +173,7 @@ export default function ShareManager() {
       <VStack width="100%" align="flex-start">
         <HStack w="100%">
           <Text fontSize="14px">
-            Mint DAO tokens to the following addresses
+            Select member to mint/burn their DAO tokens
           </Text>
           <Spacer />
           <Button
@@ -175,40 +201,73 @@ export default function ShareManager() {
                 <Controller
                   name={`recipients.${index}.address`}
                   control={control}
-                  defaultValue={recipient.token}
+                  defaultValue={recipient.address}
                   render={({ field }) => (
                     <FormControl>
-                      <Select id={index} 
-                      // onChange={handleSelect} 
-                      {...register(`recipients.${index}.address`, {
-                          required: "You must assign share!",
-                        })}>
+                      <Select
+                        id={index}
+                        {...register(`recipients.${index}.address`)}
+                      >
                         <option>Select</option>
                         {members.map((member, index) => (
-                              <option key={member} value={index}>
-                                {member}
-                              </option>
-                            ))}
+                          <option key={member.value} value={index}>
+                            {member.label}
+                          </option>
+                        ))}
                       </Select>
                     </FormControl>
                   )}
                 />
                 <Controller
-                  name={`recipients.${index}.share`}
+                  name={`recipients.${index}.mint`}
                   control={control}
-                  defaultValue={recipient.share}
+                  defaultValue={recipient.mint}
+                  render={({ field }) => (
+                    <FormControl w={"30%"}>
+                      <Select
+                        id={index}
+                        {...register(`recipients.${index}.mint`)}
+                      >
+                        <option>Select</option>
+                        <option value={"mint"}>Mint</option>
+                        <option value={"burn"}>Burn</option>
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+                {/* <Controller
+                  name={`recipients.${index}.mint`}
+                  control={control}
+                  defaultValue={recipient.mint}
+                  render={({ field }) => (
+                    <FormControl w={"30%"} isRequired>
+                      <RadioGroup
+                        id={`recipients.${index}.mint`}
+                        onChange={handleRadioSelection}
+                      >
+                        <HStack>
+                          <Radio value={"true"}>Mint</Radio>
+                          <Radio value={"false"}>Burn</Radio>
+                        </HStack>
+                      </RadioGroup>
+                    </FormControl>
+                  )}
+                /> */}
+                <Controller
+                  name={`recipients.${index}.amount`}
+                  control={control}
+                  defaultValue={recipient.amount}
                   render={({ field }) => (
                     <FormControl w={"30%"} isRequired>
                       <NumInputField
-                        min="1"
+                        min="0.0000001"
                         defaultValue="1"
-                        {...field}
-                        id={`recipients.${index}.share`}
+                        id={`recipients.${index}.amount`}
+                        // {...field}fv
                       />
                     </FormControl>
                   )}
                 />
-
                 <IconButton
                   w={"12%"}
                   className="delete-icon"
