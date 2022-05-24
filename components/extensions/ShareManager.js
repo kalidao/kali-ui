@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import Router, { useRouter } from "next/router";
-import AppContext from "../../context/AppContext";
+import { useState, useContext, useEffect } from 'react'
+import Router, { useRouter } from 'next/router'
+import AppContext from '../../context/AppContext'
 import {
   Input,
   Button,
@@ -17,186 +17,173 @@ import {
   ListItem,
   FormControl,
   Select,
-} from "@chakra-ui/react";
-import NumInputField from "../elements/NumInputField";
-import {
-  toDecimals,
-  unixToDate,
-  convertRedeemables,
-} from "../../utils/formatters";
-import abi_ from "../../abi/KaliShareManager.json";
-import { addresses } from "../../constants/addresses";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { AiOutlineDelete, AiOutlineUserAdd } from "react-icons/ai";
-import { getDefaultProvider } from "@ethersproject/providers";
+} from '@chakra-ui/react'
+import NumInputField from '../elements/NumInputField'
+import { toDecimals, unixToDate, convertRedeemables } from '../../utils/formatters'
+import abi_ from '../../abi/KaliShareManager.json'
+import { addresses } from '../../constants/addresses'
+import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
+import { getDefaultProvider } from '@ethersproject/providers'
 
 export default function ShareManager() {
-  const value = useContext(AppContext);
+  const value = useContext(AppContext)
 
   const {
     handleSubmit,
     register,
     control,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm()
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "recipients",
-  });
+    name: 'recipients',
+  })
 
-  const { web3, chainId, account, abi, address, dao } = value.state;
-  const [members, setMembers] = useState(null);
-  const [hasExtension, setHasExtension] = useState(false);
-  const [isManager, setIsManager] = useState(false);
-  const shareManagerAddress = addresses[chainId]["extensions"]["manager"];
+  const { web3, chainId, account, abi, address, dao } = value.state
+  const [members, setMembers] = useState(null)
+  const [hasExtension, setHasExtension] = useState(false)
+  const [isManager, setIsManager] = useState(false)
+  const shareManagerAddress = addresses[chainId]['extensions']['manager']
 
   // Load members for selection
   useEffect(() => {
     const getMembers = async () => {
       if (!members) {
-        const members_ = await loadMembers();
-        const _members = await convertAddressToEns(members_);
-        _members.sort((a, b) => a.value - b.value);
-        setMembers(_members);
+        const members_ = await loadMembers()
+        const _members = await convertAddressToEns(members_)
+        _members.sort((a, b) => a.value - b.value)
+        setMembers(_members)
       } else {
-        return;
+        return
       }
-    };
-    getMembers();
-  }, [members]);
+    }
+    getMembers()
+  }, [members])
 
   // Check if extension is set and if manager is set
   useEffect(() => {
     const checkManagerExtension = async () => {
-      const instance = new web3.eth.Contract(abi, address);
+      const instance = new web3.eth.Contract(abi, address)
 
       try {
-        const result = await instance.methods
-          .extensions(shareManagerAddress)
-          .call();
-        console.log("Extension check - ", result);
-        result ? setHasExtension(true) : null;
+        const result = await instance.methods.extensions(shareManagerAddress).call()
+        console.log('Extension check - ', result)
+        result ? setHasExtension(true) : null
       } catch (e) {
-        console.log(e);
-        console.log("Extension check not successful.");
+        console.log(e)
+        console.log('Extension check not successful.')
       }
-    };
+    }
 
     const checkManager = async () => {
-      const instance = new web3.eth.Contract(abi_, shareManagerAddress);
+      const instance = new web3.eth.Contract(abi_, shareManagerAddress)
 
       try {
-        const result = await instance.methods
-          .management(address, account)
-          .call();
-        console.log("Manager check - ", result);
-        result ? setIsManager(true) : null;
+        const result = await instance.methods.management(address, account).call()
+        console.log('Manager check - ', result)
+        result ? setIsManager(true) : null
       } catch (e) {
-        console.log(e);
-        console.log("Manager check not successful.");
+        console.log(e)
+        console.log('Manager check not successful.')
       }
-    };
-    checkManagerExtension();
-    checkManager();
-  }, []);
+    }
+    checkManagerExtension()
+    checkManager()
+  }, [])
 
   useEffect(() => {
-    append();
-  }, []);
+    append()
+  }, [])
 
   const convertAddressToEns = async (addresses) => {
-    const provider = await getDefaultProvider();
+    const provider = await getDefaultProvider()
     for (let i = 0; i < addresses.length; i++) {
       if (addresses[i].value) {
         // console.log(addresses[i])
-        let ens;
+        let ens
         ens = await provider.lookupAddress(addresses[i].value).catch(() => {
-          value.toast(ens + " is not a valid ENS.");
-        });
+          value.toast(ens + ' is not a valid ENS.')
+        })
 
         if (ens) {
           // console.log("ENS Checks out ", ens)
-          addresses[i].label = ens;
+          addresses[i].label = ens
           // addresses_.push(ens)
         } else {
           // console.log("ENS not found")
         }
       } else {
-        console.log("RemoveMember.js - address not found");
+        console.log('RemoveMember.js - address not found')
       }
     }
 
     // console.log("this should be the output:", addresses);
-    return addresses;
-  };
+    return addresses
+  }
 
   const loadMembers = async () => {
-    let members_ = [];
-    for (var i = 0; i < dao["members"].length; i++) {
+    let members_ = []
+    for (var i = 0; i < dao['members'].length; i++) {
       const member = {
-        value: dao["members"][i].member,
-        label:
-          dao["members"][i].member.slice(0, 8) +
-          "..." +
-          dao["members"][i].member.slice(-6),
-      };
+        value: dao['members'][i].member,
+        label: dao['members'][i].member.slice(0, 8) + '...' + dao['members'][i].member.slice(-6),
+      }
 
-      members_.push(member);
-      setMembers([...members_]);
+      members_.push(member)
+      setMembers([...members_])
     }
-    return members_;
-  };
+    return members_
+  }
 
   const submitProposal = async (values) => {
-    value.setLoading(true);
+    value.setLoading(true)
 
-    var { recipients } = values;
-    console.log("this is radio - ", recipients);
-    let update;
-    let extensionData = [];
+    var { recipients } = values
+    console.log('this is radio - ', recipients)
+    let update
+    let extensionData = []
 
     // Configure updates param
     for (let i = 0; i < recipients.length; i++) {
       // Get shares
-      let amountElement = document.getElementById(`recipients.${i}.amount`);
-      let amount_ = amountElement.value;
+      let amountElement = document.getElementById(`recipients.${i}.amount`)
+      let amount_ = amountElement.value
 
-      if (recipients[i].mint == "mint") {
+      if (recipients[i].mint == 'mint') {
         update = web3.eth.abi.encodeParameters(
-          ["address", "uint256", "bool"],
-          [members[recipients[i].address].value, toDecimals(amount_, 18), true]
-        );
+          ['address', 'uint256', 'bool'],
+          [members[recipients[i].address].value, toDecimals(amount_, 18), true],
+        )
       } else {
         update = web3.eth.abi.encodeParameters(
-          ["address", "uint256", "bool"],
-          [members[recipients[i].address].value, toDecimals(amount_, 18), false]
-        );
+          ['address', 'uint256', 'bool'],
+          [members[recipients[i].address].value, toDecimals(amount_, 18), false],
+        )
       }
 
-      extensionData.push(update);
+      extensionData.push(update)
       // console.log(updates)
     }
     try {
-      const instance = new web3.eth.Contract(abi_, shareManagerAddress);
-      console.log(extensionData, address, account);
+      const instance = new web3.eth.Contract(abi_, shareManagerAddress)
+      console.log(extensionData, address, account)
       try {
-        let result = await instance.methods
-          .callExtension(address, extensionData)
-          .send({ from: account });
-        value.setVisibleView(1);
+        let result = await instance.methods.callExtension(address, extensionData).send({ from: account })
+        value.setVisibleView(1)
       } catch (e) {
-        console.log(e);
-        console.log("Something wrong when calling extension.");
-        value.setLoading(false);
+        console.log(e)
+        console.log('Something wrong when calling extension.')
+        value.setLoading(false)
       }
     } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+      value.toast(e)
+      value.setLoading(false)
     }
 
-    value.setLoading(false);
-  };
+    value.setLoading(false)
+  }
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
@@ -204,23 +191,21 @@ export default function ShareManager() {
         <>
           <VStack width="100%" align="flex-start">
             <HStack w="100%">
-              <Text fontSize="14px">
-                Select member to mint/burn their DAO tokens
-              </Text>
+              <Text fontSize="14px">Select member to mint/burn their DAO tokens</Text>
               <Spacer />
               <Button
                 border="0px"
                 variant="ghost"
                 _hover={{
-                  background: "green.400",
+                  background: 'green.400',
                 }}
-                onClick={() => append({ address: "" })}
+                onClick={() => append({ address: '' })}
               >
                 <AiOutlineUserAdd color="white" />
               </Button>
             </HStack>
-            <Box h={"2%"} />
-            <List w={"100%"} spacing={3}>
+            <Box h={'2%'} />
+            <List w={'100%'} spacing={3}>
               {fields.map((recipient, index) => (
                 <ListItem
                   // display="flex"
@@ -236,10 +221,7 @@ export default function ShareManager() {
                       defaultValue={recipient.address}
                       render={({ field }) => (
                         <FormControl>
-                          <Select
-                            id={index}
-                            {...register(`recipients.${index}.address`)}
-                          >
+                          <Select id={index} {...register(`recipients.${index}.address`)}>
                             <option>Select</option>
                             {members.map((member, index) => (
                               <option key={member.value} value={index}>
@@ -255,14 +237,11 @@ export default function ShareManager() {
                       control={control}
                       defaultValue={recipient.mint}
                       render={({ field }) => (
-                        <FormControl w={"30%"}>
-                          <Select
-                            id={index}
-                            {...register(`recipients.${index}.mint`)}
-                          >
+                        <FormControl w={'30%'}>
+                          <Select id={index} {...register(`recipients.${index}.mint`)}>
                             <option>Select</option>
-                            <option value={"mint"}>Mint</option>
-                            <option value={"burn"}>Burn</option>
+                            <option value={'mint'}>Mint</option>
+                            <option value={'burn'}>Burn</option>
                           </Select>
                         </FormControl>
                       )}
@@ -272,7 +251,7 @@ export default function ShareManager() {
                       control={control}
                       defaultValue={recipient.amount}
                       render={({ field }) => (
-                        <FormControl w={"30%"} isRequired>
+                        <FormControl w={'30%'} isRequired>
                           <NumInputField
                             min="0.0000001"
                             defaultValue="1"
@@ -283,7 +262,7 @@ export default function ShareManager() {
                       )}
                     />
                     <IconButton
-                      w={"12%"}
+                      w={'12%'}
                       className="delete-icon"
                       aria-label="delete recipient"
                       icon={<AiOutlineDelete />}
@@ -296,18 +275,18 @@ export default function ShareManager() {
             <br />
           </VStack>
           <br />
-          <VStack w={"100%"}>
+          <VStack w={'100%'}>
             <Button className="solid-btn" type="submit">
               Submit Proposal
             </Button>
           </VStack>
         </>
       ) : (
-        <VStack align={"flex-start"}>
-          <br/>
+        <VStack align={'flex-start'}>
+          <br />
           <Text>Only managers may access this page!</Text>
         </VStack>
       )}
     </form>
-  );
+  )
 }

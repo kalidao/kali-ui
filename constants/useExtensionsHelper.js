@@ -1,9 +1,8 @@
 // components
-import Tribute from "../components/extensions/Tribute";
-import BuyCrowdsale from "../components/extensions/BuyCrowdsale";
-import Redemption from "../components/extensions/Redemption";
-import ShareManager from "../components/extensions/ShareManager";
-
+import Tribute from '../components/extensions/Tribute'
+import BuyCrowdsale from '../components/extensions/BuyCrowdsale'
+import Redemption from '../components/extensions/Redemption'
+import ShareManager from '../components/extensions/ShareManager'
 
 import { MdGroups } from 'react-icons/md'
 import { BiCoinStack } from 'react-icons/bi'
@@ -33,11 +32,10 @@ export const useExtensionsHelper = [
     icon: BiCoinStack,
   },
   {
-    title: "Allocate DAO Tokens",
-    description: "managers can mint / burn DAO tokens per member",
+    title: 'Allocate DAO Tokens',
+    description: 'managers can mint / burn DAO tokens per member',
     component: <ShareManager />,
-    extension: "shareManager",
-    icon: BiCoinStack
+    extension: 'shareManager',
+    icon: BiCoinStack,
   },
-];
-
+]

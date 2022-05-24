@@ -91,12 +91,11 @@ export async function fetchStaticInfo(instance, factory, address, web3, daoChain
 
     let extensions = {
       tribute: {
-        address: addresses[daoChain]["extensions"]["tribute"]
+        address: addresses[daoChain]['extensions']['tribute'],
       },
       shareManager: {
-        address: addresses[daoChain]["extensions"]["manager"]
-      }
-
+        address: addresses[daoChain]['extensions']['manager'],
+      },
     }
 
     // console.log('data crowdsale', data["crowdsale"])
