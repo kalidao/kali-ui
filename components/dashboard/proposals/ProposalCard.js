@@ -117,8 +117,8 @@ export const ProposalCard = ({ proposal }) => {
           minWidth: '10%'
         }}>
             {proposal["status"] ? 
-              <Icon src={`/icons/checkmark.png`} height="32px" width="32px" /> : 
-              <Icon src={`/icons/cross.png`} height="32px" width="32px" />}
+              <Image src={`/icons/checkmark.png`} height="32px" width="32px" /> : 
+              <Image src={`/icons/cross.png`} height="32px" width="32px" />}
         </Box>
     </Flex>
   }

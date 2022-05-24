@@ -10,9 +10,9 @@ const Layout = styled(Flex, {
   left: '8rem',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   flexDirection: 'row',
-  gap: '1rem',
+  gap: '2rem',
   
 
   '@media (max-width: 520px)': {
@@ -27,8 +27,8 @@ const Layout = styled(Flex, {
 export function Dashboard({ dao, props}) {
   return (
     <Layout>
-        {/* <Profile dao={dao} /> */}
         <Proposals dao={dao} />
+        <Profile dao={dao} />
     </Layout>
   )
 }

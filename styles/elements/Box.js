@@ -3,6 +3,11 @@ import { bounce } from "../animation";
 
 const Box = styled('div', {
    variants: {
+       animation: {
+        bounce: {
+            animation: `${bounce} 0.3s linear 0ms infinite alternate`
+        }
+       },
        variant: {
            create: {
                 position: 'fixed',

@@ -12,6 +12,7 @@ import { bounce } from '../../styles/animation';
 import { useRouter } from 'next/router';
 
 const Profile = styled(Flex, {
+    position: 'relative',
     justifyContent: 'flex-start',
     alignItems: 'center',
     gap: '1.5rem',
@@ -28,23 +29,21 @@ export default function ProfileComponent({ dao }) {
 
   return (
     <Profile>
-            <Text size="lg">{dao && dao["token"]["name"]}</Text>
+            <Text size="lg">About</Text>
             <Flex dir="row" align="separate" gap="md">
-                <Flex dir="col" align="center" gap="sm">
-                    <Text>Symbol</Text>
-                    <Text>{dao && dao["token"]["symbol"]}</Text>
-                </Flex>
-                <Flex dir="col" align="center" gap="sm">
-                    <Text>Total Supply</Text>
-                    <Text>{dao && Math.round(ethers.utils.formatEther(dao["token"]["totalSupply"]))}</Text>
+                <Flex dir="col" align="start" gap="sm">
+                    <Text color="accent">123</Text>
+                    <Text>Balance</Text>
                 </Flex>
                 <Flex dir="col" align="center" gap="sm" >
                     <Link href={`${dao ? dao["address"] : null}/members`}>
-                        <Text css={{ display: 'flex', alignItems: 'center', gap: '0.1rem', '&:hover': {
-                        color: '$accent'
-                    }}}><PersonIcon />Members</Text>
+                        <Flex dir="col" align="start" gap="sm">
+                            <Text color="accent">{dao && dao["members"].length}</Text>
+                            <Text>
+                                Members
+                            </Text>
+                        </Flex>
                     </Link>
-                    <Text>{dao && dao["members"].length}</Text>
                 </Flex>
             </Flex>
             <Dialog>
@@ -55,30 +54,6 @@ export default function ProfileComponent({ dao }) {
                     <NewProposalModal showMenu={false} proposal={"giveTribute"} />
                 </DialogContent>
             </Dialog>     
-            {/* <Flex dir="col" gap="sm">
-            <Link href={{
-                pathname: '[dao]/treasury',
-                query: { dao: router.query.dao}
-            }}>
-                <Icon>
-                    <Image src={`/icons/money-bag.png`} width='30px' height="30px" />
-                    <Text>
-                        Treasury
-                    </Text>
-                </Icon>
-            </Link>
-            <Link href={{
-                pathname: '[dao]/info',
-                query: { dao: router.query.dao}
-            }}>
-                <Icon>
-                    <Image src={`/icons/scroll.png`} width='30px' height="30px" />
-                    <Text>
-                        Info
-                    </Text>
-                </Icon>   
-            </Link>
-            </Flex> */}
     </Profile>
   )
 }

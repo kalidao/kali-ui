@@ -20,6 +20,9 @@ const Text = styled('div', {
             },
             highlight: {
                 color: '$highlight'
+            },
+            accent: {
+                color: '$accent'
             }
         },
         size: {
