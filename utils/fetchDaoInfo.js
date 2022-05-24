@@ -93,6 +93,9 @@ export async function fetchStaticInfo(instance, factory, address, web3, daoChain
       tribute: {
         address: addresses[daoChain]['extensions']['tribute'],
       },
+      shareManager: {
+        address: addresses[daoChain]['extensions']['manager'],
+      },
     }
 
     // console.log('data crowdsale', data["crowdsale"])

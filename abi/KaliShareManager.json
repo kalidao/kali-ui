@@ -1,0 +1,122 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "extensionData",
+				"type": "bytes[]"
+			}
+		],
+		"name": "callExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Forbidden",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "NoArrayParity",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "Reentrancy",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "manager",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes[]",
+				"name": "updates",
+				"type": "bytes[]"
+			}
+		],
+		"name": "ExtensionCalled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "managers",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool[]",
+				"name": "approvals",
+				"type": "bool[]"
+			}
+		],
+		"name": "ExtensionSet",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "extensionData",
+				"type": "bytes"
+			}
+		],
+		"name": "setExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "management",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

@@ -5,6 +5,7 @@ import { Input, Button, Text, Textarea, VStack, Select } from '@chakra-ui/react'
 import { addresses } from '../../constants/addresses'
 import { extensionsHelper } from '../../constants/extensionsHelper'
 import NumInputField from '../elements/NumInputField'
+import DashedDivider from '../elements/DashedDivider'
 
 export default function Extensions() {
   const value = useContext(AppContext)
@@ -72,7 +73,9 @@ export default function Extensions() {
           </option>
         ))}
       </Select>
-
+      <br />
+      <DashedDivider />
+      <br />
       {Object.entries(extensionsHelper).map(([key, value]) => (propType == key ? value : null))}
     </VStack>
   )
