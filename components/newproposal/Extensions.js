@@ -15,11 +15,10 @@ import NumInputField from "../elements/NumInputField";
 import DashedDivider from "../elements/DashedDivider";
 
 export default function Extensions() {
-  const value = useContext(AppContext);
-  const { web3, loading, account, abi, address, chainId, balances, daoChain } =
-    value.state;
-  const [propType, setPropType] = useState("tribute");
-  const [ext, setExt] = useState();
+  const value = useContext(AppContext)
+  const { web3, loading, account, abi, address, chainId, balances, daoChain } = value.state
+  const [propType, setPropType] = useState('tribute')
+  const [ext, setExt] = useState()
 
   const handleChange = (e) => {
     try {
@@ -30,50 +29,45 @@ export default function Extensions() {
       console.log(ext_);
     } catch (e) {
       value.toast(e);
+
     }
-  };
+  }
 
   const submitProposal = async (event) => {
-    event.preventDefault();
-    value.setLoading(true);
+    event.preventDefault()
+    value.setLoading(true)
 
     try {
-      let object = event.target;
-      var array = [];
+      let object = event.target
+      var array = []
       for (let i = 0; i < object.length; i++) {
-        array[object[i].name] = object[i].value;
+        array[object[i].name] = object[i].value
       }
 
-      var { description_, account_, proposalType_ } = array; // this must contain any inputs from custom forms
+      var { description_, account_, proposalType_ } = array // this must contain any inputs from custom forms
 
-      const payload_ = Array(0);
+      const payload_ = Array(0)
 
-      const instance = new web3.eth.Contract(abi, address);
+      const instance = new web3.eth.Contract(abi, address)
 
-      const amount_ = 0;
+      const amount_ = 0
 
       try {
         let result = await instance.methods
-          .propose(
-            proposalType_,
-            description_,
-            [account_],
-            [amount_],
-            [payload_]
-          )
-          .send({ from: account });
-        value.setVisibleView(2);
+          .propose(proposalType_, description_, [account_], [amount_], [payload_])
+          .send({ from: account })
+        value.setVisibleView(2)
       } catch (e) {
-        value.toast(e);
-        value.setLoading(false);
+        value.toast(e)
+        value.setLoading(false)
       }
     } catch (e) {
-      value.toast(e);
-      value.setLoading(false);
+      value.toast(e)
+      value.setLoading(false)
     }
 
-    value.setLoading(false);
-  };
+    value.setLoading(false)
+  }
 
   return (
     <VStack width="100%" alignItems="left">
@@ -94,5 +88,5 @@ export default function Extensions() {
         propType == key ? value : null
       )}
     </VStack>
-  );
+  )
 }

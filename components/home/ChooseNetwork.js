@@ -1,36 +1,35 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import { VStack, HStack, Button, Text, Icon, Heading } from "@chakra-ui/react";
-import { supportedChains } from "../../constants/supportedChains";
-import { getNetworkName } from "../../utils/formatters";
-import { AiOutlineCheckCircle, AiOutlineWarning } from "react-icons/ai";
-import Select from "../elements/Select";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import { VStack, HStack, Button, Text, Icon, Heading } from '@chakra-ui/react'
+import { supportedChains } from '../../constants/supportedChains'
+import { getNetworkName } from '../../utils/formatters'
+import { AiOutlineCheckCircle, AiOutlineWarning } from 'react-icons/ai'
+import Select from '../elements/Select'
 export default function ChooseNetwork(props) {
-  const value = useContext(AppContext);
-  const { web3, chainId, loading, account } = value.state;
-  const [network, setNetwork] = useState(999); // for visibility handling in this component
+  const value = useContext(AppContext)
+  const { web3, chainId, loading, account } = value.state
+  const [network, setNetwork] = useState(999) // for visibility handling in this component
 
   useEffect(() => {
-    if (props.details["network"] != null) {
-      setNetwork(props.details["network"]);
+    if (props.details['network'] != null) {
+      setNetwork(props.details['network'])
     }
-  }, [props.details]);
+  }, [props.details])
 
   const updateNetwork = (e) => {
-    let newValue = e.target.value;
-    let array = props.details;
-    array["network"] = newValue;
-    setNetwork(newValue);
-    props.setDetails(array);
-    console.log(props.details);
-  };
+    let newValue = e.target.value
+    let array = props.details
+    array['network'] = newValue
+    setNetwork(newValue)
+    props.setDetails(array)
+    console.log(props.details)
+  }
 
-  const handleConnect = async() => {
-    await value.connect();
-    if(chainId != network) {
-      await value.switchChain(network);
+  const handleConnect = async () => {
+    await value.connect()
+    if (chainId != network) {
+      await value.switchChain(network)
     }
-
   }
 
   return (
@@ -44,17 +43,16 @@ export default function ChooseNetwork(props) {
         bg="kali.900"
         color="kali.800"
         onChange={updateNetwork}
-        defaultValue={props.details["network"]}
+        defaultValue={props.details['network']}
       >
         {/* <option value="999"></option> */}
         {supportedChains.map((item, index) => (
-          <option key={index} value={item["chainId"]}>
-            {item["name"]}
+          <option key={index} value={item['chainId']}>
+            {item['name']}
           </option>
         ))}
       </Select>
-      {(network != 999 && chainId != network) ||
-      (network != 999 && chainId != network && account == null) ? (
+      {(network != 999 && chainId != network) || (network != 999 && chainId != network && account == null) ? (
         <>
           <HStack id="not-connected">
             <Icon as={AiOutlineWarning} />
@@ -73,10 +71,7 @@ export default function ChooseNetwork(props) {
             </Text>
           </HStack>
           <br></br>
-          <Button
-            className="transparent-btn"
-            onClick={() => props.handleNext()}
-          >
+          <Button className="transparent-btn" onClick={() => props.handleNext()}>
             Next »
           </Button>
         </>

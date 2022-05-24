@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function DateSelect(props) {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date())
 
   return (
     <DatePicker
@@ -17,5 +17,5 @@ export default function DateSelect(props) {
       timeCaption="time"
       dateFormat="MMMM d, yyyy h:mm aa"
     />
-  );
+  )
 }

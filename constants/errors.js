@@ -1,3 +1,3 @@
 export const errorMessages = {
-  connect: "Please connect to Metamask."
-};
+  connect: 'Please connect to Metamask.',
+}

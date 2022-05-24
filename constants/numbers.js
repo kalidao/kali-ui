@@ -1,5 +1,5 @@
 export const scientificNotation = {
-  0: 1e0,
+  0: 1,
   1: 1e1,
   2: 1e2,
   3: 1e3,
@@ -17,5 +17,5 @@ export const scientificNotation = {
   15: 1e15,
   16: 1e16,
   17: 1e17,
-  18: 1e18
-};
+  18: 1e18,
+}

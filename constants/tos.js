@@ -1,7 +1,7 @@
 export const tos = `
 ## **Introduction**
 
-Please read these terms of service (“**_Terms_**”) carefully. These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [](http://syndicateprotocol.org/)[kalidao.xyz](http://kalidao.xyz/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site.  
+Please read these terms of service (“**_Terms_**”) carefully. These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [kalidao.xyz](http://kalidao.xyz/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site.  
 
 By using the Site, you agree to these Terms.
 
@@ -71,9 +71,10 @@ The U.S. Department of the Treasury, through the Office of Foreign Assets Contro
 ## **Third Party Links**
 The Site may contain hyperlinks or references to third party websites. Any such hyperlinks or references are provided for your information and convenience only. We have no control over third party websites and accept no legal responsibility for any content, material or information contained in them. The display of any hyperlink and reference to any third-party website does not mean that we endorse that third party's website, products or services. Your use of a third-party site may be governed by the terms and conditions of that third-party site.
 ## **Privacy Policy**
-Certain areas of our website may record and collect information about you. You can find more information about how we will process your personal information in our Privacy Policy.
+When you use the Site, the only information we collect from you is your blockchain wallet address. We do not collect any personal information from you unless otherwise specifically requested. We do not take responsibility for any information you make public on the Ethereum blockchain by taking actions through the Site.
+
 ## **Intellectual Property**
-We are the owner of all intellectual property rights in the Site and the material published on them. These works are protected by copyright laws and all such rights are reserved.  [](http://syndicateprotocol.org/)[http://kalidao.xyz/](http://kalidao.xyz/) is the uniform resource locator (“***URL***”) of KaliCo. You will not make use of this URL on another website or digital platform without our prior written consent.  You agree not to monitor, use or copy our web pages without our prior consent. Any unauthorized use or reproduction may be prosecuted.
+We are the owner of all intellectual property rights in the Site and the material published on them. These works are protected by copyright laws and all such rights are reserved. [http://kalidao.xyz/](http://kalidao.xyz/) is the uniform resource locator (“***URL***”) of KaliCo. You will not make use of this URL on another website or digital platform without our prior written consent.  You agree not to monitor, use or copy our web pages without our prior consent. Any unauthorized use or reproduction may be prosecuted.
 
 You will retain ownership of all copyright in data you upload or submit to the Site. You grant us a worldwide, royalty-free, irrevocable license to use, copy, distribute or publish and send this data in any manner.
 ## **Disclaimers**
@@ -115,4 +116,4 @@ With respect to all persons and entities, regardless of whether they have obtain
 ## **Contacting Us**
 
 Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at *kalidao@protonmail.xyz*.
-`;
+`

@@ -1,10 +1,10 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import { IconButton } from "@chakra-ui/react";
-import { BiRefresh } from "react-icons/bi";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import { IconButton } from '@chakra-ui/react'
+import { BiRefresh } from 'react-icons/bi'
 
 export default function Reload(props) {
-  const value = useContext(AppContext);
+  const value = useContext(AppContext)
 
   return (
     <IconButton
@@ -14,9 +14,9 @@ export default function Reload(props) {
       icon={<BiRefresh />}
       onClick={props.reload}
       color="#fff"
-      _hover={{ background: "none" }}
-      _active={{ background: "none" }}
+      _hover={{ background: 'none' }}
+      _active={{ background: 'none' }}
       background="none"
     />
-  );
+  )
 }

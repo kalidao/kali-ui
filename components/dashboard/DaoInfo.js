@@ -1,116 +1,116 @@
-import { useState, useContext, useEffect } from "react";
-import AppContext from "../../context/AppContext";
-import { Text, HStack, Link, Icon, Spacer } from "@chakra-ui/react";
-import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
-import { fromDecimals, truncateAddress } from "../../utils/formatters";
-import DashedDivider from "../elements/DashedDivider";
-import CapTableModal from "./CapTableModal";
-import { addresses } from "../../constants/addresses";
+import { useState, useContext, useEffect } from 'react'
+import AppContext from '../../context/AppContext'
+import { Text, HStack, Link, Icon, Spacer } from '@chakra-ui/react'
+import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
+import { fromDecimals, truncateAddress } from '../../utils/formatters'
+import DashedDivider from '../elements/DashedDivider'
+import CapTableModal from './CapTableModal'
+import { addresses } from '../../constants/addresses'
 
 export default function DaoInfo() {
-  const value = useContext(AppContext);
-  const { dao, chainId } = value.state;
-  const [info, setInfo] = useState([]);
-  const blockExplorer = addresses[chainId]["blockExplorer"];
+  const value = useContext(AppContext)
+  const { dao, chainId } = value.state
+  const [info, setInfo] = useState([])
+  const blockExplorer = addresses[chainId]['blockExplorer']
 
   const notRicardianDao = [
     {
-      name: "Name",
-      info: dao["name"],
+      name: 'Name',
+      info: dao['name'],
       link: null,
     },
     {
-      name: "Address",
-      info: truncateAddress(dao["address"]),
-      link: `${blockExplorer}/address/${dao["address"]}`,
+      name: 'Address',
+      info: truncateAddress(dao['address']),
+      link: `${blockExplorer}/address/${dao['address']}`,
     },
     {
-      name: "Symbol",
-      info: dao["token"]["symbol"],
+      name: 'Symbol',
+      info: dao['token']['symbol'],
       link: null,
     },
     {
-      name: "Shares",
-      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      name: 'Shares',
+      info: fromDecimals(dao['token']['totalSupply'], 18),
       link: null,
     },
     {
-      name: "Docs",
-      info: "",
-      link: `https://ipfs.io/ipfs/${dao["docs"]}`,
+      name: 'Docs',
+      info: dao['docs'] == 'none' ? 'Pending' : '',
+      link: dao['docs'] == 'none' ? null : `https://ipfs.io/ipfs/${dao['docs']}`,
     },
     {
-      name: "Members",
-      info: dao["members"].length,
+      name: 'Members',
+      info: dao['members'].length,
       link: null,
     },
-  ];
+  ]
 
   const ricardianDao = [
     {
-      name: "Name",
-      info: dao["name"],
+      name: 'Name',
+      info: dao['name'],
       link: null,
     },
     {
-      name: "Address",
-      info: truncateAddress(dao["address"]),
-      link: `${blockExplorer}/address/${dao["address"]}`,
+      name: 'Address',
+      info: truncateAddress(dao['address']),
+      link: `${blockExplorer}/address/${dao['address']}`,
     },
     {
-      name: "Symbol",
-      info: dao["token"]["symbol"],
+      name: 'Symbol',
+      info: dao['token']['symbol'],
       link: null,
     },
     {
-      name: "Shares",
-      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      name: 'Shares',
+      info: fromDecimals(dao['token']['totalSupply'], 18),
       link: null,
     },
     {
-      name: "Members",
-      info: dao["members"].length,
+      name: 'Members',
+      info: dao['members'].length,
       link: null,
     },
-  ];
+  ]
 
   const customDao = [
     {
-      name: "Name",
-      info: dao["name"],
+      name: 'Name',
+      info: dao['name'],
       link: null,
     },
     {
-      name: "Address",
-      info: truncateAddress(dao["address"]),
-      link: `${blockExplorer}/address/${dao["address"]}`,
+      name: 'Address',
+      info: truncateAddress(dao['address']),
+      link: `${blockExplorer}/address/${dao['address']}`,
     },
     {
-      name: "Symbol",
-      info: dao["token"]["symbol"],
+      name: 'Symbol',
+      info: dao['token']['symbol'],
       link: null,
     },
     {
-      name: "Shares",
-      info: fromDecimals(dao["token"]["totalSupply"], 18),
+      name: 'Shares',
+      info: fromDecimals(dao['token']['totalSupply'], 18),
       link: null,
     },
     {
-      name: "Docs",
-      info: "",
-      link: dao["docs"],
+      name: 'Docs',
+      info: '',
+      link: dao['docs'],
     },
     {
-      name: "Members",
-      info: dao["members"].length,
+      name: 'Members',
+      info: dao['members'].length,
       link: null,
     },
-  ];
+  ]
 
   useEffect(() => {
-    dao["docs"] == "" ? setInfo(ricardianDao) : setInfo(notRicardianDao);
-    dao["docs"].substring(0, 4) == "http" ? setInfo(customDao) : null;
-  }, []);
+    dao['docs'] == '' ? setInfo(ricardianDao) : setInfo(notRicardianDao)
+    dao['docs'].substring(0, 4) == 'http' ? setInfo(customDao) : null
+  }, [])
 
   return (
     <div>
@@ -133,7 +133,11 @@ export default function DaoInfo() {
           ) : null}
         </>
       ))}
+      {dao['docs'] == 'none' ? (
+        <Text fontSize="sm">*If you need assistance with entity registration, please see Consult.</Text>
+      ) : null}
+      <br />
       <CapTableModal />
     </div>
-  );
+  )
 }

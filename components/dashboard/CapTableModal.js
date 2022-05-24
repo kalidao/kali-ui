@@ -1,5 +1,5 @@
-import React from "react";
-import CapTable from "./CapTable";
+import React from 'react'
+import CapTable from './CapTable'
 import {
   Center,
   Button,
@@ -11,9 +11,9 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 function CapTableModal() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -22,22 +22,11 @@ function CapTableModal() {
           Member Details
         </Button>
       </Center>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size="xl"
-        isCentered
-        motionPreset="scale"
-        scrollBehavior="outside"
-      >
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered motionPreset="scale" scrollBehavior="outside">
         <ModalOverlay bg="none" backdropFilter="blur(20px) hue-rotate(90deg)" />
-        <ModalContent
-          className="glass"
-          background="none"
-          boxShadow="5px 6px 3px 1px #450000 "
-        >
+        <ModalContent className="glass" background="none" boxShadow="5px 6px 3px 1px #450000 ">
           <ModalHeader color="#fff">Cap Table</ModalHeader>
-          <ModalCloseButton _focus={{ border: "none" }} />
+          <ModalCloseButton _focus={{ border: 'none' }} />
           <ModalBody>
             <CapTable />
           </ModalBody>
@@ -46,8 +35,8 @@ function CapTableModal() {
               borderRadius="2xl"
               border="none"
               bg="blackAlpha.300"
-              _hover={{ bg: "blackAlpha.500" }}
-              _active={{ bg: "blackAlpha.500" }}
+              _hover={{ bg: 'blackAlpha.500' }}
+              _active={{ bg: 'blackAlpha.500' }}
               mr={3}
               onClick={onClose}
             >
@@ -57,7 +46,7 @@ function CapTableModal() {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
 
-export default CapTableModal;
+export default CapTableModal
