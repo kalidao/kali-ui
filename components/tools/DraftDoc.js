@@ -25,6 +25,7 @@ import DelawareInvestmentClubTemplate from '../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from '../legal/DelawareUNAtemplate'
 import WyomingOAtemplate from '../legal/WyomingOAtemplate'
 import SwissVerein from '../legal/SwissVerein'
+import LlcJoinder from '../legal/LlcJoinder'
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -37,6 +38,7 @@ function DraftDoc() {
   const [deUnaForm, setDeUnaForm] = useState(false)
   const [wyLlcForm, setWyLlcForm] = useState(false)
   const [swissVereinForm, setSwissVereinForm] = useState(false)
+  const [memberJoinderForm, setMemberJoinderForm] = useState(false)
 
   // State per Legal Form
   const [delawareLlc, setDelawareLlc] = useState({})
@@ -44,6 +46,7 @@ function DraftDoc() {
   const [delawareUna, setDelawareUna] = useState({})
   const [wyomingLlc, setWyomingLlc] = useState({})
   const [swissVerein, setSwissVerein] = useState({})
+  const [memberJoinder, setMemberJoinder] = useState({})
 
   const generateDoc = (values) => {
     values.agreement = selection
@@ -81,6 +84,13 @@ function DraftDoc() {
           mission: values.mission,
         })
         setSwissVereinForm(true)
+      case 'member-joinder':
+        setMemberJoinder({
+          name: values.name,
+          address: values.address,
+          state: values.state,
+        })
+        setMemberJoinderForm(true)
     }
 
     console.log(values)
@@ -133,6 +143,7 @@ function DraftDoc() {
                   <option value="delaware-ic">Investment Club</option>
                   <option value="delaware-una">UNA</option>
                   <option value="swiss-verein">Swiss Verein</option>
+                  <option value="member-joinder">LLC Member Joinder</option>
                 </Select>
               </FormControl>
               {selection === 'delaware-llc' && (
@@ -222,6 +233,24 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
+              {selection === 'member-joinder' && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="name">
+                      DAO Name
+                    </FormLabel>
+                    <Input id="name" placeholder="KALI" {...register('name')} />
+                    <FormLabel mt={3} htmlFor="address">
+                      DAO Contract Address
+                    </FormLabel>
+                    <Input id="address" placeholder="0xKALI" {...register('address')} />
+                    <FormLabel mt={3} htmlFor="state">
+                      State of Incorporation
+                    </FormLabel>
+                    <Input id="state" placeholder="State of Incorporation" {...register('state')} />
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </DrawerBody>
           <DrawerFooter>
@@ -282,6 +311,18 @@ function DraftDoc() {
                     />
                   }
                   fileName="Swiss Verein Article of Association"
+                >
+                  {({ loading }) =>
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
+                  }
+                </PDFDownloadLink>
+              )) ||
+              (memberJoinderForm && (
+                <PDFDownloadLink
+                  document={
+                    <LlcJoinder name={memberJoinder.name} address={memberJoinder.address} state={memberJoinder.state} />
+                  }
+                  fileName="LLC Member Joinder Agreement"
                 >
                   {({ loading }) =>
                     loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
