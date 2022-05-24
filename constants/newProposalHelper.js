@@ -10,6 +10,7 @@ import { FiSettings, FiSend, FiTrash2 } from 'react-icons/fi'
 import { MdOutlineGeneratingTokens } from 'react-icons/md'
 import { BiLoaderCircle } from 'react-icons/bi'
 import { BsPuzzle } from 'react-icons/bs'
+import Soulbinder from '../components/newproposal/Soulbinder'
 
 // populates tiles on desktop view of New Proposal view
 export const newProposalHelper = [
@@ -53,6 +54,12 @@ export const newProposalHelper = [
     title: 'Removal',
     description: 'kick member out for security or misconduct',
     component: <RemoveMember />,
+    icon: FiTrash2,
+  },
+  {
+    title: 'Souldbinder',
+    description: 'bind your sould to DAO',
+    component: <Soulbinder />,
     icon: FiTrash2,
   },
 ]
