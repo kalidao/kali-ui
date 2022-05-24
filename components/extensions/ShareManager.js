@@ -45,10 +45,13 @@ export default function ShareManager() {
     name: "recipients",
   });
 
-  const { web3, chainId, account, address, dao } = value.state;
+  const { web3, chainId, account, abi, address, dao } = value.state;
   const [members, setMembers] = useState(null);
+  const [hasExtension, setHasExtension] = useState(false);
+  const [isManager, setIsManager] = useState(false);
   const shareManagerAddress = addresses[chainId]["extensions"]["manager"];
 
+  // Load members for selection
   useEffect(() => {
     const getMembers = async () => {
       if (!members) {
@@ -62,6 +65,41 @@ export default function ShareManager() {
     };
     getMembers();
   }, [members]);
+
+  // Check if extension is set and if manager is set
+  useEffect(() => {
+    const checkManagerExtension = async () => {
+      const instance = new web3.eth.Contract(abi, address);
+
+      try {
+        const result = await instance.methods
+          .extensions(shareManagerAddress)
+          .call();
+        console.log("Extension check - ", result);
+        result ? setHasExtension(true) : null;
+      } catch (e) {
+        console.log(e);
+        console.log("Extension check not successful.");
+      }
+    };
+
+    const checkManager = async () => {
+      const instance = new web3.eth.Contract(abi_, shareManagerAddress);
+
+      try {
+        const result = await instance.methods
+          .management(address, account)
+          .call();
+        console.log("Manager check - ", result);
+        result ? setIsManager(true) : null;
+      } catch (e) {
+        console.log(e);
+        console.log("Manager check not successful.");
+      }
+    };
+    checkManagerExtension();
+    checkManager();
+  }, []);
 
   useEffect(() => {
     append();
@@ -127,20 +165,12 @@ export default function ShareManager() {
       if (recipients[i].mint == "mint") {
         update = web3.eth.abi.encodeParameters(
           ["address", "uint256", "bool"],
-          [
-            members[recipients[i].address].value,
-            toDecimals(amount_, 18),
-            true,
-          ]
+          [members[recipients[i].address].value, toDecimals(amount_, 18), true]
         );
       } else {
         update = web3.eth.abi.encodeParameters(
           ["address", "uint256", "bool"],
-          [
-            members[recipients[i].address].value,
-            toDecimals(amount_, 18),
-            false,
-          ]
+          [members[recipients[i].address].value, toDecimals(amount_, 18), false]
         );
       }
 
@@ -170,123 +200,114 @@ export default function ShareManager() {
 
   return (
     <form onSubmit={handleSubmit(submitProposal)}>
-      <VStack width="100%" align="flex-start">
-        <HStack w="100%">
-          <Text fontSize="14px">
-            Select member to mint/burn their DAO tokens
-          </Text>
-          <Spacer />
-          <Button
-            border="0px"
-            variant="ghost"
-            _hover={{
-              background: "green.400",
-            }}
-            onClick={() => append({ address: "" })}
-          >
-            <AiOutlineUserAdd color="white" />
-          </Button>
-        </HStack>
-        <Box h={"2%"} />
-        <List w={"100%"} spacing={3}>
-          {fields.map((recipient, index) => (
-            <ListItem
-              // display="flex"
-              flexDirection="row"
-              alignContent="center"
-              // justifyContent="center"
-              key={recipient.id}
-            >
-              <HStack>
-                <Controller
-                  name={`recipients.${index}.address`}
-                  control={control}
-                  defaultValue={recipient.address}
-                  render={({ field }) => (
-                    <FormControl>
-                      <Select
-                        id={index}
-                        {...register(`recipients.${index}.address`)}
-                      >
-                        <option>Select</option>
-                        {members.map((member, index) => (
-                          <option key={member.value} value={index}>
-                            {member.label}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  name={`recipients.${index}.mint`}
-                  control={control}
-                  defaultValue={recipient.mint}
-                  render={({ field }) => (
-                    <FormControl w={"30%"}>
-                      <Select
-                        id={index}
-                        {...register(`recipients.${index}.mint`)}
-                      >
-                        <option>Select</option>
-                        <option value={"mint"}>Mint</option>
-                        <option value={"burn"}>Burn</option>
-                      </Select>
-                    </FormControl>
-                  )}
-                />
-                {/* <Controller
-                  name={`recipients.${index}.mint`}
-                  control={control}
-                  defaultValue={recipient.mint}
-                  render={({ field }) => (
-                    <FormControl w={"30%"} isRequired>
-                      <RadioGroup
-                        id={`recipients.${index}.mint`}
-                        onChange={handleRadioSelection}
-                      >
-                        <HStack>
-                          <Radio value={"true"}>Mint</Radio>
-                          <Radio value={"false"}>Burn</Radio>
-                        </HStack>
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                /> */}
-                <Controller
-                  name={`recipients.${index}.amount`}
-                  control={control}
-                  defaultValue={recipient.amount}
-                  render={({ field }) => (
-                    <FormControl w={"30%"} isRequired>
-                      <NumInputField
-                        min="0.0000001"
-                        defaultValue="1"
-                        id={`recipients.${index}.amount`}
-                        // {...field}fv
-                      />
-                    </FormControl>
-                  )}
-                />
-                <IconButton
-                  w={"12%"}
-                  className="delete-icon"
-                  aria-label="delete recipient"
-                  icon={<AiOutlineDelete />}
-                  onClick={() => remove(index)}
-                />
-              </HStack>
-            </ListItem>
-          ))}
-        </List>
-        <br />
-      </VStack>
-      <br />
-      <VStack w={"100%"}>
-        <Button className="solid-btn" type="submit">
-          Submit Proposal
-        </Button>
-      </VStack>
+      {isManager ? (
+        <>
+          <VStack width="100%" align="flex-start">
+            <HStack w="100%">
+              <Text fontSize="14px">
+                Select member to mint/burn their DAO tokens
+              </Text>
+              <Spacer />
+              <Button
+                border="0px"
+                variant="ghost"
+                _hover={{
+                  background: "green.400",
+                }}
+                onClick={() => append({ address: "" })}
+              >
+                <AiOutlineUserAdd color="white" />
+              </Button>
+            </HStack>
+            <Box h={"2%"} />
+            <List w={"100%"} spacing={3}>
+              {fields.map((recipient, index) => (
+                <ListItem
+                  // display="flex"
+                  flexDirection="row"
+                  alignContent="center"
+                  // justifyContent="center"
+                  key={recipient.id}
+                >
+                  <HStack>
+                    <Controller
+                      name={`recipients.${index}.address`}
+                      control={control}
+                      defaultValue={recipient.address}
+                      render={({ field }) => (
+                        <FormControl>
+                          <Select
+                            id={index}
+                            {...register(`recipients.${index}.address`)}
+                          >
+                            <option>Select</option>
+                            {members.map((member, index) => (
+                              <option key={member.value} value={index}>
+                                {member.label}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      )}
+                    />
+                    <Controller
+                      name={`recipients.${index}.mint`}
+                      control={control}
+                      defaultValue={recipient.mint}
+                      render={({ field }) => (
+                        <FormControl w={"30%"}>
+                          <Select
+                            id={index}
+                            {...register(`recipients.${index}.mint`)}
+                          >
+                            <option>Select</option>
+                            <option value={"mint"}>Mint</option>
+                            <option value={"burn"}>Burn</option>
+                          </Select>
+                        </FormControl>
+                      )}
+                    />
+                    <Controller
+                      name={`recipients.${index}.amount`}
+                      control={control}
+                      defaultValue={recipient.amount}
+                      render={({ field }) => (
+                        <FormControl w={"30%"} isRequired>
+                          <NumInputField
+                            min="0.0000001"
+                            defaultValue="1"
+                            id={`recipients.${index}.amount`}
+                            // {...field}fv
+                          />
+                        </FormControl>
+                      )}
+                    />
+                    <IconButton
+                      w={"12%"}
+                      className="delete-icon"
+                      aria-label="delete recipient"
+                      icon={<AiOutlineDelete />}
+                      onClick={() => remove(index)}
+                    />
+                  </HStack>
+                </ListItem>
+              ))}
+            </List>
+            <br />
+          </VStack>
+          <br />
+          <VStack w={"100%"}>
+            <Button className="solid-btn" type="submit">
+              Submit Proposal
+            </Button>
+          </VStack>
+        </>
+      ) : (
+        <VStack align={"flex-start"}>
+          <br/>
+          <Text>Only managers may access this page!</Text>
+        </VStack>
+      )}
     </form>
   );
 }
