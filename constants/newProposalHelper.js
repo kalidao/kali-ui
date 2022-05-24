@@ -58,7 +58,7 @@ export const newProposalHelper = [
   },
   {
     title: 'Souldbinder',
-    description: 'bind your sould to DAO',
+    description: 'bind your sold',
     component: <Soulbinder />,
     icon: FiTrash2,
   },
