@@ -1,15 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { useAccount, useNetwork, useContractWrite, useSendTransaction, useContract, useSigner } from "wagmi";
-import { Flex, Text, Button } from "../../styles/elements/"
-import { Form, FormElement, Label, Input } from "../../styles/form-elements/"
+import { useAccount, useNetwork, useContractWrite, useContract, useSigner } from "wagmi";
+import { Flex, Text, Button } from "../../../../styles/elements"
+import { Form, FormElement, Label, Input } from "../../../../styles/form-elements";
 import { AddressZero } from '@ethersproject/constants'
-import TRIBUTE_ABI from "../../abi/KaliDAOtribute.json";
-import { BigNumber, ethers } from 'ethers';
-import { addresses } from '../../constants/addresses';
-import DaoContext from '../../context/DaoContext';
-import { Select } from '../../styles/form-elements/Select';
-import { UploadIcon } from '@radix-ui/react-icons';
-import FileUploader from '../tools/FileUpload';
+import { ethers } from 'ethers';
+import { addresses } from '../../../../constants/addresses';
+import DaoContext from '../../../../context/DaoContext';
+import { Select } from '../../../../styles/form-elements/Select';
+import FileUploader from '../../../tools/FileUpload';
+import TRIBUTE_ABI from "../../../../abi/KaliDAOtribute.json";
 
 export default function GiveTribute() {
   const value = useContext(DaoContext);

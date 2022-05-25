@@ -4,6 +4,14 @@ const Button = styled('button', {
     border: 'none',
 
     variants: {
+        effect: {
+            film: {
+                '&:hover': {
+                    background: 'hsl(0, 0%, 70%, 0.5)',
+                    color: '$background'
+                }
+            }
+        },
         variant: {
             icon: {
                 background: 'none',

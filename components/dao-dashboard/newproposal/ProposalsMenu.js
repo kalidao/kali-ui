@@ -1,9 +1,7 @@
 import React from 'react'
-import { NewProposalModal } from '.'
-import { DialogTitle } from '../../styles/Dialog'
-import { Box } from '../../styles/elements'
-import { styled } from '../../styles/stitches.config'
-import { proposals } from './proposals'
+import { Box } from '../../../styles/elements'
+import { styled } from '../../../styles/stitches.config'
+
 const Menu = styled(Box, {
   display: 'grid',
   gap: '1rem',
@@ -48,28 +46,23 @@ const Item = styled(Box, {
   
 });
 
-export default function ProposalsMenu() {
-  
-  const openSend = () => {
-    NewProposalModal(false, proposals["send"]["title"], proposals["send"]["component"])
-  }
-
+export default function ProposalsMenu({ setProposal }) {
   return (
     <Menu>
-      <Item>
+      <Item onClick={() => setProposal('send')}>
         Send
       </Item>
-      <Item>
+      <Item onClick={() => setProposal('mint')}>
         Membership
       </Item>
-      <Item>
+      <Item onClick={() => setProposal('governance')}>
         Governance
       </Item>
-      <Item>
+      <Item onClick={() => setProposal('apps')}>
         Apps
       </Item>
-      <Item>
-        Actions
+      <Item onClick={() => setProposal('call')}>
+        Contract Interaction
       </Item>
     </Menu> 
   )

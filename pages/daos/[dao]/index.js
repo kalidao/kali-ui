@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getDaoChain } from "../../../utils/";
 import Layout from "../../../components/layout";
-import { Dashboard } from "../../../components/dashboard/"
+import { Dashboard } from "../../../components/dao-dashboard/"
 import { graph } from "../../../constants/graph";
 import { useAccount } from "wagmi"
 import updateAction from "../../../components/deploy-dao/updateAction"
 import DaoContext from "../../../context/DaoContext";
-import Sidebar from "../../../components/dashboard/sidebar";
+import Sidebar from "../../../components/dao-dashboard/sidebar";
 
 
 export default function Dao() {

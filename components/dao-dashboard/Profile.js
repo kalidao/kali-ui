@@ -1,14 +1,9 @@
 import React from 'react'
 import { styled } from '../../styles/stitches.config'
 import { Button, Flex, Text } from '../../styles/elements';
-import { ethers } from 'ethers';
 import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
-import { NewProposalModal } from '../newproposal';
-import { proposals } from '../newproposal/proposals';
+import { NewProposalModal } from './newproposal';
 import Link from 'next/link';
-import { PersonIcon } from '@radix-ui/react-icons';
-import Image from 'next/image';
-import { bounce } from '../../styles/animation';
 import { useRouter } from 'next/router';
 
 const Profile = styled(Flex, {
@@ -51,7 +46,7 @@ export default function ProfileComponent({ dao }) {
                     <Button>Join</Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <NewProposalModal showMenu={false} proposal={"giveTribute"} />
+                    <NewProposalModal proposalProp="giveTribute" />
                 </DialogContent>
             </Dialog>     
     </Profile>

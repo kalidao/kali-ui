@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex } from '../../styles/elements'
 import Profile from "./Profile";
-import Proposals from "./proposals/";
+import Proposals from "./proposals";
 import { styled } from '../../styles/stitches.config';
 
 const Layout = styled(Flex, {

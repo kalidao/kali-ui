@@ -1,7 +1,6 @@
 import { Dialog, DialogTrigger, DialogContent } from '../../../styles/Dialog';
 import { Box } from '../../../styles/elements';
-import { NewProposalModal } from '../../newproposal';
-
+import { NewProposalModal } from '../newproposal';
 
 export default function NewProposal() {
   // TODO: Disable when fetching 
@@ -11,7 +10,7 @@ export default function NewProposal() {
         <Box variant="create">+</Box>
       </DialogTrigger>
       <DialogContent>
-        <NewProposalModal showMenu={true} />
+        <NewProposalModal proposalProp={"menu"} />
       </DialogContent>
     </Dialog>
   )
