@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { Flex, Text } from '../../../styles/elements'
 import { ProposalCard } from './ProposalCard'
 import { getDaoChain } from '../../../utils';
-import { DAO_PROPOSALS } from '../../../graph/queries';
+import { DAO_PROPOSALS } from '../../../graph/';
 import { useQuery } from '@apollo/client';
+
 export default function Proposals({ dao }) {
   const router = useRouter();
   const daoAddress = router.query.dao

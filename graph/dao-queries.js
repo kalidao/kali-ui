@@ -35,3 +35,39 @@ export const DAO_PROPOSALS = gql(`
           }
       }
 `)
+
+export const CHECK_APPS = gql(`
+    query daoCheckAppsQuery($dao: ID!) {
+        daos(where: {
+            id: $dao
+          }) {
+            crowdsale {
+              active
+              saleEnds
+            }
+            tribute {
+              active
+            }
+            redemption {
+              active
+              starts
+            }
+          }
+      }
+`)
+
+// Members for sorting
+export const ALL_DAOS = gql(`
+    query allDaosQuery {
+        daos {
+          id
+          token {
+            name
+          }
+          members {
+            id
+          }
+      }
+    }
+`)
+

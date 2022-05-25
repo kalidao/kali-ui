@@ -7,6 +7,7 @@ const MembersBox = styled(Flex, {
   gap: '0.1rem', 
   position: 'relative', 
   background: '$foreground', 
+  minWidth: '90vw'
 })
 
 export default function Members({ members }) {

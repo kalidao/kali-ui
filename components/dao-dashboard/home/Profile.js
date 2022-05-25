@@ -1,14 +1,15 @@
 import React from 'react'
-import { styled } from '../../styles/stitches.config'
-import { Button, Flex, Text } from '../../styles/elements';
-import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
-import { NewProposalModal } from './newproposal';
+import { styled } from '../../../styles/stitches.config'
+import { Button, Flex, Text } from '../../../styles/elements';
+import { Dialog, DialogTrigger, DialogContent } from  '../../../styles/Dialog';
+import { NewProposalModal } from '../newproposal/';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { DAO_MEMBERS } from '../../graph';
+import { DAO_MEMBERS } from '../../../graph';
 import { useQuery } from '@apollo/client';
-import { getDaoChain } from '../../utils';
-const Profile = styled(Flex, {
+import { getDaoChain } from '../../../utils';
+
+export const Box = styled(Flex, {
     position: 'relative',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -19,10 +20,6 @@ const Profile = styled(Flex, {
     minWidth: '30%',
     padding: '2rem',
     border: '1px solid $gray800',
-
-    '@media (max-width: 640px)': {
-        display: 'none'
-      },   
 });
 
 export default function ProfileComponent({ dao }) {
@@ -42,7 +39,7 @@ export default function ProfileComponent({ dao }) {
   console.log(error, data, members)
 
   return (
-    <Profile>
+    <Box>
             <Text size="lg">About</Text>
             <Flex dir="row" align="separate" gap="md">
                 <Flex dir="col" align="start" gap="sm">
@@ -52,7 +49,7 @@ export default function ProfileComponent({ dao }) {
                 <Flex dir="col" align="center" gap="sm" >
                     <Link 
                         href={{
-                                pathname: '[dao]/members',
+                                pathname: '/daos/[dao]/members',
                                 query: { dao: daoAddress}
                         }}>
                         <Flex dir="col" align="start" gap="sm">
@@ -72,6 +69,6 @@ export default function ProfileComponent({ dao }) {
                     <NewProposalModal proposalProp="giveTribute" />
                 </DialogContent>
             </Dialog>     
-    </Profile>
+    </Box>
   )
 }

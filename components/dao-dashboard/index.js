@@ -1,5 +1,5 @@
 import React from 'react'
-import Profile from "./Profile";
+import Sidebar from "./home/";
 import Proposals from "./proposals";
 import { Flex } from '../../styles/elements';
 
@@ -11,7 +11,7 @@ export function Dashboard({ }) {
       minWidth: '90vw'
     }}>
         <Proposals />
-        <Profile />
+        <Sidebar />
     </Flex>
   )
 }

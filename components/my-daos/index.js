@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useNetwork, useAccount } from "wagmi";
-import { GRAPH_URL } from "../../utils/graph";
 import { styled } from "../../styles/stitches.config";
 import DaoCard from "./DaoCard";
 import NewDao from "./NewDao";
@@ -44,44 +41,7 @@ export const Results = styled('div', {
   }
 });
 
-export default function MyDAOs() {
-  const { activeChain } = useNetwork();
-  const { data: account } = useAccount();
-  const [daos, setDaos] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, [activeChain, account]);
-
-  async function fetchData() {
-     try {
-        const result = await fetch(GRAPH_URL[activeChain?.id], {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: `query {
-              members(where: {
-                address: "${account?.address}"
-              }) {
-                dao {
-                  id
-                  token {
-                    name
-                  }
-                }
-              }
-            }`,
-          }),
-        }).then((res) => res.json());
-
-        console.log('result', result["data"]["members"]);
-        setDaos(result["data"]["members"]);
-        
-      } catch (e) {
-        console.log('error', e);
-      }
-    }
-
+export default function MyDAOs({ daos }) {
   return (
     <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem'}}>
         {daos.length > 1 ? <ResultsText> You are in {daos.length} DAOs </ResultsText> : (daos.length === 1 ? <ResultsText>You are in {daos.length} DAO</ResultsText> : <ResultsText>You are not in  any DAO. Create one!</ResultsText>)}
