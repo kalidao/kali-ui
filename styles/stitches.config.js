@@ -1,4 +1,4 @@
-import { createStitches } from "@stitches/react";
+import { createStitches, createCss } from "@stitches/react";
 import { globalStyles } from "./globalStyles";
 
 export const { styled, keyframes } = createStitches({

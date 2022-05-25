@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNetwork, useAccount } from "wagmi";
-import { graph } from "../../constants/graph";
+import { GRAPH_URL } from "../../utils/graph";
 import { styled } from "../../styles/stitches.config";
 import DaoCard from "./DaoCard";
 import NewDao from "./NewDao";
@@ -55,7 +55,7 @@ export default function MyDAOs() {
 
   async function fetchData() {
      try {
-        const result = await fetch(graph[activeChain?.id], {
+        const result = await fetch(GRAPH_URL[activeChain?.id], {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

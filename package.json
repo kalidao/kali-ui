@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.5",
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -32,6 +33,7 @@
     "emailjs-com": "^3.2.0",
     "ethers": "^5.6.5",
     "framer-motion": "^5.6.0",
+    "graphql": "^16.5.0",
     "little-state-machine": "^4.3.1",
     "next": "12.1.0",
     "node": "^17.4.0",

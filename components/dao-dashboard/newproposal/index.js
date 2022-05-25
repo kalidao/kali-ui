@@ -66,7 +66,7 @@ export function NewProposalModal({ proposalProp }) {
       >
         {proposals[view]["component"]}
       </Box>
-      {view != "menu" || view != "giveTribute" && 
+      {view != "menu" && 
       <Button 
         variant="transparent" 
         effect="film"
