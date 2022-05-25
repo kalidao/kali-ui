@@ -1,18 +1,22 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useAccount, useNetwork, useContractWrite, useContract, useSigner } from "wagmi";
 import { Flex, Text, Button } from "../../../../styles/elements"
 import { Form, FormElement, Label, Input } from "../../../../styles/form-elements";
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers';
 import { addresses } from '../../../../constants/addresses';
-import DaoContext from '../../../../context/DaoContext';
 import { Select } from '../../../../styles/form-elements/Select';
 import FileUploader from '../../../tools/FileUpload';
 import TRIBUTE_ABI from "../../../../abi/KaliDAOtribute.json";
+import { useRouter } from 'next/router';
+import { getDaoChain } from '../../../../utils';
+import { getTokenName } from '../../../../utils/fetchTokenInfo';
 
 export default function GiveTribute() {
-  const value = useContext(DaoContext);
-  const dao = value.state.dao
+  const router = useRouter();
+  const daoAddress = router.query.dao;
+  const daoChainId = getDaoChain(daoAddress)
+  const daoName = getTokenName(daoChainId, daoAddress);
   const { data: account } = useAccount();
   const { data: signer } = useSigner();
   const { activeChain } = useNetwork();
@@ -48,13 +52,12 @@ export default function GiveTribute() {
   const [file, setFile] = useState(null)
 
   const tribute = async () => {
-    if (!account || !dao) return
+    if (!account || !daoAddress || !daoChainId) return
     
     requestAmount = ethers.utils.parseUnits(requestAmount, 18).toString()
     tributeAmount = ethers.utils.parseUnits(tributeAmount, 18).toString()
     console.log(requestAmount, tributeAmount)  
     console.log(description, account?.address, requestAmount, isNFT, asset, tributeAmount)
-    console.log('dao', dao)
 
     console.log('proposeTribute', proposeTribute);
   };
@@ -104,7 +107,7 @@ export default function GiveTribute() {
     const requested = ethers.utils.parseEther(requestAmount).toString();
 
     console.log(
-      dao["address"],
+        daoAddress,
         0,
         docs,
         [account?.address],
@@ -117,7 +120,7 @@ export default function GiveTribute() {
 
     try {
       const tx = await tributeContract.submitTributeProposal(
-        dao["address"],
+        daoAddress,
         0,
         docs,
         [account?.address],
@@ -141,7 +144,7 @@ export default function GiveTribute() {
       <Text>
         Make a tribute in form of ETH, token or NFT to join{" "}
             <i>
-              {dao && dao["token"]["name"]}
+              {daoName}
             </i>.
       </Text>
       <Form>

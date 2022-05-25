@@ -21,6 +21,7 @@ const Profile = styled(Flex, {
 
 export default function ProfileComponent({ dao }) {
   const router = useRouter();
+  const daoAddress = router.query.dao
 
   return (
     <Profile>
@@ -31,9 +32,13 @@ export default function ProfileComponent({ dao }) {
                     <Text>Balance</Text>
                 </Flex>
                 <Flex dir="col" align="center" gap="sm" >
-                    <Link href={`${dao ? dao["address"] : null}/members`}>
+                    <Link 
+                        href={{
+                                pathname: '[dao]/members',
+                                query: { dao: daoAddress}
+                        }}>
                         <Flex dir="col" align="start" gap="sm">
-                            <Text color="accent">{dao && dao["members"].length}</Text>
+                            <Text color="accent">{111}</Text>
                             <Text>
                                 Members
                             </Text>

@@ -1,7 +1,7 @@
 import React from 'react'
 import NewProposal from './NewProposal'
 import Menu from './Menu'
-import { Flex } from '../../../styles/elements'
+import { Flex } from '../../../../styles/elements'
 
 export default function Sidebar() {
   return (

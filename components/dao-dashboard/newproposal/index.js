@@ -24,7 +24,7 @@ export function NewProposalModal({ proposalProp }) {
       title: "Give Tribute",
       component: <GiveTribute />,
     },
-    giveTribute: {
+    buyCrowdsale: {
       title: "Buy in Crowdsale",
       component: <BuyCrowdsale />,
     },
@@ -66,7 +66,7 @@ export function NewProposalModal({ proposalProp }) {
       >
         {proposals[view]["component"]}
       </Box>
-      {view != "menu" && 
+      {view != "menu" || view != "giveTribute" && 
       <Button 
         variant="transparent" 
         effect="film"
