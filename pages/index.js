@@ -16,9 +16,10 @@ export default function Home() {
     //   cache: new InMemoryCache()
     // })
   });
+
   return (
     <Layout heading="DAOs">
-      {!error && <MyDAOs daos={data && data['members']} />}
+      {data ? <MyDAOs daos={data && data['members']} /> : null}
       <NewDaoSquare />
     </Layout>  
   );
