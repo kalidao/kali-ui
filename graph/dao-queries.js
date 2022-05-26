@@ -56,6 +56,35 @@ export const CHECK_APPS = gql(`
       }
 `)
 
+export const FETCH_PROPOSAL = gql(`
+    query fetchProposalQuery($dao: ID!, $serial: BigInt!) {
+      proposals (
+        where: {
+          dao: $dao
+          serial: $serial
+        }
+      ){
+        id
+        dao {
+          votingPeriod
+        }
+        serial
+        proposer
+        proposalType
+        description
+        sponsor
+        sponsored
+        status
+        votes {
+          id
+          voter
+          vote
+        }
+        creationTime
+      }
+    }
+`)
+
 // Members for sorting
 export const ALL_DAOS = gql(`
     query allDaosQuery {

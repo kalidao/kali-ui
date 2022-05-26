@@ -11,7 +11,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client";
 import { GRAPH_URL } from '../graph/';
 
 const apolloClient = new ApolloClient({
-  uri: GRAPH_URL[4],
+  uri: GRAPH_URL[1],
   cache: new InMemoryCache()
 });
 

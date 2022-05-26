@@ -6,7 +6,7 @@ import { getDaoChain } from '../../../utils';
 import { DAO_PROPOSALS } from '../../../graph/';
 import { useQuery } from '@apollo/client';
 
-export default function Proposals({ dao }) {
+export default function Proposals() {
   const router = useRouter();
   const daoAddress = router.query.dao
   const daoChain = getDaoChain(daoAddress)
@@ -18,7 +18,7 @@ export default function Proposals({ dao }) {
     // })
   });
 
-  const proposals = data && data["daos"][0]["proposals"].sort((a, b) => b["creationTime"] - a["creationTime"])
+  const proposals = data ? data["daos"][0]["proposals"] : null
   console.log(proposals)
   
   // TODO:
@@ -29,7 +29,10 @@ export default function Proposals({ dao }) {
     <Flex dir="col" gap="md">
       <Text color="foreground" variant="heading">Proposals</Text>
       <Flex dir="col" gap="md">
-      {proposals && proposals.map(proposal => <ProposalCard key={proposal["id"]} proposal={proposal} />)}
+      {proposals && 
+      proposals.map(proposal => 
+        <ProposalCard key={proposal["id"]} proposal={proposal} />
+      )}
       </Flex>
     </Flex>
   )
