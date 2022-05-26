@@ -9,6 +9,9 @@ export const DAO_MEMBERS = gql(`
               address
               shares
             }
+            token {
+              totalSupply
+            }
           }
       }
 `)

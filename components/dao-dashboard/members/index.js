@@ -11,14 +11,16 @@ const MembersBox = styled(Flex, {
 })
 
 export default function Members({ members }) {
+  console.log('members', members)
   return(
     <MembersBox>
-      <Flex dir="row" align="separate" css={{ background: "$accent", padding: '1rem' }}>
-        <Text color="background" css={{ fontWeight: '800'}}>Member</Text>
-        <Text color="background" css={{ fontWeight: '800'}}>Shares</Text>
+      <Flex dir="row" align="separate" css={{ background: "$gray900", padding: '1rem' }}>
+        <Text css={{ fontWeight: '800', color: '$accent'}}>Member</Text>
+        <Text css={{ fontWeight: '800', color: '$accent'}}>Shares</Text>
+        <Text css={{ fontWeight: '800', color: '$accent'}}>Percentage</Text>
       </Flex>
       {members && members.members.map(member => (
-        <MemberCard member={member} key={member.address} />
+        <MemberCard member={member} key={member.address} totalSupply={members["token"]["totalSupply"]} />
       ))}
     </MembersBox> 
   );
