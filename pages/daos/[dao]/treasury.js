@@ -1,8 +1,35 @@
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
 import Layout from "../../../components/dao-dashboard/layout/"
-import { Flex } from '../../../styles/elements'
+import { Text, Flex } from '../../../styles/elements'
 import { Tabs,  TabsList, TabsTrigger, TabsContent} from '../../../styles/Tabs'
-export default function MembersPage() {
+import { useMoralisWeb3Api } from "react-moralis";
+import { Tokens, NFTs } from "../../../components/dao-dashboard/treasury/"
+
+export default function TreasuryPage() {
+  const router = useRouter();
+  const daoAddress = router.query.dao
+
+  const Web3Api = useMoralisWeb3Api();
+  const [tokenBalance, setTokenBalance] = useState();
+  const [nftBalance, setNftBalance] = useState();
+
+  useEffect(async () => {
+    
+    const tokenResult = await Web3Api.account.getTokenBalances({
+      chain: 'eth',
+      address: daoAddress
+    })
+    const nftResult = await Web3Api.account.getNFTs({
+      chain: 'eth',
+      address: daoAddress
+    })
+
+    console.log('token balance', tokenResult)
+    console.log('nft balance', nftResult)
+    setTokenBalance(tokenResult)
+    setNftBalance(nftResult)
+  }, [daoAddress])
   return (
     <Layout heading={`Treasury`}>
         <Tabs>
@@ -11,10 +38,10 @@ export default function MembersPage() {
               <TabsTrigger value="nft">NFTs</TabsTrigger>
             </TabsList>
             <TabsContent value="token">
-              Tokens
+              <Tokens tokenBalance={tokenBalance} />
             </TabsContent>
             <TabsContent value="nft">
-              NFTs
+              <NFTs nftBalance={nftBalance ? nftBalance["result"] : null}  />
             </TabsContent>
         </Tabs>
     </Layout>

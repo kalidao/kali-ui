@@ -1,4 +1,4 @@
+import Tokens from "./Tokens";
+import NFTs from "./NFTs";
 
-export default function Treasury() {
-  return null;
-}
+export { Tokens, NFTs }  

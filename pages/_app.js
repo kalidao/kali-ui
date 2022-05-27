@@ -7,6 +7,7 @@ import {
   darkTheme
 } from '@rainbow-me/rainbowkit';
 import { chain, createClient, WagmiProvider } from 'wagmi';
+import { MoralisProvider } from "react-moralis";
 import { ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client";
 import { GRAPH_URL } from '../graph/';
 
@@ -47,7 +48,9 @@ function MyApp({ Component, pageProps }) {
           })}
         >
           <ApolloProvider client={apolloClient}>
-            <Component {...pageProps} />
+            <MoralisProvider serverUrl='https://amaolyvrejmm.usemoralis.com:2053/server' appId='iQgEQixJugOhHzXRq1pRPoJEmdbKA67o1veRSFRB'>
+              <Component {...pageProps} />
+            </MoralisProvider>
           </ApolloProvider>   
         </RainbowKitProvider>
       </WagmiProvider>

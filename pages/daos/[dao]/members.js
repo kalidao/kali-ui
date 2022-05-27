@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import Spinner from '../../../components/structure/Spinner'
 import { ApolloClient, InMemoryCache } from "@apollo/client"
 import { GRAPH_URL } from '../../../graph/url'
+
 export default function MembersPage() { 
   const router = useRouter();
   const daoAddress = router.query.dao
