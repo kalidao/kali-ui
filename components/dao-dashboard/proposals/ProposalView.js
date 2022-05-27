@@ -6,6 +6,7 @@ import { validateProposalTag } from './ProposalCard'
 import Results from './Results'
 import Votes from './Votes'
 import Description from "./Description";
+import Vote from './Vote'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
@@ -16,6 +17,9 @@ export default function ProposalView({ proposal }) {
         marginRight: '1rem'
     }}>
         <Text variant="heading">{proposal && <Tag type={proposal["proposalType"]} />}</Text>
+        <Flex>
+          <Vote proposal={proposal} />
+        </Flex>
         <Text>Proposal by {proposal && proposal["proposer"]}</Text>
         <Flex gap="md">
             {proposal && <Description description={proposal["description"]} />}

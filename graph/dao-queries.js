@@ -59,6 +59,7 @@ export const CHECK_APPS = gql(`
       }
 `)
 
+// votingPeriod to calculate when proposal ends
 export const FETCH_PROPOSAL = gql(`
     query fetchProposalQuery($dao: ID!, $serial: BigInt!) {
       proposals (
@@ -100,6 +101,34 @@ export const ALL_DAOS = gql(`
             id
           }
       }
+    }
+`)
+
+// Members for sorting
+export const CROWDSALE = gql(`
+    query crowdsaleQuery($dao: ID!) {
+      crowdsales(
+        where: {
+          dao: $dao
+        }
+      ) {
+        id
+        dao {
+          token {
+            name
+            symbol
+          }
+        }
+        version
+        listId
+        purchaseToken
+        purchaseMultiplier
+        purchaseLimit
+        saleEnds
+        details
+        amountPurchased
+        personalLimit
+      }	
     }
 `)
 

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tag from '../../../styles/proposal/Tag';
 import { BsFillHandThumbsDownFill, BsFillHandThumbsUpFill } from "react-icons/bs";
+import Vote from './Vote';
 
 const Icon = styled(Image, {
   '&:hover': {
@@ -35,25 +36,7 @@ export const ProposalCard = ({ proposal }) => {
               <Flex dir="col" gap="md" minWidth="10%" height="100%" css={{
                 paddingRight: '1rem',
               }}>
-                <Box css={{
-                  borderRadius: '100%',
-                  padding: '0.2rem 0.3rem',
-                  '&:hover': {
-                    background: '$green800'
-                  }
-                }}>
-                  <BsFillHandThumbsUpFill color={'hsl(0, 0%, 90%)'}/>
-                </Box>
-                <Box css={{
-                  borderRadius: '100%',
-                  padding: '0.2rem 0.3rem',
-                  '&:hover': {
-                    background: '$red800'
-                  }
-                }}>
-                  <BsFillHandThumbsDownFill color={'hsl(0, 0%, 90%)'} />
-                </Box>
-                
+                <Vote proposal={proposal} />  
               </Flex>
           <Flex dir="col" gap="sm" css={{
             minWidth: '80%',
