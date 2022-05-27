@@ -12,7 +12,7 @@ export default function DAOs() {
   
   return (
     <Layout heading="All DAOs">
-      {!error && <AllDAOs daos={data && data["daos"]} />}
+      {!error && <AllDAOs daos={data && data["daos"]} chainId={activeChain?.chainId} />}
        <NewDaoSquare />
     </Layout>  
   );

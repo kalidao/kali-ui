@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import Layout from '../../../components/dao-dashboard/layout/'
+import Layout from '../../../../components/dao-dashboard/layout/'
 import useSWR from "swr";
 import { useRouter } from 'next/router';
-import { CROWDSALE } from '../../../graph/dao-queries';
+import { CROWDSALE } from '../../../../graph/dao-queries';
 import { useQuery } from '@apollo/client';
-import Crowdsale from "../../../components/dao-dashboard/crowdsale/";
+import Crowdsale from "../../../../components/dao-dashboard/crowdsale/";
 
 export default function CrowdsalePage() {
   const router = useRouter();

@@ -5,9 +5,8 @@ import NewDao from '../my-daos/NewDao'
 import DaoCard from '../my-daos/DaoCard'
 import { useNetwork } from 'wagmi'
 
-export default function AllDAOs({ daos, props }) {
+export default function AllDAOs({ daos }) {
   const { activeChain } = useNetwork();
-
   return (<>
     {daos !== undefined ?
         <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem'}}>
