@@ -28,7 +28,7 @@ export default function Proposals() {
   return (
     <Flex dir="col" gap="md">
       <Text color="foreground" variant="heading">Proposals</Text>
-      <Flex dir="col" gap="md">
+      <Flex dir="col">
       {proposals && 
       proposals.map(proposal => 
         <ProposalCard key={proposal["id"]} proposal={proposal} />

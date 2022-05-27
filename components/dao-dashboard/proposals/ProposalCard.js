@@ -7,6 +7,7 @@ import { styled } from '../../../styles/stitches.config';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tag from '../../../styles/proposal/Tag';
+import { BsFillHandThumbsDownFill, BsFillHandThumbsUpFill } from "react-icons/bs";
 
 const Icon = styled(Image, {
   '&:hover': {
@@ -28,10 +29,31 @@ export const ProposalCard = ({ proposal }) => {
               query: { dao: router.query.dao}
           }}
         >
-        <Flex dir="row" gap="sm" css={{ background: '$gray800', padding: '1rem 0.5rem 1rem 0.5rem', minWidth: '50vw', borderRadius: '0.5rem', justifyContent: 'space-between', alignItems: 'center'}}>
-              <Flex dir="col" gap="md" minWidth="10%" height="100%">
-                <Icon src={'/icons/upvote.png'} height="32px" width="32px"  />
-                <Icon src={'/icons/downvote.png'} height="32px" width="32px"  />
+        <Flex dir="row" gap="sm" css={{ padding: '1rem 0.5rem 1rem 0.5rem', minWidth: '70vw', justifyContent: 'flex-start', alignItems: 'flex-start', borderBottom: '1px solid $gray100', borderTop: '1px solid $gray100', '&:hover': {
+          background: '$gray800'
+        }}}>
+              <Flex dir="col" gap="md" minWidth="10%" height="100%" css={{
+                paddingRight: '1rem',
+              }}>
+                <Box css={{
+                  borderRadius: '100%',
+                  padding: '0.2rem 0.3rem',
+                  '&:hover': {
+                    background: '$green800'
+                  }
+                }}>
+                  <BsFillHandThumbsUpFill color={'hsl(0, 0%, 90%)'}/>
+                </Box>
+                <Box css={{
+                  borderRadius: '100%',
+                  padding: '0.2rem 0.3rem',
+                  '&:hover': {
+                    background: '$red800'
+                  }
+                }}>
+                  <BsFillHandThumbsDownFill color={'hsl(0, 0%, 90%)'} />
+                </Box>
+                
               </Flex>
           <Flex dir="col" gap="sm" css={{
             minWidth: '80%',
@@ -52,7 +74,7 @@ export const ProposalCard = ({ proposal }) => {
               proposal["description"]}
             </Box>
           </Flex>
-          <Box css={{
+          {/* <Box css={{
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
@@ -62,7 +84,7 @@ export const ProposalCard = ({ proposal }) => {
               {proposal["status"] ? 
                 <Image src={`/icons/checkmark.png`} height="32px" width="32px" /> : 
                 <Image src={`/icons/cross.png`} height="32px" width="32px" />}
-          </Box>
+          </Box> */}
       </Flex>
     </Link> 
   }

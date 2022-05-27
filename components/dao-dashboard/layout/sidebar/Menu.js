@@ -8,6 +8,10 @@ import { useRouter } from 'next/router'
 import { getDaoChain } from '../../../../utils'
 import { CHECK_APPS } from '../../../../graph'
 import { useQuery } from '@apollo/client'
+import { BsPiggyBank, BsFillPeopleFill } from "react-icons/bs";
+import { GoHome } from "react-icons/go";
+import { HiOutlineInformationCircle } from "react-icons/hi";
+import { GiCoins } from "react-icons/gi";
 
 const Icon = styled('span', {
     display: 'flex', 
@@ -15,6 +19,9 @@ const Icon = styled('span', {
     gap: '0.1rem', 
     padding: '1rem',
     pointerEvents: 'auto',
+    width:'42px',
+    height: "42px",
+    
     '&:hover': {
         animation: `${bounce} 0.5s infinite`
     }
@@ -48,7 +55,7 @@ export default function Menu() {
             query: { dao: router.query.dao}
         }}>
             <Icon as="a">
-                <Image src={`/icons/home.png`} alt="home page link" width='42px' height="42px" />
+                <GoHome size={30} />
             </Icon>
         </Link>
         <Link href={{
@@ -56,7 +63,7 @@ export default function Menu() {
             query: { dao: router.query.dao}
         }}>
             <Icon as="a">
-                <Image src={`/icons/money-bag.png`} alt="treasury page link" width='42px' height="42px" />
+                <BsPiggyBank size={30}/>
             </Icon>
         </Link>
         <Link href={{
@@ -64,7 +71,7 @@ export default function Menu() {
             query: { dao: router.query.dao}
         }}>
             <Icon as="a">
-                <Image src={`/icons/scroll.png`} alt="info page link" width='42px' height="42px" />
+                <HiOutlineInformationCircle size={30}/>
             </Icon>   
         </Link>
         <Link href={{
@@ -72,7 +79,7 @@ export default function Menu() {
             query: { dao: router.query.dao}
         }}>
             <Icon as="a">
-                <Image src={`/icons/person.png`} alt="members page link" width='42px' height="42px" />
+                <BsFillPeopleFill size={30} />
             </Icon>   
         </Link>
         {(data && data["daos"][0]["crowdsale"] != null) ?
@@ -81,7 +88,7 @@ export default function Menu() {
             query: { dao: router.query.dao}
         }}>
             <Icon as="a">
-                <Image src={`/icons/coin.png`} alt="crowdsale page link" width='42px' height="42px" />
+                <GiCoins size={30} />
             </Icon>   
         </Link> : null}
     </Flex>

@@ -7,8 +7,9 @@ export function Dashboard({ }) {
   return (
     <Flex css={{
       position: 'relative',
-      justifyContent: 'space-between',
+      justifyContent: 'space-evenly',
       minWidth: '90vw'
+
     }}>
         <Proposals />
         <Sidebar />

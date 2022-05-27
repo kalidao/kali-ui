@@ -15,7 +15,7 @@ export default function MemberCard({ member, totalSupply }) {
         <Text color="foreground" css={{
           maxWidth: '15px'
         }}>{data ? data : truncateAddress(member.address)}</Text>
-        <Text color="foreground">{Number(ethers.utils.formatEther(member.shares)).toPrecision(2)}</Text>
+        <Text color="foreground">{Number(ethers.utils.formatUnits(member.shares, 18))}</Text>
         <Text color="foreground">
           {((member.shares / totalSupply) * 100).toPrecision(2)}
         </Text>
