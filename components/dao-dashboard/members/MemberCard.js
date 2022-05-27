@@ -5,7 +5,8 @@ import { truncateAddress } from "../../../utils/formatters";
 
 export default function MemberCard({ member, totalSupply }) {
     const { data, isLoading } = useEnsName({
-      address: member.address
+      address: member.address,
+      chainId: 1
     })
 
     // TODO: 
