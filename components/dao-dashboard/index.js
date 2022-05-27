@@ -8,7 +8,8 @@ export function Dashboard({ }) {
     <Flex css={{
       position: 'relative',
       justifyContent: 'space-evenly',
-      minWidth: '80vw'
+      minWidth: '80vw',
+      gap: '1rem'
 
     }}>
         <Proposals />
