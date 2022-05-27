@@ -70,6 +70,7 @@ export const FETCH_PROPOSAL = gql(`
       ){
         id
         dao {
+          address
           votingPeriod
         }
         serial
