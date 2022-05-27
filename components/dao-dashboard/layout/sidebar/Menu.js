@@ -16,11 +16,6 @@ import { GiCoins } from "react-icons/gi";
 const Icon = styled('span', {
     display: 'flex', 
     alignItems: 'center', 
-    gap: '0.1rem', 
-    padding: '1rem',
-    pointerEvents: 'auto',
-    width:'42px',
-    height: "42px",
     
     '&:hover': {
         animation: `${bounce} 0.5s infinite`
@@ -42,13 +37,14 @@ export default function Menu() {
   console.log('data', data)
 
   return (
-    <Flex  gap="md" css={{
+    <Flex css={{
         position: 'fixed',
-        top: '5rem',
+        top: '7rem',
         bottom: '0',
-        left: '0',
+        left: '1rem',
         right: '0',
         flexDirection: 'column',
+        gap: '2rem'
     }}>
         <Link href={{
             pathname: '/daos/[dao]',
