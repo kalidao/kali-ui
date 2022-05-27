@@ -1,0 +1,211 @@
+[
+	{
+		"inputs": [],
+		"name": "AmountNotSpanMultiple",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "extensionData",
+				"type": "bytes"
+			}
+		],
+		"name": "callExtension",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "mint",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "InsufficientAmount",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "InvalidTimespan",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "NoArrayParity",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "NotDAO",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "NotVestee",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "Reentrancy",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "extensionData",
+				"type": "bytes"
+			}
+		],
+		"name": "setExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "VestExceeded",
+		"type": "error"
+	},
+	{
+		"inputs": [],
+		"name": "VestNotStarted",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "vestingId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "member",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "ExtensionCalled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "accounts",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "startTimes",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "endTimes",
+				"type": "uint256[]"
+			}
+		],
+		"name": "ExtensionSet",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "vestings",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "uint128",
+				"name": "depositAmount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint128",
+				"name": "withdrawAmount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint128",
+				"name": "rate",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint64",
+				"name": "startTime",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "endTime",
+				"type": "uint64"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
