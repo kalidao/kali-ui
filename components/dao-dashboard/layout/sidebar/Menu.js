@@ -14,6 +14,7 @@ const Icon = styled('span', {
     alignItems: 'center', 
     gap: '0.1rem', 
     padding: '1rem',
+    pointerEvents: 'auto',
     '&:hover': {
         animation: `${bounce} 0.5s infinite`
     }
@@ -41,7 +42,6 @@ export default function Menu() {
         left: '0',
         right: '0',
         flexDirection: 'column',
-
     }}>
         <Link href={{
             pathname: '/daos/[dao]',
