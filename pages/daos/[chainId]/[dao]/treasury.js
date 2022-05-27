@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
-import Layout from "../../../components/dao-dashboard/layout/"
-import { Text, Flex } from '../../../styles/elements'
-import { Tabs,  TabsList, TabsTrigger, TabsContent} from '../../../styles/Tabs'
+import Layout from "../../../../components/dao-dashboard/layout/"
+import { Text, Flex } from '../../../../styles/elements'
+import { Tabs,  TabsList, TabsTrigger, TabsContent} from '../../../../styles/Tabs'
 import { useMoralisWeb3Api } from "react-moralis";
-import { Tokens, NFTs } from "../../../components/dao-dashboard/treasury/"
+import { Tokens, NFTs } from "../../../../components/dao-dashboard/treasury/"
 
 export default function TreasuryPage() {
   const router = useRouter();

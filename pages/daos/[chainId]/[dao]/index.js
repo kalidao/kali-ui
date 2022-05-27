@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import { getDaoChain } from "../../../utils/";
-import Layout from "../../../components/dao-dashboard/layout/index";
-import { Dashboard } from "../../../components/dao-dashboard/"
-import { getTokenName } from "../../../utils/fetchTokenInfo";
+import { getDaoChain } from "../../../../utils/"
+import Layout from "../../../../components/dao-dashboard/layout/"
+import { Dashboard } from "../../../../components/dao-dashboard"
+import { getTokenName } from "../../../../utils/fetchTokenInfo";
 
 
 export default function Dao() {

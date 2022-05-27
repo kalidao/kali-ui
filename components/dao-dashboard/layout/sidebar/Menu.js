@@ -25,7 +25,7 @@ const Icon = styled('span', {
 export default function Menu() {
   const router = useRouter();
   const daoAddress = router.query.dao
-  const daoChain = getDaoChain(daoAddress)
+  const daoChain = router.query.chainId
   const { loading, error, data } = useQuery(CHECK_APPS, {
     variables: { dao: daoAddress },
     // client: new ApolloClient({
@@ -47,41 +47,57 @@ export default function Menu() {
         gap: '2rem'
     }}>
         <Link href={{
-            pathname: '/daos/[dao]',
-            query: { dao: router.query.dao}
-        }}>
-            <Icon as="a">
+            pathname: '/daos/[chainId]/[dao]/',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
+        }}
+        >
+            <Icon>
                 <GoHome size={30} />
             </Icon>
         </Link>
         <Link href={{
-            pathname: '/daos/[dao]/treasury',
-            query: { dao: router.query.dao}
+            pathname: '/daos/[chainId]/[dao]/treasury',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
         }}>
-            <Icon as="a">
+            <Icon>
                 <BsPiggyBank size={30}/>
             </Icon>
         </Link>
         <Link href={{
-            pathname: '/daos/[dao]/info',
-            query: { dao: router.query.dao}
+            pathname: '/daos/[chainId]/[dao]/info',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
         }}>
             <Icon as="a">
                 <HiOutlineInformationCircle size={30}/>
             </Icon>   
         </Link>
         <Link href={{
-            pathname: '/daos/[dao]/members',
-            query: { dao: router.query.dao}
+            pathname: '/daos/[chainId]/[dao]/members',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
         }}>
-            <Icon as="a">
+            <Icon>
                 <BsFillPeopleFill size={30} />
             </Icon>   
         </Link>
         {(data && data["daos"][0]["crowdsale"] != null) ?
         <Link href={{
-            pathname: '/daos/[dao]/crowdsale',
-            query: { dao: router.query.dao}
+            pathname: '/daos/[chainId]/[dao]/crowdsale',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
         }}>
             <Icon as="a">
                 <GiCoins size={30} />

@@ -26,8 +26,11 @@ export const ProposalCard = ({ proposal }) => {
 
     return <Link 
             href={{
-              pathname: `/daos/[dao]/proposals/${proposal["serial"]}`,
-              query: { dao: router.query.dao}
+              pathname: `/daos/[chainId]/[dao]/proposals/${proposal["serial"]}`,
+              query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao
+              }
           }}
         >
         <Flex dir="row" gap="sm" css={{ padding: '1rem 0.5rem 1rem 0.5rem', minWidth: '70vw', justifyContent: 'flex-start', alignItems: 'flex-start', borderBottom: '1px solid $gray100', borderTop: '1px solid $gray100', '&:hover': {
