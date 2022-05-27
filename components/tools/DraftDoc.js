@@ -91,13 +91,9 @@ function DraftDoc() {
         break
       case 'services':
         setServices({
-          customerName: values.customerName,
-          customerEmail: values.customerEmail,
           customerEthAddress: values.customerEthAddress,
-          serviceProviderName: values.serviceProviderName,
-          serviceProviderEmail: values.serviceProviderEmail,
           serviceProviderEthAddress: values.serviceProviderEthAddress,
-          date: values.date,
+          service: values.service,
           serviceToken: values.serviceToken,
         })
         setServicesForm(true)
@@ -243,34 +239,10 @@ function DraftDoc() {
               {selection === 'services' && (
                 <>
                   <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="customerName">
-                      Customer Name
-                    </FormLabel>
-                    <Input id="customerName" placeholder="Name" {...register('customerName')} />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="customerEmail">
-                      Customer Email
-                    </FormLabel>
-                    <Input id="customerEmail" placeholder="Email" {...register('customerEmail')} />
-                  </FormControl>
-                  <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="customerEthAddress">
                       Customer ETH Address
                     </FormLabel>
                     <Input id="customerEthAddress" placeholder="0xKALI" {...register('customerEthAddress')} />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="serviceProviderName">
-                      Service Provider Name
-                    </FormLabel>
-                    <Input id="serviceProviderName" placeholder="Name" {...register('serviceProviderName')} />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="serviceProviderEmail">
-                      Service Provider Email
-                    </FormLabel>
-                    <Input id="serviceProviderEmail" placeholder="Email" {...register('serviceProviderEmail')} />
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="serviceProviderEthAddress">
@@ -283,10 +255,10 @@ function DraftDoc() {
                     />
                   </FormControl>
                   <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="date">
-                      Date of Service Agreement
+                    <FormLabel mt={3} htmlFor="service">
+                      Service to be Rendered
                     </FormLabel>
-                    <Input id="date" placeholder="MM/DD/YYYY" {...register('date')} />
+                    <Input id="service" placeholder="Token Contract" {...register('service')} />
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel mt={3} htmlFor="serviceToken">
@@ -366,13 +338,9 @@ function DraftDoc() {
                 <PDFDownloadLink
                   document={
                     <ServicesAgreement
-                      customerName={services.customerName}
-                      customerEmail={services.customerEmail}
                       customerEthAddress={services.customerEthAddress}
-                      serviceProviderName={services.serviceProviderName}
-                      serviceProviderEmail={services.serviceProviderEmail}
                       serviceProviderEthAddress={services.serviceProviderEthAddress}
-                      date={services.date}
+                      service={services.service}
                       serviceToken={services.serviceToken}
                     />
                   }

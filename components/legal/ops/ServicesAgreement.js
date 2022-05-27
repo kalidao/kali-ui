@@ -65,29 +65,20 @@ const styles = StyleSheet.create({
 const Br = () => '\n'
 const Tab = () => '  '
 
-const DelawareOAtemplate = ({
-  customerName,
-  customerEmail,
-  customerEthAddress,
-  serviceProviderName,
-  serviceProviderEmail,
-  serviceProviderEthAddress,
-  date,
-  serviceToken,
-}) => {
+const DelawareOAtemplate = ({ customerEthAddress, serviceProviderEthAddress, service, serviceToken }) => {
   return (
     <Document>
       <Page style={styles.body}>
-        <Text style={styles.heading1}>GENERAL SERVICE AGREEMENT (the “Agreement”) dated this {date}</Text>
+        <Text style={styles.heading1}>GENERAL SERVICE AGREEMENT (the “Agreement”)</Text>
 
         <Text style={styles.heading3}>BETWEEN</Text>
 
-        <Text style={styles.heading3}>{customerName}</Text>
+        <Text style={styles.heading3}>{customerEthAddress}</Text>
         <Text style={styles.heading3}>(the “Customer”)</Text>
 
         <Text style={styles.heading3}>- AND -</Text>
 
-        <Text style={styles.heading3}>{serviceProviderName}</Text>
+        <Text style={styles.heading3}>{serviceProviderEthAddress}</Text>
         <Text style={styles.heading3}>(the “Service Provider”).</Text>
 
         <Text style={styles.heading3}>
@@ -99,6 +90,7 @@ const DelawareOAtemplate = ({
           The Customer is of the opinion that the Service Provider has the necessary qualifications, experience and
           abilities to provide services to the Customer. The Service Provider is agreeable to providing such services to
           the Customer on the terms and conditions set out in this Agreement.
+          <Br />
           <Br />
           <Text style={{ textDecoration: 'underline' }}>IN CONSIDERATION OF </Text>
           the matters described above and of the mutual benefits and obligations set forth in this Agreement, the
@@ -119,9 +111,8 @@ const DelawareOAtemplate = ({
           “Services”) consisting of:
           <Br />
           <Tab />
-          <Tab />
-          • Providing the following services by demand: [consultation, web3 development, advertising, graphic design,
-          web design, audiovisual and photography.]
+          <Tab />• Providing the following services by demand: {service}. (For example: consultation, web3 development,
+          advertising, graphic design, web design, audiovisual and photography.)
           <Br />
           2.
           <Tab />
@@ -139,13 +130,13 @@ const DelawareOAtemplate = ({
           3.
           <Tab />
           The term of this Agreement (the “<Text style={{ textDecoration: 'underline' }}>Term</Text>”) will begin on the
-          date of this Agreement and will remain in full force and effect indefinitely until terminated as provided in
-          this Agreement.
+          blockstamp of the smart contract this Agreement is associated with and will remain in full force and effect
+          indefinitely until terminated as provided in this Agreement.
           <Br />
           4.
           <Tab />
-          In the event that either Party wishes to terminate this Agreement, that Party will be required to provide 30
-          days notice to the other Party.
+          In the event that either Party wishes to terminate this Agreement, that Party will be required to provide
+          reasonable notice to the other Party.
           <Br />
           5.
           <Tab />
@@ -285,19 +276,8 @@ const DelawareOAtemplate = ({
           17.
           <Tab />
           All notices, requests, demands or other communications required or permitted by the terms of this Agreement
-          will be given in writing and delivered to the Parties of this Agreement as follows:
-          <Br />
-          <Tab />
-          <Tab />
-          a. CUSTOMER Email: {customerEmail}
-          <Br />
-          <Tab />
-          <Tab />
-          b. SERVICE PROVIDER EMAIL: {serviceProviderEmail}
-          <Br />
-          <Tab />
-          <Tab />
-          or to such other address as any Party may from time to time notify the other.
+          will be given in writing and delivered to the Parties of this Agreement as any Party may from time to time
+          notify the other.
           <Br />
         </Text>
 
@@ -316,9 +296,10 @@ const DelawareOAtemplate = ({
           <Tab />
           If the dispute is not resolved within a reasonable period then any or all outstanding issues may be submitted
           to mediation in accordance with any statutory rules of mediation. If mediation is unavailable or is not
-          successful in resolving the entire dispute, any outstanding issues will be submitted to final and binding
-          arbitration in accordance with the laws of the State of Delaware. The arbitrator's award will be final, and
-          judgment may be entered upon it by any court having jurisdiction within the State of Delaware.
+          successful in resolving the entire dispute, any or all outstanding issues may be submitted to LexDAO for
+          resolution. If LexDAO is unavailable or undesirable, any outstanding issues will be submitted to final and
+          binding arbitration in accordance with the laws of the State of Delaware. The arbitrator's award will be
+          final, and judgment may be entered upon it by any court having jurisdiction within the State of Delaware.
           <Br />
         </Text>
 
@@ -333,19 +314,6 @@ const DelawareOAtemplate = ({
           Any amendment or modification of this Agreement or additional obligation assumed by either Party in connection
           with this Agreement will only be binding if evidenced in writing signed by each Party or an authorized
           representative of each Party.
-          <Br />
-        </Text>
-
-        <Text style={styles.heading3}>
-          <Br />
-          Time of the Essence
-        </Text>
-
-        <Text style={styles.numbered_list}>
-          21.
-          <Tab />
-          Time is of the essence in this Agreement. No extension or variation of this Agreement will operate as a waiver
-          of this provision.
           <Br />
         </Text>
 
@@ -443,28 +411,20 @@ const DelawareOAtemplate = ({
           <Br />
         </Text>
 
-        <Text style={styles.text}>
-          <Br />
-          <Br />
-          <Text style={{ textDecoration: 'underline' }}>IN WITNESS WHEREOF</Text> the Parties have duly affixed their
-          signatures under hand and seal on this {date}.
-        </Text>
-
         <Text style={styles.heading3}>
           <Br />
-          SIGNED, SEALED, AND DELIVERED
+          SIGNED by
         </Text>
 
         <Text style={styles.text}>
-          in the presence of:
           <Br />
           CUSTOMER:
           <Br />
-          {customerEthAddress}
+          /s/ {customerEthAddress}
           <Br />
           SERVICE PROVIDER:
           <Br />
-          {serviceProviderEthAddress}
+          /s/ {serviceProviderEthAddress}
           <Br />
         </Text>
       </Page>
