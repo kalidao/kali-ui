@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { DAO_MEMBERS } from '../../../graph';
 import { useQuery } from '@apollo/client';
 import { getDaoChain } from '../../../utils';
+import { useBalance } from 'wagmi';
+import { ethers } from 'ethers';
 
 export const Box = styled(Flex, {
     position: 'relative',
@@ -26,6 +28,11 @@ export default function ProfileComponent({ dao }) {
   const router = useRouter();
   const daoAddress = router.query.dao
   const daoChain = getDaoChain(daoAddress)
+  const { data: balance, isError, isLoading } = useBalance({
+    addressOrName: daoAddress,
+    chainId: daoChain, 
+    watch: true
+  })
   const { loading, error, data } = useQuery(DAO_MEMBERS, {
     variables: { dao: daoAddress },
     // client: new ApolloClient({
@@ -43,7 +50,7 @@ export default function ProfileComponent({ dao }) {
             <Text size="lg">About</Text>
             <Flex dir="row" align="separate" gap="md">
                 <Flex dir="col" align="start" gap="sm">
-                    <Text color="accent">123</Text>
+                    <Text color="accent">{(ethers.utils.formatUnits(balance.value, balance.decimals))}</Text>
                     <Text>Balance</Text>
                 </Flex>
                 <Flex dir="col" align="center" gap="sm" >

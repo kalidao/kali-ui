@@ -16,7 +16,7 @@ export default function AllDAOs({ daos, props }) {
             '&:hover': {
               color: '$accent'
             }
-          }}>{activeChain.name}</ResultsText>
+          }}>{activeChain?.name}</ResultsText>
           </ResultsText>}
           <Results>
             {daos && daos.map(dao => <DaoCard key={dao["id"]} dao={dao} />)}
