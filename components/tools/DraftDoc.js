@@ -25,6 +25,7 @@ import DelawareInvestmentClubTemplate from '../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from '../legal/DelawareUNAtemplate'
 import WyomingOAtemplate from '../legal/WyomingOAtemplate'
 import SwissVerein from '../legal/SwissVerein'
+import ServicesAgreement from '../legal/ops/ServicesAgreement'
 
 function DraftDoc() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -37,6 +38,7 @@ function DraftDoc() {
   const [deUnaForm, setDeUnaForm] = useState(false)
   const [wyLlcForm, setWyLlcForm] = useState(false)
   const [swissVereinForm, setSwissVereinForm] = useState(false)
+  const [servicesForm, setServicesForm] = useState(false)
 
   // State per Legal Form
   const [delawareLlc, setDelawareLlc] = useState({})
@@ -44,6 +46,7 @@ function DraftDoc() {
   const [delawareUna, setDelawareUna] = useState({})
   const [wyomingLlc, setWyomingLlc] = useState({})
   const [swissVerein, setSwissVerein] = useState({})
+  const [services, setServices] = useState({})
 
   const generateDoc = (values) => {
     values.agreement = selection
@@ -54,12 +57,14 @@ function DraftDoc() {
           chain: values.chain,
         })
         setDeLlcForm(true)
+        break
       case 'delaware-ic':
         setDelawareIc({
           name: values.name,
           chain: values.chain,
         })
         setDeIcForm(true)
+        break
       case 'delaware-una':
         setDelawareUna({
           name: values.name,
@@ -67,12 +72,14 @@ function DraftDoc() {
           mission: values.mission,
         })
         setDeUnaForm(true)
+        break
       case 'wyoming-llc':
         setWyomingLlc({
           name: values.name,
           chain: values.chain,
         })
         setWyLlcForm(true)
+        break
       case 'swiss-verein':
         setSwissVerein({
           name: values.name,
@@ -81,6 +88,16 @@ function DraftDoc() {
           mission: values.mission,
         })
         setSwissVereinForm(true)
+        break
+      case 'services':
+        setServices({
+          customerEthAddress: values.customerEthAddress,
+          serviceProviderEthAddress: values.serviceProviderEthAddress,
+          service: values.service,
+          serviceToken: values.serviceToken,
+        })
+        setServicesForm(true)
+        break
     }
 
     console.log(values)
@@ -119,10 +136,6 @@ function DraftDoc() {
                 <Select
                   onChange={(e) => {
                     setSelection(e.target.value)
-                    setDeLlcForm(false)
-                    setDeIcForm(false)
-                    setDeUnaForm(false)
-                    setWyLlcForm(false)
                     reset()
                   }}
                   id="agreement"
@@ -133,6 +146,7 @@ function DraftDoc() {
                   <option value="delaware-ic">Investment Club</option>
                   <option value="delaware-una">UNA</option>
                   <option value="swiss-verein">Swiss Verein</option>
+                  <option value="services">Services Agreement</option>
                 </Select>
               </FormControl>
               {selection === 'delaware-llc' && (
@@ -222,6 +236,38 @@ function DraftDoc() {
                   </FormControl>
                 </>
               )}
+              {selection === 'services' && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="customerEthAddress">
+                      Customer ETH Address
+                    </FormLabel>
+                    <Input id="customerEthAddress" placeholder="0xKALI" {...register('customerEthAddress')} />
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="serviceProviderEthAddress">
+                      Service Provider ETH Address
+                    </FormLabel>
+                    <Input
+                      id="serviceProviderEthAddress"
+                      placeholder="0xKALI"
+                      {...register('serviceProviderEthAddress')}
+                    />
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="service">
+                      Service to be Rendered
+                    </FormLabel>
+                    <Input id="service" placeholder="Token Contract" {...register('service')} />
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel mt={3} htmlFor="serviceToken">
+                      Service Token
+                    </FormLabel>
+                    <Input id="serviceToken" placeholder="Token Contract" {...register('serviceToken')} />
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </DrawerBody>
           <DrawerFooter>
@@ -282,6 +328,23 @@ function DraftDoc() {
                     />
                   }
                   fileName="Swiss Verein Article of Association"
+                >
+                  {({ loading }) =>
+                    loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
+                  }
+                </PDFDownloadLink>
+              )) ||
+              (servicesForm && (
+                <PDFDownloadLink
+                  document={
+                    <ServicesAgreement
+                      customerEthAddress={services.customerEthAddress}
+                      serviceProviderEthAddress={services.serviceProviderEthAddress}
+                      service={services.service}
+                      serviceToken={services.serviceToken}
+                    />
+                  }
+                  fileName="Services Agreement"
                 >
                   {({ loading }) =>
                     loading ? <Button mr={3}>Loading Document...</Button> : <Button mr={3}>Download</Button>
