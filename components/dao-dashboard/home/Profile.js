@@ -50,7 +50,7 @@ export default function ProfileComponent({ dao }) {
             <Text size="lg">About</Text>
             <Flex dir="row" align="separate" gap="md">
                 <Flex dir="col" align="start" gap="sm">
-                    <Text color="accent">{(ethers.utils.formatUnits(balance.value, balance.decimals))}</Text>
+                    <Text color="accent">{balance && (ethers.utils.formatUnits(balance.value, balance.decimals))}</Text>
                     <Text>Balance</Text>
                 </Flex>
                 <Flex dir="col" align="center" gap="sm" >

@@ -32,7 +32,7 @@ export default function TreasuryPage() {
   }, [daoAddress])
   return (
     <Layout heading={`Treasury`}>
-        <Tabs>
+        <Tabs defaultValue='token'>
             <TabsList>
               <TabsTrigger value="token">Tokens</TabsTrigger>
               <TabsTrigger value="nft">NFTs</TabsTrigger>

@@ -4,6 +4,7 @@ import { chainId } from 'wagmi';
 import { useMoralisWeb3Api } from "react-moralis";
 import useSWR from "swr";
 import { Flex, Box, Text } from "../../../styles/elements";
+import Spinner from '../../structure/Spinner';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
@@ -20,13 +21,14 @@ export default function NftCard({ nft }) {
   console.log('nftMeta', data)
   return (
     <Flex>
-        {data && 
+        {data ? 
         <Box css={{
           height: '150px',
           width: '150px'
         }}>
           <Image src={data["image"]} height="100%" width="100%" />
-        </Box>}
+        </Box> :
+        <Spinner />}
     </Flex>
   )
 }
