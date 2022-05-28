@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Flex } from '../../styles/elements'
 import { Results, ResultsText } from "../my-daos/"
 import NewDao from '../my-daos/NewDao'
@@ -7,6 +7,7 @@ import { useNetwork } from 'wagmi'
 
 export default function AllDAOs({ daos }) {
   const { activeChain } = useNetwork();
+    
   return (<>
     {daos !== undefined ?
         <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem'}}>

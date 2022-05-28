@@ -5,6 +5,7 @@ import AllDAOs from "../../components/all-daos";
 import NewDaoSquare from "../../components/my-daos/NewDaoSquare";
 import { useQuery } from "@apollo/client";
 import { ALL_DAOS } from "../../graph";
+import Spinner from "../../components/structure/Spinner";
 
 export default function DAOs() {
   const { activeChain } = useNetwork();
@@ -12,6 +13,11 @@ export default function DAOs() {
   
   return (
     <Layout heading="All DAOs">
+      {loading && <Spinner css={{
+        position: 'absolute',
+        top: '50%',
+        right: '50%'
+      }} />}
       {!error && <AllDAOs daos={data && data["daos"]} chainId={activeChain?.chainId} />}
        <NewDaoSquare />
     </Layout>  
