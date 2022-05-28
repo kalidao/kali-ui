@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Flex, Text } from '../../../styles/elements'
+import { ExternalLinkIcon } from '@radix-ui/react-icons'
 import { useFetch } from '../../hooks/useFetch'
 
 export default function Ricardian() {
@@ -11,13 +12,13 @@ export default function Ricardian() {
     <>
         {data && (
             <>
-            <Text>{data["name"]}</Text>
+            <Text variant="heading">{data["name"]}</Text>
             <Flex>
                 <Text>{data["description"]}</Text>
                 <Image src={data["image"]} height="100%" width="100%" />
             </Flex>
-            <a href={data["attributes"][1]["value"]}  target="_blank">View Master Operating Agreement.</a>
-            <a href={data["external_url"]} target="_blank">Learn more</a>
+            <Text as="a" href={data["attributes"][1]["value"]}  target="_blank" variant="link">View Master Operating Agreement <ExternalLinkIcon /></Text>
+            <Text as="a" href={data["external_url"]} target="_blank" variant="link">Learn more <ExternalLinkIcon /></Text>
             </>
         )}
     </>

@@ -7,6 +7,7 @@ export default function Governance({ info }) {
         border: '1px solid $gray800',
         padding: '1rem',
       }}>
+        <Text variant="heading">Rules</Text>
         <Flex gap="md" align="separate">
           <Text>Voting Period</Text>
           <Text>{convertVotingPeriod(info["votingPeriod"])}</Text>

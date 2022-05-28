@@ -9,6 +9,14 @@ const Text = styled('div', {
                 fontSize: '2.3rem',
                 fontFamily: 'Screen',
                 color: '$foreground'
+            },
+            link: {
+                display: 'flex',
+                gap: '0.5rem',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                color: '$purple300',
+                fontFamily: 'Italic'
             }
         },
         color: {

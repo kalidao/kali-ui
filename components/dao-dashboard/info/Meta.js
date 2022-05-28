@@ -11,10 +11,7 @@ export default function Meta({ info }) {
         border: '1px solid $gray800',
         padding: '1rem'
       }}>
-        <Flex gap="md" align="separate">
-          <Text>Name</Text>
-          <Text>{info["token"]["name"]}</Text>
-        </Flex>
+        <Text variant="heading">{info["token"]["name"]}</Text>
         <Flex gap="md" align="separate">
           <Text>Symbol</Text>
           <Text>{info["token"]["symbol"]}</Text>

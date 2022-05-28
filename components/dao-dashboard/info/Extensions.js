@@ -7,6 +7,7 @@ export default function Extensions({ info }) {
       border: '1px solid $gray800',
       padding: '1rem'
     }}>
+      <Text variant="heading">Extensions</Text>
       {info["tribute"]["active"] === true ? 
       <Flex gap="md" align="separate">
         <Text>Tribute</Text>
