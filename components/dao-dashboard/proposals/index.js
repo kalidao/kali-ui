@@ -29,7 +29,7 @@ export default function Proposals() {
     <Flex dir="col" gap="md">
       <Text color="foreground" variant="heading">Proposals</Text>
       <Flex dir="col">
-      {proposals && (proposals.length > 1 ?
+      {proposals && (proposals.length > 0 ?
       proposals.map(proposal => 
         <ProposalCard key={proposal["id"]} proposal={proposal} />
       ) : 'No proposals. Make one by clicking the + icon.')}
