@@ -49,11 +49,24 @@ export default function ProfileComponent({ dao }) {
     <Box>
             <Text size="lg">About</Text>
             <Flex dir="row" align="separate" gap="md">
-                <Flex dir="col" align="start" gap="sm">
-                    <Text color="accent">{balance && (ethers.utils.formatUnits(balance.value, balance.decimals))}</Text>
-                    <Text>Balance</Text>
-                </Flex>
-                <Flex dir="col" align="center" gap="sm" >
+                <Link
+                    href={{
+                        pathname: '/daos/[chainId]/[dao]/treasury',
+                        query: { 
+                            dao: router.query.dao,
+                            chainId: router.query.chainId
+                        }
+                }}
+                >
+                    <Flex dir="col" align="start" gap="sm" css={{
+                        '&:hover': {
+                            borderBottom: '1px solid $accent'
+                        }
+                    }}>
+                        <Text color="accent">{balance && (ethers.utils.formatUnits(balance.value, balance.decimals))}</Text>
+                        <Text>Balance</Text>
+                    </Flex>
+                </Link>
                     <Link 
                         href={{
                                 pathname: '/daos/[chainId]/[dao]/members',
@@ -62,14 +75,17 @@ export default function ProfileComponent({ dao }) {
                                     chainId: router.query.chainId
                                 }
                         }}>
-                        <Flex dir="col" align="start" gap="sm">
+                        <Flex dir="col" align="start" gap="sm" css={{
+                        '&:hover': {
+                            borderBottom: '1px solid $accent'
+                        }
+                    }}>
                             <Text color="accent">{members}</Text>
                             <Text>
                                 Members
                             </Text>
                         </Flex>
                     </Link>
-                </Flex>
             </Flex>
             <Dialog>
                 <DialogTrigger>
