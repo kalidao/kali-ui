@@ -29,6 +29,14 @@ const Input = styled('input', {
         voting: {
           width: '3rem',
           border: 'none'
+        },
+        calendar: {
+          '&::-webkit-calendar-picker-indicator': {
+            filter: 'invert(100%)'
+          },
+          '&::-webkit-datetime-edit-fields-wrapper': {
+            color: '$foreground'
+          }
         }
       }
     }

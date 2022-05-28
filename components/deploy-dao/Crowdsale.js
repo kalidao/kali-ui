@@ -1,10 +1,6 @@
 import React from 'react'
 import { FormElement, Label, ConnectForm, Input } from '../../styles/form-elements'
 import { Select } from '../../styles/form-elements/Select';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { StyledInput } from "../../styles/form-elements/DatePicker";
-import { Separator } from '@radix-ui/react-select';
 
 export default function Crowdsale() {
 //   crowdsale: {
@@ -47,25 +43,12 @@ export default function Crowdsale() {
             <Label htmlFor="purchaseMultiplier">Purchase Multiplier</Label>
             <Input type="number" name="purchaseMultiplier" placeholder="10" {...register('purchaseMultiplier')} />
           </FormElement>
+          <FormElement>
+            <Label htmlFor="crowdsale-end">End Date</Label>
+            <Input variant="calendar" type="datetime-local" name="crowdsale-end" {...register('crowdsale-end')} />
+          </FormElement>
         </>
       )}
-      {/* <FormElement>
-        <Label>
-          Sale Ends
-        </Label>
-        <Controller 
-          control={control}
-          name="saleEnds"
-          render={({ field }) => (
-            <DatePicker 
-              placeholder="Select Date"
-              customInput={<StyledInput />}
-              onChange={(date) => field.onChange(date)}
-              selected={field.value}
-            />
-          )} 
-        />
-      </FormElement> */}
     </ConnectForm>
   )
 }
