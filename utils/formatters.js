@@ -11,23 +11,23 @@ export function convertVotingPeriod(seconds) {
   if (seconds < 3600) {
     time = seconds / 60;
     if (time == 1) {
-      text = "minute";
+      text = "Minute";
     } else {
-      text = "minutes";
+      text = "Minutes";
     }
   } else if (seconds < 86400) {
     time = seconds / 3600;
     if (time == 1) {
-      text = "hour";
+      text = "Hour";
     } else {
-      text = "hours";
+      text = "Hours";
     }
   } else {
     time = seconds / 86400;
     if (time == 1) {
-      text = "day";
+      text = "Day";
     } else {
-      text = "days";
+      text = "Days";
     }
   }
   return time + " " + text;
