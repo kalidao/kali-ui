@@ -8,7 +8,9 @@ export default function Tokens({ tokenBalance }) {
     <Box>
       {
         tokenBalance ? 
-        tokenBalance.map(token => <TokenCard key={token.token_address} token={token} />) : 
+        (tokenBalance.length > 0 ? 
+          tokenBalance.map(token => <TokenCard key={token.token_address} token={token} />):
+          'There are no Tokens in this DAO :(') : 
         <Spinner />
       }
     </Box>

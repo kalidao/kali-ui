@@ -27,13 +27,15 @@ const StyledTrigger = styled(TabsPrimitive.Trigger, {
     justifyContent: 'center',
     fontSize: 15,
     lineHeight: 1,
-    color: '$purple500',
+    color: '$foreground',
+    fontWeight: '500',
+    fontFamily: 'Bold',
     userSelect: 'none',
     '&:first-child': { borderTopLeftRadius: 6 },
     '&:last-child': { borderTopRightRadius: 6 },
     '&:hover': { color: '$purple200' },
     '&[data-state="active"]': {
-      color: '$purple100',
+      color: '$purple300',
       boxShadow: 'inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor',
     },
 });
