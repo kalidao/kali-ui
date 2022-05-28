@@ -56,8 +56,11 @@ export default function ProfileComponent({ dao }) {
                 <Flex dir="col" align="center" gap="sm" >
                     <Link 
                         href={{
-                                pathname: '/daos/[dao]/members',
-                                query: { dao: daoAddress}
+                                pathname: '/daos/[chainId]/[dao]/members',
+                                query: { 
+                                    dao: router.query.dao,
+                                    chainId: router.query.chainId
+                                }
                         }}>
                         <Flex dir="col" align="start" gap="sm">
                             <Text color="accent">{members}</Text>
