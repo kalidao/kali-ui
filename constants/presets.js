@@ -1,5 +1,3 @@
-import { Icon } from "@chakra-ui/react";
-
 import { HiUserGroup } from "react-icons/hi";
 import { FaMoneyBillAlt, FaHandsHelping } from "react-icons/fa";
 import { BsTools } from "react-icons/bs";

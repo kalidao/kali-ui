@@ -9,7 +9,8 @@ export function Dashboard({ }) {
       position: 'relative',
       justifyContent: 'space-between',
       minWidth: '90vw',
-      gap: '1rem'
+      gap: '1rem',
+      marginRight: '1rem'
     }}>
         <Proposals />
         <Sidebar />

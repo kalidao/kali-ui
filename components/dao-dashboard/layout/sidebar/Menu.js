@@ -70,17 +70,6 @@ export default function Menu() {
             </Icon>
         </Link>
         <Link href={{
-            pathname: '/daos/[chainId]/[dao]/info',
-            query: { 
-                chainId: router.query.chainId,
-                dao: router.query.dao,
-            }
-        }}>
-            <Icon as="a">
-                <HiOutlineInformationCircle size={30}/>
-            </Icon>   
-        </Link>
-        <Link href={{
             pathname: '/daos/[chainId]/[dao]/members',
             query: { 
                 chainId: router.query.chainId,
@@ -103,6 +92,17 @@ export default function Menu() {
                 <GiCoins size={30} />
             </Icon>   
         </Link> : null}
+        <Link href={{
+            pathname: '/daos/[chainId]/[dao]/info',
+            query: { 
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+            }
+        }}>
+            <Icon as="a">
+                <HiOutlineInformationCircle size={30}/>
+            </Icon>   
+        </Link>
     </Flex>
   )
 }

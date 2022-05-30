@@ -1,23 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
-  FormControl,
-  FormLabel,
-  Input,
-  DrawerFooter,
-  Stack,
-  useDisclosure,
-  Textarea,
-  Select,
-  VStack,
-  Link,
-  Text,
-} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import DelawareOAtemplate from "../legal/DelawareOAtemplate";

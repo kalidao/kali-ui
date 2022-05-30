@@ -1,16 +1,6 @@
 import React, { useState, useContext } from "react";
 import AppContext from "../../context/AppContext";
 import kaliNFT from "../../eth/kaliNFT.js";
-import {
-  Button,
-  Box,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import InfoTip from "../elements/InfoTip";
 import fleek from "@fleekhq/fleek-storage-js";

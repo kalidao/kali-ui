@@ -1,17 +1,10 @@
-import {
-  Text,
-  HStack,
-  Stack,
-  Button,
-  Spacer,
-  useColorModeValue,
-} from "@chakra-ui/react";
 import { FiTwitter, FiGithub, FiUsers } from "react-icons/fi";
 import ToS from "../elements/ToS";
+import { Flex, Text } from "../../styles/elements/"
 
 const SocialButton = (props) => {
   return (
-    <Button
+    <button
       border="none"
       variant="none"
       bg="none"
@@ -21,13 +14,13 @@ const SocialButton = (props) => {
       target="_blank"
     >
       {props.children}
-    </Button>
+    </button>
   );
 };
 
 export default function Footer() {
   return (
-    <HStack minH="10vh" minW="auto" id="footer">
+    <Flex minH="10vh" minW="auto" id="footer">
       <Text fontSize="xs">
         Summoned with{" "}
         <a href="https://twitter.com/lex_DAO" target="_blank" rel="noreferrer">
@@ -35,12 +28,9 @@ export default function Footer() {
         </a>
       </Text>
       <ToS label="ToS" id="tos-button" />
-      <Spacer />
-      <Stack
-        direction={"row"}
-        spacing={-1}
-        border="1px solid"
-        borderRadius="xl"
+      <Flex
+        dir="row"
+        gap="sm"
       >
         <SocialButton href={"https://github.com/kalidao"}>
           <FiGithub />
@@ -51,7 +41,7 @@ export default function Footer() {
         <SocialButton href={"https://discord.com/invite/UKCS9ghzUE"}>
           <FiUsers />
         </SocialButton>
-      </Stack>
-    </HStack>
+      </Flex>
+    </Flex>
   );
 }

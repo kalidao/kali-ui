@@ -5,7 +5,6 @@ import Input from "./Input";
 import Form from "./Form";
 import FormElement from "./FormElement"
 import { Select } from "./Select";
-import DatePicker from "./DatePicker"; 
 import { ConnectForm } from "./ConnectForm";
 
-export { Checkbox, Switch, Label, Input, Form, FormElement, Select, DatePicker, ConnectForm }
+export { Checkbox, Switch, Label, Input, Form, FormElement, Select, ConnectForm }
