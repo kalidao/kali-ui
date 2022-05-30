@@ -1,9 +1,10 @@
 import React from 'react'
-import { Flex, Button } from '../../styles/elements';
+import { Flex, Button, Box } from '../../styles/elements';
 import { Form, FormElement, Label, Input } from "../../styles/form-elements"
 import { useForm } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from "./updateAction";
+import { TiWarning } from "react-icons/ti";
 
 export default function Identity({ setStep, onNext }) {
   const { register, handleSubmit } = useForm();
@@ -40,6 +41,14 @@ export default function Identity({ setStep, onNext }) {
       <Flex css={{ justifyContent: 'flex-end'}}>
         <Button variant="primary" type="submit">Next</Button>
       </Flex>
+      <Box variant="tip" css={{
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: '0.6rem'
+      }}>
+        <TiWarning color="yellow" />You cannot change name and symbol after deployment.
+      </Box>
     </Form>
   )
 }

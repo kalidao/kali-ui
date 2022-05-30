@@ -1,5 +1,6 @@
 import { styled } from "../stitches.config"
 import { bounce } from "../animation";
+import { m } from "framer-motion";
 
 const Box = styled('div', {
    variants: {
@@ -9,6 +10,15 @@ const Box = styled('div', {
         }
        },
        variant: {
+           tip: {
+            background: '$black',
+            // border: '2px solid $yellow300',
+            boxShadow: 'rgba(255, 255, 255, 0.06) 0px 2px 4px 0px inset',
+            color: '$foreground',
+            padding: '10px',
+            borderRadius: '20px'
+            
+           },
            create: {
                 position: 'fixed',
                 bottom: '0',
