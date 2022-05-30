@@ -11,6 +11,7 @@ import TRIBUTE_ABI from "../../../../abi/KaliDAOtribute.json";
 import { useRouter } from 'next/router';
 import { getDaoChain } from '../../../../utils';
 import { getTokenName } from '../../../../utils/fetchTokenInfo';
+import { uploadIpfs } from '../../../tools/ipfsHelpers';
 
 export default function GiveTribute() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function GiveTribute() {
   })
 
   
-  console.log(activeChain?.id)
+  // console.log(activeChain?.id)
   
   const { writeAsync, isLoading: isWritePending, isError } = useContractWrite(
     {
@@ -76,7 +77,7 @@ export default function GiveTribute() {
     let isNFT
     let asset
     let amount
-    console.log(AddressZero)
+    // console.log(AddressZero)
 
     switch (type) {
       case "eth": 
@@ -91,8 +92,8 @@ export default function GiveTribute() {
         break;
       case "erc721": 
         asset = tokenAddress;
-        amount = tokenId
         isNFT = true;
+        amount = tokenId
         break;
       default:  
         Error('Invalid type');
@@ -100,10 +101,11 @@ export default function GiveTribute() {
 
     let docs
     if (file) {
-      docs = file
+      docs = await uploadIpfs(daoAddress, "Tribute", file)
     } else {
       docs = description
     }
+
     const requested = ethers.utils.parseEther(requestAmount).toString();
 
     console.log(
@@ -125,7 +127,7 @@ export default function GiveTribute() {
         docs,
         [account?.address],
         [requested],
-        [''],
+        [Array(0)],
         isNFT,
         asset,
         amount,
