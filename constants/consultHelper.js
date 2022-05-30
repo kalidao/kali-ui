@@ -15,7 +15,7 @@ export const consultHelper = [
     title: 'LexDAO Clinic',
     description: 'Law students and professionals from around the world',
     icon: BsPencil,
-    link: 'https://kalico.typeform.com/to/FNsxHBKX',
+    link: 'https://j6dn81d0m26.typeform.com/to/BXwMVdWX',
   },
   {
     title: 'US Lawyer',
