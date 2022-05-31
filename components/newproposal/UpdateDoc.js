@@ -18,27 +18,24 @@ export default function UpdateDoc() {
     event.preventDefault()
     let description_
 
-      if (!file) {
-        console.log("No file to upload")
-        return
-      } 
-      description_ = await uploadIpfs(address, 'doc proposal', file)
+    if (!file) {
+      console.log('No file to upload')
+      return
+    }
+    description_ = await uploadIpfs(address, 'doc proposal', file)
 
-      const proposalType_ = 11
+    const proposalType_ = 11
 
-      const instance = new web3.eth.Contract(abi, address)
-      
-      console.log('doc proposal', proposalType_, description_)
-      try {
-        let result = await instance.methods
-          .propose(proposalType_, description_, [], [], [])
-          .send({ from: account })
-        value.setVisibleView(2)
-      } catch (e) {
-        value.toast(e)
-        value.setLoading(false)
-      }
-    
+    const instance = new web3.eth.Contract(abi, address)
+
+    console.log('doc proposal', proposalType_, description_)
+    try {
+      let result = await instance.methods.propose(proposalType_, description_, [], [], []).send({ from: account })
+      value.setVisibleView(2)
+    } catch (e) {
+      value.toast(e)
+      value.setLoading(false)
+    }
 
     value.setLoading(false)
   }
