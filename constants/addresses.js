@@ -32,6 +32,7 @@ export const addresses =
         crowdsale2: '0x2DCA7b86564Ade753062D6Cd60fb3a61fF1f2f9a',
         redemption: '0x11f44975e1B204E50108Af6BCB6539798cb15F75',
         manager: '0xCFAEA98787d835D127863ED4127F42d00F3D267d',
+        vesting: '0xB56440Ad1Aaf06824556F27299A44BC3A71a426f',
       },
       blockExplorer: 'https://rinkeby.etherscan.io',
     },
