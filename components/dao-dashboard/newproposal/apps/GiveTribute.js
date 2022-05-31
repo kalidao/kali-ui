@@ -49,7 +49,7 @@ export default function GiveTribute() {
   const [tributeAmount, setTributeAmount] = useState();
   const [tokenAddress, setTokenAddress] = useState();
   const [tokenId, setTokenId] = useState();
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState(null)
 
   const tribute = async () => {
