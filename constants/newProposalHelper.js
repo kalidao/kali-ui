@@ -6,7 +6,8 @@ import SendNFT from '../components/newproposal/SendNFT'
 import ContractCall from '../components/newproposal/ContractCall'
 import GovernanceSettings from '../components/newproposal/GovernanceSettings'
 import Extensions from '../components/newproposal/Extensions'
-import { FiSettings, FiSend, FiTrash2 } from 'react-icons/fi'
+import UpdateDoc from '../components/newproposal/UpdateDoc'
+import { FiSettings, FiSend, FiTrash2, FiFileText } from 'react-icons/fi'
 import { MdOutlineGeneratingTokens } from 'react-icons/md'
 import { BiLoaderCircle } from 'react-icons/bi'
 import { BsPuzzle } from 'react-icons/bs'
@@ -54,5 +55,11 @@ export const newProposalHelper = [
     description: 'kick member out for security or misconduct',
     component: <RemoveMember />,
     icon: FiTrash2,
+  },
+  {
+    title: 'Documentation',
+    description: 'update DAO documentation',
+    component: <UpdateDoc />,
+    icon: FiFileText,
   },
 ]
