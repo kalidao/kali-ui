@@ -4,13 +4,14 @@ import { DialogTitle } from "../../../styles/Dialog";
 import GiveTribute from "./apps/GiveTribute";
 import BuyCrowdsale from "./apps/BuyCrowdsale";
 import Redeem from "./apps/Redeem";
-import SendAssets from "./SendAssets";
+import SendErc20 from "./SendErc20";
 import ManageMembership from "./ManageMembership";
 import ConfigureGovernance from "./ConfigureGovernance";
 import ConfigureExtensions from "./ConfigureExtensions";
 import CallContract from "./CallContract";
 import ProposalsMenu from "./ProposalsMenu";
 import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
+import SendMenu from "./SendMenu";
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp);
@@ -19,6 +20,10 @@ export function NewProposalModal({ proposalProp }) {
     menu: {
       title: "",
       component: <ProposalsMenu setProposal={setView} />,
+    },
+    sendMenu: {
+      title: "",
+      component: <SendMenu setProposal={setView} />,
     },
     giveTribute: {
       title: "Give Tribute",
@@ -31,10 +36,18 @@ export function NewProposalModal({ proposalProp }) {
     quit: {
       title: "Redeem and Quit",
       component: <Redeem />,
+    },
+    eth: {
+      title: "Send ETH",
+      component: <SendErc20 />
     },    
-    send: {
-      title: "Make Payment",
-      component: <SendAssets />
+    erc20: {
+      title: "Send ERC20",
+      component: <SendErc20 />
+    },
+    erc721: {
+      title: "Send ERC721",
+      component: <SendErc20 />
     },
     mint: {
       title: "Manage Membership",
@@ -52,8 +65,13 @@ export function NewProposalModal({ proposalProp }) {
       title: "Interact with External Contracts",
       component: <CallContract />
     },
+    back: {
+      title: "",
+      component: <ProposalsMenu setProposal={setView} />,
+    },
   }
 
+  console.log(view)
   return (
     <>
     {view &&

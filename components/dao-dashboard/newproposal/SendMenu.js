@@ -46,23 +46,17 @@ const Item = styled(Box, {
   
 });
 
-export default function ProposalsMenu({ setProposal }) {
+export default function SendMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('sendMenu')}>
-        Send Stuff
+      <Item onClick={() => setProposal('eth')}>
+        ETH
       </Item>
-      <Item onClick={() => setProposal('mint')}>
-        Membership
+      <Item onClick={() => setProposal('erc20')}>
+        ERC20
       </Item>
-      <Item onClick={() => setProposal('governance')}>
-        Governance
-      </Item>
-      <Item onClick={() => setProposal('apps')}>
-        Apps
-      </Item>
-      <Item onClick={() => setProposal('call')}>
-        Contract Interaction
+      <Item onClick={() => setProposal('erc721')}>
+        ERC721
       </Item>
     </Menu> 
   )
