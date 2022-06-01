@@ -4,6 +4,9 @@ import Layout from '../../../../../components/dao-dashboard/layout/';
 import { FETCH_PROPOSAL } from '../../../../../graph/';
 import ProposalView from "../../../../../components/dao-dashboard/proposals/ProposalView";
 import { useGraph } from '../../../../../components/hooks';
+import { Spinner } from "../../../../../components/elements/"
+import { Button, Flex } from '../../../../../styles/elements';
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
 
 export default function ProposalPage() {
   const router = useRouter()
@@ -18,7 +21,26 @@ export default function ProposalPage() {
 
   return (
       <Layout>
-        <ProposalView proposal={proposal} />
+        <Flex dir="col" gap="md">
+         <Button 
+          variant="transparent" 
+          effect="film"
+          css={{
+            color: '$gray100',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.2em',
+            maxWidth: '5em',
+            fontWeight: '500'
+          }}
+          onClick={() => router.back()}
+          >
+          <ArrowLeftIcon />
+          Back
+        </Button>
+        {isLoading ? <Spinner /> : <ProposalView proposal={proposal} />}
+        </Flex>
       </Layout>
   )
 }

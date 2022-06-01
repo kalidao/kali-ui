@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text } from '../../../styles/elements'
+import { Box, Flex, Text } from '../../../styles/elements'
 import Tag from '../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
 import { validateProposalTag } from './ProposalCard'
@@ -14,19 +14,30 @@ export default function ProposalView({ proposal }) {
   return (
     <Flex dir="col" css={{
         position: 'relative',
-        marginRight: '1rem'
+        marginRight: '1rem',
+        maxWidth: '90vw',
+        justifyContent: 'center',
+        // alignItems: 'center'
     }}>
         <Text variant="heading">{proposal && <Tag type={proposal["proposalType"]} />}</Text>
-        <Flex>
-          <Vote proposal={proposal} />
-        </Flex>
         <Text>Proposal by {proposal && proposal["proposer"]}</Text>
         <Flex gap="md">
+            <Box css={{
+              minWidth: '50vw'
+            }}>
             {proposal && <Description description={proposal["description"]} />}
-            <Flex dir="col" gap="md">
+            </Box>
+            <Flex dir="col" gap="md" css={{
+             
+            }}>
                 {proposal && <InfoCard start={proposal["creationTime"]} votingPeriod={proposal["dao"]["votingPeriod"]}/>}
                 {proposal && <Results votes={proposal["votes"]} />}
             </Flex>
+        </Flex>
+        <Flex css={{
+          padding: '1rem'
+        }}>
+          <Vote proposal={proposal} />
         </Flex>
         {proposal && <Votes votes={proposal["votes"]} />}
     </Flex>

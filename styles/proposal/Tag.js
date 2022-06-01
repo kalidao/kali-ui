@@ -1,14 +1,20 @@
 import React from 'react'
-import { Box } from '../elements';
+import { Flex } from '../elements/';
+import { BsPersonPlusFill, BsPersonDashFill } from "react-icons/bs";
+import { GoSettings } from "react-icons/go"
 
 const validateProposalTag = (type) => {
     let tag
+    let icon
+    let tagColor
     switch (type) {
       case "MINT":
-        tag = "MEMBERSHIP";
+        tag = "MEMBER";
+        icon = <BsPersonPlusFill />
         break;
       case "BURN":
-        tag = "MEMBERSHIP";
+        tag = "MEMBER";
+        icon = <BsPersonDashFill />
         break;
       case "CALL":
         tag = "EXTERNAL";
@@ -37,12 +43,13 @@ const validateProposalTag = (type) => {
       case "DOCS":
         tag = "GOVERNANCE"
     }
-    let tagColor
+
     switch (tag) {
       case "GOVERNANCE":
         tagColor = "$purple200"
+        icon= <GoSettings />
         break;
-      case "MEMBERSHIP":
+      case "MEMBER":
         tagColor = "$green200"
         break;
       case "APP":
@@ -52,21 +59,24 @@ const validateProposalTag = (type) => {
         tagColor = "$yellow200"
         break;
     }
-    return { tag, tagColor }
+    return { tag, icon, tagColor }
   };
 
 
 export default function Tag({ type }) {
-  const { tag, tagColor } = validateProposalTag(type);
-
+  const { tag, icon, tagColor } = validateProposalTag(type);
   return (
-    <Box css={{ 
+    <Flex css={{ 
               color: `${tagColor}`,
               fontWeight: '800', 
               fontFamily: 'Screen',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: '0.8rem'
             }}
         >
+              {icon && icon}
               {tag}
-    </Box>
+    </Flex>
   )
 }
