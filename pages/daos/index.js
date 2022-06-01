@@ -5,7 +5,7 @@ import AllDAOs from "../../components/all-daos";
 import NewDaoSquare from "../../components/my-daos/NewDaoSquare";
 import { useQuery } from "@apollo/client";
 import { ALL_DAOS } from "../../graph";
-import Spinner from "../../components/structure/Spinner";
+import Spinner from "../../components/elements/";
 
 export default function DAOs() {
   const { activeChain } = useNetwork();

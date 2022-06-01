@@ -1,5 +1,5 @@
 import React from 'react'
-import Spinner from "../../structure/Spinner";
+import { Spinner } from "../../elements/";
 import Extensions from './Extensions';
 import Governance from './Governance';
 import Meta from './Meta';

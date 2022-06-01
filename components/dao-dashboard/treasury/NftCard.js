@@ -4,7 +4,7 @@ import { chainId } from 'wagmi';
 import { useMoralisWeb3Api } from "react-moralis";
 import useSWR from "swr";
 import { Flex, Box, Text } from "../../../styles/elements";
-import Spinner from '../../structure/Spinner';
+import { Spinner } from '../../elements/';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 

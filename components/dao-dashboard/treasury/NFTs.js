@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex } from "../../../styles/elements";
-import Spinner from '../../structure/Spinner';
+import { Spinner } from '../../elements/';
 import NftCard from "./NftCard";
 
 export default function NFTs({ nftBalance }) {

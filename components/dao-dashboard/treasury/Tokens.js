@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from "../../../styles/elements";
-import Spinner from '../../structure/Spinner';
+import { Spinner } from '../../elements/';
 import TokenCard from './TokenCard';
 
 export default function Tokens({ tokenBalance }) {
