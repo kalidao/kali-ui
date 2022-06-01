@@ -7,18 +7,17 @@ export default function Highlight() {
   const router = useRouter();
   const daoAddress = router.query.dao
   return (
-    <Box >
-      <Link 
-            href={{
-              pathname: '/daos/[dao]/crowdsale',
-              query: { dao: daoAddress}
-            }}>
-        <Text size="lg">
-          
-              Crowdsale
-            
-        </Text>
-        </Link>
-    </Box>
+    null
+    // <Box >
+    //   <Link 
+    //         href={{
+    //           pathname: '/daos/[dao]/crowdsale',
+    //           query: { dao: daoAddress}
+    //         }}>
+    //     <Text size="lg">
+    //           Crowdsale  
+    //     </Text>
+    //     </Link>
+    // </Box>
   )
 }
