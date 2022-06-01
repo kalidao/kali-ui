@@ -1,5 +1,4 @@
 import React from "react";
-import { BsQuestionCircle } from "react-icons/bs";
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { styled } from '../../styles/stitches.config';
 import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from "../../styles/animation";
@@ -47,12 +46,10 @@ const Arrow = styled(Tooltip.Arrow, {
 });
 
 // Add label
-export default function InfoTip({ label, ...props }) {
+export default function Tip({ label, children }) {
   return (<Tooltip.Root>
     <Tooltip.Trigger asChild>
-      <IconButton>
-        <BsQuestionCircle fontSize={"80%"} color="#fbb341" />
-      </IconButton>
+      {children}
     </Tooltip.Trigger>
     <Content sideOffset={5}>
       {label}

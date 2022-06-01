@@ -1,4 +1,4 @@
-import InfoTip from "./InfoTip";
+import Tip from "./Tip";
 import Spinner from "./Spinner";
 
-export { InfoTip, Spinner }
+export { Tip, Spinner }

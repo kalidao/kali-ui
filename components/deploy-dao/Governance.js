@@ -6,7 +6,8 @@ import { styled } from '../../styles/stitches.config';
 import { useForm, Controller } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-import InfoTip from "../elements/InfoTip";
+import { Tip } from "../elements/";
+import { BsQuestionCircle } from "react-icons/bs";
 
 export default function Governance({ setStep }) {
   const { register, setValue, control, handleSubmit } = useForm();
@@ -23,7 +24,9 @@ export default function Governance({ setStep }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
-        <Label htmlFor="votingPeriod">Voting Period <InfoTip label="This determines voting period" /></Label>
+        <Label htmlFor="votingPeriod">
+          Voting Period 
+        </Label>
         <Flex css={{ '&:hover': { 
       boxShadow: '-2px 0px 20px 3px #ffa00a' 
     } }}>
@@ -58,7 +61,14 @@ export default function Governance({ setStep }) {
         </Flex>
       </FormElement>
       <FormElement>
-        <Label htmlFor="quorum">Participation Needed</Label>
+        <Label htmlFor="quorum">
+          Participation Needed
+          <Tip label="This determines the minimum number of people that must vote for a proposal to reach quorum.">
+            <Button variant="info">
+              <BsQuestionCircle color="#ffa00a" />
+            </Button>
+          </Tip>
+        </Label>
         <Input 
           type="number" 
           id="quorum" 

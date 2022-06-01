@@ -35,6 +35,21 @@ const Button = styled('button', {
                 padding: '0.3rem 0.8rem',
                 borderRadius: '22.81px',
             },
+            info: {
+                all: 'unset',
+                fontFamily: 'inherit',
+                borderRadius: '100%',
+                height: 20,
+                width: 20,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '$background',
+                backgroundColor: 'none',
+                boxShadow: `0 2px 10px black`,
+                '&:hover': {  boxShadow: `0 2px 10px white` },
+                '&:focus': { boxShadow: `0 0 0 2px black` },
+            }
         },
     },
     defaultVariants: {
