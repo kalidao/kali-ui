@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { styled } from "../../styles/stitches.config";
 import { truncateAddress } from "../../utils/formatters";
 import { Box } from "../../styles/elements";
@@ -15,17 +16,20 @@ const Address = styled('div', {
 
 // disable when not active chain
 export default function DaoCard({ dao }) {
-    const [chain, setChain] = useState();
+    const router = useRouter()
     
-    useEffect(async () => {
-        const res = await getDaoChain(dao["id"])
-        setChain(res)
-    }, [])
-    console.log(chain)
+    const gotoDAO = async () => {
+        const chainId = await getDaoChain(dao["id"])
+        if (chainId) {
+            router.push(`/daos/${chainId}/${dao["id"]}`)
+        }
+    }
+    
     return <Box 
             as="a" 
-            href={`../daos/${chain}/${dao["id"]}`} 
+            // href={`../daos/${chain}/${dao["id"]}`} 
             variant="card"
+            onClick={gotoDAO}
             >
         <Name>{dao["token"]["name"]}</Name>
         {dao["members"] != undefined && <Name>{dao["members"].length} Members</Name>}

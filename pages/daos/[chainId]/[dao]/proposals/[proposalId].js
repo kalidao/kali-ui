@@ -3,6 +3,7 @@ import React from 'react'
 import Layout from '../../../../../components/dao-dashboard/layout/';
 import { FETCH_PROPOSAL } from '../../../../../graph/';
 import ProposalView from "../../../../../components/dao-dashboard/proposals/ProposalView";
+import { useGraph } from '../../../../../components/hooks';
 
 export default function ProposalPage() {
   const router = useRouter()
