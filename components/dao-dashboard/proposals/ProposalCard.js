@@ -33,9 +33,16 @@ export const ProposalCard = ({ proposal }) => {
               }
           }}
         >
-        <Flex dir="row" gap="sm" css={{ padding: '1rem 0.5rem 1rem 0.5rem', minWidth: '70vw', justifyContent: 'flex-start', alignItems: 'flex-start', borderBottom: '1px solid $gray100', borderTop: '1px solid $gray100', '&:hover': {
-          background: '$gray800'
-        }}}>
+        <Flex dir="row" gap="sm" css={{ 
+          padding: '1rem 0.5rem 1rem 0.5rem', 
+          minWidth: '70vw', 
+          justifyContent: 'flex-start', 
+          alignItems: 'flex-start', 
+          borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)', 
+          borderTop: '1px solid hsla(0, 0%, 90%, 0.1)', 
+          '&:hover': {
+            background: '$gray800'
+          }}}>
               <Flex dir="col" gap="md" minWidth="10%" height="100%" css={{
                 paddingRight: '1rem',
               }}>
@@ -46,8 +53,15 @@ export const ProposalCard = ({ proposal }) => {
             justifyContent: 'flex-start',
             alignItems: 'flex-start'
           }}>
-          <Flex color="foreground" align="start" gap="sm" >
-            <Tag type={proposal["proposalType"]} />{" "} proposal by 
+          <Flex color="foreground" gap="sm" css={{
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <Tag type={proposal["proposalType"]} />
+            <Text css={{
+              fontFamily: 'Screen',
+              color: 'hsla(0, 0%, 90%, 0.7)'
+            }}>proposal by</Text>
             <Text css={{
               fontFamily: 'Screen',
               color: '$purple300'
