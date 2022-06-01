@@ -7,6 +7,10 @@ export const Label = styled(LabelPrimitive.Root, {
     lineHeight: '18.51px',
     color: '$foreground',
     userSelect: 'none',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: '0.5rem'
 });;
 
 export default Label

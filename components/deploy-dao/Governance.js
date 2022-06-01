@@ -6,7 +6,7 @@ import { styled } from '../../styles/stitches.config';
 import { useForm, Controller } from 'react-hook-form';
 import { useStateMachine } from 'little-state-machine';
 import updateAction from './updateAction';
-
+import InfoTip from "../elements/InfoTip";
 
 export default function Governance({ setStep }) {
   const { register, setValue, control, handleSubmit } = useForm();
@@ -23,7 +23,7 @@ export default function Governance({ setStep }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormElement>
-        <Label htmlFor="votingPeriod">Voting Period</Label>
+        <Label htmlFor="votingPeriod">Voting Period <InfoTip label="This determines voting period" /></Label>
         <Flex css={{ '&:hover': { 
       boxShadow: '-2px 0px 20px 3px #ffa00a' 
     } }}>
