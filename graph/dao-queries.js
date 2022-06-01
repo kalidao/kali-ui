@@ -105,6 +105,19 @@ export const ALL_DAOS = gql`
       }
     }
 `
+export const DAO_TOKEN = gql`
+    query daoToken($dao: ID!) {
+        tokens(where: {
+          dao: $dao
+        }) {
+          name
+          symbol
+          paused
+          totalSupply
+      }
+    }
+`
+
 
 // Members for sorting
 export const CROWDSALE = gql`
@@ -133,4 +146,6 @@ export const CROWDSALE = gql`
       }	
     }
 `
+
+
 

@@ -49,6 +49,7 @@ export const ProposalCard = ({ proposal }) => {
           <Flex color="foreground" align="start" gap="sm" >
             <Tag type={proposal["proposalType"]} />{" "} proposal by 
             <Text css={{
+              fontFamily: 'Screen',
               color: '$purple300'
             }}>
               {proposer}
@@ -60,17 +61,6 @@ export const ProposalCard = ({ proposal }) => {
               proposal["description"]}
             </Box>
           </Flex>
-          {/* <Box css={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minWidth: '10%'
-          }}>
-              {proposal["status"] ? 
-                <Image src={`/icons/checkmark.png`} height="32px" width="32px" /> : 
-                <Image src={`/icons/cross.png`} height="32px" width="32px" />}
-          </Box> */}
       </Flex>
     </Link> 
   }

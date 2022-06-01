@@ -1,38 +1,27 @@
-import { useRouter } from "next/router";
-import { getDaoChain } from "../../../../utils/"
 import Layout from "../../../../components/dao-dashboard/layout/"
 import { Dashboard } from "../../../../components/dao-dashboard"
-import { getTokenName } from "../../../../utils/fetchTokenInfo";
-import { SWRConfig, useSWR } from "swr";
-import { useFetch } from "../../../../components/hooks/useFetch";
-import getDao from "../../../../graph/queries/getDao";
+import { useGraph } from "../../../../components/hooks";
+import { useRouter } from "next/router";
+import { DAO_TOKEN } from "../../../../graph";
+import { useContractRead } from "wagmi";
+import DAO_ABI from "../../../../abi/KaliDAO.json";
 
-// export const getServerSideProps = async ({ query }) => {
-//   return {
-//     props: {
-//       fallback: {
-//         [`/api/daos/${query.chainId}/${query.dao}`]: (await getDao(
-//           query.chainId,
-//           query.dao
-//         )),
-//       },
-//     },
-//   }
-// }
+export default function Dao() {
+  const router = useRouter()
+  const { data } = useContractRead(
+    {
+      addressOrName: router.query.dao,
+      contractInterface: DAO_ABI,
+    },
+    'name',
+    {
+      chainId: router.query.chainId
+    }
+  )
 
-export default function Dao({ fallback }) {
-  // * get DAO address from route * //
-  // const router = useRouter();
-  // const dao = router.query.dao;
-  // const chainId = router.query.chainId;
-  
-  // const { data, error } = useFetch(`/api/daos/${chainId}/${dao}`)
-  
   return (
-    <SWRConfig value={fallback}>
-      <Layout>
+      <Layout heading={data}>
         <Dashboard />
       </Layout>
-    </SWRConfig>
   );
 }
