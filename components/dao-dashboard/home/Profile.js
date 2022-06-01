@@ -6,10 +6,9 @@ import { NewProposalModal } from '../newproposal/';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { DAO_MEMBERS } from '../../../graph';
-import { useQuery } from '@apollo/client';
-import { getDaoChain } from '../../../utils';
 import { useBalance } from 'wagmi';
 import { ethers } from 'ethers';
+import { useGraph } from '../../hooks';
 
 export const Box = styled(Flex, {
     position: 'relative',
@@ -27,23 +26,19 @@ export const Box = styled(Flex, {
 export default function ProfileComponent({ dao }) {
   const router = useRouter();
   const daoAddress = router.query.dao
-  const daoChain = getDaoChain(daoAddress)
-  const { data: balance, isError, isLoading } = useBalance({
+  const daoChain = router.query.chainId
+  const { data: balance } = useBalance({
     addressOrName: daoAddress,
     chainId: daoChain, 
     watch: true
   })
-  const { loading, error, data } = useQuery(DAO_MEMBERS, {
-    variables: { dao: daoAddress },
-    // client: new ApolloClient({
-    //   uri: GRAPH_URL[daoChain],
-    //   cache: new InMemoryCache()
-    // })
-  });
+  const { data, isLoading } = useGraph(daoChain, DAO_MEMBERS, { 
+      dao: daoAddress 
+    });
 
   const members = data && data['daos'][0]["members"].length
 
-  console.log(error, data, members)
+  console.log('members', members)
 
   return (
     <Box>

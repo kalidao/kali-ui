@@ -13,6 +13,7 @@ const Address = styled('div', {
     fontFamily: 'Screen'
 })
 
+// disable when not active chain
 export default function DaoCard({ dao }) {
     const [chain, setChain] = useState();
     

@@ -8,13 +8,7 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { chain, createClient, WagmiProvider } from 'wagmi';
 import { MoralisProvider } from "react-moralis";
-import { ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client";
 import { GRAPH_URL } from '../graph/';
-
-const apolloClient = new ApolloClient({
-  uri: GRAPH_URL[1],
-  cache: new InMemoryCache()
-});
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.rinkeby],
@@ -47,11 +41,9 @@ function MyApp({ Component, pageProps }) {
             accentColorForeground: '#D5D1D1',
           })}
         >
-          <ApolloProvider client={apolloClient}>
             <MoralisProvider serverUrl='https://amaolyvrejmm.usemoralis.com:2053/server' appId='iQgEQixJugOhHzXRq1pRPoJEmdbKA67o1veRSFRB'>
               <Component {...pageProps} />
             </MoralisProvider>
-          </ApolloProvider>   
         </RainbowKitProvider>
       </WagmiProvider>
   );

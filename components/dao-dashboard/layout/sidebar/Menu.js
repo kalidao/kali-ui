@@ -1,17 +1,15 @@
 import React from 'react'
 import { Flex } from '../../../../styles/elements'
 import Link from 'next/link'
-import Image from 'next/image'
 import { styled } from '../../../../styles/stitches.config'
 import { bounce } from '../../../../styles/animation'
 import { useRouter } from 'next/router'
-import { getDaoChain } from '../../../../utils'
 import { CHECK_APPS } from '../../../../graph'
-import { useQuery } from '@apollo/client'
 import { BsPiggyBank, BsFillPeopleFill } from "react-icons/bs";
 import { GoHome } from "react-icons/go";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { GiCoins } from "react-icons/gi";
+import { useGraph } from "../../../hooks/";
 
 const Icon = styled('span', {
     display: 'flex', 
@@ -26,15 +24,9 @@ export default function Menu() {
   const router = useRouter();
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
-  const { loading, error, data } = useQuery(CHECK_APPS, {
-    variables: { dao: daoAddress },
-    // client: new ApolloClient({
-    //   uri: GRAPH_URL[daoChain],
-    //   cache: new InMemoryCache()
-    // })
-  });
-
-  console.log('data', data)
+  const { data, isLoading } = useGraph(daoChain, CHECK_APPS, { 
+      dao: daoAddress 
+    });
 
   return (
     <Flex css={{
@@ -80,7 +72,8 @@ export default function Menu() {
                 <BsFillPeopleFill size={30} />
             </Icon>   
         </Link>
-        {(data && data["daos"][0]["crowdsale"] != null) ?
+        {/* {data != undefined ? 
+            (data["daos"][0]["crowdsale"]) != null &&
         <Link href={{
             pathname: '/daos/[chainId]/[dao]/crowdsale',
             query: { 
@@ -91,7 +84,7 @@ export default function Menu() {
             <Icon as="a">
                 <GiCoins size={30} />
             </Icon>   
-        </Link> : null}
+        </Link>) : null} */}
         <Link href={{
             pathname: '/daos/[chainId]/[dao]/info',
             query: { 

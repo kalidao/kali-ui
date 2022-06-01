@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from "graphql-request";
 
-export const USER_DAOS = gql(`
+export const USER_DAOS = gql`
     query userDaosQuery($address: ID!) {
         members(where: {
             address: $address
@@ -13,4 +13,4 @@ export const USER_DAOS = gql(`
             }
           }
       }
-`)
+`

@@ -3,26 +3,20 @@ import React, { useState } from 'react'
 import Layout from "../../../../components/dao-dashboard/layout/"
 import Members from '../../../../components/dao-dashboard/members'
 import { DAO_MEMBERS } from "../../../../graph/"
-import { useQuery } from "@apollo/client";
-import { ApolloClient, InMemoryCache } from "@apollo/client"
-import { GRAPH_URL } from '../../../../graph/url'
+import { useGraph } from '../../../../components/hooks'
 
 export default function MembersPage() { 
   const router = useRouter();
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
-  const { loading, error, data } = useQuery(DAO_MEMBERS, {
-    variables: { dao: daoAddress },
-    // client: new ApolloClient({
-    //   uri: GRAPH_URL[daoChain],
-    //   cache: new InMemoryCache()
-    // })
-  });
-  
+  const { data } = useGraph(daoChain, DAO_MEMBERS, {
+    dao: daoAddress }
+   );
+  const members = data && data['daos'][0]
   // if (loading) return "Loading..."
-  if (!error) return (
+ return (
     <Layout heading={`Members`}>
-        <Members members={data && data['daos'][0]} />
+        <Members members={members} />
     </Layout>
   )
 }

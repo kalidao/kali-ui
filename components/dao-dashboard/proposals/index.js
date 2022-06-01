@@ -4,19 +4,13 @@ import { Flex, Text } from '../../../styles/elements'
 import { ProposalCard } from './ProposalCard'
 import { getDaoChain } from '../../../utils';
 import { DAO_PROPOSALS } from '../../../graph/';
-import { useQuery } from '@apollo/client';
+import { useGraph } from '../../hooks/';
 
 export default function Proposals() {
   const router = useRouter();
   const daoAddress = router.query.dao
-  const daoChain = getDaoChain(daoAddress)
-  const { loading, error, data } = useQuery(DAO_PROPOSALS, {
-    variables: { dao: daoAddress },
-    // client: new ApolloClient({
-    //   uri: GRAPH_URL[daoChain],
-    //   cache: new InMemoryCache()
-    // })
-  });
+  const daoChain = router.query.chainId
+  const { data, isLoading } = useGraph(daoChain, DAO_PROPOSALS,  { dao: daoAddress });
 
   const proposals = data ? data["daos"][0]["proposals"] : null
   console.log(proposals)

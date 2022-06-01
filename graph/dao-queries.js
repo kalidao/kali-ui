@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from "graphql-request";
 
-export const DAO_MEMBERS = gql(`
+export const DAO_MEMBERS = gql`
     query daoMemberQuery($dao: ID!) {
         daos(where: {
             id: $dao
@@ -14,9 +14,10 @@ export const DAO_MEMBERS = gql(`
             }
           }
       }
-`)
+`
 
-export const DAO_PROPOSALS = gql(`
+
+export const DAO_PROPOSALS = gql`
     query daoProposalQuery($dao: ID!) {
         daos(where: {
             id: $dao
@@ -37,9 +38,9 @@ export const DAO_PROPOSALS = gql(`
             }
           }
       }
-`)
+`
 
-export const CHECK_APPS = gql(`
+export const CHECK_APPS = gql`
     query daoCheckAppsQuery($dao: ID!) {
         daos(where: {
             id: $dao
@@ -57,10 +58,10 @@ export const CHECK_APPS = gql(`
             }
           }
       }
-`)
+`
 
 // votingPeriod to calculate when proposal ends
-export const FETCH_PROPOSAL = gql(`
+export const FETCH_PROPOSAL = gql`
     query fetchProposalQuery($dao: ID!, $serial: BigInt!) {
       proposals (
         where: {
@@ -88,10 +89,10 @@ export const FETCH_PROPOSAL = gql(`
         creationTime
       }
     }
-`)
+`
 
 // Members for sorting
-export const ALL_DAOS = gql(`
+export const ALL_DAOS = gql`
     query allDaosQuery {
         daos {
           id
@@ -103,10 +104,10 @@ export const ALL_DAOS = gql(`
           }
       }
     }
-`)
+`
 
 // Members for sorting
-export const CROWDSALE = gql(`
+export const CROWDSALE = gql`
     query crowdsaleQuery($dao: ID!) {
       crowdsales(
         where: {
@@ -131,5 +132,5 @@ export const CROWDSALE = gql(`
         personalLimit
       }	
     }
-`)
+`
 
