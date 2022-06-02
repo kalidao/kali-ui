@@ -35,7 +35,7 @@ export default function TreasuryPage() {
       }
     }
     
-    return fetch 
+    return fetch() 
   }, [daoAddress])
   return (
     <Layout heading={`Treasury`}>
