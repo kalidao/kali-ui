@@ -1,4 +1,4 @@
-export default function BuyCrowdsale() {
+export default function Crowdsale() {
   return (
     <>
     Buy Crowdsale 

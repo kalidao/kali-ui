@@ -13,7 +13,7 @@ import { getDaoChain } from '../../../../utils';
 import { getTokenName } from '../../../../utils/fetchTokenInfo';
 import { uploadIpfs } from '../../../tools/ipfsHelpers';
 
-export default function GiveTribute() {
+export default function Tribute() {
   const router = useRouter();
   const daoAddress = router.query.dao;
   const daoChainId = getDaoChain(daoAddress)
