@@ -13,7 +13,11 @@ import { useGraph } from "../../../hooks/";
 
 const Icon = styled('span', {
     display: 'flex', 
+    justifyContent: 'center',
     alignItems: 'center', 
+    background: '$background',
+    maxWidth: '2rem',
+    borderRadius: '100%',
     
     '&:hover': {
         animation: `${bounce} 0.5s infinite`
@@ -38,40 +42,46 @@ export default function Menu() {
         flexDirection: 'column',
         gap: '2rem'
     }}>
-        <Link href={{
+        
+            <Icon>
+            <Link href={{
             pathname: '/daos/[chainId]/[dao]/',
             query: { 
                 chainId: router.query.chainId,
                 dao: router.query.dao,
             }
         }}
-        >
-            <Icon>
+                >
                 <GoHome size={30} />
+                </Link>
             </Icon>
-        </Link>
-        <Link href={{
+        
+       
+            <Icon>
+            <Link href={{
             pathname: '/daos/[chainId]/[dao]/treasury',
             query: { 
                 chainId: router.query.chainId,
                 dao: router.query.dao,
             }
         }}>
-            <Icon>
                 <BsPiggyBank size={30}/>
+                </Link>
             </Icon>
-        </Link>
-        <Link href={{
+       
+    
+            <Icon>
+            <Link href={{
             pathname: '/daos/[chainId]/[dao]/members',
             query: { 
                 chainId: router.query.chainId,
                 dao: router.query.dao,
             }
         }}>
-            <Icon>
                 <BsFillPeopleFill size={30} />
+                </Link>
             </Icon>   
-        </Link>
+       
         {/* {data != undefined ? 
             (data["daos"][0]["crowdsale"]) != null &&
         <Link href={{
@@ -85,17 +95,19 @@ export default function Menu() {
                 <GiCoins size={30} />
             </Icon>   
         </Link>) : null} */}
-        <Link href={{
-            pathname: '/daos/[chainId]/[dao]/info',
-            query: { 
-                chainId: router.query.chainId,
-                dao: router.query.dao,
-            }
-        }}>
+      
             <Icon as="a">
+                <Link href={{
+                pathname: '/daos/[chainId]/[dao]/info',
+                query: { 
+                    chainId: router.query.chainId,
+                    dao: router.query.dao,
+                }
+            }}>
                 <HiOutlineInformationCircle size={30}/>
+                </Link>
             </Icon>   
-        </Link>
+        
     </Flex>
   )
 }
