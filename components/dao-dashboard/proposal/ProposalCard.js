@@ -33,6 +33,7 @@ export const ProposalCard = ({ proposal }) => {
           dao: router.query.dao,
         },
       }}
+      passHref
     >
       <Flex
         dir="row"

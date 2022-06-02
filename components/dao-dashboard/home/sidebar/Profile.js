@@ -52,6 +52,7 @@ export default function ProfileComponent({ dao }) {
               chainId: router.query.chainId,
             },
           }}
+          passHref
         >
           <Flex
             dir="col"
@@ -75,6 +76,7 @@ export default function ProfileComponent({ dao }) {
               chainId: router.query.chainId,
             },
           }}
+          passHref
         >
           <Flex
             dir="col"

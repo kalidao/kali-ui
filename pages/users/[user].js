@@ -14,7 +14,7 @@ export default function UserDAOsPage() {
   })
 
   return (
-    <Layout heading={data ? data : truncateAddress(router.query.user)}>
+    <Layout heading={data ? data : null}>
       <UserDAOs address={router.query.user} />
       <NewDaoSquare />
     </Layout>
