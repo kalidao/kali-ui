@@ -1,6 +1,6 @@
 import React from 'react'
 import Ricardian from './Ricardian'
-import { Flex, Text, Link } from '../../../styles/elements'
+import { Flex, Text } from '../../../styles/elements'
 import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
 import { Spinner } from '../../elements'
 import Info from '../../../styles/Info'
@@ -16,9 +16,9 @@ export default function Docs({ info }) {
           <Text>
             {info['docs'] === 'none' && 'Pending...'}
             {info['docs'].substring(0, 4) === 'http' ? (
-              <Link href={info['docs']} target="_blank" rel="noreferrer noopener">
+              <a href={info['docs']} target="_blank" rel="noreferrer noopener">
                 <BsFillArrowUpRightSquareFill color="white" />
-              </Link>
+              </a>
             ) : (
               <a href={`https://ipfs.fleek.co/ipfs/${info['docs']}`} target="_blank" rel="noreferrer noopener">
                 <BsFillArrowUpRightSquareFill color="white" />
