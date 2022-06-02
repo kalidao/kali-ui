@@ -49,20 +49,20 @@ const Item = styled(Box, {
 export default function ProposalsMenu({ setProposal }) {
   return (
     <Menu>
+      <Item onClick={() => setProposal('memberMenu')}>
+        Manage Members
+      </Item>
       <Item onClick={() => setProposal('sendMenu')}>
         Send Stuff
       </Item>
-      <Item onClick={() => setProposal('mint')}>
-        Membership
-      </Item>
-      <Item onClick={() => setProposal('governance')}>
+      <Item onClick={() => setProposal('govMenu')}>
         Governance
       </Item>
-      <Item onClick={() => setProposal('apps')}>
-        Apps
+      <Item onClick={() => setProposal('adminMenu')}>
+        Admin
       </Item>
-      <Item onClick={() => setProposal('call')}>
-        Contract Interaction
+      <Item onClick={() => setProposal('applyMenu')}>
+        Set Member Applications
       </Item>
     </Menu> 
   )
