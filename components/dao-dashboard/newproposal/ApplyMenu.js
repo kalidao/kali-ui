@@ -46,23 +46,20 @@ const Item = styled(Box, {
   
 });
 
-export default function ProposalsMenu({ setProposal }) {
+export default function ApplyMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('memberMenu')}>
-        Members
+      <Item onClick={() => setProposal('crowdsale')}>
+        Crowdsale
       </Item>
-      <Item onClick={() => setProposal('sendMenu')}>
-        Send Stuff
+      <Item onClick={() => setProposal('redemption')}>
+        Redemption
       </Item>
-      <Item onClick={() => setProposal('govMenu')}>
-        Governance
+      <Item onClick={() => setProposal('crowdsaleWithVesting')}>
+        Crowdsale with Vesting
       </Item>
-      <Item onClick={() => setProposal('adminMenu')}>
-        Admin
-      </Item>
-      <Item onClick={() => setProposal('applyMenu')}>
-        Membership
+      <Item onClick={() => setProposal('tributeWithVesting')}>
+        Tribute with Vesting
       </Item>
     </Menu> 
   )

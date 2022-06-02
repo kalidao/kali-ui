@@ -46,23 +46,20 @@ const Item = styled(Box, {
   
 });
 
-export default function ProposalsMenu({ setProposal }) {
+export default function MemberMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('memberMenu')}>
-        Members
+      <Item onClick={() => setProposal('addMember')}>
+        Add Member
       </Item>
-      <Item onClick={() => setProposal('sendMenu')}>
-        Send Stuff
+      <Item onClick={() => setProposal('removeMember')}>
+        Remove Member
       </Item>
-      <Item onClick={() => setProposal('govMenu')}>
-        Governance
+      <Item onClick={() => setProposal('addMemberWithVesting')}>
+        Add Member with Vesting
       </Item>
-      <Item onClick={() => setProposal('adminMenu')}>
-        Admin
-      </Item>
-      <Item onClick={() => setProposal('applyMenu')}>
-        Membership
+      <Item onClick={() => setProposal('quit')}>
+        Quit
       </Item>
     </Menu> 
   )
