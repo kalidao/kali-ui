@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TokenForm from './TokenForm.js'
 import NftForm from './NftForm.js'
 import ListManagerForm from './ListManagerForm.js'
-import { Button, Flex } from "../../styles/elements";
+import { Button, Flex } from '../../styles/elements'
 
 export default function ToolBox() {
   const [tokenVisible, setTokenVisible] = useState(false)

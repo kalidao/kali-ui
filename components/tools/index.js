@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Text } from '../../styles/elements'
 import DraftDoc from './DraftDoc'
-import ToolBox from './ToolBox';
+import ToolBox from './ToolBox'
 
 export default function Tools() {
   return (

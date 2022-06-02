@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form'
 import Tip from '../elements/Tip'
 import fleek from '@fleekhq/fleek-storage-js'
 import { addresses } from '../../constants/addresses'
-import { Flex, Box, Button, Text } from "../../styles/elements/";
-import { Input } from "../../styles/form-elements/";
+import { Flex, Box, Button, Text } from '../../styles/elements/'
+import { Input } from '../../styles/form-elements/'
 function NftForm() {
   const [file, setFile] = useState('')
   const [isMinted, setIsMinted] = useState(false)
@@ -124,7 +124,9 @@ function NftForm() {
   return (
     <Flex w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
-      <Text as="h1" variant="heading">Mint an NFT</Text>
+      <Text as="h1" variant="heading">
+        Mint an NFT
+      </Text>
       <Flex w="100%" align="flex-start">
         <Flex>
           <label>Recipient</label>

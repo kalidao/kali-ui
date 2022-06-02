@@ -3,6 +3,7 @@ import Layout from '../../../../components/dao-dashboard/layout/'
 import { CROWDSALE } from '../../../../graph/dao-queries'
 import Crowdsale from '../../../../components/dao-dashboard/crowdsale/'
 import { Spinner } from '../../../../components/elements/'
+import { useGraph } from '../../../../components/hooks'
 
 export default function CrowdsalePage() {
   const router = useRouter()
