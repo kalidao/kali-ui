@@ -64,6 +64,11 @@ export default function ProposalsMenu({ setProposal }) {
       <Item onClick={() => setProposal('applyMenu')}>
         Membership
       </Item>
+      <Item onClick={() => setProposal('signal')} css={{
+        background: '$purple100'
+      }}>
+        Signal
+      </Item>
     </Menu> 
   )
 }

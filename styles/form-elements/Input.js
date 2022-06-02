@@ -26,6 +26,11 @@ const Input = styled('input', {
 
     variants: {
       variant: {
+        textarea: {
+          padding: '0.5rem', 
+          width: '97%', 
+          minHeight: '10vh'
+        },
         voting: {
           width: '3rem',
           border: 'none'

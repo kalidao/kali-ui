@@ -17,6 +17,7 @@ import MemberMenu from "./MemberMenu";
 import GovMenu from "./GovMenu";
 import AdminMenu from "./AdminMenu";
 import ApplyMenu from "./ApplyMenu";
+import Signal from "./signal";
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp);
@@ -124,6 +125,10 @@ export function NewProposalModal({ proposalProp }) {
     tributeWithVesting: {
       title: "Tribute with Vesting",
       component: <Crowdsale />,
+    },
+    signal: {
+      title: "Signal",
+      component: <Signal />,
     },
     // Back
     back: {

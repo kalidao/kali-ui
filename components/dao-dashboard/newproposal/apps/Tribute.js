@@ -184,7 +184,7 @@ export default function Tribute() {
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="description">Description</Label>
-          <Input as="textarea" name="description" type="text" defaultValue={description} onChange={(e) => setDescription(e.target.value)} css={{ padding: '0.5rem', width: '97%', height: '10vh'}} />
+          <Input as="textarea" name="description" type="text" defaultValue={description} onChange={(e) => setDescription(e.target.value)} variant="textarea" />
         </FormElement>
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
