@@ -85,7 +85,7 @@ export default function SendErc20() {
 
     let docs;
     if (file) {
-      docs = await uploadIpfs(daoAddress, "Tribute", file);
+      docs = await uploadIpfs(daoAddress, "Send ERC20 Proposal", file);
     } else {
       docs = description;
     }
