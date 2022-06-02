@@ -50,16 +50,16 @@ export default function AdminMenu({ setProposal }) {
   return (
     <Menu>
       <Item onClick={() => setProposal('manager')}>
-        Manager
+        Assign Manager
       </Item>
       <Item onClick={() => setProposal('docs')}>
-        Docs
+        Update Docs
       </Item>
       <Item onClick={() => setProposal('escape')}>
-        Escape
+        Escape Proposal
       </Item>
       <Item onClick={() => setProposal('call')}>
-        Call
+        Call Contract
       </Item>
     </Menu> 
   )

@@ -52,11 +52,11 @@ export default function MemberMenu({ setProposal }) {
       <Item onClick={() => setProposal('addMember')}>
         Add Member
       </Item>
-      <Item onClick={() => setProposal('addMemberWithVesting')}>
-        Add Member with Vesting
-      </Item>
       <Item onClick={() => setProposal('removeMember')}>
         Remove Member
+      </Item>
+      <Item onClick={() => setProposal('addMemberWithVesting')}>
+        Add Member with Vesting
       </Item>
       <Item onClick={() => setProposal('quit')}>
         Quit

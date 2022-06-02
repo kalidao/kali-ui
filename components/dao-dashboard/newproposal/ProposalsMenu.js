@@ -50,7 +50,7 @@ export default function ProposalsMenu({ setProposal }) {
   return (
     <Menu>
       <Item onClick={() => setProposal('memberMenu')}>
-        Manage Members
+        Members
       </Item>
       <Item onClick={() => setProposal('sendMenu')}>
         Send Stuff
@@ -62,7 +62,7 @@ export default function ProposalsMenu({ setProposal }) {
         Admin
       </Item>
       <Item onClick={() => setProposal('applyMenu')}>
-        Set Member Applications
+        Membership
       </Item>
     </Menu> 
   )

@@ -52,11 +52,11 @@ export default function ApplyMenu({ setProposal }) {
       <Item onClick={() => setProposal('crowdsale')}>
         Crowdsale
       </Item>
+      <Item onClick={() => setProposal('redemption')}>
+        Redemption
+      </Item>
       <Item onClick={() => setProposal('crowdsaleWithVesting')}>
         Crowdsale with Vesting
-      </Item>
-      <Item onClick={() => setProposal('tribute')}>
-        Tribute
       </Item>
       <Item onClick={() => setProposal('tributeWithVesting')}>
         Tribute with Vesting
