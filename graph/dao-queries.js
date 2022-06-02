@@ -118,7 +118,38 @@ export const DAO_TOKEN = gql`
     }
 `
 
-
+export const DAO_INFO = gql`
+    query daoInfo($dao: ID!) {
+      daos(where: {
+        id: $dao
+      }) {
+        id
+        token {
+          id
+          name
+          symbol
+          paused
+          totalSupply
+        }
+        docs
+        votingPeriod
+        gracePeriod
+        quorum
+        supermajority
+        proposals
+        tribute {
+          active
+        }
+        crowdsale {
+          active
+          saleEnds
+        }
+        redemption {
+          active
+        }
+      }
+    }
+`
 // Members for sorting
 export const CROWDSALE = gql`
     query crowdsaleQuery($dao: ID!) {

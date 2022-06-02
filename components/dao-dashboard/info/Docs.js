@@ -1,6 +1,7 @@
 import React from 'react'
 import Ricardian from './Ricardian'
 import { Flex, Text } from '../../../styles/elements'
+import { BsFillArrowUpRightSquareFill } from "react-icons/bs"
 
 export default function Docs({ info }) {
   return (
@@ -10,7 +11,14 @@ export default function Docs({ info }) {
     }}>
     {info["docs"] === "" ? <Ricardian /> : <Flex gap="md" align="separate">
         <Text>Docs</Text>
-        <Text>{info["docs"]}</Text>
+        <Text>{info["docs"] == "none" ? "Pending..." : (
+          info["docs"].substring(0, 4) == 'http' ?
+          <a href={info["docs"]} target="_blank">
+            <BsFillArrowUpRightSquareFill />
+          </a> : <a href={`https://ipfs.fleek.co/ipfs/${info["docs"]}`} target="_blank">
+            <BsFillArrowUpRightSquareFill />
+          </a>
+        )}</Text>
       </Flex>} 
   </Flex>
   )
