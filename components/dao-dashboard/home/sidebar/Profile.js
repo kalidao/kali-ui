@@ -96,7 +96,8 @@ export default function ProfileComponent({ dao }) {
       <Flex align="center">
         <Dialog>
           <DialogTrigger>
-            <Button
+            <Button 
+              variant="brutal"
               css={{
                 position: 'relative',
                 bottom: '0',
@@ -104,7 +105,6 @@ export default function ProfileComponent({ dao }) {
                 left: '0',
                 width: '5rem',
                 margin: '1rem',
-                fontFamily: 'Screen',
               }}
             >
               JOIN
