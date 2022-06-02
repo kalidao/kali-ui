@@ -12,6 +12,7 @@ import CallContract from "./CallContract";
 import ProposalsMenu from "./ProposalsMenu";
 import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
 import SendMenu from "./SendMenu";
+import SendEth from "./SendEth";
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp);
@@ -39,7 +40,7 @@ export function NewProposalModal({ proposalProp }) {
     },
     eth: {
       title: "Send ETH",
-      component: <SendErc20 />
+      component: <SendEth />
     },    
     erc20: {
       title: "Send ERC20",
