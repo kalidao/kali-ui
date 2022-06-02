@@ -1,9 +1,7 @@
 import { Flex, Text, Box } from "./elements"
 
 export default function Info({ heading, children, props }) {
-    return <Box css={{
-        minWidth: '15rem'
-    }}>
+    return <Box>
       <Box css={{
         fontFamily: 'Screen',
         fontWeight: '700',

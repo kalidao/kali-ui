@@ -1,13 +1,14 @@
 import React from 'react'
 import { Flex, Text } from '../../../styles/elements'
 import { convertVotingPeriod } from '../../../utils/formatters'
+import Info from '../../../styles/Info'
+import { Spinner } from '../../elements'
+
 export default function Governance({ info }) {
   return (
-    <Flex gap="md" dir="col" css={{
-        border: '1px solid $gray800',
-        padding: '1rem',
-      }}>
-        <Text variant="heading">Rules</Text>
+    <Info heading={"Rules"}>
+      {info !== undefined ? 
+      <Flex gap="md" dir="col">
         <Flex gap="md" align="separate">
           <Text>Voting Period</Text>
           <Text>{convertVotingPeriod(info["votingPeriod"])}</Text>
@@ -29,6 +30,8 @@ export default function Governance({ info }) {
           <Text>Grace Period</Text>
           <Text>{info["gracePeriod"]}</Text>
         </Flex>
-      </Flex>
+      </Flex> : 
+      <Spinner />}
+      </Info>
   )
 }

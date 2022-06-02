@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Flex } from '../../styles/elements'
 import { Results, ResultsText } from "../my-daos/"
 import { useNetwork } from 'wagmi';
-import { graph } from '../../constants/graph';
+import { GRAPH_URL } from '../../graph';
 import DaoCard from '../my-daos/DaoCard';
 
 export default function UserDAOs({ address }) {
@@ -15,7 +15,7 @@ export default function UserDAOs({ address }) {
 
   async function fetchData() {
      try {
-        const result = await fetch(graph[activeChain?.id], {
+        const result = await fetch(GRAPH_URL[activeChain?.id], {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

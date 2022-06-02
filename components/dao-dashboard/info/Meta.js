@@ -2,16 +2,16 @@ import React from 'react'
 import { useRouter } from 'next/router';
 import { Flex, Text } from '../../../styles/elements'
 import { ethers } from 'ethers';
+import { Spinner } from "../../elements"
+import Info from '../../../styles/Info'
 
 export default function Meta({ info }) {
   const router = useRouter();
 
   return (
-    <Flex gap="md" dir="col" css={{
-        border: '1px solid $gray800',
-        padding: '1rem'
-      }}>
-        <Text variant="heading">{info["token"]["name"]}</Text>
+    <Info heading={info && info["token"]["name"]}>
+      {info !== undefined ? 
+      <Flex dir="col" gap="md">
         <Flex gap="md" align="separate">
           <Text>Symbol</Text>
           <Text>{info["token"]["symbol"]}</Text>
@@ -29,6 +29,8 @@ export default function Meta({ info }) {
           <Text>Network</Text>
           <Text>{router.query.chainId}</Text>
         </Flex>
-    </Flex>
+      </Flex> :
+      <Spinner />}
+    </Info>
   )
 }
