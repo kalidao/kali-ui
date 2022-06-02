@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import kaliTokenFactory from '../../eth/kaliToken'
 import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
-import InfoTip from '../elements/InfoTip'
-import AppContext from '../../context/AppContext'
+import Tip from '../elements/Tip'
 import { addresses } from '../../constants/addresses'
 import { isNull } from 'util'
 
 export default function TokenForm() {
-  const value = useContext(AppContext)
-  const { web3, account, chainId } = value.state
   const [isMinted, setIsMinted] = useState(false)
 
   const {

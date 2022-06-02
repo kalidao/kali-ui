@@ -2,13 +2,10 @@ import React, { useState, useEffect, useContext } from 'react'
 import kaliAccessManager from '../../eth/kaliAccessManager'
 import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
-import InfoTip from '../elements/InfoTip'
-import AppContext from '../../context/AppContext'
+import Tip from '../elements/Tip'
 import { addresses } from '../../constants/addresses'
 
 export default function TokenForm() {
-  const value = useContext(AppContext)
-  const { web3, account, chainId } = value.state
   const [listCreated, setListCreated] = useState(false)
   const [merkle, setMerkle] = useState('')
 

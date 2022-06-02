@@ -6,9 +6,10 @@ import DelawareInvestmentClubTemplate from '../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from '../legal/DelawareUNAtemplate'
 import WyomingOAtemplate from '../legal/WyomingOAtemplate'
 import SwissVerein from '../legal/SwissVerein'
+import { Button, Flex } from "../../styles/elements/"
+import { Label, Input } from "../../styles/form-elements/"
 
 function DraftDoc() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register, reset } = useForm()
   const [selection, setSelection] = useState('')
 
@@ -75,29 +76,10 @@ function DraftDoc() {
 
   return (
     <>
-      <Button
-        className="transparent-btn"
-        onClick={onOpen}
-        display={{
-          sm: 'none',
-          md: 'block',
-          lg: 'block',
-          xl: 'lg',
-          '2xl': 'block',
-        }}
-        margin="0px 5px !important"
-      >
-        Draft
-      </Button>
-      <Drawer isOpen={isOpen} placement="right" size="sm">
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>✍️</DrawerHeader>
-          <DrawerBody>
-            <Stack as="form" id="contact-form" onSubmit={handleSubmit(generateDoc)} spacing={2}>
-              <FormControl>
-                <FormLabel htmlFor="name">Select an agreement:</FormLabel>
-                <Select
+            <Flex as="form" id="contact-form" onSubmit={handleSubmit(generateDoc)} gap="md" dir="col">
+              <Flex dir="row" align="separate">
+                <Label htmlFor="name">Select an agreement:</Label>
+                <select
                   onChange={(e) => {
                     setSelection(e.target.value)
                     setDeLlcForm(false)
@@ -114,98 +96,94 @@ function DraftDoc() {
                   <option value="delaware-ic">Investment Club</option>
                   <option value="delaware-una">UNA</option>
                   <option value="swiss-verein">Swiss Verein</option>
-                </Select>
-              </FormControl>
+                </select>
+              </Flex>
               {selection === 'delaware-llc' && (
-                <>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="name">
+                  <Flex dir="col">
+                    <Flex dir="row" align="separate">
+                    <Label mt={3} htmlFor="name">
                       DAO LLC Name
-                    </FormLabel>
+                    </Label>
                     <Input id="name" placeholder="KALI" {...register('name')} />
-                    <FormLabel mt={3} htmlFor="chain">
+                    </Flex>
+                    <Flex dir="row" align="separate">
+                    <Label mt={3} htmlFor="chain">
                       Designated Blockchain
-                    </FormLabel>
+                    </Label>
                     <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
-                  </FormControl>
-                </>
+                    </Flex>
+                  </Flex>
               )}
               {selection === 'delaware-ic' && (
-                <>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="name">
+                  <Flex dir="col" gap="md">
+                    <Flex dir="row" align="separate">
+                    <Label mt={3} htmlFor="name">
                       DAO LLC NAME
-                    </FormLabel>
+                    </Label>
                     <Input id="name" placeholder="KALI" {...register('name')} />
-                    <FormLabel mt={2} htmlFor="chain">
+                    </Flex>
+                    <Flex dir="row" align="separate">
+                    <Label mt={2} htmlFor="chain">
                       Designated Blockchain
-                    </FormLabel>
+                    </Label>
                     <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
-                  </FormControl>
-                </>
+                    </Flex>
+                  </Flex>
               )}
               {selection === 'wyoming-llc' && (
-                <>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="name">
+                  <Flex>
+                    <Label mt={3} htmlFor="name">
                       DAO LLC Name
-                    </FormLabel>
+                    </Label>
                     <Input id="name" placeholder="KALI" {...register('name')} />
-                    <FormLabel mt={3} htmlFor="chain">
+                    <Label mt={3} htmlFor="chain">
                       Designated Blockchain
-                    </FormLabel>
+                    </Label>
                     <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
-                  </FormControl>
-                </>
+                  </Flex>
               )}
               {selection === 'delaware-una' && (
-                <>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="name">
+                  <Flex>
+                    <Label mt={3} htmlFor="name">
                       UNA Name
-                    </FormLabel>
+                    </Label>
                     <Input id="name" placeholder="KALI" {...register('name')} />
-                    <FormLabel mt={3} htmlFor="chain">
+                    <Label mt={3} htmlFor="chain">
                       Designated Blockchain
-                    </FormLabel>
+                    </Label>
                     <Input id="chain" placeholder="Ethereum, Arbitrum, Polygon, etc." {...register('chain')} />
-                    <FormLabel mt={3} htmlFor="mission">
+                    <Label mt={3} htmlFor="mission">
                       Link to DAO Mission
-                    </FormLabel>
+                    </Label>
                     <Input id="mission" placeholder="mission" {...register('mission')} />
-                  </FormControl>
-                </>
+                  </Flex>
               )}
               {selection === 'swiss-verein' && (
-                <>
-                  <FormControl isRequired>
-                    <FormLabel mt={3} htmlFor="name">
+                  <Flex>
+                    <Label mt={3} htmlFor="name">
                       Verein Name
-                    </FormLabel>
+                    </Label>
                     <Input id="name" placeholder="KALI" {...register('name')} />
-                    <FormLabel mt={3} htmlFor="city">
+                    <Label mt={3} htmlFor="city">
                       City of Switzerland
-                    </FormLabel>
+                    </Label>
                     <Input id="city" placeholder="Zug" {...register('city')} />
-                    <FormLabel mt={3} htmlFor="project">
+                    <Label mt={3} htmlFor="project">
                       Project Name
-                    </FormLabel>
+                    </Label>
                     <Input id="project" placeholder="name of your project" {...register('project')} />
-                    <FormLabel mt={3} htmlFor="mission">
+                    <Label mt={3} htmlFor="mission">
                       Link to DAO Mission
-                    </FormLabel>
+                    </Label>
                     <Input id="mission" placeholder="URL" {...register('mission')} />
                     <Text mt={5} align="center" htmlFor="mission">
-                      <Link href="http://app.kalidao.xyz">
+                      <a href="http://app.kalidao.xyz">
                         <i>Need help with Swiss Verein?</i>
-                      </Link>
+                      </a>
                     </Text>
-                  </FormControl>
-                </>
+                  </Flex>
               )}
-            </Stack>
-          </DrawerBody>
-          <DrawerFooter>
+            </Flex>
             {(deLlcForm && (
               <PDFDownloadLink
                 document={<DelawareOAtemplate name={delawareLlc.name} chain={delawareLlc.chain} />}
@@ -274,17 +252,6 @@ function DraftDoc() {
             <Button type="submit" form="contact-form" mr={3}>
               Draft
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                onClose(), reset(), setSelection('')
-              }}
-            >
-              Cancel
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
     </>
   )
 }

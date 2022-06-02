@@ -1,5 +1,7 @@
 import React from 'react'
 import { Flex, Text } from '../../styles/elements'
+import DraftDoc from './DraftDoc'
+import ToolBox from './ToolBox';
 
 export default function Tools() {
   return (
@@ -7,6 +9,8 @@ export default function Tools() {
       <Text as="h2" variant="heading">
         Building...
       </Text>
+      {/* <DraftDoc /> */}
+      {/* <ToolBox /> */}
     </Flex>
   )
 }
