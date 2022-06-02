@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Layout from '../../../../../components/dao-dashboard/layout/';
 import { FETCH_PROPOSAL } from '../../../../../graph/';
-import ProposalView from "../../../../../components/dao-dashboard/proposals/ProposalView";
+import ProposalView from '../../../../../components/dao-dashboard/proposal';
 import { useGraph } from '../../../../../components/hooks';
 import { Spinner } from "../../../../../components/elements/"
 import { Button, Flex } from '../../../../../styles/elements';
@@ -21,7 +21,9 @@ export default function ProposalPage() {
 
   return (
       <Layout>
-        <Flex dir="col" gap="md">
+        <Flex dir="col" gap="md" css={{
+          minWidth: '90vw'
+        }}>
          <Button 
           variant="transparent" 
           effect="film"

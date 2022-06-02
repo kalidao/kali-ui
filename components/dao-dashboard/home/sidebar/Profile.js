@@ -1,14 +1,14 @@
 import React from 'react'
-import { styled } from '../../../styles/stitches.config'
-import { Button, Flex, Text } from '../../../styles/elements';
-import { Dialog, DialogTrigger, DialogContent } from  '../../../styles/Dialog';
-import { NewProposalModal } from '../newproposal/';
+import { styled } from '../../../../styles/stitches.config'
+import { Button, Flex, Text } from '../../../../styles/elements';
+import { Dialog, DialogTrigger, DialogContent } from  '../../../../styles/Dialog';
+import { NewProposalModal } from '../../newproposal/';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { DAO_MEMBERS } from '../../../graph';
+import { DAO_MEMBERS } from '../../../../graph';
 import { useBalance } from 'wagmi';
 import { ethers } from 'ethers';
-import { useGraph } from '../../hooks';
+import { useGraph } from '../../../hooks';
 
 export const Box = styled(Flex, {
     position: 'relative',

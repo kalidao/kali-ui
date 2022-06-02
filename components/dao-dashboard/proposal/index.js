@@ -7,6 +7,7 @@ import Results from './Results'
 import Votes from './Votes'
 import Description from "./Description";
 import Vote from './Vote'
+import Status from './Status'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
@@ -15,21 +16,22 @@ export default function ProposalView({ proposal }) {
     <Flex dir="col" css={{
         position: 'relative',
         marginRight: '1rem',
-        maxWidth: '90vw',
         justifyContent: 'center',
-        // alignItems: 'center'
+        gap: '1rem'
     }}>
         <Text variant="heading">{proposal && <Tag type={proposal["proposalType"]} />}</Text>
-        <Text>Proposal by {proposal && proposal["proposer"]}</Text>
-        <Flex gap="md">
+        <Status proposal={proposal} />
+        <Flex gap="md" css={{
+              minWidth: '80vw',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start'
+            }}>
             <Box css={{
               minWidth: '50vw'
             }}>
             {proposal && <Description description={proposal["description"]} />}
             </Box>
-            <Flex dir="col" gap="md" css={{
-             
-            }}>
+            <Flex dir="col" gap="md">
                 {proposal && <InfoCard start={proposal["creationTime"]} votingPeriod={proposal["dao"]["votingPeriod"]}/>}
                 {proposal && <Results votes={proposal["votes"]} />}
             </Flex>

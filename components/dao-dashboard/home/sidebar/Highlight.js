@@ -1,8 +1,10 @@
 import React from 'react'
 import { useRouter } from 'next/router';
-import { Text } from '../../../styles/elements';
-import { Box } from './Profile';
 import Link from 'next/link';
+import { Text } from '../../../../styles/elements';
+import { Box } from './Profile';
+
+
 export default function Highlight() {
   const router = useRouter();
   const daoAddress = router.query.dao

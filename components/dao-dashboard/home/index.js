@@ -1,17 +1,5 @@
-import React from 'react'
-import Profile from "./Profile";
-import Highlight from './Highlight';
-import { Flex } from '../../../styles/elements'
+import Proposals from "./proposals";
+import Sidebar from "./sidebar";
 
-export default function Sidebar() {
-  return (
-    <Flex gap="md" dir="col" css={{
-      '@media (max-width: 640px)': {
-        display: 'none'
-      }
-    }}> 
-        <Profile />
-        <Highlight />
-    </Flex>
-  )
-}
+export { Proposals, Sidebar}
+
