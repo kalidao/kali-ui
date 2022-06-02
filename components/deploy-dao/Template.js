@@ -5,8 +5,8 @@ const Flex = styled('div', {
   display: 'flex',
   width: '100%',
   gap: '0.1rem',
-  alignItems: 'center'
-});
+  alignItems: 'center',
+})
 
 const TemplateButton = styled('div', {
   // border: '1px solid $border',
@@ -15,30 +15,30 @@ const TemplateButton = styled('div', {
   // boxShadow: "0px 0px 4px rgba(255, 0, 0, .25)",
   width: '25%',
   display: 'flex',
-  alignItems: 'center', 
+  alignItems: 'center',
   justifyContent: 'center',
   // TODO: background color change if selected
   variants: {
     color: {
-      'red': {
+      red: {
         border: '1px solid rgba(255, 0, 0, .25)',
-        boxShadow: "0px 0px 4px rgba(255, 0, 0, .25)",
+        boxShadow: '0px 0px 4px rgba(255, 0, 0, .25)',
       },
-      'green': {
+      green: {
         border: '1px solid rgba(0, 255, 0, .25)',
-        boxShadow: "0px 0px 4px rgba(0, 255, 0, .25)",
+        boxShadow: '0px 0px 4px rgba(0, 255, 0, .25)',
       },
-      'yellow': {
+      yellow: {
         border: '1px solid rgba(255, 240, 0, .25)',
-        boxShadow: "0px 0px 4px rgba(255, 240, 0, .25)",
+        boxShadow: '0px 0px 4px rgba(255, 240, 0, .25)',
       },
-      'blue': {
+      blue: {
         border: '1px solid rgba(0, 0, 255, .25)',
-        boxShadow: "0px 0px 4px rgba(0, 0, 255, .25)",
-      }
-    }
-  }
-});
+        boxShadow: '0px 0px 4px rgba(0, 0, 255, .25)',
+      },
+    },
+  },
+})
 
 export default function Template() {
   return (

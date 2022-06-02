@@ -14,7 +14,7 @@ const Menu = styled(Box, {
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'auto',
-  }
+  },
 })
 
 const Item = styled(Box, {
@@ -40,30 +40,19 @@ const Item = styled(Box, {
       width: '81%',
       height: '11vh',
       border: '1px solid white',
-      transition: '0.5s'
-    }
+      transition: '0.5s',
+    },
   },
-  
-});
+})
 
 export default function ProposalsMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('memberMenu')}>
-        Members
-      </Item>
-      <Item onClick={() => setProposal('sendMenu')}>
-        Send Stuff
-      </Item>
-      <Item onClick={() => setProposal('govMenu')}>
-        Governance
-      </Item>
-      <Item onClick={() => setProposal('adminMenu')}>
-        Admin
-      </Item>
-      <Item onClick={() => setProposal('applyMenu')}>
-        Membership
-      </Item>
-    </Menu> 
+      <Item onClick={() => setProposal('memberMenu')}>Members</Item>
+      <Item onClick={() => setProposal('sendMenu')}>Send Stuff</Item>
+      <Item onClick={() => setProposal('govMenu')}>Governance</Item>
+      <Item onClick={() => setProposal('adminMenu')}>Admin</Item>
+      <Item onClick={() => setProposal('applyMenu')}>Membership</Item>
+    </Menu>
   )
 }

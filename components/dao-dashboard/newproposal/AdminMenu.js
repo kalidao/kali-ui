@@ -14,7 +14,7 @@ const Menu = styled(Box, {
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'auto',
-  }
+  },
 })
 
 const Item = styled(Box, {
@@ -40,27 +40,18 @@ const Item = styled(Box, {
       width: '81%',
       height: '11vh',
       border: '1px solid white',
-      transition: '0.5s'
-    }
+      transition: '0.5s',
+    },
   },
-  
-});
+})
 
 export default function AdminMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('manager')}>
-        Assign Manager
-      </Item>
-      <Item onClick={() => setProposal('docs')}>
-        Update Docs
-      </Item>
-      <Item onClick={() => setProposal('escape')}>
-        Escape Proposal
-      </Item>
-      <Item onClick={() => setProposal('call')}>
-        Call Contract
-      </Item>
-    </Menu> 
+      <Item onClick={() => setProposal('manager')}>Assign Manager</Item>
+      <Item onClick={() => setProposal('docs')}>Update Docs</Item>
+      <Item onClick={() => setProposal('escape')}>Escape Proposal</Item>
+      <Item onClick={() => setProposal('call')}>Call Contract</Item>
+    </Menu>
   )
 }

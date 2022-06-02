@@ -1,5 +1,5 @@
 export const unixToDate = (timestamp) => {
-    const date = new Date(timestamp * 1000)
+  const date = new Date(timestamp * 1000)
 
-    return date.toLocaleString()
+  return date.toLocaleString()
 }

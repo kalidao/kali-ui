@@ -1,7 +1,7 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext } from 'react-hook-form'
 
 export const ConnectForm = ({ children }) => {
-    const methods = useFormContext();
-    
-    return children({ ...methods });
-};
+  const methods = useFormContext()
+
+  return children({ ...methods })
+}

@@ -5,9 +5,7 @@ export default function Crowdsale({ crowdsale }) {
   console.log('crowdsale', crowdsale)
   return (
     <Flex>
-        <pre>
-            {JSON.stringify(crowdsale)}
-        </pre>
+      <pre>{JSON.stringify(crowdsale)}</pre>
     </Flex>
   )
 }

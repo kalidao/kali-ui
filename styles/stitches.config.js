@@ -1,18 +1,18 @@
-import { createStitches, createCss } from "@stitches/react";
-import { globalStyles } from "./globalStyles";
+import { createStitches, createCss } from '@stitches/react'
+import { globalStyles } from './globalStyles'
 
 export const { styled, keyframes } = createStitches({
   theme: {
     colors: {
-      purple100: "hsl(273, 100%, 90%)",
-      purple200: "hsl(273, 100%, 80%)",
-      purple300: "hsl(273, 100%, 70%)",
-      purple400: "hsl(273, 100%, 60%)",
-      purple500: "hsl(273, 100%, 50%)",
-      purple600: "hsl(273, 100%, 40%)",
-      purple700: "hsl(273, 100%, 30%)",
-      purple800: "hsl(273, 100%, 20%)",
-      purple900: "hsl(273, 100%, 10%)",
+      purple100: 'hsl(273, 100%, 90%)',
+      purple200: 'hsl(273, 100%, 80%)',
+      purple300: 'hsl(273, 100%, 70%)',
+      purple400: 'hsl(273, 100%, 60%)',
+      purple500: 'hsl(273, 100%, 50%)',
+      purple600: 'hsl(273, 100%, 40%)',
+      purple700: 'hsl(273, 100%, 30%)',
+      purple800: 'hsl(273, 100%, 20%)',
+      purple900: 'hsl(273, 100%, 10%)',
 
       yellow100: 'hsl(37, 100%, 90%)',
       yellow200: 'hsl(37, 100%, 80%)',
@@ -23,7 +23,7 @@ export const { styled, keyframes } = createStitches({
       yellow700: 'hsl(37, 100%, 30%)',
       yellow800: 'hsl(37, 100%, 20%)',
       yellow900: 'hsl(37, 100%, 10%)',
-      
+
       green100: 'hsl(120, 100%, 90%)',
       green200: 'hsl(120, 100%, 80%)',
       green300: 'hsl(120, 100%, 70%)',
@@ -66,19 +66,19 @@ export const { styled, keyframes } = createStitches({
       sublight: '$gray100',
     },
     media: {
-      bp1: "(min-width: 640px)",
-      bp2: "(min-width: 768px)",
-      bp3: "(min-width: 1024px)"
+      bp1: '(min-width: 640px)',
+      bp2: '(min-width: 768px)',
+      bp3: '(min-width: 1024px)',
     },
     utils: {
       paddingX: (value) => ({
         paddingRight: value,
-        paddingLeft: value
+        paddingLeft: value,
       }),
       paddingY: (value) => ({
         paddingTop: value,
-        paddingBottom: value
+        paddingBottom: value,
       }),
-    }
+    },
   },
-});
+})

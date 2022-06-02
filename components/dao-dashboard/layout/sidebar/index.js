@@ -6,16 +6,16 @@ import { Flex } from '../../../../styles/elements'
 export default function Sidebar() {
   return (
     <Flex
-        css={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-        }}
+      css={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
     >
-        <Menu />
-        <NewProposal />
+      <Menu />
+      <NewProposal />
     </Flex>
   )
 }

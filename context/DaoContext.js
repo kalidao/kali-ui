@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-const DaoContext = React.createContext();
+const DaoContext = React.createContext()
 
-export default DaoContext;
+export default DaoContext

@@ -1,122 +1,120 @@
-import { Form, Input, Label, Title } from '../../styles/form-elements';
-import { styled } from '../../styles/stitches.config';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { useStateMachine } from 'little-state-machine';
-import updateAction from './updateAction';
-import { useAccount, useEnsName } from 'wagmi';
-import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons';
-import { Button, Flex } from "../../styles/elements";
+import { Form, Input, Label, Title } from '../../styles/form-elements'
+import { styled } from '../../styles/stitches.config'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { useStateMachine } from 'little-state-machine'
+import updateAction from './updateAction'
+import { useAccount, useEnsName } from 'wagmi'
+import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons'
+import { Button, Flex } from '../../styles/elements'
 
 export default function Members({ setStep }) {
-  const { actions, state } = useStateMachine({ updateAction });
-  const { data: account } = useAccount();
-  const { data: ensName } = useEnsName();
+  const { actions, state } = useStateMachine({ updateAction })
+  const { data: account } = useAccount()
+  const { data: ensName } = useEnsName()
 
   const {
     register,
     control,
     handleSubmit,
     watch,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      founders: state.founders ?? [
-        { member: ensName ? ensName : account?.address, share: "1000" }
-      ]
-    }
-  });
+      founders: state.founders ?? [{ member: ensName ? ensName : account?.address, share: '1000' }],
+    },
+  })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "founders"
-  });
+    name: 'founders',
+  })
 
   const onPrevious = (data) => {
-    actions.updateAction(data);
+    actions.updateAction(data)
 
-    setStep(prev => --prev)
-  };
+    setStep((prev) => --prev)
+  }
   const onNext = (data) => {
-    actions.updateAction(data);
+    actions.updateAction(data)
 
-    setStep(prev => ++prev)
-  };
+    setStep((prev) => ++prev)
+  }
 
   return (
     <Form>
       {/* TODO: Copy last share value in next field */}
-      <Flex style={{ flexDirection: 'column', gap: '0.5rem'}}>
-        <Flex style={{ justifyContent: 'space-around'}}>
-          <div>Account</div> 
+      <Flex style={{ flexDirection: 'column', gap: '0.5rem' }}>
+        <Flex style={{ justifyContent: 'space-around' }}>
+          <div>Account</div>
           <div>Share</div>
         </Flex>
         <Flex dir="col" css={{ gap: '1rem', width: '100%' }}>
-        {fields.map((item, index) => {
-          return (
-            <Flex key={item.id} css={{ gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
-              <div>
-                <Input
-                  id="member"
-                  {...register(`founders.${index}.member`, {
-                    required: true
-                  })}
-                  defaultValue={item.member}
-                  css={{
-                    fontFamily: 'Screen'
+          {fields.map((item, index) => {
+            return (
+              <Flex key={item.id} css={{ gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
+                <div>
+                  <Input
+                    id="member"
+                    {...register(`founders.${index}.member`, {
+                      required: true,
+                    })}
+                    defaultValue={item.member}
+                    css={{
+                      fontFamily: 'Screen',
+                    }}
+                  />
+                  {errors.member && <span>This field is required</span>}
+                </div>
+                <div>
+                  <Input
+                    id="share"
+                    type="number"
+                    {...register(`founders.${index}.share`, {
+                      required: true,
+                    })}
+                    defaultValue={item.share}
+                  />
+                  {errors.share && <span>This field is required</span>}
+                </div>
+                <Button
+                  variant="icon"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    remove(index)
                   }}
-                />
-                {errors.member && <span>This field is required</span>}
-              </div>
-              <div>
-                <Input
-                  id="share"
-                  type="number"
-                  {...register(`founders.${index}.share`, {
-                    required: true
-                  })}
-                  defaultValue={item.share}
-                />
-                {errors.share && <span>This field is required</span>}
-              </div>
-              <Button
-                variant="icon"
-                onClick={(e) => {
-                  e.preventDefault();
-                  remove(index);
-                }}
-              >
-                <Cross2Icon />
-              </Button>
-            </Flex>
-          );
-        })}
-        <Flex css={{
-              justifyContent: 'center'
-              }} 
-          >
-            {console.log(state.founders)}
-          <Button
-            variant="primary"
+                >
+                  <Cross2Icon />
+                </Button>
+              </Flex>
+            )
+          })}
+          <Flex
             css={{
-              display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
-              gap: '1%',
-              width: '85%',
-              
-            }} 
-            onClick={(e) => {
-              e.preventDefault();
-              append({
-                member: "",
-                share: '1000'
-              });
             }}
           >
-            Add 
-            <PersonIcon />
-          </Button>
-        </Flex>
+            {console.log(state.founders)}
+            <Button
+              variant="primary"
+              css={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1%',
+                width: '85%',
+              }}
+              onClick={(e) => {
+                e.preventDefault()
+                append({
+                  member: '',
+                  share: '1000',
+                })
+              }}
+            >
+              Add
+              <PersonIcon />
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
       <Flex css={{ justifyContent: 'flex-end' }}>
@@ -128,5 +126,5 @@ export default function Members({ setStep }) {
         </Button>
       </Flex>
     </Form>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog';
-import DeployDaoWrapper from '../deploy-dao/';
-import { Box } from '../../styles/elements';
+import { Dialog, DialogTrigger, DialogContent } from '../../styles/Dialog'
+import DeployDaoWrapper from '../deploy-dao/'
+import { Box } from '../../styles/elements'
 
 export default function NewDao() {
   return (

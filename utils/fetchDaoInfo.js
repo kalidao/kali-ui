@@ -1,6 +1,6 @@
-import DAO_ABI from "../abi/KaliDAO.json";
-import { useContractRead } from "wagmi";
-import { getDaoChain } from "./getDaoChain";
+import DAO_ABI from '../abi/KaliDAO.json'
+import { useContractRead } from 'wagmi'
+import { getDaoChain } from './getDaoChain'
 
 // functions to retrieve data from blockchain
 
@@ -321,7 +321,7 @@ import { getDaoChain } from "./getDaoChain";
 
 export const getVotingPeriod = async ({ address }) => {
   if (!address) return
-  const chainId = getDaoChain(address);
+  const chainId = getDaoChain(address)
   const { data, isError, isLoading } = useContractRead(
     {
       addressOrName: address,
@@ -329,7 +329,7 @@ export const getVotingPeriod = async ({ address }) => {
     },
     'votingPeriod',
     {
-      chainId: chainId
+      chainId: chainId,
     },
     {
       onSettled(data, error) {

@@ -1,5 +1,4 @@
-import Proposals from "./proposals";
-import Sidebar from "./sidebar";
+import Proposals from './proposals'
+import Sidebar from './sidebar'
 
-export { Proposals, Sidebar}
-
+export { Proposals, Sidebar }

@@ -1,5 +1,3 @@
 export default function Redeem() {
-  return (<>
-    Redeem and Quit
-  </>);
+  return <>Redeem and Quit</>
 }

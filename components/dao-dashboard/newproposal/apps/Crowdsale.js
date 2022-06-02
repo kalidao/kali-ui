@@ -1,7 +1,3 @@
 export default function Crowdsale() {
-  return (
-    <>
-    Buy Crowdsale 
-    </>
-  );
+  return <>Buy Crowdsale</>
 }

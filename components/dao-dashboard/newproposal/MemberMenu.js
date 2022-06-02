@@ -14,7 +14,7 @@ const Menu = styled(Box, {
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'auto',
-  }
+  },
 })
 
 const Item = styled(Box, {
@@ -40,27 +40,18 @@ const Item = styled(Box, {
       width: '81%',
       height: '11vh',
       border: '1px solid white',
-      transition: '0.5s'
-    }
+      transition: '0.5s',
+    },
   },
-  
-});
+})
 
 export default function MemberMenu({ setProposal }) {
   return (
     <Menu>
-      <Item onClick={() => setProposal('addMember')}>
-        Add Member
-      </Item>
-      <Item onClick={() => setProposal('removeMember')}>
-        Remove Member
-      </Item>
-      <Item onClick={() => setProposal('addMemberWithVesting')}>
-        Add Member with Vesting
-      </Item>
-      <Item onClick={() => setProposal('quit')}>
-        Quit
-      </Item>
-    </Menu> 
+      <Item onClick={() => setProposal('addMember')}>Add Member</Item>
+      <Item onClick={() => setProposal('removeMember')}>Remove Member</Item>
+      <Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Item>
+      <Item onClick={() => setProposal('quit')}>Quit</Item>
+    </Menu>
   )
 }

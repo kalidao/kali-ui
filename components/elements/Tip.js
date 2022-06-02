@@ -1,7 +1,7 @@
-import React from "react";
-import * as Tooltip from '@radix-ui/react-tooltip';
-import { styled } from '../../styles/stitches.config';
-import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from "../../styles/animation";
+import React from 'react'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { styled } from '../../styles/stitches.config'
+import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from '../../styles/animation'
 
 const Content = styled(Tooltip.Content, {
   borderRadius: 4,
@@ -23,7 +23,7 @@ const Content = styled(Tooltip.Content, {
       '&[data-side="left"]': { animationName: slideRightAndFade },
     },
   },
-});
+})
 
 const IconButton = styled('button', {
   all: 'unset',
@@ -37,25 +37,23 @@ const IconButton = styled('button', {
   color: '$background',
   backgroundColor: 'none',
   boxShadow: `0 2px 10px black`,
-  '&:hover': {  boxShadow: `0 2px 10px white` },
+  '&:hover': { boxShadow: `0 2px 10px white` },
   '&:focus': { boxShadow: `0 0 0 2px black` },
-});
+})
 
 const Arrow = styled(Tooltip.Arrow, {
   fill: 'black',
-});
+})
 
 // Add label
 export default function Tip({ label, children }) {
-  return (<Tooltip.Root>
-    <Tooltip.Trigger asChild>
-      {children}
-    </Tooltip.Trigger>
-    <Content sideOffset={5}>
-      {label}
-      <Arrow />
-    </Content>
-  </Tooltip.Root>)
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+      <Content sideOffset={5}>
+        {label}
+        <Arrow />
+      </Content>
+    </Tooltip.Root>
+  )
 }
-
-

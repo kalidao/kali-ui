@@ -1,5 +1,5 @@
-import { styled } from './stitches.config';
-import * as SliderPrimitive from '@radix-ui/react-slider';
+import { styled } from './stitches.config'
+import * as SliderPrimitive from '@radix-ui/react-slider'
 
 const StyledSlider = styled(SliderPrimitive.Root, {
   position: 'relative',
@@ -19,7 +19,7 @@ const StyledSlider = styled(SliderPrimitive.Root, {
     width: 20,
     height: 100,
   },
-});
+})
 
 const StyledTrack = styled(SliderPrimitive.Track, {
   backgroundColor: '$blackAlpha',
@@ -29,14 +29,14 @@ const StyledTrack = styled(SliderPrimitive.Track, {
 
   '&[data-orientation="horizontal"]': { height: 3 },
   '&[data-orientation="vertical"]': { width: 3 },
-});
+})
 
 const StyledRange = styled(SliderPrimitive.Range, {
   position: 'absolute',
   backgroundColor: 'white',
   borderRadius: '9999px',
   height: '100%',
-});
+})
 
 const StyledThumb = styled(SliderPrimitive.Thumb, {
   all: 'unset',
@@ -46,19 +46,19 @@ const StyledThumb = styled(SliderPrimitive.Thumb, {
   backgroundColor: 'white',
   boxShadow: `0 2px 10px $blackAlpha`,
   borderRadius: 10,
-  '&:hover': { backgroundColor: '$purple'},
+  '&:hover': { backgroundColor: '$purple' },
   '&:focus': { boxShadow: `0 0 0 5px '$blackAlpha'` },
-});
+})
 
-export const SliderButton = styled('button', {
+export const SliderButton = styled('button', {})
 
-});
-
-export const Slider = ({ id, defaultValue, max, step, label}) => {
-    return <StyledSlider id={id} defaultValue={defaultValue} max={max} step={step} label={label}>
-        <StyledTrack>
-            <StyledRange />
-        </StyledTrack>
-        <StyledThumb />
+export const Slider = ({ id, defaultValue, max, step, label }) => {
+  return (
+    <StyledSlider id={id} defaultValue={defaultValue} max={max} step={step} label={label}>
+      <StyledTrack>
+        <StyledRange />
+      </StyledTrack>
+      <StyledThumb />
     </StyledSlider>
+  )
 }

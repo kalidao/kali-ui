@@ -3,8 +3,7 @@ import { FormElement, Label, Input, ConnectForm } from '../../styles/form-elemen
 export default function Redemption() {
   return (
     <ConnectForm>
-
-{({ register, setValue, watch }) => (
+      {({ register, setValue, watch }) => (
         <>
           <FormElement>
             <Label htmlFor="redemption-start">Start Date</Label>

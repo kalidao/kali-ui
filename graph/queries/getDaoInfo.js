@@ -5,9 +5,9 @@ export const getDaoInfo = async (chainId, address) => {
   console.log('infoParms', chainId, address)
   try {
     const res = await fetch(GRAPH_URL[chainId], {
-        method: 'POST',
-        body: JSON.stringify({
-          query: `query {
+      method: 'POST',
+      body: JSON.stringify({
+        query: `query {
             daos(where: {
               id: "${address.toLowerCase()}"
             }) {
@@ -37,12 +37,12 @@ export const getDaoInfo = async (chainId, address) => {
               }
             }
           }`,
-        }),
-      })
-      
-      const data = await res.json()
-      return data
+      }),
+    })
+
+    const data = await res.json()
+    return data
   } catch (e) {
-      return e
+    return e
   }
 }

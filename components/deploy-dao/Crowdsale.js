@@ -1,16 +1,16 @@
 import React from 'react'
 import { FormElement, Label, ConnectForm, Input } from '../../styles/form-elements'
-import { Select } from '../../styles/form-elements/Select';
+import { Select } from '../../styles/form-elements/Select'
 
 export default function Crowdsale() {
-//   crowdsale: {
-//     active: false,
-//     purchaseLimit: 1000,
-//     personalLimit: 100,
-//     purchaseMultiplier: 10,
-//     purchaseToken: null,
-//     saleEnds: null,
-// },
+  //   crowdsale: {
+  //     active: false,
+  //     purchaseLimit: 1000,
+  //     personalLimit: 100,
+  //     purchaseMultiplier: 10,
+  //     purchaseToken: null,
+  //     saleEnds: null,
+  // },
 
   return (
     <ConnectForm>
@@ -18,17 +18,13 @@ export default function Crowdsale() {
         <>
           <FormElement>
             <Label htmlFor="purchaseToken">Purchase Token</Label>
-              <Select 
-                {...register('purchaseToken')} 
-                defaultValue="eth"
-                onValueChange={(value) => setValue('purchaseToken', value)}
-              >  
-              <Select.Item value="eth">
-                ETH
-              </Select.Item>
-              <Select.Item value="custom">
-                Custom
-              </Select.Item>
+            <Select
+              {...register('purchaseToken')}
+              defaultValue="eth"
+              onValueChange={(value) => setValue('purchaseToken', value)}
+            >
+              <Select.Item value="eth">ETH</Select.Item>
+              <Select.Item value="custom">Custom</Select.Item>
             </Select>
           </FormElement>
           <FormElement>

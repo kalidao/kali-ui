@@ -1,7 +1,7 @@
-import { styled, keyframes } from './stitches.config';
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Cross2Icon } from '@radix-ui/react-icons';
-import { pulse, contentShow, overlayShow } from './animation';
+import { styled, keyframes } from './stitches.config'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { Cross2Icon } from '@radix-ui/react-icons'
+import { pulse, contentShow, overlayShow } from './animation'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backdropFilter: 'blur(100px) contrast(0.9)',
@@ -10,7 +10,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
   },
-});
+})
 
 const StyledContent = styled(DialogPrimitive.Content, {
   background: '$background',
@@ -32,15 +32,15 @@ const StyledContent = styled(DialogPrimitive.Content, {
     animation: `${pulse} 10s linear 0ms infinite alternate`,
   },
   // '&:focus': { outline: 'none' },
-});
+})
 
 function Content({ children, ...props }) {
   return (
     <DialogPrimitive.Portal>
-      <StyledOverlay  />
+      <StyledOverlay />
       <StyledContent {...props}>{children}</StyledContent>
     </DialogPrimitive.Portal>
-  );
+  )
 }
 
 const StyledTitle = styled(DialogPrimitive.Title, {
@@ -49,20 +49,20 @@ const StyledTitle = styled(DialogPrimitive.Title, {
   fontWeight: 600,
   color: '$foreground',
   fontSize: 22,
-});
+})
 
 const StyledDescription = styled(DialogPrimitive.Description, {
   margin: '10px 0 20px',
   color: '$black',
-  background: "$lightgray",
-  padding: "6px 14px",
-  borderRadius: "1rem",
+  background: '$lightgray',
+  padding: '6px 14px',
+  borderRadius: '1rem',
   fontSize: 15,
   lineHeight: 1.5,
-});
+})
 
 export const StyledTrigger = styled(DialogPrimitive.Trigger, {
-  border: "none", 
+  border: 'none',
   background: '$background',
 })
 
@@ -82,23 +82,21 @@ export const IconButton = styled('button', {
 
   '&:hover': { backgroundColor: '$redAlpha' },
   '&:focus': { boxShadow: `0 0 0 2px $redAlpha` },
-});
+})
 
 // Exports
-export const Dialog = DialogPrimitive.Root;
-export const DialogTrigger = StyledTrigger;
-export const DialogContent = Content;
-export const DialogTitle = StyledTitle;
-export const DialogDescription = StyledDescription;
+export const Dialog = DialogPrimitive.Root
+export const DialogTrigger = StyledTrigger
+export const DialogContent = Content
+export const DialogTitle = StyledTitle
+export const DialogDescription = StyledDescription
 
 export const DialogClose = () => {
-  return (<DialogPrimitive.Close>
-    <IconButton>
-      <Cross2Icon />
-    </IconButton>
-  </DialogPrimitive.Close>);
-} 
-
-
-
-
+  return (
+    <DialogPrimitive.Close>
+      <IconButton>
+        <Cross2Icon />
+      </IconButton>
+    </DialogPrimitive.Close>
+  )
+}
