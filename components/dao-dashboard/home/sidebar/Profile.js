@@ -96,7 +96,7 @@ export default function ProfileComponent({ dao }) {
                     }}>JOIN</Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <NewProposalModal proposalProp="giveTribute" />
+                    <NewProposalModal proposalProp="tribute" />
                 </DialogContent>
             </Dialog>   
             </Flex>
