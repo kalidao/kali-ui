@@ -7,14 +7,27 @@ import { useGraph } from '../../../../../components/hooks'
 import { Spinner } from '../../../../../components/elements/'
 import { Button, Flex } from '../../../../../styles/elements'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { getProposal } from '../../../../../graph/queries'
 
-export default function ProposalPage() {
+export const getServerSideProps = async (context) => {
+  const address = context.params.dao
+  const proposalId = context.params.proposalId
+  const chainId = context.params.chainId
+  const result = await getProposal(chainId, address, proposalId)
+
+  return {
+    props: {
+      proposal: result !== undefined ? result?.data?.proposals : null,
+    },
+  }
+}
+export default function ProposalPage({ proposal }) {
   const router = useRouter()
-  const { data, isLoading } = useGraph(router.query.chainId, FETCH_PROPOSAL, {
-    dao: router.query.dao,
-    serial: router.query.proposalId,
-  })
-  const proposal = data && data['proposals'][0]
+  // const { data, isLoading } = useGraph(router.query.chainId, FETCH_PROPOSAL, {
+  //   dao: router.query.dao,
+  //   serial: router.query.proposalId,
+  // })
+  // const proposal = data && data['proposals'][0]
 
   console.log('proposal data', router.query.dao, router.query.proposalId, proposal)
 
@@ -44,7 +57,7 @@ export default function ProposalPage() {
           <ArrowLeftIcon />
           Back
         </Button>
-        {isLoading ? <Spinner /> : <ProposalView proposal={proposal} />}
+        {/* {isLoading ? <Spinner /> : <ProposalView proposal={proposal} />} */}
       </Flex>
     </Layout>
   )

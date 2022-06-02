@@ -14,27 +14,28 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      proposals: result?.data?.daos[0]['proposals'],
+      proposals: result !== undefined ? result?.data?.daos[0]['proposals'] : null,
     },
   }
 }
 
 export default function Dao({ proposals }) {
   const router = useRouter()
-  const { data: name } = useContractRead(
+  const { data, isLoading,  } = useContractRead(
     {
       addressOrName: router.query.dao,
       contractInterface: DAO_ABI,
     },
     'name',
     {
-      chainId: router.query.chainId,
+      chainId: Number(router.query.chainId),
     },
   )
-
+  
+  console.log('name', data)
   console.log('server proposals', proposals)
   return (
-    <Layout heading={name ? name : null}>
+    <Layout heading={isLoading ? null : data}>
       <Dashboard proposals={proposals} />
     </Layout>
   )

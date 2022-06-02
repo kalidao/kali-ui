@@ -8,7 +8,7 @@ import { Spinner } from '../../elements'
 export default function MemberCard({ member, totalSupply }) {
   const { data, isLoading } = useEnsName({
     address: member.address,
-    chainId: 1,
+    chainId: Number(1),
   })
   const { push } = useRouter()
   const routeProfile = () => {
