@@ -5,14 +5,14 @@ import { useGraph } from '../../../hooks';
 import { DAO_PROPOSALS } from '../../../../graph';
 import { ProposalCard } from '../../proposal/ProposalCard';
 
-export default function Proposals() {
+export default function Proposals({ proposals}) {
   const router = useRouter();
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
-  const { data, isLoading } = useGraph(daoChain, DAO_PROPOSALS,  { dao: daoAddress });
+  // const { data, isLoading } = useGraph(daoChain, DAO_PROPOSALS,  { dao: daoAddress });
 
-  const proposals = data ? data["daos"][0]["proposals"] : null
-  console.log(proposals)
+  // const proposals = data ? data["daos"][0]["proposals"] : null
+  // console.log(proposals)
 
   return (
     <Flex dir="col" gap="md">

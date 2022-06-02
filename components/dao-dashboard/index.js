@@ -2,7 +2,7 @@ import React from 'react'
 import { Sidebar, Proposals } from "./home/";
 import { Flex } from '../../styles/elements';
 
-export function Dashboard({ }) {
+export function Dashboard({ proposals }) {
   return (
     <Flex css={{
       position: 'relative',
@@ -11,7 +11,7 @@ export function Dashboard({ }) {
       gap: '1rem',
       marginRight: '1rem'
     }}>
-        <Proposals />
+        <Proposals proposals={proposals} />
         <Sidebar />
     </Flex>
   )

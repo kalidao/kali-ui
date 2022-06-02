@@ -9,19 +9,20 @@ import { DAO_MEMBERS } from '../../../../graph';
 import { useBalance } from 'wagmi';
 import { ethers } from 'ethers';
 import { useGraph } from '../../../hooks';
+import Info from '../../../../styles/Info'
 
-export const Box = styled(Flex, {
-    position: 'relative',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: '1.5rem',
-    flexDirection: 'column',
-    color: '$foreground',
-    maxHeight: '25vh',
-    minWidth: '30%',
-    padding: '2rem',
-    border: '1px solid $gray800',
-});
+// export const Box = styled(Flex, {
+//     position: 'relative',
+//     justifyContent: 'flex-start',
+//     alignItems: 'center',
+//     gap: '1.5rem',
+//     flexDirection: 'column',
+//     color: '$foreground',
+//     maxHeight: '25vh',
+//     minWidth: '30%',
+//     padding: '2rem',
+//     border: '1px solid $gray800',
+// });
 
 export default function ProfileComponent({ dao }) {
   const router = useRouter();
@@ -41,8 +42,7 @@ export default function ProfileComponent({ dao }) {
   console.log('members', members)
 
   return (
-    <Box>
-            <Text size="lg">About</Text>
+    <Info heading="About">
             <Flex dir="row" align="separate" gap="md">
                 <Link
                     href={{
@@ -82,14 +82,24 @@ export default function ProfileComponent({ dao }) {
                         </Flex>
                     </Link>
             </Flex>
+            <Flex align="center">
             <Dialog>
                 <DialogTrigger>
-                    <Button>Join</Button>
+                    <Button css={{
+                        position: 'relative',
+                        bottom: '0',
+                        right: '0',
+                        left: '0',
+                        width: '5rem',
+                        margin: '1rem',
+                        fontFamily: 'Screen'
+                    }}>JOIN</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <NewProposalModal proposalProp="giveTribute" />
                 </DialogContent>
-            </Dialog>     
-    </Box>
+            </Dialog>   
+            </Flex>
+    </Info>
   )
 }
