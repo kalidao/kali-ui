@@ -6,7 +6,7 @@ import DelawareInvestmentClubTemplate from '../legal/DelawareInvestmentClubTempl
 import DelawareUNAtemplate from '../legal/DelawareUNAtemplate'
 import WyomingOAtemplate from '../legal/WyomingOAtemplate'
 import SwissVerein from '../legal/SwissVerein'
-import { Button, Flex } from "../../styles/elements/"
+import { Button, Flex, Text } from "../../styles/elements/"
 import { Label, Input } from "../../styles/form-elements/"
 
 function DraftDoc() {
