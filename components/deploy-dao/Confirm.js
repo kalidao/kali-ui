@@ -162,7 +162,6 @@ export default function Confirm({ setStep, hardMode }) {
     }
   }
 
-  
   return (
     <div>
       <pre>{JSON.stringify(state, null, 2)}</pre>
