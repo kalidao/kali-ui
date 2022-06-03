@@ -7,7 +7,7 @@ import { useAccount, useEnsName } from 'wagmi'
 import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons'
 import { Button, Flex } from '../../styles/elements'
 
-export default function Members({ setStep }) {
+export default function Members({ setStep, hardMode }) {
   const { actions, state } = useStateMachine({ updateAction })
   const { data: account } = useAccount()
   const { data: ensName } = useEnsName()
@@ -32,12 +32,20 @@ export default function Members({ setStep }) {
   const onPrevious = (data) => {
     actions.updateAction(data)
 
-    setStep((prev) => --prev)
+    if (!hardMode) {
+      setStep('id')
+    } else {
+      setStep('apps')
+    }
   }
   const onNext = (data) => {
     actions.updateAction(data)
 
-    setStep((prev) => ++prev)
+    if (!hardMode) {
+      setStep('confirm')
+    } else {
+      setStep('legal')
+    }
   }
 
   return (

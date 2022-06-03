@@ -6,8 +6,9 @@ import { useCallback } from 'react'
 import { addresses } from '../../constants/addresses'
 import FACTORY_ABI from '../../abi/KaliDAOfactory.json'
 import { votingPeriodToSeconds, validateDocs } from '../../utils/'
+import { computeKaliAddress } from '../../utils/'
 
-export default function Confirm({ setStep }) {
+export default function Confirm({ setStep, hardMode }) {
   const { state } = useStateMachine()
   const { data: account } = useAccount()
   const { activeChain } = useNetwork()
@@ -28,20 +29,12 @@ export default function Confirm({ setStep }) {
     },
   )
 
-  const deployKaliDao = useCallback(async () => {
-    if (!account) return
-    const { name, symbol, paused, votingPeriod, votingPeriodUnit, quorum, approval, founders, legal, docType, email } =
-      state
+  const deployEasyDao = async () => {
+    const { name, symbol, founders } = state
 
-    const docs_ = validateDocs(
-      docType,
-      state.existingDocs ? state.existingDocs : null,
-      name,
-      state.mission ? state.mission : null,
-    )
-    const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
-    console.log('docs', docs_)
-    // get voters and shares array
+    const voteTime = votingPeriodToSeconds(2, 'day')
+
+    // voter, shares
     let voters = []
     let shares = []
     for (let i = 0; i < founders.length; i++) {
@@ -49,7 +42,81 @@ export default function Confirm({ setStep }) {
       shares.push(founders[i]['share'])
     }
 
-    /* govSettings
+    // no quorum
+    // simple majority
+    const govSettings = Array(voteTime, 0, 0, 50)
+    govSettings = govSettings.concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+    // extensions
+    const extensionArray = new Array()
+    const extensionData = new Array()
+
+    // docs
+    const docs = 'none'
+    //   image:
+    //   socialLink:
+    //   agreement:
+    // }
+
+    // ricardian = ''
+    console.log(
+      'deploy param basic',
+      name,
+      symbol,
+      docs,
+      Number(true),
+      extensionArray,
+      extensionData,
+      voters,
+      shares,
+      govSettings,
+    )
+
+    const data = await writeAsync({
+      args: [name, symbol, docs, Number(true), extensionArray, extensionData, voters, shares, govSettings],
+    })
+
+    if (data.wait()) return
+  }
+  const deployKaliDao = useCallback(async () => {
+    if (!account) return
+
+    if (!hardMode) {
+      deployEasyDao()
+    } else {
+      const {
+        name,
+        symbol,
+        paused,
+        votingPeriod,
+        votingPeriodUnit,
+        quorum,
+        approval,
+        founders,
+        legal,
+        docType,
+        email,
+      } = state
+
+      const docs_ = validateDocs(
+        docType,
+        state.existingDocs ? state.existingDocs : null,
+        name,
+        state.mission ? state.mission : null,
+      )
+      const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
+      console.log('docs', docs_)
+
+      // get voters and shares array
+
+      let voters = []
+      let shares = []
+      for (let i = 0; i < founders.length; i++) {
+        voters.push(founders[i]['member'])
+        shares.push(founders[i]['share'])
+      }
+
+      /* govSettings
     0 : votingPeriod
     1: gracePeriod
     2: quorum
@@ -67,31 +134,41 @@ export default function Confirm({ setStep }) {
     14: proposalVoteTypes[ProposalType.ESCAPE]
     15: proposalVoteTypes[ProposalType.DOCS]
     */
-    const govSettings = Array(voteTime, 0, quorum, approval)
+      const govSettings = Array(voteTime, 0, quorum, approval)
 
-    if (approval > 50) {
-      govSettings = govSettings.concat([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])
-    } else {
-      govSettings = govSettings.concat([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+      if (approval > 50) {
+        govSettings = govSettings.concat([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])
+      } else {
+        govSettings = govSettings.concat([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+      }
+
+      const extensionArray = new Array()
+      const extensionData = new Array()
+
+      console.log(govSettings)
+      const data = await writeAsync({
+        args: [name, symbol, docs_, Number(paused), extensionArray, extensionData, voters, shares, govSettings],
+      })
+
+      if (data.wait()) return
     }
-
-    const extensionArray = new Array()
-    const extensionData = new Array()
-
-    console.log(govSettings)
-    const data = await writeAsync({
-      args: [name, symbol, docs_, Number(paused), extensionArray, extensionData, voters, shares, govSettings],
-    })
-
-    if (data.wait()) return
   }, [account, state, writeAsync])
 
+  const prev = () => {
+    if (!hardMode) {
+      setStep('founders')
+    } else {
+      setStep('legal')
+    }
+  }
+
+  
   return (
     <div>
       <pre>{JSON.stringify(state, null, 2)}</pre>
       <pre>{JSON.stringify(isError, null, 2)}</pre>
       <Flex>
-        <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
+        <Button variant="transparent" onClick={prev}>
           Previous
         </Button>
       </Flex>

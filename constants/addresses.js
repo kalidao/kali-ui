@@ -1,3 +1,4 @@
+// TODO: Add kali master for polygon
 export const addresses =
   // organized by chainId
   {
@@ -14,6 +15,7 @@ export const addresses =
         redemption: '0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0',
       },
       blockExplorer: 'https://etherscan.io',
+      kaliMaster: '0xfc0Fd933D8ef5b7e552E67aCfc4c09711B413f30'
     },
     // Rinkeby
     4: {
@@ -28,6 +30,7 @@ export const addresses =
         redemption: '0x11f44975e1B204E50108Af6BCB6539798cb15F75',
       },
       blockExplorer: 'https://rinkeby.etherscan.io',
+      kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20'
     },
     // Polygon
     137: {
@@ -42,6 +45,7 @@ export const addresses =
         redemption: '0xC43AE97f12d979FCAe346E93b62d747963956d63',
       },
       blockExplorer: 'https://polygonscan.com',
+      kaliMaster: ''
     },
     // Arbitrum
     42161: {
@@ -56,5 +60,6 @@ export const addresses =
         redemption: '0x7452BDCED6f344e0E4e1169377D369aDE1cB0Ca0',
       },
       blockExplorer: 'https://arbiscan.io',
+      kaliMaster: '0xffe7e91f86fa2c6af0b3cddf0f0906d465e1d760'
     },
   }

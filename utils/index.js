@@ -1,6 +1,7 @@
 import { copy } from './copy'
 import { getDaoChain } from './getDaoChain'
-export * from './votingPeriod'
-export * from './validateDocs'
+import { votingPeriodToSeconds} from './votingPeriod'
+import { validateDocs } from './validateDocs'
+import { computeKaliAddress} from './computeKaliAddress';
 
-export { copy, getDaoChain }
+export { copy, getDaoChain, votingPeriodToSeconds, validateDocs, computeKaliAddress }
