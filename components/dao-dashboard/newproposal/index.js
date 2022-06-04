@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { Flex, Button, Box } from "../../../styles/elements"
-import { DialogTitle } from "../../../styles/Dialog";
-import Tribute from "./apps/Tribute";
-import Crowdsale from "./apps/Crowdsale";
-import Redeem from "./Redeem";
-import SendErc20 from "./SendErc20";
-import ManageMembership from "./ManageMembership";
-import ConfigureGovernance from "./ConfigureGovernance";
-import ConfigureExtensions from "./ConfigureExtensions";
-import CallContract from "./CallContract";
-import ProposalsMenu from "./ProposalsMenu";
-import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
-import SendMenu from "./SendMenu";
-import SendEth from "./SendEth";
-import MemberMenu from "./MemberMenu";
-import GovMenu from "./GovMenu";
-import AdminMenu from "./AdminMenu";
-import ApplyMenu from "./ApplyMenu";
-import AddMember from "./AddMember";
-import RemoveMember from "./RemoveMember";
-import SetRedemption from "./SetRedemption";
-import SendErc721 from "./SendErc721";
+import { useState } from 'react'
+import { Flex, Button, Box } from '../../../styles/elements'
+import { DialogTitle } from '../../../styles/Dialog'
+import Tribute from './apps/Tribute'
+import Crowdsale from './apps/Crowdsale'
+import Redeem from './Redeem'
+import SendErc20 from './SendErc20'
+import ManageMembership from './ManageMembership'
+import ConfigureGovernance from './ConfigureGovernance'
+import ConfigureExtensions from './ConfigureExtensions'
+import CallContract from './CallContract'
+import ProposalsMenu from './ProposalsMenu'
+import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
+import SendMenu from './SendMenu'
+import SendEth from './SendEth'
+import MemberMenu from './MemberMenu'
+import GovMenu from './GovMenu'
+import AdminMenu from './AdminMenu'
+import ApplyMenu from './ApplyMenu'
+import AddMember from './AddMember'
+import RemoveMember from './RemoveMember'
+import SetRedemption from './SetRedemption'
+import SendErc721 from './SendErc721'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -53,13 +53,15 @@ export function NewProposalModal({ proposalProp }) {
       component: <ApplyMenu setProposal={setView} />,
     },
     // Member Menu
-    addMember: { // done
-      title: "Add Member",
-      component: <AddMember />
+    addMember: {
+      // done
+      title: 'Add Member',
+      component: <AddMember />,
     },
-    removeMember: { // done
-      title: "Remove Member",
-      component: <RemoveMember />
+    removeMember: {
+      // done
+      title: 'Remove Member',
+      component: <RemoveMember />,
     },
     addMemberWithVesting: {
       title: 'Add Member with Vesting',
@@ -70,17 +72,19 @@ export function NewProposalModal({ proposalProp }) {
       component: <Redeem />,
     },
     // Send Menu
-    eth: { // done
-      title: "Send ETH",
-      component: <SendEth />
-    },    
-    erc20: { // done
-      title: "Send ERC20",
-      component: <SendErc20 />
+    eth: {
+      // done
+      title: 'Send ETH',
+      component: <SendEth />,
+    },
+    erc20: {
+      // done
+      title: 'Send ERC20',
+      component: <SendErc20 />,
     },
     erc721: {
-      title: "Send ERC721",
-      component: <SendErc721 />
+      title: 'Send ERC721',
+      component: <SendErc721 />,
     },
     // Gov Menu
     transferability: {
@@ -114,11 +118,11 @@ export function NewProposalModal({ proposalProp }) {
     },
     // Membership Menu
     crowdsale: {
-      title: "Set Crowdsale Rules",
+      title: 'Set Crowdsale Rules',
       component: <Crowdsale />,
     },
     redemption: {
-      title: "Set Redemption Rules",
+      title: 'Set Redemption Rules',
       component: <SetRedemption />,
     },
     crowdsaleWithVesting: {

@@ -2,6 +2,7 @@ import React from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { styled } from '../../styles/stitches.config'
 import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from '../../styles/animation'
+import { QuestionMarkIcon } from '@radix-ui/react-icons'
 
 const Content = styled(Tooltip.Content, {
   borderRadius: 4,
@@ -46,10 +47,12 @@ const Arrow = styled(Tooltip.Arrow, {
 })
 
 // Add label
-export default function Tip({ label, children }) {
+export default function Tip({ label }) {
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+      <Tooltip.Trigger asChild>
+        <QuestionMarkIcon color="#ffa00a" />
+      </Tooltip.Trigger>
       <Content sideOffset={5}>
         {label}
         <Arrow />

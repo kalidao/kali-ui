@@ -1,28 +1,40 @@
 import React, { useState } from 'react'
 import { Button, Flex } from '../../styles/elements'
-import { Input, Form, Title, FormElement, Label, Switch } from '../../styles/form-elements'
+import { Input, Form, FormElement, Label, Switch, Checkbox } from '../../styles/form-elements'
 import { Select } from '../../styles/form-elements/Select'
-import { styled } from '../../styles/stitches.config'
 import { useForm, Controller } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { Tip } from '../elements/'
-import { BsQuestionCircle } from 'react-icons/bs'
 
-export default function Governance({ setStep }) {
-  const { register, setValue, control, handleSubmit } = useForm()
+export default function Governance({ setStep, hardMode }) {
+  const {
+    register,
+    setValue,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
 
-  // const [showQuorum, setShowQuorum] = useState(false);
-  // const [showSupermajority, setShowSupermajority] = useState(false);
-
-  const onSubmit = (data) => {
+  const onPrevious = (data) => {
     actions.updateAction(data)
-    setStep((prev) => ++prev)
+
+    setStep('id')
+  }
+
+  const onNext = (data) => {
+    actions.updateAction(data)
+
+    if (!hardMode) {
+      setStep('founders')
+    } else {
+      setStep('apps')
+    }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form>
       <FormElement>
         <Label htmlFor="votingPeriod">Voting Period</Label>
         <Flex
@@ -37,7 +49,7 @@ export default function Governance({ setStep }) {
             type="number"
             id="quorum"
             placeholder="5"
-            {...register('votingPeriod')}
+            {...register('votingPeriod', { required: true })}
             defaultValue={state.votingPeriod}
             css={{
               '&:hover': {
@@ -47,7 +59,7 @@ export default function Governance({ setStep }) {
           />
           <Select
             {...register('votingPeriodUnit')}
-            defaultValue="day"
+            defaultValue={state.votingPeriodUnit}
             onValueChange={(value) => setValue('votingPeriodUnit', value)}
           >
             <Select.Item value="min">minutes</Select.Item>
@@ -59,27 +71,47 @@ export default function Governance({ setStep }) {
       <FormElement>
         <Label htmlFor="quorum">
           Participation Needed
-          <Tip label="This determines the minimum number of people that must vote for a proposal to reach quorum.">
-            <Button variant="info">
-              <BsQuestionCircle color="#ffa00a" />
-            </Button>
-          </Tip>
+          <Tip label="Minimum percentage of voters required for a proposal to meet quorum." />
         </Label>
-        <Input type="number" id="quorum" placeholder="20" {...register('quorum')} defaultValue={state.quorum} />
+        <Flex dir="col" gap="sm">
+          <Input
+            type="number"
+            id="quorum"
+            placeholder="20"
+            aria-invalid={errors.quorum ? 'true' : 'false'}
+            min="0"
+            max="100"
+            {...register('quorum', { required: true })}
+            defaultValue={state.quorum}
+          />
+          {errors.quorum && errors.quorum.type === 'required' && <span>Participation percentage is required.</span>}
+        </Flex>
       </FormElement>
       <FormElement>
         <Label htmlFor="approval">Approval Needed</Label>
-        <Input type="number" id="approval" placeholder="60" {...register('approval')} defaultValue={state.approval} />
+        <Flex dir="col" gap="sm">
+          <Input
+            type="number"
+            id="approval"
+            placeholder="60"
+            min="51"
+            max="100"
+            aria-invalid={errors.approval ? 'true' : 'false'}
+            {...register('approval', { required: true })}
+            defaultValue={state.approval}
+          />
+          {errors.approval && errors.approval.type === 'required' && <span>Approval percentage is required.</span>}
+        </Flex>
       </FormElement>
       <FormElement>
-        <Label htmlFor="paused">Shares Transferable</Label>
-        <Switch {...register('paused')} control={control} name="paused" value="paused" defaultValue={state.paused} />
+        <Label htmlFor="paused">Token Transferability</Label>
+        <Checkbox type="checkbox" {...register('transferability')} control={control} name="transferability" value="transferability" defaultValue={state.transferability} />
       </FormElement>
       <Flex css={{ justifyContent: 'flex-end' }}>
-        <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
+        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
       </Flex>

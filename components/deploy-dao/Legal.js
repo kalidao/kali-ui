@@ -8,7 +8,7 @@ import { Flex, Button, Text } from '../../styles/elements'
 import { legalEntities } from '../../constants/legalEntities'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
 
-export default function Legal({ setStep }) {
+export default function Legal({ setStep, hardMode }) {
   const { control, watch, register, setValue, handleSubmit } = useForm()
   const watchLegal = watch('legal', false)
   const watchDocs = watch('docType', false)
@@ -17,12 +17,16 @@ export default function Legal({ setStep }) {
   const onPrevious = (data) => {
     actions.updateAction(data)
 
-    setStep((prev) => --prev)
+    if (!hardMode) {
+      setStep('id')
+    } else {
+      setStep('founders')
+    }
   }
   const onNext = (data) => {
     actions.updateAction(data)
 
-    setStep((prev) => ++prev)
+    setStep('confirm')
   }
 
   let selectArray = []

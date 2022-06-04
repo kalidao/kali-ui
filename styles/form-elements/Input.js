@@ -7,8 +7,8 @@ const Input = styled('input', {
   justifyContent: 'center',
   borderRadius: 4,
   padding: '0 10px',
-  height: 35,
-  fontSize: 15,
+  height: 32,
+  fontSize: 12,
   lineHeight: 1,
   color: '$foreground',
   backgroundColor: '$background',
@@ -16,11 +16,11 @@ const Input = styled('input', {
   boxShadow: `4px 6px 10px -7px $highlight2`,
 
   '&:hover': {
-    boxShadow: '-2px 0px 20px 3px #ffa00a',
+    boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
   },
 
   '&:focus': {
-    boxShadow: `-2px 0px 20px 3px #ffa00a`,
+    boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
   },
 
   variants: {
@@ -37,7 +37,20 @@ const Input = styled('input', {
           color: '$foreground',
         },
       },
+      address: {
+        width: '16.5rem'
+      },
+      textarea: {
+        padding: '0.5rem', 
+        width: '97%', 
+        minHeight: '10vh'
+      }
     },
+    size: {
+      sm: {
+        width: '2.9rem'
+      }
+    }
   },
 })
 

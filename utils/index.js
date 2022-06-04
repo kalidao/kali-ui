@@ -4,5 +4,5 @@ import { votingPeriodToSeconds } from './votingPeriod'
 import { validateDocs } from './validateDocs'
 import { computeKaliAddress } from './computeKaliAddress'
 import { prettyDate } from './prettyDate';
-
-export { copy, getDaoChain, votingPeriodToSeconds, validateDocs, computeKaliAddress, prettyDate }
+import { isHolder } from './isHolder'
+export { copy, getDaoChain, votingPeriodToSeconds, validateDocs, computeKaliAddress, prettyDate, isHolder }

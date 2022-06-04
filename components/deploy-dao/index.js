@@ -19,7 +19,10 @@ const Flex = styled('div', {
   gap: '1rem',
 })
 
-createStore({})
+createStore({
+  votingPeriodUnit: 'day',
+  transferability: false
+})
 
 export default function DeployDaoWrapper() {
   const [step, setStep] = useState('id')
@@ -31,11 +34,11 @@ export default function DeployDaoWrapper() {
       title: 'ID',
     },
     gov: {
-      component: <Governance setStep={setStep} />,
+      component: <Governance setStep={setStep} hardMode={hardMode} />,
       title: 'Governance',
     },
     apps: {
-      component: <Extensions setStep={setStep} />,
+      component: <Extensions setStep={setStep} hardMode={hardMode} />,
       title: 'Extensions',
     },
     founders: {
@@ -43,7 +46,7 @@ export default function DeployDaoWrapper() {
       title: 'Founders',
     },
     legal: {
-      component: <Legal setStep={setStep} />,
+      component: <Legal setStep={setStep} hardMode={hardMode} />,
       title: 'Legal',
     },
     confirm: {

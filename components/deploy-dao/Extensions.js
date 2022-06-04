@@ -7,19 +7,30 @@ import { useForm, Controller, FormProvider } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 
-export default function Extensions({ setStep }) {
+export default function Extensions({ setStep, hardMode }) {
   const methods = useForm()
   const { actions, state } = useStateMachine({ updateAction })
   const { showCrowdsale, showRedemption } = methods.watch()
 
-  const onSubmit = (data) => {
+  const onPrevious = (data) => {
     actions.updateAction(data)
-    setStep((prev) => ++prev)
+
+    if (!hardMode) {
+      setStep('id')
+    } else {
+      setStep('gov')
+    }
+  }
+
+  const onNext = (data) => {
+    actions.updateAction(data)
+
+    setStep('founders')
   }
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={methods.handleSubmit(onSubmit)}>
+      <Form>
         <FormElement>
           <Label htmlFor="redemption">Redemption</Label>
           <Switch control={methods.control} name="showRedemption" value="showRedemption" defaultValue={false} />
@@ -31,10 +42,10 @@ export default function Extensions({ setStep }) {
         </FormElement>
         {showCrowdsale && <Crowdsale />}
         <Flex css={{ justifyContent: 'flex-end' }}>
-          <Button variant="transparent" onClick={() => setStep((prev) => --prev)}>
+          <Button variant="transparent" onClick={methods.handleSubmit(onPrevious)}>
             Previous
           </Button>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" onClick={methods.handleSubmit(onNext)}>
             Next
           </Button>
         </Flex>

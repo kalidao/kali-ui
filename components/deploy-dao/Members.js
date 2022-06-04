@@ -35,9 +35,9 @@ export default function Members({ setStep, hardMode }) {
   // .eth returning undefined
   const validateData = async (data) => {
     if (!data) return
-    const founders = data?.founders 
+    const founders = data?.founders
 
-    for (let i=0; i<founders.length; i++) {
+    for (let i = 0; i < founders.length; i++) {
       if (!ethers.utils.isAddress(founders[i].member)) {
         try {
           founders[i].member = await fetchEnsAddress(founders[i].member)
@@ -46,10 +46,10 @@ export default function Members({ setStep, hardMode }) {
         }
       }
     }
-    
+
     console.log(founders)
     return true
-  };
+  }
 
   const onPrevious = (data) => {
     if (validateData(data)) {
@@ -64,14 +64,14 @@ export default function Members({ setStep, hardMode }) {
   }
 
   const onNext = (data) => {
-    console.log("data", data);
+    console.log('data', data)
     if (validateData(data)) {
       actions.updateAction(data)
 
       if (!hardMode) {
         setStep('confirm')
       } else {
-        setStep('apps')
+        setStep('legal')
       }
     }
   }
@@ -107,7 +107,7 @@ export default function Members({ setStep, hardMode }) {
                     type="number"
                     {...register(`founders.${index}.share`, {
                       required: true,
-                      min: 1
+                      min: 1,
                     })}
                     defaultValue={item.share}
                   />
