@@ -74,13 +74,13 @@ export default function DeployDaoWrapper() {
               fontSize: '16px',
               fontWeight: '600',
               '&:hover': {
-                background: '$green100',
+                background: '$gray100',
               },
             }}
             onClick={() => setHardMode((hardMode) => !hardMode)}
           >
-            {hardMode === false ? 'Hard Mode' : 'Easy Mode'}
-            <DotFilledIcon color={hardMode === false ? 'red' : 'green'} />
+            {hardMode === false ? 'Easy Mode' : 'Hard Mode'}
+            <DotFilledIcon color={hardMode === false ? 'green' : 'red'} />
           </Button>
         </DialogTitle>
 

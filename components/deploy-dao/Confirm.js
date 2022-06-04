@@ -1,18 +1,30 @@
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
-import { Button, Flex } from '../../styles/elements'
+import { Button, Flex, Text } from '../../styles/elements'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 import { useCallback } from 'react'
 import { addresses } from '../../constants/addresses'
 import FACTORY_ABI from '../../abi/KaliDAOfactory.json'
 import { votingPeriodToSeconds, validateDocs } from '../../utils/'
 import { computeKaliAddress } from '../../utils/'
+import { ethers } from 'ethers'
+
+export const Row = ({ name, value }) => {
+  return <Flex dir="row" align="separate" css={{
+    boxShadow: 'rgba(30, 30, 30, 0.7) 1px 1px 6px 0px inset, rgba(30, 30, 30, 0.7) -1px -1px 6px 1px inset',
+    padding: '0.5rem'
+  }}>
+    <Text>{name}</Text>
+    <Text>{value}</Text>  
+  </Flex>
+}
 
 export default function Confirm({ setStep, hardMode }) {
   const { state } = useStateMachine()
   const { data: account } = useAccount()
   const { activeChain } = useNetwork()
   const {
+    data,
     writeAsync,
     isLoading: isWritePending,
     isError,
@@ -24,7 +36,7 @@ export default function Confirm({ setStep, hardMode }) {
     'deployKaliDAO',
     {
       onSuccess() {
-        console.log('success!')
+        console.log('success!', data)
       },
     },
   )
@@ -37,19 +49,23 @@ export default function Confirm({ setStep, hardMode }) {
     // voter, shares
     let voters = []
     let shares = []
+    
     for (let i = 0; i < founders.length; i++) {
       voters.push(founders[i]['member'])
-      shares.push(founders[i]['share'])
+      shares.push(ethers.utils.parseEther(founders[i]['share']))
     }
 
     // no quorum
     // simple majority
-    const govSettings = Array(voteTime, 0, 0, 50)
-    govSettings = govSettings.concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    const govSettings = new Array(voteTime, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
     // extensions
-    const extensionArray = new Array()
-    const extensionData = new Array()
+    const extensionsArray = new Array()
+    const extensionsData = new Array()
+
+    // tribute 
+    extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
+    extensionsData.push('0x')
 
     // docs
     const docs = 'none'
@@ -65,18 +81,21 @@ export default function Confirm({ setStep, hardMode }) {
       symbol,
       docs,
       Number(true),
-      extensionArray,
-      extensionData,
+      extensionsArray,
+      extensionsData,
       voters,
       shares,
       govSettings,
     )
 
     const data = await writeAsync({
-      args: [name, symbol, docs, Number(true), extensionArray, extensionData, voters, shares, govSettings],
+      args: [name, symbol, docs, Number(true), extensionsArray, extensionsData, voters, shares, govSettings],
+      overrides: {
+        gasLimit: 1050000
+      }
     })
 
-    if (data.wait()) return
+   if (data.wait()) return
   }
   const deployKaliDao = useCallback(async () => {
     if (!account) return
@@ -142,12 +161,12 @@ export default function Confirm({ setStep, hardMode }) {
         govSettings = govSettings.concat([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
       }
 
-      const extensionArray = new Array()
-      const extensionData = new Array()
+      const extensionsArray = new Array()
+      const extensionsData = new Array()
 
       console.log(govSettings)
       const data = await writeAsync({
-        args: [name, symbol, docs_, Number(paused), extensionArray, extensionData, voters, shares, govSettings],
+        args: [name, symbol, docs_, Number(paused), extensionsArray, extensionsData, voters, shares, govSettings],
       })
 
       if (data.wait()) return
@@ -164,8 +183,16 @@ export default function Confirm({ setStep, hardMode }) {
 
   return (
     <div>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
-      <pre>{JSON.stringify(isError, null, 2)}</pre>
+      {hardMode === false ? 
+      <Flex dir="col">
+        <Row name="Name" value={state.name} />
+        <Row name="Symbol" value={state.symbol} />
+        <Row name="Voting Period" value="2 Days" />
+        <Row name="Voting Type" value="SIMPLE MAJORITY" />
+      </Flex>
+       : <Flex>
+        Advanced Setup  
+      </Flex>}
       <Flex>
         <Button variant="transparent" onClick={prev}>
           Previous
