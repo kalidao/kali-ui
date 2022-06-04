@@ -7,7 +7,7 @@ import updateAction from './updateAction'
 import { TiWarning } from 'react-icons/ti'
 
 export default function Identity({ setStep, hardMode }) {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
 
   const onSubmit = (data) => {
@@ -22,14 +22,22 @@ export default function Identity({ setStep, hardMode }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormElement>
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" name="name" placeholder="KaliDAO" {...register('name')} defaultValue={state.name} />
-      </FormElement>
-      <FormElement>
+      
+        <Flex dir="row" align="separate">
+          <Label htmlFor="name">Name</Label>
+          <Flex dir="col" gap="sm">
+            <Input type="text" name="name" placeholder="KaliDAO"  aria-invalid={errors.name ? "true" : "false"} {...register('name', { required: true })} defaultValue={state.name} />
+            {errors.name && errors.name.type === "required" && <span>Name is required.</span>}
+          </Flex>
+        </Flex>
+      <Flex dir="row" align="separate">
         <Label htmlFor="symbol">Symbol</Label>
-        <Input type="text" name="symbol" placeholder="KALI" {...register('symbol')} defaultValue={state.symbol} />
-      </FormElement>
+        <Flex dir="col" gap="sm">
+          <Input type="text" name="symbol" placeholder="KALI"  aria-invalid={errors.symbol ? "true" : "false"} {...register('symbol', { required: true, maxLength: 11 })} defaultValue={state.symbol} />
+          {errors.symbol && errors.symbol.type === "required" && <span role="alert">Symbol is required.</span>}
+          {errors.symbol && errors.symbol.type === "maxLength" && <span role="alert">Max symbol length exceeded</span>}
+        </Flex>
+      </Flex>
       <Flex css={{ justifyContent: 'flex-end' }}>
         <Button variant="primary" type="submit">
           Next

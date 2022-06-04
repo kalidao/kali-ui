@@ -6,6 +6,8 @@ import updateAction from './updateAction'
 import { useAccount, useEnsName } from 'wagmi'
 import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons'
 import { Button, Flex } from '../../styles/elements'
+import { ethers } from 'ethers'
+import { fetchEnsAddress } from '../../utils/fetchEnsAddress'
 
 export default function Members({ setStep, hardMode }) {
   const { actions, state } = useStateMachine({ updateAction })
@@ -16,7 +18,7 @@ export default function Members({ setStep, hardMode }) {
     register,
     control,
     handleSubmit,
-    watch,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -29,22 +31,48 @@ export default function Members({ setStep, hardMode }) {
     name: 'founders',
   })
 
-  const onPrevious = (data) => {
-    actions.updateAction(data)
+  // TODO
+  // .eth returning undefined
+  const validateData = async (data) => {
+    if (!data) return
+    const founders = data?.founders 
 
-    if (!hardMode) {
-      setStep('id')
-    } else {
-      setStep('apps')
+    for (let i=0; i<founders.length; i++) {
+      if (!ethers.utils.isAddress(founders[i].member)) {
+        try {
+          founders[i].member = await fetchEnsAddress(founders[i].member)
+        } catch (e) {
+          return false
+        }
+      }
+    }
+    
+    console.log(founders)
+    return true
+  };
+
+  const onPrevious = (data) => {
+    if (validateData(data)) {
+      actions.updateAction(data)
+
+      if (!hardMode) {
+        setStep('id')
+      } else {
+        setStep('apps')
+      }
     }
   }
-  const onNext = (data) => {
-    actions.updateAction(data)
 
-    if (!hardMode) {
-      setStep('confirm')
-    } else {
-      setStep('legal')
+  const onNext = (data) => {
+    console.log("data", data);
+    if (validateData(data)) {
+      actions.updateAction(data)
+
+      if (!hardMode) {
+        setStep('confirm')
+      } else {
+        setStep('apps')
+      }
     }
   }
 
@@ -70,8 +98,8 @@ export default function Members({ setStep, hardMode }) {
                     css={{
                       fontFamily: 'Screen',
                     }}
+                    type="text"
                   />
-                  {errors.member && <span>This field is required</span>}
                 </div>
                 <div>
                   <Input
@@ -79,10 +107,10 @@ export default function Members({ setStep, hardMode }) {
                     type="number"
                     {...register(`founders.${index}.share`, {
                       required: true,
+                      min: 1
                     })}
                     defaultValue={item.share}
                   />
-                  {errors.share && <span>This field is required</span>}
                 </div>
                 <Button
                   variant="icon"
@@ -101,7 +129,6 @@ export default function Members({ setStep, hardMode }) {
               justifyContent: 'center',
             }}
           >
-            {console.log(state.founders)}
             <Button
               variant="primary"
               css={{
