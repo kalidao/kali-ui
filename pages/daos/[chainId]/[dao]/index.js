@@ -21,7 +21,7 @@ export const getServerSideProps = async (context) => {
 
 export default function Dao({ proposals }) {
   const router = useRouter()
-  const { data, isLoading,  } = useContractRead(
+  const { data, isLoading } = useContractRead(
     {
       addressOrName: router.query.dao,
       contractInterface: DAO_ABI,
@@ -31,7 +31,7 @@ export default function Dao({ proposals }) {
       chainId: Number(router.query.chainId),
     },
   )
-  
+
   console.log('name', data)
   console.log('server proposals', proposals)
   return (

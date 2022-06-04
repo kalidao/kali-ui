@@ -6,14 +6,18 @@ import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { TiWarning } from 'react-icons/ti'
 
-export default function Identity({ setStep, onNext }) {
+export default function Identity({ setStep, hardMode }) {
   const { register, handleSubmit } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
 
   const onSubmit = (data) => {
     actions.updateAction(data)
 
-    setStep((prev) => ++prev)
+    if (!hardMode) {
+      setStep('founders')
+    } else {
+      setStep('gov')
+    }
   }
 
   return (

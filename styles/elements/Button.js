@@ -40,10 +40,10 @@ const Button = styled('button', {
           transform: 'translate(2px, 2px)',
         },
         '@media (min-width: 768px)': {
-            minWidth: '120px',
-            padding: '0 25px',
-          }
+          minWidth: '120px',
+          padding: '0 25px',
         },
+      },
       icon: {
         background: 'none',
         color: '$highlight',

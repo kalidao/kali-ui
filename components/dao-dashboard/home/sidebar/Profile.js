@@ -96,7 +96,7 @@ export default function ProfileComponent({ dao }) {
       <Flex align="center">
         <Dialog>
           <DialogTrigger>
-            <Button 
+            <Button
               variant="brutal"
               css={{
                 position: 'relative',

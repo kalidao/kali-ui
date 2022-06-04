@@ -10,6 +10,8 @@ import Confirm from './Confirm'
 import { Progress, ProgressIndicator } from '../../styles/Progress'
 import { StateMachineProvider, createStore } from 'little-state-machine'
 import { useAccount } from 'wagmi'
+import { Button, Text } from '../../styles/elements'
+import { DotFilledIcon, DotIcon } from '@radix-ui/react-icons'
 
 const Flex = styled('div', {
   display: 'flex',
@@ -20,39 +22,68 @@ const Flex = styled('div', {
 createStore({})
 
 export default function DeployDaoWrapper() {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState('id')
+  const [hardMode, setHardMode] = useState(false)
 
-  const steps = [
-    {
-      component: <Identity setStep={setStep} />,
+  const steps = {
+    id: {
+      component: <Identity setStep={setStep} hardMode={hardMode} />,
       title: 'ID',
     },
-    {
+    gov: {
       component: <Governance setStep={setStep} />,
       title: 'Governance',
     },
-    {
+    apps: {
       component: <Extensions setStep={setStep} />,
       title: 'Extensions',
     },
-    {
-      component: <Members setStep={setStep} />,
+    founders: {
+      component: <Members setStep={setStep} hardMode={hardMode} />,
       title: 'Founders',
     },
-    {
+    legal: {
       component: <Legal setStep={setStep} />,
       title: 'Legal',
     },
-    {
-      component: <Confirm setStep={setStep} />,
+    confirm: {
+      component: <Confirm setStep={setStep} hardMode={hardMode} />,
       title: 'Confirm',
     },
-  ]
+  }
 
   return (
     <StateMachineProvider>
       <Flex>
-        <DialogTitle>{steps[step]['title']}</DialogTitle>
+        <DialogTitle
+          css={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Text>{steps[step]['title']}</Text>
+          <Button
+            variant="transparent"
+            css={{
+              display: 'flex',
+              background: '$gray100',
+              color: '$background',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              fontWeight: '600',
+              '&:hover': {
+                background: '$green100',
+              },
+            }}
+            onClick={() => setHardMode((hardMode) => !hardMode)}
+          >
+            {hardMode === false ? 'Hard Mode' : 'Easy Mode'}
+            <DotFilledIcon color={hardMode === false ? 'red' : 'green'} />
+          </Button>
+        </DialogTitle>
+
         <Progress value={(step / (steps.length - 1)) * 100}>
           <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
         </Progress>
