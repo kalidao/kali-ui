@@ -6,9 +6,9 @@ import { truncateAddress } from '../../../utils/formatters'
 import { Spinner } from '../../elements'
 
 export default function MemberCard({ member, totalSupply }) {
-  const { data, isLoading } = useEnsName({
-    address: member.address,
-    chainId: Number(1),
+  const { data: ensName, isLoading } = useEnsName({
+    address: member?.address,
+    chainId: 1,
   })
   const { push } = useRouter()
   const routeProfile = () => {
@@ -17,6 +17,7 @@ export default function MemberCard({ member, totalSupply }) {
 
   // TODO:
   //  - Add profile image
+  console.log('ens', ensName)
   return (
     <Flex dir="row" align="separate" css={{ background: '$background', padding: '1rem', gap: '1rem' }}>
       {isLoading ? (
@@ -35,7 +36,7 @@ export default function MemberCard({ member, totalSupply }) {
             }}
             onClick={routeProfile}
           >
-            {data ? data : truncateAddress(member.address)}
+            {!ensName ? truncateAddress(member?.address) : ensName}
           </Text>
           <Text color="foreground">{Number(ethers.utils.formatUnits(member.shares, 18))}</Text>
           <Text color="foreground">
