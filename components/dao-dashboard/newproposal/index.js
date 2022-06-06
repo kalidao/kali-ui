@@ -21,6 +21,9 @@ import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
 import SetRedemption from './SetRedemption'
 import SendErc721 from './SendErc721'
+import ToggleTransfer from './ToggleTransfer'
+import UpdateVotingPeriod from './UpdateVotingPeriod'
+import UpdateQuorum from './UpdateQuorum'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -83,21 +86,25 @@ export function NewProposalModal({ proposalProp }) {
       component: <SendErc20 />,
     },
     erc721: {
+      //done
       title: 'Send ERC721',
       component: <SendErc721 />,
     },
     // Gov Menu
     transferability: {
+      // done
       title: 'Toggle Transferability',
-      component: <Crowdsale />,
+      component: <ToggleTransfer />,
     },
     votingPeriod: {
+      // done
       title: 'Update Voting Period',
-      component: <Crowdsale />,
+      component: <UpdateVotingPeriod />,
     },
     quorum: {
+      // done
       title: 'Update Quorum',
-      component: <Crowdsale />,
+      component: <UpdateQuorum />,
     },
     // Admin Menu
     manager: {
