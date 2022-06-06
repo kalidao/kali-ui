@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from 'react'
-import { useAccount, useNetwork, useContract, useSigner, erc20ABI } from 'wagmi'
+import { useContract, useSigner, useContractRead } from 'wagmi'
 import { Flex, Text, Button } from '../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../styles/form-elements'
 import { Select } from '../../../styles/form-elements/Select'
 import FileUploader from '../../tools/FileUpload'
 import KALIDAO_ABI from '../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { getDaoChain } from '../../../utils'
-import { getTokenName } from '../../../utils/fetchTokenInfo'
 import { uploadIpfs } from '../../tools/ipfsHelpers'
-import { getVotingPeriod } from '../../../utils/fetchDaoInfo'
 import { AddressZero } from '@ethersproject/constants'
 import { votingPeriodToSeconds } from '../../../utils'
 import { Warning } from '../../../styles/elements'
+import Spinner from "../../elements/Spinner";
+import { formatVotingPeriod } from '../../../utils'
 
 export default function UpdateVotingPeriod() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const { data: signer } = useSigner()
-
   const kalidao = useContract({
     addressOrName: daoAddress,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
+  const { data: votingPeriod, isWaitingVotingPeriod } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'votingPeriod',
+    {
+      chainId: Number(router.query.chainId),
+    }
+  )
+
+
 
   // form
   const [unit, setUnit] = useState('min')
@@ -31,6 +41,7 @@ export default function UpdateVotingPeriod() {
   const [warning, setWarning] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
+
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -64,13 +75,15 @@ export default function UpdateVotingPeriod() {
     }
   }
 
+  
+
   return (
     <Flex dir="col" gap="md">
       {/* <Text>Update proposal voting period</Text> */}
       <Form>
       <FormElement>
           <Label htmlFor="recipient">Current Voting Period</Label>
-          <Text>5 minutes</Text>
+          <Text>{isWaitingVotingPeriod ? <Spinner /> : formatVotingPeriod(votingPeriod)}</Text>
         </FormElement>
         <FormElement>
           <Label htmlFor="recipient">Duration</Label>

@@ -4,48 +4,7 @@ import { supportedChains } from '../constants/supportedChains'
 import { tokens } from '../constants/tokens'
 import Big from 'big.js'
 
-export function convertVotingPeriod(seconds) {
-  let time
-  let text
 
-  if (seconds < 3600) {
-    time = seconds / 60
-    if (time == 1) {
-      text = 'Minute'
-    } else {
-      text = 'Minutes'
-    }
-  } else if (seconds < 86400) {
-    time = seconds / 3600
-    if (time == 1) {
-      text = 'Hour'
-    } else {
-      text = 'Hours'
-    }
-  } else {
-    time = seconds / 86400
-    if (time == 1) {
-      text = 'Day'
-    } else {
-      text = 'Days'
-    }
-  }
-  return time + ' ' + text
-}
-
-export function votingPeriodToSeconds(period, type) {
-  let amount
-  if (type == 'min') {
-    amount = period * 60
-  }
-  if (type == 'hour') {
-    amount = period * 60 * 60
-  }
-  if (type == 'day') {
-    amount = period * 60 * 60 * 24
-  }
-  return amount
-}
 
 export function toDecimals(amount, decimals) {
   var number = ''
