@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../styles/form-elements'
-import FileUploader from '../../tools/FileUpload'
-import KALIDAO_ABI from '../../../abi/KaliDAO.json'
+import { Flex, Text, Button } from '../../../../styles/elements'
+import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import FileUploader from '../../../tools/FileUpload'
+import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { getDaoChain } from '../../../utils'
-import { uploadIpfs } from '../../tools/ipfsHelpers'
-import KALIERC20_ABI from '../../../abi/KaliERC20.json'
-import { AddressZero } from '@ethersproject/constants'
+import { uploadIpfs } from '../../../tools/ipfsHelpers'
 
-export default function ToggleTransfer() {
+export default function SendEth() {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = getDaoChain(daoAddress)
+  const daoChainId = router.query.chainId
+  const { data: daoName, isLoading } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'name',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
@@ -24,43 +31,32 @@ export default function ToggleTransfer() {
   })
 
   // form
-  const [status, setStatus] = useState(null)
+  const [recipient, setRecipient] = useState(null)
+  const [amount, setAmount] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
-
-  useEffect(() => {
-    const getStatus = async () => {
-      try {
-        const tokenInstance = new ethers.Contract(daoAddress, KALIERC20_ABI, signer)
-        const _status = await tokenInstance.paused()
-        setStatus(_status)
-        console.log(_status)
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    getStatus()
-  }, [])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
+    amount = ethers.utils.parseEther(amount).toString()
+
     let docs
     if (file) {
-      docs = await uploadIpfs(daoAddress, 'Pause Proposal', file)
+      docs = await uploadIpfs(daoAddress, 'Send ETH Proposal', file)
     } else {
       docs = description
     }
 
-    // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
+    console.log('Proposal Params - ', 2, docs, [recipient], [amount], [Array(0)])
 
     try {
       const tx = await kalidao.propose(
-        8, // PAUSE prop
+        2, // CALL prop
         docs,
-        [AddressZero],
-        [0],
+        [recipient],
+        [amount],
         [Array(0)],
       )
       console.log('tx', tx)
@@ -71,11 +67,15 @@ export default function ToggleTransfer() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Submit proposal to restrict or unrestrict DAO token transferability</Text>
+      <Text>Send ETH from {daoName} treasury</Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Token Status</Label>
-          {status ? <Text>Restricted</Text> : <Text>Unrestricted</Text>}
+          <Label htmlFor="recipient">Recipient</Label>
+          <Input name="recipient" type="text" defaultValue={recipient} onChange={(e) => setRecipient(e.target.value)} />
+        </FormElement>
+        <FormElement>
+          <Label htmlFor="amount">Amount</Label>
+          <Input name="amount" type="number" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="description">Proposal Note</Label>

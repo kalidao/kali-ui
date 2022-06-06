@@ -1,29 +1,12 @@
 import { useState } from 'react'
 import { Flex, Button, Box } from '../../../styles/elements'
 import { DialogTitle } from '../../../styles/Dialog'
-import Tribute from './apps/Tribute'
-import Crowdsale from './apps/Crowdsale'
-import Redeem from './Redeem'
-import SendErc20 from './SendErc20'
-import ManageMembership from './ManageMembership'
-import ConfigureGovernance from './ConfigureGovernance'
-import ConfigureExtensions from './ConfigureExtensions'
-import CallContract from './CallContract'
 import ProposalsMenu from './ProposalsMenu'
-import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
-import SendMenu from './SendMenu'
-import SendEth from './SendEth'
-import MemberMenu from './MemberMenu'
-import GovMenu from './GovMenu'
-import AdminMenu from './AdminMenu'
-import ApplyMenu from './ApplyMenu'
-import AddMember from './AddMember'
-import RemoveMember from './RemoveMember'
-import SetRedemption from './SetRedemption'
-import SendErc721 from './SendErc721'
-import ToggleTransfer from './ToggleTransfer'
-import UpdateVotingPeriod from './UpdateVotingPeriod'
-import UpdateQuorum from './UpdateQuorum'
+import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
+import { SendMenu, SendErc20, SendErc721, SendEth } from "./send"
+import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from "./gov"
+import { AdminMenu, CallContract, ConfigureExtensions } from "./admin"
+import { AppsMenu, Crowdsale, SetRedemption, Tribute} from "./apps"
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -35,25 +18,25 @@ export function NewProposalModal({ proposalProp }) {
       component: <ProposalsMenu setProposal={setView} />,
     },
     // Sub Menu
-    memberMenu: {
-      title: '',
-      component: <MemberMenu setProposal={setView} />,
+    membersMenu: {
+      title: 'Manage',
+      component: <MembersMenu setProposal={setView} />,
     },
     sendMenu: {
-      title: '',
+      title: 'Send',
       component: <SendMenu setProposal={setView} />,
     },
     govMenu: {
-      title: '',
+      title: 'Configure',
       component: <GovMenu setProposal={setView} />,
     },
     adminMenu: {
-      title: '',
+      title: 'Control',
       component: <AdminMenu setProposal={setView} />,
     },
-    applyMenu: {
-      title: '',
-      component: <ApplyMenu setProposal={setView} />,
+    appsMenu: {
+      title: 'Apps',
+      component: <AppsMenu setProposal={setView} />,
     },
     // Member Menu
     addMember: {
@@ -163,23 +146,6 @@ export function NewProposalModal({ proposalProp }) {
           >
             {proposals[view]['component']}
           </Box>
-          {view != 'menu' && (
-            <Button
-              variant="transparent"
-              effect="film"
-              css={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '0.1em',
-                maxWidth: '5em',
-              }}
-              onClick={() => setView('menu')}
-            >
-              <DoubleArrowLeftIcon />
-              Back
-            </Button>
-          )}
         </Flex>
       )}
     </>

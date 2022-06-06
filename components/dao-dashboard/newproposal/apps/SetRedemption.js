@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../styles/form-elements'
-import FileUploader from '../../tools/FileUpload'
-import KALIDAO_ABI from '../../../abi/KaliDAO.json'
-import { useRouter } from 'next/router'
-import { getDaoChain } from '../../../utils'
-import { uploadIpfs } from '../../tools/ipfsHelpers'
+import { Flex, Text, Button } from '../../../../styles/elements'
+import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import FileUploader from '../../../tools/FileUpload'
+import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
+import { uploadIpfs } from '../../../tools/ipfsHelpers'
 
 export default function SetRedemption() {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = getDaoChain(daoAddress)
+  const daoChainId = router.query.chainId
   const { data: signer } = useSigner()
 
   const kalidao = useContract({

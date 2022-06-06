@@ -3,28 +3,33 @@ import {
   useAccount,
   useNetwork,
   useContract,
+  useContractRead,
   useSigner,
   erc721ABI,
 } from "wagmi";
-import { Flex, Text, Button, Box } from "../../../styles/elements";
-import { Form, FormElement, Label, Input } from "../../../styles/form-elements";
+import { Flex, Text, Button, Warning } from  '../../../../styles/elements';
+import { Form, FormElement, Label, Input } from "../../../../styles/form-elements";
 import { ethers } from "ethers";
-import { Select } from "../../../styles/form-elements/Select";
-import FileUploader from "../../tools/FileUpload";
-import KALIDAO_ABI from "../../../abi/KaliDAO.json";
+import FileUploader from "../../../tools/FileUpload";
+import KALIDAO_ABI from "../../../../abi/KaliDAO.json";
 import { useRouter } from "next/router";
-import { getDaoChain, isHolder } from "../../../utils";
-import { getTokenName } from "../../../utils/fetchTokenInfo";
-import { uploadIpfs } from "../../tools/ipfsHelpers";
-import { tokens } from "../../../constants/tokens";
-import { TiWarning } from "react-icons/ti";
-import { Warning } from "../../../styles/elements";
+import { isHolder } from "../../../../utils";
+import { uploadIpfs } from "../../../tools/ipfsHelpers";
 
 export default function SendErc721() {
   const router = useRouter();
   const daoAddress = router.query.dao;
   const daoChainId = router.query.chainId;
-  const daoName = getTokenName(daoChainId, daoAddress);
+  const { data: daoName, isLoading } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'name',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
   const { data: account } = useAccount();
   const { data: signer } = useSigner();
   const { activeChain } = useNetwork();
@@ -86,7 +91,7 @@ export default function SendErc721() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send an ERC721 from DAO's treasury</Text>
+      <Text>Send an ERC721 from {daoName} treasury</Text>
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">ERC721 Contract Address</Label>

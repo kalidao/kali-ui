@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useContract, useSigner, useContractRead } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../styles/form-elements'
-import { Select } from '../../../styles/form-elements/Select'
-import FileUploader from '../../tools/FileUpload'
-import KALIDAO_ABI from '../../../abi/KaliDAO.json'
+import { Flex, Text, Button, Warning } from '../../../../styles/elements'
+import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import { Select } from '../../../../styles/form-elements/Select'
+import FileUploader from '../../../tools/FileUpload'
+import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '../../tools/ipfsHelpers'
+import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
-import { votingPeriodToSeconds } from '../../../utils'
-import { Warning } from '../../../styles/elements'
-import Spinner from "../../elements/Spinner";
-import { formatVotingPeriod } from '../../../utils'
+import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
+import Spinner from "../../../elements/Spinner";
 
 export default function UpdateVotingPeriod() {
   const router = useRouter()

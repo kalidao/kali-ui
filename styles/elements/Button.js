@@ -81,6 +81,19 @@ const Button = styled('button', {
         '&:hover': { boxShadow: `0 2px 10px white` },
         '&:focus': { boxShadow: `0 0 0 2px black` },
       },
+      back: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '0.1em',
+        maxWidth: '5em',
+        background: 'none',
+        color: '$foreground',
+        '&:hover': {
+          background: 'hsl(0, 0%, 70%, 0.5)',
+          color: '$gray100',
+        },
+      }
     },
   },
   defaultVariants: {

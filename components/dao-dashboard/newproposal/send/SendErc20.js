@@ -1,22 +1,29 @@
 import React, { useState } from 'react'
-import { useAccount, useNetwork, useContract, useSigner, erc20ABI } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../styles/form-elements'
+import { useAccount, useNetwork, useContract, useSigner, erc20ABI, useContractRead } from 'wagmi'
+import { Flex, Text, Button } from '../../../../styles/elements'
+import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import { ethers } from 'ethers'
-import { Select } from '../../../styles/form-elements/Select'
-import FileUploader from '../../tools/FileUpload'
-import KALIDAO_ABI from '../../../abi/KaliDAO.json'
+import { Select } from '../../../../styles/form-elements/Select'
+import FileUploader from '../../../tools/FileUpload'
+import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { getDaoChain } from '../../../utils'
-import { getTokenName } from '../../../utils/fetchTokenInfo'
-import { uploadIpfs } from '../../tools/ipfsHelpers'
-import { tokens } from '../../../constants/tokens'
+import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import { tokens } from '../../../../constants/tokens'
 
 export default function SendErc20() {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = getDaoChain(daoAddress)
-  const daoName = getTokenName(daoChainId, daoAddress)
+  const daoChainId = router.query.chainId
+  const { data: daoName, isLoading } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'name',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
   const { activeChain } = useNetwork()
@@ -102,7 +109,7 @@ export default function SendErc20() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send ERC20s from DAO's treasury</Text>
+      <Text>Send ERC20s from {daoName} treasury</Text>
       <Form>
         <FormElement>
           <Label htmlFor="type">Asset</Label>
