@@ -18,6 +18,7 @@ import { getTokenName } from "../../../utils/fetchTokenInfo";
 import { uploadIpfs } from "../../tools/ipfsHelpers";
 import { tokens } from "../../../constants/tokens";
 import { TiWarning } from "react-icons/ti";
+import { Warning } from "../../../styles/elements";
 
 export default function SendErc721() {
   const router = useRouter();
@@ -45,36 +46,42 @@ export default function SendErc721() {
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault();
-    console.log(daoChainId, tokenAddress, daoAddress)
-    const isHolding = await isHolder(daoChainId, tokenAddress, daoAddress)
-    // let iface = new ethers.utils.Interface(erc721ABI);
-    // let payload = iface.encodeFunctionData("transferFrom", [
-    //   daoAddress,
-    //   recipient,
-    //   tokenId,
-    // ]);
+    
+    const isHolding = await isHolder(daoChainId, tokenAddress, tokenId, daoAddress)
+    if (isHolding) {
+      console.log("DAO is holder")
+    } else {
+      setWarning(`${(daoName ? daoName : "DAO")} does not currently own this ERC721. You may not be able to process proposal.`)
+    }
+    let iface = new ethers.utils.Interface(erc721ABI);
+    let payload = iface.encodeFunctionData("transferFrom", [
+      daoAddress,
+      recipient,
+      tokenId,
+    ]);
 
-    // let docs;
-    // if (file) {
-    //   docs = await uploadIpfs(daoAddress, "Send ERC721 Proposal", file);
-    // } else {
-    //   docs = description;
-    // }
+    let docs;
+    if (file) {
+      docs = await uploadIpfs(daoAddress, "Send ERC721 Proposal", file);
+    } else {
+      docs = description;
+    }
 
-    // console.log("Proposal Params - ", 2, docs, [tokenAddress], [0], [payload]);
+    console.log("Proposal Params - ", 2, docs, [tokenAddress], [0], [payload]);
 
-    // try {
-    //   const tx = await kalidao.propose(
-    //     2, // CALL prop
-    //     docs,
-    //     [tokenAddress],
-    //     [0],
-    //     [payload]
-    //   );
-    //   console.log("tx", tx);
-    // } catch (e) {
-    //   console.log("error", e);
-    // }
+    try {
+      console.log(signer)
+      const tx = await kalidao.propose(
+        2, // CALL prop
+        docs,
+        [tokenAddress],
+        [0],
+        [payload]
+      );
+      console.log("tx", tx);
+    } catch (e) {
+      console.log("error", e);
+    }
   };
 
   return (
@@ -95,7 +102,6 @@ export default function SendErc721() {
           <Input
             name="tokenId"
             type="number"
-            size="sm"
             defaultValue={tokenId}
             onChange={(e) => setTokenId(e.target.value)}
           />
