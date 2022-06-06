@@ -6,7 +6,7 @@ import Results from './Results'
 import Votes from './Votes'
 import Description from './Description'
 import Vote from '../vote'
-import Status from './Status'
+import InfoBar from './InfoBar'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
@@ -22,7 +22,7 @@ export default function ProposalView({ proposal }) {
       }}
     >
       <Text variant="heading">{proposal && <Tag type={proposal['proposalType']} />}</Text>
-      <Status proposal={proposal} />
+      <InfoBar proposal={proposal} />
       <Flex
         gap="md"
         css={{

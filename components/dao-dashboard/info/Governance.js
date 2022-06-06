@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex, Text } from '../../../styles/elements'
-import { convertVotingPeriod } from '../../../utils/formatters'
+import { formatVotingPeriod } from "../../../utils/"
 import Info from '../../../styles/Info'
 import { Spinner } from '../../elements'
 
@@ -11,7 +11,7 @@ export default function Governance({ info }) {
         <Flex gap="md" dir="col">
           <Flex gap="md" align="separate">
             <Text>Voting Period</Text>
-            <Text>{convertVotingPeriod(info['votingPeriod'])}</Text>
+            <Text>{formatVotingPeriod(info['votingPeriod'])}</Text>
             {/* TODO: Add etherscan link */}
           </Flex>
           <Flex gap="md" align="separate">
