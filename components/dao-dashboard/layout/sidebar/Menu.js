@@ -26,11 +26,6 @@ const Icon = styled('span', {
 
 export default function Menu() {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChain = router.query.chainId
-  const { data, isLoading } = useGraph(daoChain, CHECK_APPS, {
-    dao: daoAddress,
-  })
 
   return (
     <Flex

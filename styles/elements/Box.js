@@ -21,7 +21,7 @@ const Box = styled('div', {
         color: '$black',
         width: '4rem',
         height: '4rem',
-        fontWeight: '200',
+        fontWeight: '500',
         fontSize: '69px',
         display: 'flex',
         justifyContent: 'center',

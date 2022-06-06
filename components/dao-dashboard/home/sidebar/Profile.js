@@ -11,23 +11,10 @@ import { ethers } from 'ethers'
 import { useGraph } from '../../../hooks'
 import Info from '../../../../styles/Info'
 
-// export const Box = styled(Flex, {
-//     position: 'relative',
-//     justifyContent: 'flex-start',
-//     alignItems: 'center',
-//     gap: '1.5rem',
-//     flexDirection: 'column',
-//     color: '$foreground',
-//     maxHeight: '25vh',
-//     minWidth: '30%',
-//     padding: '2rem',
-//     border: '1px solid $gray800',
-// });
-
 export default function ProfileComponent({ dao }) {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChain = router.query.chainId
+  const daoChain = Number(router.query.chainId)
   const { data: balance } = useBalance({
     addressOrName: daoAddress,
     chainId: daoChain,

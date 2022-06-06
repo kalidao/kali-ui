@@ -16,19 +16,6 @@ export default function Home() {
     address: account?.address,
   })
   const daos = data?.['members']
-  // const [daos, setDaos] = useState();
-
-  // useEffect(() => {
-  //   if (!activeChain || !account) return;
-  //   const fetch = async () => {
-  //     const data = await request(GRAPH_URL[activeChain?.id], USER_DAOS, {
-  //       address: account?.address
-  //     });
-  //     setDaos(data["members"])
-  //   }
-
-  //   fetch()
-  // }, [account, activeChain])
 
   return (
     <Layout heading="DAOs">

@@ -15,7 +15,7 @@ export const useGraph = (chainId, query, variables) => {
     }
 
     fetch()
-  }, [])
+  }, [chainId])
 
   return { data, isLoading }
 }
