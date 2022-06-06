@@ -32,7 +32,10 @@ export default function Home() {
 
   return (
     <Layout heading="DAOs">
-      {isLoading && <Text color="foreground">Please connect to view your active DAOs.</Text>}
+      {isLoading && <Text color="foreground" css={{
+        marginTop: '6rem',
+        marginLeft: '5rem',
+      }}>Please connect to view your active DAOs.</Text>}
       {daos && <MyDAOs daos={daos} />}
       <NewDaoSquare />
     </Layout>

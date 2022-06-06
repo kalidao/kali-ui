@@ -18,6 +18,7 @@ const Box = styled('div', {
         margin: '0.5rem',
 
         background: '$green600',
+        color: '$black',
         width: '4rem',
         height: '4rem',
         fontWeight: '200',
