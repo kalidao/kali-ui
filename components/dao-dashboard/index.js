@@ -6,6 +6,7 @@ export function Dashboard({ proposals }) {
   return (
     <Flex
       css={{
+        background: '$background',
         position: 'relative',
         justifyContent: 'space-between',
         minWidth: '90vw',

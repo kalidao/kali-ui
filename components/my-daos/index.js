@@ -43,7 +43,7 @@ export const Results = styled('div', {
 
 export default function MyDAOs({ daos }) {
   return (
-    <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
+    <Flex dir="col" css={{ background: '$background', gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
       {daos.length > 1 ? (
         <ResultsText> You are in {daos.length} DAOs </ResultsText>
       ) : daos.length === 1 ? (
