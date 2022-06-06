@@ -133,6 +133,10 @@ export function NewProposalModal({ proposalProp }) {
       title: 'Tribute with Vesting',
       component: <Crowdsale />,
     },
+    tribute: {
+      title: 'Tribute',
+      component: <Tribute />,
+    },
     // Back
     back: {
       title: '',

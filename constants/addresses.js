@@ -4,6 +4,7 @@ export const addresses =
   {
     // Ethereum
     1: {
+      name: 'Ethereum',
       factory: '0x8bD48C45d40724E8424C3aAa4097257A38A98024',
       ricardian: '0x2017d429Ad722e1cf8df9F1A2504D4711cDedC49',
       erc20factory: '0x65B2fb10C3D759b8D5828f617d146c5Ec380Ed1D',
@@ -19,6 +20,7 @@ export const addresses =
     },
     // Rinkeby
     4: {
+      name: 'Rinkeby',
       factory: '0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548',
       ricardian: '0xd45f8734539792619B3C4BE0e24639845371A481',
       erc20factory: '0x8a23526eDe4d7222150C3dFEFC47902180A19323',
@@ -34,6 +36,7 @@ export const addresses =
     },
     // Polygon
     137: {
+      name: 'Polygon',
       factory: '0xeb37fc7F7781C4B6395b093359aaaFD285DaA6b9',
       ricardian: '0xbE7aDeD5dFCAA0E51F885748AA4DFf457f0c52A0',
       erc20factory: '0xf8468a8A356B1b9DB2E918DbC1Ca31D597c9E54F',
@@ -49,6 +52,7 @@ export const addresses =
     },
     // Arbitrum
     42161: {
+      name: 'Arbitrum',
       factory: '0x045cbcBA76a7EcF82d0f6B5DCc0881B3C12E37d0',
       ricardian: '0xB572aC31AB7FE0f8b65E6be10bd36eE81DA71f2B',
       erc20factory: '0x5eeDa4696062Eaa319DDE62d2D350f4aBF0C88F4',

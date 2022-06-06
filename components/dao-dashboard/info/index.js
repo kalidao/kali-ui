@@ -21,6 +21,7 @@ export default function InfoComponent({ info }) {
           marginRight: '1rem',
           gap: '2rem',
         },
+        marginRight: '1rem'
       }}
     >
       {info === undefined ? (

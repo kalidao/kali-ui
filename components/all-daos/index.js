@@ -4,10 +4,11 @@ import { Results, ResultsText } from '../my-daos/'
 import NewDao from '../my-daos/NewDao'
 import DaoCard from '../my-daos/DaoCard'
 import { useNetwork } from 'wagmi'
+import { addresses } from '../../constants/addresses'
 
-export default function AllDAOs({ daos }) {
+export default function AllDAOs({ daos, chainId }) {
   const { activeChain } = useNetwork()
-
+  
   return (
     <>
       {daos !== undefined ? (
@@ -18,7 +19,7 @@ export default function AllDAOs({ daos }) {
               There are {daos.length} DAOs on{' '}
               <ResultsText
                 as="a"
-                href={activeChain?.blockExplorers?.default.url}
+                href={addresses[chainId]["blockExplorer"]}
                 target="_blank"
                 css={{
                   '&:hover': {
@@ -26,7 +27,7 @@ export default function AllDAOs({ daos }) {
                   },
                 }}
               >
-                {activeChain?.name}
+                {addresses[chainId]["name"]}
               </ResultsText>
             </ResultsText>
           }

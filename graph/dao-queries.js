@@ -93,6 +93,7 @@ export const ALL_DAOS = gql`
     }
   }
 `
+
 export const DAO_TOKEN = gql`
   query daoToken($dao: ID!) {
     tokens(where: { dao: $dao }) {

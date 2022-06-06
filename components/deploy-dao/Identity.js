@@ -5,15 +5,17 @@ import { useForm } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 
-export default function Identity({ setStep, hardMode }) {
+export default function Identity({ setStep }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
-
+  const { hardMode } = state;
+  
   const onSubmit = (data) => {
+    console.log(data)
     actions.updateAction(data)
 
     if (!hardMode) {

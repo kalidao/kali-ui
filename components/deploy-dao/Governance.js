@@ -7,7 +7,7 @@ import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { Tip } from '../elements/'
 
-export default function Governance({ setStep, hardMode }) {
+export default function Governance({ setStep }) {
   const {
     register,
     setValue,
@@ -16,6 +16,7 @@ export default function Governance({ setStep, hardMode }) {
     formState: { errors },
   } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
+  const { hardMode } = state;
 
   const onPrevious = (data) => {
     actions.updateAction(data)
@@ -29,7 +30,7 @@ export default function Governance({ setStep, hardMode }) {
     if (!hardMode) {
       setStep('founders')
     } else {
-      setStep('apps')
+      setStep('redemption')
     }
   }
 

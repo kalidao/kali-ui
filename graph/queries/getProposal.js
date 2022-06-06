@@ -2,19 +2,18 @@ import React from 'react'
 import { GRAPH_URL } from '../url'
 
 export const getProposal = async (chainId, address, serial) => {
-  console.log('infoParms', chainId, address)
+  console.log('proposalParams', chainId, address, serial)
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',
       body: JSON.stringify({
         query: `query {
             proposals(where: {
-              id: "${address.toLowerCase()}",
+              dao: "${address.toLowerCase()}",
               serial: ${serial}
             }) {
                 id
                 dao {
-                    address
                     votingPeriod
                 }
                 serial

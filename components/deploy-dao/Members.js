@@ -9,8 +9,9 @@ import { Button, Flex } from '../../styles/elements'
 import { ethers } from 'ethers'
 import { fetchEnsAddress } from '../../utils/fetchEnsAddress'
 
-export default function Members({ setStep, hardMode }) {
+export default function Members({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction })
+  const { hardMode } = state;
   const { data: account } = useAccount()
   const { data: ensName } = useEnsName()
 
@@ -30,6 +31,7 @@ export default function Members({ setStep, hardMode }) {
     control,
     name: 'founders',
   })
+  
 
   // TODO
   // .eth returning undefined
@@ -58,7 +60,7 @@ export default function Members({ setStep, hardMode }) {
       if (!hardMode) {
         setStep('id')
       } else {
-        setStep('apps')
+        setStep('crowdsale')
       }
     }
   }
@@ -80,6 +82,7 @@ export default function Members({ setStep, hardMode }) {
     <Form>
       {/* TODO: Copy last share value in next field */}
       <Flex style={{ flexDirection: 'column', gap: '0.5rem' }}>
+        {/* TODO: Add Table */}
         <Flex style={{ justifyContent: 'space-around' }}>
           <div>Account</div>
           <div>Share</div>
@@ -91,6 +94,7 @@ export default function Members({ setStep, hardMode }) {
                 <div>
                   <Input
                     id="member"
+                    variant="address"
                     {...register(`founders.${index}.member`, {
                       required: true,
                     })}
@@ -105,6 +109,7 @@ export default function Members({ setStep, hardMode }) {
                   <Input
                     id="share"
                     type="number"
+                    size="sm"
                     {...register(`founders.${index}.share`, {
                       required: true,
                       min: 1,
@@ -145,6 +150,7 @@ export default function Members({ setStep, hardMode }) {
                   share: '1000',
                 })
               }}
+              effect="film"
             >
               Add
               <PersonIcon />

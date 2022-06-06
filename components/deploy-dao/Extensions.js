@@ -7,10 +7,10 @@ import { useForm, Controller, FormProvider } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 
-export default function Extensions({ setStep, hardMode }) {
+export default function Extensions({ setStep }) {
   const methods = useForm()
   const { actions, state } = useStateMachine({ updateAction })
-  const { showCrowdsale, showRedemption } = methods.watch()
+  const { showCrowdsale, showRedemption, hardMode } = state
 
   const onPrevious = (data) => {
     actions.updateAction(data)
@@ -33,12 +33,12 @@ export default function Extensions({ setStep, hardMode }) {
       <Form>
         <FormElement>
           <Label htmlFor="redemption">Redemption</Label>
-          <Switch control={methods.control} name="showRedemption" value="showRedemption" defaultValue={false} />
+          <Switch control={methods.control} name="showRedemption" value="showRedemption" defaultValue={state["showRedemption"]} />
         </FormElement>
         {showRedemption && <Redemption />}
         <FormElement>
           <Label htmlFor="crowdsale">Crowdsale</Label>
-          <Switch control={methods.control} name="showCrowdsale" value="showCrowdsale" defaultValue={false} />
+          <Switch control={methods.control} name="showCrowdsale" value="showCrowdsale" defaultValue={state["showCrowdsale"]} />
         </FormElement>
         {showCrowdsale && <Crowdsale />}
         <Flex css={{ justifyContent: 'flex-end' }}>

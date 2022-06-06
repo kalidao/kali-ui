@@ -26,8 +26,9 @@ export const Row = ({ name, value }) => {
   )
 }
 
-export default function Confirm({ setStep, hardMode }) {
+export default function Confirm({ setStep }) {
   const { state } = useStateMachine()
+  const { hardMode } = state;
   const { data: account } = useAccount()
   const { activeChain } = useNetwork()
   const {
@@ -144,9 +145,10 @@ export default function Confirm({ setStep, hardMode }) {
         name,
         state.mission ? state.mission : null,
       )
-      const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
       console.log('docs', docs_)
 
+      const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
+      
       // get voters and shares array
 
       let voters = []
@@ -188,18 +190,29 @@ export default function Confirm({ setStep, hardMode }) {
       extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
       extensionsData.push('0x')
 
+      // redemption
+      if (state.redemption === true) {
+        const redemptionStart = state["redemption-start"]
+        console.log('redemptionStart', redemptionStart)
+        extensionsArray.push(addresses[activeChain?.id]["extensions"]["redemption"])
+      }
+      // crowdsale 
+      if (state.redemption === true) {
+       
+        extensionsArray.push(addresses[activeChain?.id]["extensions"]["redemption"])
+      }
       console.log(govSettings)
-      console.log('transferability', transferability)
-      const data = await writeAsync({
-        args: [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings],
-        overrides: {
-          gasLimit: 1050000,
-        }
-      }).catch(e => {
-        console.log('error', e.code, e.reason)
-      })
+      console.log('hard deploy params', name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings)
+      // const data = await writeAsync({
+      //   args: [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings],
+      //   overrides: {
+      //     gasLimit: 1050000,
+      //   }
+      // }).catch(e => {
+      //   console.log('error', e.code, e.reason)
+      // })
 
-      if (data.wait()) return
+      // if (data.wait()) return
     }
   }, [account, state, writeAsync])
 

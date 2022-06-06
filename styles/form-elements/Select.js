@@ -93,37 +93,20 @@ const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButton
 
 const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles)
 
-const Select = React.forwardRef(({ children, ...props }, forwardedRef) => {
-  return (
-    <SelectPrimitive.Root {...props}>
-      <StyledTrigger ref={forwardedRef}>
-        <SelectPrimitive.Value />
-        <SelectPrimitive.Icon>
-          <ChevronDownIcon />
-        </SelectPrimitive.Icon>
-        <StyledContent>
-          <SelectPrimitive.ScrollUpButton>
-            <ChevronUpIcon />
-          </SelectPrimitive.ScrollUpButton>
-          <StyledViewport>{children}</StyledViewport>
-          <SelectPrimitive.ScrollDownButton>
-            <ChevronDownIcon />
-          </SelectPrimitive.ScrollDownButton>
-        </StyledContent>
-      </StyledTrigger>
-    </SelectPrimitive.Root>
-  )
+const Select = styled('select', {
+  all: 'unset',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: '$background',
+  color: '$foreground',
+  border: 'none',
+  padding: '0.2rem',
+  fontSize: '12px'
 })
 
-const SelectItem = React.forwardRef(({ children, ...props }, forwardedRef) => {
-  return (
-    <StyledItem {...props} ref={forwardedRef}>
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-      <StyledItemIndicator>
-        <CheckIcon />
-      </StyledItemIndicator>
-    </StyledItem>
-  )
+const SelectItem = styled('option', {
+
 })
 
 const SelectNamespace = Object.assign(Select, { Item: SelectItem })

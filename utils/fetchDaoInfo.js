@@ -319,9 +319,9 @@ import { getDaoChain } from './getDaoChain'
 //   return ricardian;
 // }
 
-export const getVotingPeriod = async ({ address }) => {
+export const getVotingPeriod = async ({ chainId, address }) => {
   if (!address) return
-  const chainId = getDaoChain(address)
+  
   const { data, isError, isLoading } = useContractRead(
     {
       addressOrName: address,

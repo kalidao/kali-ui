@@ -24,6 +24,9 @@ export const getProposals = async (chainId, address) => {
                       vote
                     }
                     creationTime
+                    dao {
+                      votingPeriod
+                    }
                   }
             }
           }`,

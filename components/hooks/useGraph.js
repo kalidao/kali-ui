@@ -7,7 +7,7 @@ export const useGraph = (chainId, query, variables) => {
   const isLoading = data ? false : true
 
   useEffect(() => {
-    if (!chainId || !query) return
+    if (!chainId || !query || !variables) return
 
     const fetch = async () => {
       const data = await request(GRAPH_URL[chainId], query, variables)
@@ -15,7 +15,7 @@ export const useGraph = (chainId, query, variables) => {
     }
 
     fetch()
-  }, [chainId, query, variables])
+  }, [])
 
   return { data, isLoading }
 }

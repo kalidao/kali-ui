@@ -2,11 +2,10 @@ import React from 'react'
 import { Box, Flex, Text } from '../../../styles/elements'
 import Tag from '../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
-import { validateProposalTag } from './ProposalCard'
 import Results from './Results'
 import Votes from './Votes'
 import Description from './Description'
-import Vote from './Vote'
+import Vote from '../vote'
 import Status from './Status'
 
 export default function ProposalView({ proposal }) {

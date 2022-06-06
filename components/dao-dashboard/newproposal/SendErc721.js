@@ -17,7 +17,7 @@ import { getDaoChain, isHolder } from "../../../utils";
 import { getTokenName } from "../../../utils/fetchTokenInfo";
 import { uploadIpfs } from "../../tools/ipfsHelpers";
 import { tokens } from "../../../constants/tokens";
-import { TiWarning } from "react-icons/ti";
+import { Warning } from "../../../styles/elements";
 
 export default function SendErc721() {
   const router = useRouter();
@@ -96,6 +96,7 @@ export default function SendErc721() {
             name="tokenId"
             type="number"
             size="sm"
+            min="0"
             defaultValue={tokenId}
             onChange={(e) => setTokenId(e.target.value)}
           />

@@ -8,11 +8,12 @@ import { Flex, Button, Text } from '../../styles/elements'
 import { legalEntities } from '../../constants/legalEntities'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
 
-export default function Legal({ setStep, hardMode }) {
+export default function Legal({ setStep }) {
   const { control, watch, register, setValue, handleSubmit } = useForm()
   const watchLegal = watch('legal', false)
   const watchDocs = watch('docType', false)
   const { actions, state } = useStateMachine({ updateAction })
+  const { hardMode } = state;
 
   const onPrevious = (data) => {
     actions.updateAction(data)

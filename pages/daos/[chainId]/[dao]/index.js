@@ -1,8 +1,6 @@
 import Layout from '../../../../components/dao-dashboard/layout/'
 import { Dashboard } from '../../../../components/dao-dashboard'
-import { useGraph } from '../../../../components/hooks'
 import { useRouter } from 'next/router'
-import { DAO_TOKEN } from '../../../../graph'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { getProposals } from '../../../../graph/queries'
@@ -14,7 +12,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      proposals: result !== undefined ? result?.data?.daos[0]['proposals'] : null,
+      proposals: result?.data?.daos[0]['proposals'],
     },
   }
 }

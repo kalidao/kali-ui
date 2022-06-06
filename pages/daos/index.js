@@ -11,7 +11,8 @@ export default function DAOs() {
   // const [daos, setDaos] = useState();
   const { data, isLoading } = useGraph(activeChain?.id, ALL_DAOS)
   const daos = data?.daos
-
+  console.log('daos')
+  
   return (
     <Layout heading="All DAOs">
       {isLoading && (

@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { getVotingPeriod } from '../../../utils/fetchDaoInfo'
 import { Flex, Text } from '../../../styles/elements'
 import Info from '../../../styles/Info'
 import { prettyDate } from '../../../utils'
