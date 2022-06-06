@@ -32,8 +32,9 @@ export default function Header({ heading, props }) {
           padding: '0 1rem 0 1rem',
           justifyContent: 'space-between',
           alignItems: 'center',
-
+          gap: '5rem',
           '@media (max-width: 1040px)': {
+            justifyContent: 'flex-end',
             margin: '0',
           },
         }}
