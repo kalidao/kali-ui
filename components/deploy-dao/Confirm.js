@@ -275,7 +275,7 @@ export default function Confirm({ setStep }) {
       </Flex>}
       {data && <Flex> 
         {transaction?.confirmations}
-        <a href={`https://rinkeby.etherscan.io/tx/${data?.hash}`} target="_blank">View on Block Explorer.</a>
+        <a href={`https://rinkeby.etherscan.io/tx/${data?.hash}`} target="_blank" rel="noreferrer noopener" >View on Block Explorer.</a>
       </Flex>}
       <Flex>
         <Button variant="transparent" onClick={prev}>
