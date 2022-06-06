@@ -1,7 +1,7 @@
 import { createStitches, createCss } from '@stitches/react'
 import { globalStyles } from './globalStyles'
 
-export const { styled, keyframes } = createStitches({
+export const { styled, keyframes, getCssText } = createStitches({
   theme: {
     colors: {
       purple100: 'hsl(273, 100%, 90%)',
