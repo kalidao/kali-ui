@@ -24,7 +24,7 @@ export default function Governance({ info }) {
           </Flex>
           <Flex gap="md" align="separate">
             <Text>Token Transferable</Text>
-            <Text>{info['paused'] ? 'YES' : 'NO'}</Text>
+            <Text>{info['token']['paused'] ? 'NO' : 'YES'}</Text>
           </Flex>
           <Flex gap="md" align="separate">
             <Text>Grace Period</Text>
