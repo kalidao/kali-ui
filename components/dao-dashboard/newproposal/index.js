@@ -8,6 +8,7 @@ import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from "./gov
 import { AdminMenu, CallContract, ConfigureExtensions } from "./admin"
 import { AppsMenu, Crowdsale, SetRedemption, Tribute} from "./apps"
 import UpdateDocs from './admin/UpdateDocs'
+import Escape from './admin/Escape'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -96,12 +97,13 @@ export function NewProposalModal({ proposalProp }) {
       component: <ConfigureExtensions />,
     },
     docs: {
+      // done
       title: 'Update Documentation',
       component: <UpdateDocs />,
     },
     escape: {
-      title: 'Configure Extensions',
-      component: <ConfigureExtensions />,
+      title: 'Kill a Proposal',
+      component: <Escape />,
     },
     call: {
       title: 'Interact with External Contracts',
