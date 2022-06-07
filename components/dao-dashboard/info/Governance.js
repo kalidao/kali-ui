@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex, Text } from '../../../styles/elements'
-import { formatVotingPeriod } from "../../../utils/"
+import { formatVotingPeriod } from '../../../utils/'
 import Info from '../../../styles/Info'
 import { Spinner } from '../../elements'
 

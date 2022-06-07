@@ -3,10 +3,10 @@ import { Flex, Button, Box } from '../../../styles/elements'
 import { DialogTitle } from '../../../styles/Dialog'
 import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
-import { SendMenu, SendErc20, SendErc721, SendEth } from "./send"
-import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from "./gov"
-import { AdminMenu, CallContract, ConfigureExtensions } from "./admin"
-import { AppsMenu, Crowdsale, SetRedemption, Tribute} from "./apps"
+import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
+import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from './gov'
+import { AdminMenu, CallContract, ConfigureExtensions } from './admin'
+import { AppsMenu, Crowdsale, SetRedemption, Tribute } from './apps'
 import UpdateDocs from './admin/UpdateDocs'
 import Escape from './admin/Escape'
 

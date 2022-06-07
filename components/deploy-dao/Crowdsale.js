@@ -40,12 +40,12 @@ export default function Crowdsale({ setStep }) {
   //     purchaseToken: null,
   //     saleEnds: null,
   // },
-  
+
   return (
     <Form>
       <FormElement>
         <Label htmlFor="legal">Add structure</Label>
-        <Input 
+        <Input
           type="checkbox"
           variant="checkbox"
           control={control}
@@ -62,7 +62,7 @@ export default function Crowdsale({ setStep }) {
             <Label htmlFor="purchaseToken">Purchase Token</Label>
             <Select
               {...register('purchaseToken')}
-              defaultValue={state["purchaseToken"]}
+              defaultValue={state['purchaseToken']}
               onValueChange={(value) => setValue('purchaseToken', value)}
             >
               <Select.Item value="eth">ETH</Select.Item>
@@ -71,30 +71,55 @@ export default function Crowdsale({ setStep }) {
           </FormElement>
           <FormElement>
             <Label htmlFor="purchaseLimit">Total Purchase Limit</Label>
-            <Input type="number" name="purchaseLimit" defaultValue={state["purchaseLimit"]} placeholder="10000" {...register('purchaseLimit')} />
+            <Input
+              type="number"
+              name="purchaseLimit"
+              defaultValue={state['purchaseLimit']}
+              placeholder="10000"
+              {...register('purchaseLimit')}
+            />
           </FormElement>
           <FormElement>
             <Label htmlFor="personaLimit">Personal Purchase Limit</Label>
-            <Input type="number" name="personalLimit" defaultValue={state["personalLimit"]} placeholder="100" {...register('personalLimit')} />
+            <Input
+              type="number"
+              name="personalLimit"
+              defaultValue={state['personalLimit']}
+              placeholder="100"
+              {...register('personalLimit')}
+            />
           </FormElement>
           <FormElement>
             <Label htmlFor="purchaseMultiplier">Purchase Multiplier</Label>
-            <Input type="number" name="purchaseMultiplier" defaultValue={state["purchaseMultiplier"]} placeholder="10" {...register('purchaseMultiplier')} />
+            <Input
+              type="number"
+              name="purchaseMultiplier"
+              defaultValue={state['purchaseMultiplier']}
+              placeholder="10"
+              {...register('purchaseMultiplier')}
+            />
           </FormElement>
           <FormElement>
             <Label htmlFor="crowdsale-end">End Date</Label>
-            <Input variant="calendar" type="datetime-local" defaultValue={state["crowdsale-end"]} name="crowdsale-end" {...register('crowdsale-end')} />
+            <Input
+              variant="calendar"
+              type="datetime-local"
+              defaultValue={state['crowdsale-end']}
+              name="crowdsale-end"
+              {...register('crowdsale-end')}
+            />
           </FormElement>
-          </>)}
+        </>
+      )}
 
-          <Flex css={{ justifyContent: 'flex-end' }}>
+      <Flex css={{ justifyContent: 'flex-end' }}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>   
+      </Flex>
     </Form>
   )
 }

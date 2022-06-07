@@ -53,7 +53,7 @@ export default function UpdateQuorum() {
         console.log('error', e)
       }
     } else {
-      setWarning("Please set a quorum.")
+      setWarning('Please set a quorum.')
     }
   }
 
@@ -61,7 +61,7 @@ export default function UpdateQuorum() {
     <Flex dir="col" gap="md">
       {/* <Text>Update proposal voting period</Text> */}
       <Form>
-      <FormElement>
+        <FormElement>
           <Label htmlFor="recipient">Current Quorum</Label>
           <Text>50%</Text>
         </FormElement>

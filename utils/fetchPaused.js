@@ -7,12 +7,12 @@ export async function fetchPaused(chainId, daoAddress) {
   console.log(chainId, daoAddress)
   try {
     const provider = new ethers.providers.InfuraProvider(parseInt(chainId), process.env.NEXT_PUBLIC_INFURA_ID)
-    const contract = new ethers.Contract(daoAddress, KALIERC20_ABI, provider);
+    const contract = new ethers.Contract(daoAddress, KALIERC20_ABI, provider)
     const paused = await contract.paused()
 
     if (paused) return paused
     else return undefined
   } catch (e) {
-    console.log(e);
+    console.log(e)
   }
 }

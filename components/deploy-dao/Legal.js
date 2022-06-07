@@ -13,7 +13,7 @@ export default function Legal({ setStep }) {
   const watchLegal = watch('legal', false)
   const watchDocs = watch('docType', false)
   const { actions, state } = useStateMachine({ updateAction })
-  const { hardMode } = state;
+  const { hardMode } = state
 
   const onPrevious = (data) => {
     actions.updateAction(data)

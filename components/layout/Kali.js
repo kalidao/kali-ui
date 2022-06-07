@@ -1,21 +1,22 @@
 import React from 'react'
 import Image from 'next/image'
 import { styled } from '../../styles/stitches.config'
-import { routeHome } from '../../utils/router'
+import { useRouter } from 'next/router'
 
 const LogoContainer = styled('div', {
   padding: '8.11px 7.9px 8.6px 0.92px',
 })
 
 export default function Kali() {
+  const router = useRouter()
+
   const home = () => {
-    routeHome()
-    console.log('click')
+    router.push('/')
   }
 
   return (
     <LogoContainer>
-      <Image src="/K-logo.svg" alt="Kali" width="59.79px" height="59.79px" onClick={home} />
+      <Image src="/icons/K-logo.svg" alt="Kali" width="59.79px" height="59.79px" onClick={home} />
     </LogoContainer>
   )
 }

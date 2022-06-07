@@ -11,7 +11,7 @@ import { fetchEnsAddress } from '../../utils/fetchEnsAddress'
 
 export default function Members({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction })
-  const { hardMode } = state;
+  const { hardMode } = state
   const { data: account } = useAccount()
   const { data: ensName } = useEnsName()
 
@@ -31,7 +31,6 @@ export default function Members({ setStep }) {
     control,
     name: 'founders',
   })
-  
 
   // TODO
   // .eth returning undefined

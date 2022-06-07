@@ -5,12 +5,11 @@ import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { getVotingPeriod } from '../../../utils/fetchDaoInfo'
 
 export default function Vote({ proposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
- 
+
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
   const { data: account } = useAccount()
@@ -26,19 +25,18 @@ export default function Vote({ proposal }) {
       },
     },
   )
-  const left = new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.creationTime * 1000).getTime()
+  const left =
+    new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.creationTime * 1000).getTime()
   const disabled = left > 0 ? true : false
 
   const vote = async (approval) => {
     if (!proposal || !account) return
-    const data = await writeAsync(
-      {
-        args: [Number(proposal['serial']), Number(approval)],
-        overrides: {
-          gasLimit: 137853,
-        },
+    const data = await writeAsync({
+      args: [Number(proposal['serial']), Number(approval)],
+      overrides: {
+        gasLimit: 137853,
       },
-    )
+    })
   }
 
   return (

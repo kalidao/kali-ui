@@ -13,9 +13,9 @@ export const getServerSideProps = async (context) => {
   const address = context.params.dao
   const proposalId = context.params.proposalId
   const chainId = context.params.chainId
- 
+
   const result = await getProposal(chainId, address, proposalId)
- 
+
   return {
     props: {
       proposal: result?.data?.proposals[0],
@@ -54,7 +54,7 @@ export default function ProposalPage({ proposal }) {
           <ArrowLeftIcon />
           Back
         </Button>
-       <ProposalView proposal={proposal} />
+        <ProposalView proposal={proposal} />
       </Flex>
     </Layout>
   )

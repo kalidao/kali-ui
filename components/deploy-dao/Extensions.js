@@ -33,12 +33,22 @@ export default function Extensions({ setStep }) {
       <Form>
         <FormElement>
           <Label htmlFor="redemption">Redemption</Label>
-          <Switch control={methods.control} name="showRedemption" value="showRedemption" defaultValue={state["showRedemption"]} />
+          <Switch
+            control={methods.control}
+            name="showRedemption"
+            value="showRedemption"
+            defaultValue={state['showRedemption']}
+          />
         </FormElement>
         {showRedemption && <Redemption />}
         <FormElement>
           <Label htmlFor="crowdsale">Crowdsale</Label>
-          <Switch control={methods.control} name="showCrowdsale" value="showCrowdsale" defaultValue={state["showCrowdsale"]} />
+          <Switch
+            control={methods.control}
+            name="showCrowdsale"
+            value="showCrowdsale"
+            defaultValue={state['showCrowdsale']}
+          />
         </FormElement>
         {showCrowdsale && <Crowdsale />}
         <Flex css={{ justifyContent: 'flex-end' }}>

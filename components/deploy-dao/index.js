@@ -28,7 +28,7 @@ createStore({
   votingPeriodUnit: 'day',
   transferability: false,
   redemption: false,
-  crowdsale: false
+  crowdsale: false,
 })
 
 export default function DeployDaoWrapper() {
@@ -44,19 +44,19 @@ export default function DeployDaoWrapper() {
       title: 'Governance',
     },
     redemption: {
-      component: <Redemption setStep={setStep}/>,
+      component: <Redemption setStep={setStep} />,
       title: 'Redemption',
     },
     crowdsale: {
-      component: <Crowdsale setStep={setStep}/>,
+      component: <Crowdsale setStep={setStep} />,
       title: 'Crowdsale',
     },
     founders: {
-      component: <Members setStep={setStep}/>,
+      component: <Members setStep={setStep} />,
       title: 'Founders',
     },
     legal: {
-      component: <Legal setStep={setStep}  />,
+      component: <Legal setStep={setStep} />,
       title: 'Legal',
     },
     confirm: {

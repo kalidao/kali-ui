@@ -1,5 +1,5 @@
 import React from 'react'
-import Kali from '../elements/Kali'
+import Kali from './Kali'
 import { styled } from '../../styles/stitches.config'
 import { Flex, Text } from '../../styles/elements'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
@@ -8,7 +8,7 @@ const StyledHeader = styled(Flex, {
   // borderBottom: '1px solid $gray800',
   boxShadow:
     'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
-  background: '$gray900',
+  background: '$background',
   width: '100%',
   position: 'fixed',
   left: '0',

@@ -16,7 +16,7 @@ export default function Governance({ setStep }) {
     formState: { errors },
   } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
-  const { hardMode } = state;
+  const { hardMode } = state
 
   const onPrevious = (data) => {
     actions.updateAction(data)
@@ -106,7 +106,14 @@ export default function Governance({ setStep }) {
       </FormElement>
       <FormElement>
         <Label htmlFor="paused">Token Transferability</Label>
-        <Checkbox type="checkbox" {...register('transferability')} control={control} name="transferability" value="transferability" defaultValue={state.transferability} />
+        <Checkbox
+          type="checkbox"
+          {...register('transferability')}
+          control={control}
+          name="transferability"
+          value="transferability"
+          defaultValue={state.transferability}
+        />
       </FormElement>
       <Flex css={{ justifyContent: 'flex-end' }}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>

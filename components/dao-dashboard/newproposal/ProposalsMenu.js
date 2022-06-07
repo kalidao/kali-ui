@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
-import { Menu } from "../../../styles/proposal/Menu";
+import { Menu } from '../../../styles/proposal/Menu'
 
 export default function ProposalsMenu({ setProposal }) {
   return (

@@ -4,8 +4,6 @@ import { supportedChains } from '../constants/supportedChains'
 import { tokens } from '../constants/tokens'
 import Big from 'big.js'
 
-
-
 export function toDecimals(amount, decimals) {
   var number = ''
 

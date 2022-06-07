@@ -52,12 +52,13 @@ export const { styled, keyframes, getCssText } = createStitches({
       gray700: 'hsl(0, 0%, 30%)',
       gray800: 'hsl(0, 0%, 20%)',
       gray900: 'hsl(0, 0%, 10%)',
+      gray950: 'hsl(0, 0%, 5%)',
 
       black: 'hsl(0, 0%, 0%)',
       white: '#ffffff',
 
       // token aliases
-      background: '$gray900',
+      background: '$gray950',
       foreground: '$gray100',
       accent: '$yellow300',
       highlight: '$purple100',

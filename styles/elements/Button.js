@@ -93,7 +93,7 @@ const Button = styled('button', {
           background: 'hsl(0, 0%, 70%, 0.5)',
           color: '$gray100',
         },
-      }
+      },
     },
   },
   defaultVariants: {

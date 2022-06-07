@@ -9,17 +9,17 @@ const globalStyles = globalCss({
     {
       fontFamily: 'Light',
       src: 'url("./fonts/Px-Grotesk-Light.woff2") format("woff2")',
-      fontStyle: 'light'
+      fontStyle: 'light',
     },
     {
       fontFamily: 'Bold',
       src: 'url("./fonts/Px-Grotesk-Bold.woff2") format("woff2")',
-      fontStyle: 'bold'
+      fontStyle: 'bold',
     },
     {
       fontFamily: 'Italic',
       src: 'url("./fonts/Px-Grotesk-Italic.woff2") format("woff2")',
-      fontStyle: 'italic'
+      fontStyle: 'italic',
     },
     {
       fontFamily: 'Screen',

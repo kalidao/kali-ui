@@ -2,11 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { truncateAddress } from "./../../../../utils/formatters";
+import { truncateAddress } from './../../../../utils/formatters'
 import { Flex, Box, Text } from '../../../../styles/elements'
 import { bounce } from '../../../../styles/animation'
 import { styled } from '../../../../styles/stitches.config'
-import Tag from '../../../../styles/proposal/Tag';
+import Tag from '../../../../styles/proposal/Tag'
 import Vote from '../../vote'
 
 const Icon = styled(Image, {
@@ -33,10 +33,10 @@ export const ProposalCard = ({ proposal }) => {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-          borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
-          '&:hover': {
-            background: '$gray800',
-          },
+        borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+        '&:hover': {
+          background: '$gray800',
+        },
       }}
     >
       <Flex
@@ -94,14 +94,12 @@ export const ProposalCard = ({ proposal }) => {
             >
               {proposer}
             </Text>
-            
           </Flex>
           <Box>
             {proposal['description'].length > 100
               ? proposal['description'].slice(0, 100) + '...'
               : proposal['description']}
           </Box>
-          
         </Flex>
       </Link>
     </Flex>

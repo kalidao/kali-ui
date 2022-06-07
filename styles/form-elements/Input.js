@@ -49,7 +49,6 @@ const Input = styled('input', {
         '&:focus': {
           boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
         },
-       
       },
       calendar: {
         all: 'unset',
@@ -103,24 +102,23 @@ const Input = styled('input', {
         '&:focus': {
           boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
         },
-        
       },
       textarea: {
-        padding: '0.5rem', 
-        width: '97%', 
-        minHeight: '10vh'
+        padding: '0.5rem',
+        width: '97%',
+        minHeight: '10vh',
       },
       checkbox: {
         width: 25,
         height: 25,
-        color: '$foreground'
-      }
+        color: '$foreground',
+      },
     },
     size: {
       sm: {
-        width: '2.9rem'
-      }
-    }
+        width: '2.9rem',
+      },
+    },
   },
   defaultVariants: {
     variant: 'primary',

@@ -12,8 +12,8 @@ export default function Identity({ setStep }) {
     formState: { errors },
   } = useForm()
   const { actions, state } = useStateMachine({ updateAction })
-  const { hardMode } = state;
-  
+  const { hardMode } = state
+
   const onSubmit = (data) => {
     console.log(data)
     actions.updateAction(data)

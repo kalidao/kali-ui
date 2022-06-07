@@ -77,7 +77,12 @@ export default function CallContract() {
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">Contract Address</Label>
-          <Input name="contractAddress" type="text" defaultValue={contractAddress} onChange={(e) => setContractAddress(e.target.value)} />
+          <Input
+            name="contractAddress"
+            type="text"
+            defaultValue={contractAddress}
+            onChange={(e) => setContractAddress(e.target.value)}
+          />
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="description">Contract ABI</Label>

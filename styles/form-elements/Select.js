@@ -102,12 +102,10 @@ const Select = styled('select', {
   color: '$foreground',
   border: 'none',
   padding: '0.2rem',
-  fontSize: '12px'
+  fontSize: '12px',
 })
 
-const SelectItem = styled('option', {
-
-})
+const SelectItem = styled('option', {})
 
 const SelectNamespace = Object.assign(Select, { Item: SelectItem })
 

@@ -29,7 +29,7 @@ export const Row = ({ name, value }) => {
 
 export default function Confirm({ setStep }) {
   const { state } = useStateMachine()
-  const { hardMode } = state;
+  const { hardMode } = state
   const { data: account } = useAccount()
   const { activeChain } = useNetwork()
   const {
@@ -49,9 +49,9 @@ export default function Confirm({ setStep }) {
         console.log('success!', data)
       },
     },
-  );
+  )
   const { data: transaction, isLoading: isTransactionPending } = useWaitForTransaction({
-    hash: data?.hash
+    hash: data?.hash,
   })
 
   const validateFounders = (founders) => {
@@ -113,7 +113,7 @@ export default function Confirm({ setStep }) {
       overrides: {
         gasLimit: 1050000,
       },
-    }).catch(e => {
+    }).catch((e) => {
       console.log('error', e.code, e.reason)
     })
 
@@ -149,7 +149,7 @@ export default function Confirm({ setStep }) {
       console.log('docs', docs_)
 
       const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
-      
+
       // get voters and shares array
 
       let voters = []
@@ -193,17 +193,27 @@ export default function Confirm({ setStep }) {
 
       // redemption
       if (state.redemption === true) {
-        const redemptionStart = state["redemption-start"]
+        const redemptionStart = state['redemption-start']
         console.log('redemptionStart', redemptionStart)
-        extensionsArray.push(addresses[activeChain?.id]["extensions"]["redemption"])
+        extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
       }
-      // crowdsale 
+      // crowdsale
       if (state.redemption === true) {
-       
-        extensionsArray.push(addresses[activeChain?.id]["extensions"]["redemption"])
+        extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
       }
       console.log(govSettings)
-      console.log('hard deploy params', name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings)
+      console.log(
+        'hard deploy params',
+        name,
+        symbol,
+        docs_,
+        Number(!transferability),
+        extensionsArray,
+        extensionsData,
+        voters,
+        shares,
+        govSettings,
+      )
       // const data = await writeAsync({
       //   args: [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings],
       //   overrides: {
@@ -263,30 +273,42 @@ export default function Confirm({ setStep }) {
           />
         </Flex>
       )}
-      {isError && <Flex gap="sm" css={{
-        background: '$red500',
-        padding: '0.5rem',
-        borderRadius: 2,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        fontWeight: '800'
-      }}>
-        <ExclamationTriangleIcon />
-        {error.message}
-      </Flex>}
-      {data && <Flex> 
-        {transaction?.confirmations}
-        <a href={`https://rinkeby.etherscan.io/tx/${data?.hash}`} target="_blank" rel="noreferrer noopener" >View on Block Explorer.</a>
-      </Flex>}
+      {isError && (
+        <Flex
+          gap="sm"
+          css={{
+            background: '$red500',
+            padding: '0.5rem',
+            borderRadius: 2,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            fontWeight: '800',
+          }}
+        >
+          <ExclamationTriangleIcon />
+          {error.message}
+        </Flex>
+      )}
+      {data && (
+        <Flex>
+          {transaction?.confirmations}
+          <a href={`https://rinkeby.etherscan.io/tx/${data?.hash}`} target="_blank" rel="noreferrer noopener">
+            View on Block Explorer.
+          </a>
+        </Flex>
+      )}
       <Flex>
         <Button variant="transparent" onClick={prev}>
           Previous
         </Button>
       </Flex>
-      {!account ? <Warning warning="Your wallet is not connected. Please connect." /> : 
-      <Button variant="primary" css={{ width: '100%' }} onClick={deployKaliDao} disabled={isWritePending}>
-        {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
-      </Button>}
+      {!account ? (
+        <Warning warning="Your wallet is not connected. Please connect." />
+      ) : (
+        <Button variant="primary" css={{ width: '100%' }} onClick={deployKaliDao} disabled={isWritePending}>
+          {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
+        </Button>
+      )}
     </Flex>
   )
 }

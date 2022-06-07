@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
-import Spinner from "../../../elements/Spinner";
+import Spinner from '../../../elements/Spinner'
 
 export default function UpdateVotingPeriod() {
   const router = useRouter()
@@ -28,10 +28,8 @@ export default function UpdateVotingPeriod() {
     'votingPeriod',
     {
       chainId: Number(router.query.chainId),
-    }
+    },
   )
-
-
 
   // form
   const [unit, setUnit] = useState('min')
@@ -39,7 +37,6 @@ export default function UpdateVotingPeriod() {
   const [warning, setWarning] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
-
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -69,17 +66,15 @@ export default function UpdateVotingPeriod() {
         console.log('error', e)
       }
     } else {
-      setWarning("Please set a duration.")
+      setWarning('Please set a duration.')
     }
   }
-
-  
 
   return (
     <Flex dir="col" gap="md">
       {/* <Text>Update proposal voting period</Text> */}
       <Form>
-      <FormElement>
+        <FormElement>
           <Label htmlFor="recipient">Current Voting Period</Label>
           <Text>{isWaitingVotingPeriod ? <Spinner /> : formatVotingPeriod(votingPeriod)}</Text>
         </FormElement>
@@ -95,7 +90,7 @@ export default function UpdateVotingPeriod() {
             <Select.Item value="day">day</Select.Item>
           </Select>
         </FormElement>
-        
+
         <FormElement variant="vertical">
           <Label htmlFor="description">Proposal Note</Label>
           <Input

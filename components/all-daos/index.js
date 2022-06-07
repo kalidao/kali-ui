@@ -8,7 +8,7 @@ import { addresses } from '../../constants/addresses'
 
 export default function AllDAOs({ daos, chainId }) {
   const { activeChain } = useNetwork()
-  
+
   return (
     <>
       {daos !== undefined ? (
@@ -19,7 +19,7 @@ export default function AllDAOs({ daos, chainId }) {
               There are {daos.length} DAOs on{' '}
               <ResultsText
                 as="a"
-                href={addresses[chainId]["blockExplorer"]}
+                href={addresses[chainId]['blockExplorer']}
                 target="_blank"
                 css={{
                   '&:hover': {
@@ -27,7 +27,7 @@ export default function AllDAOs({ daos, chainId }) {
                   },
                 }}
               >
-                {addresses[chainId]["name"]}
+                {addresses[chainId]['name']}
               </ResultsText>
             </ResultsText>
           }

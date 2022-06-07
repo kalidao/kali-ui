@@ -74,9 +74,13 @@ export default function UpdateDocs() {
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current Document</Label>
-          {(prevDoc != "none") ? <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">
-            <BsFillArrowUpRightSquareFill color="white" />
-          </a> : <Text>None</Text>}
+          {prevDoc != 'none' ? (
+            <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">
+              <BsFillArrowUpRightSquareFill color="white" />
+            </a>
+          ) : (
+            <Text>None</Text>
+          )}
         </FormElement>
         <FormElement>
           <Label htmlFor="recipient">Link to new document</Label>

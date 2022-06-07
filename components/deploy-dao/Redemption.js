@@ -40,7 +40,7 @@ export default function Redemption({ setStep }) {
     <Form>
       <FormElement>
         <Label htmlFor="legal">Add structure</Label>
-        <Input 
+        <Input
           type="checkbox"
           variant="checkbox"
           control={control}
@@ -51,12 +51,18 @@ export default function Redemption({ setStep }) {
           {...register('redemption')}
         />
       </FormElement>
-      {watchRedemption && 
-      <FormElement>
-        <Label htmlFor="redemption-start">Start Date</Label>
-        <Input defaultValue={state["redemption-start"]} variant="calendar" type="datetime-local" name="redemption-start" {...register('redemption-start')} />
-      </FormElement>
-      }
+      {watchRedemption && (
+        <FormElement>
+          <Label htmlFor="redemption-start">Start Date</Label>
+          <Input
+            defaultValue={state['redemption-start']}
+            variant="calendar"
+            type="datetime-local"
+            name="redemption-start"
+            {...register('redemption-start')}
+          />
+        </FormElement>
+      )}
       <Flex css={{ justifyContent: 'flex-end' }}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
@@ -64,7 +70,7 @@ export default function Redemption({ setStep }) {
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>   
+      </Flex>
     </Form>
   )
 }
