@@ -23,7 +23,6 @@ export default function Escape() {
   })
 
   // form
-  const [proposalCount, setProposalCount] = useState([])
   const [proposalSelected, setProposalSelected] = useState(0)
   const [dropdown, setDropdown] = useState(null)
   const [warning, setWarning] = useState(null)
@@ -34,22 +33,18 @@ export default function Escape() {
     const getProposalCount = async () => {
       let count = await fetchProposalCount(daoChain, daoAddress)
       console.log('Proposal count is - ', count)
-      setProposalCount(count)
+      let array = []
+      for (let i = 1; i <= count; i++) {
+        array.push(
+          <Select.Item key={i} value={i}>
+            {i}
+          </Select.Item>,
+        )
+        setDropdown([...array])
+      }
     }
     getProposalCount()
   }, [])
-
-  useEffect(() => {
-  let array = []
-    for (let i = 1; i <= proposalCount; i++) {
-      array.push(
-        <Select.Item key={i} value={i}>
-          {i}
-        </Select.Item>,
-      )
-      setDropdown([...array])
-    }
-  }, [proposalCount])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -82,13 +77,18 @@ export default function Escape() {
     }
   }
 
+  const handleProposalChange = (e) => {
+    console.log(e.target.value)
+    setProposalSelected(e.target.value)
+  }
+
   return (
     <Flex dir="col" gap="md">
       <Text>Escape proposal can help with unstucking a proposal</Text>
       <Form>
         <FormElement>
           <Label htmlFor="type">Proposal to Kill</Label>
-          <Select name="type" onValueChange={(value) => setProposalSelected(value)} defaultValue={proposalSelected}>
+          <Select name="type" onChange={handleProposalChange} defaultValue={proposalSelected}>
             <Select.Item value={0}>Select</Select.Item>
             {dropdown}
           </Select>
