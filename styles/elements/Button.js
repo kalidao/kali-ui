@@ -14,16 +14,16 @@ const Button = styled('button', {
     },
     variant: {
       brutal: {
-        backgroundColor: 'hsl(37, 100%, 99%)',
-        border: '1.5px solid hsl(37, 100%, 40%)',
+        backgroundColor: '$background',
+        border: '2px solid $green100',
         borderRadius: '30px',
-        boxShadow: 'hsl(37, 100%, 40%)4px 4px 0 0',
-        color: '$gray900',
+        boxShadow: `$green100 4px 4px 0 0`,
+        color: '$gray100',
         cursor: 'pointer',
         display: 'inline-block',
         fontWeight: '600',
         fontSize: '18px',
-        padding: '0 18px',
+        padding: '0px 8px',
         fontFamily: 'Screen',
         lineHeight: '35px',
         textAlign: 'center',
@@ -33,7 +33,7 @@ const Button = styled('button', {
         touchAction: 'manipulation',
 
         '&:hover': {
-          backgroundColor: '#fff',
+          border: '2px solid $green300',
         },
         '&:active': {
           boxShadow: 'hsl(37, 100%, 40%) 2px 2px 0 0',
