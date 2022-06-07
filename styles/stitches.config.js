@@ -1,5 +1,4 @@
-import { createStitches, createCss } from '@stitches/react'
-import { globalStyles } from './globalStyles'
+import { createStitches } from '@stitches/react'
 
 export const { styled, keyframes, getCssText } = createStitches({
   theme: {

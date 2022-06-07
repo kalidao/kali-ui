@@ -1,11 +1,8 @@
 import Layout from '../components/layout'
-import globalStyles from '../styles/globalStyles'
 import MyDAOs from '../components/my-daos'
 import NewDaoSquare from '../components/my-daos/NewDaoSquare'
 import { useNetwork, useAccount } from 'wagmi'
-import { GRAPH_URL, USER_DAOS } from '../graph'
-import { request } from 'graphql-request'
-import { useState, useEffect } from 'react'
+import { USER_DAOS } from '../graph'
 import { Text } from '../styles/elements'
 import { useGraph } from '../components/hooks/useGraph'
 

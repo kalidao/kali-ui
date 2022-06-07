@@ -2,7 +2,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import { apiProvider, configureChains, getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import { chain, createClient, WagmiProvider } from 'wagmi'
 import { MoralisProvider } from 'react-moralis'
-import { GRAPH_URL } from '../graph/'
+import globalStyles from '../styles/globalStyles'
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.rinkeby],
@@ -21,6 +21,8 @@ const wagmiClient = createClient({
 })
 
 function MyApp({ Component, pageProps }) {
+  globalStyles()
+
   return (
     <WagmiProvider client={wagmiClient}>
       <RainbowKitProvider
