@@ -35,12 +35,8 @@ export default function CallContract() {
   })
 
   // form
-  const [type, setType] = useState('dai')
-  const [recipient, setRecipient] = useState(null)
-  const [amount, setAmount] = useState(null)
   const [contractAddress, setContractAddress] = useState(null)
   const [contractAbi, setContractAbi] = useState(null)
-  const [tokenDecimals, setTokenDecimals] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
 
@@ -51,35 +47,6 @@ export default function CallContract() {
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
-
-    let asset
-    let payload
-    let iface = new ethers.utils.Interface(erc20ABI)
-
-    switch (type) {
-      case 'dai':
-        asset = activeChain?.id && tokens[activeChain.id]['DAI']['address']
-        amount = ethers.utils.parseUnits(amount, 18)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
-        break
-      case 'usdc':
-        asset = activeChain?.id && tokens[activeChain.id]['USDC']['address']
-        amount = ethers.utils.parseUnits(amount, 6)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
-        break
-      case 'weth':
-        asset = activeChain?.id && tokens[activeChain.id]['WETH']['address']
-        amount = ethers.utils.parseUnits(amount, 18)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
-        break
-      case 'custom':
-        asset = contractAddress
-        amount = ethers.utils.parseUnits(amount, tokenDecimals)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
-        break
-      default:
-        Error('Invalid type')
-    }
 
     let docs
     if (file) {
