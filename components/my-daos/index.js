@@ -5,6 +5,7 @@ import { Flex, Text } from '../../styles/elements'
 import { useNetwork, useAccount } from 'wagmi'
 import { useGraph } from '../hooks/useGraph'
 import { USER_DAOS } from '../../graph'
+import Welcome from './Welcome'
 
 export const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
@@ -64,6 +65,7 @@ export default function MyDAOs() {
       <Results>
         {daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}
         <NewDao />
+        {!account && !daos && <Welcome />}
       </Results>
     </Flex>
   )
