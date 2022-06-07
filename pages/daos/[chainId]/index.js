@@ -1,7 +1,6 @@
 import Layout from '../../../components/layout'
 import AllDAOs from '../../../components/all-daos'
 import NewDaoSquare from '../../../components/my-daos/NewDaoSquare'
-import { Spinner } from '../../../components/elements/'
 import { useRouter } from 'next/router'
 import { GRAPH_URL } from '../../../graph'
 import { addresses } from '../../../constants/addresses'

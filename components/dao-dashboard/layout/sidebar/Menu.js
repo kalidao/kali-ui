@@ -5,11 +5,10 @@ import { styled } from '../../../../styles/stitches.config'
 import { bounce } from '../../../../styles/animation'
 import { useRouter } from 'next/router'
 import { CHECK_APPS } from '../../../../graph'
-import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
+import { RiInformationFill, RiInformationLine } from 'react-icons/ri'
+import { BsFillPiggyBankFill, BsPiggyBank, BsPeople, BsFillPeopleFill, BsPiggyBankFill } from 'react-icons/bs'
 import { GoHome } from 'react-icons/go'
-import { HiOutlineInformationCircle } from 'react-icons/hi'
-import { GiCoins } from 'react-icons/gi'
-import { useGraph } from '../../../hooks/'
+import { HiHome, HiOutlineHome } from 'react-icons/hi'
 
 const Icon = styled('span', {
   display: 'flex',
@@ -19,14 +18,18 @@ const Icon = styled('span', {
   maxWidth: '2rem',
   borderRadius: '100%',
 
-  '&:hover': {
-    animation: `${bounce} 0.5s infinite`,
+  '& svg': {
+    color: `$gray100`,
+    '&:hover': {
+      color: `$gray300`,
+    },
   },
 })
 
 export default function Menu() {
   const router = useRouter()
-
+  const path = router.pathname
+  console.log('path', router.pathname)
   return (
     <Flex
       css={{
@@ -50,10 +53,13 @@ export default function Menu() {
           }}
           passHref
         >
-          <GoHome size={30} />
+          {path.includes('treasury') || path.includes('members', 'info') || path.includes('info') ? (
+            <HiOutlineHome size={30} />
+          ) : (
+            <HiHome size={30} />
+          )}
         </Link>
       </Icon>
-
       <Icon>
         <Link
           href={{
@@ -65,7 +71,7 @@ export default function Menu() {
           }}
           passHref
         >
-          <BsPiggyBank size={30} />
+          {path.includes('treasury') ? <BsFillPiggyBankFill size={30} /> : <BsPiggyBank size={30} />}
         </Link>
       </Icon>
 
@@ -80,7 +86,7 @@ export default function Menu() {
           }}
           passHref
         >
-          <BsFillPeopleFill size={30} />
+          {path.includes('members') ? <BsFillPeopleFill size={30} /> : <BsPeople size={30} />}
         </Link>
       </Icon>
 
@@ -109,7 +115,7 @@ export default function Menu() {
           }}
           passHref
         >
-          <HiOutlineInformationCircle size={30} />
+          {path.includes('info') ? <RiInformationFill size={30} /> : <RiInformationLine size={30} />}
         </Link>
       </Icon>
     </Flex>
