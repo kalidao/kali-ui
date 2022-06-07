@@ -4,6 +4,7 @@ import NewDaoSquare from '../../../components/my-daos/NewDaoSquare'
 import { Spinner } from '../../../components/elements/'
 import { useRouter } from 'next/router'
 import { GRAPH_URL } from '../../../graph'
+import { addresses } from '../../../constants/addresses'
 
 export async function getStaticPaths() {
     return {paths: [
@@ -41,16 +42,7 @@ export default function DAOs({ daos }) {
   const chainId = router.query.chainId
   console.log('dao', daos?.data?.daos)
   return (
-    <Layout heading="All DAOs">
-      {/* {isLoading && (
-        <Spinner
-          css={{
-            position: 'absolute',
-            top: '50%',
-            right: '50%',
-          }}
-        />
-      )} */}
+    <Layout heading={`DAOs: ${addresses[chainId]["name"]}`}>
       {<AllDAOs daos={daos?.data?.daos} chainId={chainId} />}
       <NewDaoSquare />
     </Layout>
