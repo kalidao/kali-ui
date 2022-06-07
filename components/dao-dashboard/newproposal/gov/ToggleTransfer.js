@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import KALIERC20_ABI from '../../../../abi/KaliERC20.json'
 import { AddressZero } from '@ethersproject/constants'
+import { fetchPaused } from '../../../../utils/fetchPaused'
 
 export default function ToggleTransfer() {
   const router = useRouter()
@@ -29,14 +30,8 @@ export default function ToggleTransfer() {
 
   useEffect(() => {
     const getStatus = async () => {
-      try {
-        const tokenInstance = new ethers.Contract(daoAddress, KALIERC20_ABI, signer)
-        const _status = await tokenInstance.paused()
-        setStatus(_status)
-        console.log(_status)
-      } catch (e) {
-        console.log(e)
-      }
+      const paused = await fetchPaused(daoChainId, daoAddress)
+      setStatus(paused)
     }
     getStatus()
   }, [])
