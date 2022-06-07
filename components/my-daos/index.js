@@ -1,7 +1,10 @@
 import { styled } from '../../styles/stitches.config'
 import DaoCard from './DaoCard'
 import NewDao from './NewDao'
-import { Flex } from '../../styles/elements'
+import { Flex, Text } from '../../styles/elements'
+import { useNetwork, useAccount } from 'wagmi'
+import { useGraph } from '../hooks/useGraph'
+import { USER_DAOS } from '../../graph'
 
 export const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
@@ -41,16 +44,23 @@ export const Results = styled('div', {
   },
 })
 
-export default function MyDAOs({ daos }) {
+export default function MyDAOs() {
+  const { activeChain } = useNetwork()
+  const { data: account } = useAccount()
+  const { data, isLoading } = useGraph(activeChain?.id, USER_DAOS, {
+    address: account?.address,
+  })
+  const daos = data?.['members']
+
   return (
     <Flex dir="col" css={{ background: '$background', gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
-      {daos.length > 1 ? (
+      {daos && (daos.length > 1 ? (
         <ResultsText> You are in {daos.length} DAOs </ResultsText>
       ) : daos.length === 1 ? (
         <ResultsText>You are in {daos.length} DAO</ResultsText>
       ) : (
         <ResultsText>You are not in any DAO. Create one!</ResultsText>
-      )}
+      ))}
       <Results>
         {daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}
         <NewDao />

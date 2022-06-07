@@ -7,20 +7,9 @@ import { Text } from '../styles/elements'
 import { useGraph } from '../components/hooks/useGraph'
 
 export default function Home() {
-  const { activeChain } = useNetwork()
-  const { data: account } = useAccount()
-  const { data, isLoading } = useGraph(activeChain?.id, USER_DAOS, {
-    address: account?.address,
-  })
-  const daos = data?.['members']
-
   return (
     <Layout heading="DAOs">
-      {isLoading && <Text color="foreground" css={{
-        marginTop: '6rem',
-        marginLeft: '5rem',
-      }}>Please connect to view your active DAOs.</Text>}
-      {daos && <MyDAOs daos={daos} />}
+      <MyDAOs />
       <NewDaoSquare />
     </Layout>
   )

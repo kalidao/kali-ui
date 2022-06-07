@@ -1,6 +1,6 @@
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
-import { Button, Flex, Text } from '../../styles/elements'
+import { Button, Flex, Text, Warning } from '../../styles/elements'
 import { useAccount, useContractWrite, useNetwork, useWaitForTransaction } from 'wagmi'
 import { useCallback } from 'react'
 import { addresses } from '../../constants/addresses'
@@ -9,6 +9,7 @@ import { votingPeriodToSeconds, validateDocs } from '../../utils/'
 import { computeKaliAddress } from '../../utils/'
 import { ethers } from 'ethers'
 import { CheckIcon, Cross1Icon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export const Row = ({ name, value }) => {
   return (
@@ -282,9 +283,10 @@ export default function Confirm({ setStep }) {
           Previous
         </Button>
       </Flex>
+      {!account ? <Warning warning="Your wallet is not connected. Please connect." /> : 
       <Button variant="primary" css={{ width: '100%' }} onClick={deployKaliDao} disabled={isWritePending}>
         {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
-      </Button>
+      </Button>}
     </Flex>
   )
 }
