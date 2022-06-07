@@ -7,6 +7,7 @@ import { SendMenu, SendErc20, SendErc721, SendEth } from "./send"
 import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from "./gov"
 import { AdminMenu, CallContract, ConfigureExtensions } from "./admin"
 import { AppsMenu, Crowdsale, SetRedemption, Tribute} from "./apps"
+import UpdateDocs from './admin/UpdateDocs'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -95,8 +96,8 @@ export function NewProposalModal({ proposalProp }) {
       component: <ConfigureExtensions />,
     },
     docs: {
-      title: 'Configure Extensions',
-      component: <ConfigureExtensions />,
+      title: 'Update Documentation',
+      component: <UpdateDocs />,
     },
     escape: {
       title: 'Configure Extensions',
