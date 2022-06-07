@@ -78,7 +78,6 @@ export default function DeployDaoWrapper() {
           <Text>{steps[step]['title']}</Text>
           <Toggle />
         </DialogTitle>
-
         <Progress value={(step / (steps.length - 1)) * 100}>
           <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
         </Progress>

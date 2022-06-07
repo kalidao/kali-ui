@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Flex } from '../../styles/elements'
 import { Results, ResultsText } from '../my-daos/'
 import NewDao from '../my-daos/NewDao'
 import DaoCard from '../my-daos/DaoCard'
-import { useNetwork } from 'wagmi'
 import { addresses } from '../../constants/addresses'
 
 export default function AllDAOs({ daos, chainId }) {
-  const { activeChain } = useNetwork()
-
   return (
     <>
       {daos !== undefined ? (
@@ -32,7 +29,7 @@ export default function AllDAOs({ daos, chainId }) {
             </ResultsText>
           }
           <Results>
-            {daos && daos.map((dao) => <DaoCard key={dao['id']} dao={dao} />)}
+            {daos && daos.map((dao) => <DaoCard key={dao['id']} dao={dao} chain={chainId} />)}
             <NewDao />
           </Results>
         </Flex>
