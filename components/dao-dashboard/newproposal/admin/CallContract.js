@@ -201,7 +201,7 @@ export default function CallContract() {
         {inputs == null ? null : (
           <div id="inputFields">
             {inputs.map((input, index) => (
-              <FormElement id="inputFields">
+              <FormElement id="inputFields" key={index}>
                 <Text>{input['name']}</Text>
                 <Input onChange={onInputChange} />
               </FormElement>
