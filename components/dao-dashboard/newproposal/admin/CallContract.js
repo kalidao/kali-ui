@@ -179,7 +179,7 @@ export default function CallContract() {
             <Label htmlFor="amount">Read Functions</Label>
             <Text>
               {' '}
-              <a href={etherscanLink} target="_blank">
+              <a href={etherscanLink} target="_blank" rel="noopener noreferrer">
                 Etherscan
               </a>
             </Text>
