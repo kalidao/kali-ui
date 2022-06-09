@@ -14,8 +14,8 @@ function MembersMenu({ setProposal }) {
       <Menu>
         <Menu.Item onClick={() => setProposal('addMember')}>Add Member</Menu.Item>
         <Menu.Item onClick={() => setProposal('removeMember')}>Remove Member</Menu.Item>
-        <Menu.Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Menu.Item>
-        <Menu.Item onClick={() => setProposal('quit')}>Quit</Menu.Item>
+        {/* <Menu.Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Menu.Item> */}
+        {/* <Menu.Item onClick={() => setProposal('quit')}>Quit</Menu.Item> */}
       </Menu>
       <Button variant="back" onClick={() => setProposal('menu')}>
         <DoubleArrowLeftIcon />
