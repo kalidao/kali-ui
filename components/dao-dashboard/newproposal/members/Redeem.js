@@ -4,14 +4,15 @@ import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
-import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import { addresses } from '../../../../constants/addresses'
+import { Warning } from '../../../../styles/elements'
 
 export default function Redeem() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
+  const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
@@ -22,40 +23,24 @@ export default function Redeem() {
 
   // form
   const [amount, setAmount] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
+  const [warning, setWarning] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
-    amount = ethers.utils.parseEther(amount).toString()
+    console.log(amount)
 
-    let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Add Member Proposal', file)
+    if (amount <= 0) {
+      setWarning('Please input a valid amount.')
+      return
     } else {
-      docs = description
+      amount = ethers.utils.parseEther(amount).toString()
     }
-
-    // console.log(
-    //   "Proposal Params - ",
-    //   1,
-    //   docs,
-    //   [recipient],
-    //   [amount],
-    //   [Array(0)]
-    // );
-
+    console.log('Proposal Params - ', redemptionAddress, amount, '0x')
     try {
-      // const tx = await kalidao.propose(
-      //   1,
-      //   docs,
-      //   [recipient],
-      //   [amount],
-      //   [Array(0)]
-      // );
-      // console.log("tx", tx);
+      const tx = await kalidao.callExtension(redemptionAddress, 0, '0x')
+      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }
@@ -63,26 +48,13 @@ export default function Redeem() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Redeem asset from DAO treasury by burning inputted amount of DAO tokens</Text>
+      <Text>Redeem assets from DAO treasury by burning select amount of DAO tokens</Text>
       <Form>
         <FormElement>
           <Label htmlFor="amount">Amount</Label>
-          <Input name="amount" type="number" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
+          <Input name="amount" type="number" onChange={(e) => setAmount(e.target.value)} />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
+        {warning && <Warning warning={warning} />}
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
