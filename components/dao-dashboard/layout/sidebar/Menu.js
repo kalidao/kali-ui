@@ -29,7 +29,7 @@ const Icon = styled('span', {
 export default function Menu() {
   const router = useRouter()
   const path = router.pathname
-  console.log('path', router.pathname)
+
   return (
     <Flex
       css={{
