@@ -29,7 +29,6 @@ export default function SetRedemption() {
   const [dai, setDai] = useState(false)
   const [usdc, setUsdc] = useState(false)
   const [weth, setWeth] = useState(false)
-  const [eth, setEth] = useState(false)
   const [redemptionStatus, setRedemptionStatus] = useState('fetching...')
   const [redemptionStart, setRedemptionStart] = useState(null)
   const [toggleRedemption, setToggleRedemption] = useState(null)
@@ -54,7 +53,7 @@ export default function SetRedemption() {
     const tokenArray = []
     dai ? tokenArray.push(tokens[daoChainId]['DAI']['address']) : null
     usdc ? tokenArray.push(tokens[daoChainId]['USDC']['address']) : null
-    weth ? tokenArray.push(tokens[daoChainId]['weth']['address']) : null
+    weth ? tokenArray.push(tokens[daoChainId]['WETH']['address']) : null
 
     // Redemption time
     redemptionStart = Date.parse(redemptionStart) / 1000
@@ -162,17 +161,6 @@ export default function SetRedemption() {
             value={weth}
             defaultValue={weth}
             onChange={() => setWeth(!weth)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">ETH</Label>
-          <Input
-            type="checkbox"
-            variant="checkbox"
-            name="eth"
-            value={eth}
-            defaultValue={eth}
-            onChange={() => setEth(!eth)}
           />
         </FormElement>
         <FormElement>
