@@ -6,10 +6,12 @@ import { useCallback } from 'react'
 import { addresses } from '../../constants/addresses'
 import FACTORY_ABI from '../../abi/KaliDAOfactory.json'
 import { votingPeriodToSeconds, validateDocs } from '../../utils/'
-import { computeKaliAddress } from '../../utils/'
 import { ethers } from 'ethers'
 import { CheckIcon, Cross1Icon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../styles/elements/Accordion'
+import { GiToken } from 'react-icons/gi'
+import { RiGovernmentFill, RiAppsFill } from 'react-icons/ri'
+import { GoLaw } from 'react-icons/go'
 
 export const Row = ({ name, value }) => {
   return (
@@ -17,7 +19,7 @@ export const Row = ({ name, value }) => {
       dir="row"
       align="separate"
       css={{
-        boxShadow: 'rgba(30, 30, 30, 0.7) 1px 1px 6px 0px inset, rgba(30, 30, 30, 0.7) -1px -1px 6px 1px inset',
+        boxShadow: 'rgba(10, 10, 10, 0.9) 1px 1px 6px 0px inset, rgba(10, 10, 10, 0.9) -1px -1px 6px 1px inset',
         padding: '0.5rem',
       }}
     >
@@ -66,100 +68,43 @@ export default function Confirm({ setStep }) {
     return { voters, shares }
   }
 
-  const deployEasyDao = async () => {
-    const { name, symbol, founders } = state
+  const deployKaliDao = useCallback(async () => {
+    if (!account || !activeChain) return
 
-    const voteTime = votingPeriodToSeconds(2, 'day')
-
-    // voter, shares
-    const { voters, shares } = validateFounders(founders)
-
-    // no quorum
-    // simple majority
-    // supermajority set to 52 to avoid revert
-    const govSettings = new Array(voteTime, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-    // extensions
-    const extensionsArray = new Array()
-    const extensionsData = new Array()
-
-    // tribute
-    extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
-    extensionsData.push('0x')
-
-    // docs
-    const docs = 'none'
-    //   image:
-    //   socialLink:
-    //   agreement:
-    // }
-
-    // ricardian = ''
-    console.log(
-      'deploy param basic',
+    const {
       name,
       symbol,
-      docs,
-      Number(true),
-      extensionsArray,
-      extensionsData,
-      voters,
-      shares,
-      govSettings,
+      transferability,
+      votingPeriod,
+      votingPeriodUnit,
+      quorum,
+      approval,
+      founders,
+      legal,
+      docType,
+      email,
+    } = state
+
+    const docs_ = validateDocs(
+      docType,
+      state.existingDocs ? state.existingDocs : null,
+      name,
+      state.mission ? state.mission : null,
     )
+    console.log('docs', docs_)
 
-    const data = await writeAsync({
-      args: [name, symbol, docs, Number(true), extensionsArray, extensionsData, voters, shares, govSettings],
-      overrides: {
-        gasLimit: 1050000,
-      },
-    }).catch((e) => {
-      console.log('error', e.code, e.reason)
-    })
+    const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
 
-    if (data.wait()) return
-  }
+    // get voters and shares array
 
-  const deployKaliDao = useCallback(async () => {
-    if (!account) return
+    let voters = []
+    let shares = []
+    for (let i = 0; i < founders.length; i++) {
+      voters.push(founders[i]['member'])
+      shares.push(founders[i]['share'])
+    }
 
-    if (!hardMode) {
-      deployEasyDao()
-    } else {
-      const {
-        name,
-        symbol,
-        transferability,
-        votingPeriod,
-        votingPeriodUnit,
-        quorum,
-        approval,
-        founders,
-        legal,
-        docType,
-        email,
-      } = state
-
-      const docs_ = validateDocs(
-        docType,
-        state.existingDocs ? state.existingDocs : null,
-        name,
-        state.mission ? state.mission : null,
-      )
-      console.log('docs', docs_)
-
-      const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
-
-      // get voters and shares array
-
-      let voters = []
-      let shares = []
-      for (let i = 0; i < founders.length; i++) {
-        voters.push(founders[i]['member'])
-        shares.push(founders[i]['share'])
-      }
-
-      /* govSettings
+    /* govSettings
     0 : votingPeriod
     1: gracePeriod
     2: quorum
@@ -177,33 +122,45 @@ export default function Confirm({ setStep }) {
     14: proposalVoteTypes[ProposalType.ESCAPE]
     15: proposalVoteTypes[ProposalType.DOCS]
     */
-      let govSettings
-      if (approval > 51) {
-        govSettings = new Array(voteTime, 0, quorum, approval, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)
-      } else {
-        govSettings = new Array(voteTime, 0, quorum, 52, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-      }
+    let govSettings
+    if (approval > 51) {
+      govSettings = new Array(voteTime, 0, quorum, approval, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)
+    } else {
+      govSettings = new Array(voteTime, 0, quorum, 52, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+    }
 
-      const extensionsArray = new Array()
-      const extensionsData = new Array()
+    const extensionsArray = new Array()
+    const extensionsData = new Array()
 
-      // tribute
-      extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
-      extensionsData.push('0x')
+    // tribute
+    extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
+    extensionsData.push('0x')
 
-      // redemption
-      if (state.redemption === true) {
-        const redemptionStart = state['redemption-start']
-        console.log('redemptionStart', redemptionStart)
-        extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
-      }
-      // crowdsale
-      if (state.redemption === true) {
-        extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
-      }
-      console.log(govSettings)
-      console.log(
-        'hard deploy params',
+    // redemption
+    if (state.redemption === true) {
+      const redemptionStart = state['redemption-start']
+      console.log('redemptionStart', redemptionStart)
+      extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
+    }
+    // crowdsale
+    if (state.redemption === true) {
+      extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
+    }
+    console.log(govSettings)
+    console.log(
+      'hard deploy params',
+      name,
+      symbol,
+      docs_,
+      Number(!transferability),
+      extensionsArray,
+      extensionsData,
+      voters,
+      shares,
+      govSettings,
+    )
+    const data = await writeAsync({
+      args: [
         name,
         symbol,
         docs_,
@@ -213,18 +170,13 @@ export default function Confirm({ setStep }) {
         voters,
         shares,
         govSettings,
-      )
-      // const data = await writeAsync({
-      //   args: [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings],
-      //   overrides: {
-      //     gasLimit: 1050000,
-      //   }
-      // }).catch(e => {
-      //   console.log('error', e.code, e.reason)
-      // })
-
-      // if (data.wait()) return
-    }
+      ],
+      overrides: {
+        gasLimit: 1050000,
+      },
+    }).catch((e) => {
+      console.log('error', e.code, e.reason)
+    })
   }, [account, state, writeAsync])
 
   const prev = () => {
@@ -248,31 +200,91 @@ export default function Confirm({ setStep }) {
     }
   }
 
+  const DeploymentInfo = () => {
+    return (
+      <Accordion type="single" defaultValue="token" collapsible>
+        <AccordionItem value="token">
+          <AccordionTrigger>
+            <Flex
+              css={{
+                gap: '8px',
+              }}
+            >
+              <GiToken />
+              Token
+            </Flex>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Row name="Name" value={state.name} />
+            <Row name="Symbol" value={state.symbol} />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="gov">
+          <AccordionTrigger>
+            <Flex
+              css={{
+                gap: '8px',
+              }}
+            >
+              <RiGovernmentFill />
+              Governance
+            </Flex>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Row name="Participation Needed" value={`${state.quorum}%`} />
+            <Row name="Approval Needed" value={`${state.approval}%`} />
+            <Row
+              name="Voting Period"
+              value={`${state.votingPeriod} ${formatVotingPeriodUnit(state.votingPeriodUnit)}`}
+            />
+            <Row
+              name="Token Transferability"
+              value={state.transferability === true ? <CheckIcon color="green" /> : <Cross1Icon color="red" />}
+            />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="apps">
+          <AccordionTrigger>
+            <Flex
+              css={{
+                gap: '8px',
+              }}
+            >
+              <RiAppsFill />
+              Apps
+            </Flex>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Row name="Tribute" value={<CheckIcon color="green" />} />
+            <Row name="Crowdsale" value={state.crowdsale ? <CheckIcon color="green" /> : <Cross1Icon color="red" />} />
+            <Row
+              name="Redemption"
+              value={state.redemption ? <CheckIcon color="green" /> : <Cross1Icon color="red" />}
+            />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="legal">
+          <AccordionTrigger>
+            <Flex
+              css={{
+                gap: '8px',
+              }}
+            >
+              <GoLaw />
+              Legal
+            </Flex>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Row name="Entity" value={hardMode ? <CheckIcon /> : <Cross1Icon color="red" />} />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }
+
   return (
     <Flex dir="col">
-      <Row name="Name" value={state.name} />
-      <Row name="Symbol" value={state.symbol} />
-      {hardMode === false ? (
-        <Flex dir="col">
-          <Row name="Voting Period" value="2 Days" />
-          <Row name="Voting Type" value="Simple Majority" />
-          <Row name="Token Transferable" value={<Cross1Icon color="red" />} />
-        </Flex>
-      ) : (
-        <Flex dir="col">
-          <Row name="Participation Needed" value={`${state.quorum}%`} />
-          <Row name="Approval Needed" value={`${state.approval}%`} />
-          <Row name="Voting Period" value={`${state.votingPeriod} ${formatVotingPeriodUnit(state.votingPeriodUnit)}`} />
-          <Row
-            name="Voting Type"
-            value={state.approval > 51 ? 'Supermajority with Quorum' : 'Simple Majority with Quorum'}
-          />
-          <Row
-            name="Token Transferability"
-            value={state.transferability === true ? <CheckIcon color="green" /> : <Cross1Icon color="red" />}
-          />
-        </Flex>
-      )}
+      <DeploymentInfo />
       {isError && (
         <Flex
           gap="sm"

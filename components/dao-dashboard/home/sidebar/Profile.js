@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from '../../../../styles/stitches.config'
 import { Button, Flex, Text } from '../../../../styles/elements'
 import { Dialog, DialogTrigger, DialogContent } from '../../../../styles/Dialog'
@@ -10,23 +10,28 @@ import { useBalance } from 'wagmi'
 import { ethers } from 'ethers'
 import { useGraph } from '../../../hooks'
 import Info from '../../../../styles/Info'
+import { getMembers } from '../../../../graph/queries'
 
 export default function ProfileComponent({ dao }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = Number(router.query.chainId)
+  const [members, setMembers] = useState()
   const { data: balance } = useBalance({
     addressOrName: daoAddress,
     chainId: daoChain,
     watch: true,
   })
-  const { data, isLoading } = useGraph(daoChain, DAO_MEMBERS, {
-    dao: daoAddress,
-  })
 
-  const members = data && data['daos'][0]['members'].length
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const result = await getMembers(Number(daoChain), daoAddress)
+      console.log('member data', result?.data?.daos?.[0]?.members)
+      setMembers(result?.data?.daos?.[0]?.members)
+    }
 
-  console.log('members', members)
+    fetchMembers()
+  }, [])
 
   return (
     <Info heading="About">
@@ -51,7 +56,16 @@ export default function ProfileComponent({ dao }) {
               },
             }}
           >
-            <Text color="accent">{balance && ethers.utils.formatUnits(balance.value, balance.decimals)}</Text>
+            <Text
+              color="accent"
+              css={{
+                display: 'flex',
+                gap: '5px',
+              }}
+            >
+              {balance && ethers.utils.formatUnits(balance.value, balance.decimals)}
+              {ethers.constants.EtherSymbol}
+            </Text>
             <Text>Balance</Text>
           </Flex>
         </Link>
@@ -75,7 +89,7 @@ export default function ProfileComponent({ dao }) {
               },
             }}
           >
-            <Text color="accent">{members}</Text>
+            <Text color="accent">{members?.length}</Text>
             <Text>Members</Text>
           </Flex>
         </Link>

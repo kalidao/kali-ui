@@ -25,7 +25,10 @@ const Flex = styled('div', {
 
 createStore({
   hardMode: false,
+  votingPeriod: '5',
   votingPeriodUnit: 'day',
+  quorum: '20',
+  approval: '60',
   transferability: false,
   redemption: false,
   crowdsale: false,

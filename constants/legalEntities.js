@@ -55,6 +55,6 @@ export const legalEntities = {
     email: false,
     mission: false,
     input: true,
-    message: 'We will contact you to provide options for your desired entity type and the associated costs.',
+    message: 'The provided document will be linked to your DAO.',
   },
 }
