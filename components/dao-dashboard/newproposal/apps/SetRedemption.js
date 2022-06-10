@@ -59,13 +59,13 @@ export default function SetRedemption() {
     redemptionStart = Date.parse(redemptionStart) / 1000
 
     console.log(toggleRedemption)
-    const setRedemption = 0
+    const _toggleRedemption = 0
     // Activate / Deactivate Redemption
     if (toggleRedemption && redemptionStatus === 'Inactive') {
-      setRedemption = 1
+      _toggleRedemption = 1
     }
     if (toggleRedemption && redemptionStatus === 'Active') {
-      setRedemption = 1
+      _toggleRedemption = 1
     }
 
     // Prop payload
@@ -91,7 +91,7 @@ export default function SetRedemption() {
       9,
       docs,
       [addresses[daoChainId]['extensions']['redemption']],
-      [setRedemption],
+      [_toggleRedemption],
       [payload],
     )
 
@@ -100,7 +100,7 @@ export default function SetRedemption() {
         9, // EXTENSION prop
         docs,
         [addresses[daoChainId]['extensions']['redemption']],
-        [setRedemption],
+        [_toggleRedemption],
         [payload],
       )
       console.log('tx', tx)
