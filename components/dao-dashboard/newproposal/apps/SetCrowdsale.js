@@ -46,19 +46,19 @@ export default function SetCrowdsale() {
   const [terms, setTerms] = useState(null)
   const [crowdsaleEnd, setCrowdsaleEnd] = useState(null)
   const [crowdsaleStatus, setCrowdsaleStatus] = useState('fetching...')
-  const [toggleRedemption, setToggleRedemption] = useState(null)
+  const [toggleCrowdsale, setToggleCrowdsale] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
 
   useEffect(() => {
-    const getRedemptionStatus = async () => {
+    const getCrowdsaleStatus = async () => {
       const status = await fetchExtensionStatus(daoChainId, daoAddress, crowdsaleAddress)
       status ? setCrowdsaleStatus('Active') : setCrowdsaleStatus('Inactive')
     }
 
-    getRedemptionStatus()
+    getCrowdsaleStatus()
   }, [])
 
   const handleValidation = async (e) => {
@@ -99,7 +99,16 @@ export default function SetCrowdsale() {
   const submit = async (e) => {
     e.preventDefault()
 
-    // Crowdsale access
+    // Activate / Deactivate Redemption
+    const _toggleCrowdsale = 0
+    if (toggleCrowdsale && crowdsaleStatus === 'Inactive') {
+      _toggleCrowdsale = 1
+    }
+    if (toggleCrowdsale && crowdsaleStatus === 'Active') {
+      _toggleCrowdsale = 1
+    }
+
+    // Crowdsale access list id
     let _purchaseAccess
     if (purchaseAccess === 'public') {
       _purchaseAccess = 0
@@ -126,20 +135,15 @@ export default function SetCrowdsale() {
 
     // Crowdsale terms
     let _terms
-    if (file) {
+    if (terms) {
       _terms = await uploadIpfs(daoAddress, 'Crowdsale Terms', terms)
     } else {
       _terms = 'none'
     }
 
-    const _toggleCrowdsale = 0
-    // Activate / Deactivate Redemption
-    if (toggleRedemption && crowdsaleStatus === 'Inactive') {
-      _toggleCrowdsale = 1
-    }
-    if (toggleRedemption && crowdsaleStatus === 'Active') {
-      _toggleCrowdsale = 1
-    }
+    // Crowdsale purchase limits
+    const _purchaseLimit = ethers.utils.parseEther(purchaseLimit)
+    const _personalLimit = ethers.utils.parseEther(personalLimit)
 
     let docs
     if (file) {
@@ -149,15 +153,13 @@ export default function SetCrowdsale() {
     }
 
     console.log(
-      purchaseAsset,
-      customAsset,
-      purchaseAccess,
-      customAccess,
+      _purchaseAccess,
       purchaseMultipler,
-      purchaseLimit,
-      personalLimit,
+      _purchaseAsset,
       crowdsaleEnd,
-      terms,
+      _purchaseLimit,
+      _personalLimit,
+      _terms,
     )
 
     // Prop payload
@@ -166,32 +168,26 @@ export default function SetCrowdsale() {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [_purchaseAccess, purchaseMultipler, _purchaseAsset, crowdsaleEnd, purchaseLimit, personalLimit, _terms],
+        [_purchaseAccess, purchaseMultipler, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, _terms],
       )
       console.log(payload)
     } catch (e) {
       setWarning('Please set a start time.')
+      console.log(e)
       return
     }
 
-    console.log(
-      'Proposal Params - ',
-      9,
-      docs,
-      [addresses[daoChainId]['extensions']['crowdsale']],
-      [_toggleCrowdsale],
-      [payload],
-    )
+    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
 
     try {
-      // const tx = await kalidao.propose(
-      //   9, // EXTENSION prop
-      //   docs,
-      //   [addresses[daoChainId]['extensions']['crowdsale']],
-      //   [_toggleCrowdsale],
-      //   [payload],
-      // )
-      // console.log('tx', tx)
+      const tx = await kalidao.propose(
+        9, // EXTENSION prop
+        docs,
+        [crowdsaleAddress],
+        [_toggleCrowdsale],
+        [payload],
+      )
+      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }
@@ -204,6 +200,19 @@ export default function SetCrowdsale() {
         <FormElement>
           <Label htmlFor="recipient">Current crowdsale status</Label>
           <Text>{crowdsaleStatus}</Text>
+        </FormElement>
+        <FormElement>
+          {crowdsaleStatus === 'Inactive' ? (
+            <Label htmlFor="recipient">Activate Crowdsale</Label>
+          ) : (
+            <Label htmlFor="recipient">Deactivate Redemption</Label>
+          )}
+          <Input
+            type={'checkbox'}
+            variant="checkbox"
+            value={toggleCrowdsale}
+            onChange={() => setToggleCrowdsale(!toggleCrowdsale)}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Asset</Label>
