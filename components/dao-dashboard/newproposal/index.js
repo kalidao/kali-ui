@@ -9,6 +9,7 @@ import { AdminMenu, CallContract, ConfigureExtensions } from './admin'
 import { AppsMenu, Crowdsale, SetRedemption, Tribute } from './apps'
 import UpdateDocs from './admin/UpdateDocs'
 import Escape from './admin/Escape'
+import SetCrowdsale from './apps/SetCrowdsale'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -56,6 +57,7 @@ export function NewProposalModal({ proposalProp }) {
       component: <ManageMembership />,
     },
     quit: {
+      // done
       title: 'Redeem and Quit',
       component: <Redeem />,
     },
@@ -102,29 +104,32 @@ export function NewProposalModal({ proposalProp }) {
       component: <UpdateDocs />,
     },
     escape: {
+      // done
       title: 'Kill a Proposal',
       component: <Escape />,
     },
     call: {
+      // done
       title: 'Interact with External Contracts',
       component: <CallContract />,
     },
     // Membership Menu
     crowdsale: {
       title: 'Set Crowdsale Rules',
-      component: <Crowdsale />,
+      component: <SetCrowdsale />,
     },
     redemption: {
+      // need to add token approval/allowance logic at submission
       title: 'Set Redemption Rules',
       component: <SetRedemption />,
     },
     crowdsaleWithVesting: {
       title: 'Crowdsale with Vesting',
-      component: <Crowdsale />,
+      component: <SetCrowdsale />,
     },
     tributeWithVesting: {
       title: 'Tribute with Vesting',
-      component: <Crowdsale />,
+      component: <SetCrowdsale />,
     },
     tribute: {
       title: 'Tribute',

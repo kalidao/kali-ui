@@ -3,7 +3,7 @@ import { Menu } from '../../../../styles/proposal/Menu'
 import { Button, Flex } from '../../../../styles/elements'
 import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
 // menu items
-import Crowdsale from './Crowdsale'
+import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
 import Tribute from './Tribute'
 
@@ -24,4 +24,4 @@ function AppsMenu({ setProposal }) {
   )
 }
 
-export { AppsMenu, Crowdsale, SetRedemption, Tribute }
+export { AppsMenu, SetCrowdsale, SetRedemption, Tribute }
