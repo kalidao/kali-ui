@@ -10,8 +10,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
 import Spinner from '../../../elements/Spinner'
+import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateVotingPeriod() {
+export default function UpdateVotingPeriod({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const { data: signer } = useSigner()
@@ -106,6 +107,7 @@ export default function UpdateVotingPeriod() {
           <FileUploader setFile={setFile} />
         </Flex>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

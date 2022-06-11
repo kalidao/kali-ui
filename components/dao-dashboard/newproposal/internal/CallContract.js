@@ -9,8 +9,9 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
 import { ethers } from 'ethers'
+import Back from '../../../../styles/proposal/Back'
 
-export default function CallContract() {
+export default function CallContract({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -223,6 +224,7 @@ export default function CallContract() {
           <FileUploader setFile={setFile} />
         </Flex>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('menu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

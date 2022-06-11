@@ -10,8 +10,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
 import { fetchProposalCount } from '../../../../utils/fetchProposalCount'
+import Back from '../../../../styles/proposal/Back'
 
-export default function Escape() {
+export default function Escape({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -109,6 +110,7 @@ export default function Escape() {
           <FileUploader setFile={setFile} />
         </Flex>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

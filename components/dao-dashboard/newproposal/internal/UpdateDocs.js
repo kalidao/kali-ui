@@ -9,8 +9,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import { fetchDocs } from '../../../../utils/fetchDocs'
 import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
+import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateDocs() {
+export default function UpdateDocs({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -99,6 +100,7 @@ export default function UpdateDocs() {
           <FileUploader setFile={setNewDocFile} />
         </FormElement>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

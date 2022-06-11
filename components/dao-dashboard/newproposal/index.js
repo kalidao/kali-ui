@@ -47,100 +47,95 @@ export function NewProposalModal({ proposalProp }) {
     addMember: {
       // done
       title: 'Add Member',
-      component: <AddMember />,
+      component: <AddMember setProposal={setView} />,
     },
     removeMember: {
       // done
       title: 'Remove Member',
-      component: <RemoveMember />,
+      component: <RemoveMember setProposal={setView} />,
     },
     addMemberWithVesting: {
       title: 'Add Member with Vesting',
-      component: <ManageMembership />,
+      component: <ManageMembership setProposal={setView} />,
     },
     quit: {
       // done
       title: 'Redeem and Quit',
-      component: <Redeem />,
+      component: <Redeem setProposal={setView} />,
     },
     // Send Menu
     eth: {
       // done
       title: 'Send ETH',
-      component: <SendEth />,
+      component: <SendEth setProposal={setView} />,
     },
     erc20: {
       // done
       title: 'Send ERC20',
-      component: <SendErc20 />,
+      component: <SendErc20 setProposal={setView} />,
     },
     erc721: {
-      //done
+      //donef
       title: 'Send ERC721',
-      component: <SendErc721 />,
+      component: <SendErc721 setProposal={setView} />,
     },
     // Gov Menu
     transferability: {
       // done
       title: 'Toggle Transferability',
-      component: <ToggleTransfer />,
+      component: <ToggleTransfer setProposal={setView} />,
     },
     votingPeriod: {
       // done
       title: 'Update Voting Period',
-      component: <UpdateVotingPeriod />,
+      component: <UpdateVotingPeriod setProposal={setView} />,
     },
     quorum: {
       // done
       title: 'Update Quorum',
-      component: <UpdateQuorum />,
+      component: <UpdateQuorum setProposal={setView} />,
     },
     // Admin Menu
     manager: {
       title: 'Configure Extensions',
-      component: <ConfigureExtensions />,
+      component: <ConfigureExtensions setProposal={setView} />,
     },
     docs: {
       // done
       title: 'Update Documentation',
-      component: <UpdateDocs />,
+      component: <UpdateDocs setProposal={setView} />,
     },
     escape: {
       // done
       title: 'Kill a Proposal',
-      component: <Escape />,
+      component: <Escape setProposal={setView} />,
     },
     call: {
       // done
       title: 'Interact with External Contracts',
-      component: <CallContract />,
+      component: <CallContract setProposal={setView} />,
     },
     // Membership Menu
     crowdsale: {
       title: 'Set Crowdsale Rules',
-      component: <SetCrowdsale />,
+      component: <SetCrowdsale setProposal={setView} />,
     },
     redemption: {
       // need to add token approval/allowance logic at submission
       title: 'Set Redemption Rules',
-      component: <SetRedemption />,
+      component: <SetRedemption setProposal={setView} />,
     },
     crowdsaleWithVesting: {
       title: 'Crowdsale with Vesting',
-      component: <SetCrowdsale />,
+      component: <SetCrowdsale setProposal={setView} />,
     },
     tributeWithVesting: {
       title: 'Tribute with Vesting',
-      component: <SetCrowdsale />,
+      component: <SetCrowdsale setProposal={setView} />,
     },
     tribute: {
       title: 'Tribute',
-      component: <Tribute />,
-    },
-    // Back
-    back: {
-      title: '',
-      component: <ProposalsMenu setProposal={setView} />,
+      component: <Tribute setProposal={setView} />,
     },
   }
 

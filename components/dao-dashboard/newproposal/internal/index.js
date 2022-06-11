@@ -16,10 +16,10 @@ function InternalMenu({ setProposal }) {
   return (
     <Flex gap="md" dir="col">
       <Menu>
-        <Menu.Item onClick={() => setProposal('manager')}>Assign Manager</Menu.Item>
+        {/* <Menu.Item onClick={() => setProposal('manager')}>Assign Manager</Menu.Item> */}
         <Menu.Item onClick={() => setProposal('docs')}>Update Docs</Menu.Item>
         <Menu.Item onClick={() => setProposal('escape')}>Escape Proposal</Menu.Item>
-        <Menu.Item onClick={() => setProposal('call')}>Call Contract</Menu.Item>
+        {/* <Menu.Item onClick={() => setProposal('call')}>Call Contract</Menu.Item> */}
         <Menu.Item onClick={() => setProposal('transferability')}>Toggle Transferability</Menu.Item>
         <Menu.Item onClick={() => setProposal('votingPeriod')}>Update Voting Period</Menu.Item>
         <Menu.Item onClick={() => setProposal('quorum')}>Update Quorum</Menu.Item>

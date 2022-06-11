@@ -10,8 +10,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import KALIERC20_ABI from '../../../../abi/KaliERC20.json'
 import { AddressZero } from '@ethersproject/constants'
 import { fetchPaused } from '../../../../utils/fetchPaused'
+import Back from '../../../../styles/proposal/Back'
 
-export default function ToggleTransfer() {
+export default function ToggleTransfer({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -85,6 +86,7 @@ export default function ToggleTransfer() {
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
         </Flex>
+        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

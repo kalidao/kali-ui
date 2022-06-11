@@ -7,8 +7,9 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
+import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateQuorum() {
+export default function UpdateQuorum({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -85,6 +86,7 @@ export default function UpdateQuorum() {
           <FileUploader setFile={setFile} />
         </Flex>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
