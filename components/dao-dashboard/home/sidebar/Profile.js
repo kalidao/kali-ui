@@ -6,7 +6,7 @@ import { NewProposalModal } from '../../newproposal/'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { DAO_MEMBERS } from '../../../../graph'
-import { useBalance } from 'wagmi'
+import { useBalance, useAccount } from 'wagmi'
 import { ethers } from 'ethers'
 import { useGraph } from '../../../hooks'
 import Info from '../../../../styles/Info'
@@ -17,6 +17,8 @@ export default function ProfileComponent({ dao }) {
   const daoAddress = router.query.dao
   const daoChain = Number(router.query.chainId)
   const [members, setMembers] = useState()
+  const [isMember, setIsMember] = useState(false)
+  const { data: user } = useAccount()
   const { data: balance } = useBalance({
     addressOrName: daoAddress,
     chainId: daoChain,
@@ -32,6 +34,20 @@ export default function ProfileComponent({ dao }) {
 
     fetchMembers()
   }, [])
+
+  useEffect(() => {
+    if (members) {
+      for (let i = 0; i < members.length; i++) {
+        console.log(members[i].address, user)
+        if (members[i].address === user?.address.toLocaleLowerCase()) {
+          console.log('member found')
+          setIsMember(true)
+        } else {
+          setIsMember(false)
+        }
+      }
+    }
+  }, [user, members])
 
   return (
     <Info heading="About">
@@ -108,11 +124,11 @@ export default function ProfileComponent({ dao }) {
                 margin: '1rem',
               }}
             >
-              JOIN
+              {isMember ? 'QUIT' : 'JOIN'}
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <NewProposalModal proposalProp="tribute" />
+            {isMember ? <NewProposalModal proposalProp="redemption" /> : <NewProposalModal proposalProp="tribute" />}
           </DialogContent>
         </Dialog>
       </Flex>
