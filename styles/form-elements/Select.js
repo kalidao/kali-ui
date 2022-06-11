@@ -94,15 +94,17 @@ const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButton
 const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles)
 
 const Select = styled('select', {
-  all: 'unset',
+  // all: 'unset',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   background: '$background',
   color: '$foreground',
   border: 'none',
-  padding: '0.2rem',
+  padding: '0.5rem',
   fontSize: '12px',
+  border: '1px solid $gray100',
+  borderRadius: '5px',
 })
 
 const SelectItem = styled('option', {})
