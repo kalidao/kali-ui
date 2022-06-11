@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormElement, Label, Form, Input } from '../../styles/form-elements'
+import { FormElement, Label, Form, Input, Switch } from '../../styles/form-elements'
 import { Flex, Button } from '../../styles/elements'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
@@ -39,27 +39,29 @@ export default function Redemption({ setStep }) {
   return (
     <Form>
       <FormElement>
-        <Label htmlFor="legal">Add structure</Label>
-        <Input
-          type="checkbox"
-          variant="checkbox"
+        <Label htmlFor="legal">Add Redemption</Label>
+        <Switch
           control={control}
           name="redemption"
-          value={state.redemption}
+          value="redemption"
           defaultValue={state.redemption}
           onValueChange={(value) => setValue('redemption', value)}
-          {...register('redemption')}
         />
       </FormElement>
       {watchRedemption && (
         <FormElement>
           <Label htmlFor="redemption-start">Start Date</Label>
           <Input
-            defaultValue={state['redemption-start']}
+            defaultValue={state['redemptionStart']}
             variant="calendar"
             type="datetime-local"
-            name="redemption-start"
-            {...register('redemption-start')}
+            name="redemptionStart"
+            {...register('redemptionStart', {
+              required: {
+                value: true,
+                message: 'Start date is required.',
+              },
+            })}
           />
         </FormElement>
       )}

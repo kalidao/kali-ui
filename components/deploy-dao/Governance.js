@@ -82,10 +82,23 @@ export default function Governance({ setStep }) {
             aria-invalid={errors.quorum ? 'true' : 'false'}
             min="0"
             max="100"
-            {...register('quorum', { required: true })}
+            {...register('quorum', {
+              required: {
+                value: true,
+                message: 'Participation percentage is required.',
+              },
+              min: {
+                value: 0,
+                message: 'Participation percentage must be above 0.',
+              },
+              max: {
+                value: 100,
+                message: 'Participation percentage must be below 100.',
+              },
+            })}
             defaultValue={state.quorum}
           />
-          {errors.quorum && errors.quorum.type === 'required' && <span>Participation percentage is required.</span>}
+          {errors.quorum && <span>{errors?.quorum?.message}</span>}
         </Flex>
       </FormElement>
       <FormElement>
@@ -98,10 +111,23 @@ export default function Governance({ setStep }) {
             min="51"
             max="100"
             aria-invalid={errors.approval ? 'true' : 'false'}
-            {...register('approval', { required: true })}
+            {...register('approval', {
+              required: {
+                value: true,
+                message: 'Approval percentage is required.',
+              },
+              min: {
+                value: 51,
+                message: 'Approval percentage must be more than 51.',
+              },
+              max: {
+                value: 100,
+                message: 'Approval percentage must be below 100.',
+              },
+            })}
             defaultValue={state.approval}
           />
-          {errors.approval && errors.approval.type === 'required' && <span>Approval percentage is required.</span>}
+          {errors.approval && <span>{errors?.approval?.message}</span>}
         </Flex>
       </FormElement>
       <FormElement>

@@ -1,20 +1,16 @@
 import { useState } from 'react'
 import { styled } from '../../styles/stitches.config'
 import { DialogTitle } from '../../styles/Dialog'
+import { Progress, ProgressIndicator } from '../../styles/Progress'
 import Identity from './Identity'
 import Governance from './Governance'
 import Redemption from './Redemption'
 import Crowdsale from './Crowdsale'
 import Members from './Members'
 import Legal from './Legal'
-import Confirm from './Confirm'
-import { Progress, ProgressIndicator } from '../../styles/Progress'
+import Checkout from './checkout'
 import { StateMachineProvider, createStore } from 'little-state-machine'
-import { useAccount } from 'wagmi'
-import { Button, Text } from '../../styles/elements'
-import { DotFilledIcon, DotIcon } from '@radix-ui/react-icons'
-import { useStateMachine } from 'little-state-machine'
-import updateAction from './updateAction'
+import { Text } from '../../styles/elements'
 import Toggle from './Toggle'
 
 const Flex = styled('div', {
@@ -31,7 +27,15 @@ createStore({
   approval: '60',
   transferability: false,
   redemption: false,
+  redemptionStart: new Date(),
   crowdsale: false,
+  purchaseToken: 'eth',
+  purchaseLimit: 10000,
+  personalLimit: 100,
+  purchaseMultiplier: 10,
+  crowdsaleEnd: new Date(),
+  legal: false,
+  docType: 'series',
 })
 
 export default function DeployDaoWrapper() {
@@ -63,8 +67,8 @@ export default function DeployDaoWrapper() {
       title: 'Legal',
     },
     confirm: {
-      component: <Confirm setStep={setStep} />,
-      title: 'Confirm',
+      component: <Checkout setStep={setStep} />,
+      title: 'Checkout',
     },
   }
 

@@ -69,7 +69,12 @@ export default function Identity({ setStep }) {
             name="name"
             placeholder="KaliDAO"
             aria-invalid={errors.name ? 'true' : 'false'}
-            {...register('name', { required: 'Name is required.' })}
+            {...register('name', {
+              required: {
+                value: true,
+                message: 'Name is required.',
+              },
+            })}
             defaultValue={state.name}
           />
           {errors.name && <span>{errors?.name?.message}</span>}
@@ -83,11 +88,19 @@ export default function Identity({ setStep }) {
             name="symbol"
             placeholder="KALI"
             aria-invalid={errors.symbol ? 'true' : 'false'}
-            {...register('symbol', { required: true, maxLength: 11 })}
+            {...register('symbol', {
+              required: {
+                value: true,
+                message: 'Symbol is required.',
+              },
+              maxLength: {
+                value: 11,
+                message: 'Max symbol length exceeded',
+              },
+            })}
             defaultValue={state.symbol}
           />
-          {errors.symbol && errors.symbol.type === 'required' && <span role="alert">Symbol is required.</span>}
-          {errors.symbol && errors.symbol.type === 'maxLength' && <span role="alert">Max symbol length exceeded</span>}
+          {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
         </Flex>
       </Flex>
       <Flex css={{ justifyContent: 'flex-end' }}>

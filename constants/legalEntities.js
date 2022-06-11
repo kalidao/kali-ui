@@ -1,23 +1,23 @@
 export const legalEntities = {
   series: {
-    text: 'Series LLC (formed instantly!)',
+    text: 'Series LLC',
     template: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
     docs: '',
     email: true,
     mission: false,
     message:
-      'Your series will be formed instantly, but we need to follow up to request information we must keep on file for your series.',
+      'Your series will be formed instantly, but we will follow up to request information we must keep on file for your series.',
   },
   delawareUNA: {
-    text: 'Delaware UNA (formed instantly!)',
+    text: 'Delaware UNA',
     template: 'https://gateway.pinata.cloud/ipfs/QmSEEcunxFs8oRQbPaoeV2pYBYJihpZUx6QYUsUqc89Gci',
     docs: 'UNA',
     email: false,
     mission: true,
-    message: null,
+    message: 'Your Delaware UNA will be formed instantly.',
   },
   verein: {
-    text: 'Swiss Verein (formed instantly!)',
+    text: 'Swiss Verein',
     template: null,
     docs: 'none',
     email: true,
@@ -25,23 +25,25 @@ export const legalEntities = {
     message: 'We will contact you to provide options for registering a Swiss Verein and the associated costs.',
   },
   delawareLLC: {
-    text: 'Delaware LLC (est. 1-2 weeks)',
+    text: 'Delaware LLC',
     template: null,
     docs: 'none',
     email: true,
     mission: false,
-    message: 'We will contact you to provide options for registering a Delaware LLC and the associated costs.',
+    message:
+      'It will take around 1-2 weeks to establish a Delaware LLC. We will contact you to provide options for registering a Delaware LLC and the associated costs.',
   },
   wyomingLLC: {
-    text: 'Wyoming LLC (est. 1-2 weeks)',
+    text: 'Wyoming LLC',
     template: null,
     docs: 'none',
     email: true,
     mission: false,
-    message: 'We will contact you to provide options for registering a Wyoming LLC and the associated costs.',
+    message:
+      'It will take around 1-2 weeks to establish a Wyoming LLC. We will contact you to provide options for registering a Wyoming LLC and the associated costs.',
   },
   custom: {
-    text: 'Custom Entity Type (est. TBD)',
+    text: 'Custom Entity Type',
     template: null,
     docs: 'none',
     email: true,

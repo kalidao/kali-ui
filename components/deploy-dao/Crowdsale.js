@@ -17,6 +17,7 @@ export default function Crowdsale({ setStep }) {
     formState: { errors },
   } = useForm()
   const watchCrowdsale = watch('crowdsale', state.crowdsale)
+  const watchPurchaseToken = watch('purchaseToken', state.purchaseToken)
   const onPrevious = (data) => {
     actions.updateAction(data)
 
@@ -32,82 +33,111 @@ export default function Crowdsale({ setStep }) {
 
     setStep('founders')
   }
-  //   crowdsale: {
-  //     active: false,
-  //     purchaseLimit: 1000,
-  //     personalLimit: 100,
-  //     purchaseMultiplier: 10,
-  //     purchaseToken: null,
-  //     saleEnds: null,
-  // },
 
   return (
     <Form>
       <FormElement>
-        <Label htmlFor="legal">Add structure</Label>
-        <Input
-          type="checkbox"
-          variant="checkbox"
+        <Label htmlFor="legal">Add Crowdsale</Label>
+        <Switch
           control={control}
           name="crowdsale"
-          value={state.crowdsale}
+          value="crowdsale"
           defaultValue={state.crowdsale}
           onValueChange={(value) => setValue('crowdsale', value)}
-          {...register('crowdsale')}
         />
       </FormElement>
       {watchCrowdsale && (
         <>
           <FormElement>
             <Label htmlFor="purchaseToken">Purchase Token</Label>
-            <Select
-              {...register('purchaseToken')}
-              defaultValue={state['purchaseToken']}
-              onValueChange={(value) => setValue('purchaseToken', value)}
-            >
+            <Select {...register('purchaseToken')} defaultValue={state['purchaseToken']}>
               <Select.Item value="eth">ETH</Select.Item>
               <Select.Item value="custom">Custom</Select.Item>
             </Select>
           </FormElement>
           <FormElement>
             <Label htmlFor="purchaseLimit">Total Purchase Limit</Label>
-            <Input
-              type="number"
-              name="purchaseLimit"
-              defaultValue={state['purchaseLimit']}
-              placeholder="10000"
-              {...register('purchaseLimit')}
-            />
+            <Flex dir="col" gap="sm">
+              <Input
+                type="number"
+                name="purchaseLimit"
+                defaultValue={state['purchaseLimit']}
+                placeholder="10000"
+                {...register('purchaseLimit', {
+                  required: {
+                    value: true,
+                    message: 'Purchase Limit is required.',
+                  },
+                  min: {
+                    value: 0,
+                    message: 'Purchase Limit must be more than 0.',
+                  },
+                })}
+              />
+              {errors.purchaseLimit && <span role="alert">{errors?.purchaseLimit?.message}</span>}
+            </Flex>
           </FormElement>
           <FormElement>
             <Label htmlFor="personaLimit">Personal Purchase Limit</Label>
-            <Input
-              type="number"
-              name="personalLimit"
-              defaultValue={state['personalLimit']}
-              placeholder="100"
-              {...register('personalLimit')}
-            />
+            <Flex dir="col" gap="sm">
+              <Input
+                type="number"
+                name="personalLimit"
+                defaultValue={state['personalLimit']}
+                placeholder="100"
+                {...register('personalLimit', {
+                  required: {
+                    value: true,
+                    message: 'Personal Purchase Limit is required.',
+                  },
+                  min: {
+                    value: 0,
+                    message: 'Personal purchase Limit must be more than 0.',
+                  },
+                })}
+              />
+              {errors.personalLimit && <span role="alert">{errors?.personalLimit?.message}</span>}
+            </Flex>
           </FormElement>
           <FormElement>
             <Label htmlFor="purchaseMultiplier">Purchase Multiplier</Label>
-            <Input
-              type="number"
-              name="purchaseMultiplier"
-              defaultValue={state['purchaseMultiplier']}
-              placeholder="10"
-              {...register('purchaseMultiplier')}
-            />
+            <Flex dir="col" gap="sm">
+              <Input
+                type="number"
+                name="purchaseMultiplier"
+                defaultValue={state['purchaseMultiplier']}
+                placeholder="10"
+                {...register('purchaseMultiplier', {
+                  required: {
+                    value: true,
+                    message: 'Purchase Multiplier is required.',
+                  },
+                  min: {
+                    value: 0,
+                    message: 'Purchase Multiplier must be more than 0.',
+                  },
+                })}
+              />
+              {errors.purchaseMultiplier && <span role="alert">{errors?.purchaseMultiplier?.message}</span>}
+            </Flex>
           </FormElement>
           <FormElement>
             <Label htmlFor="crowdsale-end">End Date</Label>
-            <Input
-              variant="calendar"
-              type="datetime-local"
-              defaultValue={state['crowdsale-end']}
-              name="crowdsale-end"
-              {...register('crowdsale-end')}
-            />
+            <Flex dir="col" gap="sm">
+              <Input
+                variant="calendar"
+                type="datetime-local"
+                defaultValue={state['crowdsaleEnd']}
+                name="crowdsale-end"
+                {...register('crowdsaleEnd', {
+                  required: {
+                    value: true,
+                    message: 'End date is required.',
+                  },
+                })}
+              />
+              {errors?.['crowdsaleEnd'] && <span role="alert">{errors?.['crowdsaleEnd']?.message}</span>}
+            </Flex>
           </FormElement>
         </>
       )}
