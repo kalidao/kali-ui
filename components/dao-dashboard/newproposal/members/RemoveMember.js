@@ -7,8 +7,9 @@ import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import Back from '../../../../styles/proposal/Back'
 
-export default function RemoveMember() {
+export default function RemoveMember({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -51,7 +52,7 @@ export default function RemoveMember() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Kick a member by burning her DAO tokens</Text>
+      <Text>Kick a member by burning their DAO tokens</Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
@@ -75,6 +76,7 @@ export default function RemoveMember() {
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
         </Flex>
+        <Back onClick={() => setProposal('membersMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

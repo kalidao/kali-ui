@@ -11,8 +11,9 @@ import { addresses } from '../../../../constants/addresses'
 import { tokens } from '../../../../constants/tokens'
 import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
+import Back from '../../../../styles/proposal/Back'
 
-export default function SetRedemption() {
+export default function SetRedemption({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -189,6 +190,7 @@ export default function SetRedemption() {
           <FileUploader setFile={setFile} />
         </Flex>
         {warning && <Warning warning={warning} />}
+        <Back onClick={() => setProposal('appsMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

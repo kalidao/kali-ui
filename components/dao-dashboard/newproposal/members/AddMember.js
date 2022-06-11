@@ -7,8 +7,9 @@ import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import Back from '../../../../styles/proposal/Back'
 
-export default function AddMember() {
+export default function AddMember({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -75,6 +76,7 @@ export default function AddMember() {
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
         </Flex>
+        <Back onClick={() => setProposal('membersMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

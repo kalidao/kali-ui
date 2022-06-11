@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import Back from '../../../../styles/proposal/Back'
 
-export default function SendEth() {
+export default function SendEth({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -91,6 +92,7 @@ export default function SendEth() {
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
         </Flex>
+        <Back onClick={() => setProposal('sendMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

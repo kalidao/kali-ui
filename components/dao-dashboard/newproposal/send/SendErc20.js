@@ -9,8 +9,9 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { tokens } from '../../../../constants/tokens'
+import Back from '../../../../styles/proposal/Back'
 
-export default function SendErc20() {
+export default function SendErc20({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -153,6 +154,7 @@ export default function SendErc20() {
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />
         </Flex>
+        <Back onClick={() => setProposal('sendMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

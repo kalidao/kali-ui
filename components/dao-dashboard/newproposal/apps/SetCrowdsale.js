@@ -14,8 +14,9 @@ import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
+import Back from '../../../../styles/proposal/Back'
 
-export default function SetCrowdsale() {
+export default function SetCrowdsale({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -300,6 +301,7 @@ export default function SetCrowdsale() {
             {isRecorded ? `Success !` : 'Record access list onchain'}
           </Button>
         )}
+        <Back onClick={() => setProposal('appsMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
