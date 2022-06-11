@@ -33,10 +33,7 @@ function MyApp({ Component, pageProps }) {
           accentColorForeground: '#D5D1D1',
         })}
       >
-        <MoralisProvider
-          serverUrl="https://amaolyvrejmm.usemoralis.com:2053/server"
-          appId="iQgEQixJugOhHzXRq1pRPoJEmdbKA67o1veRSFRB"
-        >
+        <MoralisProvider serverUrl="https://amaolyvrejmm.usemoralis.com:2053/server" appId="NEXT_PUBLIC_MORALIS_ID">
           <Component {...pageProps} />
         </MoralisProvider>
       </RainbowKitProvider>
