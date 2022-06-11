@@ -113,7 +113,7 @@ export default function SendErc20() {
       <Form>
         <FormElement>
           <Label htmlFor="type">Asset</Label>
-          <Select name="type" onValueChange={(value) => setType(value)} defaultValue={type}>
+          <Select name="type" onChange={(e) => setType(e.target.value)} defaultValue={type}>
             <Select.Item value="dai">DAI</Select.Item>
             <Select.Item value="usdc">USDC</Select.Item>
             <Select.Item value="weth">WETH</Select.Item>
