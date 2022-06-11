@@ -78,7 +78,8 @@ export default function DeployDaoWrapper() {
         <DialogTitle
           css={{
             display: 'flex',
-            justifyContent: 'space-between',
+            gap: '20px',
+            justifyContent: 'flex-start',
             alignItems: 'center',
           }}
         >

@@ -3,20 +3,20 @@ import { keyframes } from './stitches.config'
 export const pulse = keyframes({
   '0%': {
     // opacity: 0,
-    boxShadow: '2px -2px 30px 8px rgba(8, 255, 8, 1)',
+    boxShadow: '2px -2px 30px 8px hsl(37, 100%, 60%)',
   },
   '25%': {
-    boxShadow: '2px -2px 30px 13px rgba(32, 255, 32, 1)',
+    boxShadow: '2px -2px 30px 13px hsl(37, 100%, 70%)',
   },
   '50%': {
-    boxShadow: '2px -2px 30px 13px rgba(64, 255, 64, 1)',
+    boxShadow: '2px -2px 30px 13px hsl(37, 100%, 80%)',
   },
   '75%': {
-    boxShadow: '2px -2px 30px 13px rgba(128, 255, 128, 1)',
+    boxShadow: '2px -2px 30px 13px hsl(37, 100%, 90%)',
   },
   '100%': {
     // opacity: 1,
-    boxShadow: '2px -2px 30px 13px rgba(254, 255, 254, 1)',
+    boxShadow: '2px -2px 30px 13px hsl(37, 100%, 100%)',
   },
 })
 

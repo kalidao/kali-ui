@@ -22,8 +22,8 @@ const Item = styled('div', {
   overflow: 'hidden',
   boxShadow: '2px 1px 10px 3px $gray100',
 
-  fontFamily: 'Bold',
-  fontWeight: '800',
+  fontFamily: 'Regular',
+  fontWeight: '600',
 
   '@media (min-width: 340px)': {
     width: '5rem',

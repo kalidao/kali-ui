@@ -20,7 +20,7 @@ export default function Toggle() {
         fontSize: '16px',
         fontWeight: '600',
         '&:hover': {
-          background: '$gray100',
+          background: '$gray200',
         },
       }}
       onClick={() =>

@@ -14,9 +14,8 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 
 const StyledContent = styled(DialogPrimitive.Content, {
   background: '$background',
-  color: 'white',
+  color: '$foreground',
   borderRadius: 6,
-  // animation: `${pulse} 5ms infinite`,
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -37,8 +36,9 @@ const StyledContent = styled(DialogPrimitive.Content, {
 function Content({ children, ...props }) {
   return (
     <DialogPrimitive.Portal>
-      <StyledOverlay />
-      <StyledContent {...props}>{children}</StyledContent>
+      <StyledOverlay>
+        <StyledContent {...props}>{children}</StyledContent>
+      </StyledOverlay>
     </DialogPrimitive.Portal>
   )
 }
@@ -47,7 +47,7 @@ const StyledTitle = styled(DialogPrimitive.Title, {
   margin: 0,
   fontFamily: 'Bold',
   fontWeight: 600,
-  color: '$foreground',
+  color: '$accent',
   fontSize: 22,
 })
 
@@ -75,13 +75,13 @@ export const IconButton = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$red',
+  color: '$red500',
   position: 'absolute',
   top: 10,
   right: 10,
 
-  '&:hover': { backgroundColor: '$redAlpha' },
-  '&:focus': { boxShadow: `0 0 0 2px $redAlpha` },
+  '&:hover': { backgroundColor: '$yellow100' },
+  '&:focus': { boxShadow: `0 0 0 2px $red100` },
 })
 
 // Exports
@@ -93,7 +93,7 @@ export const DialogDescription = StyledDescription
 
 export const DialogClose = () => {
   return (
-    <DialogPrimitive.Close>
+    <DialogPrimitive.Close asChild>
       <IconButton>
         <Cross2Icon />
       </IconButton>
