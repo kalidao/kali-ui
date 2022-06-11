@@ -14,15 +14,16 @@ export default function TreasuryPage() {
   const [tokenBalance, setTokenBalance] = useState()
   const [nftBalance, setNftBalance] = useState()
 
-  useEffect(async () => {
+  useEffect(() => {
+    let mounted = true
     const fetch = async () => {
       try {
         const tokenResult = await Web3Api.account.getTokenBalances({
-          chain: 'eth',
+          chain: `${chainId == 137 ? 'matic' : 'eth'}`,
           address: daoAddress,
         })
         const nftResult = await Web3Api.account.getNFTs({
-          chain: 'eth',
+          chain: `${chainId == 137 ? 'matic' : 'eth'}`,
           address: daoAddress,
         })
 
@@ -35,7 +36,10 @@ export default function TreasuryPage() {
       }
     }
 
-    return fetch()
+    fetch()
+    return () => {
+      mounted = false
+    }
   }, [daoAddress])
   return (
     <Layout heading={`Treasury`}>
