@@ -4,12 +4,18 @@ import { DialogTitle } from '../../../styles/Dialog'
 import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
-import { GovMenu, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod } from './gov'
-import { AdminMenu, CallContract, ConfigureExtensions } from './admin'
-import { AppsMenu, Crowdsale, SetRedemption, Tribute } from './apps'
-import UpdateDocs from './admin/UpdateDocs'
-import Escape from './admin/Escape'
-import SetCrowdsale from './apps/SetCrowdsale'
+import {
+  AdminMenu,
+  CallContract,
+  ConfigureExtensions,
+  ToggleTransfer,
+  UpdateQuorum,
+  UpdateVotingPeriod,
+  UpdateDocs,
+  Escape,
+  InternalMenu,
+} from './internal'
+import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -29,13 +35,9 @@ export function NewProposalModal({ proposalProp }) {
       title: 'Send',
       component: <SendMenu setProposal={setView} />,
     },
-    govMenu: {
-      title: 'Configure',
-      component: <GovMenu setProposal={setView} />,
-    },
-    adminMenu: {
-      title: 'Control',
-      component: <AdminMenu setProposal={setView} />,
+    internalMenu: {
+      title: 'Internal',
+      component: <InternalMenu setProposal={setView} />,
     },
     appsMenu: {
       title: 'Apps',

@@ -6,6 +6,7 @@ import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
 import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
 import Tribute from './Tribute'
+import Back from '../../../../styles/proposal/Back'
 
 function AppsMenu({ setProposal }) {
   return (
@@ -16,10 +17,7 @@ function AppsMenu({ setProposal }) {
         {/* <Menu.Item onClick={() => setProposal('crowdsaleWithVesting')}>Crowdsale with Vesting</Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('tributeWithVesting')}>Tribute with Vesting</Menu.Item> */}
       </Menu>
-      <Button variant="back" onClick={() => setProposal('menu')}>
-        <DoubleArrowLeftIcon />
-        Back
-      </Button>
+      <Back onClick={() => setProposal('menu')} />
     </Flex>
   )
 }

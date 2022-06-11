@@ -20,6 +20,7 @@ export default function Identity({ setStep }) {
 
   useEffect(() => {
     if (!activeChain) return
+    let mounted = true
     const fetchNames = async () => {
       const result = await getNames(activeChain?.id)
       const names = []
@@ -31,7 +32,7 @@ export default function Identity({ setStep }) {
 
     fetchNames()
     return () => {
-      fetchNames()
+      mounted = false
     }
   }, [activeChain])
 

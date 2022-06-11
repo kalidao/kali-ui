@@ -6,6 +6,7 @@ import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
 import SendErc20 from './SendErc20'
 import SendErc721 from './SendErc721'
 import SendEth from './SendEth'
+import Back from '../../../../styles/proposal/Back'
 
 function SendMenu({ setProposal }) {
   return (
@@ -15,10 +16,7 @@ function SendMenu({ setProposal }) {
         <Menu.Item onClick={() => setProposal('erc20')}>ERC20</Menu.Item>
         <Menu.Item onClick={() => setProposal('erc721')}>ERC721</Menu.Item>
       </Menu>
-      <Button variant="back" onClick={() => setProposal('menu')}>
-        <DoubleArrowLeftIcon />
-        Back
-      </Button>
+      <Back onClick={() => setProposal('menu')} />
     </Flex>
   )
 }

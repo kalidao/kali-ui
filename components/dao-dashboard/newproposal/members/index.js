@@ -7,6 +7,7 @@ import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
 import ManageMembership from './ManageMembership'
 import Redeem from './Redeem'
+import Back from '../../../../styles/proposal/Back'
 
 function MembersMenu({ setProposal }) {
   return (
@@ -17,10 +18,7 @@ function MembersMenu({ setProposal }) {
         {/* <Menu.Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('quit')}>Quit</Menu.Item> */}
       </Menu>
-      <Button variant="back" onClick={() => setProposal('menu')}>
-        <DoubleArrowLeftIcon />
-        Back
-      </Button>
+      <Back onClick={() => setProposal('menu')} />
     </Flex>
   )
 }
