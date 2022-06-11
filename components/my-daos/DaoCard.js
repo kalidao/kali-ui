@@ -6,7 +6,9 @@ import { getDaoChain } from '../../utils'
 import { useState, useEffect } from 'react'
 import { useNetwork } from 'wagmi'
 
-const Name = styled('div', {})
+const Name = styled('div', {
+  fontFamily: 'Bold',
+})
 
 const Address = styled('div', {
   fontFamily: 'Screen',

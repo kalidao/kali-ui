@@ -19,9 +19,11 @@ const Item = styled('div', {
   background: '$foreground',
   color: '$background',
   padding: '1rem',
-  fontWeight: '800',
   overflow: 'hidden',
   boxShadow: '2px 1px 10px 3px $gray100',
+
+  fontFamily: 'Bold',
+  fontWeight: '800',
 
   '@media (min-width: 340px)': {
     width: '5rem',
@@ -32,7 +34,6 @@ const Item = styled('div', {
     width: '80%',
     height: '10vh',
     fontSize: '1.5em',
-    fontFamily: 'Bold',
 
     '&:hover': {
       width: '81%',
