@@ -23,6 +23,9 @@ const Item = styled('div', {
   overflow: 'hidden',
   boxShadow: '2px 1px 10px 3px $gray7',
   display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  gap: '10px',
   fontFamily: 'Regular',
   fontWeight: '600',
 
@@ -39,6 +42,17 @@ const Item = styled('div', {
     '&:hover': {
       background: '$gray4',
       border: '1px solid $gray8',
+    },
+  },
+
+  '& svg': {
+    display: 'inline-block',
+    width: '15%',
+    height: 'auto',
+    color: '$gray9',
+
+    '&:hover': {
+      color: '$gray10',
     },
   },
 })

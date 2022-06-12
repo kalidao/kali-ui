@@ -1,7 +1,7 @@
 import React from 'react'
 import { Menu } from '../../../../styles/proposal/Menu'
 import { Button, Flex } from '../../../../styles/elements'
-import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
+import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
 // menu items
 import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
@@ -13,8 +13,12 @@ function MembersMenu({ setProposal }) {
   return (
     <Flex dir="col" gap="md">
       <Menu>
-        <Menu.Item onClick={() => setProposal('addMember')}>Add Member</Menu.Item>
-        <Menu.Item onClick={() => setProposal('removeMember')}>Remove Member</Menu.Item>
+        <Menu.Item onClick={() => setProposal('addMember')}>
+          <AiOutlineUserAdd /> Add Member
+        </Menu.Item>
+        <Menu.Item onClick={() => setProposal('removeMember')}>
+          <AiOutlineUserDelete /> Remove Member
+        </Menu.Item>
         {/* <Menu.Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('quit')}>Quit</Menu.Item> */}
       </Menu>

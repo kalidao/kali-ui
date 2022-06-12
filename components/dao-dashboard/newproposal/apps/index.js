@@ -1,7 +1,8 @@
 import React from 'react'
 import { Menu } from '../../../../styles/proposal/Menu'
-import { Button, Flex } from '../../../../styles/elements'
-import { DoubleArrowLeftIcon } from '@radix-ui/react-icons'
+import { Flex } from '../../../../styles/elements'
+import { FcSalesPerformance } from 'react-icons/fc'
+import { MdOutlineRedeem } from 'react-icons/md'
 // menu items
 import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
@@ -12,8 +13,14 @@ function AppsMenu({ setProposal }) {
   return (
     <Flex gap="md" dir="col">
       <Menu>
-        <Menu.Item onClick={() => setProposal('crowdsale')}>Crowdsale</Menu.Item>
-        <Menu.Item onClick={() => setProposal('redemption')}>Redemption</Menu.Item>
+        <Menu.Item onClick={() => setProposal('crowdsale')}>
+          <FcSalesPerformance />
+          Crowdsale
+        </Menu.Item>
+        <Menu.Item onClick={() => setProposal('redemption')}>
+          <MdOutlineRedeem />
+          Redemption
+        </Menu.Item>
         {/* <Menu.Item onClick={() => setProposal('crowdsaleWithVesting')}>Crowdsale with Vesting</Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('tributeWithVesting')}>Tribute with Vesting</Menu.Item> */}
       </Menu>
