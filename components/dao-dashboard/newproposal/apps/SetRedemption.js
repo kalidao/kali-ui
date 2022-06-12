@@ -27,11 +27,9 @@ export default function SetRedemption({ setProposal }) {
   })
 
   // form
-  const [dai, setDai] = useState(false)
-  const [usdc, setUsdc] = useState(false)
-  const [weth, setWeth] = useState(false)
   const [redemptionStatus, setRedemptionStatus] = useState('fetching...')
   const [redemptionStart, setRedemptionStart] = useState(null)
+  const [tokenArray, setTokenArray] = useState([])
   const [toggleRedemption, setToggleRedemption] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
@@ -46,20 +44,25 @@ export default function SetRedemption({ setProposal }) {
     getRedemptionStatus()
   }, [])
 
+  useEffect(() => {
+    const getRedemptionTokens = async () => {
+      let _tokenArray = []
+      for (const [k, v] of Object.entries(tokens[daoChainId])) {
+        _tokenArray.push(v.address)
+        setTokenArray([..._tokenArray])
+      }
+      console.log(_tokenArray)
+    }
+    getRedemptionTokens()
+  }, [])
+
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
-    // Redemption tokens
-    const tokenArray = []
-    dai ? tokenArray.push(tokens[daoChainId]['DAI']['address']) : null
-    usdc ? tokenArray.push(tokens[daoChainId]['USDC']['address']) : null
-    weth ? tokenArray.push(tokens[daoChainId]['WETH']['address']) : null
-
     // Redemption time
     redemptionStart = Date.parse(redemptionStart) / 1000
 
-    console.log(toggleRedemption)
     const _toggleRedemption = 0
     // Activate / Deactivate Redemption
     if (toggleRedemption && redemptionStatus === 'Inactive') {
@@ -119,6 +122,10 @@ export default function SetRedemption({ setProposal }) {
           <Text>{redemptionStatus}</Text>
         </FormElement>
         <FormElement>
+          <Label htmlFor="recipient">Assets to redeem</Label>
+          <Text>DAI, USDC, WETH</Text>
+        </FormElement>
+        <FormElement>
           {redemptionStatus === 'Inactive' ? (
             <Label htmlFor="recipient">Activate Redemption</Label>
           ) : (
@@ -129,39 +136,6 @@ export default function SetRedemption({ setProposal }) {
             variant="checkbox"
             value={toggleRedemption}
             onChange={() => setToggleRedemption(!toggleRedemption)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">DAI</Label>
-          <Input
-            type="checkbox"
-            variant="checkbox"
-            name="dai"
-            value={dai}
-            defaultValue={dai}
-            onChange={() => setDai(!dai)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">USDC</Label>
-          <Input
-            type="checkbox"
-            variant="checkbox"
-            name="usdc"
-            value={usdc}
-            defaultValue={usdc}
-            onChange={() => setUsdc(!usdc)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">WETH</Label>
-          <Input
-            type="checkbox"
-            variant="checkbox"
-            name="weth"
-            value={weth}
-            defaultValue={weth}
-            onChange={() => setWeth(!weth)}
           />
         </FormElement>
         <FormElement>
