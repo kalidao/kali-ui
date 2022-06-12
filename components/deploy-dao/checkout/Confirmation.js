@@ -1,6 +1,6 @@
 import { useStateMachine } from 'little-state-machine'
 
-// import formatVotingPeriodUnit from './formatVotingPeriodUnit'
+import { legalEntities } from '../../../constants/legalEntities'
 import { Flex, Text } from '../../../styles/elements'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../styles/elements/Accordion'
 
@@ -29,7 +29,6 @@ const Row = ({ name, value }) => {
       dir="row"
       align="separate"
       css={{
-        boxShadow: 'rgba(10, 10, 10, 0.9) 1px 1px 6px 0px inset, rgba(10, 10, 10, 0.9) -1px -1px 6px 1px inset',
         padding: '0.5rem',
       }}
     >

@@ -4,8 +4,8 @@ const globalStyles = globalCss({
   body: {
     margin: 0,
     padding: 0,
-    color: '$foreground',
-    background: '$background',
+    color: '$gray11',
+    background: '$gray1',
     fontFamily: 'Regular',
   },
 

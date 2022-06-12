@@ -104,7 +104,7 @@ export default function Legal({ setStep }) {
                 <Input
                   type="url"
                   name="mission"
-                  placeholder="Link to Mission"
+                  placeholder="http://"
                   defaultValue={state.mission}
                   {...register('mission', {
                     required: {

@@ -1,6 +1,5 @@
 import { styled } from '../stitches.config'
 import { bounce } from '../animation'
-import { m } from 'framer-motion'
 
 const Box = styled('div', {
   variants: {
@@ -17,8 +16,8 @@ const Box = styled('div', {
         right: '0',
         margin: '0.5rem',
 
-        background: '$green600',
-        color: '$black',
+        background: '$violet4',
+        color: '$gray12',
         width: '4rem',
         height: '4rem',
         fontWeight: '500',
@@ -30,38 +29,40 @@ const Box = styled('div', {
 
         '&:hover': {
           animation: `${bounce} 0.3s linear 0ms infinite alternate`,
-          background: '$green500',
+          background: '$violet5',
         },
         '&:active': {
-          background: '$green500',
+          background: '$violet6',
         },
       },
       card: {
-        background: '$background',
-        color: '$foreground',
-        width: '180px',
-        height: '180px',
+        background: '$gray2',
+        color: '$gray11',
+        width: '12rem',
+        height: '100%',
+        padding: '0.5rem',
 
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
 
         gap: '1rem',
-        border: '1px solid $gray800',
-        borderRadius: '15%',
-        boxShadow:
-          'rgba(242, 154, 13, 0.4) 5px 5px, rgba(242, 154, 13, 0.3) 10px 10px, rgba(242, 154, 13, 0.2)15px 15px, rgba(242, 154, 13, 0.1) 20px 20px, rgba(242, 154, 13, 0.05) 25px 25px',
-        transition: 'linear 0.4s',
+        border: '1px solid $mauve10',
+        borderRadius: '20px',
         lineHeight: '100%',
         textDecoration: 'none',
         overflow: 'hidden',
 
         '&:hover': {
-          background: '$background',
-          color: '$foreground',
-          border: '1px solid $gray800',
-          boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',
+          background: '$gray3',
+          color: '$gray12',
+          border: '1px solid $mauve11',
+        },
+        '&:active': {
+          background: '$gray4',
+          color: '$gray12',
+          border: '1px solid $mauve12',
         },
       },
     },

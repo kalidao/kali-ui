@@ -38,13 +38,7 @@ export default function Governance({ setStep }) {
     <Form>
       <FormElement>
         <Label htmlFor="votingPeriod">Voting Period</Label>
-        <Flex
-          css={{
-            '&:hover': {
-              boxShadow: '-2px 0px 20px 3px #ffa00a',
-            },
-          }}
-        >
+        <Flex>
           <Input
             variant="voting"
             type="number"

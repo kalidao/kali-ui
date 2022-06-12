@@ -1,7 +1,6 @@
 import React from 'react'
 import { Flex } from '../../styles/elements'
 import { Results, ResultsText } from '../my-daos/'
-import NewDao from '../my-daos/NewDao'
 import DaoCard from '../my-daos/DaoCard'
 import { addresses } from '../../constants/addresses'
 
@@ -28,10 +27,7 @@ export default function AllDAOs({ daos, chainId }) {
               </ResultsText>
             </ResultsText>
           }
-          <Results>
-            {daos && daos.map((dao) => <DaoCard key={dao['id']} dao={dao} chain={chainId} />)}
-            <NewDao />
-          </Results>
+          <Results>{daos && daos.map((dao) => <DaoCard key={dao['id']} dao={dao} chain={chainId} />)}</Results>
         </Flex>
       ) : null}
     </>

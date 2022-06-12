@@ -14,11 +14,11 @@ const Button = styled('button', {
     },
     variant: {
       brutal: {
-        backgroundColor: '$background',
-        border: '2px solid $green100',
+        backgroundColor: '$violet4',
+        border: '2px solid $violet6',
         borderRadius: '30px',
-        boxShadow: `$green100 4px 4px 0 0`,
-        color: '$gray100',
+        boxShadow: `$violet6 4px 4px 0 0`,
+        color: '$mauve11',
         cursor: 'pointer',
         display: 'inline-block',
         fontWeight: '600',
@@ -33,10 +33,14 @@ const Button = styled('button', {
         touchAction: 'manipulation',
 
         '&:hover': {
-          border: '2px solid $green300',
+          color: '$mauve12',
+          background: '$violet5',
+          border: '2px solid $violet7',
         },
         '&:active': {
-          boxShadow: 'hsl(37, 100%, 40%) 2px 2px 0 0',
+          color: '$mauve12',
+          background: '$violet6',
+          boxShadow: '$violet8 2px 2px 0 0',
           transform: 'translate(2px, 2px)',
         },
         '@media (min-width: 768px)': {
@@ -92,6 +96,26 @@ const Button = styled('button', {
         '&:hover': {
           background: 'hsl(0, 0%, 70%, 0.5)',
           color: '$gray100',
+        },
+      },
+      cta: {
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '3.5px 10px',
+        borderRadius: '20px',
+
+        backgroundColor: '$violet10',
+        border: '1px solid $violet9',
+        color: '$mauve12',
+        fontFamily: 'Bold',
+        fontSize: '14px',
+
+        '&:hover': {
+          backgroundColor: '$violet9',
+        },
+        '&:active': {
+          backgroundColor: '$violet10',
         },
       },
     },

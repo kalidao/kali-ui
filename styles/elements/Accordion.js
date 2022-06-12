@@ -17,7 +17,7 @@ const StyledAccordion = styled(AccordionPrimitive.Root, {
   borderRadius: 6,
   width: '100%',
   backgroundColor: '$background',
-  boxShadow: `0 2px 10px ${'$gray900'}`,
+  boxShadow: `0 2px 10px ${'$gray9'}`,
 })
 
 const StyledItem = styled(AccordionPrimitive.Item, {
@@ -59,18 +59,17 @@ const StyledTrigger = styled(AccordionPrimitive.Trigger, {
   justifyContent: 'space-between',
   fontSize: 15,
   lineHeight: 1,
-  color: '$yellow300',
-  boxShadow: `0 1px 0 ${'$gray900'}`,
-  '&[data-state="closed"]': { backgroundColor: '$background' },
-  '&[data-state="open"]': { backgroundColor: '$background' },
-  '&:hover': { backgroundColor: '$gray900' },
+  color: '$mauve11',
+  '&[data-state="closed"]': { backgroundColor: '$mauve3' },
+  '&[data-state="open"]': { backgroundColor: '$mauve5', color: '$mauve12' },
+  '&:hover': { backgroundColor: '$mauve4' },
 })
 
 const StyledContent = styled(AccordionPrimitive.Content, {
   overflow: 'hidden',
   fontSize: 15,
-  color: '$foreground',
-  backgroundColor: '$background',
+  color: '$gray12',
+  backgroundColor: '$mauve3',
 
   '&[data-state="open"]': {
     animation: `${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards`,
@@ -85,9 +84,9 @@ const StyledContentText = styled('div', {
 })
 
 const StyledChevron = styled(ChevronDownIcon, {
-  color: '$white',
+  color: '$mauve12',
   transition: 'transform 300ms cubic-bezier(0.87, 0, 0.13, 1)',
-  '[data-state=open] &': { transform: 'rotate(180deg)' },
+  '[data-state=closed] &': { transform: 'rotate(180deg)' },
 })
 
 // Exports

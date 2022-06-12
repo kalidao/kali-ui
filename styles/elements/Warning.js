@@ -1,22 +1,29 @@
 import Flex from './Flex'
-
 import { TiWarning } from 'react-icons/ti'
+import { styled } from '../stitches.config'
 
+const StyledWarning = styled(TiWarning, {
+  color: '$yellow9',
+
+  '&:hover': {
+    color: '$yellow10',
+  },
+})
 export default function Warning({ warning }) {
   return (
     <Flex
       css={{
-        background: '$black',
+        background: '$gray2',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        gap: '0.6rem',
-        boxShadow: 'rgba(255, 255, 255, 0.06) 0px 2px 4px 0px inset',
-        color: '$foreground',
+        gap: '0.5rem',
+        border: '1px solid $gray6',
+        color: '$gray11',
         padding: '10px',
         borderRadius: '20px',
       }}
     >
-      <TiWarning color="yellow" />
+      <StyledWarning />
       {warning}
     </Flex>
   )

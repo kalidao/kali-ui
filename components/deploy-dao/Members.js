@@ -93,12 +93,12 @@ export default function Members({ setStep }) {
                 <div>
                   <Input
                     id="member"
-                    variant="address"
                     {...register(`founders.${index}.member`, {
                       required: true,
                     })}
                     defaultValue={item.member}
                     css={{
+                      width: '18rem',
                       fontFamily: 'Screen',
                     }}
                     type="text"

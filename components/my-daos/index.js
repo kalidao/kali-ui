@@ -1,6 +1,5 @@
 import { styled } from '../../styles/stitches.config'
 import DaoCard from './DaoCard'
-import NewDao from './NewDao'
 import { Flex, Text } from '../../styles/elements'
 import { useNetwork, useAccount } from 'wagmi'
 import { useGraph } from '../hooks/useGraph'
@@ -65,7 +64,6 @@ export default function MyDAOs() {
         ))}
       <Results>
         {daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}
-        <NewDao />
         {!account && !daos && <Welcome />}
       </Results>
     </Flex>

@@ -5,6 +5,7 @@ import { computeKaliAddress } from './computeKaliAddress'
 import { prettyDate } from './prettyDate'
 import { isHolder } from './isHolder'
 import { fetchTokens } from './fetchTokens'
+import { getRandomEmoji } from './getRandomEmoji'
 
 export {
   copy,
@@ -15,4 +16,5 @@ export {
   prettyDate,
   isHolder,
   fetchTokens,
+  getRandomEmoji,
 }

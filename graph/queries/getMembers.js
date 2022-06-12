@@ -11,6 +11,7 @@ export const getMembers = async (chainId, address) => {
             daos(where: {
               id: "${address.toLowerCase()}"
             }) {
+                id
                 members {
                     address
                     shares

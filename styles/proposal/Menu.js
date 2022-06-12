@@ -16,30 +16,29 @@ const Menu = styled('div', {
 })
 
 const Item = styled('div', {
-  background: '$foreground',
-  color: '$background',
+  background: '$gray3',
+  border: '1px solid $gray7',
+  color: '$mauve11',
   padding: '1rem',
   overflow: 'hidden',
-  boxShadow: '2px 1px 10px 3px $gray100',
-
+  boxShadow: '2px 1px 10px 3px $gray7',
+  display: 'flex',
   fontFamily: 'Regular',
   fontWeight: '600',
 
   '@media (min-width: 340px)': {
     width: '5rem',
     height: '5rem',
-    fontSize: '16px',
+    fontSize: '12px',
   },
   '@media (min-width: 640px)': {
-    width: '80%',
-    height: '10vh',
-    fontSize: '1.5em',
+    width: '9rem',
+    height: '3rem',
+    fontSize: '21px',
 
     '&:hover': {
-      width: '81%',
-      height: '11vh',
-      border: '1px solid white',
-      transition: '0.5s',
+      background: '$gray4',
+      border: '1px solid $gray8',
     },
   },
 })

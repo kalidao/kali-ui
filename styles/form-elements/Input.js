@@ -13,17 +13,20 @@ const Input = styled('input', {
         height: 32,
         fontSize: 12,
         lineHeight: 1,
-        color: '$foreground',
-        backgroundColor: '$background',
-        border: '1px solid $foreground',
-        boxShadow: `4px 6px 10px -7px $highlight2`,
+        color: '$gray11',
+        backgroundColor: '$gray3',
+        border: '1px solid $gray7',
 
         '&:hover': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray4',
+          border: '1px solid $gray8',
         },
 
         '&:focus': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray5',
+          border: '1px solid $gray8',
         },
       },
       voting: {
@@ -39,15 +42,20 @@ const Input = styled('input', {
         color: '$foreground',
         backgroundColor: '$background',
         width: '3rem',
-        border: 'none',
-        boxShadow: `4px 6px 10px -7px $highlight2`,
+        color: '$gray11',
+        backgroundColor: '$gray3',
+        border: '1px solid $gray7',
 
         '&:hover': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray4',
+          border: '1px solid $gray8',
         },
 
         '&:focus': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray5',
+          border: '1px solid $gray8',
         },
       },
       calendar: {
@@ -60,47 +68,26 @@ const Input = styled('input', {
         height: 32,
         fontSize: 12,
         lineHeight: 1,
-        color: '$foreground',
-        backgroundColor: '$background',
-        border: '1px solid $foreground',
-        boxShadow: `4px 6px 10px -7px $highlight2`,
+        color: '$gray11',
+        backgroundColor: '$gray3',
+        border: '1px solid $gray7',
 
         '&:hover': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray4',
+          border: '1px solid $gray8',
         },
 
         '&:focus': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
+          color: '$gray12',
+          backgroundColor: '$gray5',
+          border: '1px solid $gray8',
         },
         '&::-webkit-calendar-picker-indicator': {
           filter: 'invert(100%)',
         },
         '&::-webkit-datetime-edit-fields-wrapper': {
           color: '$foreground',
-        },
-      },
-      address: {
-        all: 'unset',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 4,
-        padding: '0 10px',
-        height: 32,
-        width: '16.5rem',
-        fontSize: 12,
-        lineHeight: 1,
-        color: '$foreground',
-        backgroundColor: '$background',
-        border: '1px solid $foreground',
-        boxShadow: `4px 6px 10px -7px $highlight2`,
-
-        '&:hover': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
-        },
-
-        '&:focus': {
-          boxShadow: 'hsla(37, 100%, 50%, 0.6) 0px 2px 2px, hsla(37, 100%, 50%, 0.6) 0px 2px 2px',
         },
       },
       textarea: {

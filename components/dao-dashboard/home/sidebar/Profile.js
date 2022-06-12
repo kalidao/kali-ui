@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from '../../../../styles/stitches.config'
-import { Button, Flex, Text } from '../../../../styles/elements'
+import { Button, Flex, Box, Text } from '../../../../styles/elements'
 import { Dialog, DialogTrigger, DialogContent } from '../../../../styles/Dialog'
 import { NewProposalModal } from '../../newproposal/'
 import Link from 'next/link'
@@ -11,6 +11,7 @@ import { ethers } from 'ethers'
 import { useGraph } from '../../../hooks'
 import Info from '../../../../styles/Info'
 import { getMembers } from '../../../../graph/queries'
+import { getRandomEmoji } from '../../../../utils'
 
 export default function ProfileComponent({ dao }) {
   const router = useRouter()
@@ -26,17 +27,21 @@ export default function ProfileComponent({ dao }) {
   })
 
   useEffect(() => {
+    let mounted = true
     const fetchMembers = async () => {
       const result = await getMembers(Number(daoChain), daoAddress)
-      console.log('member data', result?.data?.daos?.[0]?.members)
-      setMembers(result?.data?.daos?.[0]?.members)
+      console.log('member data', result?.data?.daos?.[0])
+      setMembers(result?.data?.daos?.[0])
     }
 
     fetchMembers()
+    return () => {
+      mounted = false
+    }
   }, [])
 
   useEffect(() => {
-    if (members) {
+    if (members?.members) {
       for (let i = 0; i < members.length; i++) {
         console.log(members[i].address, user)
         if (members[i].address === user?.address.toLocaleLowerCase()) {
@@ -51,64 +56,80 @@ export default function ProfileComponent({ dao }) {
 
   return (
     <Info heading="About">
-      <Flex dir="row" align="separate" gap="md">
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/treasury',
-            query: {
-              dao: router.query.dao,
-              chainId: router.query.chainId,
-            },
+      <Flex dir="col" gap="md" align="center">
+        <Box
+          css={{
+            background: '$gray9',
+            borderRadius: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '55px',
+            width: '55px',
+            fontSize: '27px',
           }}
-          passHref
         >
-          <Flex
-            dir="col"
-            align="start"
-            gap="sm"
-            css={{
-              '&:hover': {
-                borderBottom: '1px solid $accent',
+          {members && getRandomEmoji(members?.['id'])}
+        </Box>
+        <Flex dir="row" align="separate" gap="md">
+          <Link
+            href={{
+              pathname: '/daos/[chainId]/[dao]/treasury',
+              query: {
+                dao: router.query.dao,
+                chainId: router.query.chainId,
               },
             }}
+            passHref
           >
-            <Text
-              color="accent"
+            <Flex
+              dir="col"
+              align="start"
+              gap="sm"
               css={{
-                display: 'flex',
-                gap: '5px',
+                '&:hover': {
+                  borderBottom: '1px solid $accent',
+                },
               }}
             >
-              {balance && ethers.utils.formatUnits(balance.value, balance.decimals)}
-              {ethers.constants.EtherSymbol}
-            </Text>
-            <Text>Balance</Text>
-          </Flex>
-        </Link>
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/members',
-            query: {
-              dao: router.query.dao,
-              chainId: router.query.chainId,
-            },
-          }}
-          passHref
-        >
-          <Flex
-            dir="col"
-            align="start"
-            gap="sm"
-            css={{
-              '&:hover': {
-                borderBottom: '1px solid $accent',
+              <Text
+                color="accent"
+                css={{
+                  display: 'flex',
+                  gap: '5px',
+                }}
+              >
+                {balance && ethers.utils.formatUnits(balance.value, balance.decimals)}
+                {ethers.constants.EtherSymbol}
+              </Text>
+              <Text>Balance</Text>
+            </Flex>
+          </Link>
+          <Link
+            href={{
+              pathname: '/daos/[chainId]/[dao]/members',
+              query: {
+                dao: router.query.dao,
+                chainId: router.query.chainId,
               },
             }}
+            passHref
           >
-            <Text color="accent">{members?.length}</Text>
-            <Text>Members</Text>
-          </Flex>
-        </Link>
+            <Flex
+              dir="col"
+              align="start"
+              gap="sm"
+              css={{
+                '&:hover': {
+                  borderBottom: '1px solid $accent',
+                },
+              }}
+            >
+              <Text color="accent">{members?.members.length}</Text>
+              <Text>Members</Text>
+            </Flex>
+          </Link>
+        </Flex>
       </Flex>
       <Flex align="center">
         <Dialog>

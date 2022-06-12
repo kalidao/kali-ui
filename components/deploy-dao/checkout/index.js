@@ -206,7 +206,7 @@ export default function Checkout({ setStep }) {
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
         <Button
-          variant="primary"
+          variant="cta"
           css={{ width: '100%' }}
           onClick={deployKaliDao}
           disabled={isWritePending || isWriteSuccess}

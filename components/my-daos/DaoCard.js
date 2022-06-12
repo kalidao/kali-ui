@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
 import { styled } from '../../styles/stitches.config'
 import { truncateAddress } from '../../utils/formatters'
-import { Box } from '../../styles/elements'
+import { Flex, Box } from '../../styles/elements'
 import { getDaoChain } from '../../utils'
 import { useState, useEffect } from 'react'
 import { useNetwork } from 'wagmi'
+import { getRandomEmoji } from '../../utils/'
 
 const Name = styled('div', {
   fontFamily: 'Bold',
@@ -36,9 +37,24 @@ export default function DaoCard({ dao, chain }) {
 
   return (
     <Box as="a" variant="card" onClick={gotoDAO}>
-      <Name>{dao['token']['name']}</Name>
-      {dao['members'] != undefined && <Name>{dao['members'].length} Members</Name>}
-      <Address>{truncateAddress(dao['id'])}</Address>
+      <Box
+        css={{
+          background: '$gray9',
+          borderRadius: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '30px',
+          width: '30px',
+        }}
+      >
+        {getRandomEmoji(dao['id'])}
+      </Box>
+      <Flex dir="col" gap="sm">
+        <Name>{dao['token']['name']}</Name>
+        {dao['members'] != undefined && <Name>{dao['members'].length} Members</Name>}
+        <Address>{truncateAddress(dao['id'])}</Address>
+      </Flex>
     </Box>
   )
 }
