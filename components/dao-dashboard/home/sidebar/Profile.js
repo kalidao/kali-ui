@@ -30,7 +30,6 @@ export default function ProfileComponent({ dao }) {
     let mounted = true
     const fetchMembers = async () => {
       const result = await getMembers(Number(daoChain), daoAddress)
-      console.log('member data', result?.data?.daos?.[0])
       setMembers(result?.data?.daos?.[0])
     }
 
@@ -42,11 +41,10 @@ export default function ProfileComponent({ dao }) {
 
   useEffect(() => {
     if (members?.members) {
-      for (let i = 0; i < members.length; i++) {
-        console.log(members[i].address, user)
-        if (members[i].address === user?.address.toLocaleLowerCase()) {
-          console.log('member found')
+      for (let i = 0; i < members?.members.length; i++) {
+        if (members?.members[i].address.toLowerCase() === user?.address.toLowerCase()) {
           setIsMember(true)
+          console.log('member found')
         } else {
           setIsMember(false)
         }
