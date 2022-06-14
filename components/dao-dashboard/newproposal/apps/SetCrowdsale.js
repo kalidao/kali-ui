@@ -69,6 +69,11 @@ export default function SetCrowdsale({ setProposal }) {
     customAccess = customAccess.split(', ')
 
     console.log(customAccess)
+
+    if (!customAccess) {
+      setWarning('Please input custom access list.')
+    }
+
     for (let i = 0; i < customAccess.length; i++) {
       const address = await fetchEnsAddress(daoChainId, customAccess[i])
 
@@ -76,8 +81,6 @@ export default function SetCrowdsale({ setProposal }) {
         setWarning(`${address}.`)
         setIsRecorded(false)
         return
-      } else {
-        setWarning('Please input custom access list.')
       }
 
       list.push(address)
@@ -120,7 +123,7 @@ export default function SetCrowdsale({ setProposal }) {
       // crowdsale to prevent access list mismatch
       let id = await kaliAccess.listCount()
       id = ethers.utils.formatUnits(id, 'wei')
-      _purchaseAccess = parseInt(id) + 1
+      _purchaseAccess = parseInt(id)
     }
 
     // Crowdsale asset
@@ -206,7 +209,7 @@ export default function SetCrowdsale({ setProposal }) {
           {crowdsaleStatus === 'Inactive' ? (
             <Label htmlFor="recipient">Activate Crowdsale</Label>
           ) : (
-            <Label htmlFor="recipient">Deactivate Redemption</Label>
+            <Label htmlFor="recipient">Deactivate Crowdsale</Label>
           )}
           <Input
             type={'checkbox'}
