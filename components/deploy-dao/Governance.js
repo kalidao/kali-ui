@@ -125,14 +125,13 @@ export default function Governance({ setStep }) {
         </Flex>
       </FormElement>
       <FormElement>
-        <Label htmlFor="paused">Token Transferability</Label>
-        <Checkbox
-          type="checkbox"
-          {...register('transferability')}
+        <Label htmlFor="transferability">Token Transferability</Label>
+        <Switch
           control={control}
           name="transferability"
           value="transferability"
-          defaultValue={state.transferability}
+          defaultValue={state.redemption}
+          onValueChange={(value) => setValue('transferability', value)}
         />
       </FormElement>
       <Flex css={{ justifyContent: 'flex-end' }}>

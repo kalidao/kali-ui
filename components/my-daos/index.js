@@ -65,7 +65,7 @@ export default function MyDAOs() {
           ))}
         <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
       </Flex>
-      {!account && !daos && <Welcome />}
+      {(!account || !daos) && <Welcome />}
     </>
   )
 }
