@@ -43,6 +43,7 @@ export default function Header({ heading, props }) {
           as="h1"
           variant="heading"
           css={{
+            fontFamily: 'Screen',
             '@media (max-width: 1040px)': {
               display: 'none',
             },

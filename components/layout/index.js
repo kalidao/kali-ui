@@ -7,7 +7,7 @@ export default function Layout({ heading, children, props }) {
     <>
       <Box
         css={{
-          fontFamily: 'Display',
+          fontFamily: 'Screen',
         }}
         {...props}
       >

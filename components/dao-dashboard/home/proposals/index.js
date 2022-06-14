@@ -7,7 +7,13 @@ export default function Proposals({ proposals }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text color="foreground" variant="heading">
+      <Text
+        color="foreground"
+        variant="heading"
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
         Proposals
       </Text>
       <Flex dir="col">
