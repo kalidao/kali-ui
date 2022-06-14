@@ -8,6 +8,7 @@ import { CHECK_APPS } from '../../../../graph'
 import { RiInformationFill, RiInformationLine } from 'react-icons/ri'
 import { BsFillPiggyBankFill, BsPiggyBank, BsPeople, BsFillPeopleFill, BsPiggyBankFill } from 'react-icons/bs'
 import { GoHome } from 'react-icons/go'
+import { GiCoins, GiBriefcase } from 'react-icons/gi'
 import { HiHome, HiOutlineHome } from 'react-icons/hi'
 
 const Icon = styled('span', {
@@ -90,19 +91,55 @@ export default function Menu() {
         </Link>
       </Icon>
 
-      {/* {data != undefined ? 
-            (data["daos"][0]["crowdsale"]) != null &&
-        <Link href={{
+      <Icon>
+        <Link
+          href={{
             pathname: '/daos/[chainId]/[dao]/crowdsale',
-            query: { 
-                chainId: router.query.chainId,
-                dao: router.query.dao,
-            }
-        }}>
-            <Icon as="a">
+            query: {
+              chainId: router.query.chainId,
+              dao: router.query.dao,
+            },
+          }}
+        >
+          <Icon as="a">
+            <GiCoins size={30} />
+          </Icon>
+        </Link>
+      </Icon>
+
+      <Icon>
+        <Link
+          href={{
+            pathname: '/daos/[chainId]/[dao]/crowdsale',
+            query: {
+              chainId: router.query.chainId,
+              dao: router.query.dao,
+            },
+          }}
+        >
+          <Icon as="a">
+            <GiBriefcase size={30} />
+          </Icon>
+        </Link>
+      </Icon>
+
+      {/* {data != undefined
+        ? data['daos'][0]['crowdsale'] != null && (
+            <Link
+              href={{
+                pathname: '/daos/[chainId]/[dao]/crowdsale',
+                query: {
+                  chainId: router.query.chainId,
+                  dao: router.query.dao,
+                },
+              }}
+            >
+              <Icon as="a">
                 <GiCoins size={30} />
-            </Icon>   
-        </Link>) : null} */}
+              </Icon>
+            </Link>
+          )
+        : null} */}
 
       <Icon as="a">
         <Link
