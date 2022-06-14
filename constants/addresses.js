@@ -75,4 +75,18 @@ export const addresses =
       blockExplorer: 'https://arbiscan.io',
       kaliMaster: '0xffe7e91f86fa2c6af0b3cddf0f0906d465e1d760',
     },
+    // Optimism
+    10: {
+      name: 'Optimism',
+      factory: '0xe8E08113Dc0f2B6392A4bD14d7F1d9AA6E89e1e3',
+      access2: '0x9E07053081E51F962d51C755272531B0846e4C31',
+      extensions: {
+        tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
+        crowdsale2: '0x05622EF2b9290f19230FD10e80BB468c51e17b2d',
+        redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
+      },
+      kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
+      ricardian: '0x581b5E51fFBB742f92E818Fb177CAD8a30e43f3E',
+      blockExplorer: 'https://optimistic.etherscan.io/',
+    },
   }
