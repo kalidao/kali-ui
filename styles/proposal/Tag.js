@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex } from '../elements/'
 import { BsPersonPlusFill, BsPersonDashFill } from 'react-icons/bs'
 import { GoSettings } from 'react-icons/go'
-
+import { ExitIcon } from '@radix-ui/react-icons'
 const validateProposalTag = (type) => {
   let tag
   let icon
@@ -46,17 +46,18 @@ const validateProposalTag = (type) => {
 
   switch (tag) {
     case 'GOVERNANCE':
-      tagColor = '$purple200'
+      tagColor = '$purple2'
       icon = <GoSettings />
       break
     case 'MEMBER':
-      tagColor = '$green200'
+      tagColor = '$green2'
       break
     case 'APP':
-      tagColor = '$yellow200'
+      tagColor = '$yellow2'
       break
     case 'EXTERNAL':
       tagColor = '$yellow200'
+      icon = <ExitIcon />
       break
   }
   return { tag, icon, tagColor }
@@ -67,9 +68,13 @@ export default function Tag({ type }) {
   return (
     <Flex
       css={{
-        color: `${tagColor}`,
+        color: `$gray11`,
+        background: '$gray3',
+        padding: '2px 10px',
+        borderRadius: '20px',
+        border: '1px solid $gray4',
         fontWeight: '800',
-        fontFamily: 'Screen',
+        fontFamily: 'Regular',
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: '0.5rem',

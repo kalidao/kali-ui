@@ -90,14 +90,9 @@ export default function ProfileComponent({ dao }) {
                 },
               }}
             >
-              <Text
-                color="accent"
-                css={{
-                  display: 'flex',
-                  gap: '5px',
-                }}
-              >
-                {balance && ethers.utils.formatUnits(balance.value, balance.decimals)}
+              <Text color="accent">
+                {balance && Number(ethers.utils.formatUnits(balance.value, balance.decimals)).toFixed(2)}
+                {'   '}
                 {ethers.constants.EtherSymbol}
               </Text>
               <Text>Balance</Text>

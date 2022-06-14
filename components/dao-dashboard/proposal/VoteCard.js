@@ -1,11 +1,11 @@
 import React from 'react'
-import { Box, Flex, Text } from '../../../styles/elements'
-import { truncateAddress } from '../../../utils/formatters'
+import { Box } from '../../../styles/elements'
+import { truncateAddress } from '../../../utils/'
 import { useBalance, useEnsName } from 'wagmi'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { ethers } from 'ethers'
+import { Row, Data } from '../../../styles/Table'
 
 export default function VoteCard({ vote }) {
   const router = useRouter()
@@ -24,36 +24,30 @@ export default function VoteCard({ vote }) {
 
   console.log('balance', daoAddress, daoChain)
   return (
-    <Flex
-      gap="md"
-      css={{
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <Text
+    <Row>
+      <Data
         css={{
-          maxWidth: '30px',
+          minWidth: '60px',
         }}
       >
         {ensName ? ensName : truncateAddress(vote.voter)}
-      </Text>
-      <Text
+      </Data>
+      <Data
         css={{
-          maxWidth: '5px',
+          minWidth: '20px',
         }}
       >
         {vote.vote === true ? <CheckIcon color="green" /> : <Cross2Icon color="red" />}
-      </Text>
-      <Flex
-        gap="sm"
+      </Data>
+      <Data
         css={{
-          maxWidth: '100px',
+          gap: '10px',
         }}
       >
-        <Text>{balance?.formatted}</Text>
-        <Text>{balance?.symbol}</Text>
-      </Flex>
-    </Flex>
+        {Number(balance?.formatted).toFixed(2)}
+        {'  '}
+        {balance?.symbol}
+      </Data>
+    </Row>
   )
 }

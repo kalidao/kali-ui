@@ -1,5 +1,6 @@
 import { styled } from './stitches.config'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import { blackA } from '@radix-ui/colors'
 
 const StyledAvatar = styled(AvatarPrimitive.Root, {
   display: 'inline-flex',
@@ -11,7 +12,7 @@ const StyledAvatar = styled(AvatarPrimitive.Root, {
   width: 23,
   height: 23,
   borderRadius: '100%',
-  backgroundColor: `$blackAlpha`,
+  backgroundColor: `blackA`,
 })
 
 const StyledImage = styled(AvatarPrimitive.Image, {
@@ -27,8 +28,8 @@ const StyledFallback = styled(AvatarPrimitive.Fallback, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: '$blackAlpha',
-  color: `$red`,
+  backgroundColor: '$gray3',
+  color: `$gray11`,
   fontSize: 25,
   fontWeight: '800',
   lineHeight: 1,

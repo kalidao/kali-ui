@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { truncateAddress } from './../../../../utils/formatters'
+import { truncateAddress } from './../../../../utils/'
 import { Flex, Box, Text } from '../../../../styles/elements'
 import { bounce } from '../../../../styles/animation'
 import { styled } from '../../../../styles/stitches.config'
@@ -29,7 +29,7 @@ export const ProposalCard = ({ proposal }) => {
       gap="sm"
       css={{
         padding: '1rem 0.5rem 1rem 0.5rem',
-        minWidth: '70vw',
+        maxWidth: '50rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
@@ -64,36 +64,45 @@ export const ProposalCard = ({ proposal }) => {
           dir="col"
           gap="sm"
           css={{
-            minWidth: '80%',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
           }}
         >
           <Flex
-            color="foreground"
-            gap="sm"
+            gap="md"
             css={{
+              minWidth: '40rem',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
+            <Flex
+              color="foreground"
+              gap="sm"
+              css={{
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
+              <Text
+                css={{
+                  fontFamily: 'Regular',
+                  color: '$gray12',
+                }}
+              >
+                #{proposal?.serial} by
+              </Text>
+              <Text
+                css={{
+                  fontFamily: 'Regular',
+                  color: '$gray11',
+                }}
+              >
+                {'    '}
+                {proposer}
+              </Text>
+            </Flex>
             <Tag type={proposal['proposalType']} />
-            <Text
-              css={{
-                fontFamily: 'Screen',
-                color: 'hsla(0, 0%, 90%, 0.7)',
-              }}
-            >
-              Proposal #{proposal?.serial} by
-            </Text>
-            <Text
-              css={{
-                fontFamily: 'Screen',
-                color: '$purple300',
-              }}
-            >
-              {proposer}
-            </Text>
           </Flex>
           <Box>
             {proposal['description'].length > 100

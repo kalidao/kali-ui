@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { Flex, Text } from '../../../styles/elements'
-import { truncateAddress } from '../../../utils/formatters'
+import { truncateAddress } from '../../../utils/'
 import { Spinner } from '../../elements'
 
 export default function MemberCard({ member, totalSupply }) {

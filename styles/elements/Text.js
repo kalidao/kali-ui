@@ -6,9 +6,9 @@ const Text = styled('div', {
   variants: {
     variant: {
       heading: {
-        fontSize: '2.3rem',
-        fontFamily: 'Screen',
-        color: '$foreground',
+        fontSize: '32px',
+        fontFamily: 'Bold',
+        color: '$gray12',
       },
       link: {
         display: 'flex',

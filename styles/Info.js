@@ -8,9 +8,9 @@ export default function Info({ heading, children, props }) {
           fontFamily: 'Screen',
           fontWeight: '700',
           fontSize: '24px',
+          border: '1px solid $gray6',
           borderTopLeftRadius: '25px',
           borderTopRightRadius: '25px',
-          boxShadow: 'rgba(60, 60, 60, 0.4) 1px 1px 6px 0px inset, rgba(60, 60, 60, 0.4) -1px -1px 6px 1px inset',
           borderBottom: '1px solid rgba(0, 0, 0, 0.15)',
           minWidth: '15rem',
           overflow: 'hidden',
@@ -22,7 +22,7 @@ export default function Info({ heading, children, props }) {
       <Box
         css={{
           padding: '1rem',
-          boxShadow: 'rgba(60, 60, 60, 0.4) 1px 1px 6px 0px inset, rgba(60, 60, 60, 0.4) -1px -1px 6px 1px inset',
+          border: '1px solid $gray6',
           borderBottomLeftRadius: '25px',
           borderBottomRightRadius: '25px',
           minWidth: '15rem',

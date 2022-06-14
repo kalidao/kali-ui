@@ -44,7 +44,7 @@ const Box = styled('div', {
 
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
 
         gap: '1rem',

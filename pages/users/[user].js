@@ -3,14 +3,13 @@ import UserDAOs from '../../components/user-daos/'
 import NewDaoSquare from '../../components/my-daos/NewDaoSquare'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { truncateAddress } from '../../utils/formatters'
 
 // TODO: Error page is not an address
 export default function UserDAOsPage() {
   const router = useRouter()
   const { data } = useEnsName({
     addressOrName: router.query.user,
-    chainId: 1,
+    chainId: Number(1),
   })
 
   return (

@@ -6,6 +6,7 @@ import { prettyDate } from './prettyDate'
 import { isHolder } from './isHolder'
 import { fetchTokens } from './fetchTokens'
 import { getRandomEmoji } from './getRandomEmoji'
+import { truncateAddress } from './truncateAddress'
 
 export {
   copy,
@@ -17,4 +18,5 @@ export {
   isHolder,
   fetchTokens,
   getRandomEmoji,
+  truncateAddress,
 }

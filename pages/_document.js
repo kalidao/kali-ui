@@ -54,7 +54,7 @@ export default class Document extends NextDocument {
                 }
                 @font-face {
                   font-family: 'Bold';
-                  font-weight: 500;
+                  font-weight: 800;
                   font-display: swap;
                   src: url(./fonts/Px-Grotesk-Bold.woff2) format('woff2');
                 }
@@ -77,7 +77,7 @@ export default class Document extends NextDocument {
         </Head>
         <body
           style={{
-            background: 'hsl(0, 0%, 5%)',
+            background: 'hsl(0, 0%, 8.5%)',
           }}
         >
           <Main />

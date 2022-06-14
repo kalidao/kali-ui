@@ -9,17 +9,11 @@ export default function Description({ description }) {
         gap: '0.3rem',
       }}
     >
-      <Text
-        css={{
-          color: '$gray500',
-        }}
-      >
-        Description
-      </Text>
       {description?.length > 0 ? (
         <Text
           css={{
-            color: '$gray100',
+            fontFamily: 'Regular',
+            color: '$gray12',
           }}
         >
           {description}

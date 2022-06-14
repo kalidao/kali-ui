@@ -1,35 +1,23 @@
 import React from 'react'
-import { Box, Text } from '../../styles/elements'
-
+import Featured from './Featured'
+import NewDao from './NewDao'
+import { Flex } from '../../styles/elements'
 export default function Welcome() {
   return (
-    <Box
+    <Flex
+      dir="row"
+      gap="md"
       css={{
-        border: '1px solid #fff',
-        padding: '1rem',
         position: 'absolute',
-        top: '10%',
-        bottom: '0',
-        right: '0',
-        left: '25%',
+        top: '7rem',
+        right: '5rem',
+        left: '5rem',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
       }}
     >
-      <Text
-        css={{
-          fontFamily: 'Screen',
-          fontSize: '36px',
-        }}
-      >
-        Heading
-      </Text>
-      <Text
-        css={{
-          fontFamily: 'Screen',
-          fontSize: '12px',
-        }}
-      >
-        Welcome Message
-      </Text>
-    </Box>
+      <NewDao />
+      <Featured />
+    </Flex>
   )
 }

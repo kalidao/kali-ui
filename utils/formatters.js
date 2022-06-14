@@ -263,10 +263,6 @@ export function formatAmounts(type, p) {
   return formattedAmounts
 }
 
-export function truncateAddress(account) {
-  return account.substr(0, 5) + '...' + account.substr(account.length - 4, account.length)
-}
-
 export function getNetworkName(chainId) {
   var networkName = 'unsupported'
   for (var i = 0; i < supportedChains.length; i++) {

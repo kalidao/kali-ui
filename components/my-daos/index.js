@@ -1,6 +1,6 @@
 import { styled } from '../../styles/stitches.config'
 import DaoCard from './DaoCard'
-import { Flex, Text } from '../../styles/elements'
+import { Flex } from '../../styles/elements'
 import { useNetwork, useAccount } from 'wagmi'
 import { useGraph } from '../hooks/useGraph'
 import { USER_DAOS } from '../../graph'
@@ -53,19 +53,19 @@ export default function MyDAOs() {
   const daos = data?.['members']
 
   return (
-    <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
-      {daos &&
-        (daos.length > 1 ? (
-          <ResultsText> You are in {daos.length} DAOs </ResultsText>
-        ) : daos.length === 1 ? (
-          <ResultsText>You are in {daos.length} DAO</ResultsText>
-        ) : (
-          <ResultsText>You are not in any DAO. Create one!</ResultsText>
-        ))}
-      <Results>
-        {daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}
-        {!account && !daos && <Welcome />}
-      </Results>
-    </Flex>
+    <>
+      <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
+        {daos &&
+          (daos.length > 1 ? (
+            <ResultsText> You are in {daos.length} DAOs </ResultsText>
+          ) : daos.length === 1 ? (
+            <ResultsText>You are in {daos.length} DAO</ResultsText>
+          ) : (
+            <ResultsText>You are not in any DAO. Create one!</ResultsText>
+          ))}
+        <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
+      </Flex>
+      {!account && !daos && <Welcome />}
+    </>
   )
 }

@@ -9,8 +9,8 @@ const Content = styled(Tooltip.Content, {
   padding: '10px 15px',
   fontSize: 15,
   lineHeight: 1,
-  color: '$foreground',
-  backgroundColor: '$black',
+  color: '$gray12',
+  backgroundColor: '$gray1',
   boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   '@media (prefers-reduced-motion: no-preference)': {
     animationDuration: '400ms',
@@ -43,7 +43,7 @@ const IconButton = styled('button', {
 })
 
 const Arrow = styled(Tooltip.Arrow, {
-  fill: 'black',
+  fill: '$gray1',
 })
 
 // Add label
@@ -53,6 +53,18 @@ export default function Tip({ label }) {
       <Tooltip.Trigger asChild>
         <QuestionMarkIcon color="#ffa00a" />
       </Tooltip.Trigger>
+      <Content sideOffset={5}>
+        {label}
+        <Arrow />
+      </Content>
+    </Tooltip.Root>
+  )
+}
+
+export function TriggerTip({ label, children }) {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       <Content sideOffset={5}>
         {label}
         <Arrow />
