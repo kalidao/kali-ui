@@ -35,7 +35,7 @@ createStore({
   purchaseMultiplier: 10,
   crowdsaleEnd: new Date(),
   legal: false,
-  docType: 'series',
+  docType: 'none',
 })
 
 export default function DeployDaoWrapper() {
