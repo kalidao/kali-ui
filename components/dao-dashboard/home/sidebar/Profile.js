@@ -142,7 +142,7 @@ export default function ProfileComponent({ dao }) {
             </Button>
           </DialogTrigger>
           <DialogContent>
-            {isMember ? <NewProposalModal proposalProp="redemption" /> : <NewProposalModal proposalProp="tribute" />}
+            {isMember ? <NewProposalModal proposalProp="quit" /> : <NewProposalModal proposalProp="tribute" />}
           </DialogContent>
         </Dialog>
       </Flex>

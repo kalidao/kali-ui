@@ -5,7 +5,6 @@ import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import {
-  AdminMenu,
   CallContract,
   ConfigureExtensions,
   ToggleTransfer,

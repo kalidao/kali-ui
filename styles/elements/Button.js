@@ -65,10 +65,7 @@ const Button = styled('button', {
         },
       },
       transparent: {
-        background: 'none',
-        color: '$foreground',
-        padding: '0.3rem 0.8rem',
-        borderRadius: '22.81px',
+        all: 'unset',
       },
       info: {
         all: 'unset',
