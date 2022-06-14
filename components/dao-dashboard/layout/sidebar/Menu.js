@@ -6,7 +6,14 @@ import { bounce } from '../../../../styles/animation'
 import { useRouter } from 'next/router'
 import { CHECK_APPS } from '../../../../graph'
 import { RiInformationFill, RiInformationLine } from 'react-icons/ri'
-import { BsFillPiggyBankFill, BsPiggyBank, BsPeople, BsFillPeopleFill, BsPiggyBankFill } from 'react-icons/bs'
+import {
+  BsFillPiggyBankFill,
+  BsPiggyBank,
+  BsPeople,
+  BsFillPeopleFill,
+  BsBriefcase,
+  BsBriefcaseFill,
+} from 'react-icons/bs'
 import { GoHome } from 'react-icons/go'
 import { GiCoins, GiBriefcase } from 'react-icons/gi'
 import { HiHome, HiOutlineHome } from 'react-icons/hi'
@@ -14,15 +21,24 @@ import { HiHome, HiOutlineHome } from 'react-icons/hi'
 const Icon = styled('span', {
   display: 'flex',
   justifyContent: 'center',
+  padding: '6px',
   alignItems: 'center',
   background: '$background',
   maxWidth: '2rem',
   borderRadius: '100%',
+  height: '25px',
+  width: '25px',
 
+  '&:hover': {
+    background: '$gray5',
+  },
   '& svg': {
-    color: `$gray100`,
+    color: `$gray7`,
     '&:hover': {
-      color: `$gray300`,
+      color: `$gray8`,
+    },
+    '&:active': {
+      color: `$gray9`,
     },
   },
 })
@@ -90,7 +106,6 @@ export default function Menu() {
           {path.includes('members') ? <BsFillPeopleFill size={30} /> : <BsPeople size={30} />}
         </Link>
       </Icon>
-
       <Icon>
         <Link
           href={{
@@ -106,41 +121,25 @@ export default function Menu() {
           </Icon>
         </Link>
       </Icon>
-
-      <Icon>
+      {/* 
+        TODO: 
+        - Conditional on whether crowdsale active 
+        - Add outline coin stack icon
+      */}
+      <Icon as="a">
         <Link
           href={{
-            pathname: '/daos/[chainId]/[dao]/crowdsale',
+            pathname: '/daos/[chainId]/[dao]/services',
             query: {
               chainId: router.query.chainId,
               dao: router.query.dao,
             },
           }}
+          passHref
         >
-          <Icon as="a">
-            <GiBriefcase size={30} />
-          </Icon>
+          {path.includes('crowdsale') ? <BsBriefcaseFill size={30} /> : <BsBriefcase size={30} />}
         </Link>
       </Icon>
-
-      {/* {data != undefined
-        ? data['daos'][0]['crowdsale'] != null && (
-            <Link
-              href={{
-                pathname: '/daos/[chainId]/[dao]/crowdsale',
-                query: {
-                  chainId: router.query.chainId,
-                  dao: router.query.dao,
-                },
-              }}
-            >
-              <Icon as="a">
-                <GiCoins size={30} />
-              </Icon>
-            </Link>
-          )
-        : null} */}
-
       <Icon as="a">
         <Link
           href={{
