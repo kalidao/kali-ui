@@ -58,14 +58,13 @@ export default function MyDAOs() {
         {daos &&
           (daos.length > 1 ? (
             <ResultsText> You are in {daos.length} DAOs </ResultsText>
-          ) : daos.length === 1 ? (
-            <ResultsText>You are in {daos.length} DAO</ResultsText>
           ) : (
-            <ResultsText>You are not in any DAO. Create one!</ResultsText>
+            daos.length === 1 && <ResultsText>You are in {daos.length} DAO</ResultsText>
           ))}
         <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
       </Flex>
-      {(!account || !daos) && <Welcome />}
+      {!account && !daos && <Welcome />}
+      {daos && daos.length === 0 && <Welcome />}
     </>
   )
 }
