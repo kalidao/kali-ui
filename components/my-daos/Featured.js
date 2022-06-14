@@ -32,8 +32,8 @@ export default function Featured() {
       </Text>
       <Flex dir="col" gap="md" align="center">
         {featured.map((feature) => (
-          <Link href={`/daos/${encodeURIComponent(feature.chainId)}/${encodeURIComponent(feature.address)}`}>
-            <TriggerTip label={feature.label}>
+          <TriggerTip label={feature.label}>
+            <Link href={`/daos/${encodeURIComponent(feature.chainId)}/${encodeURIComponent(feature.address)}`}>
               <Box
                 variant="card"
                 key={feature.name}
@@ -60,8 +60,8 @@ export default function Featured() {
                   {feature.name}
                 </Text>
               </Box>
-            </TriggerTip>
-          </Link>
+            </Link>
+          </TriggerTip>
         ))}
       </Flex>
     </Flex>
