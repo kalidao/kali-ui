@@ -9,7 +9,7 @@ export default function Results({ votes }) {
   console.log('yesVotes', yesVotes)
   const status = 'PASSING'
   return (
-    <Info heading={<Status />}>
+    <Info heading={'Status'}>
       <Flex align="separate">
         <CheckIcon color="green" />
         {yesVotes.length}

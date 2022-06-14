@@ -32,11 +32,10 @@ export default function Featured() {
       </Text>
       <Flex dir="col" gap="md" align="center">
         {featured.map((feature) => (
-          <TriggerTip label={feature.label}>
-            <Link href={`/daos/${encodeURIComponent(feature.chainId)}/${encodeURIComponent(feature.address)}`}>
+          <TriggerTip label={feature.label} key={feature.name}>
+            <Link href={`/daos/${encodeURIComponent(feature.chainId)}/${encodeURIComponent(feature.address)}`} passHref>
               <Box
                 variant="card"
-                key={feature.name}
                 css={{
                   fontSize: '24px',
                   fontFamily: 'Regular',

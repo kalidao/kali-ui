@@ -29,7 +29,6 @@ export const ProposalCard = ({ proposal }) => {
       gap="sm"
       css={{
         padding: '1rem 0.5rem 1rem 0.5rem',
-        maxWidth: '50rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
@@ -71,7 +70,7 @@ export const ProposalCard = ({ proposal }) => {
           <Flex
             gap="md"
             css={{
-              minWidth: '40rem',
+              minWidth: '50rem',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}

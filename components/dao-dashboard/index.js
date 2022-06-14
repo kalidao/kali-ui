@@ -8,7 +8,7 @@ export function Dashboard({ proposals }) {
       css={{
         background: '$background',
         position: 'relative',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         minWidth: '90vw',
         gap: '1rem',
         marginRight: '1rem',
