@@ -87,6 +87,6 @@ export const addresses =
       },
       kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
       ricardian: '0x581b5E51fFBB742f92E818Fb177CAD8a30e43f3E',
-      blockExplorer: 'https://optimistic.etherscan.io/',
+      blockExplorer: 'https://optimistic.etherscan.io',
     },
   }
