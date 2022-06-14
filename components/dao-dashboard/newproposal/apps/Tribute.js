@@ -16,13 +16,13 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 export default function Tribute() {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = getDaoChain(daoAddress)
+  const daoChainId = router.query.chainId
   const daoName = getTokenName(daoChainId, daoAddress)
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
   const { activeChain } = useNetwork()
   const tributeContract = useContract({
-    addressOrName: activeChain?.id && addresses[activeChain.id]['extensions']['tribute'],
+    addressOrName: activeChain?.id ? addresses[activeChain.id]['extensions']['tribute'] : AddressZero,
     contractInterface: TRIBUTE_ABI,
     signerOrProvider: signer,
   })
