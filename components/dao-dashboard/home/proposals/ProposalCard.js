@@ -78,6 +78,7 @@ export const ProposalCard = ({ proposal }) => {
             <Flex
               color="foreground"
               gap="sm"
+              dir="row"
               css={{
                 justifyContent: 'flex-start',
                 alignItems: 'center',
@@ -89,17 +90,9 @@ export const ProposalCard = ({ proposal }) => {
                   color: '$gray12',
                 }}
               >
-                #{proposal?.serial} by
+                #{proposal?.serial}
               </Text>
-              <Text
-                css={{
-                  fontFamily: 'Regular',
-                  color: '$gray11',
-                }}
-              >
-                {'    '}
-                {proposer}
-              </Text>
+              <Box variant="id">{proposer}</Box>
             </Flex>
             <Tag type={proposal['proposalType']} />
           </Flex>

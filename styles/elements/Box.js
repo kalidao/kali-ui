@@ -9,6 +9,20 @@ const Box = styled('div', {
       },
     },
     variant: {
+      id: {
+        backgroundColor: '$gray3',
+        border: '1px solid $gray4',
+        color: '$gray11',
+        fontFamily: 'Light',
+        padding: '2px 10px',
+        borderRadius: '20px',
+
+        '&:hover': {
+          backgroundColor: '$gray4',
+          border: '1px solid $gray5',
+          color: '$gray12',
+        },
+      },
       create: {
         position: 'fixed',
         bottom: '0',
