@@ -8,7 +8,7 @@ import { Spinner } from '../../elements'
 export default function MemberCard({ member, totalSupply }) {
   const { data: ensName, isLoading } = useEnsName({
     address: member?.address,
-    chainId: 1,
+    chainId: Number(1),
   })
   const { push } = useRouter()
   const routeProfile = () => {
@@ -19,7 +19,7 @@ export default function MemberCard({ member, totalSupply }) {
   //  - Add profile image
   console.log('ens', ensName)
   return (
-    <Flex dir="row" align="separate" css={{ background: '$background', padding: '1rem', gap: '1rem' }}>
+    <Flex dir="row" align="separate" css={{ background: '$gray1', padding: '1rem', gap: '1rem' }}>
       {isLoading ? (
         <Spinner />
       ) : (
@@ -31,7 +31,7 @@ export default function MemberCard({ member, totalSupply }) {
               all: 'unset',
               minWidth: '15px',
               '&:hover': {
-                color: '$green100',
+                color: '$gray12',
               },
             }}
             onClick={routeProfile}

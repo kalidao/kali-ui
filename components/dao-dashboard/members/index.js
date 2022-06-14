@@ -14,10 +14,14 @@ export default function Members({ members }) {
   console.log('members', members)
   return (
     <MembersBox>
-      <Flex dir="row" align="separate" css={{ background: '$gray900', padding: '1rem' }}>
-        <Text css={{ fontWeight: '800', color: '$accent' }}>Member</Text>
-        <Text css={{ fontWeight: '800', color: '$accent' }}>Shares</Text>
-        <Text css={{ fontWeight: '800', color: '$accent' }}>Percentage</Text>
+      <Flex
+        dir="row"
+        align="separate"
+        css={{ background: '$gray2', color: '$gray11', padding: '1rem', fontFamily: 'Regular' }}
+      >
+        <Text css={{ fontWeight: '800' }}>Member</Text>
+        <Text css={{ fontWeight: '800' }}>Shares</Text>
+        <Text css={{ fontWeight: '800' }}>Percentage</Text>
       </Flex>
       {members &&
         members.members.map((member) => (
