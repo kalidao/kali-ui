@@ -45,12 +45,13 @@ export default function ProfileComponent({ dao }) {
         if (members?.members[i].address.toLowerCase() === user?.address.toLowerCase()) {
           setIsMember(true)
           console.log('member found')
-        } else {
-          setIsMember(false)
         }
       }
+    } else {
+      setIsMember(false)
+      console.log('members not found')
     }
-  }, [user, members])
+  }, [user])
 
   return (
     <Info heading="About">
