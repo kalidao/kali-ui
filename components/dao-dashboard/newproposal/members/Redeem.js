@@ -70,7 +70,7 @@ export default function Redeem() {
     <Flex dir="col" gap="md">
       <Text>Redeem assets from DAO treasury by burning select amount of DAO tokens</Text>
       <Text>
-        Current Balance: {isBalanceLoading ? <Spinner /> : balance.formatted} {isSymbolLoading ? <Spinner /> : symbol}
+        Current Balance: {isBalanceLoading ? <Spinner /> : balance?.formatted} {isSymbolLoading ? <Spinner /> : symbol}
       </Text>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormElement>
@@ -80,7 +80,7 @@ export default function Redeem() {
             type="number"
             defaultValue={balance?.formatted}
             min="0"
-            max={balance.formatted}
+            max={balance?.formatted}
             {...register('amount', {
               required: {
                 value: true,
