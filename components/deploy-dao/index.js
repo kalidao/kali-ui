@@ -38,6 +38,8 @@ createStore({
   docType: 'none',
 })
 
+// TODO:
+// Allow interaction with outside from within the modal
 export default function DeployDaoWrapper() {
   const [step, setStep] = useState('id')
   // const [hardMode, setHardMode] = useState(false)

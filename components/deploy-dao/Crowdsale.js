@@ -6,6 +6,9 @@ import { useStateMachine } from 'little-state-machine'
 import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
 
+// TODO:
+// Add purchase terms
+// Add Accredited List
 export default function Crowdsale({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state

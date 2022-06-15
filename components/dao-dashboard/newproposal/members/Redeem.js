@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { useContract, useSigner, useBalance, useContractRead, useAccount } from 'wagmi'
+import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
+import { useForm } from 'react-hook-form'
+
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
-import { addresses } from '../../../../constants/addresses'
 import { Warning } from '../../../../styles/elements'
 import { AddressZero } from '@ethersproject/constants'
 import Spinner from '../../../elements/Spinner'
-import { useForm } from 'react-hook-form'
+
+import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
+import { addresses } from '../../../../constants/addresses'
 
 export default function Redeem() {
   const router = useRouter()
@@ -19,11 +21,20 @@ export default function Redeem() {
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
 
-  const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
+  const { data, isWriteError, isWritePending, writeAsync } = useContractWrite(
+    {
+      addressOrName: daoAddress ? daoAddress : AddressZero,
+      contractInterface: KALIDAO_ABI,
+      chainId: Number(daoChainId),
+    },
+    'callExtension',
+    {
+      onSettled(data, error) {
+        console.log('Settled', { data, error })
+      },
+    },
+  )
+
   const { data: symbol, isSymbolLoading } = useContractRead(
     {
       addressOrName: daoAddress ? daoAddress : AddressZero,
@@ -51,7 +62,6 @@ export default function Redeem() {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const [warning, setWarning] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const onSubmit = async (data) => {

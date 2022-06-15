@@ -5,6 +5,7 @@ import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useForm } from 'react-hook-form'
 
+// TODO: Add grace period
 export default function Redemption({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
