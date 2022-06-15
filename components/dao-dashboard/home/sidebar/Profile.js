@@ -51,7 +51,7 @@ export default function ProfileComponent({ dao }) {
       setIsMember(false)
       console.log('members not found')
     }
-  }, [user])
+  }, [user, members])
 
   return (
     <Info heading="About">
