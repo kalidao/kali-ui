@@ -130,7 +130,7 @@ export default function Governance({ setStep }) {
           control={control}
           name="transferability"
           value="transferability"
-          defaultValue={state.redemption}
+          defaultValue={state.transferability}
           onValueChange={(value) => setValue('transferability', value)}
         />
       </FormElement>
