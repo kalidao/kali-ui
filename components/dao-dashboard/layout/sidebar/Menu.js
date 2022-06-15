@@ -129,11 +129,7 @@ export default function Menu() {
       <Icon as="a">
         <Link
           href={{
-            pathname: '/daos/[chainId]/[dao]/services',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
+            pathname: '/services',
           }}
           passHref
         >
