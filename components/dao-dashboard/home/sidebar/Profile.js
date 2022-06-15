@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { styled } from '../../../../styles/stitches.config'
 import { Button, Flex, Box, Text } from '../../../../styles/elements'
 import { Dialog, DialogTrigger, DialogContent } from '../../../../styles/Dialog'
 import { NewProposalModal } from '../../newproposal/'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { DAO_MEMBERS } from '../../../../graph'
-import { useBalance, useAccount } from 'wagmi'
+import { useBalance, useAccount, useContractRead } from 'wagmi'
 import { ethers } from 'ethers'
-import { useGraph } from '../../../hooks'
 import Info from '../../../../styles/Info'
 import { getMembers } from '../../../../graph/queries'
 import { getRandomEmoji } from '../../../../utils'
+
+import { addresses } from '../../../../constants/addresses'
+import REDEMPTION_ABI from '../../../../abi/KaliDAOredemption.json'
 
 export default function ProfileComponent({ dao }) {
   const router = useRouter()
@@ -19,12 +19,24 @@ export default function ProfileComponent({ dao }) {
   const daoChain = Number(router.query.chainId)
   const [members, setMembers] = useState()
   const [isMember, setIsMember] = useState(false)
+
   const { data: user } = useAccount()
   const { data: balance } = useBalance({
     addressOrName: daoAddress,
     chainId: daoChain,
     watch: true,
   })
+  const { data: redemption, isLoading: isRedemptionLoading } = useContractRead(
+    {
+      addressOrName: addresses[daoChain]['extensions']['redemption'],
+      contractInterface: REDEMPTION_ABI,
+    },
+    'redemptionStarts',
+    {
+      args: daoAddress,
+      chainId: Number(daoChain),
+    },
+  )
 
   useEffect(() => {
     let mounted = true
@@ -126,6 +138,7 @@ export default function ProfileComponent({ dao }) {
         </Flex>
       </Flex>
       <Flex align="center">
+        {/* TODO: Add check for whether redemption has started */}
         <Dialog>
           <DialogTrigger>
             <Button
@@ -139,11 +152,21 @@ export default function ProfileComponent({ dao }) {
                 margin: '1rem',
               }}
             >
-              {isMember ? 'QUIT' : 'JOIN'}
+              {isMember ? (!isRedemptionLoading ? (redemption == 0 ? 'JOINED' : 'QUIT') : null) : 'JOIN'}
             </Button>
           </DialogTrigger>
           <DialogContent>
-            {isMember ? <NewProposalModal proposalProp="quit" /> : <NewProposalModal proposalProp="tribute" />}
+            {isMember ? (
+              !isRedemptionLoading ? (
+                redemption == 0 ? (
+                  <NewProposalModal proposalProp="tribute" />
+                ) : (
+                  <NewProposalModal proposalProp="quit" />
+                )
+              ) : null
+            ) : (
+              <NewProposalModal proposalProp="tribute" />
+            )}
           </DialogContent>
         </Dialog>
       </Flex>

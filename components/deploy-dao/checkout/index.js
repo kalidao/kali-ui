@@ -123,6 +123,7 @@ export default function Checkout({ setStep }) {
     if (state.redemption === true) {
       let { redemptionStart } = state
       redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000)
+      console.log('redemptionStarts', new Date(redemptionStart))
       const tokenArray = fetchTokens(activeChain?.id)
 
       const iface = new ethers.utils.Interface(REDEMPTION_ABI)

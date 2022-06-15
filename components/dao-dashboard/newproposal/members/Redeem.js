@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
 import { useForm } from 'react-hook-form'
+import { prettyDate } from '../../../../utils'
 
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
@@ -11,21 +12,21 @@ import { AddressZero } from '@ethersproject/constants'
 import Spinner from '../../../elements/Spinner'
 
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
+import REDEMPTION_ABI from '../../../../abi/KaliDAOredemption.json'
 import { addresses } from '../../../../constants/addresses'
 
+// TODO: Add error handling
 export default function Redeem() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
   const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
   const { data: account } = useAccount()
-  const { data: signer } = useSigner()
 
   const { data, isWriteError, isWritePending, writeAsync } = useContractWrite(
     {
-      addressOrName: daoAddress ? daoAddress : AddressZero,
+      addressOrName: daoAddress,
       contractInterface: KALIDAO_ABI,
-      chainId: Number(daoChainId),
     },
     'callExtension',
     {
@@ -45,6 +46,19 @@ export default function Redeem() {
       chainId: Number(daoChainId),
     },
   )
+
+  const { data: starts, isLoading: isStartLoading } = useContractRead(
+    {
+      addressOrName: addresses[daoChainId]['extensions']['redemption'],
+      contractInterface: REDEMPTION_ABI,
+    },
+    'redemptionStarts',
+    {
+      args: daoAddress,
+      chainId: Number(daoChainId),
+    },
+  )
+
   const {
     data: balance,
     isBalanceError,
@@ -67,9 +81,16 @@ export default function Redeem() {
   const onSubmit = async (data) => {
     const { amount } = data
 
-    console.log('Proposal Params - ', redemptionAddress, ethers.utils.parseEther(amount), '0x')
+    console.log('Proposal Params - ', redemptionAddress, ethers.utils.parseEther(amount))
+
     try {
-      const tx = await kalidao.callExtension(redemptionAddress, ethers.utils.parseEther(amount), '0x')
+      const tx = await writeAsync({
+        args: [redemptionAddress, ethers.utils.parseEther(amount), ethers.constants.HashZero],
+        overrides: {
+          gasLimit: 1500000,
+        },
+      })
+
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
@@ -82,6 +103,10 @@ export default function Redeem() {
       <Text>
         Current Balance: {isBalanceLoading ? <Spinner /> : balance?.formatted} {isSymbolLoading ? <Spinner /> : symbol}
       </Text>
+      <Text>
+        Redemption Starts:{' '}
+        {isStartLoading ? <Spinner /> : prettyDate(new Date(ethers.BigNumber.from(starts * 1000).toNumber()))}
+      </Text>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormElement>
           <Label htmlFor="amount">Amount</Label>
@@ -91,6 +116,9 @@ export default function Redeem() {
             defaultValue={balance?.formatted}
             min="0"
             max={balance?.formatted}
+            css={{
+              width: '5rem',
+            }}
             {...register('amount', {
               required: {
                 value: true,
