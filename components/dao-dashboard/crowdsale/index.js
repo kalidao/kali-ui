@@ -3,7 +3,7 @@ import { Flex, Text, Button } from '../../../styles/elements'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner, useContractRead, useContractWrite, useAccount, useNetwork } from 'wagmi'
-import { Form, FormElement, Label, Input, Checkbox } from '../../../styles/form-elements'
+import { Label, Input } from '../../../styles/form-elements'
 import KALIDAO_ABI from '../../../abi/KaliDAO.json'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import KALIACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
@@ -343,6 +343,7 @@ export default function Crowdsale() {
             gasLimit: 1500000,
           },
         })
+
         console.log('tx - ', tx)
       } catch (e) {
         console.log(e)
@@ -358,6 +359,7 @@ export default function Crowdsale() {
             gasLimit: 1500000,
           },
         })
+
         console.log('tx - ', tx)
       } catch (e) {
         console.log(e)
