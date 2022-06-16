@@ -16,7 +16,7 @@ export default function Kali() {
 
   return (
     <LogoContainer>
-      <Image src="/icons/K-logo.svg" alt="Kali" width="59.79px" height="59.79px" onClick={home} />
+      <Image src="/icons/K-logo.svg" alt="KALI" width="59.79px" height="59.79px" onClick={home} priority />
     </LogoContainer>
   )
 }
