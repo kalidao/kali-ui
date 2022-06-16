@@ -19,27 +19,23 @@ export const ResultsText = styled('div', {
 
 export const Results = styled('div', {
   display: 'grid',
-  gap: '1.5rem',
+  gap: '2rem',
   marginBottom: '5rem',
 
   '@media (min-width: 540px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
     gridTemplateRows: 'auto',
   },
-  '@media (min-width: 640px)': {
+  '@media (min-width: 840px)': {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridTemplateRows: 'auto',
   },
-  '@media (min-width: 840px)': {
+  '@media (min-width: 940px)': {
     gridTemplateColumns: 'repeat(4, 1fr)',
     gridTemplateRows: 'auto',
   },
-  '@media (min-width: 940px)': {
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    gridTemplateRows: 'auto',
-  },
   '@media (min-width: 1040px)': {
-    gridTemplateColumns: 'repeat(6, 1fr)',
+    gridTemplateColumns: 'repeat(5, 1fr)',
     gridTemplateRows: 'auto',
   },
 })
@@ -54,7 +50,17 @@ export default function MyDAOs() {
 
   return (
     <>
-      <Flex dir="col" css={{ gap: '1rem', position: 'absolute', left: '8rem', top: '5rem', margin: '1rem' }}>
+      <Flex
+        dir="col"
+        css={{
+          gap: '1rem',
+          position: 'absolute',
+          left: '10%',
+          right: '10%',
+          top: '6rem',
+          justifyContent: 'center',
+        }}
+      >
         {daos &&
           (daos.length > 1 ? (
             <ResultsText> You are in {daos.length} DAOs </ResultsText>
