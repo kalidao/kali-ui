@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
@@ -20,9 +20,7 @@ export default function Redeem() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
-  const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
   const { data: account } = useAccount()
-
   const { data, isWriteError, isWritePending, writeAsync } = useContractWrite(
     {
       addressOrName: daoAddress,
@@ -35,7 +33,6 @@ export default function Redeem() {
       },
     },
   )
-
   const { data: symbol, isSymbolLoading } = useContractRead(
     {
       addressOrName: daoAddress ? daoAddress : AddressZero,
@@ -46,7 +43,6 @@ export default function Redeem() {
       chainId: Number(daoChainId),
     },
   )
-
   const { data: starts, isLoading: isStartLoading } = useContractRead(
     {
       addressOrName: addresses[daoChainId]['extensions']['redemption'],
@@ -58,13 +54,12 @@ export default function Redeem() {
       chainId: Number(daoChainId),
     },
   )
-
   const {
     data: balance,
     isBalanceError,
     isBalanceLoading,
   } = useBalance({
-    addressOrName: account ? account.address : AddressZero,
+    addressOrName: account ? account?.address : AddressZero,
     token: daoAddress,
     chainId: Number(daoChainId),
     watch: true,
@@ -77,24 +72,25 @@ export default function Redeem() {
     formState: { errors },
   } = useForm()
 
-  // TODO: Popup to change network if on different network from DAO
-  const onSubmit = async (data) => {
-    const { amount } = data
+  const redeem = useCallback(
+    async (redeemAmount) => {
+      if (!account) return
 
-    console.log('Proposal Params - ', redemptionAddress, ethers.utils.parseEther(amount))
-
-    try {
       const tx = await writeAsync({
-        args: [redemptionAddress, ethers.utils.parseEther(amount), ethers.constants.HashZero],
+        args: [addresses[daoChainId]['extensions']['redemption'], redeemAmount, ethers.constants.HashZero],
         overrides: {
           gasLimit: 1500000,
         },
       })
+    },
+    [account, writeAsync],
+  )
 
-      console.log('tx', tx)
-    } catch (e) {
-      console.log('error', e)
-    }
+  // TODO: Popup to change network if on different network from DAO
+  const onSubmit = async (data) => {
+    const { amount } = data
+
+    await redeem(ethers.utils.parseEther(amount))
   }
 
   return (

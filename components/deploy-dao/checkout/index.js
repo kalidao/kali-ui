@@ -172,7 +172,7 @@ export default function Checkout({ setStep }) {
       shares,
       govSettings,
     )
-    const data = await writeAsync({
+    const tx = await writeAsync({
       args: [
         name,
         symbol,
@@ -190,8 +190,7 @@ export default function Checkout({ setStep }) {
     }).catch((e) => {
       console.log('error', e.code, e.reason)
     })
-    console.log('async data', data)
-  }, [account, state, writeAsync])
+  }, [account, activeChain, state, writeAsync])
 
   const prev = () => {
     if (!hardMode) {
