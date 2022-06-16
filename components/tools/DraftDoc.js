@@ -19,6 +19,7 @@ function DraftDoc() {
   const [deUnaForm, setDeUnaForm] = useState(false)
   const [wyLlcForm, setWyLlcForm] = useState(false)
   const [swissVereinForm, setSwissVereinForm] = useState(false)
+  const [servicesForm, setServicesForm] = useState(false)
 
   // State per Legal Form
   const [delawareLlc, setDelawareLlc] = useState({})
@@ -26,6 +27,7 @@ function DraftDoc() {
   const [delawareUna, setDelawareUna] = useState({})
   const [wyomingLlc, setWyomingLlc] = useState({})
   const [swissVerein, setSwissVerein] = useState({})
+  const [services, setServices] = useState({})
 
   const generateDoc = (values) => {
     values.agreement = selection
@@ -36,12 +38,14 @@ function DraftDoc() {
           chain: values.chain,
         })
         setDeLlcForm(true)
+        break
       case 'delaware-ic':
         setDelawareIc({
           name: values.name,
           chain: values.chain,
         })
         setDeIcForm(true)
+        break
       case 'delaware-una':
         setDelawareUna({
           name: values.name,
@@ -49,12 +53,14 @@ function DraftDoc() {
           mission: values.mission,
         })
         setDeUnaForm(true)
+        break
       case 'wyoming-llc':
         setWyomingLlc({
           name: values.name,
           chain: values.chain,
         })
         setWyLlcForm(true)
+        break
       case 'swiss-verein':
         setSwissVerein({
           name: values.name,
@@ -63,6 +69,16 @@ function DraftDoc() {
           mission: values.mission,
         })
         setSwissVereinForm(true)
+        break
+      case 'services':
+        setServices({
+          customerEthAddress: values.customerEthAddress,
+          serviceProviderEthAddress: values.serviceProviderEthAddress,
+          service: values.service,
+          serviceToken: values.serviceToken,
+        })
+        setServicesForm(true)
+        break
     }
 
     console.log(values)

@@ -66,4 +66,10 @@ export const newProposalHelper = [
     component: <RemoveMember />,
     icon: FiTrash2,
   },
+  {
+    title: 'Documentation',
+    description: 'update DAO documentation',
+    component: <UpdateDoc />,
+    icon: FiFileText,
+  },
 ]
