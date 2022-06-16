@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { useContract, useSigner, useContractRead, useContractWrite, useAccount, useNetwork } from 'wagmi'
 import { Form, FormElement, Label, Input, Checkbox } from '../../../styles/form-elements'
 import KALIDAO_ABI from '../../../abi/KaliDAO.json'
-import KALIDAOCROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
+import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import KALIACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
 import ERC20_ABI from '../../../abi/ERC20.json'
 import { Warning } from '../../../styles/elements'
@@ -32,7 +32,6 @@ export default function Crowdsale() {
   const [purchaseTokenSymbol, setPurchaseTokenSymbol] = useState(null)
   const [purchaseTokenExplorer, setPurchaseTokenExplorer] = useState(null)
   const [purchaseTokenDecimals, setPurchaseTokenDecimals] = useState(null)
-  const [purchaseTokenBalance, setPurchaseTokenBalance] = useState(0)
   const [purchaseMultipler, setPurchaseMultiplier] = useState(0)
   const [purchaseLimit, setPurchaseLimit] = useState(0)
   const [personalLimit, setPersonalLimit] = useState(0)
@@ -59,19 +58,17 @@ export default function Crowdsale() {
     },
   )
 
-  // const { data: crowdsale_, isCrowdsaleLoading } = useContractRead(
-  //   {
-  //     addressOrName: crowdsaleAddress,
-  //     contractInterface: KALIDAOCROWDSALE_ABI,
-  //   },
-  //   'crowdsales',
-  //   {
-  //     chainId: Number(daoChainId),
-  //   },
-  //   {
-  //     args: daoAddress,
-  //   },
-  // )
+  const { data: crowdsale_, isLoading: isCrowdsaleLoading } = useContractRead(
+    {
+      addressOrName: crowdsaleAddress ? crowdsaleAddress : AddressZero,
+      contractInterface: CROWDSALE_ABI,
+    },
+    'crowdsales',
+    {
+      args: daoAddress,
+      chainId: Number(daoChainId),
+    },
+  )
 
   const {
     data: callKalidaoData,
@@ -103,7 +100,7 @@ export default function Crowdsale() {
   } = useContractWrite(
     {
       addressOrName: crowdsaleAddress,
-      contractInterface: KALIDAOCROWDSALE_ABI,
+      contractInterface: CROWDSALE_ABI,
     },
     'callExtension',
     {
@@ -121,7 +118,7 @@ export default function Crowdsale() {
 
   const crowdsaleInstance = useContract({
     addressOrName: crowdsaleAddress,
-    contractInterface: KALIDAOCROWDSALE_ABI,
+    contractInterface: CROWDSALE_ABI,
     signerOrProvider: signer,
   })
 
@@ -209,6 +206,7 @@ export default function Crowdsale() {
     }
 
     if (activeChain.id === parseInt(daoChainId)) {
+      console.log(crowdsale_)
       getCrowdsale()
       setCanPurchase(true)
       setWarning(null)
@@ -229,7 +227,6 @@ export default function Crowdsale() {
 
   const getPurchaseTokenInfo = async (_contract) => {
     try {
-      // const contract = new ethers.Contract(_contract, ERC20_ABI, signer)
       const symbol = await erc20.symbol()
       console.log(symbol)
       setPurchaseTokenSymbol(symbol.toUpperCase())
@@ -238,7 +235,6 @@ export default function Crowdsale() {
     }
 
     try {
-      // const contract = new ethers.Contract(_contract, ERC20_ABI, signer)
       const decimals = await erc20.decimals()
       setPurchaseTokenDecimals(decimals)
     } catch (e) {
@@ -256,7 +252,6 @@ export default function Crowdsale() {
       const allowance = await erc20.allowance(account.address, crowdsaleAddress)
       const result = ethers.utils.formatEther(allowance)
       console.log(result)
-      // setPurchaseAllowance(result)
       if (result == 0) {
         setApproveButton(true)
         console.log('Token contract not yet approved')
@@ -294,16 +289,11 @@ export default function Crowdsale() {
     const approvalAmount = ethers.utils.parseEther(allowance_.toString()).toString()
 
     try {
-      // const instance_ = new web3.eth.Contract(tokenAbi, purchaseToken)
-      // let result = await instance_.methods.approve(crowdsaleAddress, approvalAmount).send({ from: account })
       console.log(purchaseTokenContract, approvalAmount)
       const tx = await erc20.approve(crowdsaleAddress, approvalAmount)
       console.log(tx)
       setApproveButton(false)
-
-      // if (!purchaseTerms) {
-      //   setCanPurchase(true)
-      // }
+      setCanPurchase(true)
     } catch (e) {
       console.log(e)
     }
@@ -334,49 +324,52 @@ export default function Crowdsale() {
 
   const handleBuy = useCallback(async () => {
     if (!account || !activeChain) return
+    setWarning(null)
 
-    if (purchaseTerms && didCheckTerms) {
-      setWarning(null)
-      if (purchaseTokenSymbol === 'ETH') {
-        try {
-          const amount = ethers.utils.parseEther(purchaseAmount.toString()).toString()
-          console.log(amount)
-          const tx = await callCrowdsaleAsync({
-            args: [daoAddress, amount],
-            overrides: {
-              value: amount,
-            },
-          })
-          // const tx = await callKalidaoAsync({
-          //   args: [crowdsaleAddress, amount, '0x'],
-          //   overrides: {
-          //     value: amount,
-          //   },
-          // })
-          console.log('tx - ', tx)
-        } catch (e) {
-          console.log(e)
-        }
-      } else {
-        try {
-          const amount = ethers.utils.parseUnits(purchaseAmount, purchaseTokenDecimals).toString()
-          console.log(amount)
-          const tx = await callCrowdsaleAsync({
-            args: [daoAddress, amount],
-          })
-          // const tx = await callKalidaoAsync({
-          //   args: [crowdsaleAddress, amount, '0x'],
-          //   overrides: {
-          //     value: amount,
-          //   },
-          // })
-          console.log('tx - ', tx)
-        } catch (e) {
-          console.log(e)
-        }
+    if (purchaseTerms && !didCheckTerms) {
+      setWarning('Please review terms of sale')
+      return
+    }
+
+    if (purchaseTokenSymbol === 'ETH') {
+      try {
+        const amount = ethers.utils.parseEther(purchaseAmount.toString()).toString()
+        console.log(amount, ethers.constants.HashZero)
+        // const tx = await callCrowdsaleAsync({
+        //   args: [daoAddress, amount],
+        //   overrides: {
+        //     value: amount,
+        //   },
+        // })
+        const tx = await callKalidaoAsync({
+          args: [crowdsaleAddress, amount, ethers.constants.HashZero],
+          overrides: {
+            value: amount,
+            gasLimit: 1500000,
+          },
+        })
+        console.log('tx - ', tx)
+      } catch (e) {
+        console.log(e)
       }
     } else {
-      setWarning('Please review terms of sale')
+      try {
+        const amount = ethers.utils.parseUnits(purchaseAmount, purchaseTokenDecimals).toString()
+        console.log(amount)
+        const tx = await callCrowdsaleAsync({
+          args: [daoAddress, amount],
+        })
+        // const tx = await callKalidaoAsync({
+        //   args: [crowdsaleAddress, amount, '0x'],
+        //   overrides: {
+        //     value: amount,
+        //     gasLimit: 1500000,
+        //   },
+        // })
+        console.log('tx - ', tx)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }, [purchaseAmount, purchaseTokenSymbol, purchaseTerms, didCheckTerms, callCrowdsaleAsync])
 
