@@ -104,7 +104,7 @@ const RicardianTemplate = ({ ricardianId }) => {
         <Text style={styles.heading1}>SCHEDULE C</Text>
         <Text style={styles.subheader}>SEPARATE SERIES OPERATING AGREEMENT</Text>
         <Text style={styles.title}>
-          Ricardian LLC, <Br /> {ricardianId} Series
+          Richardian LLC, <Br /> {ricardianId} Series
         </Text>
         <Text style={styles.heading2}>Delaware Limited Liability Company Agreement</Text>
         <Text style={styles.heading2}>0x43B644a01d87025c9046F12eE4cdeC7E04258eBf</Text>

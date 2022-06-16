@@ -1,8 +1,10 @@
+// TODO: Add kali master for polygon
 export const addresses =
   // organized by chainId
   {
     // Ethereum
     1: {
+      name: 'Ethereum',
       factory: '0x8bD48C45d40724E8424C3aAa4097257A38A98024',
       ricardian: '0x2017d429Ad722e1cf8df9F1A2504D4711cDedC49',
       erc20factory: '0x65B2fb10C3D759b8D5828f617d146c5Ec380Ed1D',
@@ -17,9 +19,11 @@ export const addresses =
         manager: '0xeEffB992BE91B1FAC8C69bE4F2a8d5e334C02282',
       },
       blockExplorer: 'https://etherscan.io',
+      kaliMaster: '0xfc0Fd933D8ef5b7e552E67aCfc4c09711B413f30',
     },
     // Rinkeby
     4: {
+      name: 'Rinkeby',
       factory: '0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548',
       ricardian: '0xd45f8734539792619B3C4BE0e24639845371A481',
       erc20factory: '0x8a23526eDe4d7222150C3dFEFC47902180A19323',
@@ -34,9 +38,11 @@ export const addresses =
         manager: '0xCFAEA98787d835D127863ED4127F42d00F3D267d',
       },
       blockExplorer: 'https://rinkeby.etherscan.io',
+      kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',
     },
     // Polygon
     137: {
+      name: 'Polygon',
       factory: '0xeb37fc7F7781C4B6395b093359aaaFD285DaA6b9',
       ricardian: '0xbE7aDeD5dFCAA0E51F885748AA4DFf457f0c52A0',
       erc20factory: '0xf8468a8A356B1b9DB2E918DbC1Ca31D597c9E54F',
@@ -51,9 +57,11 @@ export const addresses =
         manager: '0x54e2b96d6f23B5ec8244054816fe3B33412c8538',
       },
       blockExplorer: 'https://polygonscan.com',
+      kaliMaster: '0x93fd58eDAf318E03eD1941e593D74d88b8F4f599',
     },
     // Arbitrum
     42161: {
+      name: 'Arbitrum',
       factory: '0x045cbcBA76a7EcF82d0f6B5DCc0881B3C12E37d0',
       ricardian: '0xB572aC31AB7FE0f8b65E6be10bd36eE81DA71f2B',
       erc20factory: '0x5eeDa4696062Eaa319DDE62d2D350f4aBF0C88F4',
@@ -68,5 +76,20 @@ export const addresses =
         manager: '0xb47c9A6A494d344026C60c19C74f54f6AbA54fAa',
       },
       blockExplorer: 'https://arbiscan.io',
+      kaliMaster: '0xffe7e91f86fa2c6af0b3cddf0f0906d465e1d760',
+    },
+    // Optimism
+    10: {
+      name: 'Optimism',
+      factory: '0xe8E08113Dc0f2B6392A4bD14d7F1d9AA6E89e1e3',
+      access2: '0x9E07053081E51F962d51C755272531B0846e4C31',
+      extensions: {
+        tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
+        crowdsale2: '0x05622EF2b9290f19230FD10e80BB468c51e17b2d',
+        redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
+      },
+      kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
+      ricardian: '0x581b5E51fFBB742f92E818Fb177CAD8a30e43f3E',
+      blockExplorer: 'https://optimistic.etherscan.io',
     },
   }

@@ -76,12 +76,11 @@ const DelawareOAtemplate = ({ name, chain }) => {
         <Text style={styles.heading2}>DELAWARE LLC OPERATING AGREEMENT</Text>
         <Text style={styles.heading3}>Designated Blockchain: {chain}</Text>
         <Text style={styles.text}>
-          THIS OPERATING AGREEMENT (this “Agreement”) is made and entered into effective as of the date of the
-          organizing key signatures appended or incorporated hereto, by and among the parties assigned cryptographic
-          interests in the decentralized autonomous organization described on{' '}
-          <Text style={{ textDecoration: 'underline' }}>Schedule 1</Text> or as added from time to time by the terms of
-          this Agreement (collectively referred to as the “Members”). It is the express intention of the Members that
-          this Agreement shall be the sole statement of agreement among the Members.
+          THIS OPERATING AGREEMENT is made and entered into effective as of the date of the organizing key signatures
+          appended or incorporated hereto, by and among the parties assigned cryptographic interests in the
+          decentralized autonomous organization described on{' '}
+          <Text style={{ textDecoration: 'underline' }}>Schedule 1</Text> (collectively referred to in this agreement as
+          the “Members”).
         </Text>
         <Text style={styles.heading1}>SECTION 1</Text>
         <Text style={styles.heading2}>THE DAO LLC</Text>
@@ -91,11 +90,11 @@ const DelawareOAtemplate = ({ name, chain }) => {
           <Text style={{ textDecoration: 'underline' }}>Formation.</Text>
           <Tab />
           The Members form a limited liability company (“LLC”) under the name {name} LLC (the “DAO LLC”) on the terms
-          and conditions in this Agreement and pursuant to the Delaware Limited Liability Company Act (6 Del. C. §
-          18-101 et seq.) (the “Act”). The Members agree to file with the appropriate agencies within the State of
-          Delaware charged with processing and maintaining such records all documentation required for the formation and
-          maintenance of the DAO LLC. The rights and obligations of the Members are as provided in the Act except as
-          otherwise expressly provided in this Agreement.
+          and conditions in this Operating Agreement (this “Agreement”) and pursuant to the Delaware Limited Liability
+          Company Act (6 Del. C. § 18-101 et seq.) (the “Act”). The Members agree to file with the appropriate agencies
+          within the State of Delaware charged with processing and maintaining such records all documentation required
+          for the formation and maintenance of the DAO LLC. The rights and obligations of the Members are as provided in
+          the Act except as otherwise expressly provided in this Agreement.
           <Br />
           <Br />
           1.2
@@ -267,7 +266,7 @@ const DelawareOAtemplate = ({ name, chain }) => {
           ”) under the then-existing consensus rules of such Cryptographic Units as detailed on{' '}
           <Text style={{ textDecoration: 'underline' }}>Schedule 1</Text> (such determination, “
           <Text style={{ textDecoration: 'underline' }}>Cryptographic Consensus</Text>
-          ”). The Company will not issue certificates for Cryptographic Units issued.
+          ”).
           <Br />
           <Br />
           5.1.3

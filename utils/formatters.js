@@ -3,6 +3,8 @@ import { scientificNotation } from '../constants/numbers'
 import { supportedChains } from '../constants/supportedChains'
 import { tokens } from '../constants/tokens'
 import Big from 'big.js'
+<<<<<<< HEAD
+=======
 
 export function convertVotingPeriod(seconds) {
   let time
@@ -46,6 +48,7 @@ export function votingPeriodToSeconds(period, type) {
   }
   return amount
 }
+>>>>>>> main
 
 export function toDecimals(amount, decimals) {
   var number = ''
@@ -94,7 +97,11 @@ export function fromDecimals(amount, decimals) {
   let demoninator = Big(scientificNotation[decimals])
 
   let big = numerator.div(demoninator)
+<<<<<<< HEAD
+  console.log('big', big)
+=======
   // console.log("big", big);
+>>>>>>> main
 
   return big.toString() // if between 0 and 1, will return 0
 }
@@ -304,10 +311,13 @@ export function formatAmounts(type, p) {
     formattedAmounts.push(formattedAmount)
   }
   return formattedAmounts
+<<<<<<< HEAD
+=======
 }
 
 export function truncateAddress(account) {
   return account.substr(0, 5) + '...' + account.substr(account.length - 4, account.length)
+>>>>>>> main
 }
 
 export function getNetworkName(chainId) {

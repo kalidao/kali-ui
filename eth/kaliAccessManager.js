@@ -1,4 +1,4 @@
-const abi = require('../abi/KaliAccessManagerV2.json')
+const abi = require('../abi/KaliAccessManager.json')
 
 export default function kaliAccessManager(address, web3) {
   let accessManager = new web3.eth.Contract(abi, address)

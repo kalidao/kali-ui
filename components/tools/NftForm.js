@@ -1,15 +1,13 @@
-import React, { useState, useContext } from 'react'
-import AppContext from '../../context/AppContext'
+import React, { useState } from 'react'
 import kaliNFT from '../../eth/kaliNFT.js'
-import { Button, Box, FormControl, FormLabel, Heading, Input, VStack, HStack } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import InfoTip from '../elements/InfoTip'
+import Tip from '../elements/Tip'
 import fleek from '@fleekhq/fleek-storage-js'
 import { addresses } from '../../constants/addresses'
+import { Flex, Box, Button, Text } from '../../styles/elements/'
+import { Input } from '../../styles/form-elements/'
 
 function NftForm() {
-  const value = useContext(AppContext)
-  const { web3, account, chainId, loading } = value.state
   const [file, setFile] = useState('')
   const [isMinted, setIsMinted] = useState(false)
 
@@ -125,14 +123,16 @@ function NftForm() {
   }
 
   return (
-    <VStack w="50%" as="form" onSubmit={handleSubmit(submit)}>
+    <Flex w="50%" as="form" onSubmit={handleSubmit(submit)}>
       <br />
-      <Heading as="h1">Mint an NFT</Heading>
-      <VStack w="100%" align="flex-start">
-        <HStack>
+      <Text as="h1" variant="heading">
+        Mint an NFT
+      </Text>
+      <Flex w="100%" align="flex-start">
+        <Flex>
           <label>Recipient</label>
-          <InfoTip hasArrow label={'Token will be minted to this recipient address'} />
-        </HStack>
+          <Tip label={'Token will be minted to this recipient address'} />
+        </Flex>
         <Input
           name="recipient"
           placeholder="0xKALI or ENS"
@@ -141,7 +141,7 @@ function NftForm() {
           })}
         />
         {errors.recipient && value.toast(errors.recipient.message)}
-      </VStack>
+      </Flex>
       <Box w="100%" pt="10px">
         <input
           id="file"
@@ -156,7 +156,7 @@ function NftForm() {
       <Button className="transparent-btn" type="submit">
         Mint »
       </Button>
-    </VStack>
+    </Flex>
   )
 }
 

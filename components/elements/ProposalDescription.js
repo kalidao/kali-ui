@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { VStack, HStack, Text, Box, Textarea, Select, Spacer } from '@chakra-ui/react'
 import InfoTip from './InfoTip'
 import FileUploader from '../tools/FileUpload'
+import { Flex, Box, Text } from '../../styles/elements/'
+import { Input } from '../../styles/elements/'
 
 function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   const [doc_, setDoc_] = useState([])
@@ -11,8 +12,8 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
   }, [])
 
   return (
-    <VStack align="flex-start" w="100%">
-      <HStack pb={'5px'}>
+    <Flex align="flex-start" w="100%">
+      <Flex pb={'5px'}>
         <Text>
           <b>Notes:</b>
         </Text>
@@ -21,11 +22,11 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
             'You may accompany this proposal with notes or a doc. Notes will be recorded directly onchain, while doc will be uploaded to IPFS. If both are supplied, note is ignored.'
           }
         ></InfoTip>
-      </HStack>
-      <HStack w="100%" spacing={'20px'} justify={'stretch'}>
+      </Flex>
+      <Flex w="100%" spacing={'20px'} justify={'stretch'}>
         {doc_.length > 0 ? (
           <>
-            <Select
+            <select
               onChange={(e) => {
                 setDoc(e.target.value)
               }}
@@ -36,13 +37,13 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
                   {option}
                 </option>
               ))}
-            </Select>
+            </select>
             <Box h="5px" />
             <Text>-- OR --</Text>
             <Box h="5px" />
           </>
         ) : null}
-        <Textarea
+        <Input
           w="50%"
           placeholder=". . ."
           value={note}
@@ -50,13 +51,12 @@ function ProposalDescription({ doc, setDoc, note, setNote, setFile }) {
             setNote(e.target.value)
           }}
         />
-        <Spacer />
+        <Box w={'1%'} />
         <Text>- OR -</Text>
-        <VStack w={'30%'}>
-          <FileUploader setFile={setFile} />
-        </VStack>
-      </HStack>
-    </VStack>
+        <Box w={'1%'} />
+        <FileUploader setFile={setFile} />
+      </Flex>
+    </Flex>
   )
 }
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Button, HStack } from '@chakra-ui/react'
 import TokenForm from './TokenForm.js'
 import NftForm from './NftForm.js'
 import ListManagerForm from './ListManagerForm.js'
+import { Button, Flex } from '../../styles/elements'
 
 export default function ToolBox() {
   const [tokenVisible, setTokenVisible] = useState(false)
@@ -29,11 +29,11 @@ export default function ToolBox() {
 
   return (
     <>
-      <HStack>
+      <Flex dir="col">
         <Button onClick={toggleToken}>Mint ERC20</Button>
         <Button onClick={toggleNft}>Mint NFT</Button>
         <Button onClick={toggleListManager}>List Manager</Button>
-      </HStack>
+      </Flex>
       <>{tokenVisible ? <TokenForm /> : null}</>
       <>{nftVisible ? <NftForm /> : null}</>
       <>{listManagerVisible ? <ListManagerForm /> : null}</>

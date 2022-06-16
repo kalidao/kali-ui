@@ -55,7 +55,7 @@ export async function uploadIpfs(dao, content, attachment) {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
     bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-    key: 'DAO (' + dao + ")'s " + content + ' is attached with ' + attachment.name + ' at ' + new Date().getTime(),
+    key: 'DAO (' + dao + ")'s " + content + ' is attached with ' + attachment.name,
     data: attachment,
     httpUploadProgressCallback: (event) => {
       console.log(Math.round((event.loaded / event.total) * 100) + '% done')
@@ -67,13 +67,12 @@ export async function uploadIpfs(dao, content, attachment) {
     console.log('Image hash from Fleek: ' + result.hash)
     return result.hash
   } catch (e) {
-    console.log(e)
+    console.log('Something wrong with Fleek upload.')
   }
 }
 
 export async function fetchCrowdsaleTermsHash(name, summoner) {
   let hash
-  console.log(name, summoner)
   try {
     const hash_ = await fleekStorage.get({
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
@@ -82,7 +81,6 @@ export async function fetchCrowdsaleTermsHash(name, summoner) {
       key: name + "'s Crowdsale Terms as prepared by " + summoner,
       getOptions: ['hash'],
     })
-    console.log(hash_)
     if (hash_.hash) {
       hash = hash_.hash
     } else {

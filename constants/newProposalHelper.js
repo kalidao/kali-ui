@@ -6,11 +6,21 @@ import SendNFT from '../components/newproposal/SendNFT'
 import ContractCall from '../components/newproposal/ContractCall'
 import GovernanceSettings from '../components/newproposal/GovernanceSettings'
 import Extensions from '../components/newproposal/Extensions'
-import UpdateDoc from '../components/newproposal/UpdateDoc'
-import { FiSettings, FiSend, FiTrash2, FiFileText } from 'react-icons/fi'
-import { MdOutlineGeneratingTokens } from 'react-icons/md'
-import { BiLoaderCircle } from 'react-icons/bi'
+import Escape from '../components/newproposal/Escape'
+
+import {
+  IoFlagOutline,
+  IoExtensionPuzzleOutline,
+  IoTrashOutline,
+  IoRibbonOutline,
+  IoPeopleOutline,
+} from 'react-icons/io'
+import { FiSettings, FiSend, FiTrash2 } from 'react-icons/fi'
+import { MdOutlineGeneratingTokens, MdGroups } from 'react-icons/md'
+import { BiLoaderCircle, BiCoinStack } from 'react-icons/bi'
 import { BsPuzzle } from 'react-icons/bs'
+import { GiPayMoney } from 'react-icons/gi'
+import { GrGroup } from 'react-icons/gr'
 
 // populates tiles on desktop view of New Proposal view
 export const newProposalHelper = [
