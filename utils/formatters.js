@@ -3,52 +3,6 @@ import { scientificNotation } from '../constants/numbers'
 import { supportedChains } from '../constants/supportedChains'
 import { tokens } from '../constants/tokens'
 import Big from 'big.js'
-<<<<<<< HEAD
-=======
-
-export function convertVotingPeriod(seconds) {
-  let time
-  let text
-
-  if (seconds < 3600) {
-    time = seconds / 60
-    if (time == 1) {
-      text = 'minute'
-    } else {
-      text = 'minutes'
-    }
-  } else if (seconds < 86400) {
-    time = seconds / 3600
-    if (time == 1) {
-      text = 'hour'
-    } else {
-      text = 'hours'
-    }
-  } else {
-    time = seconds / 86400
-    if (time == 1) {
-      text = 'day'
-    } else {
-      text = 'days'
-    }
-  }
-  return time + ' ' + text
-}
-
-export function votingPeriodToSeconds(period, type) {
-  let amount
-  if (type == 'min') {
-    amount = period * 60
-  }
-  if (type == 'hour') {
-    amount = period * 60 * 60
-  }
-  if (type == 'day') {
-    amount = period * 60 * 60 * 24
-  }
-  return amount
-}
->>>>>>> main
 
 export function toDecimals(amount, decimals) {
   var number = ''
@@ -97,11 +51,7 @@ export function fromDecimals(amount, decimals) {
   let demoninator = Big(scientificNotation[decimals])
 
   let big = numerator.div(demoninator)
-<<<<<<< HEAD
   console.log('big', big)
-=======
-  // console.log("big", big);
->>>>>>> main
 
   return big.toString() // if between 0 and 1, will return 0
 }
@@ -311,13 +261,6 @@ export function formatAmounts(type, p) {
     formattedAmounts.push(formattedAmount)
   }
   return formattedAmounts
-<<<<<<< HEAD
-=======
-}
-
-export function truncateAddress(account) {
-  return account.substr(0, 5) + '...' + account.substr(account.length - 4, account.length)
->>>>>>> main
 }
 
 export function getNetworkName(chainId) {
