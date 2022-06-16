@@ -4,7 +4,6 @@ import { AiOutlineDelete, AiOutlineUserAdd } from 'react-icons/ai'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
 import Tip from '../elements/Tip'
 import { addresses } from '../../constants/addresses'
-import { isNull } from 'util'
 
 export default function TokenForm() {
   const [isMinted, setIsMinted] = useState(false)

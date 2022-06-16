@@ -65,7 +65,6 @@ export const addresses =
       nft: '0x212CD0DE0C28858Fc72F792bb0F49d3B98d4cd0b',
       access: '0x89832E0DbE3600a7358F2E3eA2d7aF5dc7d76E0C',
       access2: '0x5745F1EB73a45fc4ABb2D9F243B148A6Ae20622e',
-
       extensions: {
         tribute: '0xf1D291A527281049e66ABD3A41624B13D962868f',
         crowdsale: '0x0bb3F43533FBf16d69dBdccf6AaAef81acd76FAB',

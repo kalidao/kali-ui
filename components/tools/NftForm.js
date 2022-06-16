@@ -6,6 +6,7 @@ import fleek from '@fleekhq/fleek-storage-js'
 import { addresses } from '../../constants/addresses'
 import { Flex, Box, Button, Text } from '../../styles/elements/'
 import { Input } from '../../styles/form-elements/'
+
 function NftForm() {
   const [file, setFile] = useState('')
   const [isMinted, setIsMinted] = useState(false)
