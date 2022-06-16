@@ -44,17 +44,6 @@ export default function Checkout({ setStep }) {
       },
     },
   )
-  useContractEvent(
-    {
-      addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
-      contractInterface: FACTORY_ABI,
-    },
-    'DAOdeployed',
-    (event) => setTimeout(router.push(`/daos/${activeChain?.id}/${event[0]}`), 10000),
-    {
-      chainId: activeChain?.id,
-    },
-  )
 
   // remove ricardian as default
   const deployKaliDao = useCallback(async () => {
@@ -194,9 +183,9 @@ export default function Checkout({ setStep }) {
 
   const prev = () => {
     if (!hardMode) {
-      setStep('founders')
+      setStep(4)
     } else {
-      setStep('legal')
+      setStep(5)
     }
   }
 

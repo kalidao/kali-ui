@@ -12,15 +12,21 @@ export default function Toggle() {
     <Button
       variant="transparent"
       css={{
+        color: '$gray11',
+        padding: '2px 10px',
+        border: '1px solid $gray6',
+        borderRadius: '20px',
+
         display: 'flex',
-        background: '$gray100',
-        color: '$background',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '16px',
         fontWeight: '600',
+
         '&:hover': {
-          background: '$gray200',
+          color: '$gray12',
+          background: '$gray3',
+          border: '1px solid $gray7',
         },
       }}
       onClick={() =>

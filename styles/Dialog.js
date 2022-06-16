@@ -13,9 +13,9 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
-  background: '$background',
-  color: '$foreground',
-  borderRadius: 6,
+  background: '$mauve1',
+  color: '$mauve12',
+  borderRadius: '20px',
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -75,13 +75,13 @@ export const IconButton = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$red500',
+  color: '$violet8',
   position: 'absolute',
   top: 10,
   right: 10,
 
-  '&:hover': { backgroundColor: '$yellow100' },
-  '&:focus': { boxShadow: `0 0 0 2px $red100` },
+  '&:hover': { backgroundColor: '$violet4' },
+  '&:focus': { boxShadow: `0 0 0 2px $violet5` },
 })
 
 // Exports

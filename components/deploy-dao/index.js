@@ -41,38 +41,38 @@ createStore({
 // TODO:
 // Allow interaction with outside from within the modal
 export default function DeployDaoWrapper() {
-  const [step, setStep] = useState('id')
+  const [step, setStep] = useState(0)
   // const [hardMode, setHardMode] = useState(false)
-  const steps = {
-    id: {
+  const steps = [
+    {
       component: <Identity setStep={setStep} />,
       title: 'ID',
     },
-    gov: {
+    {
       component: <Governance setStep={setStep} />,
       title: 'Governance',
     },
-    redemption: {
+    {
       component: <Redemption setStep={setStep} />,
       title: 'Redemption',
     },
-    crowdsale: {
+    {
       component: <Crowdsale setStep={setStep} />,
       title: 'Crowdsale',
     },
-    founders: {
+    {
       component: <Members setStep={setStep} />,
       title: 'Founders',
     },
-    legal: {
+    {
       component: <Legal setStep={setStep} />,
       title: 'Legal',
     },
-    confirm: {
+    {
       component: <Checkout setStep={setStep} />,
       title: 'Checkout',
     },
-  }
+  ]
 
   return (
     <StateMachineProvider>

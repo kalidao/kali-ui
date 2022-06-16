@@ -21,16 +21,16 @@ export default function Governance({ setStep }) {
   const onPrevious = (data) => {
     actions.updateAction(data)
 
-    setStep('id')
+    setStep(0)
   }
 
   const onNext = (data) => {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('founders')
+      setStep(4)
     } else {
-      setStep('redemption')
+      setStep(2)
     }
   }
 

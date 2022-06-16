@@ -26,15 +26,15 @@ export default function Legal({ setStep }) {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('id')
+      setStep(0)
     } else {
-      setStep('founders')
+      setStep(4)
     }
   }
   const onNext = (data) => {
     actions.updateAction(data)
 
-    setStep('confirm')
+    setStep(6)
   }
 
   let selectArray = []

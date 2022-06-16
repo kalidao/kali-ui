@@ -20,21 +20,23 @@ export default function Crowdsale({ setStep }) {
     formState: { errors },
   } = useForm()
   const watchCrowdsale = watch('crowdsale', state.crowdsale)
+  // TODO: Add custom token
   const watchPurchaseToken = watch('purchaseToken', state.purchaseToken)
+
   const onPrevious = (data) => {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('id')
+      setStep(0)
     } else {
-      setStep('redemption')
+      setStep(2)
     }
   }
 
   const onNext = (data) => {
     actions.updateAction(data)
 
-    setStep('founders')
+    setStep(4)
   }
 
   return (

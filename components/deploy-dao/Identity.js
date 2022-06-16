@@ -54,9 +54,9 @@ export default function Identity({ setStep }) {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('founders')
+      setStep(4)
     } else {
-      setStep('gov')
+      setStep(1)
     }
   }
 

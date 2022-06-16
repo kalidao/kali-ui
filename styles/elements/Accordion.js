@@ -16,7 +16,7 @@ const slideUp = keyframes({
 const StyledAccordion = styled(AccordionPrimitive.Root, {
   borderRadius: 6,
   width: '100%',
-  backgroundColor: '$background',
+  backgroundColor: '$gray1',
   boxShadow: `0 2px 10px ${'$gray9'}`,
 })
 
@@ -38,7 +38,7 @@ const StyledItem = styled(AccordionPrimitive.Item, {
   '&:focus-within': {
     position: 'relative',
     zIndex: 1,
-    boxShadow: `0 0 0 2px ${'$gray900'}`,
+    boxShadow: `0 0 0 2px ${'$gray'}`,
   },
 })
 
@@ -60,8 +60,8 @@ const StyledTrigger = styled(AccordionPrimitive.Trigger, {
   fontSize: 15,
   lineHeight: 1,
   color: '$mauve11',
-  '&[data-state="closed"]': { backgroundColor: '$mauve3' },
-  '&[data-state="open"]': { backgroundColor: '$mauve5', color: '$mauve12' },
+  '&[data-state="closed"]': { backgroundColor: '$mauve2' },
+  '&[data-state="open"]': { backgroundColor: '$mauve3', color: '$mauve12' },
   '&:hover': { backgroundColor: '$mauve4' },
 })
 
@@ -69,7 +69,7 @@ const StyledContent = styled(AccordionPrimitive.Content, {
   overflow: 'hidden',
   fontSize: 15,
   color: '$gray12',
-  backgroundColor: '$mauve3',
+  backgroundColor: '$mauve2',
 
   '&[data-state="open"]': {
     animation: `${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards`,
@@ -105,25 +105,3 @@ export const AccordionContent = React.forwardRef(({ children, ...props }, forwar
     <StyledContentText>{children}</StyledContentText>
   </StyledContent>
 ))
-
-// Your app...
-export const AccordionDemo = () => (
-  <Accordion type="single" defaultValue="item-1" collapsible>
-    <AccordionItem value="item-1">
-      <AccordionTrigger>Is it accessible?</AccordionTrigger>
-      <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-    </AccordionItem>
-
-    <AccordionItem value="item-2">
-      <AccordionTrigger>Is it unstyled?</AccordionTrigger>
-      <AccordionContent>Yes. It's unstyled by default, giving you freedom over the look and feel.</AccordionContent>
-    </AccordionItem>
-
-    <AccordionItem value="item-3">
-      <AccordionTrigger>Can it be animated?</AccordionTrigger>
-      <AccordionContent>Yes! You can animate the Accordion with CSS or JavaScript.</AccordionContent>
-    </AccordionItem>
-  </Accordion>
-)
-
-export default AccordionDemo

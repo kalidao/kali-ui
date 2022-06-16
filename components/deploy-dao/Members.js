@@ -57,9 +57,9 @@ export default function Members({ setStep }) {
       actions.updateAction(data)
 
       if (!hardMode) {
-        setStep('id')
+        setStep(0)
       } else {
-        setStep('crowdsale')
+        setStep(3)
       }
     }
   }
@@ -70,9 +70,9 @@ export default function Members({ setStep }) {
       actions.updateAction(data)
 
       if (!hardMode) {
-        setStep('confirm')
+        setStep(6)
       } else {
-        setStep('legal')
+        setStep(5)
       }
     }
   }

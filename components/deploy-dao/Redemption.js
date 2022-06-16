@@ -21,9 +21,9 @@ export default function Redemption({ setStep }) {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('id')
+      setStep(0)
     } else {
-      setStep('gov')
+      setStep(1)
     }
   }
 
@@ -31,9 +31,9 @@ export default function Redemption({ setStep }) {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep('founders')
+      setStep(4)
     } else {
-      setStep('crowdsale')
+      setStep(3)
     }
   }
 
