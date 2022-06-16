@@ -335,19 +335,20 @@ export default function Crowdsale() {
       try {
         const amount = ethers.utils.parseEther(purchaseAmount.toString()).toString()
         console.log(amount, ethers.constants.HashZero)
-        // const tx = await callCrowdsaleAsync({
-        //   args: [daoAddress, amount],
-        //   overrides: {
-        //     value: amount,
-        //   },
-        // })
-        const tx = await callKalidaoAsync({
-          args: [crowdsaleAddress, amount, ethers.constants.HashZero],
+        const tx = await callCrowdsaleAsync({
+          args: [daoAddress, amount],
           overrides: {
             value: amount,
             gasLimit: 1500000,
           },
         })
+        // const tx = await callKalidaoAsync({
+        //   args: [crowdsaleAddress, amount, ethers.constants.HashZero],
+        //   overrides: {
+        //     value: amount,
+        //     gasLimit: 1500000,
+        //   },
+        // })
         console.log('tx - ', tx)
       } catch (e) {
         console.log(e)
@@ -358,11 +359,13 @@ export default function Crowdsale() {
         console.log(amount)
         const tx = await callCrowdsaleAsync({
           args: [daoAddress, amount],
+          overrides: {
+            gasLimit: 1500000,
+          },
         })
         // const tx = await callKalidaoAsync({
-        //   args: [crowdsaleAddress, amount, '0x'],
+        //   args: [crowdsaleAddress, amount, ethers.constants.HashZero],
         //   overrides: {
-        //     value: amount,
         //     gasLimit: 1500000,
         //   },
         // })
