@@ -134,7 +134,7 @@ export default function Governance({ setStep }) {
           onValueChange={(value) => setValue('transferability', value)}
         />
       </FormElement>
-      <Flex css={{ justifyContent: 'flex-end' }}>
+      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>

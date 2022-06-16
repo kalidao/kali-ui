@@ -145,7 +145,7 @@ export default function Crowdsale({ setStep }) {
         </>
       )}
 
-      <Flex css={{ justifyContent: 'flex-end' }}>
+      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>

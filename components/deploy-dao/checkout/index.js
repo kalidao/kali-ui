@@ -50,7 +50,7 @@ export default function Checkout({ setStep }) {
       contractInterface: FACTORY_ABI,
     },
     'DAOdeployed',
-    (event) => router.push(`/daos/${activeChain?.id}/${event[0]}`),
+    (event) => setTimeout(router.push(`/daos/${activeChain?.id}/${event[0]}`), 10000),
     {
       chainId: activeChain?.id,
     },
@@ -144,7 +144,15 @@ export default function Checkout({ setStep }) {
       const saleFace = new ethers.utils.Interface(SALE_ABI)
       const encodedData = new ethers.utils.AbiCoder().encode(
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [0, purchaseMultiplier, purchaseToken, crowdsaleEnd, purchaseLimit, personalLimit, 'documentation'],
+        [
+          0,
+          purchaseMultiplier,
+          purchaseToken,
+          crowdsaleEnd,
+          ethers.utils.parseEther(purchaseLimit),
+          ethers.utils.parseEther(personalLimit),
+          'documentation',
+        ],
       )
       const payload = saleFace.encodeFunctionData('setExtension', [encodedData])
 
@@ -194,7 +202,7 @@ export default function Checkout({ setStep }) {
   }
 
   return (
-    <Flex dir="col">
+    <Flex dir="col" gap="sm">
       {isError && <Error message={error.message} />}
       {data ? <Success /> : <Confirmation />}
 

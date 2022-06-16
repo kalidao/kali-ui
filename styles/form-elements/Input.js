@@ -97,8 +97,8 @@ const Input = styled('input', {
       },
       checkbox: {
         width: 25,
-        height: 25,
-        color: '$foreground',
+        height: 'auto',
+        color: '$gray3',
       },
     },
     size: {

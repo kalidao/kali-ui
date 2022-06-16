@@ -104,7 +104,7 @@ export default function Identity({ setStep }) {
           {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
         </Flex>
       </Flex>
-      <Flex css={{ justifyContent: 'flex-end' }}>
+      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
         <Button variant="primary" type="submit">
           Next
         </Button>
