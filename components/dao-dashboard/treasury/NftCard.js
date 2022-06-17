@@ -22,14 +22,35 @@ export default function NftCard({ nft }) {
     <Dialog>
       <DialogTrigger>
         {data ? (
-          <Box
+          <Flex
             css={{
-              height: '150px',
-              width: '150px',
+              height: '300px',
+              width: '250px',
+              background: '$gray2',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderRadius: '20px',
+              overflow: 'hidden',
+
+              '&:hover': {
+                boxShadow: '2px 2px 10px -1px hsl(252, 87.0%, 96.4%)',
+              },
             }}
           >
-            <Image src={data['image']} height="100%" width="100%" alt="NFT Image" />
-          </Box>
+            <Image src={data['image']} height="250px" width="250px" alt="NFT Image" />
+            <Text
+              css={{
+                color: '$gray11',
+                fontFamily: 'Bold',
+                fontWeight: '500',
+                fontSize: '16px',
+                marginBottom: '1rem',
+              }}
+            >
+              {data['name']}
+            </Text>
+          </Flex>
         ) : (
           <Spinner />
         )}
