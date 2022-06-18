@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Layout from '../components/layout'
 import { Flex, Box, Button } from '../styles/elements'
 import { Form, Input } from '../styles/form-elements'
-export default function lexy() {
+
+export default function LexyPage() {
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState()
   const [loading, setLoading] = useState(false)
