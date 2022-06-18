@@ -36,7 +36,7 @@ export default function Lexy() {
     setAnswer(data.result)
     let answerObj = {}
     answerObj['name'] = 'Lexy'
-    answerObj['text'] = data.result
+    answerObj['text'] = data.result.slice(6, -1)
     textsArray.push(answerObj)
     setTexts(textsArray)
     setQuestion('')
