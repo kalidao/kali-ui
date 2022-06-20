@@ -91,6 +91,9 @@ const Input = styled('input', {
         },
       },
       textarea: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         padding: '0.5rem',
         width: '97%',
         minHeight: '10vh',

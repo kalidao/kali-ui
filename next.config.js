@@ -6,6 +6,7 @@ module.exports = {
   webpack: function (config, options) {
     config.experiments = {
       topLevelAwait: true,
+      layers: true,
     }
     return config
   },

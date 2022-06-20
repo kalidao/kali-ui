@@ -5,7 +5,6 @@ import { Flex, Box } from '../../styles/elements'
 import { getDaoChain } from '../../utils'
 import { useNetwork } from 'wagmi'
 import { getRandomEmoji } from '../../utils/'
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 
 const Name = styled('div', {
   fontFamily: 'Bold',
