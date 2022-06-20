@@ -30,7 +30,7 @@ export default function Log({ allDaos }) {
           },
         }}
       >
-        {allDaos && allDaos[chain].map((dao) => <DaoCard dao={dao} key={dao.id} chain="1" />)}
+        {allDaos && allDaos[chain].map((dao) => <DaoCard dao={dao} key={dao.id} chain={chain} />)}
       </Box>
     </Flex>
   )
