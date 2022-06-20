@@ -8,28 +8,22 @@ import Link from 'next/link'
 
 export default function Featured() {
   return (
-    <Flex
-      align="start"
-      dir="col"
-      gap="md"
-      css={{
-        position: 'relative',
-        top: '0',
-        right: '1rem',
-        // border: '1px solid $gray6',
-        padding: '1rem',
-      }}
-    >
-      <Text
+    <Flex align="start" dir="col" gap="md">
+      <Flex
+        as="h2"
         css={{
           fontSize: '36px',
           fontFamily: 'Bold',
-          width: '25rem',
+          minWidth: '25rem',
+          height: 'auto',
           borderBottom: '1px solid $gray6',
+          paddingBottom: '0.5rem',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         ✨ Featured
-      </Text>
+      </Flex>
       <Flex dir="col" gap="md" align="center">
         {featured.map((feature) => (
           <TriggerTip label={feature.label} key={feature.name}>
