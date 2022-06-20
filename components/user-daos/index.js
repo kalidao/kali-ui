@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Flex } from '../../styles/elements'
-import { Results, ResultsText } from '../my-daos/'
+import { Results, ResultsText } from '../home/'
 import { useNetwork } from 'wagmi'
 import { GRAPH_URL } from '../../graph'
-import DaoCard from '../my-daos/DaoCard'
+import DaoCard from '../home/DaoCard'
 
 export default function UserDAOs({ address }) {
   const { activeChain } = useNetwork()

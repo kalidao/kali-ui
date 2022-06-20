@@ -1,7 +1,7 @@
 import Layout from '../components/layout'
 import { Box } from '../styles/elements'
 import Services from '../components/services'
-import NewDaoSquare from '../components/my-daos/NewDaoSquare'
+import NewDaoSquare from '../components/home/NewDaoSquare'
 
 export default function ServicesPage() {
   return (

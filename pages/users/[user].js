@@ -1,6 +1,6 @@
 import Layout from '../../components/layout'
 import UserDAOs from '../../components/user-daos/'
-import NewDaoSquare from '../../components/my-daos/NewDaoSquare'
+import NewDaoSquare from '../../components/home/NewDaoSquare'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 

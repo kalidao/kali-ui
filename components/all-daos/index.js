@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex } from '../../styles/elements'
-import { Results, ResultsText } from '../my-daos/'
-import DaoCard from '../my-daos/DaoCard'
+import { Results, ResultsText } from '../home/'
+import DaoCard from '../home/DaoCard'
 import { addresses } from '../../constants/addresses'
 
 export default function AllDAOs({ daos, chainId }) {

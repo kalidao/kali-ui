@@ -42,7 +42,7 @@ export default function Services() {
               {provider.name}
             </Text>
           ) : (
-            <Image src={provider.icon} width="60px" height="60px" />
+            <Image src={provider.icon} width="60px" height="60px" alt={`${provider.name} icon`} />
           )}
 
           <Text>{provider.text}</Text>

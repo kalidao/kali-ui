@@ -2,10 +2,8 @@ import React, { useEffect } from 'react'
 import { styled } from '../../styles/stitches.config'
 import { truncateAddress } from '../../utils'
 import { Flex, Box, Text } from '../../styles/elements'
-import { getDaoChain } from '../../utils'
 import { useNetwork, useEnsName, useAccount } from 'wagmi'
 import { getRandomEmoji } from '../../utils'
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 
 const Name = styled('div', {
   fontFamily: 'Bold',
