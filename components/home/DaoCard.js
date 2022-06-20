@@ -36,7 +36,18 @@ export default function DaoCard({ dao, chain }) {
   }
 
   return (
-    <Box as="a" variant="card" onClick={gotoDAO}>
+    <Box
+      as="a"
+      variant="card"
+      onClick={gotoDAO}
+      css={{
+        '@media (max-width: 768px)': {
+          fontSize: '18px',
+          minWidth: '20rem',
+          height: 'auto',
+        },
+      }}
+    >
       <Box
         css={{
           background: '$gray9',

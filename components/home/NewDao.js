@@ -34,6 +34,11 @@ export default function NewDao() {
               color: '$mauve12',
               border: '1px solid $violet7',
             },
+
+            '@media (max-width: 768px)': {
+              fontSize: '18px',
+              minWidth: '25px',
+            },
           }}
         >
           Create <PlusIcon height="20px" width="20px" />

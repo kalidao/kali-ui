@@ -15,6 +15,12 @@ export default function Welcome({ allDaos }) {
         left: '5rem',
         justifyContent: 'space-evenly',
         alignItems: 'flex-start',
+
+        '@media (max-width: 768px)': {
+          flexDirection: 'column-reverse',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
       }}
     >
       <ActivityLog allDaos={allDaos && allDaos} />

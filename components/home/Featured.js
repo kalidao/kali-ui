@@ -20,6 +20,10 @@ export default function Featured() {
           paddingBottom: '0.5rem',
           justifyContent: 'space-between',
           alignItems: 'center',
+          '@media (max-width: 768px)': {
+            fontSize: '26px',
+            minWidth: '20rem',
+          },
         }}
       >
         ✨ Featured
