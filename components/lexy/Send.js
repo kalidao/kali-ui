@@ -7,6 +7,7 @@ import { PaperPlaneIcon } from '@radix-ui/react-icons'
 const Icon = styled(PaperPlaneIcon, {
   transform: 'rotate(330deg)',
 })
+
 export default function Send({ loading, submit, question, setQuestion }) {
   return (
     <Form>
@@ -18,6 +19,7 @@ export default function Send({ loading, submit, question, setQuestion }) {
         onChange={(e) => setQuestion(e.target.value)}
         css={{
           fontFamily: 'Regular',
+          borderRadius: '10px',
         }}
       />
       <Button onClick={submit} variant="cta" disabled={loading}>

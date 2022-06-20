@@ -1,9 +1,14 @@
 import React from 'react'
-import { Flex, Box } from '../../styles/elements'
+import { Text as TextBox, Flex } from '../../styles/elements'
+import { Avatar, AvatarImage, AvatarFallback } from '../../styles/Avatar'
+import { getRandomEmoji } from '../../utils'
+import { AddressZero } from '@ethersproject/constants'
 
 export default function Text({ text }) {
   return (
-    <Box
+    <Flex
+      gap="sm"
+      dir="col"
       css={{
         fontFamily: 'Regular',
         lineHeight: 1,
@@ -13,7 +18,19 @@ export default function Text({ text }) {
         borderRadius: '20px',
       }}
     >
-      {text?.text}
-    </Box>
+      <Avatar>
+        <AvatarImage
+          src={text?.name == 'Lexy' ? '/img/lexy.jpeg' : '/img/preview.png'}
+          alt={`${text?.name == 'Lexy' ? 'Lexy' : 'Human'} icon`}
+        />
+        <AvatarFallback>{getRandomEmoji(AddressZero)}</AvatarFallback>
+      </Avatar>
+      {text &&
+        text?.text.split('/n').map((line, index) => (
+          <TextBox as="p" key={index}>
+            {line}
+          </TextBox>
+        ))}
+    </Flex>
   )
 }
