@@ -10,19 +10,19 @@ export default function NewDao() {
       <DialogTrigger>
         <Flex
           align="center"
-          dir="col"
-          gap="md"
+          dir="row"
           css={{
             position: 'relative',
-            minHeight: '5rem',
-            minWidth: '15rem',
+            height: 'auto',
+            minWidth: '45px',
             background: '$violet4',
             color: '$mauve11',
             border: '1px solid $violet5',
-            padding: '1rem',
-            fontSize: '24px',
+            padding: '0.7rem',
+            fontSize: '20px',
             fontFamily: 'Bold',
             borderRadius: '20px',
+            gap: '5px',
 
             '&:hover': {
               background: '$violet5',
@@ -36,7 +36,7 @@ export default function NewDao() {
             },
           }}
         >
-          Create <PlusIcon height="25px" width="25px" />
+          Create <PlusIcon height="20px" width="20px" />
         </Flex>
       </DialogTrigger>
       <DialogContent>

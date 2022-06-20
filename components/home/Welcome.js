@@ -1,8 +1,9 @@
 import React from 'react'
-import Featured from './Featured'
-import NewDao from './NewDao'
 import { Flex } from '../../styles/elements'
-export default function Welcome() {
+import ActivityLog from './ActivityLog'
+import Featured from './Featured'
+
+export default function Welcome({ allDaos }) {
   return (
     <Flex
       dir="row"
@@ -13,10 +14,10 @@ export default function Welcome() {
         right: '5rem',
         left: '5rem',
         justifyContent: 'space-evenly',
-        alignItems: 'center',
+        alignItems: 'flex-start',
       }}
     >
-      <NewDao />
+      <ActivityLog allDaos={allDaos && allDaos} />
       <Featured />
     </Flex>
   )
