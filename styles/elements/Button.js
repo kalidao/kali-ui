@@ -105,7 +105,8 @@ const Button = styled('button', {
         backgroundColor: '$violet10',
         border: '1px solid $violet9',
         color: '$mauve12',
-        fontFamily: 'Bold',
+        fontFamily: 'Regular',
+        fontWeight: '800',
         fontSize: '14px',
 
         '&:hover': {

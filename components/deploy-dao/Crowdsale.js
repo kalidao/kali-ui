@@ -60,6 +60,12 @@ export default function Crowdsale({ setStep }) {
               <Select.Item value="custom">Custom</Select.Item>
             </Select>
           </FormElement>
+          {watchPurchaseToken === 'custom' && (
+            <FormElement>
+              <Label htmlFor="customTokenAddress">Custom Token Address</Label>
+              <Input {...register('customTokenAddress')} defaultValue={state['customTokenAddress']} />
+            </FormElement>
+          )}
           <FormElement>
             <Label htmlFor="purchaseLimit">Total Purchase Limit</Label>
             <Flex dir="col" gap="sm">

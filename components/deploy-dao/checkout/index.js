@@ -128,9 +128,13 @@ export default function Checkout({ setStep }) {
       if (purchaseToken === 'eth') {
         purchaseToken = '0x000000000000000000000000000000000000dead'
       }
+      if (purchaseToken === 'custom') {
+        purchaseToken = state.customTokenAddress
+      }
+
       crowdsaleEnd = parseInt(new Date(crowdsaleEnd).getTime() / 1000)
 
-      const saleFace = new ethers.utils.Interface(SALE_ABI)
+      const iface = new ethers.utils.Interface(SALE_ABI)
       const encodedData = new ethers.utils.AbiCoder().encode(
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
         [
@@ -143,7 +147,7 @@ export default function Checkout({ setStep }) {
           'documentation',
         ],
       )
-      const payload = saleFace.encodeFunctionData('setExtension', [encodedData])
+      const payload = iface.encodeFunctionData('setExtension', [encodedData])
 
       extensionsArray.push(addresses[activeChain?.id]['extensions']['crowdsale2'])
       extensionsData.push(payload)
