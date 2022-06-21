@@ -1,5 +1,5 @@
 import { ExclamationTriangleIcon, ExitIcon, GearIcon } from '@radix-ui/react-icons'
-import { MdOutlinePayments, MdOutlineManageAccounts } from 'react-icons/md'
+import { MdOutlinePayments, MdOutlineManageAccounts, MdDraw } from 'react-icons/md'
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
 import React from 'react'
 import { Menu } from '../../../styles/proposal/Menu'
@@ -13,6 +13,10 @@ export default function ProposalsMenu({ setProposal }) {
       </Menu.Item>
       <Menu.Item onClick={() => setProposal('sendMenu')}>
         <MdOutlinePayments /> Payments
+      </Menu.Item>
+      <Menu.Item onClick={() => setProposal('assetMenu')}>
+        <MdDraw />
+        Create
       </Menu.Item>
       <Menu.Item onClick={() => setProposal('call')}>
         <ExitIcon />

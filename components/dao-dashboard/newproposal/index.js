@@ -15,6 +15,9 @@ import {
   InternalMenu,
 } from './internal'
 import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
+import { AssetMenu } from './create'
+import MintArt from './create/MintArt'
+import MintReal from './create/MintReal'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -33,6 +36,10 @@ export function NewProposalModal({ proposalProp }) {
     sendMenu: {
       title: 'Send',
       component: <SendMenu setProposal={setView} />,
+    },
+    assetMenu: {
+      title: 'Create',
+      component: <AssetMenu setProposal={setView} />,
     },
     internalMenu: {
       title: 'Internal',
@@ -93,6 +100,15 @@ export function NewProposalModal({ proposalProp }) {
       // done
       title: 'Update Quorum',
       component: <UpdateQuorum setProposal={setView} />,
+    },
+    // Create Asset Menu
+    art: {
+      title: 'Mint Art NFT',
+      component: <MintArt setProposal={setView} />,
+    },
+    real: {
+      title: 'Mint real estate NFT',
+      component: <MintReal setProposal={setView} />,
     },
     // Admin Menu
     manager: {
