@@ -26,7 +26,7 @@ export default function Success() {
       handleEmail(event)
       setTimeout(
         router.push(`/daos/${encodeURIComponent(activeChain?.id)}/${encodeURIComponent(event[0])}/info`),
-        30000,
+        60000,
       )
     },
     {
