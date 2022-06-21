@@ -35,8 +35,10 @@ export default function Header({ info }) {
         </PopoverTrigger>
         <PopoverContent>
           <Flex>
-            Settings
-            <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text>
+            <Flex align="separate">
+              <Text>Ends: </Text>
+              <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text>
+            </Flex>
           </Flex>
           <PopoverArrow />
           <PopoverClose aria-label="Close">
