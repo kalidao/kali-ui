@@ -15,6 +15,8 @@ export default function validateDocs(type, existingDocs, name, mission) {
       return 'none'
     case 'existing':
       return existingDocs
+    case 'none':
+      return 'none'
     default:
       return new Error('Invalid type.')
   }
