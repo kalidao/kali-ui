@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI } from 'wagmi'
 import { Flex, Text, Button, Warning, Box, Image } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
 import { ethers } from 'ethers'
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
@@ -49,8 +49,8 @@ export default function MintArt({ setProposal }) {
   // form
   const [artTitle, setArtTitle] = useState(null)
   const [artDescription, setArtDescription] = useState(null)
+  const [artTerms, setArtTerms] = useState('none')
   const [totalSupply, setTotalSupply] = useState(null)
-  const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
   const [warning, setWarning] = useState()
@@ -59,18 +59,19 @@ export default function MintArt({ setProposal }) {
     const date = new Date()
     const timestamp = date.getTime()
 
-    if (artTitle && artDescription && file) {
+    if (artTitle && artDescription && file && artTerms) {
       const hash = await uploadIpfs(daoAddress, `KaliNFT #${totalSupply}`, file)
       const metadata = {
         title: artTitle,
         description: artDescription,
         image: hash,
         createdAt: timestamp,
+        terms: artTerms,
       }
       setWarning(null)
       return metadata
     } else {
-      setWarning('Please enter title and description.')
+      setWarning('Please supply title, description, and terms for the artwork.')
       return
     }
   }
@@ -150,6 +151,13 @@ export default function MintArt({ setProposal }) {
             onChange={(e) => setArtDescription(e.target.value)}
             css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
           />
+        </FormElement>
+        <FormElement>
+          <Label htmlFor="type">Terms</Label>
+          <Select name="type" onChange={(e) => setArtTerms(e.target.value)} defaultValue={artTerms}>
+            <Select.Item value="none">None</Select.Item>
+            <Select.Item value="cc0">CC0</Select.Item>
+          </Select>
         </FormElement>
         <FormElement>
           <Label htmlFor="upload">Upload</Label>
