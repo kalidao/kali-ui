@@ -27,7 +27,7 @@ export default function MintArt({ setProposal }) {
       chainId: Number(daoChainId),
     },
   )
-  // const { data: totalSupply, error } = useContractRead(
+  // const { data: _totalSupply, error } = useContractRead(
   //   {
   //     addressOrName: addresses[daoChainId]['nft'],
   //     contractInterface: KALINFT_ABI,
@@ -90,6 +90,7 @@ export default function MintArt({ setProposal }) {
         const _totalSupply = await instance.totalSupply()
         _totalSupply = ethers.utils.formatUnits(_totalSupply, 'wei')
         setTotalSupply(_totalSupply)
+        setWarning(null)
       } catch (e) {
         setWarning('Error connecting to network.')
         console.log(e)
@@ -165,7 +166,7 @@ export default function MintArt({ setProposal }) {
           )}
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('assetMenu')} />
+        <Back onClick={() => setProposal('mintMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

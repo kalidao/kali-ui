@@ -97,6 +97,7 @@ export default function MintReal({ setProposal }) {
         const _totalSupply = await instance.totalSupply()
         _totalSupply = ethers.utils.formatUnits(_totalSupply, 'wei')
         setTotalSupply(_totalSupply)
+        setWarning(null)
       } catch (e) {
         setWarning('Error connecting to network.')
         console.log(e)
@@ -189,7 +190,7 @@ export default function MintReal({ setProposal }) {
           )}
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('assetMenu')} />
+        <Back onClick={() => setProposal('mintMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
