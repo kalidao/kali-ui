@@ -21,9 +21,9 @@ function AssetMenu({ setProposal }) {
         <Menu.Item onClick={() => setProposal('real')}>
           <FcHome /> Real Estate
         </Menu.Item>
-        <Menu.Item onClick={() => setProposal('erc721')}>
+        {/* <Menu.Item onClick={() => setProposal('erc721')}>
           <Image src="/icons/NFT.svg" height="25px" width="25px" /> ERC721
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
       <Back onClick={() => setProposal('menu')} />
     </Flex>

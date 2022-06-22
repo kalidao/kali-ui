@@ -15,9 +15,9 @@ import {
   InternalMenu,
 } from './internal'
 import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
-import { AssetMenu } from './create'
-import MintArt from './create/MintArt'
-import MintReal from './create/MintReal'
+import { AssetMenu } from './mint'
+import MintArt from './mint/MintArt'
+import MintReal from './mint/MintReal'
 
 export function NewProposalModal({ proposalProp }) {
   const [view, setView] = useState(proposalProp)
@@ -37,8 +37,8 @@ export function NewProposalModal({ proposalProp }) {
       title: 'Send',
       component: <SendMenu setProposal={setView} />,
     },
-    assetMenu: {
-      title: 'Create',
+    mintMenu: {
+      title: 'Mint',
       component: <AssetMenu setProposal={setView} />,
     },
     internalMenu: {
