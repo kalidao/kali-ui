@@ -16,7 +16,8 @@ export default function MintArt({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
-  const { data: daoName, isLoading } = useContractRead(
+  const { data: signer, isLoading } = useSigner()
+  const { data: daoName } = useContractRead(
     {
       addressOrName: daoAddress,
       contractInterface: KALIDAO_ABI,
@@ -36,20 +37,11 @@ export default function MintArt({ setProposal }) {
   //     chainId: Number(daoChainId),
   //   },
   // )
-  const { data: account } = useAccount()
-  const { data: signer } = useSigner()
-  const { activeChain } = useNetwork()
-
-  const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
 
   // form
-  const [artTitle, setArtTitle] = useState(null)
-  const [artDescription, setArtDescription] = useState(null)
-  const [artTerms, setArtTerms] = useState('none')
+  const [title, setTitle] = useState(null)
+  const [description, setDescription] = useState(null)
+  const [terms, setTerms] = useState('none')
   const [totalSupply, setTotalSupply] = useState(null)
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
@@ -59,14 +51,14 @@ export default function MintArt({ setProposal }) {
     const date = new Date()
     const timestamp = date.getTime()
 
-    if (artTitle && artDescription && file && artTerms) {
+    if (title && description && file && terms) {
       const hash = await uploadIpfs(daoAddress, `KaliNFT #${totalSupply}`, file)
       const metadata = {
-        title: artTitle,
-        description: artDescription,
+        title: title,
+        description: description,
         image: hash,
         createdAt: timestamp,
-        terms: artTerms,
+        terms: terms,
       }
       setWarning(null)
       return metadata
@@ -99,11 +91,12 @@ export default function MintArt({ setProposal }) {
         _totalSupply = ethers.utils.formatUnits(_totalSupply, 'wei')
         setTotalSupply(_totalSupply)
       } catch (e) {
+        setWarning('Error connecting to network.')
         console.log(e)
       }
     }
     getTotalSupply()
-  }, [])
+  }, [signer, isLoading])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -134,12 +127,7 @@ export default function MintArt({ setProposal }) {
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">Title</Label>
-          <Input
-            name="contractAddress"
-            type="text"
-            defaultValue={artTitle}
-            onChange={(e) => setArtTitle(e.target.value)}
-          />
+          <Input name="contractAddress" type="text" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="contractAddress">Description</Label>
@@ -147,14 +135,14 @@ export default function MintArt({ setProposal }) {
             as="textarea"
             name="description"
             type="text"
-            defaultValue={artDescription}
-            onChange={(e) => setArtDescription(e.target.value)}
+            defaultValue={description}
+            onChange={(e) => setDescription(e.target.value)}
             css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
           />
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Terms</Label>
-          <Select name="type" onChange={(e) => setArtTerms(e.target.value)} defaultValue={artTerms}>
+          <Select name="type" onChange={(e) => setTerms(e.target.value)} defaultValue={terms}>
             <Select.Item value="none">None</Select.Item>
             <Select.Item value="cc0">CC0</Select.Item>
           </Select>
