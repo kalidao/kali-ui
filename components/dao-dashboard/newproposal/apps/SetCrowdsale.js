@@ -176,7 +176,7 @@ export default function SetCrowdsale({ setProposal }) {
       )
       console.log(payload)
     } catch (e) {
-      setWarning('Please set a start time.')
+      setWarning('Error setting crowdsale')
       console.log(e)
       return
     }
