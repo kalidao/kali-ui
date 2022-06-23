@@ -2,6 +2,7 @@ import Layout from '../components/layout'
 import { MyDAOs, NewDaoSquare } from '../components/home'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
+
 export const getServerSideProps = async () => {
   try {
     const result = await Promise.all(

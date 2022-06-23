@@ -21,25 +21,6 @@ export const addresses =
       blockExplorer: 'https://etherscan.io',
       kaliMaster: '0xfc0Fd933D8ef5b7e552E67aCfc4c09711B413f30',
     },
-    // Rinkeby
-    4: {
-      name: 'Rinkeby',
-      factory: '0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548',
-      ricardian: '0xd45f8734539792619B3C4BE0e24639845371A481',
-      erc20factory: '0x8a23526eDe4d7222150C3dFEFC47902180A19323',
-      nft: '0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0',
-      access: '0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e',
-      access2: '0xD5714082908aB1b3A17b52f933FC806e09949b9A',
-      extensions: {
-        tribute: '0xd62AB72CC6b53D98eed510646a69B21b77ce5A56',
-        crowdsale: '0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36',
-        crowdsale2: '0x2DCA7b86564Ade753062D6Cd60fb3a61fF1f2f9a',
-        redemption: '0x11f44975e1B204E50108Af6BCB6539798cb15F75',
-        manager: '0xCFAEA98787d835D127863ED4127F42d00F3D267d',
-      },
-      blockExplorer: 'https://rinkeby.etherscan.io',
-      kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',
-    },
     // Polygon
     137: {
       name: 'Polygon',
@@ -91,5 +72,40 @@ export const addresses =
       kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
       ricardian: '0x581b5E51fFBB742f92E818Fb177CAD8a30e43f3E',
       blockExplorer: 'https://optimistic.etherscan.io',
+    },
+    // Rinkeby
+    4: {
+      name: 'Rinkeby',
+      factory: '0x1aAF0d0305B8e5685bCA94F35409547fA4bCD548',
+      ricardian: '0xd45f8734539792619B3C4BE0e24639845371A481',
+      erc20factory: '0x8a23526eDe4d7222150C3dFEFC47902180A19323',
+      nft: '0xbC208705aF624bE6AE63B27Cf1b94dbD1d7156d0',
+      access: '0x3467B663F6e6B962f4f24aa5dB55e659D108Db9e',
+      access2: '0xD5714082908aB1b3A17b52f933FC806e09949b9A',
+      extensions: {
+        tribute: '0xd62AB72CC6b53D98eed510646a69B21b77ce5A56',
+        crowdsale: '0x30BF15b764A2A096c37f8c8E1b6b43D853db9a36',
+        crowdsale2: '0x2DCA7b86564Ade753062D6Cd60fb3a61fF1f2f9a',
+        redemption: '0x11f44975e1B204E50108Af6BCB6539798cb15F75',
+        manager: '0xCFAEA98787d835D127863ED4127F42d00F3D267d',
+      },
+      blockExplorer: 'https://rinkeby.etherscan.io',
+      kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',
+    },
+    // Goerli
+    5: {
+      name: 'Goerli',
+      ricardian: '0x503297a0bf06B1A33124Cd93e486f17A7F7fDF20',
+      kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
+      factory: '0xDDdFf70C77Cffcf97Fb91F7aC4aD0E12E8C14571',
+      erc20factory: '',
+      nft: '',
+      access2: '0xa9eF2815a4CA3AfaF29c5234b6937A419cEC33a6',
+      extensions: {
+        tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
+        crowdsale2: '0x8c183bf7f68F70104657C6446d638178cbd6Fd11',
+        redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
+      },
+      blockExplorer: 'https://goerli.etherscan.io/',
     },
   }
