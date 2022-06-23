@@ -20,6 +20,20 @@ export default function ProposalView({ proposal }) {
   const { chainId, dao } = router.query
   const { data: account } = useAccount()
 
+  const canProcess = () => {
+    const timeLeft =
+      new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
+
+    if (proposal?.sponsored === true) {
+      if (timeLeft > 0) {
+        if (proposal?.status === null) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+
   return (
     <Flex
       dir="col"
@@ -64,7 +78,7 @@ export default function ProposalView({ proposal }) {
           ) : (
             <Sponsor proposal={proposal} />
           ))}
-        <Process proposal={proposal} />
+        {canProcess() && <Process proposal={proposal} />}
       </Flex>
       {proposal && <Votes votes={proposal['votes']} />}
     </Flex>

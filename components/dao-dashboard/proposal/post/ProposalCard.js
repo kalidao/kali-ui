@@ -17,7 +17,7 @@ export const ProposalCard = ({ proposal }) => {
   })
 
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
-  const [willProcess, setWillProcess] = useState()
+  // const [willProcess, setWillProcess] = useState()
 
   const canProcess = () => {
     const timeLeft =
@@ -33,24 +33,24 @@ export const ProposalCard = ({ proposal }) => {
     return false
   }
 
-  useEffect(async () => {
-    setWillProcess(undefined)
-    if (canProcess()) {
-      try {
-        const res = await fetchProposal(router.query.chainId, router.query.dao, proposal['serial'])
-        if (res) {
-          const res2 = await fetchProposal(router.query.chainId, router.query.dao, res['prevProposal'].toString())
+  // useEffect(async () => {
+  //   setWillProcess(undefined)
+  //   if (canProcess()) {
+  //     try {
+  //       const res = await fetchProposal(router.query.chainId, router.query.dao, proposal['serial'])
+  //       if (res) {
+  //         const res2 = await fetchProposal(router.query.chainId, router.query.dao, res['prevProposal'].toString())
 
-          if (res[2].toString() == 0) {
-            console.log('willProcess', proposal['serial'])
-            setWillProcess(true)
-          }
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
-  }, [proposal['serial']])
+  //         if (res[2].toString() == 0) {
+  //           console.log('willProcess', proposal['serial'])
+  //           setWillProcess(true)
+  //         }
+  //       }
+  //     } catch (e) {
+  //       console.log(e)
+  //     }
+  //   }
+  // }, [proposal['serial']])
 
   return (
     <Flex
