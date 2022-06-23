@@ -109,6 +109,25 @@ const Box = styled('div', {
         //   border: '1px solid $mauve12',
         // },
       },
+      vote: {
+        background: 'none',
+        border: 'none',
+        borderRadius: '100%',
+        padding: '0.2rem 0.3rem',
+
+        '&:hover': {
+          background: '$gray12',
+        },
+      },
+      'vote-disabled': {
+        background: 'none',
+        border: 'none',
+
+        '&:hover': {
+          color: 'none',
+          background: 'none',
+        },
+      },
     },
   },
 })

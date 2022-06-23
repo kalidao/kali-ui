@@ -81,7 +81,13 @@ export default function UpdateVotingPeriod({ setProposal }) {
         </FormElement>
         <FormElement>
           <Label htmlFor="recipient">Duration</Label>
-          <Input name="recipient" type="number" defaultValue={duration} onChange={(e) => setDuration(e.target.value)} />
+          <Input
+            name="recipient"
+            type="number"
+            min="0"
+            defaultValue={duration}
+            onChange={(e) => setDuration(e.target.value)}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Unit</Label>

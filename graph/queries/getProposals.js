@@ -18,12 +18,15 @@ export const getProposals = async (chainId, address) => {
                     description
                     sponsor
                     sponsored
+                    cancelled
                     status
                     votes {
                       voter
                       vote
+                      weight
                     }
                     creationTime
+                    votingStarts
                     dao {
                       votingPeriod
                     }

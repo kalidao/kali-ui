@@ -3,21 +3,28 @@ import { Flex, Box } from '../../../styles/elements'
 import { truncateAddress } from './../../../utils/'
 import { useEnsName } from 'wagmi'
 import Link from 'next/link'
+
 export default function InfoBar({ proposal }) {
   const {
     data: ensName,
-    isError,
     isLoading,
     isFetched,
+    isError,
   } = useEnsName({
     address: proposal && proposal['proposer'],
-    chainId: Number(1),
+    chainId: 1,
   })
 
   return (
     <Flex>
       <Link href={`/users/${encodeURIComponent(proposal && proposal['proposer'])}`}>
-        <Box variant="id">{isFetched ? ensName : truncateAddress(proposal['proposer'])}</Box>
+        <Box variant="id">
+          {/* TODO: Make this something else. Adding fallbacks for now umm */}
+          {isLoading && truncateAddress(proposal['proposer'])}
+          {isError && truncateAddress(proposal['proposer'])}
+          {ensName === null && truncateAddress(proposal['proposer'])}
+          {isFetched && ensName}
+        </Box>
       </Link>
     </Flex>
   )

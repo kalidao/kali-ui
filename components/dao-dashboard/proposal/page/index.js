@@ -1,15 +1,24 @@
-import React from 'react'
-import { Box, Flex, Text } from '../../../styles/elements'
-import Tag from '../../../styles/proposal/Tag'
+import React, { useState, useEffect } from 'react'
+import { Box, Flex, Text } from '../../../../styles/elements'
+import Tag from '../../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
 import Results from './Results'
 import Votes from './Votes'
 import Description from './Description'
 import Vote from '../vote'
-import InfoBar from './InfoBar'
+import InfoBar from '../InfoBar'
+import Sponsor from '../Sponsor'
+import { useAccount } from 'wagmi'
+import Cancel from '../Cancel'
+import Process from '../Process'
+import { willProcess } from '../helpers'
+import { useRouter } from 'next/router'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
+  const router = useRouter()
+  const { chainId, dao } = router.query
+  const { data: account } = useAccount()
 
   return (
     <Flex
@@ -39,7 +48,7 @@ export default function ProposalView({ proposal }) {
           {proposal && <Description description={proposal['description']} />}
         </Box>
         <Flex dir="col" gap="md">
-          {proposal && <InfoCard start={proposal['creationTime']} votingPeriod={proposal['dao']['votingPeriod']} />}
+          {proposal && <InfoCard start={proposal['votingStarts']} votingPeriod={proposal['dao']['votingPeriod']} />}
           {proposal && <Results votes={proposal['votes']} />}
         </Flex>
       </Flex>
@@ -49,6 +58,13 @@ export default function ProposalView({ proposal }) {
         }}
       >
         <Vote proposal={proposal} />
+        {proposal['sponsored'] == false &&
+          (account?.address.toLowerCase() === proposal['proposer'] ? (
+            <Cancel proposal={proposal} />
+          ) : (
+            <Sponsor proposal={proposal} />
+          ))}
+        <Process proposal={proposal} />
       </Flex>
       {proposal && <Votes votes={proposal['votes']} />}
     </Flex>
