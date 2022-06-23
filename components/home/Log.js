@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { useNetwork } from 'wagmi'
+// import { useNetwork } from 'wagmi'
+// import { productionChains } from '../../constants/productionChains'
 import { Flex, Box } from '../../styles/elements'
 import { Select } from '../../styles/form-elements'
 import DaoCard from './DaoCard'
 
 // create a new component called Log that fetches the activity log from the provider
 export default function Log({ allDaos }) {
-  const { activeChain } = useNetwork()
-  const [chain, setChain] = useState(activeChain ? activeChain.id : 1)
-  console.log('daos', allDaos[1])
+  // const { activeChain } = useNetwork()
+  // TODO: defaulting to mainnet because error when trying to fetch from goerli
+  const [chain, setChain] = useState(1)
 
   return (
     <Flex dir="col" gap="md">
