@@ -11,6 +11,7 @@ import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
 import { addresses } from '../../../../constants/addresses'
+import { AddressZero } from '@ethersproject/constants'
 
 export default function MintReal({ setProposal }) {
   const router = useRouter()
@@ -27,23 +28,27 @@ export default function MintReal({ setProposal }) {
       chainId: Number(daoChainId),
     },
   )
-  // const { data: totalSupply, error } = useContractRead(
-  //   {
-  //     addressOrName: addresses[daoChainId]['nft'],
-  //     contractInterface: KALINFT_ABI,
-  //   },
-  //   'symbol',
-  //   {
-  //     chainId: Number(daoChainId),
-  //   },
-  // )
+  const { data: totalSupply_, error } = useContractRead(
+    {
+      addressOrName: addresses[daoChainId]['nft'] ? addresses[daoChainId]['nft'] : AddressZero,
+      contractInterface: KALINFT_ABI,
+    },
+    'totalSupply',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
 
   // form
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
+  const [externalUrl, setExternalUrl] = useState(null)
   const [classification, setClassification] = useState(null)
   const [location, setLocation] = useState(null)
+  const [deed, setDeed] = useState(null)
   const [parcels, setParcels] = useState(null)
+  const [owner, setOwner] = useState(null)
+  const [kml, setKml] = useState(null)
   const [terms, setTerms] = useState('none')
   const [totalSupply, setTotalSupply] = useState(null)
   const [file, setFile] = useState(null)
@@ -60,8 +65,12 @@ export default function MintReal({ setProposal }) {
         title: title,
         description: description,
         classification: classification,
+        externalUrl: externalUrl,
         location: location,
+        deed: deed,
         parcels: parcels,
+        owner: owner,
+        kml: kml,
         terms: terms,
         image: hash,
         createdAt: timestamp,
@@ -91,7 +100,7 @@ export default function MintReal({ setProposal }) {
   // Get KaliNFT total supply
   useEffect(() => {
     const getTotalSupply = async () => {
-      console.log(addresses[daoChainId]['nft'], KALINFT_ABI, signer)
+      console.log(signer, isLoading)
       try {
         const instance = new ethers.Contract(addresses[daoChainId]['nft'], KALINFT_ABI, signer)
         const _totalSupply = await instance.totalSupply()
@@ -149,6 +158,15 @@ export default function MintReal({ setProposal }) {
           />
         </FormElement>
         <FormElement>
+          <Label htmlFor="description">External URL</Label>
+          <Input
+            name="location"
+            type="text"
+            defaultValue={externalUrl}
+            onChange={(e) => setExternalUrl(e.target.value)}
+          />
+        </FormElement>
+        <FormElement>
           <Label htmlFor="classification">Land Classification</Label>
           <Input
             name="classification"
@@ -162,14 +180,26 @@ export default function MintReal({ setProposal }) {
           <Input name="location" type="text" defaultValue={location} onChange={(e) => setLocation(e.target.value)} />
         </FormElement>
         <FormElement>
+          <Label htmlFor="deed">Deed</Label>
+          <Input name="deed" type="text" defaultValue={deed} onChange={(e) => setDeed(e.target.value)} />
+        </FormElement>
+        <FormElement>
           <Label htmlFor="parcels">Parcels</Label>
           <Input name="parcels" type="text" defaultValue={parcels} onChange={(e) => setParcels(e.target.value)} />
+        </FormElement>
+        <FormElement>
+          <Label htmlFor="owner">Owner</Label>
+          <Input name="owner" type="text" defaultValue={owner} onChange={(e) => setOwner(e.target.value)} />
+        </FormElement>
+        <FormElement>
+          <Label htmlFor="kml">KML URL</Label>
+          <Input name="kml" type="text" defaultValue={kml} onChange={(e) => setKml(e.target.value)} />
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Terms</Label>
           <Select name="type" onChange={(e) => setTerms(e.target.value)} defaultValue={terms}>
             <Select.Item value="none">None</Select.Item>
-            <Select.Item value="tokenizer">Property Tokenizer</Select.Item>
+            {/* <Select.Item value="tokenizer">Property Tokenizer</Select.Item> */}
           </Select>
         </FormElement>
         <FormElement>
