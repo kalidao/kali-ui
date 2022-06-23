@@ -1,11 +1,10 @@
 import React from 'react'
-import { Flex } from '../../../styles/elements'
-import Info from '../../../styles/Info'
+import { Flex } from '../../../../styles/elements'
+import Info from '../../../../styles/Info'
 import VoteCard from './VoteCard'
-import { Table, Row, Heading, Data } from '../../../styles/Table'
+import { Table, Row, Heading, Data } from '../../../../styles/Table'
 
 export default function Votes({ votes }) {
-  console.log('votes', votes)
   return (
     <Info
       heading={

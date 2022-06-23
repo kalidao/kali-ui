@@ -22,13 +22,16 @@ export const getProposal = async (chainId, address, serial) => {
                 description
                 sponsor
                 sponsored
+                cancelled
                 status
                 votes {
                     id
                     voter
                     vote
+                    weight
                 }
                 creationTime
+                votingStarts
             }
           }`,
       }),

@@ -1,8 +1,7 @@
-import { useRouter } from 'next/router'
 import React from 'react'
-import { Flex, Text } from '../../../styles/elements'
-import Info from '../../../styles/Info'
-import { prettyDate } from '../../../utils'
+import { Flex, Text } from '../../../../styles/elements'
+import Info from '../../../../styles/Info'
+import { prettyDate } from '../../../../utils'
 
 export default function InfoCard({ start, votingPeriod }) {
   const startDate = prettyDate(new Date(start * 1000))

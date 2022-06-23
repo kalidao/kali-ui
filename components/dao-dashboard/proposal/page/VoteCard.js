@@ -1,11 +1,11 @@
 import React from 'react'
-import { Box } from '../../../styles/elements'
-import { truncateAddress } from '../../../utils/'
+import { truncateAddress } from '../../../../utils/'
 import { useBalance, useEnsName } from 'wagmi'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { Row, Data } from '../../../styles/Table'
+import { Row, Data } from '../../../../styles/Table'
+import { ethers } from 'ethers'
 
 export default function VoteCard({ vote }) {
   const router = useRouter()
@@ -22,7 +22,8 @@ export default function VoteCard({ vote }) {
     chainId: Number(daoChain),
   })
 
-  console.log('balance', daoAddress, daoChain)
+  const weight = ethers.utils.formatEther(vote['weight'])
+  console.log('weight', weight)
   return (
     <Row>
       <Data
@@ -44,9 +45,8 @@ export default function VoteCard({ vote }) {
           gap: '10px',
         }}
       >
-        {Number(balance?.formatted).toFixed(2)}
-        {'  '}
-        {balance?.symbol}
+        {ethers.utils.formatEther(vote['weight'])}
+        {'    '} {balance?.symbol}
       </Data>
     </Row>
   )
