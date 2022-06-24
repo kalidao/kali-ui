@@ -43,7 +43,7 @@ const Icon = styled('span', {
   },
 })
 
-export default function Menu() {
+export default function Menu({ saleActive }) {
   const router = useRouter()
   const path = router.pathname
 
@@ -106,21 +106,23 @@ export default function Menu() {
           {path.includes('members') ? <BsFillPeopleFill size={30} /> : <BsPeople size={30} />}
         </Link>
       </Icon>
-      <Icon>
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/crowdsale',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
-          }}
-        >
-          <Icon as="a">
-            <GiCoins size={30} />
-          </Icon>
-        </Link>
-      </Icon>
+      {saleActive === true && (
+        <Icon>
+          <Link
+            href={{
+              pathname: '/daos/[chainId]/[dao]/crowdsale',
+              query: {
+                chainId: router.query.chainId,
+                dao: router.query.dao,
+              },
+            }}
+          >
+            <Icon as="a">
+              <GiCoins size={30} />
+            </Icon>
+          </Link>
+        </Icon>
+      )}
       {/* 
         TODO: 
         - Conditional on whether crowdsale active 
@@ -133,7 +135,7 @@ export default function Menu() {
           }}
           passHref
         >
-          {path.includes('crowdsale') ? <BsBriefcaseFill size={30} /> : <BsBriefcase size={30} />}
+          {path.includes('services') ? <BsBriefcaseFill size={30} /> : <BsBriefcase size={30} />}
         </Link>
       </Icon>
       <Icon as="a">
