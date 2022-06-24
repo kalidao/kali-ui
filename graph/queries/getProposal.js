@@ -30,6 +30,9 @@ export const getProposal = async (chainId, address, serial) => {
                 }
                 creationTime
                 votingStarts
+                accounts
+                amounts
+                payloads
             }
           }`,
       }),

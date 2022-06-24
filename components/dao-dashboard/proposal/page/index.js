@@ -13,6 +13,7 @@ import Cancel from '../Cancel'
 import Process from '../Process'
 import { willProcess } from '../helpers'
 import { useRouter } from 'next/router'
+import Visualizer from './visualizer'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
@@ -66,6 +67,7 @@ export default function ProposalView({ proposal }) {
           {proposal && <Results votes={proposal['votes']} />}
         </Flex>
       </Flex>
+      <Visualizer proposal={proposal} />
       <Flex
         css={{
           padding: '1rem',
