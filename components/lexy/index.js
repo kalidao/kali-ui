@@ -29,7 +29,7 @@ export default function Lexy() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ question: `${question}->` }),
+      body: JSON.stringify({ question: `${question} ->` }),
     })
     const data = await response.json()
 
