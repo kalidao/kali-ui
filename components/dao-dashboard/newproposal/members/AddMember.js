@@ -8,6 +8,7 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { AddressZero } from '@ethersproject/constants'
 
 export default function AddMember({ setProposal }) {
   const router = useRouter()
@@ -56,17 +57,30 @@ export default function AddMember({ setProposal }) {
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
-          <Input name="recipient" type="text" defaultValue={recipient} onChange={(e) => setRecipient(e.target.value)} />
+          <Input
+            name="recipient"
+            type="text"
+            placeholder={AddressZero}
+            defaultValue={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="amount">Amount</Label>
-          <Input name="amount" type="number" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
+          <Input
+            name="amount"
+            type="number"
+            placeholder="1000"
+            defaultValue={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="description">Proposal Note</Label>
           <Input
             as="textarea"
             name="description"
+            placeholder="Add a note to the proposal"
             type="text"
             defaultValue={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -77,7 +91,9 @@ export default function AddMember({ setProposal }) {
           <FileUploader setFile={setFile} />
         </Flex>
         <Back onClick={() => setProposal('membersMenu')} />
-        <Button onClick={submit}>Submit</Button>
+        <Button variant="cta" onClick={submit}>
+          Submit
+        </Button>
       </Form>
     </Flex>
   )

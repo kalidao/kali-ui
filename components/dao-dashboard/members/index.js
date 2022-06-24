@@ -12,6 +12,8 @@ const MembersBox = styled(Flex, {
 
 export default function Members({ members }) {
   console.log('members', members)
+
+  // TODO: Percentage is totally wrong
   return (
     <MembersBox>
       <Flex

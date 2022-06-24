@@ -1,5 +1,6 @@
 import React from 'react'
-import { Sidebar, Proposals } from './home/'
+import { Sidebar } from './home/'
+import Proposals from './proposal/post'
 import { Flex } from '../../styles/elements'
 
 export function Dashboard({ proposals }) {
