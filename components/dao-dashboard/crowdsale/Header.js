@@ -62,7 +62,7 @@ export default function Header({ info }) {
             <Flex align="separate">
               <Text>Personal Limit: </Text>
               <Text>
-                {personalLimit} ${info?.token?.symbol}
+                {personalLimit} {info?.token?.symbol}
               </Text>
             </Flex>
           </Flex>
@@ -70,7 +70,7 @@ export default function Header({ info }) {
             <Flex align="separate">
               <Text>Total Limit: </Text>
               <Text>
-                {purchaseLimit} ${info?.token?.symbol}
+                {purchaseLimit} {info?.token?.symbol}
               </Text>
             </Flex>
           </Flex>
