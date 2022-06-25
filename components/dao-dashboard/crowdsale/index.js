@@ -33,6 +33,11 @@ export default function Crowdsale({ info }) {
       chainId: Number(chainId),
     },
   )
+  const symbol =
+    info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
+    info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
+      ? 'ETH'
+      : purchaseTokenSymbol
   const [amount, setAmount] = useState(0)
   const willPurchase = amount * info['crowdsale']['purchaseMultiplier']
   const [shouldApprove, setShouldApprove] = useState(null)
@@ -131,7 +136,7 @@ export default function Crowdsale({ info }) {
                 },
               }}
             />
-            <Text>{purchaseTokenSymbol}</Text>
+            <Text>{symbol}</Text>
           </Flex>
         </Flex>
         <Arrow />
