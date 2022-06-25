@@ -136,6 +136,7 @@ export default function SetCrowdsale({ setProposal }) {
 
     // Crowdsale end time
     crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
+    console.log('crowdsaleEnd', crowdsaleEnd)
 
     // Crowdsale terms
     let _terms
@@ -176,7 +177,7 @@ export default function SetCrowdsale({ setProposal }) {
       )
       console.log(payload)
     } catch (e) {
-      setWarning('Please set a start time.')
+      setWarning('Error setting the crowdsale proposal.')
       console.log(e)
       return
     }

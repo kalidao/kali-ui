@@ -5,6 +5,7 @@ import { Cross2Icon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverClose } from '../../../styles/elements/Popover'
 import { ethers } from 'ethers'
 import { prettyDate } from '../../../utils'
+
 const Icon = styled(InfoCircledIcon, {
   color: '$mauve12',
 
@@ -14,40 +15,21 @@ const Icon = styled(InfoCircledIcon, {
 })
 
 export default function Header({ info }) {
-  console.log(info)
+  const personalLimit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
+  const purchaseLimit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
 
-  const [saleType, setSaleType] = useState(null)
-  const [personalLimit, setPersonalLimit] = useState(null)
-  const [purchaseLimit, setPurchaseLimit] = useState(null)
-
-  useEffect(() => {
-    const getSaleType = () => {
-      switch (info?.crowdsale?.listId) {
-        case '0':
-          setSaleType('Public')
-          break
-        case '1':
-          setSaleType('Accredited Investors')
-          break
-        default:
-          setSaleType('Private')
-      }
-    }
-
-    const getPersonalLimit = () => {
-      const limit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
-      setPersonalLimit(limit)
-    }
-
-    const getPurchaseLimit = () => {
-      const limit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
-      setPurchaseLimit(limit)
-    }
-
-    getSaleType()
-    getPersonalLimit()
-    getPurchaseLimit()
-  }, [])
+  let type = ''
+  switch (info?.crowdsale?.listId) {
+    case '0':
+      type = 'Public'
+      break
+    case '1':
+      type = 'Accredited Investors'
+      break
+    default:
+      type = 'Private'
+      break
+  }
 
   return (
     <Flex
@@ -73,7 +55,7 @@ export default function Header({ info }) {
           <Flex>
             <Flex align="separate">
               <Text>Type: </Text>
-              <Text>{saleType}</Text>
+              <Text>{type}</Text>
             </Flex>
           </Flex>
           <Flex>
