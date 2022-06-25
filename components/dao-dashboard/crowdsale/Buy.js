@@ -55,6 +55,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
         padding: '6px 10px',
         color: '$mauve12',
         background: '$violet8',
+        border: '1px solid $mauve7',
 
         '&:hover': {
           background: '$violet7',

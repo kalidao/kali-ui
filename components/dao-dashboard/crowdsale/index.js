@@ -36,7 +36,8 @@ export default function Crowdsale({ info }) {
   const [amount, setAmount] = useState(0)
   const willPurchase = amount * info['crowdsale']['purchaseMultiplier']
   const [shouldApprove, setShouldApprove] = useState(null)
-  const [canPurchase, setCanPurchase] = useState(false)
+  const [canPurchase, setCanPurchase] = useState(true)
+
   const erc20 = useContract({
     addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
     contractInterface: erc20ABI,
@@ -167,7 +168,14 @@ export default function Crowdsale({ info }) {
       {canPurchase ? (
         <Buy info={info} dao={dao} amount={amount} chainId={chainId} text={'Buy Tokens'} shouldDisable={false} />
       ) : (
-        <Buy info={info} dao={dao} amount={amount} chainId={chainId} text={'Enter an amount'} shouldDisable={true} />
+        <Buy
+          info={info}
+          dao={dao}
+          amount={amount}
+          chainId={chainId}
+          text={amount > 0 ? `Buying ${amount}` : 'Enter an amount'}
+          shouldDisable={true}
+        />
       )}
     </Flex>
   )
