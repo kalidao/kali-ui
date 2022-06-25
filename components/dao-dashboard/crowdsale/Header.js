@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Flex, Text } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import { Cross2Icon, InfoCircledIcon } from '@radix-ui/react-icons'
@@ -13,6 +14,41 @@ const Icon = styled(InfoCircledIcon, {
 })
 
 export default function Header({ info }) {
+  console.log(info)
+
+  const [saleType, setSaleType] = useState(null)
+  const [personalLimit, setPersonalLimit] = useState(null)
+  const [purchaseLimit, setPurchaseLimit] = useState(null)
+
+  useEffect(() => {
+    const getSaleType = () => {
+      switch (info?.crowdsale?.listId) {
+        case '0':
+          setSaleType('Public')
+          break
+        case '1':
+          setSaleType('Accredited Investors')
+          break
+        default:
+          setSaleType('Private')
+      }
+    }
+
+    const getPersonalLimit = () => {
+      const limit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
+      setPersonalLimit(limit)
+    }
+
+    const getPurchaseLimit = () => {
+      const limit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
+      setPurchaseLimit(limit)
+    }
+
+    getSaleType()
+    getPersonalLimit()
+    getPurchaseLimit()
+  }, [])
+
   return (
     <Flex
       css={{
@@ -36,6 +72,28 @@ export default function Header({ info }) {
         <PopoverContent>
           <Flex>
             <Flex align="separate">
+              <Text>Type: </Text>
+              <Text>{saleType}</Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="separate">
+              <Text>Personal Limit: </Text>
+              <Text>
+                {personalLimit} ${info?.token?.symbol}
+              </Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="separate">
+              <Text>Total Limit: </Text>
+              <Text>
+                {purchaseLimit} ${info?.token?.symbol}
+              </Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="center">
               <Text>Ends: </Text>
               <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text>
             </Flex>

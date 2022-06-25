@@ -1,15 +1,17 @@
 import { useRouter } from 'next/router'
-import { erc20ABI, useContractRead } from 'wagmi'
+import { erc20ABI, useContractRead, useContract, useSigner, useAccount } from 'wagmi'
 import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import Buy from './Buy'
+import Approve from './Approve'
 import DAO_ABI from '../../../abi/KaliDAO.json'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '../../../styles/form-elements'
 import { ArrowDownIcon } from '@radix-ui/react-icons'
 import Header from './Header'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
+import { addresses } from '../../../constants/addresses'
 
 const Arrow = styled(ArrowDownIcon, {
   color: '$mauve6',
@@ -19,6 +21,8 @@ const Arrow = styled(ArrowDownIcon, {
 export default function Crowdsale({ info }) {
   const router = useRouter()
   const { dao, chainId } = router.query
+  const { data: account } = useAccount()
+  const { data: signer } = useSigner()
   const { data: purchaseTokenSymbol, isLoading } = useContractRead(
     {
       addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
@@ -31,8 +35,43 @@ export default function Crowdsale({ info }) {
   )
   const [amount, setAmount] = useState(0)
   const willPurchase = amount * info['crowdsale']['purchaseMultiplier']
+  const [shouldApprove, setShouldApprove] = useState(null)
+  const [canPurchase, setCanPurchase] = useState(false)
+  const erc20 = useContract({
+    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
+    contractInterface: erc20ABI,
+    signerOrProvider: signer,
+  })
 
-  console.log('personalLimit', ethers.utils.parseEther(info['crowdsale']['personalLimit']))
+  const checkAllowance = async () => {
+    try {
+      const allowance = await erc20.allowance(account?.address, addresses[chainId].extensions.crowdsale2)
+      console.log('allowance amount', ethers.utils.formatEther(allowance))
+
+      if (ethers.utils.formatEther(allowance) == '0.0') {
+        setShouldApprove(true)
+        setCanPurchase(false)
+      } else {
+        setShouldApprove(false)
+        setCanPurchase(true)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleAmount = (_amount) => {
+    setAmount(_amount)
+    console.log(_amount)
+
+    if (_amount == 0) {
+      setCanPurchase(false)
+      setShouldApprove(false)
+    } else {
+      checkAllowance()
+    }
+  }
+
   return (
     <Flex
       dir="col"
@@ -77,7 +116,7 @@ export default function Crowdsale({ info }) {
               max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}
               defaultValue={amount}
               placeholder="0.0"
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => handleAmount(e.target.value)}
               css={{
                 all: 'unset',
                 color: '$mauve12',
@@ -122,7 +161,14 @@ export default function Crowdsale({ info }) {
           </Flex>
         </Flex>
       </Flex>
-      <Buy info={info} dao={dao} amount={amount} chainId={chainId} />
+      {shouldApprove && (
+        <Approve info={info} dao={dao} amount={amount} chainId={chainId} purchaseTokenSymbol={purchaseTokenSymbol} />
+      )}
+      {canPurchase ? (
+        <Buy info={info} dao={dao} amount={amount} chainId={chainId} text={'Buy Tokens'} shouldDisable={false} />
+      ) : (
+        <Buy info={info} dao={dao} amount={amount} chainId={chainId} text={'Enter an amount'} shouldDisable={true} />
+      )}
     </Flex>
   )
 }
