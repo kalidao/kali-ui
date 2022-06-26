@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react'
 import { Flex, Text } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import { Cross2Icon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverClose } from '../../../styles/elements/Popover'
 import { ethers } from 'ethers'
 import { prettyDate } from '../../../utils'
+
 const Icon = styled(InfoCircledIcon, {
   color: '$mauve12',
 
@@ -13,6 +15,22 @@ const Icon = styled(InfoCircledIcon, {
 })
 
 export default function Header({ info }) {
+  const personalLimit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
+  const purchaseLimit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
+
+  let type = ''
+  switch (info?.crowdsale?.listId) {
+    case '0':
+      type = 'Public'
+      break
+    case '1':
+      type = 'Accredited Investors'
+      break
+    default:
+      type = 'Private'
+      break
+  }
+
   return (
     <Flex
       css={{
@@ -36,6 +54,28 @@ export default function Header({ info }) {
         <PopoverContent>
           <Flex>
             <Flex align="separate">
+              <Text>Type: </Text>
+              <Text>{type}</Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="separate">
+              <Text>Personal Limit: </Text>
+              <Text>
+                {personalLimit} {info?.token?.symbol}
+              </Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="separate">
+              <Text>Total Limit: </Text>
+              <Text>
+                {purchaseLimit} {info?.token?.symbol}
+              </Text>
+            </Flex>
+          </Flex>
+          <Flex>
+            <Flex align="center">
               <Text>Ends: </Text>
               <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text>
             </Flex>

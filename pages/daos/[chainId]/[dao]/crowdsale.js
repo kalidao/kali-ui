@@ -2,6 +2,9 @@ import Layout from '../../../../components/dao-dashboard/layout/'
 import Crowdsale from '../../../../components/dao-dashboard/crowdsale/'
 import { Spinner } from '../../../../components/elements/'
 import { GRAPH_URL } from '../../../../graph'
+import { useRouter } from 'next/router'
+import { useNetwork } from 'wagmi'
+import SwitchChain from '../../../../components/SwitchChain'
 
 export const getServerSideProps = async (context) => {
   const address = context.params.dao.toLowerCase()
@@ -60,10 +63,14 @@ export const getServerSideProps = async (context) => {
 }
 
 export default function CrowdsalePage({ info }) {
-  console.log('info', info)
+  const router = useRouter()
+  const { chainId } = router.query
+  const { activeChain } = useNetwork()
+
   return (
     <Layout heading="Crowdsale">
       <Crowdsale info={info} />
+      {activeChain?.id != chainId && <SwitchChain chainId={chainId} />}
     </Layout>
   )
 }
