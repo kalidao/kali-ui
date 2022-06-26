@@ -2,7 +2,7 @@ import { styled } from '../stitches.config'
 import * as SwitchPrimitive from '@radix-ui/react-switch'
 import { Controller } from 'react-hook-form'
 
-const StyledSwitch = styled(SwitchPrimitive.Root, {
+export const StyledSwitch = styled(SwitchPrimitive.Root, {
   all: 'unset',
   width: 42,
   height: 25,
@@ -14,7 +14,7 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
   '&[data-state="checked"]': { backgroundColor: '$sage9' },
 })
 
-const StyledThumb = styled(SwitchPrimitive.Thumb, {
+export const StyledThumb = styled(SwitchPrimitive.Thumb, {
   display: 'block',
   width: 21,
   height: 21,
