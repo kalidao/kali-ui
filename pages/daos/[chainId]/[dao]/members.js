@@ -5,6 +5,7 @@ import Members from '../../../../components/dao-dashboard/members'
 import { useGraph } from '../../../../components/hooks'
 import { getMembers } from '../../../../graph/queries'
 import { DAO_MEMBERS } from '../../../../graph'
+import { ethers } from 'ethers'
 
 export const getServerSideProps = async (context) => {
   const address = context.params.dao
@@ -27,7 +28,15 @@ export default function MembersPage({ members }) {
   })
   // const members = data && data['daos'][0]
   // if (loading) return "Loading..."
-  console.log('members', members)
+  console.log('members', members.members.length)
+
+  let totalSupply = 0
+  for (var i = 0; i < members.members.length; i++) {
+    let value = parseFloat(ethers.utils.formatEther(members.members[i].shares))
+    totalSupply = totalSupply + value
+  }
+  members.token.totalSupply = ethers.utils.parseEther(totalSupply.toString())
+
   return (
     <Layout heading={`Members`}>
       <Members members={members} />
