@@ -91,7 +91,7 @@ export const addresses =
       },
       blockExplorer: 'https://rinkeby.etherscan.io',
       kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',
-      ricardianFactory: '0x7629e527690d5798531a5e3c378bf97d93a9452a',
+      ricardianFactory: '0xC9970e9747dC4fA7Ab3B035f5fABC130F1588638',
     },
     // Goerli
     5: {
