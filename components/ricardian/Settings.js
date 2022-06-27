@@ -28,8 +28,8 @@ export default function Settings({ view, setView }) {
             justifyContent: 'center',
             color: '$mauve11',
             boxShadow: `0 2px 10px $blackA7`,
-            '&:hover': { backgroundColor: '$violet3' },
-            '&:focus': { boxShadow: `0 0 0 2px black` },
+            '&:hover': { backgroundColor: '$violet2' },
+            '&:focus': { boxShadow: `0 0 0 2px $violet3` },
           }}
         >
           <GearIcon />

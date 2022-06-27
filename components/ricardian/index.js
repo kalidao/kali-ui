@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { Flex, Text, Button } from '../../styles/elements'
 import Mint from './Mint'
-
+import { violetDark, cyanDark } from '@radix-ui/colors'
 import CreateEntityType from './CreateEntityType'
 import Settings from './Settings'
 import Update from './Update'
+import { cyanPulse } from '../../styles/animation'
 
 export default function index() {
   const [view, setView] = useState(0)
 
   const views = [
     {
-      title: 'MINT SERIES',
+      title: 'MINT SERIES LLC',
       component: <Mint />,
     },
     {
@@ -36,9 +37,9 @@ export default function index() {
         textAlign: 'center',
         maxWidth: '40rem',
         height: 'auto',
-        background: '$mauve2',
-        border: '1px solid $mauve6',
-        color: '$mauve11',
+        background: '$mauve1',
+        color: '$mauve12',
+        fontFamily: 'Regular',
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -46,6 +47,10 @@ export default function index() {
         gap: '20px',
         borderRadius: '20px',
         padding: '16px',
+
+        '@media (prefers-reduced-motion: no-preference)': {
+          animation: `${cyanPulse} 10s linear 0ms infinite alternate`,
+        },
       }}
     >
       <Flex

@@ -1,12 +1,14 @@
 import React from 'react'
 import { Flex, Text, Button } from '../../styles/elements'
 import { Form, FormElement, Input, Label } from '../../styles/form-elements'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite } from 'wagmi'
 import RICARDIAN_ABI from '../../abi/Ricardian.json'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
+import { AddressZero } from '@ethersproject/constants'
 
 export default function Mint() {
+  const { data: account } = useAccount()
   const { data, isLoading, writeAsync } = useContractWrite(
     {
       addressOrName: '0x46079087d42acb6e1104eda63e6a51b10db709bc',
@@ -29,14 +31,14 @@ export default function Mint() {
 
   const mint = async (data) => {
     console.log(data)
-    const { to, tokenID, manager } = data
+    const { mintTo, tokenID, manager } = data
     const amount = 1
     const nftData = ethers.constants.HashZero
     const tokenURI = 'ipfs://bafybeibg26r6agfztqcopnv6sgm7zfzfhpjpuhyuk4dkoq7vzwp7ch2lgu/'
 
     try {
       const res = await writeAsync({
-        args: [to, parseInt(tokenID), amount, nftData, tokenURI, manager],
+        args: [mintTo, parseInt(tokenID), amount, nftData, tokenURI, manager],
       })
       console.log(res)
     } catch (e) {
@@ -45,58 +47,112 @@ export default function Mint() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(mint)}>
-      <FormElement
+    <Flex as="form" dir="col" align="center" onSubmit={handleSubmit(mint)}>
+      <Flex
         css={{
-          width: '40rem',
+          width: '38rem',
+          padding: '1rem',
+          borderRadius: '10px',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          gap: '5px',
         }}
       >
-        <Label htmlFor="name">To</Label>
+        <Text
+          as="label"
+          htmlFor="mintTo"
+          css={{
+            background: 'none',
+            color: '$mauve11',
+          }}
+        >
+          To
+        </Text>
         <Input
           name="to"
-          placeholder="Address to Mint To"
+          placeholder="0x..."
           type="text"
-          {...register('to', { required: true })}
+          defaultValue={account?.address}
+          {...register('mintTo', { required: true })}
           css={{
-            width: '20rem',
+            all: 'unset',
+            width: '36rem',
+            border: '1px solid $mauve6',
+            padding: '0.5rem',
+            borderRadius: '10px',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+
+            '&:hover': {
+              background: '$mauve2',
+            },
+
+            '&:focus': {
+              background: '$mauve3',
+            },
           }}
         />
-      </FormElement>
-      <FormElement
+      </Flex>
+      <Flex
         css={{
-          width: '40rem',
+          width: '38rem',
+          padding: '1rem',
+          borderRadius: '10px',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          gap: '5px',
         }}
       >
-        <Label htmlFor="tokenID">Token ID</Label>
-        <Input
-          name="to"
-          placeholder="Token ID"
-          type="text"
-          {...register('tokenID', { required: true })}
+        <Text
+          as="label"
+          htmlFor="manager"
           css={{
-            width: '20rem',
+            background: 'none',
+            color: '$mauve11',
           }}
-        />
-      </FormElement>
-      <FormElement
-        css={{
-          width: '40rem',
-        }}
-      >
-        <Label htmlFor="name">Manager</Label>
+        >
+          Manager
+        </Text>
         <Input
-          name="manager"
-          placeholder="Manager of Entity"
+          name="Manager"
+          placeholder="0x..."
           type="text"
+          defaultValue={account?.address}
           {...register('manager', { required: true })}
           css={{
-            width: '20rem',
+            all: 'unset',
+            width: '36rem',
+            border: '1px solid $mauve6',
+            padding: '0.5rem',
+            borderRadius: '10px',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
           }}
         />
-      </FormElement>
-      <Button variant="cta" type="submit" disabled={isLoading}>
+      </Flex>
+      <Button
+        css={{
+          all: 'unset',
+          background: '$cyan1',
+          color: '$mauve12',
+          border: '1px solid $cyan5',
+          borderRadius: '20px',
+          padding: '0.5rem',
+          width: '36.9rem',
+
+          '&:hover': {
+            background: '$cyan2',
+          },
+        }}
+        type="submit"
+        disabled={isLoading}
+      >
         Mint
       </Button>
-    </Form>
+    </Flex>
   )
 }
