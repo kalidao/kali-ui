@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useContract, useSigner } from 'wagmi'
+import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Flex, Text, Button, Warning } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
@@ -13,6 +13,16 @@ export default function UpdateQuorum({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
+  const { data: currentQuorum } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'quorum',
+    {
+      chainId: Number(daoChain),
+    },
+  )
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
@@ -64,7 +74,7 @@ export default function UpdateQuorum({ setProposal }) {
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current Quorum</Label>
-          <Text>50%</Text>
+          <Text>{currentQuorum}%</Text>
         </FormElement>
         <FormElement>
           <Label htmlFor="recipient">New quorum</Label>
