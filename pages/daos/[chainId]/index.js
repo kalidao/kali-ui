@@ -41,8 +41,8 @@ export async function getStaticProps({ params }) {
 
 export default function DAOs({ daos }) {
   const router = useRouter()
-  const chainId = router.query.chainId
-  console.log('dao', daos?.data?.daos)
+  const { chainId } = router.query
+
   return (
     <Layout heading={`DAOs: ${addresses[chainId]['name']}`}>
       {<AllDAOs daos={daos?.data?.daos} chainId={chainId} />}
