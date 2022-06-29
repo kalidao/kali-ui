@@ -152,7 +152,15 @@ export default function CallContract({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send ERC20s from {daoName} treasury</Text>
+      <Text>
+        Supply a contract address and its corresponding ABI. Click "Parse ABI," pick the function you wish to interact
+        with, and supply the appropriate inputs.{' '}
+      </Text>
+      <Text>
+        External calls involve programmatically calling a smart contract without a dedicated user interface. It can be
+        confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
+        help you out.
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">Contract Address</Label>
