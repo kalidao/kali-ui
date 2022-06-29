@@ -52,7 +52,7 @@ export default function RemoveMember({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Kick a member by burning their DAO tokens</Text>
+      <Text>Kick or penalize a member by burning her DAO tokens</Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>

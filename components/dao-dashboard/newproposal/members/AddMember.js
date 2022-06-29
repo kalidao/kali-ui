@@ -53,7 +53,7 @@ export default function AddMember({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send DAO tokens to admin a new member</Text>
+      <Text>Mint DAO tokens to a new or existing DAO member</Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
