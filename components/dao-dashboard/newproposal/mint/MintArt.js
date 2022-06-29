@@ -41,7 +41,7 @@ export default function MintArt({ setProposal }) {
   // form
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
-  const [terms, setTerms] = useState('none')
+  const [copyright, setCopyright] = useState('none')
   const [totalSupply, setTotalSupply] = useState(null)
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
@@ -51,14 +51,14 @@ export default function MintArt({ setProposal }) {
     const date = new Date()
     const timestamp = date.getTime()
 
-    if (title && description && file && terms) {
+    if (title && description && file && copyright) {
       const hash = await uploadIpfs(daoAddress, `KaliNFT #${totalSupply}`, file)
       const metadata = {
         title: title,
         description: description,
         image: hash,
         createdAt: timestamp,
-        terms: terms,
+        terms: copyright,
       }
       setWarning(null)
       return metadata
@@ -142,10 +142,16 @@ export default function MintArt({ setProposal }) {
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="type">Terms</Label>
-          <Select name="type" onChange={(e) => setTerms(e.target.value)} defaultValue={terms}>
+          <Label htmlFor="type">Copyright</Label>
+          <Select name="type" onChange={(e) => setCopyright(e.target.value)} defaultValue={copyright}>
             <Select.Item value="none">None</Select.Item>
             <Select.Item value="cc0">CC0</Select.Item>
+            <Select.Item value="cc-by">CC BY 4.0</Select.Item>
+            <Select.Item value="cc-by-sa">CC BY-SA 4.0</Select.Item>
+            <Select.Item value="cc-by-nc">CC BY-NC 4.0</Select.Item>
+            <Select.Item value="cc-by-nc-sa">CC BY-NC-SA 4.0</Select.Item>
+            <Select.Item value="cc-by-nd">CC BY-ND 4.0</Select.Item>
+            <Select.Item value="cc-by-nc-sa">CC BY-NC-ND 4.0</Select.Item>
           </Select>
         </FormElement>
         <FormElement>
