@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI } from 'wagmi'
+import { useContractWrite, useContractRead } from 'wagmi'
 import { Flex, Text, Button, Warning, Box, Image } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
 import { ethers } from 'ethers'
@@ -7,16 +7,28 @@ import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import KALINFT_ABI from '../../../../abi/KaliNFT.json'
 import { useRouter } from 'next/router'
-import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
 import { addresses } from '../../../../constants/addresses'
 
 export default function MintArt({ setProposal }) {
+  // Router
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
-  const { data: signer, isLoading } = useSigner()
+  const { push } = useRouter()
+  const redirect = () => {
+    push(`/daos/${daoChainId}/${daoAddress}/treasury`)
+  }
+
+  // Contract functions
+  const { writeAsync } = useContractWrite(
+    {
+      addressOrName: addresses[daoChainId]['nft'],
+      contractInterface: KALINFT_ABI,
+    },
+    'mint',
+  )
   const { data: daoName } = useContractRead(
     {
       addressOrName: daoAddress,
@@ -27,22 +39,22 @@ export default function MintArt({ setProposal }) {
       chainId: Number(daoChainId),
     },
   )
-  // const { data: _totalSupply, error } = useContractRead(
-  //   {
-  //     addressOrName: addresses[daoChainId]['nft'],
-  //     contractInterface: KALINFT_ABI,
-  //   },
-  //   'symbol',
-  //   {
-  //     chainId: Number(daoChainId),
-  //   },
-  // )
+  const { data: _totalSupply } = useContractRead(
+    {
+      addressOrName: addresses[daoChainId]['nft'],
+      contractInterface: KALINFT_ABI,
+    },
+    'totalSupply',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
+  const totalSupply = ethers.utils.formatUnits(_totalSupply, 'wei')
 
-  // form
+  // Form
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
   const [copyright, setCopyright] = useState('none')
-  const [totalSupply, setTotalSupply] = useState(null)
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
   const [warning, setWarning] = useState()
@@ -56,7 +68,7 @@ export default function MintArt({ setProposal }) {
       const metadata = {
         title: title,
         description: description,
-        image: hash,
+        image: `https://ipfs.io/ipfs/${hash}`,
         createdAt: timestamp,
         terms: copyright,
       }
@@ -82,28 +94,10 @@ export default function MintArt({ setProposal }) {
     }
   }, [file])
 
-  // Get KaliNFT total supply
-  useEffect(() => {
-    const getTotalSupply = async () => {
-      try {
-        const instance = new ethers.Contract(addresses[daoChainId]['nft'], KALINFT_ABI, signer)
-        const _totalSupply = await instance.totalSupply()
-        _totalSupply = ethers.utils.formatUnits(_totalSupply, 'wei')
-        setTotalSupply(_totalSupply)
-        setWarning(null)
-      } catch (e) {
-        setWarning('Error connecting to network.')
-        console.log(e)
-      }
-    }
-    getTotalSupply()
-  }, [signer, isLoading])
-
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
-    const _totalSupply = ethers.utils.parseUnits(totalSupply, 'wei')
     const metadata = await buildMetadata()
     let tokenUri
 
@@ -114,9 +108,14 @@ export default function MintArt({ setProposal }) {
     }
 
     try {
-      const instance = new ethers.Contract(addresses[daoChainId]['nft'], KALINFT_ABI, signer)
-      const tx = await instance.mint(daoAddress, _totalSupply, tokenUri)
+      const tx = await writeAsync({
+        args: [daoAddress, totalSupply, `https://ipfs.io/ipfs/${tokenUri}`],
+        overrides: {
+          gasLimit: 1050000,
+        },
+      })
       console.log('tx', tx)
+      redirect()
     } catch (e) {
       console.log('error', e)
     }

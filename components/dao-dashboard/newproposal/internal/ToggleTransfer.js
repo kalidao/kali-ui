@@ -1,41 +1,43 @@
-import React, { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import React, { useState } from 'react'
+import { useContractWrite, useContractRead } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
-import KALIERC20_ABI from '../../../../abi/KaliERC20.json'
 import { AddressZero } from '@ethersproject/constants'
-import { fetchPaused } from '../../../../utils/fetchPaused'
 import Back from '../../../../styles/proposal/Back'
 
 export default function ToggleTransfer({ setProposal }) {
+  // Router
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
-  const { data: signer } = useSigner()
 
-  const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
+  // Contract functions
+  const { writeAsync } = useContractWrite(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'propose',
+  )
+  const { data: paused } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'paused',
+    {
+      chainId: Number(daoChainId),
+    },
+  )
+  console.log(paused)
 
   // form
-  const [status, setStatus] = useState(null)
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
-
-  useEffect(() => {
-    const getStatus = async () => {
-      const paused = await fetchPaused(daoChainId, daoAddress)
-      setStatus(paused)
-    }
-    getStatus()
-  }, [])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -49,15 +51,19 @@ export default function ToggleTransfer({ setProposal }) {
     }
 
     // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
-
     try {
-      const tx = await kalidao.propose(
-        8, // PAUSE prop
-        docs,
-        [AddressZero],
-        [0],
-        [Array(0)],
-      )
+      const tx = await writeAsync({
+        args: [
+          8, // PAUSE prop
+          docs,
+          [AddressZero],
+          [0],
+          [Array(0)],
+        ],
+        overrides: {
+          gasLimit: 1050000,
+        },
+      })
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
@@ -66,11 +72,11 @@ export default function ToggleTransfer({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Submit proposal to restrict or unrestrict DAO token transferability</Text>
+      <Text>Submit proposal to pause or unpause DAO token transferability. </Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Token Status</Label>
-          {status ? <Text>Restricted</Text> : <Text>Unrestricted</Text>}
+          <Label htmlFor="recipient">Is token transferable?</Label>
+          {paused ? <Text>No</Text> : <Text>Yes</Text>}
         </FormElement>
         <FormElement variant="vertical">
           <Label htmlFor="description">Proposal Note</Label>

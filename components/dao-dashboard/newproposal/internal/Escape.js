@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useContract, useSigner, useContractRead } from 'wagmi'
+import { useContractRead, useContractWrite } from 'wagmi'
 import { Flex, Text, Button, Warning } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import { Select } from '../../../../styles/form-elements/Select'
@@ -8,22 +8,36 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
-import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
-import { fetchProposalCount } from '../../../../utils/fetchProposalCount'
 import Back from '../../../../styles/proposal/Back'
+import { ethers } from 'ethers'
 
 export default function Escape({ setProposal }) {
+  // Router
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
-  const { data: signer } = useSigner()
-  const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
 
-  // form
+  // Contract functions
+  const { writeAsync } = useContractWrite(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'propose',
+  )
+  const { data: _proposalCount } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'proposalCount',
+    {
+      chainId: Number(daoChain),
+    },
+  )
+  const proposalCount = ethers.utils.formatUnits(_proposalCount, 'wei')
+
+  // Form
   const [proposalSelected, setProposalSelected] = useState(0)
   const [dropdown, setDropdown] = useState(null)
   const [warning, setWarning] = useState(null)
@@ -31,11 +45,9 @@ export default function Escape({ setProposal }) {
   const [file, setFile] = useState(null)
 
   useEffect(() => {
-    const getProposalCount = async () => {
-      let count = await fetchProposalCount(daoChain, daoAddress)
-      console.log('Proposal count is - ', count)
+    const populateDropdown = () => {
       let array = []
-      for (let i = 1; i <= count; i++) {
+      for (let i = 1; i <= proposalCount; i++) {
         array.push(
           <Select.Item key={i} value={i}>
             {i}
@@ -44,7 +56,7 @@ export default function Escape({ setProposal }) {
         setDropdown([...array])
       }
     }
-    getProposalCount()
+    populateDropdown()
   }, [])
 
   // TODO: Popup to change network if on different network from DAO
@@ -61,13 +73,18 @@ export default function Escape({ setProposal }) {
     console.log('Proposal Params - ', 10, docs, [AddressZero], [proposalSelected], [Array(0)])
     if (proposalSelected != 0) {
       try {
-        const tx = await kalidao.propose(
-          10, // ESCAPE prop
-          docs,
-          [AddressZero],
-          [proposalSelected],
-          [Array(0)],
-        )
+        const tx = await writeAsync({
+          args: [
+            10, // ESCAPE prop
+            docs,
+            [AddressZero],
+            [proposalSelected],
+            [Array(0)],
+          ],
+          overrides: {
+            gasLimit: 1050000,
+          },
+        })
         console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
@@ -85,7 +102,10 @@ export default function Escape({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Escape proposal can help with unstucking a proposal</Text>
+      <Text>
+        Proposals get stuck sometimes. All we gotta do is remove faulty proposals from the proposal queue, and re-submit
+        a valid proposal.{' '}
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="type">Proposal to Kill</Label>
