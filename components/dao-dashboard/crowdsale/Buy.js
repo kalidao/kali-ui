@@ -17,6 +17,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
   const buy = async () => {
     if (!dao || !amount) return
 
+    amount = amount.toString()
     if (
       info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
       info?.crowdsale?.purchaseToken === '0x000000000000000000000000000000000000dead'
