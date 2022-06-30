@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text, Button } from '../../styles/elements'
+import { Flex, Text, Button, Box } from '../../styles/elements'
 import { Form, FormElement, Input, Label } from '../../styles/form-elements'
 import { useAccount, useContractRead, useContractWrite } from 'wagmi'
 import RICARDIAN_ABI from '../../abi/Ricardian.json'
@@ -48,6 +48,70 @@ export default function Mint() {
 
   return (
     <Flex as="form" dir="col" align="center" onSubmit={handleSubmit(mint)}>
+      <Flex></Flex>
+      <Flex
+        css={{
+          width: '38rem',
+          padding: '1rem',
+          borderRadius: '10px',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          gap: '5px',
+        }}
+      >
+        <Text
+          as="label"
+          htmlFor="name"
+          css={{
+            background: 'none',
+            color: '$mauve11',
+          }}
+        >
+          Name
+        </Text>
+        <Flex>
+          <Input
+            name="to"
+            placeholder="XYZ"
+            type="text"
+            // defaultValue={account?.address}
+            {...register('name', { required: true })}
+            css={{
+              all: 'unset',
+              width: '33.5rem',
+              borderLeft: '1px solid $mauve6',
+              borderTop: '1px solid $mauve6',
+              borderBottom: '1px solid $mauve6',
+              padding: '0.5rem',
+              borderRadius: '10px 0px 0px 10px',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+
+              '&:hover': {
+                background: '$mauve2',
+              },
+
+              '&:focus': {
+                background: '$mauve3',
+              },
+            }}
+          />
+          <Flex
+            css={{
+              background: '$mauve2',
+              padding: '0.5rem',
+              borderRadius: '0 10px 10px 0',
+              borderRight: '1px solid $mauve6',
+              borderTop: '1px solid $mauve6',
+              borderBottom: '1px solid $mauve6',
+            }}
+          >
+            LLC
+          </Flex>
+        </Flex>
+      </Flex>
       <Flex
         css={{
           width: '38rem',
@@ -95,7 +159,7 @@ export default function Mint() {
           }}
         />
       </Flex>
-      <Flex
+      {/* <Flex
         css={{
           width: '38rem',
           padding: '1rem',
@@ -133,7 +197,7 @@ export default function Mint() {
             alignItems: 'center',
           }}
         />
-      </Flex>
+      </Flex> */}
       <Button
         css={{
           all: 'unset',
