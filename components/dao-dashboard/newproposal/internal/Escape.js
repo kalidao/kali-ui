@@ -35,8 +35,7 @@ export default function Escape({ setProposal }) {
       chainId: Number(daoChain),
     },
   )
-  const proposalCount = ethers.utils.formatUnits(_proposalCount, 'wei')
-
+  const proposalCount = _proposalCount ? _proposalCount.toNumber() : 0
   // Form
   const [proposalSelected, setProposalSelected] = useState(0)
   const [dropdown, setDropdown] = useState(null)
