@@ -88,6 +88,7 @@ export const addresses =
         crowdsale2: '0x2DCA7b86564Ade753062D6Cd60fb3a61fF1f2f9a',
         redemption: '0x11f44975e1B204E50108Af6BCB6539798cb15F75',
         manager: '0xCFAEA98787d835D127863ED4127F42d00F3D267d',
+        projectmanagement: '0x9f0ad778385a2c688533958c6ada56f201ffc246',
       },
       blockExplorer: 'https://rinkeby.etherscan.io',
       kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',

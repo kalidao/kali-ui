@@ -2,10 +2,11 @@ import React from 'react'
 import { Menu } from '../../../../styles/proposal/Menu'
 import { Flex } from '../../../../styles/elements'
 import { FcSalesPerformance } from 'react-icons/fc'
-import { MdOutlineRedeem } from 'react-icons/md'
+import { MdOutlineRedeem, MdManageAccounts } from 'react-icons/md'
 // menu items
 import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
+import SetProject from './SetProject'
 import Tribute from './Tribute'
 import Back from '../../../../styles/proposal/Back'
 
@@ -21,6 +22,10 @@ function AppsMenu({ setProposal }) {
           <MdOutlineRedeem />
           Redemption
         </Menu.Item>
+        <Menu.Item onClick={() => setProposal('projectmanagement')}>
+          <MdManageAccounts />
+          Projects
+        </Menu.Item>
         {/* <Menu.Item onClick={() => setProposal('crowdsaleWithVesting')}>Crowdsale with Vesting</Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('tributeWithVesting')}>Tribute with Vesting</Menu.Item> */}
       </Menu>
@@ -29,4 +34,4 @@ function AppsMenu({ setProposal }) {
   )
 }
 
-export { AppsMenu, SetCrowdsale, SetRedemption, Tribute }
+export { AppsMenu, SetCrowdsale, SetRedemption, Tribute, SetProject }

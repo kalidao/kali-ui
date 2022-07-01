@@ -14,7 +14,7 @@ import {
   Escape,
   InternalMenu,
 } from './internal'
-import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
+import { AppsMenu, SetCrowdsale, SetRedemption, SetProject, Tribute } from './apps'
 import { AssetMenu } from './mint'
 import MintArt from './mint/MintArt'
 import MintReal from './mint/MintReal'
@@ -151,6 +151,10 @@ export function NewProposalModal({ proposalProp }) {
     tribute: {
       title: 'Tribute',
       component: <Tribute setProposal={setView} />,
+    },
+    projectmanagement: {
+      title: 'Project Management',
+      component: <SetProject setProposal={setView} />,
     },
   }
 

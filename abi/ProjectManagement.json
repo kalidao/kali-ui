@@ -1,0 +1,190 @@
+[
+    {
+      "inputs": [],
+      "name": "ForbiddenDifferentDao",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ForbiddenSenderNotManager",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ProjectExpired",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ProjectManagerNeedsDaoTokens",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ProjectNotEnoughBudget",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ProjectUnknown",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "dao",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes[]",
+          "name": "updates",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "ExtensionCalled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "dao",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "dao",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "manager",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "budget",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "goals",
+              "type": "string"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct ProjectManagement.Project",
+          "name": "project",
+          "type": "tuple"
+        }
+      ],
+      "name": "ExtensionSet",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "dao",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "extensionData",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "callExtension",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextProjectId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "projects",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "dao",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "manager",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "budget",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "goals",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "extensionData",
+          "type": "bytes"
+        }
+      ],
+      "name": "setExtension",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ]
