@@ -107,5 +107,6 @@ export const addresses =
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
+      clubFactory: '0xc503e2199c1d77674f336b081aac1a5a1973df23',
     },
   }

@@ -1,5 +1,6 @@
 import Layout from '../components/layout'
 import { MyDAOs, NewDaoSquare } from '../components/home'
+import Create from '../components/create'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
 
@@ -49,7 +50,7 @@ export default function HomePage({ daos }) {
   return (
     <Layout heading="DAOs">
       <MyDAOs allDaos={daos && daos} />
-      <NewDaoSquare />
+      <Create />
     </Layout>
   )
 }
