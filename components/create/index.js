@@ -9,9 +9,9 @@ export default function Create() {
   const [view, setView] = useState(0)
 
   const views = [
-    <ChooseDeployment setView={setView} />,
-    <DeployDaoWrapper setView={setView} />,
-    <DeployClubWrapper setView={setView} />,
+    <ChooseDeployment key="1" setView={setView} />,
+    <DeployDaoWrapper key="2" setView={setView} />,
+    <DeployClubWrapper key="3" setView={setView} />,
   ]
 
   console.log(view)
@@ -22,8 +22,6 @@ export default function Create() {
       </DialogTrigger>
       <DialogContent>
         <DialogClose asChild />
-        {/* <Button onClick={() => setView(1)}>DAO</Button>
-        <Button onClick={() => setView(2)}>Club</Button> */}
         {views[view]}
       </DialogContent>
     </Dialog>
