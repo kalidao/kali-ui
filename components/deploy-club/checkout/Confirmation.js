@@ -54,7 +54,7 @@ export default function Confirmation() {
         </AccordionTrigger>
         <AccordionContent>
           {state.signers.map((signer, index) => (
-            <Row name={`${index}`} value={signer.address} />
+            <Row key={index} name={`${index}`} value={signer.address} />
           ))}
         </AccordionContent>
       </AccordionItem>
