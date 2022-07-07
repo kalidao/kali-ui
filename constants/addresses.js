@@ -106,6 +106,7 @@ export const addresses =
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
         crowdsale2: '0x8c183bf7f68F70104657C6446d638178cbd6Fd11',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
+        projectmanagement: '0x9F0AD778385A2C688533958C6ada56f201ffc246',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
     },
