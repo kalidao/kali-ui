@@ -35,6 +35,7 @@ export default function Escape({ setProposal }) {
       chainId: Number(daoChain),
     },
   )
+  console.log(proposalCount)
   const proposalCount = _proposalCount ? _proposalCount.toNumber() : 0
   // Form
   const [proposalSelected, setProposalSelected] = useState(0)
