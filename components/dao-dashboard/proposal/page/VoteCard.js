@@ -4,6 +4,7 @@ import { useBalance, useEnsName } from 'wagmi'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
+import { Box, Text } from '../../../../styles/elements'
 import { Row, Data } from '../../../../styles/Table'
 import { ethers } from 'ethers'
 
@@ -25,29 +26,34 @@ export default function VoteCard({ vote }) {
   const weight = ethers.utils.formatEther(vote['weight'])
   console.log('weight', weight)
   return (
-    <Row>
-      <Data
+    <Box
+      css={{
+        display: 'grid',
+        gridTemplateColumns: '2fr 2fr 1fr',
+        width: '100%',
+      }}
+    >
+      <Text
         css={{
           minWidth: '60px',
         }}
       >
         {ensName ? ensName : truncateAddress(vote.voter)}
-      </Data>
-      <Data
+      </Text>
+      <Text
+        css={{
+          gap: '10px',
+        }}
+      >
+        {Number(ethers.utils.formatEther(vote['weight'])).toFixed(2)}
+      </Text>
+      <Text
         css={{
           minWidth: '20px',
         }}
       >
         {vote.vote === true ? <CheckIcon color="green" /> : <Cross2Icon color="red" />}
-      </Data>
-      <Data
-        css={{
-          gap: '10px',
-        }}
-      >
-        {ethers.utils.formatEther(vote['weight'])}
-        {'    '} {balance?.symbol}
-      </Data>
-    </Row>
+      </Text>
+    </Box>
   )
 }

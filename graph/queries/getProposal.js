@@ -13,6 +13,9 @@ export const getProposal = async (chainId, address, serial) => {
                 id
                 dao {
                     votingPeriod
+                    token {
+                      symbol
+                    }
                 }
                 serial
                 proposer

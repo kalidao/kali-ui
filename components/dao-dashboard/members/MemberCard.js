@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { Flex, Text } from '../../../styles/elements'
+import { Box, Flex, Text } from '../../../styles/elements'
 import { truncateAddress } from '../../../utils/'
 import { Spinner } from '../../elements'
 
@@ -19,7 +19,16 @@ export default function MemberCard({ member, totalSupply }) {
   //  - Add profile image
   console.log('ens', ensName)
   return (
-    <Flex dir="row" align="separate" css={{ background: '$gray1', padding: '1rem', gap: '1rem' }}>
+    <Box
+      css={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        width: '100%',
+        background: '$gray1',
+        padding: '1rem',
+        gap: '1rem 2rem',
+      }}
+    >
       {isLoading ? (
         <Spinner />
       ) : (
@@ -38,12 +47,12 @@ export default function MemberCard({ member, totalSupply }) {
           >
             {!ensName ? truncateAddress(member?.address) : ensName}
           </Text>
-          <Text color="foreground">{Number(ethers.utils.formatUnits(member.shares, 18))}</Text>
+          <Text color="foreground">{Number(ethers.utils.formatUnits(member.shares, 18)).toFixed(2)}</Text>
           <Text color="foreground">
-            {member.shares != totalSupply ? ((member.shares / totalSupply) * 100).toPrecision(2) : '100'}%
+            {member.shares != totalSupply ? ((member.shares / totalSupply) * 100).toFixed(2) : '100'}%
           </Text>
         </>
       )}
-    </Flex>
+    </Box>
   )
 }

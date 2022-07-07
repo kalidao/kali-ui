@@ -82,7 +82,7 @@ export default function ProposalView({ proposal }) {
           ))}
         {canProcess() && <Process proposal={proposal} />}
       </Flex>
-      {proposal && <Votes votes={proposal['votes']} />}
+      {proposal && <Votes votes={proposal['votes']} symbol={proposal?.dao?.token?.symbol} />}
     </Flex>
   )
 }

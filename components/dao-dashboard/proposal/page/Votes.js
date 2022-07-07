@@ -1,10 +1,11 @@
 import React from 'react'
-import { Flex } from '../../../../styles/elements'
+import { Flex, Box, Text } from '../../../../styles/elements'
 import Info from '../../../../styles/Info'
 import VoteCard from './VoteCard'
 import { Table, Row, Heading, Data } from '../../../../styles/Table'
 
-export default function Votes({ votes }) {
+export default function Votes({ votes, symbol }) {
+  console.log('votes', votes)
   return (
     <Info
       heading={
@@ -30,16 +31,40 @@ export default function Votes({ votes }) {
         </Flex>
       }
     >
-      <Table>
-        <thead>
-          <Row>
-            <Heading>Voter</Heading>
-            <Heading>Vote</Heading>
-            <Heading>Balance</Heading>
-          </Row>
-        </thead>
-        {votes && votes.map((vote) => <VoteCard key={vote.id} vote={vote} />)}
-      </Table>
+      <Box
+        css={{
+          display: 'grid',
+          gridTemplateRows: '1fr',
+          width: '100%',
+          gap: '1rem',
+        }}
+      >
+        <Box
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 2fr 1fr',
+            width: '100%',
+            fontFamily: 'Regular',
+            fontWeight: '800',
+            fontSize: '24px',
+          }}
+        >
+          <Text>Voter</Text>
+          <Text>{symbol}</Text>
+          <Text>Vote</Text>
+        </Box>
+        <Box
+          css={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            fontFamily: 'Regular',
+            fontWeight: '800',
+          }}
+        >
+          {votes && votes.map((vote) => <VoteCard key={vote.id} vote={vote} />)}
+        </Box>
+      </Box>
     </Info>
   )
 }
