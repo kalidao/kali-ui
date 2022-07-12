@@ -65,12 +65,10 @@ export const getServerSideProps = async (context) => {
 export default function CrowdsalePage({ info }) {
   const router = useRouter()
   const { chainId } = router.query
-  const { activeChain } = useNetwork()
 
   return (
     <Layout heading="Crowdsale">
       <Crowdsale info={info} />
-      {activeChain?.id != chainId && <SwitchChain chainId={chainId} />}
     </Layout>
   )
 }
