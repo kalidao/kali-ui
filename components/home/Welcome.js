@@ -14,8 +14,8 @@ export default function Welcome({ allDaos }) {
         right: '5rem',
         left: '5rem',
         justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
-
+        flexDirection: 'column',
+        alignItems: 'center',
         '@media (max-width: 768px)': {
           flexDirection: 'column-reverse',
           alignItems: 'center',
@@ -24,7 +24,7 @@ export default function Welcome({ allDaos }) {
       }}
     >
       <ActivityLog allDaos={allDaos && allDaos} />
-      <Featured />
+      {/* <Featured /> */}
     </Flex>
   )
 }

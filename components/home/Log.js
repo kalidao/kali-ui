@@ -26,7 +26,7 @@ export default function Log({ allDaos }) {
           marginBottom: '5rem',
 
           '@media (min-width: 840px)': {
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gridTemplateRows: 'auto',
           },
         }}
