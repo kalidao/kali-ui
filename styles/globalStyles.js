@@ -5,7 +5,7 @@ const globalStyles = globalCss({
     margin: 0,
     padding: 0,
     color: '$gray11',
-    background: '#36393f!important',
+    background: '#36393f',
     fontFamily: 'Regular',
   },
 
