@@ -3,12 +3,14 @@ import Kali from './Kali'
 import { styled } from '../../styles/stitches.config'
 import { Flex, Text } from '../../styles/elements'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-
+box-shadow: 0 1px 0 #04040533, 0 1.5px 0 #0606070d, 0 2px 0 #0404050d;
+    border-bottom: 1px solid #a3a3ac1a;
 const StyledHeader = styled(Flex, {
   // borderBottom: '1px solid $gray800',
   boxShadow:
-    'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
-  background: '$gray1',
+    '0 1px 0 #04040533, 0 1.5px 0 #0606070d, 0 2px 0 #0404050d',
+  border-bottom: '1px solid #a3a3ac1a',
+  background: '#36393f',
   width: '100%',
   position: 'fixed',
   left: '0',
