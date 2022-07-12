@@ -77,7 +77,7 @@ export default class Document extends NextDocument {
         </Head>
         <body
           style={{
-            background: 'hsl(0, 0%, 8.5%)',
+            background: '#36393f',
           }}
         >
           <Main />
