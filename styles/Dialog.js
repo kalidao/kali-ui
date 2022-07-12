@@ -13,7 +13,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
-  background: '$mauve1',
+  background: '#2a2c32',
   color: '$mauve12',
   borderRadius: '20px',
   position: 'fixed',
@@ -24,12 +24,6 @@ const StyledContent = styled(DialogPrimitive.Content, {
   maxWidth: '600px',
   maxHeight: '90vh',
   padding: 25,
-  '@media (prefers-reduced-motion: no-preference)': {
-    animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
-  },
-  '@media (prefers-reduced-motion: no-preference)': {
-    animation: `${pulse} 10s linear 0ms infinite alternate`,
-  },
   // '&:focus': { outline: 'none' },
 })
 
