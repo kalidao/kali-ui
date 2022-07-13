@@ -25,7 +25,7 @@ export default function MyDAOs({ allDaos }) {
           position: 'absolute',
           left: '10%',
           right: '10%',
-          top: '7rem',
+          top: '5rem',
           justifyContent: 'center',
         }}
       >
@@ -38,7 +38,8 @@ export default function MyDAOs({ allDaos }) {
         <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
         <ActivityLog allDaos={allDaos && allDaos} />
       </Flex>
-      {!account && !daos && <Welcome allDaos={allDaos && allDaos} />}
+      {/* FIXME: Condition wrong. FIX. */}
+      {/* {!account && !daos && <Welcome allDaos={allDaos && allDaos} />} */}
       {daos && daos.length === 0 && <Welcome allDaos={allDaos && allDaos} />}
     </>
   )
