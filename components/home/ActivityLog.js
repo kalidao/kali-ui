@@ -10,7 +10,7 @@ export default function ActivityLog({ allDaos }) {
         css={{
           fontSize: '36px',
           fontFamily: 'Bold',
-          minWidth: '25rem',
+          minWidth: '40rem',
           height: 'auto',
           borderBottom: '1px solid $gray6',
           paddingBottom: '0.5rem',
@@ -23,7 +23,7 @@ export default function ActivityLog({ allDaos }) {
           },
         }}
       >
-        🚀 Active DAOs <NewDao />
+        Active Communities <NewDao />
       </Flex>
       {allDaos && <Log allDaos={allDaos && allDaos} />}
     </Flex>

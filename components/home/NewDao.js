@@ -41,7 +41,7 @@ export default function NewDao() {
             },
           }}
         >
-          Create <PlusIcon height="20px" width="20px" />
+          Create DAO <PlusIcon height="20px" width="20px" />
         </Flex>
       </DialogTrigger>
       <DialogContent>
