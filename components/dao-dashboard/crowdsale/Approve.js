@@ -31,7 +31,7 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
       const tx = await writeAsync({
         args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther('1000000000000000000')],
         overrides: {
-          gasLimit: 1050000,
+          gasLimit: 40000,
         },
       })
       console.log(tx)

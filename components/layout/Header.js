@@ -23,6 +23,7 @@ const StyledHeader = styled(Flex, {
 export default function Header({ heading, props }) {
   return (
     <StyledHeader {...props}>
+      <Kali />
       <Flex
         css={{
           position: 'relative',

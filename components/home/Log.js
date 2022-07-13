@@ -12,22 +12,8 @@ export default function Log({ allDaos }) {
   const [chain, setChain] = useState(1)
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <Select
-        name="chainId"
-        onChange={(e) => setChain(e.target.value)}
-        defaultValue={chain}
-        css={{
-          width: '50%',
-        }}
-      >
+    <Flex dir="col" gap="md">
+      <Select name="chainId" onChange={(e) => setChain(e.target.value)} defaultValue={chain}>
         <Select.Item value={1}>Mainnet</Select.Item>
         <Select.Item value={137}>Polygon</Select.Item>
         <Select.Item value={42161}>Arbitrum</Select.Item>
@@ -39,13 +25,8 @@ export default function Log({ allDaos }) {
           gap: '2rem',
           marginBottom: '5rem',
 
-          '@media (min-width: 630px)': {
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gridTemplateRows: 'auto',
-          },
-
-          '@media (min-width: 940px)': {
-            gridTemplateColumns: 'repeat(6, 1fr)',
+          '@media (min-width: 840px)': {
+            gridTemplateColumns: 'repeat(2, 1fr)',
             gridTemplateRows: 'auto',
           },
         }}

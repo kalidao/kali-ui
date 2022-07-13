@@ -6,24 +6,25 @@ import Featured from './Featured'
 export default function Welcome({ allDaos }) {
   return (
     <Flex
-      dir="col"
+      dir="row"
       gap="md"
       css={{
         position: 'absolute',
         top: '7rem',
-        right: 0,
-        left: 0,
+        right: '5rem',
+        left: '5rem',
         justifyContent: 'space-evenly',
-        alignItems: 'center',
+        alignItems: 'flex-start',
 
         '@media (max-width: 768px)': {
-          flexDirection: 'column',
+          flexDirection: 'column-reverse',
           alignItems: 'center',
           justifyContent: 'center',
         },
       }}
     >
       <ActivityLog allDaos={allDaos && allDaos} />
+      <Featured />
     </Flex>
   )
 }
