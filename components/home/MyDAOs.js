@@ -6,6 +6,7 @@ import Welcome from './Welcome'
 import { Flex } from '../../styles/elements'
 import { Results, ResultsText } from './index'
 import DaoCard from './DaoCard'
+import ActivityLog from './ActivityLog'
 
 export default function MyDAOs({ allDaos }) {
   const { activeChain } = useNetwork()
@@ -24,7 +25,7 @@ export default function MyDAOs({ allDaos }) {
           position: 'absolute',
           left: '10%',
           right: '10%',
-          top: '6rem',
+          top: '7rem',
           justifyContent: 'center',
         }}
       >
@@ -35,6 +36,7 @@ export default function MyDAOs({ allDaos }) {
             daos.length === 1 && <ResultsText>You are in {daos.length} DAO</ResultsText>
           ))}
         <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
+        <ActivityLog allDaos={allDaos && allDaos} />
       </Flex>
       {!account && !daos && <Welcome allDaos={allDaos && allDaos} />}
       {daos && daos.length === 0 && <Welcome allDaos={allDaos && allDaos} />}
