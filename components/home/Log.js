@@ -25,7 +25,7 @@ export default function Log({ allDaos }) {
         onChange={(e) => setChain(e.target.value)}
         defaultValue={chain}
         css={{
-          width: '100%',
+          width: '50%',
         }}
       >
         <Select.Item value={1}>Mainnet</Select.Item>
@@ -40,12 +40,12 @@ export default function Log({ allDaos }) {
           marginBottom: '5rem',
 
           '@media (min-width: 630px)': {
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(4, 1fr)',
             gridTemplateRows: 'auto',
           },
 
           '@media (min-width: 940px)': {
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(6, 1fr)',
             gridTemplateRows: 'auto',
           },
         }}
