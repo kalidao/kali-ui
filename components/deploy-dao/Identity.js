@@ -6,7 +6,8 @@ import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
 import { getNames } from '../../graph/queries'
-export default function Identity({ setStep }) {
+
+export default function Identity({ setView, setStep }) {
   const {
     register,
     handleSubmit,
@@ -105,6 +106,9 @@ export default function Identity({ setStep }) {
         </Flex>
       </Flex>
       <Flex css={{ justifyContent: 'flex-end' }} gap="md">
+        <Button variant="transparent" onClick={() => setView(0)}>
+          Previous
+        </Button>
         <Button variant="primary" type="submit">
           Next
         </Button>
