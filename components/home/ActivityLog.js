@@ -23,7 +23,7 @@ export default function ActivityLog({ allDaos }) {
           },
         }}
       >
-        🚀 Active DAOs <NewDao />
+        <NewDao />
       </Flex>
       {allDaos && <Log allDaos={allDaos && allDaos} />}
     </Flex>
