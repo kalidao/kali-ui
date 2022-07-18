@@ -1,7 +1,7 @@
 import { styled } from '../../styles/stitches.config'
 import MyDAOs from './MyDAOs'
 import NewDaoSquare from './NewDaoSquare'
-
+import Welcome from './Welcome'
 export const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
   color: '$foreground',
@@ -36,4 +36,4 @@ export const Results = styled('div', {
   },
 })
 
-export { MyDAOs, NewDaoSquare }
+export { MyDAOs, NewDaoSquare, Welcome }
