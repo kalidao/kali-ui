@@ -47,9 +47,8 @@ export const getServerSideProps = async () => {
 
 export default function HomePage({ daos }) {
   return (
-    <Layout heading="DAOs">
-      <MyDAOs allDaos={daos && daos} />
-      <NewDaoSquare />
+    <Layout heading="">
+      <MyDAOs allDaos={daos} />
     </Layout>
   )
 }
