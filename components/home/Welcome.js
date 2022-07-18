@@ -33,9 +33,11 @@ const SearchInput = styled('input', {
 export default function Welcome({ daos }) {
   const [search, setSearch] = React.useState('')
   const [searchResults, setSearchResults] = React.useState([])
+  const [searched, setSearched] = React.useState(false)
 
   const handleSearch = React.useCallback((e) => {
     if (search === '') return
+    setSearched(false)
     const results = []
 
     Object.keys(daos).forEach((key) => {
@@ -49,6 +51,7 @@ export default function Welcome({ daos }) {
 
     console.log('results', results)
     setSearchResults(results)
+    setSearched(true)
   })
 
   return (
@@ -83,6 +86,13 @@ export default function Welcome({ daos }) {
             fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
+
+            '&:hover': {
+              background: '$gray11',
+            },
+            '&:focus': {
+              background: '$gray10',
+            },
           }}
           onClick={handleSearch}
         >
@@ -91,7 +101,7 @@ export default function Welcome({ daos }) {
         <NewDao />
       </Flex>
       <Flex dir="col" gap="md">
-        {searchResults.length === 0 && 'No results found.'}
+        {searched === true && searchResults.length === 0 && 'No results found.'}
         {searchResults.map((result) => (
           <DaoCard key={result['id']} dao={result} chain={result['chainId']} />
         ))}

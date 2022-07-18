@@ -15,6 +15,12 @@ export default function NewDao() {
             fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
+            '&:hover': {
+              background: '$gray11',
+            },
+            '&:focus': {
+              background: '$gray10',
+            },
           }}
         >
           Create a new DAO
