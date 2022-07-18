@@ -39,7 +39,7 @@ export default function Welcome({ daos }) {
   const handleSearch = React.useCallback((e) => {
     if (search === '') return
     setSearched(false)
-    
+
     const results = []
 
     Object.keys(daos).forEach((key) => {
@@ -88,7 +88,6 @@ export default function Welcome({ daos }) {
             fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
-
 
             '&:hover': {
               background: '$gray11',
