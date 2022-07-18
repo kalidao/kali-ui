@@ -4,7 +4,9 @@ import { styled } from '../../styles/stitches.config'
 import { useRouter } from 'next/router'
 
 const LogoContainer = styled('div', {
+  display: 'flex',
   padding: '8.11px 7.9px 8.6px 0.92px',
+  fontSize: '48px',
   filter: 'grayscale(100%)',
 })
 
@@ -17,7 +19,8 @@ export default function Kali() {
 
   return (
     <LogoContainer>
-      <Image src="/icons/K-logo.svg" alt="KALI" width="59.79px" height="59.79px" onClick={home} priority />
+      {/* KALI */}
+      <Image src="/icons/K-logo.svg" alt="KALI" width="48px" height="48px" onClick={home} priority />
     </LogoContainer>
   )
 }

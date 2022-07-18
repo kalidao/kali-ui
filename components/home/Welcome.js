@@ -1,8 +1,5 @@
 import React from 'react'
-import { Flex, Button } from '../../styles/elements'
-import { Input } from '../../styles/form-elements'
-import ActivityLog from './ActivityLog'
-import Featured from './Featured'
+import { Flex, Button, Box } from '../../styles/elements'
 import { styled } from '../../styles/stitches.config'
 import { GoSearch } from 'react-icons/go'
 import NewDao from './NewDao'
@@ -13,7 +10,7 @@ const SearchBar = styled('div', {
   justifyContent: 'flex-start',
   alignItems: 'center',
   padding: '10px',
-  minWidth: '25rem',
+  minWidth: '45rem',
   background: '$gray2',
   color: '$gray12',
   border: '1px solid $gray6',
@@ -30,7 +27,7 @@ const SearchInput = styled('input', {
   background: 'none',
   color: '$gray12',
   lineHeight: '1.5',
-  fontSize: '16px',
+  fontSize: '24px',
 })
 
 export default function Welcome({ daos }) {
@@ -68,14 +65,22 @@ export default function Welcome({ daos }) {
         alignItems: 'center',
       }}
     >
+      <Box
+        css={{
+          fontFamily: 'Regular',
+          fontSize: '48px',
+        }}
+      >
+        Create or join a DAO now.
+      </Box>
       <SearchBar>
         <GoSearch />
         <SearchInput placeholder="KaliDAO" onChange={(e) => setSearch(e.target.value)} />
       </SearchBar>
-      <Flex>
+      <Flex gap="md">
         <Button
           css={{
-            fontSize: '16px',
+            fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
           }}
@@ -86,6 +91,7 @@ export default function Welcome({ daos }) {
         <NewDao />
       </Flex>
       <Flex dir="col" gap="md">
+        {searchResults.length === 0 && 'No results found.'}
         {searchResults.map((result) => (
           <DaoCard key={result['id']} dao={result} chain={result['chainId']} />
         ))}

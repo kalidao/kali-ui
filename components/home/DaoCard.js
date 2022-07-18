@@ -50,9 +50,13 @@ export default function DaoCard({ dao, chain }) {
         return 'Arbitrum'
       case '10':
         return 'Optimism'
+      case '4':
+        return 'Rinkeby'
+      case '5':
+        return 'Goerli'
     }
   }
-
+  console.log('chainId', chain)
   return (
     <Flex
       css={{
@@ -102,7 +106,7 @@ export default function DaoCard({ dao, chain }) {
             fontFamily: 'Regular',
           }}
         >
-          {getChainName(dao['chainId'])}
+          {getChainName(chain)}
         </Box>
         <Button variant="cta" onClick={gotoDAO} disabled={loading}>
           {loading ? <Spinner /> : `Go to ${dao['token']['name']}`}

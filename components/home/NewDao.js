@@ -12,7 +12,7 @@ export default function NewDao() {
           css={{
             display: 'flex',
             alignItems: 'center',
-            fontSize: '16px',
+            fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
           }}

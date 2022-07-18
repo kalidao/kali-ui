@@ -1,23 +1,26 @@
 import React from 'react'
-import { useNetwork, useAccount } from 'wagmi'
-import { useGraph } from '../hooks/useGraph'
-import { USER_DAOS } from '../../graph'
+import { useAccount } from 'wagmi'
 import Welcome from './Welcome'
 import { Flex } from '../../styles/elements'
-import { Results, ResultsText } from './index'
-import DaoCard from './DaoCard'
+import UserDAOs from './UserDAOs'
 
 export default function MyDAOs({ daos }) {
-  const { activeChain } = useNetwork()
   const { data: account } = useAccount()
-  const { data, isLoading } = useGraph(activeChain?.id, USER_DAOS, {
-    address: account?.address,
-  })
 
   return (
-    <>
-      {!account && <Welcome daos={daos} />}
-      {daos && daos.length === 0 && <Welcome allDaos={allDaos && allDaos} />}
-    </>
+    <Flex dir="row">
+      <Welcome daos={daos} />
+      <Flex
+        css={{
+          position: 'absolute',
+          top: '7rem',
+          right: '1.5rem',
+          flexDirection: 'column',
+          gap: '1rem',
+        }}
+      >
+        {account && <UserDAOs address={account?.address} />}
+      </Flex>
+    </Flex>
   )
 }
