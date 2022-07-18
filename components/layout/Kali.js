@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 const LogoContainer = styled('div', {
   padding: '8.11px 7.9px 8.6px 0.92px',
+  filter: 'grayscale(100%)',
 })
 
 export default function Kali() {
