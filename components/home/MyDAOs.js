@@ -16,25 +16,6 @@ export default function MyDAOs({ daos }) {
 
   return (
     <>
-      <Flex
-        dir="col"
-        css={{
-          gap: '1rem',
-          position: 'absolute',
-          left: '10%',
-          right: '10%',
-          top: '6rem',
-          justifyContent: 'center',
-        }}
-      >
-        {daos &&
-          (daos.length > 1 ? (
-            <ResultsText> You are in {daos.length} DAOs </ResultsText>
-          ) : (
-            daos.length === 1 && <ResultsText>You are in {daos.length} DAO</ResultsText>
-          ))}
-        <Results>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} />)}</Results>
-      </Flex>
       {!account && <Welcome daos={daos} />}
       {daos && daos.length === 0 && <Welcome allDaos={allDaos && allDaos} />}
     </>
