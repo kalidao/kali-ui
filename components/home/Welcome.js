@@ -56,6 +56,14 @@ export default function Welcome({ daos }) {
     setSearched(true)
   })
 
+  const handleKeypress = (e) => {
+    console.log('keypress', e.nativeEvent.charCode)
+    //it triggers by pressing the enter key
+    if (e.nativeEvent.charCode === 13) {
+      handleSearch()
+    }
+  }
+
   return (
     <Flex
       dir="col"
@@ -80,7 +88,7 @@ export default function Welcome({ daos }) {
       </Box>
       <SearchBar>
         <GoSearch />
-        <SearchInput placeholder="KaliDAO" onChange={(e) => setSearch(e.target.value)} />
+        <SearchInput placeholder="KaliDAO" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
       </SearchBar>
       <Flex gap="md">
         <Button
