@@ -1,4 +1,4 @@
-import { useContractWrite } from 'wagmi'
+import { erc20ABI, useContractRead, useContractWrite } from 'wagmi'
 import { Button } from '../../../styles/elements'
 
 import { addresses } from '../../../constants/addresses'
@@ -14,8 +14,18 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
     'callExtension',
   )
 
+  const { data: decimals } = useContractRead(
+    {
+      addressOrName: info?.crowdsale?.purchaseToken,
+      contractInterface: erc20ABI,
+    },
+    'decimals',
+    {
+      chainId: Number(chainId),
+    },
+  )
   const buy = async () => {
-    if (!dao || !amount) return
+    if (!dao || !amount || !decimals) return
 
     amount = amount.toString()
     if (
@@ -36,7 +46,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
     } else {
       try {
         const res = writeAsync({
-          args: [dao, ethers.utils.parseEther(amount)],
+          args: [dao, ethers.utils.parseUnits(amount, decimals)],
           overrides: {
             gasLimit: 1050000,
           },
@@ -46,6 +56,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
       }
     }
   }
+
   return (
     <Button
       disabled={shouldDisable}
