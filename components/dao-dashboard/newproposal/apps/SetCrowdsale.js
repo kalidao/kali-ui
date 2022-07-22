@@ -45,7 +45,7 @@ export default function SetCrowdsale({ setProposal }) {
   const [purchaseLimit, setPurchaseLimit] = useState(1000)
   const [personalLimit, setPersonalLimit] = useState(10)
   const [terms, setTerms] = useState(null)
-  const [crowdsaleEnd, setCrowdsaleEnd] = useState(null)
+  const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
   const [crowdsaleStatus, setCrowdsaleStatus] = useState('fetching...')
   const [toggleCrowdsale, setToggleCrowdsale] = useState(null)
   const [description, setDescription] = useState('')
@@ -103,7 +103,7 @@ export default function SetCrowdsale({ setProposal }) {
   const submit = async (e) => {
     e.preventDefault()
 
-    // Activate / Deactivate Redemption
+    // Activate / Deactivate Crowdsale
     const _toggleCrowdsale = 0
     if (toggleCrowdsale && crowdsaleStatus === 'Inactive') {
       _toggleCrowdsale = 1
@@ -147,8 +147,8 @@ export default function SetCrowdsale({ setProposal }) {
     }
 
     // Crowdsale purchase limits
-    const _purchaseLimit = ethers.utils.parseEther(purchaseLimit)
-    const _personalLimit = ethers.utils.parseEther(personalLimit)
+    const _purchaseLimit = ethers.utils.parseEther(purchaseLimit.toString())
+    const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
 
     let docs
     if (file) {
@@ -221,7 +221,11 @@ export default function SetCrowdsale({ setProposal }) {
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Asset</Label>
-          <Select name="type" onChange={(e) => setPurchaseAsset(e.target.value)}>
+          <Select
+            name="type"
+            onChange={(e) => setPurchaseAsset(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          >
             <Select.Item value="select">Select</Select.Item>
             <Select.Item value="eth">ETH</Select.Item>
             <Select.Item value="custom">Custom</Select.Item>
@@ -235,7 +239,11 @@ export default function SetCrowdsale({ setProposal }) {
         )}
         <FormElement>
           <Label htmlFor="type">Access</Label>
-          <Select name="type" onChange={(e) => setPurchaseAccess(e.target.value)}>
+          <Select
+            name="type"
+            onChange={(e) => setPurchaseAccess(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          >
             <Select.Item value="select">Select</Select.Item>
             <Select.Item value="public">Public</Select.Item>
             <Select.Item value="accredited">Accredited</Select.Item>
@@ -257,15 +265,30 @@ export default function SetCrowdsale({ setProposal }) {
         )}
         <FormElement>
           <Label htmlFor="purchaseMultiplier">Purchase multiplier</Label>
-          <Input name="purchaseMultiplier" type="number" onChange={(e) => setPurchaseMultipler(e.target.value)} />
+          <Input
+            name="purchaseMultiplier"
+            type="number"
+            onChange={(e) => setPurchaseMultipler(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="purchaseLimit">Total purchase limit</Label>
-          <Input name="purchaseLimit" type="number" onChange={(e) => setPurchaseLimit(e.target.value)} />
+          <Input
+            name="purchaseLimit"
+            type="number"
+            onChange={(e) => setPurchaseLimit(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="personalLimit">Individual purchase limit</Label>
-          <Input name="personalLimit" type="number" onChange={(e) => setPersonalLimit(e.target.value)} />
+          <Input
+            name="personalLimit"
+            type="number"
+            onChange={(e) => setPersonalLimit(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          />
         </FormElement>
 
         <FormElement>
@@ -274,9 +297,7 @@ export default function SetCrowdsale({ setProposal }) {
             variant="calendar"
             type="datetime-local"
             onChange={(e) => setCrowdsaleEnd(e.target.value)}
-            // defaultValue={state['crowdsale-end']}
-            // name="crowdsale-end"
-            // {...register('crowdsale-end')}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
           />
         </FormElement>
         <FormElement>
