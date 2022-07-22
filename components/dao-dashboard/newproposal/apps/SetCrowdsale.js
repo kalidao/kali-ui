@@ -161,6 +161,7 @@ export default function SetCrowdsale({ setProposal }) {
     }
 
     console.log(
+      'Proposal Payload - ',
       _purchaseAccess,
       purchaseMultipler,
       _purchaseAsset,
@@ -188,7 +189,8 @@ export default function SetCrowdsale({ setProposal }) {
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
 
     try {
-      if (decimals == 18) {
+      if (decimals == 18 || _purchaseAsset == AddressZero) {
+        setWarning('')
         const tx = await kalidao.propose(
           9, // EXTENSION prop
           docs,
