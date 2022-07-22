@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
@@ -128,8 +128,11 @@ export default function SetCrowdsale({ setProposal }) {
 
     // Crowdsale asset
     let _purchaseAsset
+    let decimals
     if (customAsset) {
       _purchaseAsset = customAsset
+      const instance = new ethers.Contract(customAsset, erc20ABI, signer)
+      decimals = await instance.decimals()
     } else {
       _purchaseAsset = AddressZero
     }
@@ -185,14 +188,18 @@ export default function SetCrowdsale({ setProposal }) {
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
 
     try {
-      const tx = await kalidao.propose(
-        9, // EXTENSION prop
-        docs,
-        [crowdsaleAddress],
-        [_toggleCrowdsale],
-        [payload],
-      )
-      console.log('tx', tx)
+      if (decimals == 18) {
+        const tx = await kalidao.propose(
+          9, // EXTENSION prop
+          docs,
+          [crowdsaleAddress],
+          [_toggleCrowdsale],
+          [payload],
+        )
+        console.log('tx', tx)
+      } else {
+        setWarning('Please set a different purchase asset.')
+      }
     } catch (e) {
       console.log('error', e)
     }
