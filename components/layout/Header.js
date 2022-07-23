@@ -1,8 +1,9 @@
 import React from 'react'
 import Kali from './Kali'
 import { styled } from '../../styles/stitches.config'
-import { Flex, Text } from '../../styles/elements'
+import { Flex, Box, Text } from '../../styles/elements'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import NavigationMenu from '../../styles/Navigation'
 
 const StyledHeader = styled(Flex, {
   // borderBottom: '1px solid $gray800',
@@ -14,7 +15,7 @@ const StyledHeader = styled(Flex, {
   left: '0',
   right: '0',
   top: '0',
-  justifyContent: 'space-between',
+  justifyContent: 'space-evenly',
   alignItems: 'center',
   padding: '0 0.5rem',
   zIndex: '99',
@@ -27,12 +28,13 @@ export default function Header({ heading, props }) {
       <Flex
         css={{
           position: 'relative',
-          width: '100%',
+          width: '92%',
           height: '5rem',
           padding: '0 1rem 0 1rem',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: '5rem',
+
           '@media (max-width: 1040px)': {
             justifyContent: 'flex-end',
             margin: '0',
@@ -51,7 +53,14 @@ export default function Header({ heading, props }) {
         >
           {heading}
         </Text>
-        <ConnectButton>Connect</ConnectButton>
+        <Flex css={{
+          minWidth: '15rem',
+          alignItems: 'center',
+          justifyContent: 'flex-end'
+        }}>
+          <NavigationMenu />
+          <ConnectButton />
+        </Flex>
       </Flex>
     </StyledHeader>
   )
