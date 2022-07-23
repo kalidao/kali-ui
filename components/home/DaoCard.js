@@ -71,7 +71,7 @@ export default function DaoCard({ dao, chain }) {
         gap: '10px',
 
         '@media (max-width: 540px)': {
-          width: '15rem'
+          width: '15rem',
         },
       }}
     >

@@ -53,11 +53,13 @@ export default function Header({ heading, props }) {
         >
           {heading}
         </Text>
-        <Flex css={{
-          minWidth: '15rem',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}>
+        <Flex
+          css={{
+            minWidth: '15rem',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
           <NavigationMenu />
           <ConnectButton />
         </Flex>

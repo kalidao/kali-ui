@@ -77,10 +77,7 @@ export default function Welcome({ daos }) {
         justifyContent: 'center',
         alignItems: 'center',
 
-        '@media (max-width: 540px)': {
-          
-         
-        },
+        '@media (max-width: 540px)': {},
       }}
     >
       <Box

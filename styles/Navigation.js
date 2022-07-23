@@ -1,49 +1,49 @@
-import React from 'react';
+import React from 'react'
 import { styled, keyframes } from './stitches.config'
-import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
-import { CaretDownIcon } from '@radix-ui/react-icons';
-import { violet, mauve, indigo, purple, blackA } from '@radix-ui/colors';
+import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
+import { CaretDownIcon } from '@radix-ui/react-icons'
+import { violet, mauve, indigo, purple, blackA } from '@radix-ui/colors'
 import { FaDiscord, FaTwitter, FaGithub } from 'react-icons/fa'
 
 const enterFromRight = keyframes({
   from: { transform: 'translateX(200px)', opacity: 0 },
   to: { transform: 'translateX(0)', opacity: 1 },
-});
+})
 
 const enterFromLeft = keyframes({
   from: { transform: 'translateX(-200px)', opacity: 0 },
   to: { transform: 'translateX(0)', opacity: 1 },
-});
+})
 
 const exitToRight = keyframes({
   from: { transform: 'translateX(0)', opacity: 1 },
   to: { transform: 'translateX(200px)', opacity: 0 },
-});
+})
 
 const exitToLeft = keyframes({
   from: { transform: 'translateX(0)', opacity: 1 },
   to: { transform: 'translateX(-200px)', opacity: 0 },
-});
+})
 
 const scaleIn = keyframes({
   from: { transform: 'rotateX(-30deg) scale(0.9)', opacity: 0 },
   to: { transform: 'rotateX(0deg) scale(1)', opacity: 1 },
-});
+})
 
 const scaleOut = keyframes({
   from: { transform: 'rotateX(0deg) scale(1)', opacity: 1 },
   to: { transform: 'rotateX(-10deg) scale(0.95)', opacity: 0 },
-});
+})
 
 const fadeIn = keyframes({
   from: { opacity: 0 },
   to: { opacity: 1 },
-});
+})
 
 const fadeOut = keyframes({
   from: { opacity: 1 },
   to: { opacity: 0 },
-});
+})
 
 const StyledMenu = styled(NavigationMenuPrimitive.Root, {
   position: 'relative',
@@ -51,7 +51,7 @@ const StyledMenu = styled(NavigationMenuPrimitive.Root, {
   justifyContent: 'center',
   width: '100vw',
   zIndex: 1,
-});
+})
 
 const StyledList = styled(NavigationMenuPrimitive.List, {
   all: 'unset',
@@ -62,7 +62,7 @@ const StyledList = styled(NavigationMenuPrimitive.List, {
   borderRadius: '100%',
   listStyle: 'none',
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
-});
+})
 
 const itemStyles = {
   padding: '8px',
@@ -76,7 +76,7 @@ const itemStyles = {
   color: '$violet12',
   '&:focus': { position: 'relative', boxShadow: `0 0 0 2px $violet7` },
   '&:hover': { backgroundColor: '$violet3' },
-};
+}
 
 const StyledTrigger = styled(NavigationMenuPrimitive.Trigger, {
   all: 'unset',
@@ -85,7 +85,7 @@ const StyledTrigger = styled(NavigationMenuPrimitive.Trigger, {
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 2,
-});
+})
 
 const StyledCaret = styled(CaretDownIcon, {
   position: 'relative',
@@ -95,14 +95,14 @@ const StyledCaret = styled(CaretDownIcon, {
   '@media (prefers-reduced-motion: no-preference)': {
     transition: 'transform 250ms ease',
   },
-});
+})
 
 const StyledTriggerWithCaret = React.forwardRef(({ children, ...props }, forwardedRef) => (
   <StyledTrigger {...props} ref={forwardedRef}>
     {children}
     <StyledCaret aria-hidden />
   </StyledTrigger>
-));
+))
 
 const StyledLink = styled(NavigationMenuPrimitive.Link, {
   ...itemStyles,
@@ -110,7 +110,7 @@ const StyledLink = styled(NavigationMenuPrimitive.Link, {
   textDecoration: 'none',
   fontSize: 15,
   lineHeight: 1,
-});
+})
 
 const StyledContent = styled(NavigationMenuPrimitive.Content, {
   position: 'absolute',
@@ -126,7 +126,7 @@ const StyledContent = styled(NavigationMenuPrimitive.Content, {
     '&[data-motion="to-start"]': { animationName: exitToLeft },
     '&[data-motion="to-end"]': { animationName: exitToRight },
   },
-});
+})
 
 const StyledIndicator = styled(NavigationMenuPrimitive.Indicator, {
   display: 'flex',
@@ -142,7 +142,7 @@ const StyledIndicator = styled(NavigationMenuPrimitive.Indicator, {
     '&[data-state="visible"]': { animation: `${fadeIn} 200ms ease` },
     '&[data-state="hidden"]': { animation: `${fadeOut} 200ms ease` },
   },
-});
+})
 
 const StyledArrow = styled('div', {
   position: 'relative',
@@ -152,13 +152,13 @@ const StyledArrow = styled('div', {
   height: 10,
   transform: 'rotate(45deg)',
   borderTopLeftRadius: 2,
-});
+})
 
 const StyledIndicatorWithArrow = React.forwardRef((props, forwardedRef) => (
   <StyledIndicator {...props} ref={forwardedRef}>
     <StyledArrow />
   </StyledIndicator>
-));
+))
 
 const StyledViewport = styled(NavigationMenuPrimitive.Viewport, {
   position: 'relative',
@@ -179,17 +179,17 @@ const StyledViewport = styled(NavigationMenuPrimitive.Viewport, {
     '&[data-state="open"]': { animation: `${scaleIn} 200ms ease` },
     '&[data-state="closed"]': { animation: `${scaleOut} 200ms ease` },
   },
-});
+})
 
 // Exports
-const NavigationMenu = StyledMenu;
-const NavigationMenuList = StyledList;
-const NavigationMenuItem = NavigationMenuPrimitive.Item;
-const NavigationMenuTrigger = StyledTriggerWithCaret;
-const NavigationMenuLink = StyledLink;
-const NavigationMenuContent = StyledContent;
-const NavigationMenuViewport = StyledViewport;
-const NavigationMenuIndicator = StyledIndicatorWithArrow;
+const NavigationMenu = StyledMenu
+const NavigationMenuList = StyledList
+const NavigationMenuItem = NavigationMenuPrimitive.Item
+const NavigationMenuTrigger = StyledTriggerWithCaret
+const NavigationMenuLink = StyledLink
+const NavigationMenuContent = StyledContent
+const NavigationMenuViewport = StyledViewport
+const NavigationMenuIndicator = StyledIndicatorWithArrow
 
 // Your app...
 const ContentList = styled('ul', {
@@ -216,9 +216,9 @@ const ContentList = styled('ul', {
       },
     },
   },
-});
+})
 
-const ListItem = styled('li', {});
+const ListItem = styled('li', {})
 
 const LinkTitle = styled('div', {
   fontWeight: 500,
@@ -227,15 +227,15 @@ const LinkTitle = styled('div', {
   color: '$violet12',
   display: 'flex',
   alignItems: 'center',
-  gap: '5px'
-});
+  gap: '5px',
+})
 
 const LinkText = styled('p', {
   all: 'unset',
   color: mauve.mauve11,
   lineHeight: 1.4,
   fontWeight: 'initial',
-});
+})
 
 const ContentListItem = React.forwardRef(({ children, icon, title, ...props }, forwardedRef) => (
   <ListItem>
@@ -248,11 +248,14 @@ const ContentListItem = React.forwardRef(({ children, icon, title, ...props }, f
         '&:hover': { backgroundColor: '$mauve1' },
       }}
     >
-      <LinkTitle>{icon}{title}</LinkTitle>
+      <LinkTitle>
+        {icon}
+        {title}
+      </LinkTitle>
       <LinkText>{children}</LinkText>
     </NavigationMenuLink>
   </ListItem>
-));
+))
 
 const ViewportPosition = styled('div', {
   position: 'absolute',
@@ -262,7 +265,7 @@ const ViewportPosition = styled('div', {
   top: '100%',
   right: 0,
   // perspective: '1000px',
-});
+})
 
 export const NavigationMenuComponent = () => {
   return (
@@ -272,10 +275,7 @@ export const NavigationMenuComponent = () => {
           <NavigationMenuTrigger></NavigationMenuTrigger>
           <NavigationMenuContent>
             <ContentList layout="two">
-              <ContentListItem
-                title="Getting started"
-                href="https://docs.kali.gg/"
-              >
+              <ContentListItem title="Getting started" href="https://docs.kali.gg/">
                 A quick tutorial to get you up and running with Kali.
               </ContentListItem>
               <ContentListItem title="Service Providers" href="/services">
@@ -299,7 +299,7 @@ export const NavigationMenuComponent = () => {
         <NavigationMenuViewport />
       </ViewportPosition>
     </NavigationMenu>
-  );
-};
+  )
+}
 
-export default NavigationMenuComponent;
+export default NavigationMenuComponent
