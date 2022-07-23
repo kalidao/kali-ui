@@ -6,7 +6,7 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons'
 
 export default function ServicesPage() {
   return (
-    <Layout heading="Recommended Service Providers">
+    <Layout heading="Services" content="Find a service provider for legal, tax, security and other needs.">
       <Box
         css={{
           position: 'absolute',

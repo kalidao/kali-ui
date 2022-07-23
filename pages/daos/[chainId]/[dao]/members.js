@@ -38,7 +38,7 @@ export default function MembersPage({ members }) {
   members.token.totalSupply = ethers.utils.parseEther(totalSupply.toString())
 
   return (
-    <Layout heading={`Members`}>
+    <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
       <Members members={members} />
     </Layout>
   )

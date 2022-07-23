@@ -44,7 +44,10 @@ export default function DAOs({ daos }) {
   const chainId = router.query.chainId
   console.log('dao', daos?.data?.daos)
   return (
-    <Layout heading={`DAOs: ${addresses[chainId]['name']}`}>
+    <Layout
+      heading={`DAOs: ${addresses[chainId]['name']}`}
+      content={`Browse all DAOs created on ${addresses[chainId]['name']}`}
+    >
       {<AllDAOs daos={daos?.data?.daos} chainId={chainId} />}
       <NewDaoSquare />
     </Layout>

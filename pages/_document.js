@@ -7,13 +7,14 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <Head>
-          <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+          <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} key="stitches" />
           <link
             rel="preload"
             href="/fonts/Px-Grotesk-Regular.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
+            key="font-regular"
           />
           <link
             rel="preload"
@@ -21,14 +22,23 @@ export default class Document extends NextDocument {
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
+            key="font-light"
           />
-          <link rel="preload" href="/fonts/Px-Grotesk-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link
+            rel="preload"
+            href="/fonts/Px-Grotesk-Bold.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+            key="font-bold"
+          />
           <link
             rel="preload"
             href="/fonts/Px-Grotesk-Italic.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
+            key="font-italic"
           />
           <link
             rel="preload"
@@ -36,6 +46,7 @@ export default class Document extends NextDocument {
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
+            key="font-screen"
           />
           <style
             dangerouslySetInnerHTML={{
@@ -73,6 +84,7 @@ export default class Document extends NextDocument {
                 }
                 `,
             }}
+            key="font-style"
           />
         </Head>
         <body

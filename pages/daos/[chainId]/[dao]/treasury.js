@@ -42,7 +42,7 @@ export default function TreasuryPage() {
     }
   }, [daoAddress])
   return (
-    <Layout heading={`Treasury`}>
+    <Layout heading={`Treasury`} content="Look at the treasury analytics for the DAO.">
       <Tabs defaultValue="token">
         <TabsList>
           <TabsTrigger value="token">Tokens</TabsTrigger>

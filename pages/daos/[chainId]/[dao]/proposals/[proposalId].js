@@ -26,7 +26,7 @@ export default function ProposalPage({ proposal }) {
   console.log('proposal data', router.query.dao, router.query.proposalId, proposal)
 
   return (
-    <Layout heading={`Proposal #${proposal?.serial}`}>
+    <Layout heading={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
       <Flex
         dir="col"
         gap="md"

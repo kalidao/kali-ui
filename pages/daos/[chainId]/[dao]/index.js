@@ -37,7 +37,7 @@ export default function Dao({ proposals, crowdsale }) {
   console.log('server proposals', proposals)
   console.log('crowdsale', crowdsale)
   return (
-    <Layout heading={isLoading ? null : data} crowdsale={crowdsale}>
+    <Layout heading={isLoading ? null : data} crowdsale={crowdsale} content="Create or vote on a proposal.">
       <Dashboard proposals={proposals} />
     </Layout>
   )

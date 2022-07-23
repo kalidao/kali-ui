@@ -47,7 +47,7 @@ export const getServerSideProps = async () => {
 
 export default function HomePage({ daos }) {
   return (
-    <Layout heading="">
+    <Layout heading="Home" content="Create or join a Kali DAO.">
       <MyDAOs daos={daos} />
     </Layout>
   )

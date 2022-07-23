@@ -13,7 +13,10 @@ export default function UserDAOsPage() {
   })
 
   return (
-    <Layout heading={data ? data : null}>
+    <Layout
+      heading={data ? data : 'User'}
+      content={`Learn more about ${data ? data : 'user'}'s activity on Kali platform.`}
+    >
       <UserDAOs address={router.query.user} />
       <NewDaoSquare />
     </Layout>

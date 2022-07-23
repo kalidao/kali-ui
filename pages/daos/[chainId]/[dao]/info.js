@@ -20,7 +20,7 @@ export const getServerSideProps = async (context) => {
 export default function InfoPage({ info, ricardian }) {
   console.log('res', info, ricardian)
   return (
-    <Layout heading={`Info`}>
+    <Layout heading={`Info`} content="Learn more about the DAO.">
       <Info info={info} />
     </Layout>
   )
