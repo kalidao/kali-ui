@@ -60,7 +60,7 @@ export default function DaoCard({ dao, chain }) {
   return (
     <Flex
       css={{
-        width: '20rem',
+        width: '15rem',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         fontSize: '16px',
@@ -68,6 +68,11 @@ export default function DaoCard({ dao, chain }) {
         background: '$gray2',
         padding: '10px',
         borderRadius: '20px',
+        gap: '10px',
+
+        '@media (max-width: 540px)': {
+          width: '15rem'
+        },
       }}
     >
       <Box
@@ -77,8 +82,8 @@ export default function DaoCard({ dao, chain }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '35px',
-          width: '35px',
+          height: '25px',
+          width: '25px',
         }}
       >
         {getRandomEmoji(dao['id'])}

@@ -19,6 +19,10 @@ const SearchBar = styled('div', {
   '&:focus': {
     outline: 'none',
   },
+
+  '@media (max-width: 540px)': {
+    minWidth: '20rem',
+  },
 })
 
 const SearchInput = styled('input', {
@@ -69,19 +73,24 @@ export default function Welcome({ daos }) {
       dir="col"
       gap="md"
       css={{
-        position: 'absolute',
-        top: '7rem',
-        right: '25%',
-        left: '25%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+
+        '@media (max-width: 540px)': {
+          
+         
+        },
       }}
     >
       <Box
         css={{
           fontFamily: 'Regular',
           fontSize: '48px',
+
+          '@media (max-width: 540px)': {
+            fontSize: '32px',
+          },
         }}
       >
         Create or join a DAO now.
@@ -106,7 +115,7 @@ export default function Welcome({ daos }) {
           }}
           onClick={handleSearch}
         >
-          Search for a DAO
+          Search
         </Button>
         <NewDao />
       </Flex>
@@ -116,8 +125,6 @@ export default function Welcome({ daos }) {
           <DaoCard key={result['id']} dao={result} chain={result['chainId']} />
         ))}
       </Flex>
-      {/* <ActivityLog allDaos={daos} />
-      <Featured /> */}
     </Flex>
   )
 }
