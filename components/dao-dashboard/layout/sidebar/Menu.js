@@ -131,16 +131,6 @@ export default function Menu({ saleActive }) {
       <Icon as="a">
         <Link
           href={{
-            pathname: '/services',
-          }}
-          passHref
-        >
-          {path.includes('services') ? <BsBriefcaseFill size={30} /> : <BsBriefcase size={30} />}
-        </Link>
-      </Icon>
-      <Icon as="a">
-        <Link
-          href={{
             pathname: '/daos/[chainId]/[dao]/info',
             query: {
               chainId: router.query.chainId,
