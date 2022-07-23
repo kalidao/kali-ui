@@ -13,7 +13,7 @@ export const serviceProviders = [
   },
   {
     name: 'BlockApex',
-    text: "Security services and financial risk assessment",
+    text: 'Security services and financial risk assessment',
     link: 'https://blockapex.io/',
     icon: '/img/services/blockApex.svg',
   },

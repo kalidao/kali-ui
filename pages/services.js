@@ -14,10 +14,13 @@ export default function ServicesPage() {
           padding: '0.5rem 1.5rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: '5px'
+          gap: '5px',
         }}
       >
-        <Button variant="back" ><ArrowLeftIcon />Back</Button>
+        <Button variant="back">
+          <ArrowLeftIcon />
+          Back
+        </Button>
         <Services />
       </Box>
       <NewDaoSquare />

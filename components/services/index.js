@@ -37,7 +37,7 @@ export default function Services() {
                 fontSize: '25px',
                 fontWeight: '800',
                 color: '$violet9',
-                padding: '20px 0px'
+                padding: '20px 0px',
               }}
             >
               {provider.name}
