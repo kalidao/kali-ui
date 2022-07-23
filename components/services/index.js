@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Services() {
   return (
-    <Flex dir="col" gap="md">
+    <Flex dir="row" gap="md">
       {serviceProviders.map((provider, index) => (
         <Flex
           as="a"
@@ -37,6 +37,7 @@ export default function Services() {
                 fontSize: '25px',
                 fontWeight: '800',
                 color: '$violet9',
+                padding: '20px 0px'
               }}
             >
               {provider.name}
