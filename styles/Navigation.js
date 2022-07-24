@@ -194,7 +194,7 @@ const NavigationMenuIndicator = StyledIndicatorWithArrow
 // Your app...
 const ContentList = styled('ul', {
   display: 'grid',
-  padding: 22,
+  padding: 5,
   margin: 0,
   columnGap: 10,
   listStyle: 'none',
@@ -203,8 +203,8 @@ const ContentList = styled('ul', {
     layout: {
       one: {
         '@media only screen and (min-width: 600px)': {
-          width: 500,
-          gridTemplateColumns: '.75fr 1fr',
+          width: 100,
+          gridTemplateColumns: '1 1fr',
         },
       },
       two: {
@@ -264,7 +264,7 @@ const ViewportPosition = styled('div', {
   width: '100%',
   top: '100%',
   right: 0,
-  // perspective: '1000px',
+  perspective: '1000px',
 })
 
 export const NavigationMenuComponent = () => {
@@ -274,22 +274,20 @@ export const NavigationMenuComponent = () => {
         <NavigationMenuItem>
           <NavigationMenuTrigger></NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ContentList layout="two">
-              <ContentListItem title="Getting started" href="https://docs.kali.gg/">
-                A quick tutorial to get you up and running with Kali.
-              </ContentListItem>
-              <ContentListItem title="Service Providers" href="/services">
-                Check out our recommended service providers for all your DAO needs.
-              </ContentListItem>
-              <ContentListItem title={`Discord`} icon={<FaDiscord />} href="http://discord.gg/UKCS9ghzUE">
-                Become a part of our community.
-              </ContentListItem>
-              <ContentListItem title="Twitter" icon={<FaTwitter />} href="https://twitter.com/_KaliDAO">
-                Follow us and stay updated with the latest on KALI.
-              </ContentListItem>
-              <ContentListItem title="GitHub" icon={<FaGithub />} href="https://github.com/kalidao/">
-                Explore our completely open-sourced codebase.
-              </ContentListItem>
+            <ContentList layout="one">
+              <ContentListItem title="Getting Started" href="https://docs.kali.gg/"></ContentListItem>
+              <ContentListItem title="Service Providers" href="/services"></ContentListItem>
+              <ContentListItem
+                title={`Discord`}
+                icon={<FaDiscord />}
+                href="http://discord.gg/UKCS9ghzUE"
+              ></ContentListItem>
+              <ContentListItem
+                title="Twitter"
+                icon={<FaTwitter />}
+                href="https://twitter.com/_KaliDAO"
+              ></ContentListItem>
+              <ContentListItem title="GitHub" icon={<FaGithub />} href="https://github.com/kalidao/"></ContentListItem>
             </ContentList>
           </NavigationMenuContent>
         </NavigationMenuItem>

@@ -53,15 +53,17 @@ export default function Header({ heading, props }) {
         >
           {heading}
         </Text>
+
         <Flex
           css={{
-            minWidth: '15rem',
+            maxWidth: 500,
+            gap: '5px',
+            justifyContent: 'flex-start',
             alignItems: 'center',
-            justifyContent: 'flex-end',
           }}
         >
-          <NavigationMenu />
           <ConnectButton />
+          <NavigationMenu />
         </Flex>
       </Flex>
     </StyledHeader>
