@@ -4,6 +4,7 @@ import Extensions from './Extensions'
 import Governance from './Governance'
 import Meta from './Meta'
 import Docs from './Docs'
+import Analytics from './Analytics'
 import { Box } from '../../../styles/elements'
 
 export default function InfoComponent({ info }) {
@@ -32,6 +33,7 @@ export default function InfoComponent({ info }) {
           <Governance info={info} />
           <Extensions info={info} />
           <Docs info={info} />
+          <Analytics info={info} />
         </>
       )}
     </Box>
