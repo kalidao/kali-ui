@@ -8,15 +8,46 @@ export default function MyDAOs({ daos }) {
   const { data: account } = useAccount()
 
   return (
-    <Flex dir="row">
+    <Flex
+      css={{
+        position: 'absolute',
+        top: '25%',
+        right: '25%',
+        left: '25%',
+
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'flex-start',
+        gap: '20px',
+
+        '@media (max-width: 540px)': {
+          flexDirection: 'column-reverse',
+          top: '7rem',
+        },
+
+        '@media (max-width: 840px)': {
+          flexDirection: 'column-reverse',
+          top: '7rem',
+        },
+      }}
+    >
       <Welcome daos={daos} />
       <Flex
         css={{
-          position: 'absolute',
-          top: '7rem',
-          right: '1.5rem',
           flexDirection: 'column',
-          gap: '1rem',
+          gap: '10px',
+
+          '@media (max-width: 840px)': {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'auto',
+          },
+
+          '@media (max-width: 540px)': {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            gridTemplateRows: 'auto',
+          },
         }}
       >
         {account && <UserDAOs address={account?.address} />}

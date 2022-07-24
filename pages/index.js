@@ -1,5 +1,5 @@
 import Layout from '../components/layout'
-import { MyDAOs, NewDaoSquare } from '../components/home'
+import { MyDAOs } from '../components/home'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
 

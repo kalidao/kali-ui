@@ -23,7 +23,7 @@ export default function NewDao() {
             },
           }}
         >
-          Create a new DAO
+          Create
         </Button>
       </DialogTrigger>
       <DialogContent>
