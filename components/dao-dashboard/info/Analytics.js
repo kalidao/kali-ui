@@ -86,7 +86,7 @@ export default function Engagement({ info }) {
                 <Flex gap="md" align="separate">
                     <Text>Member Vote Rate</Text>
                     <Text>
-                        {(countedProposalVotes / (countedProposalVotes+missedProposalVotes))*100}%
+                        {((countedProposalVotes / (countedProposalVotes+missedProposalVotes))*100).toFixed(2)}%
                     </Text>
                 </Flex>
             </Flex>
