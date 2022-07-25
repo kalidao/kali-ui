@@ -74,7 +74,7 @@ export default function Checkout({ setStep }) {
     } else {
       docs_ = 'na'
     }
-    
+
     console.log('docs', docs_)
 
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
