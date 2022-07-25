@@ -46,6 +46,7 @@ export default function Governance({ setStep }) {
             placeholder="5"
             {...register('votingPeriod', { required: true })}
             defaultValue={state.votingPeriod}
+            min="1"
             css={{
               '&:hover': {
                 boxShadow: 'none',
