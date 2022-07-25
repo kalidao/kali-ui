@@ -63,12 +63,18 @@ export default function Checkout({ setStep }) {
       email,
     } = state
 
-    const docs_ = validateDocs(
-      docType,
-      state.existingDocs ? state.existingDocs : null,
-      name,
-      state.mission ? state.mission : null,
-    )
+    let docs_
+    if (legal) {
+      docs_ = validateDocs(
+        docType,
+        state.existingDocs ? state.existingDocs : null,
+        name,
+        state.mission ? state.mission : null,
+      )
+    } else {
+      docs_ = 'na'
+    }
+    
     console.log('docs', docs_)
 
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
