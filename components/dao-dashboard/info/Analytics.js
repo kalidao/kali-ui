@@ -13,50 +13,60 @@ export default function Engagement({ info }) {
   const daoAddress = router.query.dao
 
   //this is the number of votes that each of the current members have cast
-  const [countedProposalVotes, setCountedProposalVotes] = useState(0)
+  const [voted, setVoted] = useState(0)
   //this is the number of proposals that members have skipped
-  const [missedProposalVotes, setMissedProposalVotes] = useState(0)
+  const [didNotVote, setDidNotVote] = useState(0)
   //this is the number of proposals that members have voted on
-  const [pastProposalCount, setPastProposalCount] = useState(0)
-  const [currentProposalCount, setCurrentProposalCount] = useState(0)
+  const [pending, setPending] = useState(0)
+  const [passed, setPassed] = useState(0)
+  const [failed, setFailed] = useState(0)
 
   const fetchData = async () => {
     const proposals = await getProposals(daoChain, daoAddress)
     const members = await getMembers(daoChain, daoAddress)
-    let pastProposals = 0
-    let currentProposals = 0
+
+    let passed = 0
+    let failed = 0
+    let pending = 0
     for (const proposal of proposals.data.daos[0].proposals) {
-      if (proposal.status) {
-        pastProposals++
+      if (proposal.status === null) {
+        pending++
+      } else if (proposal.status) {
+        passed++
       } else {
-        currentProposals++
+        failed++
       }
-      setPastProposalCount(pastProposals)
-      setCurrentProposalCount(currentProposals)
+
+      setPassed(passed)
+      setFailed(failed)
+      setPending(pending)
     }
 
-    let countedProposalVotes = 0
-    let missedProposalVotes = 0
+    let voted = 0
+    let didNotVote = 0
 
     for (const member of members.data.daos[0].members) {
       for (const proposal of proposals.data.daos[0].proposals) {
         if (proposal.status !== null) {
           let found = false
+          // console.log('debug (miss +1) - ', member.address, proposal)
           for (const vote of proposal.votes) {
             if (vote.voter === member.address.toLowerCase()) {
               found = true
+
+              // console.log('debug (counted +1) - ', vote.voter, member.address, proposal)
             }
           }
           if (!found) {
-            missedProposalVotes++
+            didNotVote++
           } else {
-            countedProposalVotes++
+            voted++
           }
         }
       }
     }
-    setCountedProposalVotes(countedProposalVotes)
-    setMissedProposalVotes(missedProposalVotes)
+    setVoted(voted)
+    setDidNotVote(didNotVote)
   }
 
   useEffect(() => {
@@ -68,17 +78,33 @@ export default function Engagement({ info }) {
       {info ? (
         <Flex gap="md" dir="col">
           <Flex gap="md" align="separate">
-            <Text>Current Proposals</Text>
-            <Text>{currentProposalCount}</Text>
+            <Text># of Proposals</Text>
+            <Text>{pending + failed + passed}</Text>
+          </Flex>
+          {/* <Flex gap="md" align="separate">
+            <Text># of Pending Proposals</Text>
+            <Text>{pending}</Text>
+          </Flex> */}
+          <Flex gap="md" align="separate">
+            <Text># of Passed Proposals</Text>
+            <Text>{passed}</Text>
           </Flex>
           <Flex gap="md" align="separate">
-            <Text>Past Proposals</Text>
-            <Text>{pastProposalCount}</Text>
+            <Text>Proposal Pass % </Text>
+            <Text>{((passed / (passed + failed)) * 100).toFixed(2)}%</Text>
           </Flex>
           <Flex gap="md" align="separate">
-            <Text>Member Vote Rate</Text>
-            <Text>{((countedProposalVotes / (countedProposalVotes + missedProposalVotes)) * 100).toFixed(2)}%</Text>
+            <Text>Member Participation %</Text>
+            <Text>{((voted / (voted + didNotVote)) * 100).toFixed(2)}%</Text>
           </Flex>
+          {/* <Flex gap="md" align="separate">
+            <Text>DAO HP</Text>
+            <Text>{(voted * ((voted / (voted + didNotVote)) * 100).toFixed(2)) / 100}</Text>
+          </Flex>
+          <Flex gap="md" align="separate">
+            <Text>DAO Total HP</Text>
+            <Text>{voted + didNotVote}</Text>
+          </Flex> */}
         </Flex>
       ) : (
         <Spinner />
