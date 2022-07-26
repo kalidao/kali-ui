@@ -24,6 +24,7 @@ export default function Engagement({ info }) {
   const fetchData = async () => {
     const proposals = await getProposals(daoChain, daoAddress)
     const members = await getMembers(daoChain, daoAddress)
+
     let passed = 0
     let failed = 0
     let pending = 0
@@ -48,12 +49,12 @@ export default function Engagement({ info }) {
       for (const proposal of proposals.data.daos[0].proposals) {
         if (proposal.status !== null) {
           let found = false
-          console.log('debug (miss +1) - ', member.address, proposal)
+          // console.log('debug (miss +1) - ', member.address, proposal)
           for (const vote of proposal.votes) {
             if (vote.voter === member.address.toLowerCase()) {
               found = true
 
-              console.log('debug (counted +1) - ', vote.voter, member.address, proposal)
+              // console.log('debug (counted +1) - ', vote.voter, member.address, proposal)
             }
           }
           if (!found) {
@@ -64,8 +65,6 @@ export default function Engagement({ info }) {
         }
       }
     }
-    console.log('countedProposalVotes - ', voted)
-    console.log('missedProposalVotes - ', didNotVote)
     setVoted(voted)
     setDidNotVote(didNotVote)
   }
@@ -82,10 +81,10 @@ export default function Engagement({ info }) {
             <Text># of Proposals</Text>
             <Text>{pending + failed + passed}</Text>
           </Flex>
-          <Flex gap="md" align="separate">
+          {/* <Flex gap="md" align="separate">
             <Text># of Pending Proposals</Text>
             <Text>{pending}</Text>
-          </Flex>
+          </Flex> */}
           <Flex gap="md" align="separate">
             <Text># of Passed Proposals</Text>
             <Text>{passed}</Text>
@@ -98,14 +97,14 @@ export default function Engagement({ info }) {
             <Text>Member Participation %</Text>
             <Text>{((voted / (voted + didNotVote)) * 100).toFixed(2)}%</Text>
           </Flex>
-          <Flex gap="md" align="separate">
+          {/* <Flex gap="md" align="separate">
             <Text>DAO HP</Text>
             <Text>{(voted * ((voted / (voted + didNotVote)) * 100).toFixed(2)) / 100}</Text>
           </Flex>
           <Flex gap="md" align="separate">
             <Text>DAO Total HP</Text>
             <Text>{voted + didNotVote}</Text>
-          </Flex>
+          </Flex> */}
         </Flex>
       ) : (
         <Spinner />
