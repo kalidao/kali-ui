@@ -56,7 +56,7 @@ export default function Header({ heading, props }) {
 
         <Flex
           css={{
-            maxWidth: 500,
+            maxWidth: '50%',
             gap: '5px',
             justifyContent: 'flex-start',
             alignItems: 'center',
