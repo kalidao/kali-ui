@@ -1,4 +1,4 @@
-import { Flex, Text, Box } from './elements'
+import { Box } from './elements'
 
 export default function Info({ heading, children, props }) {
   return (
