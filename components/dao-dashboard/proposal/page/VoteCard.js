@@ -10,21 +10,11 @@ import { ethers } from 'ethers'
 
 export default function VoteCard({ vote }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChain = router.query.chainId
   const { data: ensName } = useEnsName({
     address: vote.voter,
     chainId: 1,
   })
 
-  const { data: balance } = useBalance({
-    addressOrName: vote.voter,
-    token: daoAddress ? daoAddress : AddressZero,
-    chainId: Number(daoChain),
-  })
-
-  const weight = ethers.utils.formatEther(vote['weight'])
-  console.log('weight', weight)
   return (
     <Box
       css={{

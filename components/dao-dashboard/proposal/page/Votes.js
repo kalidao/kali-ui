@@ -5,7 +5,6 @@ import VoteCard from './VoteCard'
 import { Table, Row, Heading, Data } from '../../../../styles/Table'
 
 export default function Votes({ votes, symbol }) {
-  console.log('votes', votes)
   return (
     <Info
       heading={
