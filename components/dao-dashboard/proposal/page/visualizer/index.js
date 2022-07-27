@@ -55,7 +55,7 @@ export default function Visualizer({ proposal }) {
       break
     case 'EXTENSION':
       heading = 'Update Extension'
-      component = <Extension amount={proposal?.amounts?.[0]} />
+      component = <Extension accounts={proposal?.accounts} amounts={proposal?.amounts} payloads={proposal?.payloads} />
       break
     case 'ESCAPE':
       heading = 'Escaping'
@@ -63,7 +63,7 @@ export default function Visualizer({ proposal }) {
       break
     case 'DOCS':
       heading = 'Update Docs'
-      component = <Docs amount={proposal?.amounts?.[0]} />
+      component = <Docs amount={proposal?.description} />
       break
   }
   
