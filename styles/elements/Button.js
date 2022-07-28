@@ -50,8 +50,11 @@ const Button = styled('button', {
       },
       icon: {
         background: 'none',
-        color: '$highlight',
+        color: '$gray8',
         borderRadius: '200px 200px 200px 200px',
+        '&:hover': {
+          color: '$gray7',
+        },
       },
       primary: {
         background: 'white',

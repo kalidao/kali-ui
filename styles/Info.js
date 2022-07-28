@@ -1,8 +1,12 @@
-import { Flex, Text, Box } from './elements'
+import { Box } from './elements'
 
 export default function Info({ heading, children, props }) {
   return (
-    <Box>
+    <Box
+      css={{
+        maxWidth: '60rem',
+      }}
+    >
       <Box
         css={{
           fontFamily: 'Screen',
