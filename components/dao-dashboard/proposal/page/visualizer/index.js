@@ -66,7 +66,7 @@ export default function Visualizer({ proposal }) {
       component = <Docs amount={proposal?.description} />
       break
   }
-  
+
   return (
     <Info
       heading={heading}

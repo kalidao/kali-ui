@@ -5,17 +5,17 @@ import { addresses } from '../../../../../constants/addresses'
 
 export default function Extension({ accounts, amounts, payloads }) {
   const router = useRouter()
-  const extensions = addresses[router.query.chainId]["extensions"]
+  const extensions = addresses[router.query.chainId]['extensions']
 
   for (let i = 0; i < accounts.length; i++) {
     // const decoded = decodeExtensions(accounts[i], payloads[i], router.query.chainId)
     // console.log('decoded', decoded)
     let extension
-  for (const key in extensions) {
-    if (accounts[i].toLowerCase() == extensions[key].toLowerCase()) {
-      extension = key
+    for (const key in extensions) {
+      if (accounts[i].toLowerCase() == extensions[key].toLowerCase()) {
+        extension = key
+      }
     }
-  }
     return (
       <Flex
         css={{
@@ -30,5 +30,3 @@ export default function Extension({ accounts, amounts, payloads }) {
     )
   }
 }
-
-
