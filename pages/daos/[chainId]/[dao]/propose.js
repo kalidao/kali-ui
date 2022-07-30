@@ -14,11 +14,11 @@ export default function ProposePage() {
         borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
         gap: '10px'
       }}>
-        <Flex dir="col">
+        <Flex dir="col" gap="sm">
             <Label>Title</Label>
             <Input name="id" />
         </Flex>
-        <Flex dir="col">
+        <Flex dir="col"  gap="sm">
             <Label>Description (Optional)</Label>
             <Input name="id" as="textarea" />
         </Flex>
