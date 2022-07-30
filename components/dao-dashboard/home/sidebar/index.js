@@ -9,9 +9,7 @@ export default function Sidebar() {
       gap="md"
       dir="col"
       css={{
-        '@media (max-width: 640px)': {
-          display: 'none',
-        },
+        paddingTop: '20px',
       }}
     >
       <Profile />

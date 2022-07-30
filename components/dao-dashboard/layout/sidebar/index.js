@@ -1,17 +1,17 @@
 import React from 'react'
 import NewProposal from './NewProposal'
 import Menu from './Menu'
-import { Flex } from '../../../../styles/elements'
+import { Flex, Box } from '../../../../styles/elements'
 
 export default function Sidebar({ crowdsale }) {
   return (
     <Flex
       css={{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+        position: 'sticky',
+        padding: '10px',
+        flexDirection: 'column',
+        gap: '10px',
+        height: '100%',
       }}
     >
       <Menu saleActive={crowdsale?.active} />

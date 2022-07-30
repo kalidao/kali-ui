@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex } from '../../../../styles/elements'
+import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
 import { styled } from '../../../../styles/stitches.config'
 import { bounce } from '../../../../styles/animation'
@@ -26,12 +26,9 @@ const Icon = styled('span', {
   background: '$background',
   maxWidth: '2rem',
   borderRadius: '100%',
-  height: '25px',
-  width: '25px',
+  height: '24px',
+  width: '24px',
 
-  '&:hover': {
-    background: '$gray5',
-  },
   '& svg': {
     color: `$gray7`,
     '&:hover': {
@@ -43,105 +40,75 @@ const Icon = styled('span', {
   },
 })
 
+const items = [
+  {
+    link: '',
+    label: 'Home',
+    icon: <HiHome size={24} />,
+  },
+  {
+    link: 'treasury',
+    label: 'Treasury',
+    icon: <BsPiggyBank size={24} />,
+  },
+  {
+    link: 'members',
+    label: 'Members',
+    icon: <BsFillPeopleFill size={24} />,
+  },
+  {
+    link: 'info',
+    label: 'Info',
+    icon: <RiInformationFill size={24} />,
+  },
+]
 export default function Menu({ saleActive }) {
   const router = useRouter()
-  const path = router.pathname
+  const { chainId, dao } = router.query
 
   return (
-    <Flex
-      css={{
-        position: 'fixed',
-        top: '7rem',
-        bottom: '0',
-        left: '1rem',
-        right: '0',
-        flexDirection: 'column',
-        gap: '2rem',
-      }}
-    >
-      <Icon>
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
-          }}
-          passHref
-        >
-          {path.includes('treasury') || path.includes('members', 'info') || path.includes('info') ? (
-            <HiOutlineHome size={30} />
-          ) : (
-            <HiHome size={30} />
-          )}
-        </Link>
-      </Icon>
-      <Icon>
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/treasury',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
-          }}
-          passHref
-        >
-          {path.includes('treasury') ? <BsFillPiggyBankFill size={30} /> : <BsPiggyBank size={30} />}
-        </Link>
-      </Icon>
-
-      <Icon>
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/members',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
-          }}
-          passHref
-        >
-          {path.includes('members') ? <BsFillPeopleFill size={30} /> : <BsPeople size={30} />}
-        </Link>
-      </Icon>
+    <Flex dir="col" gap="md">
+      {items.map((item) => (
+        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
+      ))}
       {saleActive === true && (
-        <Icon>
-          <Link
-            href={{
-              pathname: '/daos/[chainId]/[dao]/crowdsale',
-              query: {
-                chainId: router.query.chainId,
-                dao: router.query.dao,
-              },
-            }}
-          >
-            <Icon as="a">
-              <GiCoins size={30} />
-            </Icon>
-          </Link>
-        </Icon>
+        <Item key={'Crowdsale'} link={'/crowdsale'} label={'Crowdsale'} icon={<GiCoins size={24} />} />
       )}
-      {/* 
-        TODO: 
-        - Conditional on whether crowdsale active 
-        - Add outline coin stack icon
-      */}
-      <Icon as="a">
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/info',
-            query: {
-              chainId: router.query.chainId,
-              dao: router.query.dao,
-            },
-          }}
-          passHref
-        >
-          {path.includes('info') ? <RiInformationFill size={30} /> : <RiInformationLine size={30} />}
-        </Link>
-      </Icon>
     </Flex>
+  )
+}
+
+const Item = ({ link, label, icon, chainId, dao }) => {
+  return (
+    <Link
+      href={{
+        pathname: `/daos/[chainId]/[dao]/${link}`,
+        query: { chainId: chainId, dao: dao },
+      }}
+      passHref
+    >
+      <Flex
+        css={{
+          alignItems: 'center',
+          gap: '5px',
+          padding: '5px',
+          borderRadius: '20px',
+          '&:hover': {
+            background: '$gray5',
+          },
+          color: '$gray12',
+        }}
+      >
+        <Icon>{icon}</Icon>
+        <Text
+          css={{
+            fontFamily: 'Regular',
+            fontSize: '24px',
+          }}
+        >
+          {label}
+        </Text>
+      </Flex>
+    </Link>
   )
 }

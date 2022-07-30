@@ -1,5 +1,5 @@
 import Layout from '../../../../components/dao-dashboard/layout/'
-import { Dashboard } from '../../../../components/dao-dashboard'
+import { Home } from '../../../../components/dao-dashboard'
 import { useRouter } from 'next/router'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
@@ -20,7 +20,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-export default function Dao({ proposals, crowdsale }) {
+export default function DaoHomePage({ proposals, crowdsale }) {
   const router = useRouter()
   const { data, isLoading } = useContractRead(
     {
@@ -33,12 +33,9 @@ export default function Dao({ proposals, crowdsale }) {
     },
   )
 
-  console.log('name', data)
-  console.log('server proposals', proposals)
-  console.log('crowdsale', crowdsale)
   return (
     <Layout heading={isLoading ? 'DAO' : data} crowdsale={crowdsale} content="Create or vote on a proposal.">
-      <Dashboard proposals={proposals} />
+      <Home proposals={proposals} />
     </Layout>
   )
 }
