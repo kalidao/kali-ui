@@ -1,6 +1,6 @@
 import Layout from '../../layout'
-import Sidebar from './sidebar/'
 import { Flex } from '../../../styles/elements'
+import Sidebar from './Sidebar'
 
 export default function DaoLayout({ heading, crowdsale, children, props }) {
   return (
@@ -15,7 +15,7 @@ export default function DaoLayout({ heading, crowdsale, children, props }) {
           justifyContent: 'space-evenly'
         }}
       >
-        <Sidebar crowdsale={crowdsale} />
+        <Sidebar />
         <Flex css={{
           width: '75vw',
           position: 'relative',

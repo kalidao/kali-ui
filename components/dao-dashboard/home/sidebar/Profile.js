@@ -67,7 +67,15 @@ export default function ProfileComponent({ dao }) {
 
   return (
     <Info heading="About">
-      <Flex dir="col" gap="md" align="center">
+      <Flex
+        dir="col"
+        gap="md"
+        align="center"
+        css={{
+          fontFamily: 'Regular',
+          color: '$gray12',
+        }}
+      >
         <Box
           css={{
             background: '$gray9',
@@ -77,7 +85,7 @@ export default function ProfileComponent({ dao }) {
             justifyContent: 'center',
             height: '55px',
             width: '55px',
-            fontSize: '27px',
+            fontSize: '24px',
           }}
         >
           {members && getRandomEmoji(members?.['id'])}
@@ -108,7 +116,13 @@ export default function ProfileComponent({ dao }) {
                 {'   '}
                 {ethers.constants.EtherSymbol}
               </Text>
-              <Text>Balance</Text>
+              <Text
+                css={{
+                  color: '$gray11',
+                }}
+              >
+                Balance
+              </Text>
             </Flex>
           </Link>
           <Link
@@ -132,7 +146,13 @@ export default function ProfileComponent({ dao }) {
               }}
             >
               <Text color="accent">{members?.members.length}</Text>
-              <Text>Members</Text>
+              <Text
+                css={{
+                  color: '$gray11',
+                }}
+              >
+                Members
+              </Text>
             </Flex>
           </Link>
         </Flex>

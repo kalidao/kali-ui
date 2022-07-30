@@ -23,7 +23,6 @@ export default function MemberCard({ member, totalSupply }) {
       css={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
-        width: '100%',
         background: '$gray1',
         padding: '1rem',
         gap: '1rem 2rem',
@@ -38,7 +37,6 @@ export default function MemberCard({ member, totalSupply }) {
             color="foreground"
             css={{
               all: 'unset',
-              minWidth: '15px',
               '&:hover': {
                 color: '$gray12',
               },

@@ -16,12 +16,11 @@ export default function Members({ members }) {
   console.log('members', members)
 
   return (
-    <>
+    <Flex>
       <Box
         css={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
-          minWidth: '80vw',
           background: '$gray2',
           color: '$gray11',
           padding: '1rem',
@@ -36,6 +35,6 @@ export default function Members({ members }) {
         members.members.map((member) => (
           <MemberCard member={member} key={member.address} totalSupply={members['token']['totalSupply']} />
         ))}
-    </>
+    </Flex>
   )
 }

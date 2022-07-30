@@ -24,24 +24,37 @@ export default function NewProposal() {
         <Flex
           css={{
             alignItems: 'center',
+            justifyContent: 'flex-start',
             gap: '5px',
             borderRadius: '20px',
             color: '$gray12',
             background: '$violet7',
             padding: '5px',
+            width: '8rem',
 
             '&:hover': {
               background: '$violet6',
             },
+            '@media (max-width: 640px)': {
+              borderRadius: '100%',
+              justifyContent: 'center',
+              height: '24px',
+              width: '24px',
+              padding: '10px'
+            },
           }}
         >
           <Icon>
-            <FaPen size={20} />
+            <FaPen />
           </Icon>
           <Text
             css={{
               fontFamily: 'Regular',
-              fontSize: '24px',
+              fontSize: '16px',
+
+              '@media (max-width: 640px)': {
+                display: 'none'
+              },
             }}
           >
             Propose
