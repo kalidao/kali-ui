@@ -15,6 +15,9 @@ export const getMembers = async (chainId, address) => {
                 members {
                     address
                     shares
+                    proposals {
+                      id
+                    }
                   }
                   token {
                     totalSupply

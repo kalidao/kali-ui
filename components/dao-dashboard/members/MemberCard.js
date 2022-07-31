@@ -5,7 +5,7 @@ import { Box, Flex, Text } from '../../../styles/elements'
 import { truncateAddress } from '../../../utils/'
 import { Spinner } from '../../elements'
 
-export default function MemberCard({ member, totalSupply }) {
+export default function MemberCard({ member, active, setActive }) {
   const { data: ensName, isLoading } = useEnsName({
     address: member?.address,
     chainId: Number(1),
@@ -17,40 +17,24 @@ export default function MemberCard({ member, totalSupply }) {
 
   // TODO:
   //  - Add profile image
-  console.log('ens', ensName)
+  console.log('ens', ensName, )
+  
   return (
-    <Box
-      css={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        background: '$gray1',
-        padding: '1rem',
-        gap: '1rem 2rem',
+        <Flex as="button" key={member?.address} gap="md" css={{
+          all: 'unset',
+          flexDirection: 'row',
+          alignItems: "center",
+          justifyContent: "space-between",
+          fontFamily: 'Regular',
+          background: active ? '$violet3' : '$gray2',
+          padding: '10px 20px',
+          border: '1px solid $gray3',
+          color: '$gray12'
       }}
-    >
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          <Text
-            as="button"
-            color="foreground"
-            css={{
-              all: 'unset',
-              '&:hover': {
-                color: '$gray12',
-              },
-            }}
-            onClick={routeProfile}
-          >
-            {!ensName ? truncateAddress(member?.address) : ensName}
-          </Text>
-          <Text color="foreground">{Number(ethers.utils.formatUnits(member.shares, 18)).toFixed(2)}</Text>
-          <Text color="foreground">
-            {member.shares != totalSupply ? ((member.shares / totalSupply) * 100).toFixed(2) : '100'}%
-          </Text>
-        </>
-      )}
-    </Box>
+        onClick={() => setActive(member)}
+      >
+          <Text>{(isLoading || ensName === null) ? truncateAddress(member?.address) : ensName}</Text> 
+          <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
+      </Flex>
   )
 }
