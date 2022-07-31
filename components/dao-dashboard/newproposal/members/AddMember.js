@@ -53,7 +53,13 @@ export default function AddMember({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Mint DAO tokens to a new or existing DAO member</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Mint DAO tokens to a new or existing DAO member
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
@@ -75,21 +81,6 @@ export default function AddMember({ setProposal }) {
             onChange={(e) => setAmount(e.target.value)}
           />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            placeholder="Add a note to the proposal"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         <Back onClick={() => setProposal('membersMenu')} />
         <Button variant="cta" onClick={submit}>
           Submit

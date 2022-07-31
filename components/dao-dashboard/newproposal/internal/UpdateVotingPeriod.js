@@ -73,7 +73,7 @@ export default function UpdateVotingPeriod({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      {/* <Text>Update proposal voting period</Text> */}
+      <Text>Update proposal voting period</Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current Voting Period</Label>
@@ -97,21 +97,6 @@ export default function UpdateVotingPeriod({ setProposal }) {
             <Select.Item value="day">day</Select.Item>
           </Select>
         </FormElement>
-
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>

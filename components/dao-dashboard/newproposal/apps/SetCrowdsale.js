@@ -209,7 +209,13 @@ export default function SetCrowdsale({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Customize a crowdsale of DAO tokens</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Customize a crowdsale of DAO tokens
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current crowdsale status</Label>
@@ -315,20 +321,7 @@ export default function SetCrowdsale({ setProposal }) {
             <FileUploader setFile={setTerms} />
           </Flex>{' '}
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
+
         {warning && <Warning warning={warning} />}
         {purchaseAccess === 'custom' && (
           <Button onClick={handleValidation} disabled={isRecorded}>

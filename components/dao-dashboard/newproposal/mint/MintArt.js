@@ -11,6 +11,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
 import { addresses } from '../../../../constants/addresses'
 
+// FIXME: Getting BigNumber error here
 export default function MintArt({ setProposal }) {
   // Router
   const router = useRouter()

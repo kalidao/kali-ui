@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flex, Button, Box } from '../../../styles/elements'
+import { Flex, Button, Box, Text } from '../../../styles/elements'
 import { DialogTitle } from '../../../styles/Dialog'
 import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
@@ -102,10 +102,11 @@ export function NewProposalModal({ proposalProp }) {
       component: <UpdateQuorum setProposal={setView} />,
     },
     // Create Asset Menu
-    art: {
-      title: 'Mint Art NFT',
-      component: <MintArt setProposal={setView} />,
-    },
+    // FIXME: Commenting out till fixed
+    // art: {
+    //   title: 'Mint Art NFT',
+    //   component: <MintArt setProposal={setView} />,
+    // },
     real: {
       title: 'Mint real estate NFT',
       component: <MintReal setProposal={setView} />,
@@ -157,16 +158,14 @@ export function NewProposalModal({ proposalProp }) {
   return (
     <>
       {view && (
-        <Flex dir="col" gap="md" align="start">
-          <DialogTitle>{proposals[view]['title']}</DialogTitle>
-          <Box
-            css={{
-              padding: '1 0 2 0',
-            }}
-          >
-            {proposals[view]['component']}
-          </Box>
-        </Flex>
+        <Box
+          css={{
+            minWidth: '40vw',
+            paddingTop: '5px',
+          }}
+        >
+          {proposals[view]['component']}
+        </Box>
       )}
     </>
   )

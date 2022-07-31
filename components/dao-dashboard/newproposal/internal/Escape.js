@@ -11,6 +11,7 @@ import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 import { ethers } from 'ethers'
 
+// TODO: Show this along with process proposal
 export default function Escape({ setProposal }) {
   // Router
   const router = useRouter()
@@ -100,8 +101,18 @@ export default function Escape({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      <Text>
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        maxWidth: '40vw',
+      }}
+    >
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
         Proposals get stuck sometimes. All we gotta do is remove faulty proposals from the proposal queue, and re-submit
         a valid proposal.{' '}
       </Text>
@@ -112,18 +123,6 @@ export default function Escape({ setProposal }) {
             <Select.Item value={0}>Select</Select.Item>
             {dropdown}
           </Select>
-        </FormElement>
-
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
         </FormElement>
         <Flex gap="sm" align="end" effect="glow">
           <FileUploader setFile={setFile} />

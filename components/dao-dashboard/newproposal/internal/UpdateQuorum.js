@@ -70,7 +70,13 @@ export default function UpdateQuorum({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      {/* <Text>Update proposal voting period</Text> */}
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Update participation required for a proposal to pass.
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current Quorum</Label>
@@ -80,21 +86,6 @@ export default function UpdateQuorum({ setProposal }) {
           <Label htmlFor="recipient">New quorum</Label>
           <Input name="recipient" type="number" defaultValue={quorum} onChange={(e) => setQuorum(e.target.value)} />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>

@@ -11,6 +11,7 @@ import { fetchDocs } from '../../../../utils/fetchDocs'
 import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
 import Back from '../../../../styles/proposal/Back'
 
+// Move to DAO settings UI
 export default function UpdateDocs({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao

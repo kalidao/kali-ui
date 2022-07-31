@@ -3,7 +3,7 @@ import * as LabelPrimitive from '@radix-ui/react-label'
 
 export const Label = styled(LabelPrimitive.Root, {
   fontSize: '16px',
-  fontWeight: 500,
+  fontWeight: 600,
   fontFamily: 'Regular',
   lineHeight: '1.2',
   color: '$gray12',

@@ -136,7 +136,11 @@ export default function Tribute() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
         Make a tribute in form of ETH, token or NFT to join <i>{daoName}</i>.
       </Text>
       <Form>
@@ -185,20 +189,6 @@ export default function Tribute() {
             onChange={(e) => setRequestAmount(e.target.value)}
           />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Description</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

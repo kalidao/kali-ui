@@ -83,7 +83,13 @@ export default function SendErc721({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send an ERC721 from {daoName} treasury</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Send an ERC721 from {daoName} treasury
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">ERC721 Contract Address</Label>
@@ -102,20 +108,6 @@ export default function SendErc721({ setProposal }) {
           <Label htmlFor="recipient">Recipient</Label>
           <Input name="recipient" type="text" defaultValue={recipient} onChange={(e) => setRecipient(e.target.value)} />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('sendMenu')} />
         <Button onClick={submit}>Submit</Button>

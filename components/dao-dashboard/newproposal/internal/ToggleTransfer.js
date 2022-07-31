@@ -72,26 +72,18 @@ export default function ToggleTransfer({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Submit proposal to pause or unpause DAO token transferability. </Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Submit proposal to pause or unpause DAO token transferability.{' '}
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Is token transferable?</Label>
           {paused ? <Text>No</Text> : <Text>Yes</Text>}
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
