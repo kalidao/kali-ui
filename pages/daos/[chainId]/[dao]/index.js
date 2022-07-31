@@ -34,7 +34,12 @@ export default function DaoHomePage({ proposals, crowdsale }) {
   )
 
   return (
-    <Layout heading={isLoading ? 'DAO' : data} crowdsale={crowdsale} content="Create or vote on a proposal.">
+    <Layout
+      heading={isLoading ? 'DAO' : data}
+      crowdsale={crowdsale}
+      content="Create or vote on a proposal."
+      back={true}
+    >
       <Home proposals={proposals} />
     </Layout>
   )

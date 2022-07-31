@@ -1,6 +1,5 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import NewProposal from './NewProposal'
 import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
 import { styled } from '../../../../styles/stitches.config'
@@ -9,7 +8,7 @@ import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
 import { GiCoins } from 'react-icons/gi'
 import { HiHome } from 'react-icons/hi'
 import { FaPen } from 'react-icons/fa'
-
+import { GearIcon } from '@radix-ui/react-icons'
 const Icon = styled('span', {
   display: 'flex',
   justifyContent: 'center',
@@ -62,9 +61,15 @@ export default function Sidebar({ crowdsale }) {
       active: true,
     },
     {
-      link: 'info',
-      label: 'Info',
+      link: 'analytics',
+      label: 'Analytics',
       icon: <RiInformationFill />,
+      active: true,
+    },
+    {
+      link: 'settings',
+      label: 'Settings',
+      icon: <GearIcon />,
       active: true,
     },
     {
