@@ -41,8 +41,19 @@ export default function TreasuryPage() {
       mounted = false
     }
   }, [daoAddress])
+
   return (
     <Layout heading={`Treasury`} content="Look at the treasury analytics for the DAO.">
+      <Flex css={{
+          padding: '10px',
+          height: '100vh',
+          maxWidth: '80vw',
+          color: '$gray12',
+          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          gap: '10px',
+          justifyContent: 'flex-start',
+  
+        }}>
       <Tabs defaultValue="token">
         <TabsList>
           <TabsTrigger value="token">Tokens</TabsTrigger>
@@ -55,6 +66,7 @@ export default function TreasuryPage() {
           <NFTs nftBalance={nftBalance ? nftBalance['result'] : null} />
         </TabsContent>
       </Tabs>
+      </Flex>
     </Layout>
   )
 }
