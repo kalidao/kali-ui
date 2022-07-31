@@ -60,12 +60,13 @@ export default function Sidebar({ crowdsale }) {
       icon: <BsFillPeopleFill />,
       active: true,
     },
-    {
-      link: 'analytics',
-      label: 'Analytics',
-      icon: <RiInformationFill />,
-      active: true,
-    },
+    // TODO: Add analytics
+    // {
+    //   link: 'analytics',
+    //   label: 'Analytics',
+    //   icon: <RiInformationFill />,
+    //   active: true,
+    // },
     {
       link: 'settings',
       label: 'Settings',

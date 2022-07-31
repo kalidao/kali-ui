@@ -43,12 +43,12 @@ export const getServerSideProps = async (context) => {
     }),
   })
   const data = await res.json()
-  
+
   return {
     props: {
       members: data?.data.daos[0],
       votes: data?.data.votes,
-      proposals: data?.data.proposals
+      proposals: data?.data.proposals,
     },
   }
 }
@@ -56,7 +56,7 @@ export const getServerSideProps = async (context) => {
 export default function MembersPage({ members, votes, proposals }) {
   const router = useRouter()
   const { chainId, dao } = router.query
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState(null)
   // const members = data && data['daos'][0]
   // if (loading) return "Loading..."
   console.log('members {} votes {} proposals {}', members, votes, proposals)
@@ -66,16 +66,10 @@ export default function MembersPage({ members, votes, proposals }) {
     [members],
   )
 
-  const memberVotes = useMemo(
-    () => votes.filter((p) => p.voter == member?.address),
-    [votes, member]
-  )
+  const memberVotes = useMemo(() => votes.filter((p) => p.voter == member?.address), [votes, member])
 
-  const memberProposals = useMemo(
-    () => proposals.filter((p) => p.proposer == member?.address),
-    [proposals, member]
-  )
-  
+  const memberProposals = useMemo(() => proposals.filter((p) => p.proposer == member?.address), [proposals, member])
+
   console.log('memberVotes', memberVotes)
   console.log('memberProposals', memberProposals)
   // const memberProposals = proposals.length
@@ -83,20 +77,26 @@ export default function MembersPage({ members, votes, proposals }) {
   useEffect(() => {
     setMember(list[0])
   }, [list])
-  
+
   return (
     <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Flex css={{
-          height: '100vh',
+      <Flex
+        css={{
+          height: '100%',
           maxWidth: '80vw',
           color: '$gray12',
           borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
           gap: '10px',
           justifyContent: 'flex-start',
-  
-        }}>
-          <MembersList members={list} active={member} setActive={setMember}/>
-          <MemberProfile member={member} proposals={memberProposals} votes={memberVotes} totalSupply={members?.token?.totalSupply} />
+        }}
+      >
+        <MembersList members={list} active={member} setActive={setMember} />
+        <MemberProfile
+          member={member}
+          proposals={memberProposals}
+          votes={memberVotes}
+          totalSupply={members?.token?.totalSupply}
+        />
       </Flex>
     </Layout>
   )

@@ -11,46 +11,50 @@ export default function Timeline({ proposals }) {
   )
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        color: '$gray12',
-        borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
-        borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
-        minWidth: '55rem',
-      }}
-    >
-      <Text
-        color="foreground"
+    <Flex gap="md" dir="col">
+      <Flex
+        dir="col"
+        gap="md"
         css={{
-          fontFamily: 'Regular',
-          padding: '10px 0px 0px 10px',
-          fontSize: '24px',
+          color: '$gray12',
+          borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
+          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
+          minWidth: '55rem',
+          height: 'fit-content',
         }}
       >
-        Proposals
-      </Text>
-      <Flex dir="col">
-        <NewProposalCard />
-        {memoizedProposals.length > 0 ? (
-          memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)
-        ) : (
-          <Flex
-            dir="col"
-            gap="sm"
-            css={{
-              padding: '1rem 0.5rem 1rem 0.5rem',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-              borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
-              fontFamily: 'Regular',
-            }}
-          >
-            We couldn't find any proposals for this DAO. Make one now.
-          </Flex>
-        )}
+        <Text
+          color="foreground"
+          css={{
+            fontFamily: 'Regular',
+            padding: '10px 0px 0px 10px',
+            fontSize: '24px',
+          }}
+        >
+          Proposals
+        </Text>
+        <Flex dir="col">
+          <NewProposalCard />
+          {memoizedProposals.length > 0 ? (
+            memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)
+          ) : (
+            <Flex
+              dir="col"
+              gap="sm"
+              css={{
+                padding: '1rem 0.5rem 1rem 0.5rem',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
+                borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+                fontFamily: 'Regular',
+              }}
+            >
+              We couldn't find any proposals for this DAO. Make one now.
+            </Flex>
+          )}
+        </Flex>
       </Flex>
     </Flex>
   )

@@ -17,24 +17,28 @@ export default function MemberCard({ member, active, setActive }) {
 
   // TODO:
   //  - Add profile image
-  console.log('ens', ensName, )
-  
+  console.log('ens', ensName)
+
   return (
-        <Flex as="button" key={member?.address} gap="md" css={{
-          all: 'unset',
-          flexDirection: 'row',
-          alignItems: "center",
-          justifyContent: "space-between",
-          fontFamily: 'Regular',
-          background: active ? '$violet3' : '$gray2',
-          padding: '10px 20px',
-          border: '1px solid $gray3',
-          color: '$gray12'
+    <Flex
+      as="button"
+      key={member?.address}
+      gap="md"
+      css={{
+        all: 'unset',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontFamily: 'Regular',
+        background: active ? '$violet3' : '$gray2',
+        padding: '10px 20px',
+        border: '1px solid $gray3',
+        color: '$gray12',
       }}
-        onClick={() => setActive(member)}
-      >
-          <Text>{(isLoading || ensName === null) ? truncateAddress(member?.address) : ensName}</Text> 
-          <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
-      </Flex>
+      onClick={() => setActive(member)}
+    >
+      <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
+      <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
+    </Flex>
   )
 }
