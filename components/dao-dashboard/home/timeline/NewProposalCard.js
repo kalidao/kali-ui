@@ -8,46 +8,53 @@ export default function NewProposalTrigger() {
   const { chainId, dao } = router.query
 
   return (
-    <Link href={{
+    <Link
+      href={{
         pathname: '/daos/[chainId]/[dao]/propose',
         query: {
-            dao: dao,
-            chainId: chainId
-        }
-    }} passHref>
-    <Flex
-      dir="row"
-      gap="sm"
-      css={{
-        flexDirection: 'row',
-        padding: '1rem 0.5rem 1rem 0.5rem',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        gap: '5px',
-        borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-        borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
-        fontFamily: 'Regular',
-        '&:hover': {
-          background: '$violet2',
+          dao: dao,
+          chainId: chainId,
         },
       }}
+      passHref
     >
       <Flex
-        dir="col"
-        gap="md"
-        minWidth="10%"
-        height="100%"
+        dir="row"
+        gap="sm"
         css={{
-          paddingRight: '1rem',
+          flexDirection: 'row',
+          padding: '1rem 0.5rem 1rem 0.5rem',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: '5px',
+          borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
+          borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+          fontFamily: 'Regular',
+          '&:hover': {
+            background: '$violet2',
+          },
         }}
       >
-        <FaPen />
+        <Flex
+          dir="col"
+          gap="md"
+          minWidth="10%"
+          height="100%"
+          css={{
+            paddingRight: '1rem',
+          }}
+        >
+          <FaPen />
+        </Flex>
+
+        <Text
+          css={{
+            fontSize: '16px',
+          }}
+        >
+          Create New Proposal
+        </Text>
       </Flex>
-     
-     <Text css={{
-        fontSize: '16px'
-     }}>Create New Proposal</Text>
-    </Flex>
     </Link>
   )
 }

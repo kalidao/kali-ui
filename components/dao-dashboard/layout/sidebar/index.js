@@ -5,10 +5,7 @@ import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
 import { styled } from '../../../../styles/stitches.config'
 import { RiInformationFill } from 'react-icons/ri'
-import {
-  BsPiggyBank,
-  BsFillPeopleFill,
-} from 'react-icons/bs'
+import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
 import { GiCoins } from 'react-icons/gi'
 import { HiHome } from 'react-icons/hi'
 import { FaPen } from 'react-icons/fa'
@@ -44,25 +41,25 @@ export default function Sidebar({ crowdsale }) {
       link: '',
       label: 'Home',
       icon: <HiHome />,
-      active: true
+      active: true,
     },
     {
       link: 'crowdsale',
       label: 'Sale',
       icon: <GiCoins />,
-      active: crowdsale?.active
+      active: crowdsale?.active,
     },
     {
       link: 'treasury',
       label: 'Treasury',
       icon: <BsPiggyBank />,
-      active: true
+      active: true,
     },
     {
       link: 'members',
       label: 'Members',
       icon: <BsFillPeopleFill />,
-      active: true
+      active: true,
     },
     {
       link: 'info',
@@ -87,7 +84,7 @@ export default function Sidebar({ crowdsale }) {
         flexDirection: 'column',
         gap: '10px',
         height: '100%',
-      
+
         '@media (max-width: 640px)': {
           position: 'fixed',
           padding: '0',
@@ -98,14 +95,15 @@ export default function Sidebar({ crowdsale }) {
           height: '8rem',
           background: '$gray2',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
         },
       }}
     >
-      {items.filter(item => item.active === true).map((item) => (
-        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
-      ))}
-      
+      {items
+        .filter((item) => item.active === true)
+        .map((item) => (
+          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
+        ))}
     </Flex>
   )
 }
@@ -121,25 +119,25 @@ const Item = ({ link, label, icon, chainId, dao }) => {
     >
       <Flex
         css={{
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: '5px',
-        borderRadius: '20px',
-        color: '$gray12',
-        padding: '5px',
-        width: '8rem',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          gap: '5px',
+          borderRadius: '20px',
+          color: '$gray12',
+          padding: '5px',
+          width: '8rem',
 
-        '&:hover': {
-          background: '$gray2',
-        },
-        '@media (max-width: 640px)': {
-          borderRadius: '100%',
-          justifyContent: 'center',
-          height: '24px',
-          width: '24px',
-          padding: '10px'
-        },
-      }}
+          '&:hover': {
+            background: '$gray2',
+          },
+          '@media (max-width: 640px)': {
+            borderRadius: '100%',
+            justifyContent: 'center',
+            height: '24px',
+            width: '24px',
+            padding: '10px',
+          },
+        }}
       >
         <Icon>{icon}</Icon>
         <Text
@@ -148,7 +146,7 @@ const Item = ({ link, label, icon, chainId, dao }) => {
             fontSize: '16px',
 
             '@media (max-width: 640px)': {
-              display: 'none'
+              display: 'none',
             },
           }}
         >

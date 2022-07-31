@@ -12,15 +12,19 @@ export default function DaoLayout({ heading, crowdsale, children, props }) {
           left: '0',
           right: '0',
           maxWidth: '100vw',
-          justifyContent: 'space-evenly'
+          justifyContent: 'space-evenly',
         }}
       >
         <Sidebar />
-        <Flex css={{
-          width: '75vw',
-          position: 'relative',
-          height: '100vh'
-        }}>{children}</Flex>
+        <Flex
+          css={{
+            width: '75vw',
+            position: 'relative',
+            height: '100vh',
+          }}
+        >
+          {children}
+        </Flex>
       </Flex>
     </Layout>
   )

@@ -40,7 +40,7 @@ export default function NewProposal() {
               justifyContent: 'center',
               height: '24px',
               width: '24px',
-              padding: '10px'
+              padding: '10px',
             },
           }}
         >
@@ -53,7 +53,7 @@ export default function NewProposal() {
               fontSize: '16px',
 
               '@media (max-width: 640px)': {
-                display: 'none'
+                display: 'none',
               },
             }}
           >

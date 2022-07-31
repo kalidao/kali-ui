@@ -30,6 +30,8 @@
     "@rainbow-me/rainbowkit": "^0.2.4",
     "@react-pdf/renderer": "^2.1.0",
     "@stitches/react": "^1.2.8",
+    "@tiptap/react": "^2.0.0-beta.114",
+    "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@walletconnect/web3-provider": "^1.7.1",
     "@web3auth/web3auth": "^1.0.0",
     "emailjs-com": "^3.2.0",

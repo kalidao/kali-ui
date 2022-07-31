@@ -26,7 +26,7 @@ export default function Timeline({ proposals }) {
         css={{
           fontFamily: 'Regular',
           padding: '10px 0px 0px 10px',
-          fontSize: '24px'
+          fontSize: '24px',
         }}
       >
         Proposals
@@ -36,19 +36,19 @@ export default function Timeline({ proposals }) {
         {memoizedProposals.length > 0 ? (
           memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)
         ) : (
-          <Flex 
-          dir="col"
-          gap="sm"
-          css={{
-            padding: '1rem 0.5rem 1rem 0.5rem',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-            borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
-            fontFamily: 'Regular',
-          }}
-        >   
-              We couldn't find any proposals for this DAO. Make one now.
+          <Flex
+            dir="col"
+            gap="sm"
+            css={{
+              padding: '1rem 0.5rem 1rem 0.5rem',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
+              borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+              fontFamily: 'Regular',
+            }}
+          >
+            We couldn't find any proposals for this DAO. Make one now.
           </Flex>
         )}
       </Flex>

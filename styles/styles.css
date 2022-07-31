@@ -1,0 +1,36 @@
+.ProseMirror {
+    width: 79vw;
+    min-height: 5rem;
+    background: #1c1c1c;
+    outline: 1px solid #232323;
+    color: #ededed;
+    padding: 8px;
+    border-radius: 10px;
+    font-family: 'Regular';
+}
+
+.ProseMirror:hover {
+    outline: 1px solid #282828;
+}
+
+.ProseMirror:focus-visible {
+    outline: none;
+    outline: 1px solid #282828;
+}
+
+
+/* 
+const grayDark = {
+    gray1: '#161616',
+    gray2: '#1c1c1c',
+    gray3: '#232323',
+    gray4: '#282828',
+    gray5: '#2e2e2e',
+    gray6: '#343434',
+    gray7: '#3e3e3e',
+    gray8: '#505050',
+    gray9: '#707070',
+    gray10: '#7e7e7e',
+    gray11: '#a0a0a0',
+    gray12: '#ededed',
+  } */

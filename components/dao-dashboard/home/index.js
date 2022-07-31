@@ -8,7 +8,7 @@ export default function Dashboard({ proposals }) {
     <Flex
       css={{
         gap: '10px',
-  
+
         '@media (max-width: 640px)': {
           flexDirection: 'column-reverse',
         },
