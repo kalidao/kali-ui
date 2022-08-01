@@ -146,6 +146,7 @@ export default function CallContract({ setProposal }) {
         console.log('error', e)
       }
     } catch (e) {
+      console.log('error', e)
       setWarning('Supplied inputs do not match the required input type.')
     }
   }
