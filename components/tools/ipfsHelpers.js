@@ -1,5 +1,6 @@
 import fleek from '@fleekhq/fleek-storage-js'
 import fleekStorage from '@fleekhq/fleek-storage-js'
+import { ethers } from 'ethers'
 
 // ----- Pre-DAO Deployment -----
 
@@ -90,4 +91,89 @@ export async function fetchCrowdsaleTermsHash(name, summoner) {
     console.log('Error retrieving terms.')
   }
   return hash
+}
+
+export async function uploadVoteSignature(dao, chainId, proposal, approval, user, signature) {
+  console.log(dao, proposal, user, signature)
+  const voteData = {
+    dao: dao,
+    chain: chainId,
+    proposal: proposal,
+    approval: approval,
+    user: user,
+    signature: signature,
+  }
+  const data = JSON.stringify(voteData)
+
+  const input = {
+    apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+    apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+    bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+    key: 'Vote Signature by ' + user + ' for ' + dao + ' proposal ' + proposal,
+    data: data,
+    httpUploadProgressCallback: (event) => {
+      console.log(Math.round((event.loaded / event.total) * 100) + '% done')
+    },
+  }
+
+  try {
+    const result = await fleek.upload(input)
+    console.log('Image hash from Fleek: ' + result.hash)
+    return result.hash
+  } catch (e) {
+    console.log(e)
+    console.log('Something wrong with Fleek upload.')
+  }
+}
+
+export async function fetchVoteSignature(dao, proposal, user) {
+  console.log(dao, proposal, user)
+  let sig
+  try {
+    const hash_ = await fleekStorage.get({
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+      bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+      key: 'Vote Signature by ' + user + ' for ' + dao + ' proposal ' + proposal,
+      getOptions: ['hash'],
+    })
+    // console.log(hash_)
+    if (hash_.hash) {
+      console.log('vote ssig hash', hash_.hash)
+      const url = 'https://ipfs.io/ipfs/' + hash_.hash
+      console.log(url)
+      let response = await fetch(url)
+      // console.log(response)
+      let json = await response.json()
+
+      return json
+    } else {
+      sig = 'none'
+    }
+  } catch (e) {
+    console.log(e)
+    console.log('Error retrieving vote signatures.')
+  }
+}
+
+export async function fetchVoteSignatures(dao, proposal, members) {
+  let votes = []
+
+  for (let i = 0; i < members.length; i++) {
+    try {
+      const json = await fetchVoteSignature(dao, proposal, ethers.utils.getAddress(members[i]))
+      if (json) {
+        const vote = {
+          member: members[i],
+          signature: json.signature,
+          approval: json.approval,
+        }
+        // console.log(vote)
+        votes.push(vote)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  return votes
 }
