@@ -14,7 +14,8 @@ export const getServerSideProps = async (context) => {
   // crowdsale is undefined if the DAO never had a crowdsale
   return {
     props: {
-      proposals: proposals?.data?.daos?.[0]?.['proposals'] === undefined ? null : proposals?.data?.daos?.[0]?.['proposals'],
+      proposals:
+        proposals?.data?.daos?.[0]?.['proposals'] === undefined ? null : proposals?.data?.daos?.[0]?.['proposals'],
       crowdsale: crowdsale?.data?.crowdsales[0] === undefined ? null : crowdsale?.data?.crowdsales[0],
     },
   }
