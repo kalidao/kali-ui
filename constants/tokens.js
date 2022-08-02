@@ -35,6 +35,24 @@ export const tokens = {
       decimals: 6
     }*/,
   },
+  5: {
+    // DAI: {
+    //   address: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa',
+    //   decimals: 18,
+    // },
+    USDC: {
+      address: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
+      decimals: 6,
+    },
+    WETH: {
+      address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+      decimals: 18,
+    } /*
+    USDT: {
+      address: "0xC1f759356384BbFC4e4275CF0237fe893989C81D",
+      decimals: 6
+    }*/,
+  },
   137: {
     DAI: {
       address: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
