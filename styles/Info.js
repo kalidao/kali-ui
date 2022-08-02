@@ -32,6 +32,7 @@ export default function Info({ heading, children, props }) {
           minWidth: '15rem',
           overflow: 'hidden',
           padding: '1rem',
+          fontFamily: 'Regular',
         }}
       >
         {children}

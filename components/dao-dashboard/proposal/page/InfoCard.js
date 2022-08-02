@@ -11,14 +11,20 @@ export default function InfoCard({ start, votingPeriod }) {
   console.log('date', start, votingPeriod, end)
   return (
     <Info heading="Details">
-      <Flex align="separate">
-        <Text>Start Date:</Text>
-        {startDate}
-      </Flex>
-      <Flex align="separate">
-        <Text>End Date:</Text>
-        {endDate}
-      </Flex>
+      {start == 0 ? (
+        "Voting hasn't started yet. Sponsor the proposal to start voting!"
+      ) : (
+        <>
+          <Flex align="separate">
+            <Text>Start Date:</Text>
+            {startDate}
+          </Flex>
+          <Flex align="separate">
+            <Text>End Date:</Text>
+            {endDate}
+          </Flex>
+        </>
+      )}
     </Info>
   )
 }
