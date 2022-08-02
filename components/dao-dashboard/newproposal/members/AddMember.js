@@ -6,11 +6,11 @@ import { Form, FormElement, Label, Input } from '../../../../styles/form-element
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import { createProposal } from '../../../tools/createProposal'
 import Back from '../../../../styles/proposal/Back'
 import { AddressZero } from '@ethersproject/constants'
 
-export default function AddMember({ setProposal }) {
+export default function AddMember({ setProposal, editor, title }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -23,6 +23,7 @@ export default function AddMember({ setProposal }) {
   })
 
   // form
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [recipient, setRecipient] = useState(null)
   const [amount, setAmount] = useState(null)
   const [description, setDescription] = useState('')
@@ -31,24 +32,27 @@ export default function AddMember({ setProposal }) {
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
-    amount = ethers.utils.parseEther(amount).toString()
+    let amt = ethers.utils.parseEther(amount).toString()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Add Member Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 0, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
-    console.log('Proposal Params - ', 0, docs, [recipient], [amount], [Array(0)])
+    console.log('Proposal Params - ', 0, docs, [recipient], [amt], [Array(0)])
 
     try {
-      const tx = await kalidao.propose(0, docs, [recipient], [amount], [Array(0)])
+      const tx = await kalidao.propose(0, docs, [recipient], [amt], [Array(0)])
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }
+    setIsSubmitting(false)
   }
 
   return (
@@ -83,7 +87,7 @@ export default function AddMember({ setProposal }) {
         </FormElement>
         <Back onClick={() => setProposal('membersMenu')} />
         <Button variant="cta" onClick={submit}>
-          Submit
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
       </Form>
     </Flex>

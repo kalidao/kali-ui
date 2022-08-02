@@ -19,7 +19,7 @@ import { AssetMenu } from './mint'
 import MintArt from './mint/MintArt'
 import MintReal from './mint/MintReal'
 
-export function NewProposalModal({ proposalProp }) {
+export function NewProposalModal({ proposalProp, editor, title }) {
   const [view, setView] = useState(proposalProp)
 
   const proposals = {
@@ -53,53 +53,53 @@ export function NewProposalModal({ proposalProp }) {
     addMember: {
       // done
       title: 'Add Member',
-      component: <AddMember setProposal={setView} />,
+      component: <AddMember setProposal={setView} editor={editor} title={title} />,
     },
     removeMember: {
       // done
       title: 'Remove Member',
-      component: <RemoveMember setProposal={setView} />,
+      component: <RemoveMember setProposal={setView} editor={editor} title={title} />,
     },
     addMemberWithVesting: {
       title: 'Add Member with Vesting',
-      component: <ManageMembership setProposal={setView} />,
+      component: <ManageMembership setProposal={setView} editor={editor} title={title} />,
     },
     quit: {
       // done
       title: 'Redeem and Quit',
-      component: <Redeem setProposal={setView} />,
+      component: <Redeem setProposal={setView} editor={editor} title={title} />,
     },
     // Send Menu
     eth: {
       // done
       title: 'Send ETH',
-      component: <SendEth setProposal={setView} />,
+      component: <SendEth setProposal={setView} editor={editor} title={title} />,
     },
     erc20: {
       // done
       title: 'Send ERC20',
-      component: <SendErc20 setProposal={setView} />,
+      component: <SendErc20 setProposal={setView} editor={editor} title={title} />,
     },
     erc721: {
       //donef
       title: 'Send ERC721',
-      component: <SendErc721 setProposal={setView} />,
+      component: <SendErc721 setProposal={setView} editor={editor} title={title} />,
     },
     // Gov Menu
     transferability: {
       // done
       title: 'Toggle Transferability',
-      component: <ToggleTransfer setProposal={setView} />,
+      component: <ToggleTransfer setProposal={setView} editor={editor} title={title} />,
     },
     votingPeriod: {
       // done
       title: 'Update Voting Period',
-      component: <UpdateVotingPeriod setProposal={setView} />,
+      component: <UpdateVotingPeriod setProposal={setView} editor={editor} title={title} />,
     },
     quorum: {
       // done
       title: 'Update Quorum',
-      component: <UpdateQuorum setProposal={setView} />,
+      component: <UpdateQuorum setProposal={setView} editor={editor} title={title} />,
     },
     // Create Asset Menu
     // FIXME: Commenting out till fixed
@@ -109,49 +109,49 @@ export function NewProposalModal({ proposalProp }) {
     // },
     real: {
       title: 'Mint real estate NFT',
-      component: <MintReal setProposal={setView} />,
+      component: <MintReal setProposal={setView} editor={editor} title={title} />,
     },
     // Admin Menu
     manager: {
       title: 'Configure Extensions',
-      component: <ConfigureExtensions setProposal={setView} />,
+      component: <ConfigureExtensions setProposal={setView} editor={editor} title={title} />,
     },
     docs: {
       // done
       title: 'Update Documentation',
-      component: <UpdateDocs setProposal={setView} />,
+      component: <UpdateDocs setProposal={setView} editor={editor} title={title} />,
     },
     escape: {
       // done
       title: 'Kill a Proposal',
-      component: <Escape setProposal={setView} />,
+      component: <Escape setProposal={setView} editor={editor} title={title} />,
     },
     call: {
       // done
       title: 'Interact with External Contracts',
-      component: <CallContract setProposal={setView} />,
+      component: <CallContract setProposal={setView} editor={editor} title={title} />,
     },
     // Membership Menu
     crowdsale: {
       title: 'Set Crowdsale Rules',
-      component: <SetCrowdsale setProposal={setView} />,
+      component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     redemption: {
-      // need to add token approval/allowance logic at submission
+      // TODO: need to add token approval/allowance logic at submission (added by proposal)
       title: 'Set Redemption Rules',
-      component: <SetRedemption setProposal={setView} />,
+      component: <SetRedemption setProposal={setView} editor={editor} title={title} />,
     },
     crowdsaleWithVesting: {
       title: 'Crowdsale with Vesting',
-      component: <SetCrowdsale setProposal={setView} />,
+      component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     tributeWithVesting: {
       title: 'Tribute with Vesting',
-      component: <SetCrowdsale setProposal={setView} />,
+      component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     tribute: {
       title: 'Tribute',
-      component: <Tribute setProposal={setView} />,
+      component: <Tribute setProposal={setView} editor={editor} title={title} />,
     },
   }
 

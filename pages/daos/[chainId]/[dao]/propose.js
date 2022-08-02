@@ -1,10 +1,26 @@
+import { useState } from 'react'
 import Layout from '../../../../components/dao-dashboard/layout/'
 import { Flex, Button } from '../../../../styles/elements'
 import { Label, Input } from '../../../../styles/form-elements'
 import Editor from '../../../../components/editor'
 import { NewProposalModal } from '../../../../components/dao-dashboard/newproposal'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import styles from '../../../../components/editor/editor.module.css'
 
 export default function ProposePage() {
+  const [title, setTitle] = useState(null)
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        HTMLAttributes: {
+          class: styles.editor,
+        },
+      }),
+    ],
+    content: '<p>Describe your proposal now.</p>',
+    injectCSS: false,
+  })
   return (
     <Layout heading={'Propose'} content="Create a proposal.">
       <Flex
@@ -24,6 +40,7 @@ export default function ProposePage() {
           <Label>Title</Label>
           <Input
             name="id"
+            onChange={(e) => setTitle(e.target.value)}
             css={{
               minWidth: '39vw',
             }}
@@ -31,11 +48,11 @@ export default function ProposePage() {
         </Flex>
         <Flex dir="col" gap="sm">
           <Label>Description (Optional)</Label>
-          <Editor />
+          <Editor editor={editor} />
         </Flex>
         <Flex dir="col" gap="sm">
           <Label>Executables</Label>
-          <NewProposalModal proposalProp="menu" />
+          <NewProposalModal proposalProp="menu" editor={editor} title={title} />
         </Flex>
       </Flex>
     </Layout>
