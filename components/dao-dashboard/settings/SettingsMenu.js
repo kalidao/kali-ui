@@ -9,6 +9,8 @@ export default function SettingsMenu({ setting, setSetting }) {
         borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
         width: '20vw',
         height: '100%',
+        fontFamily: 'Regular',
+        color: '$gray12',
       }}
     >
       {items.map((item) => (

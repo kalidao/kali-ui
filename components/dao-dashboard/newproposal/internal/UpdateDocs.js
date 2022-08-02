@@ -71,10 +71,19 @@ export default function UpdateDocs({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '60vw',
+        fontFamily: 'Regular',
+      }}
+    >
       <Text>New documentation will be uploaded to IPFS</Text>
       <Form>
         <FormElement>
+          {/* FIXME: Is not fetching  */}
           <Label htmlFor="recipient">Current Document</Label>
           {prevDoc != 'none' ? (
             <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">

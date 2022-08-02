@@ -12,7 +12,7 @@ import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
 import Spinner from '../../../elements/Spinner'
 import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateVotingPeriod({ setProposal }) {
+export default function UpdateVotingPeriod({ setView }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const { data: signer } = useSigner()
@@ -72,7 +72,16 @@ export default function UpdateVotingPeriod({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '60vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
       <Text>Update proposal voting period</Text>
       <Form>
         <FormElement>
@@ -85,6 +94,7 @@ export default function UpdateVotingPeriod({ setProposal }) {
             name="recipient"
             type="number"
             min="0"
+            placeholder="30"
             defaultValue={duration}
             onChange={(e) => setDuration(e.target.value)}
           />
@@ -98,7 +108,6 @@ export default function UpdateVotingPeriod({ setProposal }) {
           </Select>
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

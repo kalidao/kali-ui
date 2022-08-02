@@ -9,7 +9,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateQuorum({ setProposal }) {
+export default function UpdateQuorum({ setView }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -69,7 +69,16 @@ export default function UpdateQuorum({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '60vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
       <Text
         css={{
           fontFamily: 'Regular',
@@ -79,15 +88,20 @@ export default function UpdateQuorum({ setProposal }) {
       </Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Current Quorum</Label>
+          <Label htmlFor="recipient">Current</Label>
           <Text>{currentQuorum}%</Text>
         </FormElement>
         <FormElement>
-          <Label htmlFor="recipient">New quorum</Label>
-          <Input name="recipient" type="number" defaultValue={quorum} onChange={(e) => setQuorum(e.target.value)} />
+          <Label htmlFor="recipient">Changing to</Label>
+          <Input
+            name="recipient"
+            placeholder="20"
+            type="number"
+            defaultValue={quorum}
+            onChange={(e) => setQuorum(e.target.value)}
+          />
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

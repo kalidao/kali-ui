@@ -16,6 +16,7 @@ export default function Setting({ setting }) {
       css={{
         width: '80vw',
         height: '100%',
+        borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
       }}
     >
       {render}

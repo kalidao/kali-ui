@@ -14,6 +14,7 @@ import ToggleTransfer from './ToggleTransfer'
 import UpdateDocs from './UpdateDocs'
 import UpdateQuorum from './UpdateQuorum'
 import UpdateVotingPeriod from './UpdateVotingPeriod'
+import GovMenu from './GovMenu'
 import Back from '../../../../styles/proposal/Back'
 import { ShuffleIcon } from '@radix-ui/react-icons'
 
@@ -58,4 +59,5 @@ export {
   UpdateDocs,
   UpdateQuorum,
   UpdateVotingPeriod,
+  GovMenu,
 }

@@ -1,14 +1,14 @@
 import { Flex } from '../../../styles/elements'
+import { UpdateDocs } from '../newproposal/internal'
 
 export default function LegalSettings() {
   return (
     <Flex
       css={{
-        background: '$cyan12',
         width: '100%',
       }}
     >
-      Legal
+      <UpdateDocs />
     </Flex>
   )
 }
