@@ -6,7 +6,7 @@ import { ProposalCard } from './ProposalCard'
 export default function Proposals({ proposals }) {
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
-    () => proposals.sort((a, b) => b.serial - a.serial).filter((p) => !(p.cancelled == true)),
+    () => proposals?.sort((a, b) => b.serial - a.serial).filter((p) => !(p.cancelled == true)),
     [proposals],
   )
 
@@ -22,7 +22,7 @@ export default function Proposals({ proposals }) {
         Proposals
       </Text>
       <Flex dir="col">
-        {memoizedProposals.length > 0 ? (
+        {memoizedProposals?.length > 0 ? (
           memoizedProposals.map((proposal) => <ProposalCard key={proposal['id']} proposal={proposal} />)
         ) : (
           <Flex gap="sm" align="center">
