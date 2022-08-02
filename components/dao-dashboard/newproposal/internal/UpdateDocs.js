@@ -12,7 +12,7 @@ import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
 import Back from '../../../../styles/proposal/Back'
 
 // Move to DAO settings UI
-export default function UpdateDocs({ setProposal }) {
+export default function UpdateDocs() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -110,7 +110,6 @@ export default function UpdateDocs({ setProposal }) {
           <FileUploader setFile={setNewDocFile} />
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
