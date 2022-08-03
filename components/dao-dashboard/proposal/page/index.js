@@ -14,12 +14,16 @@ import Process from '../Process'
 import { willProcess } from '../helpers'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
+import { useFetch } from '../../../hooks/useFetch'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data: account } = useAccount()
+  const { data: details, isLoading, error } = useFetch(
+    `https://${proposal?.description}.ipfs.dweb.link/`,
+  )
 
   const canProcess = () => {
     const timeLeft =
@@ -35,6 +39,7 @@ export default function ProposalView({ proposal }) {
     return false
   }
 
+  console.log('proposal details', details, isLoading, error)
   return (
     <Flex
       dir="col"
@@ -45,7 +50,7 @@ export default function ProposalView({ proposal }) {
         gap: '1rem',
       }}
     >
-      <Text variant="heading">{proposal && <Tag type={proposal['proposalType']} />}</Text>
+      <Text variant="heading">{details && details?.title}</Text>
       <InfoBar proposal={proposal} />
       <Flex
         gap="md"
@@ -60,7 +65,7 @@ export default function ProposalView({ proposal }) {
             minWidth: '50vw',
           }}
         >
-          {proposal && <Description description={proposal['description']} />}
+          {proposal && <Description description={details ? details?.description : proposal?.description} isSchema={details ? true : false} />}
         </Box>
         <Flex dir="col" gap="md">
           {proposal && <InfoCard start={proposal['votingStarts']} votingPeriod={proposal['dao']['votingPeriod']} />}
