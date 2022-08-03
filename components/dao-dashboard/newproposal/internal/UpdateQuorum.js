@@ -8,11 +8,28 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import styles from '../../../editor'
+import Editor from '../../../editor'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function UpdateQuorum({ setProposal }) {
+export default function UpdateQuorum({ setView }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
+  const [title, setTitle] = useState(null)
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        HTMLAttributes: {
+          class: styles.editor,
+        },
+      }),
+    ],
+    content: '',
+    injectCSS: false,
+  })
   const { data: currentQuorum } = useContractRead(
     {
       addressOrName: daoAddress,
@@ -34,21 +51,21 @@ export default function UpdateQuorum({ setProposal }) {
   // form
   const [quorum, setQuorum] = useState(null)
   const [warning, setWarning] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Quorum Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChain, 5, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      setWarning('There was an error in submitting this proposal.')
+      return
     }
 
-    console.log('Proposal Params - ', 2, docs, [AddressZero], [quorum], [Array(0)])
+    console.log('Proposal Params - ', 5, docs, [AddressZero], [quorum], [Array(0)])
 
     if (quorum) {
       try {
@@ -69,34 +86,55 @@ export default function UpdateQuorum({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      {/* <Text>Update proposal voting period</Text> */}
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '40vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
+      <Flex dir="col" gap="sm">
+        <Label>Title</Label>
+        <Input
+          name="id"
+          maxLength={30}
+          placeholder={'Proposal for...'}
+          onChange={(e) => setTitle(e.target.value)}
+          css={{
+            minWidth: '39vw',
+          }}
+        />
+      </Flex>
+      <Flex dir="col" gap="sm">
+        <Label>Description (Optional)</Label>
+        <Editor editor={editor} />
+      </Flex>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Update participation required for a proposal to pass.
+      </Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Current Quorum</Label>
+          <Label htmlFor="recipient">Current</Label>
           <Text>{currentQuorum}%</Text>
         </FormElement>
         <FormElement>
-          <Label htmlFor="recipient">New quorum</Label>
-          <Input name="recipient" type="number" defaultValue={quorum} onChange={(e) => setQuorum(e.target.value)} />
-        </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
+          <Label htmlFor="recipient">Changing to</Label>
           <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
+            name="recipient"
+            placeholder="20"
+            type="number"
+            defaultValue={quorum}
+            onChange={(e) => setQuorum(e.target.value)}
           />
         </FormElement>
-
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

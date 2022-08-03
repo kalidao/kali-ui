@@ -10,8 +10,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
 import { ethers } from 'ethers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function CallContract({ setProposal }) {
+export default function CallContract({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -122,10 +123,11 @@ export default function CallContract({ setProposal }) {
     e.preventDefault()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ERC20 Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     try {
@@ -152,12 +154,26 @@ export default function CallContract({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      <Text>
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        maxWidth: '40vw',
+      }}
+    >
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
         Supply a contract address and its corresponding ABI. Click "Parse ABI," pick the function you wish to interact
         with, and supply the appropriate inputs.{' '}
       </Text>
-      <Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
         External calls involve programmatically calling a smart contract without a dedicated user interface. It can be
         confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
         help you out.
@@ -218,20 +234,6 @@ export default function CallContract({ setProposal }) {
             ))}
           </div>
         )}
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('menu')} />
         <Button onClick={submit}>Submit</Button>

@@ -15,7 +15,6 @@ export const ProposalCard = ({ proposal }) => {
     address: proposal['proposer'],
     chainId: 1,
   })
-
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
   // const [willProcess, setWillProcess] = useState()
 
@@ -119,7 +118,7 @@ export const ProposalCard = ({ proposal }) => {
                   color: '$gray12',
                 }}
               >
-                #{proposal?.serial}
+                #{proposal?.serial} {details && details?.title}
               </Text>
               <Box variant="id">{proposer}</Box>
             </Flex>
@@ -132,9 +131,20 @@ export const ProposalCard = ({ proposal }) => {
             </Flex>
           </Flex>
           <Box>
-            {proposal['description'].length > 100
-              ? proposal['description'].slice(0, 100) + '...'
-              : proposal['description']}
+            {/* TODO: output could be anything, sanitize?  */}
+            {isSchema ? (
+              'Expand to read more.'
+            ) : proposal?.description.length > 0 ? (
+              <Text>{proposal?.description.slice(0, 50) + '...'}</Text>
+            ) : (
+              <Text
+                css={{
+                  color: '$gray300',
+                }}
+              >
+                No description.
+              </Text>
+            )}
           </Box>
         </Flex>
       </Link>

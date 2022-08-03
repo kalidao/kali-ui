@@ -15,9 +15,10 @@ function AssetMenu({ setProposal }) {
   return (
     <Flex gap="md" dir="col">
       <Menu>
-        <Menu.Item onClick={() => setProposal('art')}>
+        {/* FIXME:  */}
+        {/* <Menu.Item onClick={() => setProposal('art')}>
           <FcLandscape /> Art
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item onClick={() => setProposal('real')}>
           <FcHome /> Real Estate
         </Menu.Item>

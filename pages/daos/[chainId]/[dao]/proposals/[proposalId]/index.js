@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import Layout from '../../../../../components/dao-dashboard/layout/'
-import ProposalView from '../../../../../components/dao-dashboard/proposal/page'
-import { Button, Flex } from '../../../../../styles/elements'
+import Layout from '../../../../../../components/dao-dashboard/layout'
+import ProposalView from '../../../../../../components/dao-dashboard/proposal/page'
+import { Button, Flex } from '../../../../../../styles/elements'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
-import { getProposal } from '../../../../../graph/queries'
+import { getProposal } from '../../../../../../graph/queries'
 
 export const getServerSideProps = async (context) => {
   const address = context.params.dao
@@ -31,7 +31,8 @@ export default function ProposalPage({ proposal }) {
         dir="col"
         gap="md"
         css={{
-          minWidth: '90vw',
+          minWidth: '80vw',
+          padding: '20px',
         }}
       >
         <Button

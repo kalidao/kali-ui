@@ -13,7 +13,7 @@ import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import Back from '../../../../styles/proposal/Back'
 
-export default function SetRedemption({ setProposal }) {
+export default function SetRedemption({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -84,10 +84,11 @@ export default function SetRedemption({ setProposal }) {
     }
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Set Redemption Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log(
@@ -114,8 +115,20 @@ export default function SetRedemption({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      <Text>Pick the DAO assets that DAO members will receive when quitting and burning their DAO tokens </Text>
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        maxWidth: '40vw',
+      }}
+    >
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Pick the DAO assets that DAO members will receive when quitting and burning their DAO tokens{' '}
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current redemption Status</Label>
@@ -149,20 +162,6 @@ export default function SetRedemption({ setProposal }) {
             // {...register('crowdsale-end')}
           />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('appsMenu')} />
         <Button onClick={submit}>Submit</Button>

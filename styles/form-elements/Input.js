@@ -13,20 +13,21 @@ const Input = styled('input', {
         height: 32,
         fontSize: 12,
         lineHeight: 1,
-        color: '$gray11',
-        backgroundColor: '$gray3',
-        border: '1px solid $gray7',
+        color: '$gray12',
+        backgroundColor: '$gray2',
+        border: '1px solid $gray3',
+        fontFamily: 'Regular',
 
         '&:hover': {
           color: '$gray12',
-          backgroundColor: '$gray4',
-          border: '1px solid $gray8',
+          backgroundColor: '$gray2',
+          border: '1px solid $gray4',
         },
 
         '&:focus': {
           color: '$gray12',
-          backgroundColor: '$gray5',
-          border: '1px solid $gray8',
+          backgroundColor: '$gray2',
+          border: '1px solid $gray4',
         },
       },
       voting: {

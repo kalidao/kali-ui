@@ -8,13 +8,30 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import styles from '../../../editor'
+import Editor from '../../../editor'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function ToggleTransfer({ setProposal }) {
+export default function ToggleTransfer({ setView }) {
   // Router
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
 
+  const [title, setTitle] = useState(null)
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        HTMLAttributes: {
+          class: styles.editor,
+        },
+      }),
+    ],
+    content: '',
+    injectCSS: false,
+  })
   // Contract functions
   const { writeAsync } = useContractWrite(
     {
@@ -44,10 +61,12 @@ export default function ToggleTransfer({ setProposal }) {
     e.preventDefault()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Pause Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChain, 8, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      setWarning('There was an error in submitting this proposal.')
+      return
     }
 
     // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
@@ -71,28 +90,44 @@ export default function ToggleTransfer({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      <Text>Submit proposal to pause or unpause DAO token transferability. </Text>
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '40vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
+      <Flex dir="col" gap="sm">
+        <Label>Title</Label>
+        <Input
+          name="id"
+          maxLength={30}
+          placeholder={'Proposal for...'}
+          onChange={(e) => setTitle(e.target.value)}
+          css={{
+            minWidth: '39vw',
+          }}
+        />
+      </Flex>
+      <Flex dir="col" gap="sm">
+        <Label>Description (Optional)</Label>
+        <Editor editor={editor} />
+      </Flex>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Submit proposal to pause or unpause DAO token transferability.{' '}
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Is token transferable?</Label>
           {paused ? <Text>No</Text> : <Text>Yes</Text>}
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

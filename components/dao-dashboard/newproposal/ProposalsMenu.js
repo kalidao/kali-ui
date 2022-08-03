@@ -22,10 +22,10 @@ export default function ProposalsMenu({ setProposal }) {
         <ExitIcon />
         External Call
       </Menu.Item>
-      <Menu.Item onClick={() => setProposal('internalMenu')}>
+      {/* <Menu.Item onClick={() => setProposal('internalMenu')}>
         <GearIcon />
         Settings
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item onClick={() => setProposal('appsMenu')}>
         <AiOutlineAppstoreAdd /> Apps
       </Menu.Item>

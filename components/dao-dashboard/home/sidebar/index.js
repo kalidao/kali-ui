@@ -1,6 +1,5 @@
 import React from 'react'
 import Profile from './Profile'
-import Highlight from './Highlight'
 import { Flex } from '../../../../styles/elements'
 
 export default function Sidebar() {
@@ -9,13 +8,10 @@ export default function Sidebar() {
       gap="md"
       dir="col"
       css={{
-        '@media (max-width: 640px)': {
-          display: 'none',
-        },
+        paddingTop: '20px',
       }}
     >
       <Profile />
-      <Highlight />
     </Flex>
   )
 }

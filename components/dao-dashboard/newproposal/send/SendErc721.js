@@ -9,8 +9,9 @@ import { useRouter } from 'next/router'
 import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SendErc721({ setProposal }) {
+export default function SendErc721({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -58,10 +59,11 @@ export default function SendErc721({ setProposal }) {
     let payload = iface.encodeFunctionData('transferFrom', [daoAddress, recipient, tokenId])
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ERC721 Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log('Proposal Params - ', 2, docs, [tokenAddress], [0], [payload])
@@ -83,7 +85,13 @@ export default function SendErc721({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send an ERC721 from {daoName} treasury</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Send an ERC721 from {daoName} treasury
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="contractAddress">ERC721 Contract Address</Label>
@@ -102,20 +110,6 @@ export default function SendErc721({ setProposal }) {
           <Label htmlFor="recipient">Recipient</Label>
           <Input name="recipient" type="text" defaultValue={recipient} onChange={(e) => setRecipient(e.target.value)} />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
         <Back onClick={() => setProposal('sendMenu')} />
         <Button onClick={submit}>Submit</Button>

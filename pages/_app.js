@@ -1,3 +1,4 @@
+import '../styles/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'

@@ -11,10 +11,27 @@ import { AddressZero } from '@ethersproject/constants'
 import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
 import Spinner from '../../../elements/Spinner'
 import Back from '../../../../styles/proposal/Back'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import styles from '../../../editor'
+import Editor from '../../../editor'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function UpdateVotingPeriod({ setProposal }) {
+export default function UpdateVotingPeriod({ setView }) {
   const router = useRouter()
   const daoAddress = router.query.dao
+  const [title, setTitle] = useState(null)
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        HTMLAttributes: {
+          class: styles.editor,
+        },
+      }),
+    ],
+    content: '',
+    injectCSS: false,
+  })
   const { data: signer } = useSigner()
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -36,8 +53,6 @@ export default function UpdateVotingPeriod({ setProposal }) {
   const [unit, setUnit] = useState('min')
   const [duration, setDuration] = useState(null)
   const [warning, setWarning] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -46,10 +61,12 @@ export default function UpdateVotingPeriod({ setProposal }) {
     const seconds = votingPeriodToSeconds(duration, unit)
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Voting Period Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChain, 3, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      setWarning('There was an error in submitting this proposal.')
+      return
     }
 
     // console.log('Proposal Params - ', 2, docs, [AddressZero], [seconds], [Array(0)])
@@ -72,8 +89,33 @@ export default function UpdateVotingPeriod({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
-      {/* <Text>Update proposal voting period</Text> */}
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '40vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
+      <Flex dir="col" gap="sm">
+        <Label>Title</Label>
+        <Input
+          name="id"
+          maxLength={30}
+          placeholder={'Proposal for...'}
+          onChange={(e) => setTitle(e.target.value)}
+          css={{
+            minWidth: '39vw',
+          }}
+        />
+      </Flex>
+      <Flex dir="col" gap="sm">
+        <Label>Description (Optional)</Label>
+        <Editor editor={editor} />
+      </Flex>
+      <Text>Update proposal voting period</Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current Voting Period</Label>
@@ -85,6 +127,7 @@ export default function UpdateVotingPeriod({ setProposal }) {
             name="recipient"
             type="number"
             min="0"
+            placeholder="30"
             defaultValue={duration}
             onChange={(e) => setDuration(e.target.value)}
           />
@@ -97,23 +140,7 @@ export default function UpdateVotingPeriod({ setProposal }) {
             <Select.Item value="day">day</Select.Item>
           </Select>
         </FormElement>
-
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

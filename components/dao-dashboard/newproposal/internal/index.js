@@ -14,6 +14,7 @@ import ToggleTransfer from './ToggleTransfer'
 import UpdateDocs from './UpdateDocs'
 import UpdateQuorum from './UpdateQuorum'
 import UpdateVotingPeriod from './UpdateVotingPeriod'
+import GovMenu from './GovMenu'
 import Back from '../../../../styles/proposal/Back'
 import { ShuffleIcon } from '@radix-ui/react-icons'
 
@@ -22,27 +23,27 @@ function InternalMenu({ setProposal }) {
     <Flex gap="md" dir="col">
       <Menu>
         {/* <Menu.Item onClick={() => setProposal('manager')}>Assign Manager</Menu.Item> */}
-        <Menu.Item onClick={() => setProposal('docs')}>
+        {/* <Menu.Item onClick={() => setProposal('docs')}>
           <HiOutlineDocumentAdd />
           Documents
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item onClick={() => setProposal('escape')}>
           <AiOutlineDelete />
           Escape Proposal
         </Menu.Item>
         {/* <Menu.Item onClick={() => setProposal('call')}>Call Contract</Menu.Item> */}
-        <Menu.Item onClick={() => setProposal('transferability')}>
+        {/* <Menu.Item onClick={() => setProposal('transferability')}>
           <ShuffleIcon />
           Transferability
-        </Menu.Item>
-        <Menu.Item onClick={() => setProposal('votingPeriod')}>
+        </Menu.Item> */}
+        {/* <Menu.Item onClick={() => setProposal('votingPeriod')}>
           <MdHowToVote />
           Voting Period
         </Menu.Item>
         <Menu.Item onClick={() => setProposal('quorum')}>
           <BiUserVoice />
           Participation
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
       <Back onClick={() => setProposal('menu')} />
     </Flex>
@@ -58,4 +59,5 @@ export {
   UpdateDocs,
   UpdateQuorum,
   UpdateVotingPeriod,
+  GovMenu,
 }

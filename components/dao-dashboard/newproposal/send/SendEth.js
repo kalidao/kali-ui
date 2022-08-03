@@ -8,8 +8,9 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SendEth({ setProposal }) {
+export default function SendEth({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -41,23 +42,24 @@ export default function SendEth({ setProposal }) {
   const submit = async (e) => {
     e.preventDefault()
 
-    amount = ethers.utils.parseEther(amount).toString()
+    let amt = ethers.utils.parseEther(amount).toString()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ETH Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
-    console.log('Proposal Params - ', 2, docs, [recipient], [amount], [Array(0)])
+    console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
 
     try {
       const tx = await kalidao.propose(
         2, // CALL prop
         docs,
         [recipient],
-        [amount],
+        [amt],
         [Array(0)],
       )
       console.log('tx', tx)
@@ -68,7 +70,13 @@ export default function SendEth({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Send ETH from {daoName} treasury</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Send ETH from {daoName} treasury
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
@@ -78,20 +86,6 @@ export default function SendEth({ setProposal }) {
           <Label htmlFor="amount">Amount</Label>
           <Input name="amount" type="number" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
         <Back onClick={() => setProposal('sendMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>

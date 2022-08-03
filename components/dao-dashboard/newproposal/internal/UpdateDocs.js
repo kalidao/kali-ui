@@ -11,7 +11,8 @@ import { fetchDocs } from '../../../../utils/fetchDocs'
 import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
 import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateDocs({ setProposal }) {
+// Move to DAO settings UI
+export default function UpdateDocs() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId
@@ -70,10 +71,19 @@ export default function UpdateDocs({ setProposal }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '60vw',
+        fontFamily: 'Regular',
+      }}
+    >
       <Text>New documentation will be uploaded to IPFS</Text>
       <Form>
         <FormElement>
+          {/* FIXME: Is not fetching  */}
           <Label htmlFor="recipient">Current Document</Label>
           {prevDoc != 'none' ? (
             <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">
@@ -100,7 +110,6 @@ export default function UpdateDocs({ setProposal }) {
           <FileUploader setFile={setNewDocFile} />
         </FormElement>
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

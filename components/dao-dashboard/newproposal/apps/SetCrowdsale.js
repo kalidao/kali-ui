@@ -15,8 +15,9 @@ import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SetCrowdsale({ setProposal }) {
+export default function SetCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -154,10 +155,11 @@ export default function SetCrowdsale({ setProposal }) {
     const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Set Crowdsale Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log(
@@ -209,7 +211,13 @@ export default function SetCrowdsale({ setProposal }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text>Customize a crowdsale of DAO tokens</Text>
+      <Text
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        Customize a crowdsale of DAO tokens
+      </Text>
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Current crowdsale status</Label>
@@ -315,20 +323,7 @@ export default function SetCrowdsale({ setProposal }) {
             <FileUploader setFile={setTerms} />
           </Flex>{' '}
         </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Proposal Note</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={description}
-            onChange={(e) => setDescription(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-        </FormElement>
-        <Flex gap="sm" align="end" effect="glow">
-          <FileUploader setFile={setFile} />
-        </Flex>
+
         {warning && <Warning warning={warning} />}
         {purchaseAccess === 'custom' && (
           <Button onClick={handleValidation} disabled={isRecorded}>

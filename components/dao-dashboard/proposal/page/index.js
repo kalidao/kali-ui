@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Flex, Text } from '../../../../styles/elements'
+import { Box, Button, Flex, Text } from '../../../../styles/elements'
 import Tag from '../../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
 import Results from './Results'
@@ -14,12 +14,14 @@ import Process from '../Process'
 import { willProcess } from '../helpers'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
+import { useFetch } from '../../../hooks/useFetch'
 
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
   const router = useRouter()
-  const { chainId, dao } = router.query
+  const { chainId, dao, proposalId } = router.query
   const { data: account } = useAccount()
+  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
 
   const canProcess = () => {
     const timeLeft =
@@ -35,6 +37,7 @@ export default function ProposalView({ proposal }) {
     return false
   }
 
+  console.log('proposal details', details, isLoading, error)
   return (
     <Flex
       dir="col"
@@ -43,9 +46,14 @@ export default function ProposalView({ proposal }) {
         marginRight: '1rem',
         justifyContent: 'center',
         gap: '1rem',
+        padding: '20px',
+        maxWidth: '60vw',
+        fontFamily: 'Regular',
       }}
     >
-      <Text variant="heading">{proposal && <Tag type={proposal['proposalType']} />}</Text>
+      <Text variant="heading">
+        {`#${proposalId} `} {details && details?.title}
+      </Text>
       <InfoBar proposal={proposal} />
       <Flex
         gap="md"
@@ -60,7 +68,12 @@ export default function ProposalView({ proposal }) {
             minWidth: '50vw',
           }}
         >
-          {proposal && <Description description={proposal['description']} />}
+          {proposal && (
+            <Description
+              description={details ? details?.description : proposal?.description}
+              isSchema={details && proposal?.description.slice(0, 7) == 'prop://' ? true : false}
+            />
+          )}
         </Box>
         <Flex dir="col" gap="md">
           {proposal && <InfoCard start={proposal['votingStarts']} votingPeriod={proposal['dao']['votingPeriod']} />}
@@ -80,7 +93,26 @@ export default function ProposalView({ proposal }) {
           ) : (
             <Sponsor proposal={proposal} />
           ))}
-        {canProcess() && <Process proposal={proposal} />}
+        {canProcess() && (
+          <Flex gap="sm">
+            <Process proposal={proposal} />
+            <Button
+              onClick={() =>
+                router.push(
+                  `/daos/${encodeURIComponent(chainId)}/${encodeURIComponent(dao)}/proposals/${encodeURIComponent(
+                    proposalId,
+                  )}/delete`,
+                )
+              }
+              css={{
+                background: '$red8',
+                color: '$gray12',
+              }}
+            >
+              Delete
+            </Button>
+          </Flex>
+        )}
       </Flex>
       {proposal && <Votes votes={proposal['votes']} symbol={proposal?.dao?.token?.symbol} />}
     </Flex>
