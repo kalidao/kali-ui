@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Flex, Text } from '../../../../styles/elements'
+import { Box, Button, Flex, Text } from '../../../../styles/elements'
 import Tag from '../../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
 import Results from './Results'
@@ -19,7 +19,7 @@ import { useFetch } from '../../../hooks/useFetch'
 export default function ProposalView({ proposal }) {
   console.log('proposal', proposal)
   const router = useRouter()
-  const { chainId, dao } = router.query
+  const { chainId, dao, proposalId } = router.query
   const { data: account } = useAccount()
   const { data: details, isLoading, error } = useFetch(`https://${proposal?.description}.ipfs.dweb.link/`)
 
@@ -88,7 +88,26 @@ export default function ProposalView({ proposal }) {
           ) : (
             <Sponsor proposal={proposal} />
           ))}
-        {canProcess() && <Process proposal={proposal} />}
+        {canProcess() && (
+          <Flex gap="sm">
+            <Process proposal={proposal} />
+            <Button
+              onClick={() =>
+                router.push(
+                  `/daos/${encodeURIComponent(chainId)}/${encodeURIComponent(dao)}/proposals/${encodeURIComponent(
+                    proposalId,
+                  )}/delete`,
+                )
+              }
+              css={{
+                background: '$red8',
+                color: '$gray12',
+              }}
+            >
+              Delete
+            </Button>
+          </Flex>
+        )}
       </Flex>
       {proposal && <Votes votes={proposal['votes']} symbol={proposal?.dao?.token?.symbol} />}
     </Flex>
