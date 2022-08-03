@@ -18,7 +18,7 @@ export default function ProposePage() {
         },
       }),
     ],
-    content: '<p>Describe your proposal now.</p>',
+    content: '',
     injectCSS: false,
   })
   return (
@@ -40,6 +40,8 @@ export default function ProposePage() {
           <Label>Title</Label>
           <Input
             name="id"
+            maxLength={30}
+            placeholder={'Proposal for...'}
             onChange={(e) => setTitle(e.target.value)}
             css={{
               minWidth: '39vw',
