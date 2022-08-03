@@ -62,7 +62,7 @@ export default function ToggleTransfer({ setView }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChain, 8, title, editor.getJSON())
+      docs = await createProposal(daoAddress, daoChainId, 8, title, editor.getJSON())
     } catch (e) {
       console.error(e)
       setWarning('There was an error in submitting this proposal.')
