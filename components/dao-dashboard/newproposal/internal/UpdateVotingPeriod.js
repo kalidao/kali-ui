@@ -20,6 +20,7 @@ import { createProposal } from '../../../tools/createProposal'
 export default function UpdateVotingPeriod({ setView }) {
   const router = useRouter()
   const daoAddress = router.query.dao
+  const daoChain = router.query.chainId
   const [title, setTitle] = useState(null)
   const editor = useEditor({
     extensions: [
@@ -45,7 +46,7 @@ export default function UpdateVotingPeriod({ setView }) {
     },
     'votingPeriod',
     {
-      chainId: Number(router.query.chainId),
+      chainId: Number(daoChain),
     },
   )
 
