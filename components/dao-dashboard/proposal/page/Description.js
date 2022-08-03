@@ -5,10 +5,8 @@ import { generateHTML } from '@tiptap/react'
 
 export default function Description({ description, isSchema }) {
   const output = useMemo(() => {
-    return isSchema ? generateHTML(description, [
-      StarterKit
-    ]) : null
-  }, [description, isSchema ])
+    return isSchema ? generateHTML(description, [StarterKit]) : null
+  }, [description, isSchema])
   return (
     <Flex
       css={{
@@ -17,9 +15,12 @@ export default function Description({ description, isSchema }) {
         fontFamily: 'Regular',
       }}
     >
-      {isSchema ? (output && <div dangerouslySetInnerHTML={{ __html: output}} />) : description.length > 0 ? <Text>
-        {description}
-      </Text> : (
+      {/* TODO: output could be anything, sanitize?  */}
+      {isSchema ? (
+        output && <div dangerouslySetInnerHTML={{ __html: output }} />
+      ) : description.length > 0 ? (
+        <Text>{description}</Text>
+      ) : (
         <Text
           css={{
             color: '$gray300',

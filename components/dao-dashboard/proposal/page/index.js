@@ -21,9 +21,7 @@ export default function ProposalView({ proposal }) {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data: account } = useAccount()
-  const { data: details, isLoading, error } = useFetch(
-    `https://${proposal?.description}.ipfs.dweb.link/`,
-  )
+  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description}.ipfs.dweb.link/`)
 
   const canProcess = () => {
     const timeLeft =
@@ -65,7 +63,12 @@ export default function ProposalView({ proposal }) {
             minWidth: '50vw',
           }}
         >
-          {proposal && <Description description={details ? details?.description : proposal?.description} isSchema={details ? true : false} />}
+          {proposal && (
+            <Description
+              description={details ? details?.description : proposal?.description}
+              isSchema={details ? true : false}
+            />
+          )}
         </Box>
         <Flex dir="col" gap="md">
           {proposal && <InfoCard start={proposal['votingStarts']} votingPeriod={proposal['dao']['votingPeriod']} />}
