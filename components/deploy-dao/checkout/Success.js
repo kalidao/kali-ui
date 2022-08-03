@@ -24,10 +24,7 @@ export default function Success() {
     'DAOdeployed',
     (event) => {
       handleEmail(event)
-      setTimeout(
-        router.push(`/daos/${encodeURIComponent(activeChain?.id)}/${encodeURIComponent(event[0])}/info`),
-        60000,
-      )
+      setTimeout(router.push(`/daos/${encodeURIComponent(activeChain?.id)}/${encodeURIComponent(event[0])}/`), 120000)
     },
     {
       chainId: activeChain?.id,
