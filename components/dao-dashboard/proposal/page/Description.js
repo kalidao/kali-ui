@@ -6,7 +6,7 @@ import { generateHTML } from '@tiptap/react'
 export default function Description({ description, isSchema }) {
   const output = useMemo(() => {
     if (isSchema && description != undefined) {
-      return generateHTML(description, [StarterKit]) 
+      return generateHTML(description, [StarterKit])
     } else {
       return null
     }

@@ -131,18 +131,20 @@ export const ProposalCard = ({ proposal }) => {
             </Flex>
           </Flex>
           <Box>
-             {/* TODO: output could be anything, sanitize?  */}
-      {isSchema ? "Expand to read more." : proposal?.description.length > 0 ? (
-        <Text>{proposal?.description.slice(0, 50) + '...'}</Text>
-      ) : (
-        <Text
-          css={{
-            color: '$gray300',
-          }}
-        >
-          No description.
-        </Text>
-      )}
+            {/* TODO: output could be anything, sanitize?  */}
+            {isSchema ? (
+              'Expand to read more.'
+            ) : proposal?.description.length > 0 ? (
+              <Text>{proposal?.description.slice(0, 50) + '...'}</Text>
+            ) : (
+              <Text
+                css={{
+                  color: '$gray300',
+                }}
+              >
+                No description.
+              </Text>
+            )}
           </Box>
         </Flex>
       </Link>

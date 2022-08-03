@@ -15,7 +15,7 @@ export default function ProposalCard({ proposal }) {
     chainId: 1,
   })
   const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
-  const isSchema = proposal?.description.slice(0, 7) == "prop://" ? true : false
+  const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
 
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
 
@@ -114,10 +114,11 @@ export default function ProposalCard({ proposal }) {
             </Flex>
           </Flex>
           <Box>
-            {isSchema ? 'Expand to read more.' :
-            (proposal['description'].length > 100
+            {isSchema
+              ? 'Expand to read more.'
+              : proposal['description'].length > 100
               ? proposal['description'].slice(0, 100) + '...'
-              : proposal['description'])}
+              : proposal['description']}
           </Box>
         </Flex>
       </Link>

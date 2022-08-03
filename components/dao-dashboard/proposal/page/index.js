@@ -48,10 +48,12 @@ export default function ProposalView({ proposal }) {
         gap: '1rem',
         padding: '20px',
         maxWidth: '60vw',
-        fontFamily: 'Regular'
+        fontFamily: 'Regular',
       }}
     >
-      <Text variant="heading">{`#${proposalId} `} {details && details?.title}</Text>
+      <Text variant="heading">
+        {`#${proposalId} `} {details && details?.title}
+      </Text>
       <InfoBar proposal={proposal} />
       <Flex
         gap="md"
@@ -69,7 +71,7 @@ export default function ProposalView({ proposal }) {
           {proposal && (
             <Description
               description={details ? details?.description : proposal?.description}
-              isSchema={details && proposal?.description.slice(0, 7) == "prop://" ? true : false}
+              isSchema={details && proposal?.description.slice(0, 7) == 'prop://' ? true : false}
             />
           )}
         </Box>

@@ -32,7 +32,7 @@ export default function ProposalPage({ proposal }) {
         gap="md"
         css={{
           minWidth: '80vw',
-          padding: '20px'
+          padding: '20px',
         }}
       >
         <Button
