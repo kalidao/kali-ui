@@ -32,10 +32,10 @@ function InternalMenu({ setProposal }) {
           Escape Proposal
         </Menu.Item>
         {/* <Menu.Item onClick={() => setProposal('call')}>Call Contract</Menu.Item> */}
-        <Menu.Item onClick={() => setProposal('transferability')}>
+        {/* <Menu.Item onClick={() => setProposal('transferability')}>
           <ShuffleIcon />
           Transferability
-        </Menu.Item>
+        </Menu.Item> */}
         {/* <Menu.Item onClick={() => setProposal('votingPeriod')}>
           <MdHowToVote />
           Voting Period

@@ -9,7 +9,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 
-export default function ToggleTransfer({ setProposal, title, editor }) {
+export default function ToggleTransfer({ setView, title, editor }) {
   // Router
   const router = useRouter()
   const daoAddress = router.query.dao
@@ -71,7 +71,16 @@ export default function ToggleTransfer({ setProposal, title, editor }) {
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        padding: '20px',
+        width: '60vw',
+        fontFamily: 'Regular',
+      }}
+    >
+      <Back onClick={() => setView(0)} />
       <Text
         css={{
           fontFamily: 'Regular',
@@ -84,7 +93,6 @@ export default function ToggleTransfer({ setProposal, title, editor }) {
           <Label htmlFor="recipient">Is token transferable?</Label>
           {paused ? <Text>No</Text> : <Text>Yes</Text>}
         </FormElement>
-        <Back onClick={() => setProposal('internalMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

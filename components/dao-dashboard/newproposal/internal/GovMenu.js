@@ -21,6 +21,7 @@ export default function GovMenu({ setView }) {
       </Text>
       <GovItem title={'Voting Period'} icon={<MdOutlineBallot size={24} />} onClick={() => setView(1)} />
       <GovItem title={'Participation Needed'} icon={<MdPeopleOutline size={24} />} onClick={() => setView(2)} />
+      <GovItem title={'Token Transferability'} icon={<MdPeopleOutline size={24} />} onClick={() => setView(3)} />
     </Flex>
   )
 }
