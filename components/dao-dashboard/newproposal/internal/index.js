@@ -23,10 +23,10 @@ function InternalMenu({ setProposal }) {
     <Flex gap="md" dir="col">
       <Menu>
         {/* <Menu.Item onClick={() => setProposal('manager')}>Assign Manager</Menu.Item> */}
-        <Menu.Item onClick={() => setProposal('docs')}>
+        {/* <Menu.Item onClick={() => setProposal('docs')}>
           <HiOutlineDocumentAdd />
           Documents
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item onClick={() => setProposal('escape')}>
           <AiOutlineDelete />
           Escape Proposal
@@ -36,14 +36,14 @@ function InternalMenu({ setProposal }) {
           <ShuffleIcon />
           Transferability
         </Menu.Item>
-        <Menu.Item onClick={() => setProposal('votingPeriod')}>
+        {/* <Menu.Item onClick={() => setProposal('votingPeriod')}>
           <MdHowToVote />
           Voting Period
         </Menu.Item>
         <Menu.Item onClick={() => setProposal('quorum')}>
           <BiUserVoice />
           Participation
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
       <Back onClick={() => setProposal('menu')} />
     </Flex>
