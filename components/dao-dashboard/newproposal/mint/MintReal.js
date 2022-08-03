@@ -11,8 +11,9 @@ import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
 import { addresses } from '../../../../constants/addresses'
-import { AddressZero } from '@ethersproject/constants'
+import { AddressZero } from '@ethersproject/constants/'
 
+// TODO: Description ???
 export default function MintReal({ setProposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao

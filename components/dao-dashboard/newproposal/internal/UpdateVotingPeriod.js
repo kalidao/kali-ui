@@ -12,7 +12,7 @@ import { votingPeriodToSeconds, formatVotingPeriod } from '../../../../utils'
 import Spinner from '../../../elements/Spinner'
 import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateVotingPeriod({ setView }) {
+export default function UpdateVotingPeriod({ setView, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const { data: signer } = useSigner()

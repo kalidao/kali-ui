@@ -15,8 +15,9 @@ import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SetCrowdsale({ setProposal }) {
+export default function SetCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -154,10 +155,11 @@ export default function SetCrowdsale({ setProposal }) {
     const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Set Crowdsale Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log(

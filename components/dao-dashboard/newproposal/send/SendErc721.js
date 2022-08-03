@@ -9,8 +9,9 @@ import { useRouter } from 'next/router'
 import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SendErc721({ setProposal }) {
+export default function SendErc721({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -58,10 +59,11 @@ export default function SendErc721({ setProposal }) {
     let payload = iface.encodeFunctionData('transferFrom', [daoAddress, recipient, tokenId])
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ERC721 Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log('Proposal Params - ', 2, docs, [tokenAddress], [0], [payload])

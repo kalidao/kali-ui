@@ -9,7 +9,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 
-export default function UpdateQuorum({ setView }) {
+export default function UpdateQuorum({ setView, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = router.query.chainId

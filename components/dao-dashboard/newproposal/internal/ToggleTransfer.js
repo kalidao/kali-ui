@@ -9,7 +9,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 
-export default function ToggleTransfer({ setProposal }) {
+export default function ToggleTransfer({ setProposal, title, editor }) {
   // Router
   const router = useRouter()
   const daoAddress = router.query.dao

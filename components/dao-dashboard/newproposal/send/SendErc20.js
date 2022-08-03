@@ -10,8 +10,9 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { tokens } from '../../../../constants/tokens'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SendErc20({ setProposal }) {
+export default function SendErc20({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -86,10 +87,11 @@ export default function SendErc20({ setProposal }) {
     }
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ERC20 Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log('Proposal Params - ', 2, docs, [asset], [0], [payload])

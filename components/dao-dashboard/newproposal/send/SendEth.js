@@ -8,8 +8,9 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function SendEth({ setProposal }) {
+export default function SendEth({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -41,23 +42,24 @@ export default function SendEth({ setProposal }) {
   const submit = async (e) => {
     e.preventDefault()
 
-    amount = ethers.utils.parseEther(amount).toString()
+    let amt = ethers.utils.parseEther(amount).toString()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Send ETH Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
-    console.log('Proposal Params - ', 2, docs, [recipient], [amount], [Array(0)])
+    console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
 
     try {
       const tx = await kalidao.propose(
         2, // CALL prop
         docs,
         [recipient],
-        [amount],
+        [amt],
         [Array(0)],
       )
       console.log('tx', tx)

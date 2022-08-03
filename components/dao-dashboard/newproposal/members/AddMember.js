@@ -26,8 +26,6 @@ export default function AddMember({ setProposal, editor, title }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [recipient, setRecipient] = useState(null)
   const [amount, setAmount] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {

@@ -3,13 +3,12 @@ import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
-import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
+import { createProposal } from '../../../tools/createProposal'
 
-export default function RemoveMember({ setProposal }) {
+export default function RemoveMember({ setProposal, editor, title }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -24,26 +23,25 @@ export default function RemoveMember({ setProposal }) {
   // form
   const [recipient, setRecipient] = useState(null)
   const [amount, setAmount] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
-    amount = ethers.utils.parseEther(amount).toString()
+    let amt = ethers.utils.parseEther(amount).toString()
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Add Member Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 1, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
-    console.log('Proposal Params - ', 1, docs, [recipient], [amount], [Array(0)])
+    console.log('Proposal Params - ', 1, docs, [recipient], [amt], [Array(0)])
 
     try {
-      const tx = await kalidao.propose(1, docs, [recipient], [amount], [Array(0)])
+      const tx = await kalidao.propose(1, docs, [recipient], [amt], [Array(0)])
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)

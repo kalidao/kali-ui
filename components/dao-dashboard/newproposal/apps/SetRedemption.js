@@ -13,7 +13,7 @@ import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import Back from '../../../../styles/proposal/Back'
 
-export default function SetRedemption({ setProposal }) {
+export default function SetRedemption({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -84,10 +84,11 @@ export default function SetRedemption({ setProposal }) {
     }
 
     let docs
-    if (file) {
-      docs = await uploadIpfs(daoAddress, 'Set Redemption Proposal', file)
-    } else {
-      docs = description
+    try {
+      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+    } catch (e) {
+      console.error(e)
+      return
     }
 
     console.log(

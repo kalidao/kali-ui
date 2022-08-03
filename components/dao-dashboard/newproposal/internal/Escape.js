@@ -12,7 +12,7 @@ import Back from '../../../../styles/proposal/Back'
 import { ethers } from 'ethers'
 
 // TODO: Show this along with process proposal
-export default function Escape({ setProposal }) {
+export default function Escape({ setProposal, title, editor }) {
   // Router
   const router = useRouter()
   const daoAddress = router.query.dao
