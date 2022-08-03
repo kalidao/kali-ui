@@ -21,7 +21,7 @@ export default function ProposalView({ proposal }) {
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const { data: account } = useAccount()
-  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description}.ipfs.dweb.link/`)
+  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
 
   const canProcess = () => {
     const timeLeft =
@@ -46,9 +46,12 @@ export default function ProposalView({ proposal }) {
         marginRight: '1rem',
         justifyContent: 'center',
         gap: '1rem',
+        padding: '20px',
+        maxWidth: '60vw',
+        fontFamily: 'Regular'
       }}
     >
-      <Text variant="heading">{details && details?.title}</Text>
+      <Text variant="heading">{`#${proposalId} `} {details && details?.title}</Text>
       <InfoBar proposal={proposal} />
       <Flex
         gap="md"
@@ -66,7 +69,7 @@ export default function ProposalView({ proposal }) {
           {proposal && (
             <Description
               description={details ? details?.description : proposal?.description}
-              isSchema={details ? true : false}
+              isSchema={details && proposal?.description.slice(0, 7) == "prop://" ? true : false}
             />
           )}
         </Box>

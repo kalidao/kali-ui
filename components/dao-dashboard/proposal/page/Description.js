@@ -5,8 +5,13 @@ import { generateHTML } from '@tiptap/react'
 
 export default function Description({ description, isSchema }) {
   const output = useMemo(() => {
-    return isSchema ? generateHTML(description, [StarterKit]) : null
+    if (isSchema && description != undefined) {
+      return generateHTML(description, [StarterKit]) 
+    } else {
+      return null
+    }
   }, [description, isSchema])
+
   return (
     <Flex
       css={{

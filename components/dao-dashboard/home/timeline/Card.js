@@ -6,6 +6,7 @@ import { Flex, Box, Text } from '../../../../styles/elements'
 import Tag from '../../../../styles/proposal/Tag'
 import Vote from '../../proposal/vote'
 import Status from '../../proposal/Status'
+import { useFetch } from '../../../hooks/useFetch'
 
 export default function ProposalCard({ proposal }) {
   const router = useRouter()
@@ -13,6 +14,8 @@ export default function ProposalCard({ proposal }) {
     address: proposal['proposer'],
     chainId: 1,
   })
+  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
+  const isSchema = proposal?.description.slice(0, 7) == "prop://" ? true : false
 
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
 
@@ -98,7 +101,7 @@ export default function ProposalCard({ proposal }) {
                   color: '$gray12',
                 }}
               >
-                #{proposal?.serial}
+                {`#${proposal?.serial} ${details ? details?.title : ''}`}
               </Text>
               <Box variant="id">{proposer}</Box>
             </Flex>
@@ -111,9 +114,10 @@ export default function ProposalCard({ proposal }) {
             </Flex>
           </Flex>
           <Box>
-            {proposal['description'].length > 100
+            {isSchema ? 'Expand to read more.' :
+            (proposal['description'].length > 100
               ? proposal['description'].slice(0, 100) + '...'
-              : proposal['description']}
+              : proposal['description'])}
           </Box>
         </Flex>
       </Link>
