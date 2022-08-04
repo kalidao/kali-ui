@@ -9,6 +9,8 @@ import { AddressZero } from '@ethersproject/constants'
 export default function Vote({ proposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
+  const { chainId } = router.query
+
 
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
@@ -17,6 +19,7 @@ export default function Vote({ proposal }) {
     {
       addressOrName: daoAddress ?? AddressZero,
       contractInterface: DAO_ABI,
+      chainId,
     },
     'vote',
     {
