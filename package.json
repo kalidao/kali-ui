@@ -26,6 +26,7 @@
     "@radix-ui/react-slider": "^0.1.4",
     "@radix-ui/react-switch": "^0.1.5",
     "@radix-ui/react-tabs": "^0.1.5",
+    "@radix-ui/react-toast": "^1.0.0",
     "@radix-ui/react-tooltip": "^0.1.7",
     "@rainbow-me/rainbowkit": "^0.2.4",
     "@react-pdf/renderer": "^2.1.0",

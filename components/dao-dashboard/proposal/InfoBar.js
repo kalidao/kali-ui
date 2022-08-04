@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, Box } from '../../../styles/elements'
-import { truncateAddress } from './../../../utils/'
+import { copy, truncateAddress } from './../../../utils/'
 import { useEnsName } from 'wagmi'
 import Link from 'next/link'
+import { Share2Icon } from '@radix-ui/react-icons'
+import { useRouter } from 'next/router'
+import Toast from '../../../styles/Toast'
 
 export default function InfoBar({ proposal }) {
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
   const {
     data: ensName,
     isLoading,
@@ -15,8 +20,18 @@ export default function InfoBar({ proposal }) {
     chainId: 1,
   })
 
+  const share = () => {
+    copy('https://app.kali.gg/' + router.asPath)
+    setOpen(true)
+  }
+
   return (
-    <Flex>
+    <Flex
+      css={{
+        alignItems: 'center',
+        gap: '10px',
+      }}
+    >
       <Link href={`/users/${encodeURIComponent(proposal && proposal['proposer'])}`}>
         <Box variant="id">
           {/* TODO: Make this something else. Adding fallbacks for now umm */}
@@ -26,6 +41,25 @@ export default function InfoBar({ proposal }) {
           {isFetched && ensName}
         </Box>
       </Link>
+      <Box
+        as="button"
+        onClick={share}
+        css={{
+          all: 'unset',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '100%',
+          height: '30px',
+          width: '30px',
+          '&:hover': {
+            background: '$gray4',
+          },
+        }}
+      >
+        <Share2Icon />
+      </Box>
+      <Toast open={open} setOpen={setOpen} title={'Copied!'} description={'Share the proposal with DAO members.'} />
     </Flex>
   )
 }
