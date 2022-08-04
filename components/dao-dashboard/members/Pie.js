@@ -2,22 +2,28 @@ import { VictoryPie, VictoryLabel, VictoryTooltip } from 'victory'
 import { ethers } from 'ethers'
 
 export default function Pie({ member, totalSupply }) {
-  console.log('Pie Values', member?.shares)
-  const share = member && parseInt(ethers.utils.parseEther(member?.shares))
-  const supply = totalSupply && parseInt(ethers.utils.parseEther(totalSupply))
+  const share = member && parseInt(ethers.utils.formatEther(ethers.BigNumber.from(member?.shares)))
+  const supply =
+    totalSupply &&
+    member &&
+    parseInt(ethers.utils.formatEther(ethers.BigNumber.from(totalSupply).sub(ethers.BigNumber.from(member?.shares))))
 
   return (
-    <VictoryPie
-      style={{ labels: { fill: 'white' } }}
-      innerRadius={100}
-      labelRadius={120}
-      labels={({ datum }) => `${datum.x}`}
-      labelComponent={<CustomLabel />}
-      data={[
-        { x: 'Member', y: share },
-        { x: 'Total Supply', y: supply },
-      ]}
-    />
+    <>
+      {totalSupply && member && (
+        <VictoryPie
+          style={{ labels: { fill: 'white' } }}
+          innerRadius={100}
+          labelRadius={120}
+          labels={({ datum }) => `${datum.x}`}
+          labelComponent={<CustomLabel />}
+          data={[
+            { x: 'Member', y: share },
+            { x: 'Total Supply', y: supply },
+          ]}
+        />
+      )}
+    </>
   )
 }
 
