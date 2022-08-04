@@ -2,9 +2,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Layout from '../../../../../../components/dao-dashboard/layout'
 import ProposalView from '../../../../../../components/dao-dashboard/proposal/page'
-import { Button, Flex } from '../../../../../../styles/elements'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { Flex } from '../../../../../../styles/elements'
 import { getProposal } from '../../../../../../graph/queries'
+import Back from '../../../../../../styles/proposal/Back'
 
 export const getServerSideProps = async (context) => {
   const address = context.params.dao
@@ -31,27 +31,13 @@ export default function ProposalPage({ proposal }) {
         dir="col"
         gap="md"
         css={{
+          height: 'fit-content',
           minWidth: '80vw',
           padding: '20px',
+          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
         }}
       >
-        <Button
-          variant="transparent"
-          effect="film"
-          css={{
-            color: '$gray100',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '0.2em',
-            maxWidth: '5em',
-            fontWeight: '500',
-          }}
-          onClick={() => router.back()}
-        >
-          <ArrowLeftIcon />
-          Back
-        </Button>
+        <Back onClick={() => router.back()} />
         <ProposalView proposal={proposal} />
       </Flex>
     </Layout>

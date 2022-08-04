@@ -51,9 +51,21 @@ export default function ProposalView({ proposal }) {
         fontFamily: 'Regular',
       }}
     >
-      <Text variant="heading">
-        {`#${proposalId} `} {details && details?.title}
-      </Text>
+      <Flex
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '5px',
+          height: '2.5rem',
+        }}
+      >
+        <Text variant="heading">
+          {`#${proposalId} `}
+          {details && details?.title}
+        </Text>
+        <Tag type={proposal['proposalType']} />
+      </Flex>
       <InfoBar proposal={proposal} />
       <Flex
         gap="md"

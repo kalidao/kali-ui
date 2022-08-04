@@ -90,6 +90,7 @@ export default function Sidebar({ crowdsale }) {
         flexDirection: 'column',
         gap: '10px',
         height: '100%',
+        boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
 
         '@media (max-width: 640px)': {
           position: 'fixed',
