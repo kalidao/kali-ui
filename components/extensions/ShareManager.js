@@ -69,7 +69,6 @@ export default function ShareManager() {
 
       try {
         const result = await instance.methods.extensions(shareManagerAddress).call()
-        console.log('Extension check - ', result)
         result ? setHasExtension(true) : null
       } catch (e) {
         console.log(e)

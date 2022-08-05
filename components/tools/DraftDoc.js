@@ -80,8 +80,6 @@ function DraftDoc() {
         setServicesForm(true)
         break
     }
-
-    console.log(values)
   }
 
   useEffect(() => {

@@ -48,7 +48,6 @@ export default function Members({ setStep }) {
       }
     }
 
-    console.log(founders)
     return true
   }
 

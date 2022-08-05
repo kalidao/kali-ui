@@ -65,8 +65,6 @@ export default function TokenForm() {
       amounts.push(web3.utils.toWei(recipients[i].amount))
     }
 
-    console.log(name, symbol, details, accounts, amounts, paused, owner)
-
     try {
       let result = await factory.methods
         .deployKaliERC20(name, symbol, details, accounts, amounts, paused, owner)

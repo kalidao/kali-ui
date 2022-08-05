@@ -96,7 +96,6 @@ export default function Legal({ setStep }) {
               </Flex>
             </FormElement>
           )}
-          {console.log('watchDocs', watchDocs)}
           {watchDocs && legalEntities[watchDocs]['mission'] === true && (
             <FormElement>
               <Label htmlFor="mission">Mission</Label>
