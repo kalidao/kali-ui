@@ -6,11 +6,12 @@ import DAO_ABI from '../../../abi/KaliDAO.json'
 
 export default function Cancel({ proposal }) {
   const router = useRouter()
-  const { dao } = router.query
+  const { dao, chainId } = router.query
   const { data, isError, isLoading, writeAsync } = useContractWrite(
     {
       addressOrName: dao,
       contractInterface: DAO_ABI,
+      chainId
     },
     'cancelProposal',
   )

@@ -6,9 +6,11 @@ import NewProposalCard from './NewProposalCard'
 export default function Timeline({ proposals }) {
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
-    () => proposals.sort((a, b) => b.serial - a.serial).filter((p) => !(p.cancelled == true)),
+    () => proposals?.sort((a, b) => b.serial - a.serial).filter((p) => !(p.cancelled == true)),
     [proposals],
   )
+
+  console.log('Timeline', { proposals })
 
   return (
     <Flex gap="md" dir="col">
@@ -36,8 +38,10 @@ export default function Timeline({ proposals }) {
         </Text>
         <Flex dir="col">
           <NewProposalCard />
-          {memoizedProposals.length > 0 ? (
-            memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)
+          {memoizedProposals?.length > 0 ? (
+            memoizedProposals.map((proposal) =>
+              <Card key={proposal['serial']} proposal={proposal} />
+            )
           ) : (
             <Flex
               dir="col"

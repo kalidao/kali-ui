@@ -1,6 +1,7 @@
 import { GRAPH_URL } from '../url'
+import { useQuery } from 'react-query'
 
-export const getCrowdsale = async (chainId, address, serial) => {
+export const getCrowdsale = async (chainId, address) => {
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',
@@ -40,4 +41,11 @@ export const getCrowdsale = async (chainId, address, serial) => {
   } catch (e) {
     return e
   }
+}
+
+export function useGetCrowdsale(chainId, daoAddress) {
+  return useQuery(['getCrowdsale', chainId, daoAddress], async () => {
+    const data = await getCrowdsale(chainId, daoAddress)
+    return data
+  })
 }
