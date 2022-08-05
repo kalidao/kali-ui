@@ -56,7 +56,6 @@ export default function DaoCard({ dao, chain }) {
         return 'Goerli'
     }
   }
-  console.log('chainId', chain)
   return (
     <Flex
       css={{
