@@ -1,12 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Box } from '../../../../styles/elements'
+import { Box, Text } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
-import { useAccount, useSigner, useContractWrite } from 'wagmi'
+import { useAccount, useSigner, useContractWrite, chain } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 import { uploadVoteSignature, fetchVoteSignatures } from '../../../tools/ipfsHelpers'
 import { getMembers } from '../../../../graph/queries'
+import { ethers } from 'ethers'
 
 export default function Vote({ proposal }) {
   const router = useRouter()
@@ -14,6 +15,7 @@ export default function Vote({ proposal }) {
   const chainId = router.query.chainId
   const [response, setResponse] = useState(null)
   const [members, setMembers] = useState(null)
+  // console.log(daoAddress, chainId)
 
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
@@ -41,6 +43,19 @@ export default function Vote({ proposal }) {
     {
       onSuccess() {
         console.log('voteBySig', voteBySigData)
+      },
+    },
+  )
+
+  const { data: multicallData, writeAsync: multicall } = useContractWrite(
+    {
+      addressOrName: daoAddress ?? AddressZero,
+      contractInterface: DAO_ABI,
+    },
+    'multicall',
+    {
+      onSettled(data, error) {
+        console.log('Settled', { data, error })
       },
     },
   )
@@ -99,9 +114,13 @@ export default function Vote({ proposal }) {
       approve: true,
     }
 
-    // console.log(signer, domain, types, message)
-    const signature = await signer._signTypedData(domain, types, message)
-    return signature
+    try {
+      const signature = await signer._signTypedData(domain, types, message)
+      console.log(signer, domain, types, message, signature)
+      return signature
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const left =
@@ -113,21 +132,6 @@ export default function Vote({ proposal }) {
     async (approval) => {
       const signature = await sign()
       uploadVoteSignature(daoAddress, Number(chainId), proposal['serial'], approval, account?.address, signature)
-
-      // console.log(1)
-      // if (!proposal || !account) return
-      // console.log(2)
-
-      // try {
-      //   const data = await vote({ args: [proposal['serial'], approval] })
-      //   const instance = new ethers.Contract(daoAddress, DAO_ABI, signer)
-      //   const siganture = await instance.voteBySig(account?.address, proposal['serial'], approval, v, r, s)
-      //   console.log(siganture)
-      //   const data = await voteBySig({ args: [account?.address, proposal['serial'], approval, v, r, s] })
-      // } catch (e) {
-      //   console.log('error is ', e)
-      // }
-      // console.log(3)
     },
     [account, proposal],
   )
@@ -136,8 +140,44 @@ export default function Vote({ proposal }) {
     let votes
     if (members.length > 0) {
       votes = await fetchVoteSignatures(daoAddress, proposal['serial'], members)
-      console.log(votes)
+      const votesData = getVoteDetail(votes)
+      console.log(votesData)
+      try {
+        const mc = await multicall({
+          args: [votesData],
+          overrides: {
+            gasLimit: 1050000,
+          },
+        })
+        console.log(mc)
+      } catch (e) {
+        console.log(e)
+      }
     }
+  }
+
+  const getVoteDetail = (votes) => {
+    let data = []
+    console.log(votes)
+    if (votes) {
+      for (let i = 0; i < votes.length; i++) {
+        const { r, s, v } = ethers.utils.splitSignature(votes[i].signature)
+
+        console.log([votes[i].member, Number(proposal['serial']), votes[i].approval, v, r, s])
+        const iface = new ethers.utils.Interface(DAO_ABI)
+        const data_ = iface.encodeFunctionData('voteBySig', [
+          votes[i].member,
+          Number(proposal['serial']),
+          votes[i].approval,
+          v,
+          r,
+          s,
+        ])
+        console.log('vote data - ', data_)
+        data.push(data_)
+      }
+    }
+    return data
   }
 
   return (
@@ -149,7 +189,7 @@ export default function Vote({ proposal }) {
         <BsFillHandThumbsDownFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(10, 80.2%, 35.7%)'} />
       </Box>
       <Box as="button" onClick={() => getVote(true)}>
-        <BsFillHandThumbsUpFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(151, 55.0%, 41.5%)'} />
+        <Text>Process Votes</Text>
       </Box>
     </>
   )

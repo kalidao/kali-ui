@@ -93,11 +93,11 @@ export async function fetchCrowdsaleTermsHash(name, summoner) {
   return hash
 }
 
-export async function uploadVoteSignature(dao, chainId, proposal, approval, user, signature) {
+export async function uploadVoteSignature(dao, chain, proposal, approval, user, signature) {
   console.log(dao, proposal, user, signature)
   const voteData = {
     dao: dao,
-    chain: chainId,
+    chain: chain,
     proposal: proposal,
     approval: approval,
     user: user,
@@ -148,7 +148,7 @@ export async function fetchVoteSignature(dao, proposal, user) {
 
       return json
     } else {
-      sig = 'none'
+      return 'none'
     }
   } catch (e) {
     console.log(e)
