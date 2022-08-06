@@ -17,22 +17,8 @@ export default function Vote({ proposal }) {
   const [members, setMembers] = useState(null)
   const [voteApproval, setVoteApproval] = useState(null)
 
-  // const votingPeriod = proposal['dao']['votingPeriod']
-  // console.log('votingPeriod', votingPeriod)
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  // const { data: voteData, writeAsync: vote } = useContractWrite(
-  //   {
-  //     addressOrName: daoAddress ?? AddressZero,
-  //     contractInterface: DAO_ABI,
-  //   },
-  //   'vote',
-  //   {
-  //     onSuccess() {
-  //       console.log('vote', voteData)
-  //     },
-  //   },
-  // )
 
   const { data: voteBySigData, writeAsync: voteBySig } = useContractWrite(
     {
@@ -66,28 +52,40 @@ export default function Vote({ proposal }) {
   })
 
   const { data: signedData, signTypedData } = useSignTypedData({
-    domain: {
-      name: 'KALI',
-      version: '1',
-      chainId: Number(chainId),
-      verifyingContract: daoAddress,
-    },
-    types: {
-      SignVote: [
-        { name: 'signer', type: 'address' },
-        { name: 'proposal', type: 'uint256' },
-        { name: 'approve', type: 'bool' },
-      ],
-    },
-    value: {
-      signer: account?.address,
-      proposal: Number(proposal['serial']),
-      approve: true,
-    },
     onSettled(data, error) {
       console.log('Settled', { data, error })
     },
   })
+
+  // const sign = async () => {
+  //   const domain = {
+  //     name: 'KALI',
+  //     version: '1',
+  //     chainId: Number(chainId),
+  //     verifyingContract: daoAddress,
+  //   }
+
+  //   const types = {
+  //     SignVote: [
+  //       { name: 'signer', type: 'address' },
+  //       { name: 'proposal', type: 'uint256' },
+  //       { name: 'approve', type: 'bool' },
+  //     ],
+  //   }
+
+  //   const value = {
+  //     signer: account?.address,
+  //     proposal: Number(proposal['serial']),
+  //     approve: true,
+  //   }
+
+  //   try {
+  //     const signature = await signer._signTypedData(domain, types, value)
+  //     return signature
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
 
   useEffect(() => {
     let mounted = true
@@ -119,8 +117,8 @@ export default function Vote({ proposal }) {
 
   // Submit vote data to IPFS
   useEffect(() => {
-    console.log(voteApproval)
-    if (voteApproval && signedData) {
+    if (signedData) {
+      console.log('Vote approval - ', voteApproval)
       uploadVoteData(daoAddress, Number(chainId), proposal['serial'], voteApproval, account?.address, signedData)
       setVoteApproval(null)
     }
@@ -133,43 +131,75 @@ export default function Vote({ proposal }) {
 
   const castVote = useCallback(
     async (approval) => {
-      signTypedData()
+      // WAGMI
+      signTypedData({
+        domain: {
+          name: 'KALI',
+          version: '1',
+          chainId: Number(chainId),
+          verifyingContract: daoAddress,
+        },
+        types: {
+          SignVote: [
+            { name: 'signer', type: 'address' },
+            { name: 'proposal', type: 'uint256' },
+            { name: 'approve', type: 'bool' },
+          ],
+        },
+        value: {
+          signer: account?.address,
+          proposal: Number(proposal['serial']),
+          approve: approval,
+        },
+      })
+
+      // ethers.js
+      // const signature = await sign()
+      // console.log(signature)
       setVoteApproval(approval)
     },
     [account, proposal],
   )
 
-  const getVote = async () => {
+  const processVoteBySigs = async () => {
     let votes
     if (members.length > 0) {
       votes = await fetchVoteData(daoAddress, proposal['serial'], members)
 
-      const votesData = await getVoteDetail(votes)
+      const encodedData = await encodeData(votes)
+      console.log(encodedData)
 
-      console.log(votesData)
-
-      // try {
-      //   const mc = await multicall({
-      //     args: [votesData],
-      //     overrides: {
-      //       gasLimit: 1050000,
-      //     },
-      //   })
-      // } catch (e) {
-      //   console.log(e)
-      // }
+      // Multicall
+      //   try {
+      //     const mc = await multicall({
+      //       args: [encodedData],
+      //       overrides: {
+      //         gasLimit: 1050000,
+      //       },
+      //     })
+      //   } catch (e) {
+      //     console.log(e)
+      //   }
     }
   }
 
-  const getVoteDetail = async (votes) => {
+  const encodeData = async (votes) => {
     let data = []
-    console.log(votes)
     if (votes) {
       for (let i = 0; i < votes.length; i++) {
-        console.log(votes[i].signature)
         const { r, s, v } = ethers.utils.splitSignature(votes[i].signature)
+        console.log([votes[i].member, votes[i].signature, Number(proposal['serial']), votes[i].approval, v, r, s])
 
-        console.log([votes[i].member, Number(proposal['serial']), votes[i].approval, v, r, s])
+        // voteBySig
+        // const tx = await voteBySig({
+        //   args: [votes[i].member, Number(proposal['serial']), votes[i].approval, v, r, s],
+        //   overrides: {
+        //     gasLimit: 1050000,
+        //   },
+        // })
+        // console.log('tx - ', tx)
+
+        // Encode data for multicall
         const data_ = daoContract.interface.encodeFunctionData('voteBySig', [
           votes[i].member,
           Number(proposal['serial']),
@@ -181,6 +211,8 @@ export default function Vote({ proposal }) {
         console.log('vote data - ', data_)
         data.push(data_)
       }
+    } else {
+      console.log('Error getting votes data.')
     }
     return data
   }
@@ -193,7 +225,7 @@ export default function Vote({ proposal }) {
       <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => castVote(false)}>
         <BsFillHandThumbsDownFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(10, 80.2%, 35.7%)'} />
       </Box>
-      <Box as="button" onClick={() => getVote(true)}>
+      <Box as="button" onClick={() => processVoteBySigs(true)}>
         <Text>Process Votes</Text>
       </Box>
     </>
