@@ -2,6 +2,8 @@ import React from 'react'
 import { useNetwork } from 'wagmi'
 import { Warning } from '../../styles/elements'
 import { useRouter } from 'next/router'
+import { Box } from '../../styles/elements'
+
 
 export default function SwitchChain({ children }) {
   const router = useRouter()
@@ -21,12 +23,11 @@ export default function SwitchChain({ children }) {
     `Your Web3 wallet is disconnected. You need to connect to ${daoChainName} - the native blockchain of this DAO in order to submit transactions to it.`
 
   return (
-    <>
-      {(isWrongChain) ?
-        <Warning warning={wrongChainWarning} />
-        :
-        { children }
-      }
-    </>
+    (isWrongChain) ?
+      <Warning warning={wrongChainWarning} />
+      :
+      <Box>
+        {children}
+      </Box>
   )
 }

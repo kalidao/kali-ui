@@ -26,7 +26,6 @@ export default function AddMember({ setProposal, editor, title }) {
   const { config: proposeConfig }  = usePrepareContractWrite({
     addressOrName: daoAddress,
     contractInterface: KALIDAO_ABI,
-    chainId: daoChainId,
     functionName: 'propose',
     args: [0, '', [AddressZero], [0], [Array(0)]], // dummy params for gas estimate
     onError(error) {
@@ -37,7 +36,6 @@ export default function AddMember({ setProposal, editor, title }) {
 
   const useContractWriteResult = useContractWrite({
     ...proposeConfig,
-    chainId: daoChainId,
     onError(error) {
       console.log('useContractWrite', { error })
     },
