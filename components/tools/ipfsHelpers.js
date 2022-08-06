@@ -93,7 +93,7 @@ export async function fetchCrowdsaleTermsHash(name, summoner) {
   return hash
 }
 
-export async function uploadVoteSignature(dao, chain, proposal, approval, user, signature) {
+export async function uploadVoteData(dao, chain, proposal, approval, user, signature) {
   console.log(dao, proposal, user, signature)
   const voteData = {
     dao: dao,
@@ -126,7 +126,7 @@ export async function uploadVoteSignature(dao, chain, proposal, approval, user, 
   }
 }
 
-export async function fetchVoteSignature(dao, proposal, user) {
+export async function fetchVoteJson(dao, proposal, user) {
   console.log(dao, proposal, user)
   let sig
   try {
@@ -156,12 +156,12 @@ export async function fetchVoteSignature(dao, proposal, user) {
   }
 }
 
-export async function fetchVoteSignatures(dao, proposal, members) {
+export async function fetchVoteData(dao, proposal, members) {
   let votes = []
 
   for (let i = 0; i < members.length; i++) {
     try {
-      const json = await fetchVoteSignature(dao, proposal, ethers.utils.getAddress(members[i]))
+      const json = await fetchVoteJson(dao, proposal, ethers.utils.getAddress(members[i]))
       if (json) {
         const vote = {
           member: members[i],
