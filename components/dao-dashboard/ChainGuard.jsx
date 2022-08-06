@@ -1,0 +1,32 @@
+import React from 'react'
+import { useNetwork } from 'wagmi'
+import { Warning } from '../../styles/elements'
+import { useRouter } from 'next/router'
+
+export default function SwitchChain({ children }) {
+  const router = useRouter()
+  const daoAddress = router.query.dao
+  const daoChainId = router.query.chainId
+
+  console.log({ daoAddress, daoChainId })
+
+  const { chain: userChain, chains } = useNetwork()
+  const daoChainName = chains?.find(chain => chain.id == daoChainId)?.name
+  console.log({ chains, daoChainName })
+
+  const isWrongChain = (userChain?.id != daoChainId) ? true : false
+  const wrongChainWarning = userChain ?
+    `Your Web3 wallet is connected to ${userChain?.name}. You need to switch to ${daoChainName} - the native blockchain of this DAO in order to submit transactions to it.`
+    :
+    `Your Web3 wallet is disconnected. You need to connect to ${daoChainName} - the native blockchain of this DAO in order to submit transactions to it.`
+
+  return (
+    <>
+      {(isWrongChain) ?
+        <Warning warning={wrongChainWarning} />
+        :
+        { children }
+      }
+    </>
+  )
+}

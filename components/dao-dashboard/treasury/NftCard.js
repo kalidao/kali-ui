@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { chainId } from 'wagmi'
-import { useMoralisWeb3Api } from 'react-moralis'
 import useSWR from 'swr'
 import { Flex, Box, Text } from '../../../styles/elements'
 import { Spinner } from '../../elements/'
