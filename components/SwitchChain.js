@@ -12,7 +12,6 @@ import {
 
 export default function SwitchChain({ chainId }) {
   const { chains, switchNetwork } = useNetwork()
-  console.log(chains)
   const chain = chains.find((c) => c.id == chainId)
   console.log('chain', chain)
   return (

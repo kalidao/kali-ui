@@ -45,7 +45,6 @@ function NftForm() {
 
   // Upload file to Fleek Storage
   const upload = async () => {
-    console.log(file)
     const input = {
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
@@ -59,7 +58,6 @@ function NftForm() {
 
     try {
       const result = await fleek.upload(input)
-      console.log('Image hash from Fleek: ' + result.hash)
 
       // Construct NFT metadata
       const date = new Date()
@@ -112,7 +110,6 @@ function NftForm() {
     try {
       let result = await nft.methods.mint(owner, tokenId++, tokenUri).send({ from: account })
 
-      console.log('This is the result', result)
       setIsMinted(true)
       value.setLoading(false)
     } catch (e) {

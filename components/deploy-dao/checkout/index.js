@@ -75,8 +75,6 @@ export default function Checkout({ setStep }) {
       docs_ = 'na'
     }
 
-    console.log('docs', docs_)
-
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
 
     // get voters and shares array

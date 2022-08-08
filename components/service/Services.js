@@ -28,7 +28,6 @@ export default function Services(props) {
   }, [remount])
 
   const ProposalTile = (props) => {
-    console.log(props)
     return (
       <WrapItem>
         <LinkBox

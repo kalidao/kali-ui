@@ -86,7 +86,6 @@ export default function SetManager() {
     }
 
     var { managers } = values // this must contain any inputs from custom forms
-    console.log(managers)
 
     // Configure payload param
     let managerList = []
