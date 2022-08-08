@@ -24,7 +24,6 @@ export async function createProposal(dao, chainId, type, title, description) {
 
   try {
     const result = await fleek.upload(input)
-    console.log('Image hash from Fleek: ' + result.hash)
     return 'prop://' + result.hash
   } catch (e) {
     console.log(e)
