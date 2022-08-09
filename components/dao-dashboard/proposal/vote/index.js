@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Text } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
-import { useAccount, useSigner, useContractWrite, useContract, useSignTypedData } from 'wagmi'
+import { useAccount, useSigner, useContractWrite, useContractRead, useContract, useSignTypedData } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 import { uploadVoteData, fetchVoteData } from '../../../tools/ipfsHelpers'
@@ -19,6 +19,19 @@ export default function Vote({ proposal }) {
 
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
+
+  const { data: daoName } = useContractRead(
+    {
+      addressOrName: daoAddress ?? AddressZero,
+      contractInterface: DAO_ABI,
+    },
+    'name',
+    {
+      onSuccess() {
+        console.log('daoName', daoName)
+      },
+    },
+  )
 
   const { data: voteBySigData, writeAsync: voteBySig } = useContractWrite(
     {
@@ -59,7 +72,7 @@ export default function Vote({ proposal }) {
 
   // const sign = async () => {
   //   const domain = {
-  //     name: 'KALI',
+  //     name: daoName,
   //     version: '1',
   //     chainId: Number(chainId),
   //     verifyingContract: daoAddress,
@@ -80,6 +93,7 @@ export default function Vote({ proposal }) {
   //   }
 
   //   try {
+  //     console.log(domain, types, value)
   //     const signature = await signer._signTypedData(domain, types, value)
   //     return signature
   //   } catch (e) {
@@ -118,7 +132,6 @@ export default function Vote({ proposal }) {
   // Submit vote data to IPFS
   useEffect(() => {
     if (signedData) {
-      console.log('Vote approval - ', voteApproval)
       uploadVoteData(daoAddress, Number(chainId), proposal['serial'], voteApproval, account?.address, signedData)
       setVoteApproval(null)
     }
@@ -134,7 +147,7 @@ export default function Vote({ proposal }) {
       // WAGMI
       signTypedData({
         domain: {
-          name: 'KALI',
+          name: daoName,
           version: '1',
           chainId: Number(chainId),
           verifyingContract: daoAddress,
@@ -147,15 +160,16 @@ export default function Vote({ proposal }) {
           ],
         },
         value: {
-          signer: account?.address,
+          signer: ethers.utils.getAddress(account?.address),
           proposal: Number(proposal['serial']),
-          approve: approval,
+          approve: true,
         },
       })
 
       // ethers.js
       // const signature = await sign()
       // console.log(signature)
+
       setVoteApproval(approval)
     },
     [account, proposal],
@@ -170,16 +184,16 @@ export default function Vote({ proposal }) {
       console.log(encodedData)
 
       // Multicall
-      //   try {
-      //     const mc = await multicall({
-      //       args: [encodedData],
-      //       overrides: {
-      //         gasLimit: 1050000,
-      //       },
-      //     })
-      //   } catch (e) {
-      //     console.log(e)
-      //   }
+      try {
+        const mc = await multicall({
+          args: [encodedData],
+          overrides: {
+            gasLimit: 1050000,
+          },
+        })
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 
