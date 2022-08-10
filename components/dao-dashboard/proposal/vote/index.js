@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Text } from '../../../../styles/elements'
+import { Box, Button, Text } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
 import { useAccount, useSigner, useContractWrite, useContractRead, useContract, useSignTypedData } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
@@ -13,12 +13,15 @@ export default function Vote({ proposal }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
-  const [response, setResponse] = useState(null)
   const [members, setMembers] = useState(null)
   const [voteApproval, setVoteApproval] = useState(null)
 
   const { data: account } = useAccount()
-  const { data: signer } = useSigner()
+
+  const left =
+    new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
+  const disabled = proposal['sponsored'] === null || left > 0 ? true : false
+  const votingEnded = left > 0 ? false : true
 
   const { data: daoName } = useContractRead(
     {
@@ -28,20 +31,7 @@ export default function Vote({ proposal }) {
     'name',
     {
       onSuccess() {
-        console.log('daoName', daoName)
-      },
-    },
-  )
-
-  const { data: voteBySigData, writeAsync: voteBySig } = useContractWrite(
-    {
-      addressOrName: daoAddress ?? AddressZero,
-      contractInterface: DAO_ABI,
-    },
-    'voteBySig',
-    {
-      onSuccess() {
-        console.log('voteBySig', voteBySigData)
+        // console.log('daoName', daoName)
       },
     },
   )
@@ -70,42 +60,23 @@ export default function Vote({ proposal }) {
     },
   })
 
-  // const sign = async () => {
-  //   const domain = {
-  //     name: daoName,
-  //     version: '1',
-  //     chainId: Number(chainId),
-  //     verifyingContract: daoAddress,
-  //   }
-
-  //   const types = {
-  //     SignVote: [
-  //       { name: 'signer', type: 'address' },
-  //       { name: 'proposal', type: 'uint256' },
-  //       { name: 'approve', type: 'bool' },
-  //     ],
-  //   }
-
-  //   const value = {
-  //     signer: account?.address,
-  //     proposal: Number(proposal['serial']),
-  //     approve: true,
-  //   }
-
-  //   try {
-  //     console.log(domain, types, value)
-  //     const signature = await signer._signTypedData(domain, types, value)
-  //     return signature
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-
   useEffect(() => {
     let mounted = true
     const fetchMembers = async () => {
+      let _members = []
       const result = await getMembers(Number(chainId), daoAddress)
-      setResponse(result?.data?.daos?.[0])
+      const members = result?.data?.daos?.[0].members
+      if (members) {
+        for (let i = 0; i < members.length; i++) {
+          if (members[i].address) {
+            const member = members[i].address
+            _members.push(member)
+            setMembers([..._members])
+          }
+        }
+      } else {
+        console.log('members not found')
+      }
     }
 
     fetchMembers()
@@ -114,22 +85,7 @@ export default function Vote({ proposal }) {
     }
   }, [])
 
-  useEffect(() => {
-    let _members = []
-    if (response?.members) {
-      for (let i = 0; i < response?.members.length; i++) {
-        if (response?.members[i].address) {
-          const member = response?.members[i].address
-          _members.push(member)
-          setMembers([..._members])
-        }
-      }
-    } else {
-      console.log('members not found')
-    }
-  }, [response])
-
-  // Submit vote data to IPFS
+  // Submit vote data to IPFS (SEE IF POSSIBLE TO MOVE INTO CASTVOTE)
   useEffect(() => {
     if (signedData) {
       uploadVoteData(daoAddress, Number(chainId), proposal['serial'], voteApproval, account?.address, signedData)
@@ -137,14 +93,24 @@ export default function Vote({ proposal }) {
     }
   }, [signedData])
 
-  const left =
-    new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
+  useEffect(() => {
+    // console.log(proposal, votingEnded)
+    const fetchSignedVotes = async () => {
+      console.log(members)
+      let _votes = []
+      if (!disabled) {
+        const votes = await fetchVoteData(daoAddress, proposal['serial'], members)
 
-  const disabled = proposal['sponsored'] === null || left > 0 ? true : false
+        console.log(proposal['serial'], votes)
+      }
+    }
+    if (members) {
+      fetchSignedVotes()
+    }
+  }, [members])
 
   const castVote = useCallback(
     async (approval) => {
-      // WAGMI
       signTypedData({
         domain: {
           name: daoName,
@@ -162,56 +128,43 @@ export default function Vote({ proposal }) {
         value: {
           signer: ethers.utils.getAddress(account?.address),
           proposal: Number(proposal['serial']),
-          approve: true,
+          approve: approval,
         },
       })
-
-      // ethers.js
-      // const signature = await sign()
-      // console.log(signature)
-
       setVoteApproval(approval)
     },
     [account, proposal],
   )
 
-  const processVoteBySigs = async () => {
+  const processSignedVotes = async () => {
     let votes
     if (members.length > 0) {
       votes = await fetchVoteData(daoAddress, proposal['serial'], members)
-
       const encodedData = await encodeData(votes)
-      console.log(encodedData)
+      console.log(votes, encodedData)
 
       // Multicall
-      try {
-        const mc = await multicall({
-          args: [encodedData],
-          overrides: {
-            gasLimit: 1050000,
-          },
-        })
-      } catch (e) {
-        console.log(e)
+      if (encodedData) {
+        try {
+          const mc = await multicall({
+            args: [encodedData],
+            overrides: {
+              gasLimit: 1050000,
+            },
+          })
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
   }
 
   const encodeData = async (votes) => {
     let data = []
-    if (votes) {
-      for (let i = 0; i < votes.length; i++) {
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i].signature) {
         const { r, s, v } = ethers.utils.splitSignature(votes[i].signature)
         console.log([votes[i].member, votes[i].signature, Number(proposal['serial']), votes[i].approval, v, r, s])
-
-        // voteBySig
-        // const tx = await voteBySig({
-        //   args: [votes[i].member, Number(proposal['serial']), votes[i].approval, v, r, s],
-        //   overrides: {
-        //     gasLimit: 1050000,
-        //   },
-        // })
-        // console.log('tx - ', tx)
 
         // Encode data for multicall
         const data_ = daoContract.interface.encodeFunctionData('voteBySig', [
@@ -224,9 +177,10 @@ export default function Vote({ proposal }) {
         ])
         console.log('vote data - ', data_)
         data.push(data_)
+      } else {
+        console.log('No signature found')
+        data = null
       }
-    } else {
-      console.log('Error getting votes data.')
     }
     return data
   }
@@ -239,9 +193,11 @@ export default function Vote({ proposal }) {
       <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => castVote(false)}>
         <BsFillHandThumbsDownFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(10, 80.2%, 35.7%)'} />
       </Box>
-      <Box as="button" onClick={() => processVoteBySigs(true)}>
-        <Text>Process Votes</Text>
-      </Box>
+      {votingEnded && (
+        <Button variant="cta" onClick={() => processSignedVotes()}>
+          Tally Votes
+        </Button>
+      )}
     </>
   )
 }

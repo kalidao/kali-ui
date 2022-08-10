@@ -127,8 +127,7 @@ export async function uploadVoteData(dao, chain, proposal, approval, user, signa
 }
 
 export async function fetchVoteJson(dao, proposal, user) {
-  console.log(dao, proposal, user)
-  let sig
+  // console.log(dao, proposal, user)
   try {
     const hash_ = await fleekStorage.get({
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
@@ -139,12 +138,10 @@ export async function fetchVoteJson(dao, proposal, user) {
     })
     // console.log(hash_)
     if (hash_.hash) {
-      console.log('vote ssig hash', hash_.hash)
+      // console.log('vote ssig hash', hash_.hash)
       const url = 'https://ipfs.io/ipfs/' + hash_.hash
-      console.log(url)
-      let response = await fetch(url)
-      // console.log(response)
-      let json = await response.json()
+      const response = await fetch(url)
+      const json = await response.json()
 
       return json
     } else {
@@ -158,11 +155,12 @@ export async function fetchVoteJson(dao, proposal, user) {
 
 export async function fetchVoteData(dao, proposal, members) {
   let votes = []
-
   for (let i = 0; i < members.length; i++) {
     try {
       const json = await fetchVoteJson(dao, proposal, ethers.utils.getAddress(members[i]))
-      if (json) {
+      if (json == 'none') {
+        return 'none'
+      } else {
         const vote = {
           member: members[i],
           signature: json.signature,
