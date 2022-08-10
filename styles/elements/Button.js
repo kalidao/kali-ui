@@ -118,6 +118,10 @@ const Button = styled('button', {
         '&:active': {
           backgroundColor: '$violet10',
         },
+        '&:disabled': {
+          background: '$gray200',
+          color: '$gray100',
+        },
       },
     },
   },
