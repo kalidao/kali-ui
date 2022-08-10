@@ -1,7 +1,9 @@
 import Layout from '../components/layout'
-import { MyDAOs } from '../components/home'
+import { MyDAOs, NewDao } from '../components/home'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
+import { Flex } from '../styles/elements'
+import { Search, Display } from '../components/home/'
 
 export const getServerSideProps = async () => {
   try {
@@ -46,9 +48,19 @@ export const getServerSideProps = async () => {
 }
 
 export default function HomePage({ daos }) {
+  const toDisplay = daos[1]
+
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <MyDAOs daos={daos} />
+      <Flex css={{
+        marginTop: '6rem',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Search daos={daos} />
+        <NewDao />
+      </Flex>
+      <Display daos={toDisplay} />
     </Layout>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAccount } from 'wagmi'
-import Welcome from './Welcome'
+import Search from './Search'
 import { Flex } from '../../styles/elements'
 import UserDAOs from './UserDAOs'
 
@@ -31,7 +31,7 @@ export default function MyDAOs({ daos }) {
         },
       }}
     >
-      <Welcome daos={daos} />
+      <Search daos={daos} />
       <Flex
         css={{
           flexDirection: 'column',
