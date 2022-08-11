@@ -68,19 +68,10 @@ export default function HomePage({ daos }) {
           gap="md"
           css={{
             minWidth: '75vw',
+            paddingTop: '1.5rem',
           }}
         >
-          <Flex
-            css={{
-              paddingTop: '1.5rem',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginRight: '5rem',
-            }}
-          >
-            <Search daos={daos} setDisplay={setDisplay} />
-            <NewDao />
-          </Flex>
+          <Search daos={daos} setDisplay={setDisplay} />
           <Display daos={display} />
         </Flex>
       </Flex>

@@ -68,9 +68,23 @@ export default function DaoCard({ dao, chain, side }) {
         padding: '10px',
         borderRadius: side ? 0 : '20px',
         gap: '10px',
+        width: 'fit-content',
 
         '@media (max-width: 540px)': {
           width: '15rem',
+        },
+
+        '&:hover': {
+          background: side ? '$gray2' : '$gray3',
+          border: side ? '1px solid $gray4' : '1px solid $gray5',
+        },
+        '&:active': {
+          background: side ? '$gray3' : '$gray4',
+          border: side ? '1px solid $gray5' : '1px solid $gray6',
+        },
+        '&:focus': {
+          background: side ? '$gray3' : '$gray4',
+          border: side ? '1px solid $gray5' : '1px solid $gray6',
         },
       }}
       as="a"

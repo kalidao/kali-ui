@@ -11,10 +11,13 @@ export default function NewDao() {
         <Button
           css={{
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
             fontSize: '24px',
             fontFamily: 'Bold',
             borderRadius: '10px',
+            width: '100%',
+            marginTop: '1rem',
             '&:hover': {
               background: '$gray11',
             },
@@ -24,6 +27,7 @@ export default function NewDao() {
           }}
         >
           Create
+          <PlusIcon />
         </Button>
       </DialogTrigger>
       <DialogContent>
