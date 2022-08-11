@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { Flex } from '../../styles/elements'
 import { styled } from '../../styles/stitches.config'
 import { GoSearch } from 'react-icons/go'
-import DaoCard from './DaoCard'
 
 const SearchBar = styled('div', {
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  padding: '7.5px',
-  minWidth: '30rem',
+  padding: '5px',
+  maxWidth: '20rem',
   background: '$gray2',
   color: '$gray12',
   border: '1px solid $gray6',
@@ -29,14 +27,12 @@ const SearchInput = styled('input', {
   outline: 'none',
   background: 'none',
   color: '$gray12',
-  lineHeight: '1.5',
+  lineHeight: '1.2',
   fontSize: '24px',
 })
 
-export default function Search({ daos }) {
+export default function Search({ daos, setDisplay }) {
   const [search, setSearch] = useState('')
-  const [searchResults, setSearchResults] = useState([])
-
   const [searched, setSearched] = React.useState(false)
 
   const handleSearch = React.useCallback((e) => {
@@ -53,7 +49,7 @@ export default function Search({ daos }) {
         }
       })
     })
-    setSearchResults(results)
+    setDisplay(results)
     setSearched(true)
   })
 
@@ -65,27 +61,9 @@ export default function Search({ daos }) {
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        '@media (max-width: 540px)': {},
-      }}
-    >
-      <SearchBar>
-        <GoSearch />
-        <SearchInput placeholder="Search" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
-      </SearchBar>
-      <Flex dir="col" gap="md">
-        {searched === true && searchResults.length === 0 && 'No results found.'}
-        {searchResults.map((result) => (
-          <DaoCard key={result['id']} dao={result} chain={result['chainId']} />
-        ))}
-      </Flex>
-    </Flex>
+    <SearchBar>
+      <GoSearch />
+      <SearchInput placeholder="Search" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
+    </SearchBar>
   )
 }

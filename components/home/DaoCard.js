@@ -18,7 +18,7 @@ const Address = styled('div', {
 })
 
 // disable when not active chain
-export default function DaoCard({ dao, chain }) {
+export default function DaoCard({ dao, chain, side }) {
   const router = useRouter()
   const { activeChain, chains } = useNetwork()
   const [loading, setLoading] = useState(false)
@@ -64,15 +64,17 @@ export default function DaoCard({ dao, chain }) {
         alignItems: 'flex-start',
         fontSize: '16px',
         border: '1px solid $gray3',
-        background: '$gray2',
+        background: side ? 'none' : '$gray2',
         padding: '10px',
-        borderRadius: '20px',
+        borderRadius: side ? 0 : '20px',
         gap: '10px',
 
         '@media (max-width: 540px)': {
           width: '15rem',
         },
       }}
+      as="a"
+      onClick={gotoDAO}
     >
       <Box
         css={{
@@ -104,7 +106,7 @@ export default function DaoCard({ dao, chain }) {
             {dao['members'].length} Members
           </Box>
         )}
-        <Address>{truncateAddress(dao['id'])}</Address>
+
         <Box
           css={{
             fontFamily: 'Regular',
@@ -112,9 +114,6 @@ export default function DaoCard({ dao, chain }) {
         >
           {getChainName(chain)}
         </Box>
-        <Button variant="cta" onClick={gotoDAO} disabled={loading}>
-          {loading ? <Spinner /> : `Go to ${dao['token']['name']}`}
-        </Button>
       </Flex>
     </Flex>
   )

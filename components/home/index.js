@@ -38,5 +38,6 @@ export const Results = styled('div', {
     gridTemplateRows: 'auto',
   },
 })
+import UserDAOs from './UserDAOs'
 
-export { MyDAOs, NewDaoSquare, NewDao, Search, Display }
+export { MyDAOs, UserDAOs, NewDaoSquare, NewDao, Search, Display }
