@@ -1,7 +1,10 @@
 import Layout from '../components/layout'
-import { MyDAOs } from '../components/home'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
+import { Flex } from '../styles/elements'
+import { MyDAOs, NewDao, Search, Display, UserDAOs } from '../components/home/'
+import { useState } from 'react'
+import { useAccount } from 'wagmi'
 
 export const getServerSideProps = async () => {
   try {
@@ -46,9 +49,32 @@ export const getServerSideProps = async () => {
 }
 
 export default function HomePage({ daos }) {
+  const { data: account } = useAccount()
+  const [display, setDisplay] = useState(daos[1])
+  const [chain, setChain] = useState('1')
+
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <MyDAOs daos={daos} />
+      <Flex
+        css={{
+          marginTop: '5rem',
+          gap: '20px',
+          justifyContent: 'space-between',
+        }}
+      >
+        <UserDAOs address={account?.address} />
+        <Flex
+          dir="col"
+          gap="md"
+          css={{
+            minWidth: '75vw',
+            paddingTop: '1.5rem',
+          }}
+        >
+          <Search daos={daos} setDisplay={setDisplay} />
+          <Display daos={display} />
+        </Flex>
+      </Flex>
     </Layout>
   )
 }
