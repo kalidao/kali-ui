@@ -36,6 +36,22 @@ export default function Vote({ proposal }) {
     },
   )
 
+  const { data: voteBalance } = useContractRead(
+    {
+      addressOrName: daoAddress ?? AddressZero,
+      contractInterface: DAO_ABI,
+    },
+    'balanceOf',
+    {
+      args: account?.address,
+    },
+    {
+      onSuccess() {
+        console.log('token balance - ', voteBalance)
+      },
+    },
+  )
+
   const { data: multicallData, writeAsync: multicall } = useContractWrite(
     {
       addressOrName: daoAddress ?? AddressZero,
@@ -66,6 +82,7 @@ export default function Vote({ proposal }) {
       let _members = []
       const result = await getMembers(Number(chainId), daoAddress)
       const members = result?.data?.daos?.[0].members
+      console.log(members)
       if (members) {
         for (let i = 0; i < members.length; i++) {
           if (members[i].address) {
@@ -78,36 +95,40 @@ export default function Vote({ proposal }) {
         console.log('members not found')
       }
     }
-
     fetchMembers()
     return () => {
       mounted = false
     }
   }, [])
 
-  // Submit vote data to IPFS (SEE IF POSSIBLE TO MOVE INTO CASTVOTE)
+  // Submit vote data to IPFS
   useEffect(() => {
     if (signedData) {
-      uploadVoteData(daoAddress, Number(chainId), proposal['serial'], voteApproval, account?.address, signedData)
+      uploadVoteData(
+        daoAddress,
+        Number(chainId),
+        proposal['serial'],
+        voteApproval,
+        account?.address,
+        ethers.utils.formatEther(voteBalance),
+        signedData,
+      )
       setVoteApproval(null)
     }
   }, [signedData])
 
-  useEffect(() => {
-    // console.log(proposal, votingEnded)
-    const fetchSignedVotes = async () => {
-      console.log(members)
-      let _votes = []
-      if (!disabled) {
-        const votes = await fetchVoteData(daoAddress, proposal['serial'], members)
+  // useEffect(() => {
+  //   const fetchSignedVotes = async () => {
+  //     if (!disabled) {
+  //       const votes = await fetchVoteData(daoAddress, proposal['serial'], members)
 
-        console.log(proposal['serial'], votes)
-      }
-    }
-    if (members) {
-      fetchSignedVotes()
-    }
-  }, [members])
+  //       console.log(proposal['serial'], votes)
+  //     }
+  //   }
+  //   if (members) {
+  //     fetchSignedVotes()
+  //   }
+  // }, [members])
 
   const castVote = useCallback(
     async (approval) => {

@@ -93,14 +93,15 @@ export async function fetchCrowdsaleTermsHash(name, summoner) {
   return hash
 }
 
-export async function uploadVoteData(dao, chain, proposal, approval, user, signature) {
-  console.log(dao, proposal, user, signature)
+export async function uploadVoteData(dao, chain, proposal, approval, user, votes, signature) {
+  // console.log(dao, proposal, user, votes, signature)
   const voteData = {
     dao: dao,
     chain: chain,
     proposal: proposal,
     approval: approval,
     user: user,
+    votes: votes,
     signature: signature,
   }
   const data = JSON.stringify(voteData)
