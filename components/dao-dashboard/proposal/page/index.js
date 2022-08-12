@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Box, Button, Flex, Text } from '../../../../styles/elements'
 import Tag from '../../../../styles/proposal/Tag'
 import InfoCard from './InfoCard'
@@ -11,7 +11,6 @@ import Sponsor from '../Sponsor'
 import { useAccount } from 'wagmi'
 import Cancel from '../Cancel'
 import Process from '../Process'
-import { willProcess } from '../helpers'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
 import { useFetch } from '../../../hooks/useFetch'
@@ -37,7 +36,6 @@ export default function ProposalView({ proposal }) {
     return false
   }
 
-  console.log('proposal details', details, isLoading, error)
   return (
     <Flex
       dir="col"

@@ -21,7 +21,7 @@ export default function InfoBar({ proposal }) {
   })
 
   const share = () => {
-    copy('https://app.kali.gg/' + router.asPath)
+    copy('https://app.kali.gg' + router.asPath)
     setOpen(true)
   }
 
