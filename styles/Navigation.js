@@ -277,6 +277,7 @@ export const NavigationMenuComponent = () => {
             <ContentList layout="one">
               <ContentListItem title="Getting Started" href="https://docs.kali.gg/"></ContentListItem>
               <ContentListItem title="Service Providers" href="/services"></ContentListItem>
+              <ContentListItem title="Legal Tools" href="/tools"></ContentListItem>
               <ContentListItem
                 title={`Discord`}
                 icon={<FaDiscord />}
