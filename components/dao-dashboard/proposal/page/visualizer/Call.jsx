@@ -146,12 +146,12 @@ const createParams = (to, chain, decoded) => {
       value = ethers.utils.formatUnits(decoded['tx']['args'][i], 18)
 
       // FIXME: fetch decimals instead
-      if (decoded['type'] == 'ERC20' ) {
+      if (decoded['type'] == 'ERC20') {
         const cTokens = tokens[chain]
         for (let key in cTokens) {
-          if (!cTokens.hasOwnProperty(key)) continue;
-          if (cTokens[key]["address"] === to) {
-            value = ethers.utils.formatUnits(decoded['tx']['args'][i], cTokens[key]["decimals"])
+          if (!cTokens.hasOwnProperty(key)) continue
+          if (cTokens[key]['address'] === to) {
+            value = ethers.utils.formatUnits(decoded['tx']['args'][i], cTokens[key]['decimals'])
           }
         }
       }
