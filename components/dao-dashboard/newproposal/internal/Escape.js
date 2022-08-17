@@ -46,7 +46,7 @@ export default function Escape({ kill, title, editor }) {
             10, // ESCAPE prop
             docs,
             [AddressZero],
-            [proposalSelected],
+            [kill],
             [Array(0)],
           ],
           overrides: {
