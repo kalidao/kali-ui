@@ -37,23 +37,23 @@ export default function Escape({ kill, title, editor }) {
     }
 
     console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
-      try {
-        const tx = await writeAsync({
-          args: [
-            10, // ESCAPE prop
-            docs,
-            [AddressZero],
-            [kill],
-            [Array(0)],
-          ],
-          overrides: {
-            gasLimit: 1050000,
-          },
-        })
-        console.log('tx', tx)
-      } catch (e) {
-        console.log('error', e)
-      }
+    try {
+      const tx = await writeAsync({
+        args: [
+          10, // ESCAPE prop
+          docs,
+          [AddressZero],
+          [kill],
+          [Array(0)],
+        ],
+        overrides: {
+          gasLimit: 1050000,
+        },
+      })
+      console.log('tx', tx)
+    } catch (e) {
+      console.log('error', e)
+    }
   }
 
   return (
