@@ -1,12 +1,11 @@
 import { erc20ABI, useContractRead, useContractWrite } from 'wagmi'
 import { Button } from '../../../styles/elements'
-
 import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
 
-const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
-  const { writeAsync } = useContractWrite(
+const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable }) => {
+  const { writeAsync: callExtension } = useContractWrite(
     {
       addressOrName: addresses[chainId].extensions.crowdsale2,
       contractInterface: CROWDSALE_ABI,
@@ -14,26 +13,15 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
     'callExtension',
   )
 
-  const { data: decimals } = useContractRead(
-    {
-      addressOrName: info?.crowdsale?.purchaseToken,
-      contractInterface: erc20ABI,
-    },
-    'decimals',
-    {
-      chainId: Number(chainId),
-    },
-  )
   const buy = async () => {
+    console.log(dao, amount, decimals)
+
     if (!dao || !amount || !decimals) return
 
     amount = amount.toString()
-    if (
-      info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
-      info?.crowdsale?.purchaseToken === '0x000000000000000000000000000000000000dead'
-    ) {
+    if (symbol === 'ETH') {
       try {
-        const res = writeAsync({
+        const res = callExtension({
           args: [dao, ethers.utils.parseEther(amount)],
           overrides: {
             value: ethers.utils.parseEther(amount),
@@ -45,7 +33,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
       }
     } else {
       try {
-        const res = writeAsync({
+        const res = callExtension({
           args: [dao, ethers.utils.parseUnits(amount, decimals)],
           overrides: {
             gasLimit: 1050000,
@@ -74,7 +62,7 @@ const Buy = ({ info, dao, amount, chainId, text, shouldDisable }) => {
         },
       }}
     >
-      {text}
+      {buttonText}
     </Button>
   )
 }
