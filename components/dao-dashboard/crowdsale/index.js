@@ -23,7 +23,8 @@ export default function Crowdsale({ info }) {
   const { dao, chainId } = router.query
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  const { data: purchaseTokenSymbol, isLoading } = useContractRead(
+
+  const { data: purchaseTokenSymbol } = useContractRead(
     {
       addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
       contractInterface: erc20ABI,
@@ -33,6 +34,7 @@ export default function Crowdsale({ info }) {
       chainId: Number(chainId),
     },
   )
+
   const symbol =
     info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
     info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
@@ -70,12 +72,16 @@ export default function Crowdsale({ info }) {
     setAmount(_amount)
     console.log(_amount)
 
-    if (_amount == 0) {
+    if (_amount === 0) {
       setCanPurchase(false)
       setShouldApprove(false)
-    } else {
+    }
+
+    if (symbol != 'ETH') {
       checkAllowance()
     }
+
+    setCanPurchase(true)
   }
 
   return (
@@ -171,14 +177,23 @@ export default function Crowdsale({ info }) {
         <Approve info={info} dao={dao} amount={amount} chainId={chainId} purchaseTokenSymbol={purchaseTokenSymbol} />
       )}
       {canPurchase ? (
-        <Buy info={info} dao={dao} amount={willPurchase} chainId={chainId} text={'Buy Tokens'} shouldDisable={false} />
-      ) : (
         <Buy
-          info={info}
           dao={dao}
+          symbol={symbol}
+          decimals={decimals ? decimals : 18}
           amount={amount}
           chainId={chainId}
-          text={amount > 0 ? `Buy` : 'Enter an amount'}
+          buttonText={'Buy Tokens'}
+          shouldDisable={false}
+        />
+      ) : (
+        <Buy
+          dao={dao}
+          symbol={symbol}
+          decimals={decimals ? decimals : 18}
+          amount={amount}
+          chainId={chainId}
+          buttonText={amount > 0 ? `Buy` : 'Enter an amount'}
           shouldDisable={true}
         />
       )}
