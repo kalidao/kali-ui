@@ -98,7 +98,7 @@ export const addresses =
       ricardian: '0x503297a0bf06B1A33124Cd93e486f17A7F7fDF20',
       kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
       factory: '0xDDdFf70C77Cffcf97Fb91F7aC4aD0E12E8C14571',
-      erc20factory: '',
+      erc20factory: '0x2BF66A443C1553d3F9fb41A83804ABC41B8005f7',
       nft: '',
       access2: '0xa9eF2815a4CA3AfaF29c5234b6937A419cEC33a6',
       extensions: {
