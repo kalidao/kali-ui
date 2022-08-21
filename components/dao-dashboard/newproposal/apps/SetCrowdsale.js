@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
@@ -20,9 +20,9 @@ import { createProposal } from '../../../tools/createProposal'
 export default function SetCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = router.query.chainId
+  const chainId = router.query.chainId
   const { data: signer } = useSigner()
-  const crowdsaleAddress = addresses[daoChainId]['extensions']['crowdsale2']
+  const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -31,7 +31,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[daoChainId]['access2'],
+    addressOrName: addresses[chainId]['access2'],
     contractInterface: KALIACCESS_ABI,
     signerOrProvider: signer,
   })
@@ -49,14 +49,12 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
   const [crowdsaleStatus, setCrowdsaleStatus] = useState('fetching...')
   const [toggleCrowdsale, setToggleCrowdsale] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
 
   useEffect(() => {
     const getCrowdsaleStatus = async () => {
-      const status = await fetchExtensionStatus(daoChainId, daoAddress, crowdsaleAddress)
+      const status = await fetchExtensionStatus(chainId, daoAddress, crowdsaleAddress)
       status ? setCrowdsaleStatus('Active') : setCrowdsaleStatus('Inactive')
     }
 
@@ -76,7 +74,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
 
     for (let i = 0; i < customAccess.length; i++) {
-      const address = await fetchEnsAddress(daoChainId, customAccess[i])
+      const address = await fetchEnsAddress(chainId, customAccess[i])
 
       if (address && address.slice(0, 7) === 'Invalid') {
         setWarning(`${address}.`)
@@ -100,7 +98,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
   }
 
-  // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
@@ -140,7 +137,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     // Crowdsale end time
     crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
-    console.log('crowdsaleEnd', crowdsaleEnd)
 
     // Crowdsale terms
     let _terms
@@ -156,7 +152,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, chainId, 9, title, editor.getJSON())
     } catch (e) {
       console.error(e)
       return
@@ -191,7 +187,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
 
     try {
-      if (decimals == 18 || _purchaseAsset == AddressZero) {
+      if (decimals == 18 || decimals == 6 || _purchaseAsset == AddressZero) {
         setWarning('')
         const tx = await kalidao.propose(
           9, // EXTENSION prop
