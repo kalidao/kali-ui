@@ -35,6 +35,17 @@ export default function Crowdsale({ info }) {
     },
   )
 
+  const { data: decimals } = useContractRead(
+    {
+      addressOrName: info?.crowdsale?.purchaseToken,
+      contractInterface: erc20ABI,
+    },
+    'decimals',
+    {
+      chainId: Number(chainId),
+    },
+  )
+
   const symbol =
     info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
     info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
