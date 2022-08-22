@@ -23,4 +23,10 @@ export const serviceProviders = [
     link: 'https://j6dn81d0m26.typeform.com/to/BXwMVdWX',
     icon: null,
   },
+  {
+    name: 'Doola',
+    text: 'Fill out a form and get US LLC and Bank Account',
+    link: 'https://doolahq.typeform.com/kalixdoola',
+    icon: null,
+  }
 ]
