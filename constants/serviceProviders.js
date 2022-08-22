@@ -3,7 +3,7 @@ export const serviceProviders = [
     name: 'LexDAO Clinic',
     text: 'Law students and pros from around the world sort your legals',
     link: 'https://j6dn81d0m26.typeform.com/to/BXwMVdWX',
-    icon: '/img/services/lexdaoclinic.svg',
+    icon: 'null',
   },
   {
     name: 'Doola',
@@ -15,7 +15,7 @@ export const serviceProviders = [
     name: 'Opolis',
     text: 'Get insurance and other IRL benefits',
     link: 'https://connect.opolis.co/kali/',
-    icon: null,
+    icon: '/img/services/opolis.svg',
   },
   {
     name: 'Twali',
