@@ -1,5 +1,23 @@
 export const serviceProviders = [
   {
+    name: 'LexDAO Clinic',
+    text: 'Law students and pros from around the world sort your legals',
+    link: 'https://j6dn81d0m26.typeform.com/to/BXwMVdWX',
+    icon: '/img/services/lexdaoclinic.svg',
+  },
+  {
+    name: 'Doola',
+    text: 'Fill out a form and get a US LLC and bank account',
+    link: 'https://doolahq.typeform.com/kalixdoola',
+    icon: '/img/services/doola.svg',
+  },
+  {
+    name: 'Opolis',
+    text: 'Get insurance and other IRL benefits',
+    link: 'https://connect.opolis.co/kali/',
+    icon: null,
+  },
+  {
     name: 'Twali',
     text: 'Decentralized expert marketplace.',
     link: 'https://twali.xyz/',
@@ -16,17 +34,5 @@ export const serviceProviders = [
     text: 'Security services and financial risk assessment',
     link: 'https://blockapex.io/',
     icon: '/img/services/blockApex.svg',
-  },
-  {
-    name: 'LexDAO Clinic',
-    text: 'Law students and professionals from around the world.',
-    link: 'https://j6dn81d0m26.typeform.com/to/BXwMVdWX',
-    icon: null,
-  },
-  {
-    name: 'Doola',
-    text: 'Fill out a form and get US LLC and Bank Account',
-    link: 'https://doolahq.typeform.com/kalixdoola',
-    icon: null,
   },
 ]
