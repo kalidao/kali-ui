@@ -28,5 +28,5 @@ export const serviceProviders = [
     text: 'Fill out a form and get US LLC and Bank Account',
     link: 'https://doolahq.typeform.com/kalixdoola',
     icon: null,
-  }
+  },
 ]
