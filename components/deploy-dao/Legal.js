@@ -73,7 +73,7 @@ export default function Legal({ setStep }) {
           <FormElement>
             <Label htmlFor="docs"></Label>
             <Text variant="link">
-              Unsure which entity to form? Check posts by
+              Resources to help with entity selection:
               <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/"> a16z</a>
               or
               <a href="https://daos.paradigm.xyz/"> Paradigm</a>
