@@ -31,6 +31,13 @@ export default function Header({ info }) {
       break
   }
 
+  let progress = 0
+  progress =
+    (ethers.utils.formatEther(info?.crowdsale?.amountPurchased) /
+      ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)) *
+    100
+  // console.log(info.crowdsale.purchase)
+
   return (
     <Flex
       css={{
@@ -45,37 +52,43 @@ export default function Header({ info }) {
           fontFamily: 'Regular',
         }}
       >
-        Buy
+        Contribute
       </Text>
       <Popover>
         <PopoverTrigger asChild>
           <Icon aria-label="Crowdsale Information" />
         </PopoverTrigger>
         <PopoverContent>
-          <Flex>
-            <Flex align="separate">
+          <Flex dir="col" gap="md">
+            <Flex dir="row" align="separate">
+              <Text>Progress: </Text>
+              <Text>{progress.toFixed(2)}%</Text>
+            </Flex>
+          </Flex>
+          <Flex dir="col" gap="md">
+            <Flex dir="row" align="separate">
               <Text>Type: </Text>
               <Text>{type}</Text>
             </Flex>
           </Flex>
-          <Flex>
-            <Flex align="separate">
+          <Flex dir="col" gap="md">
+            <Flex dir="row" align="separate">
               <Text>Personal Limit: </Text>
               <Text>
                 {personalLimit} {info?.token?.symbol}
               </Text>
             </Flex>
           </Flex>
-          <Flex>
-            <Flex align="separate">
+          <Flex dir="col" gap="md">
+            <Flex dir="row" align="separate">
               <Text>Total Limit: </Text>
               <Text>
                 {purchaseLimit} {info?.token?.symbol}
               </Text>
             </Flex>
           </Flex>
-          <Flex>
-            <Flex align="center">
+          <Flex dir="col" gap="md">
+            <Flex dir="row" align="separate">
               <Text>Ends: </Text>
               <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text>
             </Flex>

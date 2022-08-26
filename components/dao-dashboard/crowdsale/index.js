@@ -194,7 +194,7 @@ export default function Crowdsale({ info }) {
           decimals={decimals ? decimals : 18}
           amount={amount}
           chainId={chainId}
-          buttonText={'Buy Tokens'}
+          buttonText={`Contribute ${symbol}`}
           shouldDisable={false}
         />
       ) : (

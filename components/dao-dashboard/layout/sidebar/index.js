@@ -44,7 +44,7 @@ export default function Sidebar({ crowdsale }) {
     },
     {
       link: 'crowdsale',
-      label: 'Sale',
+      label: 'Contribute',
       icon: <GiCoins />,
       active: crowdsale?.active,
     },
