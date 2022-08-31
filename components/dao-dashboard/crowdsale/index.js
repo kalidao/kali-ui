@@ -255,11 +255,15 @@ export default function Crowdsale({ info }) {
       {success && tx && (
         <Flex>
           <Text>
-            <a href={crowdsale.receipt == 'none' ? null : 'https://ipfs.io/ipfs/' + crowdsale.receipt} target="_blank">
+            <a
+              href={crowdsale.receipt == 'none' ? null : 'https://ipfs.io/ipfs/' + crowdsale.receipt}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               {crowdsale.receiptMessage ? crowdsale.receiptMessage : 'Thank you~.'}
             </a>{' '}
             (
-            <a href={addresses[chainId]['blockExplorer'] + '/tx/' + tx} target="_blank">
+            <a href={addresses[chainId]['blockExplorer'] + '/tx/' + tx} target="_blank" rel="noreferrer noopener">
               Link
             </a>
             ){' '}
