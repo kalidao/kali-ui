@@ -1,7 +1,27 @@
 import fleek from '@fleekhq/fleek-storage-js'
 import fleekStorage from '@fleekhq/fleek-storage-js'
 
-// ----- Pre-DAO Deployment -----
+// General use case
+export async function uploadIpfs(dao, content, attachment) {
+  const input = {
+    apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+    apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+    bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+    key: 'DAO (' + dao + ")'s " + content + ' is attached with ' + attachment.name,
+    data: attachment,
+    httpUploadProgressCallback: (event) => {
+      console.log(Math.round((event.loaded / event.total) * 100) + '% done')
+    },
+  }
+
+  try {
+    const result = await fleek.upload(input)
+    console.log('Image hash from Fleek: ' + result.hash)
+    return result.hash
+  } catch (e) {
+    console.log('Something wrong with Fleek upload.')
+  }
+}
 
 // Upload incorporation docs
 export async function ipfsIncorporationDoc(name, summoner, doc) {
@@ -25,13 +45,65 @@ export async function ipfsIncorporationDoc(name, summoner, doc) {
   }
 }
 
-// Upload crowdsale terms
-export async function ipfsCrowdsaleTerms(name, summoner, terms) {
+// Upload crowdsale data
+export async function ipfsCrowdsaleData(
+  dao,
+  chainId,
+  background,
+  purchaseAccess,
+  purchaseMultiplier,
+  purchaseAsset,
+  crowdsaleEnd,
+  purchaseLimit,
+  personalLimit,
+  termsHash,
+  receiptHash,
+  receiptMessage,
+) {
+  const obj = {
+    contract: 'KaliV1',
+    dao: dao,
+    crowdsale: 'KaliDAOcrowdsaleV2',
+    chainId: chainId,
+    background: background,
+    purchaseAccess: purchaseAccess,
+    purchaseMultiplier: purchaseMultiplier,
+    purchaseAsset: purchaseAsset,
+    crowdsaleEnd: crowdsaleEnd,
+    purchaseLimit: purchaseLimit,
+    personalLimit: personalLimit,
+    terms: termsHash,
+    receipt: receiptHash,
+    receiptMessage: receiptMessage,
+  }
+
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
     bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-    key: name + "'s Crowdsale Terms as prepared by " + summoner.toLowerCase(),
+    key: 'DAO (' + dao + ")'s Crowdsale Data",
+    data: JSON.stringify(obj, null, 2),
+    httpUploadProgressCallback: (event) => {
+      console.log(Math.round((event.loaded / event.total) * 100) + '% done')
+    },
+  }
+
+  try {
+    const result = await fleek.upload(input)
+    console.log('Image hash from Fleek: ' + result.hash)
+    return result.hash
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+// Upload crowdsale terms
+export async function ipfsCrowdsaleTerms(dao, terms) {
+  const input = {
+    apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+    apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+    bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+    key: 'DAO (' + dao + ")'s Crowdsale Terms",
     data: terms,
     httpUploadProgressCallback: (event) => {
       console.log(Math.round((event.loaded / event.total) * 100) + '% done')
@@ -47,16 +119,14 @@ export async function ipfsCrowdsaleTerms(name, summoner, terms) {
   }
 }
 
-// ----- Post-DAO Deployment -----
-
-// General use case
-export async function uploadIpfs(dao, content, attachment) {
+// Upload crowdsale receipt
+export async function ipfsCrowdsaleReceipt(dao, receipt) {
   const input = {
     apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
     bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-    key: 'DAO (' + dao + ")'s " + content + ' is attached with ' + attachment.name,
-    data: attachment,
+    key: 'DAO (' + dao + ")'s Crowdsale Receipt",
+    data: receipt,
     httpUploadProgressCallback: (event) => {
       console.log(Math.round((event.loaded / event.total) * 100) + '% done')
     },
@@ -67,18 +137,64 @@ export async function uploadIpfs(dao, content, attachment) {
     console.log('Image hash from Fleek: ' + result.hash)
     return result.hash
   } catch (e) {
-    console.log('Something wrong with Fleek upload.')
+    console.log(e)
   }
 }
 
-export async function fetchCrowdsaleTermsHash(name, summoner) {
+// Fetch crowdsale data
+export async function fetchCrowdsaleDataHash(dao) {
   let hash
   try {
     const hash_ = await fleekStorage.get({
       apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
-      key: name + "'s Crowdsale Terms as prepared by " + summoner,
+      key: 'DAO (' + dao + ")'s Crowdsale Data",
+      getOptions: ['publicUrl'],
+    })
+    console.log(hash_)
+    if (hash_.publicUrl) {
+      hash = hash_.publicUrl
+    } else {
+      hash = 'none'
+    }
+  } catch (e) {
+    console.log('Error retrieving terms.')
+  }
+  return hash
+}
+
+// Fetch crowdsale terms
+export async function fetchCrowdsaleTermsHash(dao) {
+  let hash
+  try {
+    const hash_ = await fleekStorage.get({
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+      bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+      key: 'DAO (' + dao + ")'s Crowdsale Terms",
+      getOptions: ['hash'],
+    })
+    if (hash_.hash) {
+      hash = hash_.hash
+    } else {
+      hash = 'none'
+    }
+  } catch (e) {
+    console.log('Error retrieving terms.')
+  }
+  return hash
+}
+
+// Fetch crowdsale receipt
+export async function fetchCrowdsaleReceiptHash(dao) {
+  let hash
+  try {
+    const hash_ = await fleekStorage.get({
+      apiKey: process.env.NEXT_PUBLIC_FLEEK_API_KEY,
+      apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
+      bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
+      key: 'DAO (' + dao + ")'s Crowdsale Receipt",
       getOptions: ['hash'],
     })
     if (hash_.hash) {

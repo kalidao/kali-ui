@@ -162,6 +162,7 @@ export default function CallContract({ setProposal, title, editor }) {
       }}
     >
       <Text
+        variant="instruction"
         css={{
           fontFamily: 'Regular',
         }}
@@ -170,6 +171,7 @@ export default function CallContract({ setProposal, title, editor }) {
         with, and supply the appropriate inputs.{' '}
       </Text>
       <Text
+        variant="instruction"
         css={{
           fontFamily: 'Regular',
         }}

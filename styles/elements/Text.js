@@ -18,6 +18,10 @@ const Text = styled('div', {
         color: '$purple300',
         fontFamily: 'Italic',
       },
+      instruction: {
+        fontSize: '1rem',
+        color: '$gray11',
+      },
     },
     color: {
       background: {

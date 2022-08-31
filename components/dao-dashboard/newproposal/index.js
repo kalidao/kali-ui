@@ -23,12 +23,10 @@ export function NewProposalModal({ proposalProp, editor, title }) {
   const [view, setView] = useState(proposalProp)
 
   const proposals = {
-    // Main Menu
     menu: {
       title: '',
       component: <ProposalsMenu setProposal={setView} />,
     },
-    // Sub Menu
     membersMenu: {
       title: 'Manage',
       component: <MembersMenu setProposal={setView} />,
@@ -49,14 +47,11 @@ export function NewProposalModal({ proposalProp, editor, title }) {
       title: 'Apps',
       component: <AppsMenu setProposal={setView} />,
     },
-    // Member Menu
     addMember: {
-      // done
       title: 'Add Member',
       component: <AddMember setProposal={setView} editor={editor} title={title} />,
     },
     removeMember: {
-      // done
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} editor={editor} title={title} />,
     },
@@ -65,39 +60,30 @@ export function NewProposalModal({ proposalProp, editor, title }) {
       component: <ManageMembership setProposal={setView} editor={editor} title={title} />,
     },
     quit: {
-      // done
       title: 'Redeem and Quit',
       component: <Redeem setProposal={setView} editor={editor} title={title} />,
     },
-    // Send Menu
     eth: {
-      // done
       title: 'Send ETH',
       component: <SendEth setProposal={setView} editor={editor} title={title} />,
     },
     erc20: {
-      // done
       title: 'Send ERC20',
       component: <SendErc20 setProposal={setView} editor={editor} title={title} />,
     },
     erc721: {
-      //donef
       title: 'Send ERC721',
       component: <SendErc721 setProposal={setView} editor={editor} title={title} />,
     },
-    // Gov Menu
     transferability: {
-      // done
       title: 'Toggle Transferability',
       component: <ToggleTransfer setProposal={setView} editor={editor} title={title} />,
     },
     votingPeriod: {
-      // done
       title: 'Update Voting Period',
       component: <UpdateVotingPeriod setProposal={setView} editor={editor} title={title} />,
     },
     quorum: {
-      // done
       title: 'Update Quorum',
       component: <UpdateQuorum setProposal={setView} editor={editor} title={title} />,
     },
@@ -111,27 +97,22 @@ export function NewProposalModal({ proposalProp, editor, title }) {
       title: 'Mint real estate NFT',
       component: <MintReal setProposal={setView} editor={editor} title={title} />,
     },
-    // Admin Menu
     manager: {
       title: 'Configure Extensions',
       component: <ConfigureExtensions setProposal={setView} editor={editor} title={title} />,
     },
     docs: {
-      // done
       title: 'Update Documentation',
       component: <UpdateDocs setProposal={setView} editor={editor} title={title} />,
     },
     escape: {
-      // done
       title: 'Kill a Proposal',
       component: <Escape setProposal={setView} editor={editor} title={title} />,
     },
     call: {
-      // done
       title: 'Interact with External Contracts',
       component: <CallContract setProposal={setView} editor={editor} title={title} />,
     },
-    // Membership Menu
     crowdsale: {
       title: 'Set Crowdsale Rules',
       component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
@@ -161,6 +142,7 @@ export function NewProposalModal({ proposalProp, editor, title }) {
         <Box
           css={{
             minWidth: '40vw',
+            maxWidth: '40vw',
             paddingTop: '5px',
           }}
         >

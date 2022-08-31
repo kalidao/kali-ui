@@ -3,8 +3,8 @@ import Layout from '../../../../components/dao-dashboard/layout/'
 import { Flex, Button } from '../../../../styles/elements'
 import { Label, Input } from '../../../../styles/form-elements'
 import Editor from '../../../../components/editor'
-import { NewProposalModal } from '../../../../components/dao-dashboard/newproposal'
 import { useEditor } from '@tiptap/react'
+import { NewProposalModal } from '../../../../components/dao-dashboard/newproposal'
 import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../../components/editor/editor.module.css'
 
@@ -49,11 +49,11 @@ export default function ProposePage() {
           />
         </Flex>
         <Flex dir="col" gap="sm">
-          <Label>Description (Optional)</Label>
+          <Label>Description</Label>
           <Editor editor={editor} />
         </Flex>
         <Flex dir="col" gap="sm">
-          <Label>Executables</Label>
+          <Label>Instruction</Label>
           <NewProposalModal proposalProp="menu" editor={editor} title={title} />
         </Flex>
       </Flex>
