@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useContract, useSigner, useAccount } from 'wagmi'
+import { fetchCrowdsaleDataHash, fetchCrowdsaleTermsHash, fetchCrowdsaleReceiptHash } from '../../tools/ipfsHelpers'
 import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import Buy from './Buy'
@@ -24,6 +25,12 @@ export default function Crowdsale({ info }) {
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
 
+  const [crowdsale, setCrowdsale] = useState({})
+  const [background, setBackground] = useState('')
+  const [clickedTerms, setClickedTerms] = useState(null)
+  const [success, setSuccess] = useState(false)
+  const [tx, setTx] = useState(null)
+
   const { data: purchaseTokenSymbol } = useContractRead(
     {
       addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
@@ -37,7 +44,7 @@ export default function Crowdsale({ info }) {
 
   const { data: decimals } = useContractRead(
     {
-      addressOrName: info?.crowdsale?.purchaseToken,
+      addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
       contractInterface: erc20ABI,
     },
     'decimals',
@@ -81,7 +88,6 @@ export default function Crowdsale({ info }) {
 
   const handleAmount = (_amount) => {
     setAmount(_amount)
-    console.log(_amount)
 
     if (_amount === 0) {
       setCanPurchase(false)
@@ -94,6 +100,25 @@ export default function Crowdsale({ info }) {
 
     setCanPurchase(true)
   }
+
+  useEffect(() => {
+    const getCrowdsaleData = async () => {
+      const data = await fetchCrowdsaleDataHash(dao)
+      const response = await fetch(data)
+      const responseJson = await response.json()
+      setCrowdsale(responseJson)
+
+      try {
+        const _background = responseJson.background ? responseJson.background.content[0].content[0].text : ''
+        setBackground(_background)
+      } catch (e) {
+        console.log(e)
+        setBackground('Pick an amount to contribute:')
+      }
+    }
+
+    getCrowdsaleData()
+  }, [])
 
   return (
     <Flex
@@ -110,6 +135,7 @@ export default function Crowdsale({ info }) {
       }}
     >
       <Header info={info} />
+      {background && <Text>{background}</Text>}
       <Flex
         dir="col"
         css={{
@@ -187,7 +213,21 @@ export default function Crowdsale({ info }) {
       {shouldApprove && (
         <Approve info={info} dao={dao} amount={amount} chainId={chainId} purchaseTokenSymbol={purchaseTokenSymbol} />
       )}
-      {canPurchase ? (
+      {crowdsale.terms && crowdsale.terms != 'none' && (
+        <Flex dir="row" gap="md">
+          <Input
+            type={'checkbox'}
+            variant="checkbox"
+            value={clickedTerms}
+            onChange={() => setClickedTerms(!clickedTerms)}
+          />
+          <Text>
+            I agree to the <a href={'https://ipfs.io/ipfs/' + crowdsale.terms}>contribution terms</a>{' '}
+          </Text>
+        </Flex>
+      )}
+
+      {canPurchase || (crowdsale.terms != 'none' && clickedTerms) ? (
         <Buy
           dao={dao}
           symbol={symbol}
@@ -196,6 +236,8 @@ export default function Crowdsale({ info }) {
           chainId={chainId}
           buttonText={`Contribute ${symbol}`}
           shouldDisable={false}
+          setSuccess={setSuccess}
+          setTx={setTx}
         />
       ) : (
         <Buy
@@ -204,9 +246,25 @@ export default function Crowdsale({ info }) {
           decimals={decimals ? decimals : 18}
           amount={amount}
           chainId={chainId}
-          buttonText={amount > 0 ? `Buy` : 'Enter an amount'}
+          buttonText={`Contribute ${symbol}`}
           shouldDisable={true}
+          setSuccess={setSuccess}
+          setTx={setTx}
         />
+      )}
+      {success && tx && (
+        <Flex>
+          <Text>
+            <a href={crowdsale.receipt == 'none' ? null : 'https://ipfs.io/ipfs/' + crowdsale.receipt} target="_blank">
+              {crowdsale.receiptMessage ? crowdsale.receiptMessage : 'Thank you~.'}
+            </a>{' '}
+            (
+            <a href={addresses[chainId]['blockExplorer'] + '/tx/' + tx} target="_blank">
+              Link
+            </a>
+            ){' '}
+          </Text>
+        </Flex>
       )}
     </Flex>
   )

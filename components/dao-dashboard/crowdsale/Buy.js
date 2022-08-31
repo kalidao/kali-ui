@@ -4,13 +4,19 @@ import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
 
-const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable }) => {
+const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable, setSuccess, setTx }) => {
   const { writeAsync: callExtension } = useContractWrite(
     {
       addressOrName: addresses[chainId].extensions.crowdsale2,
       contractInterface: CROWDSALE_ABI,
     },
     'callExtension',
+    {
+      onSuccess(data) {
+        setSuccess(true)
+        setTx(data.hash)
+      },
+    },
   )
 
   const buy = async () => {
