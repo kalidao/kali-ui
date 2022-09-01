@@ -67,7 +67,7 @@ export default function Governance({ setStep }) {
       <FormElement>
         <Label htmlFor="quorum">
           Participation Needed
-          <Tip label="Minimum percentage of voters required for a proposal to meet quorum." />
+          <Tip label="Minimum percentage of votes required for a proposal to pass" />
         </Label>
         <Flex dir="col" gap="sm">
           <Input
@@ -97,7 +97,9 @@ export default function Governance({ setStep }) {
         </Flex>
       </FormElement>
       <FormElement>
-        <Label htmlFor="approval">Approval Needed</Label>
+        <Label htmlFor="approval">
+          Approval Needed <Tip label="Minimum percentage of positive votes required for a proposal to pass" />
+        </Label>
         <Flex dir="col" gap="sm">
           <Input
             type="number"
@@ -126,7 +128,10 @@ export default function Governance({ setStep }) {
         </Flex>
       </FormElement>
       <FormElement>
-        <Label htmlFor="transferability">Token Transferability</Label>
+        <Label htmlFor="transferability">
+          Token Transferability <Tip label="Toggle to allow KaliDAO tokens to be transferable at start" />
+        </Label>
+
         <Switch
           control={control}
           name="transferability"

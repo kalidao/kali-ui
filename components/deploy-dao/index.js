@@ -46,31 +46,51 @@ export default function DeployDaoWrapper() {
   const steps = [
     {
       component: <Identity setStep={setStep} />,
-      title: 'ID',
+      title: 'Summon KaliDAO',
+      description: `You are about to summon a KaliDAO, an on-chain organization 
+      with a native KaliDAO token, voting mechanism, and legal structure. To get 
+      started, pick a name and symbol for your KaliDAO and KaliDAO token`,
     },
     {
       component: <Governance setStep={setStep} />,
-      title: 'Governance',
+      title: 'Voting',
+      description: `Update voting parameters according to your workflow. We recommend shorter 
+      voting period and lower participation if decision-making is generally consistent and
+      frequent.`,
     },
     {
       component: <Redemption setStep={setStep} />,
-      title: 'Redemption',
+      title: 'Extension: Redemption',
+      description: `This extension gives everyone the ability
+      to redeem KaliDAO treasury based on her balance ratio of KaliDAO tokens.`,
     },
     {
       component: <Crowdsale setStep={setStep} />,
-      title: 'Crowdsale',
+      title: 'Extension: Contribute',
+      description: `This extension gives KaliDAO the ability to swap KaliDAO tokens 
+      with ETH or ERC20s.`,
     },
     {
       component: <Members setStep={setStep} />,
-      title: 'Founders',
+      title: 'Founding Members',
+      description: `If a new founding member is added, we must specify a KaliDAO token
+      amount.`,
     },
     {
       component: <Legal setStep={setStep} />,
-      title: 'Legal',
+      title: 'Type of entity',
+      description: `Pick an entity for this KaliDAO. Read and understand entity formation 
+      documents before making a selection. Review resources below to better identify the 
+      entity structure this KaliDAO needs.
+      `,
     },
     {
       component: <Checkout setStep={setStep} />,
       title: 'Checkout',
+      description: `Other than "Name" and "Symbol," everything else can be changed after
+      summoning of your KaliDAO. Any updates will require the proposal process, i.e., 
+      voting period, participation %, but you already knew that. That's just blockchain 
+      being real.`,
     },
   ]
 
@@ -86,8 +106,11 @@ export default function DeployDaoWrapper() {
           }}
         >
           <Text>{steps[step]['title']}</Text>
+
           <Toggle />
         </DialogTitle>
+        <Text variant="instruction">{steps[step]['description']}</Text>
+        <Text></Text>
         <Progress value={(step / (steps.length - 1)) * 100}>
           <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
         </Progress>
