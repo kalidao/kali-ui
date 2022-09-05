@@ -7,12 +7,12 @@ import { ethers } from 'ethers'
 
 const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
   const { config, error } = usePrepareContractWrite({
-      addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
-      contractInterface: erc20ABI,
-      chainId,
-      functionName: 'approve',
-      args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
-      cacheTime: 2_000,
+    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
+    contractInterface: erc20ABI,
+    chainId,
+    functionName: 'approve',
+    args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
+    cacheTime: 2_000,
   })
   const { writeAsync } = useContractWrite(config)
   const { data: account } = useAccount()
@@ -57,9 +57,7 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
       >
         Allow KALI to use your {purchaseTokenSymbol}
       </Button>
-      {error && (
-        <div>An error occurred preparing the transaction: {error.message}</div>
-      )}
+      {error && <div>An error occurred preparing the transaction: {error.message}</div>}
     </>
   )
 }

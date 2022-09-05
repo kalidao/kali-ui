@@ -54,7 +54,7 @@ export default function ProposalCard({ proposal }) {
         gap="md"
         height="100%"
         css={{
-          minWidth: "10%",
+          minWidth: '10%',
           paddingRight: '1rem',
         }}
       >

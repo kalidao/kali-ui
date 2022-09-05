@@ -11,7 +11,7 @@ export default function Cancel({ proposal }) {
     {
       addressOrName: dao,
       contractInterface: DAO_ABI,
-      chainId
+      chainId,
     },
     'cancelProposal',
   )

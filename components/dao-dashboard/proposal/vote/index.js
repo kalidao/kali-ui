@@ -10,7 +10,6 @@ export default function Vote({ proposal }) {
   const router = useRouter()
   const { chainId, dao: daoAddress } = router.query
 
-
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
   const { data: account } = useAccount()

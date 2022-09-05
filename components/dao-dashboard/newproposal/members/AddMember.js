@@ -23,13 +23,13 @@ export default function AddMember({ setProposal, editor, title }) {
 
   console.log({ daoAddress, daoChainId })
 
-  const { config: proposeConfig }  = usePrepareContractWrite({
+  const { config: proposeConfig } = usePrepareContractWrite({
     addressOrName: daoAddress,
     contractInterface: KALIDAO_ABI,
     functionName: 'propose',
     args: [0, '', [AddressZero], [0], [Array(0)]], // dummy params for gas estimate
     onError(error) {
-      console.log('usePrepareContractWrite', { error } )
+      console.log('usePrepareContractWrite', { error })
     },
   })
   console.log({ proposeConfig })
@@ -40,8 +40,13 @@ export default function AddMember({ setProposal, editor, title }) {
       console.log('useContractWrite', { error })
     },
   })
-  const { isSuccess: isProposeSuccess, isError: isProposeError, error: proposeError, isLoading: isProposePending, write: propose } =
-    useContractWriteResult
+  const {
+    isSuccess: isProposeSuccess,
+    isError: isProposeError,
+    error: proposeError,
+    isLoading: isProposePending,
+    write: propose,
+  } = useContractWriteResult
   console.log({ useContractWriteResult })
 
   const submit = async (e) => {
@@ -104,10 +109,9 @@ export default function AddMember({ setProposal, editor, title }) {
               fontFamily: 'Regular',
             }}
           >
-            {
-              isProposeSuccess ? 'Proposal submitted on chain!' :
-                isProposeError && `Error submitting proposal: ${proposeError}`
-            }
+            {isProposeSuccess
+              ? 'Proposal submitted on chain!'
+              : isProposeError && `Error submitting proposal: ${proposeError}`}
           </Text>
         </ChainGuard>
         <Back onClick={() => setProposal('membersMenu')} />

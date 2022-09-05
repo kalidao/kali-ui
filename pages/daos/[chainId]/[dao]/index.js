@@ -20,11 +20,15 @@ export default function DaoHomePage() {
 
   const useGetProposalsResult = useGetProposals(chainId, dao)
   // console.debug({ useGetProposalsResult })
-  const proposals = useGetProposalsResult.data?.data?.daos?.[0]?.['proposals'] === undefined ? null : useGetProposalsResult.data?.data?.daos?.[0]['proposals']
+  const proposals =
+    useGetProposalsResult.data?.data?.daos?.[0]?.['proposals'] === undefined
+      ? null
+      : useGetProposalsResult.data?.data?.daos?.[0]['proposals']
   console.debug('DAO proposals', { proposals })
 
   const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
-  const crowdsale = useGetCrowdsaleResult.data?.crowdsales?.[0] === undefined ? null : useGetCrowdsaleResult.data?.crowdsales?.[0]
+  const crowdsale =
+    useGetCrowdsaleResult.data?.crowdsales?.[0] === undefined ? null : useGetCrowdsaleResult.data?.crowdsales?.[0]
 
   return (
     <Layout

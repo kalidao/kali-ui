@@ -24,7 +24,7 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-  webSocketProvider
+  webSocketProvider,
 })
 
 function MyApp({ Component, pageProps }) {

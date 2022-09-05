@@ -27,7 +27,8 @@ export default function ProfileComponent({ dao }) {
     watch: true,
   })
   console.log({ daoChain })
-  const redemptionAddress = daoChain && addresses[daoChain] ? addresses[daoChain]['extensions']['redemption'] : undefined
+  const redemptionAddress =
+    daoChain && addresses[daoChain] ? addresses[daoChain]['extensions']['redemption'] : undefined
   const { data: redemption, isLoading: isRedemptionLoading } = useContractRead({
     addressOrName: redemptionAddress,
     contractInterface: REDEMPTION_ABI,
