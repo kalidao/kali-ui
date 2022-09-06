@@ -70,6 +70,15 @@ export default function Legal({ setStep }) {
               {selectArray}
             </Select>
           </FormElement>
+          <FormElement>
+            <Label htmlFor="docs"></Label>
+            <Text variant="link">
+              Resources to help with entity selection:
+              <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/"> a16z</a>
+              or
+              <a href="https://daos.paradigm.xyz/"> Paradigm</a>
+            </Text>
+          </FormElement>
           {watchDocs && legalEntities[watchDocs]['email'] === true && (
             <FormElement>
               <Label htmlFor="email">Email</Label>
@@ -96,7 +105,6 @@ export default function Legal({ setStep }) {
               </Flex>
             </FormElement>
           )}
-          {console.log('watchDocs', watchDocs)}
           {watchDocs && legalEntities[watchDocs]['mission'] === true && (
             <FormElement>
               <Label htmlFor="mission">Mission</Label>

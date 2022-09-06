@@ -1,7 +1,10 @@
 import { styled } from '../../styles/stitches.config'
 import MyDAOs from './MyDAOs'
 import NewDaoSquare from './NewDaoSquare'
-import Welcome from './Welcome'
+import Search from './Search'
+import Display from './Display'
+import NewDao from './NewDao'
+
 export const ResultsText = styled('div', {
   // TODO: Add font Monument Grotesk
   color: '$foreground',
@@ -35,5 +38,6 @@ export const Results = styled('div', {
     gridTemplateRows: 'auto',
   },
 })
+import UserDAOs from './UserDAOs'
 
-export { MyDAOs, NewDaoSquare, Welcome }
+export { MyDAOs, UserDAOs, NewDaoSquare, NewDao, Search, Display }

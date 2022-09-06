@@ -54,14 +54,11 @@ export default function Welcome({ daos }) {
         }
       })
     })
-
-    console.log('results', results)
     setSearchResults(results)
     setSearched(true)
   })
 
   const handleKeypress = (e) => {
-    console.log('keypress', e.nativeEvent.charCode)
     //it triggers by pressing the enter key
     if (e.nativeEvent.charCode === 13) {
       handleSearch()

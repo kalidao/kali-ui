@@ -22,8 +22,6 @@ export default function Escape({ kill, title, editor }) {
     },
     'propose',
   )
-  // Form
-  const [warning, setWarning] = useState(null)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
@@ -39,27 +37,22 @@ export default function Escape({ kill, title, editor }) {
     }
 
     console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
-    if (proposalSelected != 0) {
-      try {
-        const tx = await writeAsync({
-          args: [
-            10, // ESCAPE prop
-            docs,
-            [AddressZero],
-            [proposalSelected],
-            [Array(0)],
-          ],
-          overrides: {
-            gasLimit: 1050000,
-          },
-        })
-        console.log('tx', tx)
-      } catch (e) {
-        console.log('error', e)
-      }
-      setWarning(null)
-    } else {
-      setWarning('There was an error in submitting this proposal.')
+    try {
+      const tx = await writeAsync({
+        args: [
+          10, // ESCAPE prop
+          docs,
+          [AddressZero],
+          [kill],
+          [Array(0)],
+        ],
+        overrides: {
+          gasLimit: 1050000,
+        },
+      })
+      console.log('tx', tx)
+    } catch (e) {
+      console.log('error', e)
     }
   }
 
@@ -84,7 +77,6 @@ export default function Escape({ kill, title, editor }) {
           <Label htmlFor="type">Proposal to Kill</Label>
           <Input disabled={true} defaultValue={kill} />
         </FormElement>
-        {warning && <Warning warning={warning} />}
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 const Br = () => '\n'
 const Tab = () => '  '
 
-const DelawareOAtemplate = ({ customerEthAddress, serviceProviderEthAddress, service, serviceToken }) => {
+const ServicesAgreementTemplate = ({ customerEthAddress, serviceProviderEthAddress, service, serviceToken }) => {
   return (
     <Document>
       <Page style={styles.body}>
@@ -432,4 +432,4 @@ const DelawareOAtemplate = ({ customerEthAddress, serviceProviderEthAddress, ser
   )
 }
 
-export default DelawareOAtemplate
+export default ServicesAgreementTemplate

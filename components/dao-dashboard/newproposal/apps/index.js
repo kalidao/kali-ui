@@ -1,8 +1,8 @@
 import React from 'react'
 import { Menu } from '../../../../styles/proposal/Menu'
-import { Flex } from '../../../../styles/elements'
+import { Flex, Text } from '../../../../styles/elements'
 import { FcSalesPerformance } from 'react-icons/fc'
-import { MdOutlineRedeem } from 'react-icons/md'
+import { MdOutlineRedeem, MdOutlineConstruction } from 'react-icons/md'
 // menu items
 import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
@@ -12,10 +12,19 @@ import Back from '../../../../styles/proposal/Back'
 function AppsMenu({ setProposal }) {
   return (
     <Flex gap="md" dir="col">
+      <Text> </Text>
+      <Text variant="instruction">(1) Contribute :</Text>
+      <Text variant="instruction">
+        KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.
+      </Text>
+      <Text variant="instruction">(2) Redemption :</Text>
+      <Text variant="instruction">
+        KaliDAO members may redeem a portion of KaliDAO treasury by burning their KaliDAO tokens.
+      </Text>
       <Menu>
         <Menu.Item onClick={() => setProposal('crowdsale')}>
-          <FcSalesPerformance />
-          Crowdsale
+          <MdOutlineConstruction />
+          Contribute
         </Menu.Item>
         <Menu.Item onClick={() => setProposal('redemption')}>
           <MdOutlineRedeem />

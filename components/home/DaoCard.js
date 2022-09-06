@@ -18,7 +18,7 @@ const Address = styled('div', {
 })
 
 // disable when not active chain
-export default function DaoCard({ dao, chain }) {
+export default function DaoCard({ dao, chain, side }) {
   const router = useRouter()
   const { activeChain, chains } = useNetwork()
   const [loading, setLoading] = useState(false)
@@ -56,7 +56,6 @@ export default function DaoCard({ dao, chain }) {
         return 'Goerli'
     }
   }
-  console.log('chainId', chain)
   return (
     <Flex
       css={{
@@ -65,15 +64,31 @@ export default function DaoCard({ dao, chain }) {
         alignItems: 'flex-start',
         fontSize: '16px',
         border: '1px solid $gray3',
-        background: '$gray2',
+        background: side ? 'none' : '$gray2',
         padding: '10px',
-        borderRadius: '20px',
+        borderRadius: side ? 0 : '20px',
         gap: '10px',
+        width: 'fit-content',
 
         '@media (max-width: 540px)': {
           width: '15rem',
         },
+
+        '&:hover': {
+          background: side ? '$gray2' : '$gray3',
+          border: side ? '1px solid $gray4' : '1px solid $gray5',
+        },
+        '&:active': {
+          background: side ? '$gray3' : '$gray4',
+          border: side ? '1px solid $gray5' : '1px solid $gray6',
+        },
+        '&:focus': {
+          background: side ? '$gray3' : '$gray4',
+          border: side ? '1px solid $gray5' : '1px solid $gray6',
+        },
       }}
+      as="a"
+      onClick={gotoDAO}
     >
       <Box
         css={{
@@ -105,7 +120,7 @@ export default function DaoCard({ dao, chain }) {
             {dao['members'].length} Members
           </Box>
         )}
-        <Address>{truncateAddress(dao['id'])}</Address>
+
         <Box
           css={{
             fontFamily: 'Regular',
@@ -113,9 +128,6 @@ export default function DaoCard({ dao, chain }) {
         >
           {getChainName(chain)}
         </Box>
-        <Button variant="cta" onClick={gotoDAO} disabled={loading}>
-          {loading ? <Spinner /> : `Go to ${dao['token']['name']}`}
-        </Button>
       </Flex>
     </Flex>
   )

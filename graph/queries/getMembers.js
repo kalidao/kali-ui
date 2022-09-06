@@ -2,7 +2,6 @@ import React from 'react'
 import { GRAPH_URL } from '../url'
 
 export const getMembers = async (chainId, address) => {
-  console.log('memberParms', chainId, address)
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',

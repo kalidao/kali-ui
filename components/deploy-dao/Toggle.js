@@ -35,7 +35,7 @@ export default function Toggle() {
         })
       }
     >
-      {hardMode === false ? 'Easy Mode' : 'Hard Mode'}
+      {hardMode === false ? '2 Clicks' : '7 Clicks'}
       <DotFilledIcon color={hardMode === false ? 'green' : 'red'} />
     </Button>
   )

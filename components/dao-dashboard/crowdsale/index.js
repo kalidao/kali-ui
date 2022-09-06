@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useContract, useSigner, useAccount } from 'wagmi'
+import { fetchCrowdsaleDataHash, fetchCrowdsaleTermsHash, fetchCrowdsaleReceiptHash } from '../../tools/ipfsHelpers'
 import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import Buy from './Buy'
@@ -23,7 +24,14 @@ export default function Crowdsale({ info }) {
   const { dao, chainId } = router.query
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  const { data: purchaseTokenSymbol, isLoading } = useContractRead(
+
+  const [crowdsale, setCrowdsale] = useState({})
+  const [background, setBackground] = useState('')
+  const [clickedTerms, setClickedTerms] = useState(null)
+  const [success, setSuccess] = useState(false)
+  const [tx, setTx] = useState(null)
+
+  const { data: purchaseTokenSymbol } = useContractRead(
     {
       addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
       contractInterface: erc20ABI,
@@ -33,6 +41,18 @@ export default function Crowdsale({ info }) {
       chainId: Number(chainId),
     },
   )
+
+  const { data: decimals } = useContractRead(
+    {
+      addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
+      contractInterface: erc20ABI,
+    },
+    'decimals',
+    {
+      chainId: Number(chainId),
+    },
+  )
+
   const symbol =
     info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
     info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
@@ -68,15 +88,37 @@ export default function Crowdsale({ info }) {
 
   const handleAmount = (_amount) => {
     setAmount(_amount)
-    console.log(_amount)
 
-    if (_amount == 0) {
+    if (_amount === 0) {
       setCanPurchase(false)
       setShouldApprove(false)
-    } else {
+    }
+
+    if (symbol != 'ETH') {
       checkAllowance()
     }
+
+    setCanPurchase(true)
   }
+
+  useEffect(() => {
+    const getCrowdsaleData = async () => {
+      const data = await fetchCrowdsaleDataHash(dao)
+      const response = await fetch(data)
+      const responseJson = await response.json()
+      setCrowdsale(responseJson)
+
+      try {
+        const _background = responseJson.background ? responseJson.background.content[0].content[0].text : ''
+        setBackground(_background)
+      } catch (e) {
+        console.log(e)
+        setBackground('Pick an amount to contribute:')
+      }
+    }
+
+    getCrowdsaleData()
+  }, [])
 
   return (
     <Flex
@@ -93,6 +135,7 @@ export default function Crowdsale({ info }) {
       }}
     >
       <Header info={info} />
+      {background && <Text>{background}</Text>}
       <Flex
         dir="col"
         css={{
@@ -170,17 +213,62 @@ export default function Crowdsale({ info }) {
       {shouldApprove && (
         <Approve info={info} dao={dao} amount={amount} chainId={chainId} purchaseTokenSymbol={purchaseTokenSymbol} />
       )}
-      {canPurchase ? (
-        <Buy info={info} dao={dao} amount={willPurchase} chainId={chainId} text={'Buy Tokens'} shouldDisable={false} />
-      ) : (
+      {crowdsale.terms && crowdsale.terms != 'none' && (
+        <Flex dir="row" gap="md">
+          <Input
+            type={'checkbox'}
+            variant="checkbox"
+            value={clickedTerms}
+            onChange={() => setClickedTerms(!clickedTerms)}
+          />
+          <Text>
+            I agree to the <a href={'https://ipfs.io/ipfs/' + crowdsale.terms}>contribution terms</a>{' '}
+          </Text>
+        </Flex>
+      )}
+
+      {canPurchase || (crowdsale.terms != 'none' && clickedTerms) ? (
         <Buy
-          info={info}
           dao={dao}
+          symbol={symbol}
+          decimals={decimals ? decimals : 18}
           amount={amount}
           chainId={chainId}
-          text={amount > 0 ? `Buy` : 'Enter an amount'}
-          shouldDisable={true}
+          buttonText={`Contribute ${symbol}`}
+          shouldDisable={false}
+          setSuccess={setSuccess}
+          setTx={setTx}
         />
+      ) : (
+        <Buy
+          dao={dao}
+          symbol={symbol}
+          decimals={decimals ? decimals : 18}
+          amount={amount}
+          chainId={chainId}
+          buttonText={`Contribute ${symbol}`}
+          shouldDisable={true}
+          setSuccess={setSuccess}
+          setTx={setTx}
+        />
+      )}
+      {success && tx && (
+        <Flex>
+          <Text>
+            <a
+              href={crowdsale.receipt == 'none' ? null : 'https://ipfs.io/ipfs/' + crowdsale.receipt}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {crowdsale.receiptMessage ? crowdsale.receiptMessage : 'Thank you~.'}
+            </a>{' '}
+            (
+            <a href={addresses[chainId]['blockExplorer'] + '/tx/' + tx} target="_blank" rel="noreferrer noopener">
+              Link
+            </a>
+            ){' '}
+          </Text>
+        </Flex>
       )}
     </Flex>
   )

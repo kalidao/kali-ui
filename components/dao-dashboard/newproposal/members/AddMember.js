@@ -73,6 +73,7 @@ export default function AddMember({ setProposal, editor, title }) {
   return (
     <Flex dir="col" gap="md">
       <Text
+        variant="instruction"
         css={{
           fontFamily: 'Regular',
         }}

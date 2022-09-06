@@ -7,22 +7,25 @@ import { Form, FormElement, Label, Input, Select } from '../../../../styles/form
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import KALIACCESS_ABI from '../../../../abi/KaliAccessManagerV2.json'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
+import { ipfsCrowdsaleData, ipfsCrowdsaleReceipt, ipfsCrowdsaleTerms } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
-import { tokens } from '../../../../constants/tokens'
 import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 import { createProposal } from '../../../tools/createProposal'
+import Editor from '../../../../components/editor'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import styles from '../../../../components/editor/editor.module.css'
 
 export default function SetCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
-  const daoChainId = router.query.chainId
+  const chainId = router.query.chainId
   const { data: signer } = useSigner()
-  const crowdsaleAddress = addresses[daoChainId]['extensions']['crowdsale2']
+  const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -31,32 +34,44 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[daoChainId]['access2'],
+    addressOrName: addresses[chainId]['access2'],
     contractInterface: KALIACCESS_ABI,
     signerOrProvider: signer,
   })
 
   // form
+  const background = useEditor({
+    extensions: [
+      StarterKit.configure({
+        HTMLAttributes: {
+          class: styles.editor,
+        },
+      }),
+    ],
+    content: '',
+    injectCSS: false,
+  })
+
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customAsset, setCustomAsset] = useState(null)
   const [purchaseAccess, setPurchaseAccess] = useState('select')
   const [customAccess, setCustomAccess] = useState('')
   const [accessList, setAccessList] = useState(null)
-  const [purchaseMultipler, setPurchaseMultipler] = useState(10)
+  const [purchaseMultiplier, setPurchaseMultiplier] = useState(10)
   const [purchaseLimit, setPurchaseLimit] = useState(1000)
   const [personalLimit, setPersonalLimit] = useState(10)
   const [terms, setTerms] = useState(null)
+  const [receipt, setReceipt] = useState(null)
+  const [receiptMessage, setReceiptMessage] = useState(null)
   const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
   const [crowdsaleStatus, setCrowdsaleStatus] = useState('fetching...')
   const [toggleCrowdsale, setToggleCrowdsale] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
 
   useEffect(() => {
     const getCrowdsaleStatus = async () => {
-      const status = await fetchExtensionStatus(daoChainId, daoAddress, crowdsaleAddress)
+      const status = await fetchExtensionStatus(chainId, daoAddress, crowdsaleAddress)
       status ? setCrowdsaleStatus('Active') : setCrowdsaleStatus('Inactive')
     }
 
@@ -69,14 +84,12 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     let list = []
     customAccess = customAccess.split(', ')
 
-    console.log(customAccess)
-
     if (!customAccess) {
       setWarning('Please input custom access list.')
     }
 
     for (let i = 0; i < customAccess.length; i++) {
-      const address = await fetchEnsAddress(daoChainId, customAccess[i])
+      const address = await fetchEnsAddress(chainId, customAccess[i])
 
       if (address && address.slice(0, 7) === 'Invalid') {
         setWarning(`${address}.`)
@@ -86,7 +99,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
       list.push(address)
     }
-    console.log(list)
     setAccessList(list)
 
     try {
@@ -100,7 +112,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
   }
 
-  // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
     e.preventDefault()
 
@@ -120,8 +131,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     } else if (purchaseAccess === 'accredited') {
       _purchaseAccess = 1
     } else {
-      // TODO: Consider using multicall to call access manager and
-      // crowdsale to prevent access list mismatch
       let id = await kaliAccess.listCount()
       id = ethers.utils.formatUnits(id, 'wei')
       _purchaseAccess = parseInt(id)
@@ -140,14 +149,42 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     // Crowdsale end time
     crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
-    console.log('crowdsaleEnd', crowdsaleEnd)
 
     // Crowdsale terms
     let _terms
     if (terms) {
-      _terms = await uploadIpfs(daoAddress, 'Crowdsale Terms', terms)
+      _terms = await ipfsCrowdsaleTerms(daoAddress, terms)
     } else {
       _terms = 'none'
+    }
+
+    // Crowdsale receipt
+    let _receipt
+    if (receipt) {
+      _receipt = await ipfsCrowdsaleReceipt(daoAddress, receipt)
+    } else {
+      _receipt = 'none'
+    }
+
+    // Crowdsale data
+    let crowdsaleData
+    try {
+      crowdsaleData = await ipfsCrowdsaleData(
+        daoAddress,
+        chainId,
+        background.getJSON(),
+        purchaseAccess,
+        purchaseMultiplier,
+        purchaseAsset,
+        crowdsaleEnd,
+        purchaseLimit,
+        personalLimit,
+        _terms,
+        _receipt,
+        receiptMessage,
+      )
+    } catch (e) {
+      console.error(e)
     }
 
     // Crowdsale purchase limits
@@ -156,16 +193,16 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, chainId, 9, title, editor.getJSON())
     } catch (e) {
       console.error(e)
       return
     }
 
     console.log(
-      'Proposal Payload - ',
+      'Proposal - ',
       _purchaseAccess,
-      purchaseMultipler,
+      purchaseMultiplier,
       _purchaseAsset,
       crowdsaleEnd,
       _purchaseLimit,
@@ -179,7 +216,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [_purchaseAccess, purchaseMultipler, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, _terms],
+        [_purchaseAccess, purchaseMultiplier, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, _terms],
       )
       console.log(payload)
     } catch (e) {
@@ -191,7 +228,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
 
     try {
-      if (decimals == 18 || _purchaseAsset == AddressZero) {
+      if (decimals == 18 || decimals == 6 || _purchaseAsset == AddressZero) {
         setWarning('')
         const tx = await kalidao.propose(
           9, // EXTENSION prop
@@ -212,22 +249,25 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   return (
     <Flex dir="col" gap="md">
       <Text
+        variant="instruction"
         css={{
           fontFamily: 'Regular',
         }}
       >
-        Customize a crowdsale of DAO tokens
+        The Contribution extension allows anyone to contribute ETH or ERC20 tokens, e.g., DAI, in exchange for KaliDAO
+        tokens. To enable the Contribution exntension, submit form below to create proposal, vote on the proposal, and
+        start accepting contributions from your community.
       </Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Current crowdsale status</Label>
+          <Label htmlFor="recipient">Current Contribution Status</Label>
           <Text>{crowdsaleStatus}</Text>
         </FormElement>
         <FormElement>
           {crowdsaleStatus === 'Inactive' ? (
-            <Label htmlFor="recipient">Activate Crowdsale</Label>
+            <Label htmlFor="recipient">Activate Contribution</Label>
           ) : (
-            <Label htmlFor="recipient">Deactivate Crowdsale</Label>
+            <Label htmlFor="recipient">Deactivate Contribution</Label>
           )}
           <Input
             type={'checkbox'}
@@ -235,6 +275,12 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
             value={toggleCrowdsale}
             onChange={() => setToggleCrowdsale(!toggleCrowdsale)}
           />
+        </FormElement>
+        <FormElement>
+          <Flex dir="col" gap="sm">
+            <Label>Background</Label>
+            <Editor editor={background} />
+          </Flex>
         </FormElement>
         <FormElement>
           <Label htmlFor="type">Asset</Label>
@@ -281,16 +327,16 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           </FormElement>
         )}
         <FormElement>
-          <Label htmlFor="purchaseMultiplier">Purchase multiplier</Label>
+          <Label htmlFor="purchaseMultiplier">Contribution Multiplier</Label>
           <Input
             name="purchaseMultiplier"
             type="number"
-            onChange={(e) => setPurchaseMultipler(e.target.value)}
+            onChange={(e) => setPurchaseMultiplier(e.target.value)}
             disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="purchaseLimit">Total purchase limit</Label>
+          <Label htmlFor="purchaseLimit">Total Contribution Limit</Label>
           <Input
             name="purchaseLimit"
             type="number"
@@ -299,7 +345,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="personalLimit">Individual purchase limit</Label>
+          <Label htmlFor="personalLimit">Individual Contribution Limit</Label>
           <Input
             name="personalLimit"
             type="number"
@@ -309,7 +355,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         </FormElement>
 
         <FormElement>
-          <Label htmlFor="recipient">Crowdsale ends on</Label>
+          <Label htmlFor="recipient">Contribution Ends on</Label>
           <Input
             variant="calendar"
             type="datetime-local"
@@ -318,9 +364,25 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="tokenAddress">Purchase terms</Label>
+          <Label htmlFor="tokenAddress">Contribution Terms</Label>
           <Flex gap="sm" align="end" effect="glow">
             <FileUploader setFile={setTerms} />
+          </Flex>{' '}
+        </FormElement>
+
+        <FormElement>
+          <Label htmlFor="receiptMessage">Message for Contributors</Label>
+          <Input
+            name="receiptMessage"
+            type="text"
+            onChange={(e) => setReceiptMessage(e.target.value)}
+            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+          />
+        </FormElement>
+        <FormElement>
+          <Label htmlFor="tokenAddress">Contribution Receipt</Label>
+          <Flex gap="sm" align="end" effect="glow">
+            <FileUploader setFile={setReceipt} />
           </Flex>{' '}
         </FormElement>
 

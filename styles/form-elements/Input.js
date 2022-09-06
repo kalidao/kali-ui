@@ -14,7 +14,7 @@ const Input = styled('input', {
         fontSize: 12,
         lineHeight: 1,
         color: '$gray12',
-        backgroundColor: '$gray2',
+        backgroundColor: '$gray6',
         border: '1px solid $gray3',
         fontFamily: 'Regular',
 
@@ -70,7 +70,7 @@ const Input = styled('input', {
         fontSize: 12,
         lineHeight: 1,
         color: '$gray11',
-        backgroundColor: '$gray3',
+        backgroundColor: '$gray6',
         border: '1px solid $gray7',
 
         '&:hover': {

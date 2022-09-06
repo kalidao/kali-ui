@@ -2,15 +2,16 @@
 
 You can find the latest deployment at https://app.kalidao.xyz/
 
-# Getting Started
+# Getting Started Instructions
 
 ## Install
 
-`yarn`
+Install Node dependencies: `yarn install`
 
 ## Local Development
 
-`yarn run dev`
+1. Start the app: `yarn dev`
+1. View the app at localhost:3000
 
 ## Environment settings
 

@@ -36,3 +36,5 @@ yarn-error.log*
 
 # local env file
 .env.local
+# ide
+.idea

@@ -42,7 +42,7 @@ export default function Crowdsale({ setStep }) {
   return (
     <Form>
       <FormElement>
-        <Label htmlFor="legal">Add Crowdsale</Label>
+        <Label htmlFor="legal">Add Contribute</Label>
         <Switch
           control={control}
           name="crowdsale"
@@ -54,7 +54,7 @@ export default function Crowdsale({ setStep }) {
       {watchCrowdsale && (
         <>
           <FormElement>
-            <Label htmlFor="purchaseToken">Purchase Token</Label>
+            <Label htmlFor="purchaseToken">Contribution Token</Label>
             <Select {...register('purchaseToken')} defaultValue={state['purchaseToken']}>
               <Select.Item value="eth">ETH</Select.Item>
               <Select.Item value="custom">Custom</Select.Item>
@@ -67,7 +67,7 @@ export default function Crowdsale({ setStep }) {
             </FormElement>
           )}
           <FormElement>
-            <Label htmlFor="purchaseLimit">Total Purchase Limit</Label>
+            <Label htmlFor="purchaseLimit">Total Contribution Limit</Label>
             <Flex dir="col" gap="sm">
               <Input
                 type="number"
@@ -89,7 +89,7 @@ export default function Crowdsale({ setStep }) {
             </Flex>
           </FormElement>
           <FormElement>
-            <Label htmlFor="personaLimit">Personal Purchase Limit</Label>
+            <Label htmlFor="personaLimit">Personal Contribution Limit</Label>
             <Flex dir="col" gap="sm">
               <Input
                 type="number"
@@ -111,7 +111,7 @@ export default function Crowdsale({ setStep }) {
             </Flex>
           </FormElement>
           <FormElement>
-            <Label htmlFor="purchaseMultiplier">Purchase Multiplier</Label>
+            <Label htmlFor="purchaseMultiplier">Contribution Multiplier</Label>
             <Flex dir="col" gap="sm">
               <Input
                 type="number"

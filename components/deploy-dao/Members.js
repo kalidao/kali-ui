@@ -5,7 +5,7 @@ import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useAccount, useEnsName } from 'wagmi'
 import { Cross2Icon, PersonIcon } from '@radix-ui/react-icons'
-import { Button, Flex } from '../../styles/elements'
+import { Button, Flex, Text } from '../../styles/elements'
 import { ethers } from 'ethers'
 import { fetchEnsAddress } from '../../utils/fetchEnsAddress'
 
@@ -48,7 +48,6 @@ export default function Members({ setStep }) {
       }
     }
 
-    console.log(founders)
     return true
   }
 
@@ -84,7 +83,7 @@ export default function Members({ setStep }) {
         {/* TODO: Add Table */}
         <Flex style={{ justifyContent: 'space-around' }}>
           <div>Account</div>
-          <div>Share</div>
+          <Text>KaliDAO tokens</Text>
         </Flex>
         <Flex dir="col" css={{ gap: '1rem', width: '100%' }}>
           {fields.map((item, index) => {

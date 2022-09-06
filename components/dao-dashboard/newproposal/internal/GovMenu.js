@@ -1,5 +1,5 @@
 import { Flex, Text } from '../../../../styles/elements'
-import { MdOutlineBallot, MdPeopleOutline } from 'react-icons/md'
+import { MdOutlineBallot, MdPeopleOutline, MdCached, MdApproval } from 'react-icons/md'
 
 export default function GovMenu({ setView }) {
   return (
@@ -21,7 +21,8 @@ export default function GovMenu({ setView }) {
       </Text>
       <GovItem title={'Voting Period'} icon={<MdOutlineBallot size={24} />} onClick={() => setView(1)} />
       <GovItem title={'Participation Needed'} icon={<MdPeopleOutline size={24} />} onClick={() => setView(2)} />
-      <GovItem title={'Token Transferability'} icon={<MdPeopleOutline size={24} />} onClick={() => setView(3)} />
+      <GovItem title={'Approval Needed'} icon={<MdApproval size={24} />} onClick={() => setView(3)} />
+      <GovItem title={'Token Transferability'} icon={<MdCached size={24} />} onClick={() => setView(4)} />
     </Flex>
   )
 }

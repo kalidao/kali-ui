@@ -4,6 +4,7 @@ import { Flex, Box, Text, Button } from '../../../../../styles/elements'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import getExplorerLink from '../../../../../utils/getExplorerLink'
 import decodeTx from './decodeTx'
+import { tokens } from '../../../../../constants/tokens'
 
 export default function Call({ accounts, amounts, payloads }) {
   const router = useRouter()
@@ -12,7 +13,7 @@ export default function Call({ accounts, amounts, payloads }) {
     const decoded = decodeTx(payloads?.[i], amounts?.[i])
     console.log('decoded', decoded)
 
-    const params = createParams(decoded)
+    const params = createParams(accounts[i], router.query.chainId, decoded)
     console.log('params', params)
     return (
       <Flex
@@ -135,14 +136,25 @@ export default function Call({ accounts, amounts, payloads }) {
   }
 }
 
-const createParams = (decoded) => {
+const createParams = (to, chain, decoded) => {
   console.log('decoded', decoded)
   if (!decoded || decoded == 'none') return
   let array = []
   for (let i = 0; i < decoded['tx']['args'].length; i++) {
     let value = decoded['tx']['args'][i]
     if (decoded['tx']['functionFragment']['inputs'][i]['type'] == 'uint256') {
-      value = ethers.utils.formatEther(decoded['tx']['args'][i])
+      value = ethers.utils.formatUnits(decoded['tx']['args'][i], 18)
+
+      // FIXME: fetch decimals instead
+      if (decoded['type'] == 'ERC20') {
+        const cTokens = tokens[chain]
+        for (let key in cTokens) {
+          if (!cTokens.hasOwnProperty(key)) continue
+          if (cTokens[key]['address'] === to) {
+            value = ethers.utils.formatUnits(decoded['tx']['args'][i], cTokens[key]['decimals'])
+          }
+        }
+      }
     }
 
     array.push({
