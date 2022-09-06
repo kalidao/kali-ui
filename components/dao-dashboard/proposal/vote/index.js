@@ -2,34 +2,39 @@ import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { Box } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
-import { useAccount, useContractWrite } from 'wagmi'
+import { useAccount, usePrepareContractWrite, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 
 export default function Vote({ proposal }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
+  const { chainId, dao: daoAddress } = router.query
 
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
   const { data: account } = useAccount()
-  const { data, isLoading, writeAsync } = useContractWrite(
-    {
-      addressOrName: daoAddress ?? AddressZero,
-      contractInterface: DAO_ABI,
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: daoAddress,
+    contractInterface: DAO_ABI,
+    chainId,
+    functionName: 'vote',
+    args: [proposal?.['serial'], false],
+    cacheTime: 2_000,
+    onError(usePrepareContractWriteError) {
+      console.log({ usePrepareContractWriteError }, { daoAddress }, { DAO_ABI })
     },
-    'vote',
-    {
-      onSuccess() {
-        console.log('vote', data)
-      },
+  })
+  const { data, isLoading, writeAsync } = useContractWrite({
+    ...config,
+    onSuccess() {
+      console.log('vote', data)
     },
-  )
+  })
 
   const left =
     new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
 
-  const disabled = proposal['sponsored'] === null || left > 0 ? true : false
+  const disabled = proposal['sponsored'] === null || left > 0 || !writeAsync ? true : false
 
   const vote = useCallback(
     async (approval) => {

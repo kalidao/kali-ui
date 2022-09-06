@@ -5,34 +5,30 @@ import { useContractRead } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { getProposals, getCrowdsale } from '../../../../graph/queries'
 
-export const getServerSideProps = async (context) => {
-  const address = context.params.dao
-  const chainId = context.params.chainId
-  const proposals = await getProposals(chainId, address)
-  const crowdsale = await getCrowdsale(chainId, address)
+import { useGetProposals } from '../../../../graph/queries/getProposals'
+import { useGetCrowdsale } from '../../../../graph/queries/getCrowdsale'
 
-  // crowdsale is undefined if the DAO never had a crowdsale
-  return {
-    props: {
-      proposals:
-        proposals?.data?.daos?.[0]?.['proposals'] === undefined ? null : proposals?.data?.daos?.[0]?.['proposals'],
-      crowdsale: crowdsale?.data?.crowdsales[0] === undefined ? null : crowdsale?.data?.crowdsales[0],
-    },
-  }
-}
-
-export default function DaoHomePage({ proposals, crowdsale }) {
+export default function DaoHomePage() {
   const router = useRouter()
-  const { data, isLoading } = useContractRead(
-    {
-      addressOrName: router.query.dao,
-      contractInterface: DAO_ABI,
-    },
-    'name',
-    {
-      chainId: Number(router.query.chainId),
-    },
-  )
+  const { chainId, dao } = router.query
+  const { data, isLoading } = useContractRead({
+    addressOrName: dao,
+    contractInterface: DAO_ABI,
+    functionName: 'name',
+    chainId: Number(chainId),
+  })
+
+  const useGetProposalsResult = useGetProposals(chainId, dao)
+  // console.debug({ useGetProposalsResult })
+  const proposals =
+    useGetProposalsResult.data?.data?.daos?.[0]?.['proposals'] === undefined
+      ? null
+      : useGetProposalsResult.data?.data?.daos?.[0]['proposals']
+  console.debug('DAO proposals', { proposals })
+
+  const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
+  const crowdsale =
+    useGetCrowdsaleResult.data?.crowdsales?.[0] === undefined ? null : useGetCrowdsaleResult.data?.crowdsales?.[0]
 
   return (
     <Layout

@@ -1,5 +1,5 @@
-import React from 'react'
 import { GRAPH_URL } from '../url'
+import { useQuery } from 'react-query'
 
 export const getProposals = async (chainId, address) => {
   console.log('infoParms', chainId, address)
@@ -41,4 +41,11 @@ export const getProposals = async (chainId, address) => {
   } catch (e) {
     return e
   }
+}
+
+export function useGetProposals(chainId, daoAddress) {
+  return useQuery(['getProposals', chainId, daoAddress], async () => {
+    const data = await getProposals(chainId, daoAddress)
+    return data
+  })
 }

@@ -1,4 +1,4 @@
-import { erc20ABI, useContract, useContractWrite, useAccount, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useContractWrite, usePrepareContractWrite, useAccount, useSigner } from 'wagmi'
 import { Button } from '../../../styles/elements'
 
 import { addresses } from '../../../constants/addresses'
@@ -6,16 +6,15 @@ import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
 
 const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
-  const { writeAsync } = useContractWrite(
-    {
-      addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
-      contractInterface: erc20ABI,
-    },
-    'approve',
-    {
-      args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
-    },
-  )
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
+    contractInterface: erc20ABI,
+    chainId,
+    functionName: 'approve',
+    args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
+    cacheTime: 2_000,
+  })
+  const { writeAsync } = useContractWrite(config)
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
   const erc20 = useContract({
@@ -40,22 +39,26 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
     }
   }
   return (
-    <Button
-      onClick={approve}
-      css={{
-        fontFamily: 'Regular',
-        fontWeight: '800',
-        padding: '6px 10px',
-        color: '$mauve12',
-        background: '$violet8',
+    <>
+      <Button
+        disabled={!writeAsync}
+        onClick={approve}
+        css={{
+          fontFamily: 'Regular',
+          fontWeight: '800',
+          padding: '6px 10px',
+          color: '$mauve12',
+          background: '$violet8',
 
-        '&:hover': {
-          background: '$violet7',
-        },
-      }}
-    >
-      Allow KALI to use your {purchaseTokenSymbol}
-    </Button>
+          '&:hover': {
+            background: '$violet7',
+          },
+        }}
+      >
+        Allow KALI to use your {purchaseTokenSymbol}
+      </Button>
+      {error && <div>An error occurred preparing the transaction: {error.message}</div>}
+    </>
   )
 }
 

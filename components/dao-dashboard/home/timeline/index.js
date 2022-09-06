@@ -10,6 +10,8 @@ export default function Timeline({ proposals }) {
     [proposals],
   )
 
+  console.log('Timeline', { proposals })
+
   return (
     <Flex gap="md" dir="col">
       <Flex
@@ -37,7 +39,7 @@ export default function Timeline({ proposals }) {
         <Flex dir="col">
           <NewProposalCard />
           {memoizedProposals?.length > 0 ? (
-            memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)
+            memoizedProposals.map((proposal) => <Card key={proposal['serial']} proposal={proposal} />)
           ) : (
             <Flex
               dir="col"

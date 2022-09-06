@@ -2,7 +2,7 @@
   "name": "kali-ui",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -28,7 +28,7 @@
     "@radix-ui/react-tabs": "^0.1.5",
     "@radix-ui/react-toast": "^1.0.0",
     "@radix-ui/react-tooltip": "^0.1.7",
-    "@rainbow-me/rainbowkit": "^0.2.4",
+    "@rainbow-me/rainbowkit": "^0.4.5",
     "@react-pdf/renderer": "^2.1.0",
     "@stitches/react": "^1.2.8",
     "@tiptap/react": "^2.0.0-beta.114",
@@ -42,8 +42,8 @@
     "graphql-request": "^4.3.0",
     "little-state-machine": "^4.3.1",
     "magic-sdk": "^8.1.1",
-    "moralis": "^1.8.0",
-    "next": "12.1.0",
+    "moralis": "^1.11.0",
+    "next": "^12.2.3",
     "node": "^17.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -55,7 +55,7 @@
     "sib-api-v3-sdk": "^8.3.0",
     "swr": "^1.3.0",
     "victory": "^36.5.3",
-    "wagmi": "^0.4.12"
+    "wagmi": "^0.6"
   },
   "devDependencies": {
     "eslint": "8.7.0",

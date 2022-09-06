@@ -26,17 +26,16 @@ export default function ProfileComponent({ dao }) {
     chainId: daoChain,
     watch: true,
   })
-  const { data: redemption, isLoading: isRedemptionLoading } = useContractRead(
-    {
-      addressOrName: addresses[daoChain]['extensions']['redemption'],
-      contractInterface: REDEMPTION_ABI,
-    },
-    'redemptionStarts',
-    {
-      args: daoAddress,
-      chainId: Number(daoChain),
-    },
-  )
+  console.log({ daoChain })
+  const redemptionAddress =
+    daoChain && addresses[daoChain] ? addresses[daoChain]['extensions']['redemption'] : undefined
+  const { data: redemption, isLoading: isRedemptionLoading } = useContractRead({
+    addressOrName: redemptionAddress,
+    contractInterface: REDEMPTION_ABI,
+    functionName: 'redemptionStarts',
+    args: daoAddress,
+    chainId: Number(daoChain),
+  })
 
   useEffect(() => {
     let mounted = true

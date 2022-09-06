@@ -4,7 +4,6 @@ import { Spinner } from '../../../../components/elements/'
 import { GRAPH_URL } from '../../../../graph'
 import { useRouter } from 'next/router'
 import { useNetwork } from 'wagmi'
-import SwitchChain from '../../../../components/SwitchChain'
 
 export const getServerSideProps = async (context) => {
   const address = context.params.dao.toLowerCase()
