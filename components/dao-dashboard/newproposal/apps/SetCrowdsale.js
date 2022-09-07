@@ -151,19 +151,19 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
 
     // Crowdsale terms
-    let _terms
+    let termsHash
     if (terms) {
-      _terms = await ipfsCrowdsaleTerms(daoAddress, terms)
+      termsHash = await ipfsCrowdsaleTerms(daoAddress, terms)
     } else {
-      _terms = 'none'
+      termsHash = 'none'
     }
 
     // Crowdsale receipt
-    let _receipt
+    let receiptHash
     if (receipt) {
-      _receipt = await ipfsCrowdsaleReceipt(daoAddress, receipt)
+      receiptHash = await ipfsCrowdsaleReceipt(daoAddress, receipt)
     } else {
-      _receipt = 'none'
+      receiptHash = 'none'
     }
 
     // Crowdsale data
@@ -173,14 +173,8 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         daoAddress,
         chainId,
         background.getJSON(),
-        purchaseAccess,
-        purchaseMultiplier,
-        purchaseAsset,
-        crowdsaleEnd,
-        purchaseLimit,
-        personalLimit,
-        _terms,
-        _receipt,
+        termsHash,
+        receiptHash,
         receiptMessage,
       )
     } catch (e) {
@@ -207,7 +201,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
       crowdsaleEnd,
       _purchaseLimit,
       _personalLimit,
-      _terms,
+      termsHash,
     )
 
     // Prop payload
@@ -216,7 +210,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [_purchaseAccess, purchaseMultiplier, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, _terms],
+        [_purchaseAccess, purchaseMultiplier, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, termsHash],
       )
       console.log(payload)
     } catch (e) {

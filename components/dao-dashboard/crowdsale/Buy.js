@@ -16,6 +16,9 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
         setSuccess(true)
         setTx(data.hash)
       },
+      onError(data) {
+        console.log(data)
+      },
     },
   )
 
@@ -53,18 +56,19 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
 
   return (
     <Button
+      // variant="cta"
       disabled={shouldDisable}
       onClick={buy}
       css={{
+        width: '100%',
+        height: '3rem',
         fontFamily: 'Regular',
         fontWeight: '800',
-        padding: '6px 10px',
-        color: '$mauve12',
-        background: '$violet8',
-        border: '1px solid $mauve7',
-
+        border: '2px solid $gray4',
+        borderRadius: '10px',
         '&:hover': {
-          background: '$violet7',
+          color: shouldDisable ? '$none' : 'Black',
+          background: shouldDisable ? 'none' : '$gray12',
         },
       }}
     >

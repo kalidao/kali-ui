@@ -67,7 +67,7 @@ export default function CrowdsalePage({ info }) {
   const { chainId } = router.query
 
   return (
-    <Layout heading="Crowdsale" content="Buy tokens in the crowdsale.">
+    <Layout heading="Contribute" content="Buy tokens in the crowdsale.">
       <Crowdsale info={info} />
     </Layout>
   )

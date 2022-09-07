@@ -41,16 +41,22 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
   }
   return (
     <Button
+      variant="primary"
       onClick={approve}
       css={{
+        width: '100%',
         fontFamily: 'Regular',
         fontWeight: '800',
-        padding: '6px 10px',
-        color: '$mauve12',
-        background: '$violet8',
+        // padding: '1rem',
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
+        border: '2px solid $gray4',
+        borderRadius: '10px',
+        // color: '$mauve12',
+        // background: '$violet8',
 
         '&:hover': {
-          background: '$violet7',
+          background: '$gray12',
         },
       }}
     >
