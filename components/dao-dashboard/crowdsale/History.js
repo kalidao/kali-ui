@@ -29,6 +29,7 @@ export default function History({ info, symbol }) {
       {purchasers &&
         purchasers.map((purchaser, index) => (
           <Flex
+            key={index}
             gap="lg"
             css={{
               width: '100%',
