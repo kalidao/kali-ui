@@ -83,14 +83,15 @@ export default function Sidebar({ crowdsale }) {
 
   return (
     <Flex
+      dir="col"
+      gap="md"
       css={{
-        position: 'fixed',
+        // background: 'Green',
+        // position: 'fixed',
         left: 0,
         padding: '10px',
-        flexDirection: 'column',
-        gap: '10px',
         height: '100%',
-        boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
+        // boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
 
         '@media (max-width: 640px)': {
           position: 'fixed',
@@ -127,15 +128,15 @@ const Item = ({ link, label, icon, chainId, dao }) => {
       <Flex
         css={{
           alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '5px',
-          borderRadius: '20px',
+          // justifyContent: 'flex-start',
+          gap: '10px',
+          borderRadius: '10px',
           color: '$gray12',
-          padding: '5px',
-          width: '8rem',
+          // paddingRight: '15px',
+          width: '9rem',
 
           '&:hover': {
-            background: '$gray2',
+            background: '$gray5',
           },
           '@media (max-width: 640px)': {
             borderRadius: '100%',

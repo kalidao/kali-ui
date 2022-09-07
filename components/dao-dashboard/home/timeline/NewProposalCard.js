@@ -22,16 +22,17 @@ export default function NewProposalTrigger() {
         dir="row"
         gap="sm"
         css={{
-          flexDirection: 'row',
           padding: '1rem 0.5rem 1rem 0.5rem',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          gap: '5px',
-          borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-          borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+          paddingLeft: '1rem',
+          borderRadius: '10px',
+          // borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
+          // borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
           fontFamily: 'Regular',
           '&:hover': {
-            background: '$violet2',
+            color: 'Black',
+            background: 'White',
           },
         }}
       >

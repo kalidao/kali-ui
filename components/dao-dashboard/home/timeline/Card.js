@@ -35,14 +35,17 @@ export default function ProposalCard({ proposal }) {
 
   return (
     <Flex
-      dir="row"
+      // dir="row"
       gap="sm"
       css={{
+        width: '95%',
         padding: '1rem 0.5rem 1rem 0.5rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-        borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
+        border: '2px solid $gray6',
+        borderRadius: '20px',
+        // borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
+        // borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
         fontFamily: 'Regular',
         '&:hover': {
           background: '$violet2',
@@ -52,7 +55,7 @@ export default function ProposalCard({ proposal }) {
       <Flex
         dir="col"
         gap="md"
-        minWidth="10%"
+        width="100%"
         height="100%"
         css={{
           paddingRight: '1rem',
@@ -72,18 +75,20 @@ export default function ProposalCard({ proposal }) {
       >
         <Flex
           dir="col"
-          gap="sm"
+          gap="md"
           css={{
+            width: '100%',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
           }}
         >
           <Flex
+            dir="col"
             gap="md"
             css={{
-              minWidth: '50rem',
+              // minWidth: '50rem',
               justifyContent: 'space-between',
-              alignItems: 'center',
+              alignItems: 'flex-start',
             }}
           >
             <Flex
@@ -103,14 +108,14 @@ export default function ProposalCard({ proposal }) {
               >
                 {`#${proposal?.serial} ${details ? details?.title : ''}`}
               </Text>
-              <Box variant="id">{proposer}</Box>
             </Flex>
             <Flex gap="sm">
+              <Box variant="id">{proposer}</Box>
+              <Tag type={proposal['proposalType']} />
               {proposal?.sponsored === false && <Status status={'unsponsored'} />}
-              {canProcess() === true && <Status status="canProcess" />}
               {proposal?.status === true && <Status status="passed" />}
               {proposal?.status === false && <Status status="failed" />}
-              <Tag type={proposal['proposalType']} />
+              {canProcess() === true && <Status status="canProcess" />}
             </Flex>
           </Flex>
           <Box>
