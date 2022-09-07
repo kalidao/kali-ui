@@ -62,7 +62,7 @@ export default function Crowdsale({ info }) {
 
   // Crowdsale data
   let type
-  const isActive = info?.crowdsale?.active
+  // const isActive = info?.crowdsale?.active
   const isExpired = info?.crowdsale?.saleEnds * 1000 > Date.now() ? true : false
   const terms = info?.crowdsale?.details
   const symbol =
@@ -169,6 +169,7 @@ export default function Crowdsale({ info }) {
       }
     }
 
+    console.log(info)
     getEligibilty()
   }, [])
 
@@ -190,7 +191,7 @@ export default function Crowdsale({ info }) {
 
   return (
     <>
-      {isActive && isExpired && isEligible ? (
+      {isExpired && isEligible ? (
         <Flex
           gap="lg"
           css={{
@@ -203,9 +204,10 @@ export default function Crowdsale({ info }) {
             dir="col"
             gap="lg"
             css={{
-              width: '50%',
+              width: '45%',
               // background: 'Blue',
               borderRadius: '10px',
+              marginRight: '20px',
             }}
           >
             <Flex
@@ -231,7 +233,7 @@ export default function Crowdsale({ info }) {
               >
                 <Flex
                   css={{
-                    width: '100%',
+                    width: '80%',
                     height: '100%',
                     alignItems: 'center',
                     background: '$gray7',
@@ -296,7 +298,7 @@ export default function Crowdsale({ info }) {
                 </Flex>
                 <Flex
                   css={{
-                    width: '100%',
+                    width: '80%',
                     height: '100%',
                     alignItems: 'center',
                     background: '$gray7',
@@ -389,7 +391,7 @@ export default function Crowdsale({ info }) {
                 )}
                 <Flex
                   css={{
-                    width: '100%',
+                    width: '80%',
                     paddingTop: '1rem',
                     paddingBottom: '1rem',
                   }}

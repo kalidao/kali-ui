@@ -20,17 +20,19 @@ export default function UserDAOs({ address }) {
       dir="col"
       css={{
         borderRight: '1px solid $gray3',
-        minWidth: '12rem',
-        minHeight: '100vh',
+        // minWidth: '12rem',
+        // minHeight: '100vh',
       }}
     >
       <NewDao />
 
-      {userDaos && userDaos.length == 0 ? (
-        <Text variant="subheading">Summon a KaliDAO today!</Text>
-      ) : (
-        <Text variant="subheading">Your KaliDAOs:</Text>
-      )}
+      <Flex css={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
+        {userDaos && userDaos.length == 0 ? (
+          <Text variant="subheading">Summon a KaliDAO today!</Text>
+        ) : (
+          <Text variant="subheading">Your KaliDAOs:</Text>
+        )}
+      </Flex>
       {data &&
         !isLoading &&
         userDaos &&

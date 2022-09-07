@@ -22,48 +22,51 @@ export default function History({ info, symbol }) {
       css={{
         width: '100%',
         height: '100%',
-        alignItems: 'flex-start',
+        alignItems: 'flex',
+        justifyContent: 'center',
       }}
     >
       <Text variant="subheading">Past Contributions:</Text>
-      {purchasers &&
-        purchasers.map((purchaser, index) => (
-          <Flex
-            key={index}
-            gap="lg"
-            css={{
-              width: '100%',
-              height: '2rem',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Text
+      <Flex dir="col" gap="md">
+        {purchasers &&
+          purchasers.map((purchaser, index) => (
+            <Flex
+              key={index}
+              gap="lg"
               css={{
-                width: '5%',
+                width: '100%',
+                height: '2rem',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
-              {index + 1}.
-            </Text>
-            <Text
-              css={{
-                width: '40%',
-              }}
-            >
-              {truncateAddress(purchaser.purchaser)}
-            </Text>
-            <Text
-              css={{
-                width: '40%',
-              }}
-            >
-              {Number(ethers.utils.formatEther(purchaser.purchased) / info['crowdsale']['purchaseMultiplier']).toFixed(
-                3,
-              )}{' '}
-              {symbol}
-            </Text>
-          </Flex>
-        ))}
+              <Text
+                css={{
+                  width: '5%',
+                }}
+              >
+                {index + 1}.
+              </Text>
+              <Text
+                css={{
+                  width: '40%',
+                }}
+              >
+                {truncateAddress(purchaser.purchaser)}
+              </Text>
+              <Text
+                css={{
+                  width: '40%',
+                }}
+              >
+                {Number(
+                  ethers.utils.formatEther(purchaser.purchased) / info['crowdsale']['purchaseMultiplier'],
+                ).toFixed(3)}{' '}
+                {symbol}
+              </Text>
+            </Flex>
+          ))}
+      </Flex>
     </Flex>
   )
 }
