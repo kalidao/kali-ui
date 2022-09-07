@@ -14,7 +14,7 @@ const Input = styled('input', {
         fontSize: 12,
         lineHeight: 1,
         color: '$gray12',
-        backgroundColor: '$gray6',
+        backgroundColor: '$gray7',
         border: '1px solid $gray3',
         fontFamily: 'Regular',
 
