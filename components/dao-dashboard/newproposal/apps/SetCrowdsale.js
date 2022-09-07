@@ -115,15 +115,6 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   const submit = async (e) => {
     e.preventDefault()
 
-    // Activate / Deactivate Crowdsale
-    const _toggleCrowdsale = 0
-    if (toggleCrowdsale && crowdsaleStatus === 'Inactive') {
-      _toggleCrowdsale = 1
-    }
-    if (toggleCrowdsale && crowdsaleStatus === 'Active') {
-      _toggleCrowdsale = 1
-    }
-
     // Crowdsale access list id
     let _purchaseAccess
     if (purchaseAccess === 'public') {
@@ -131,9 +122,13 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     } else if (purchaseAccess === 'accredited') {
       _purchaseAccess = 1
     } else {
-      let id = await kaliAccess.listCount()
-      id = ethers.utils.formatUnits(id, 'wei')
-      _purchaseAccess = parseInt(id)
+      try {
+        let id = await kaliAccess.listCount()
+        id = ethers.utils.formatUnits(id, 'wei')
+        _purchaseAccess = parseInt(id)
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     // Crowdsale asset
@@ -193,8 +188,24 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
       return
     }
 
+    // Activate / Deactivate Crowdsale
+    const _toggleCrowdsale = 0
+    if (toggleCrowdsale && crowdsaleStatus === 'Inactive') {
+    }
+    if (toggleCrowdsale && crowdsaleStatus === 'Active') {
+      console.log(toggleCrowdsale)
+      _toggleCrowdsale = 1
+      _purchaseAccess = 0
+      purchaseMultiplier = 1
+      _purchaseAsset = AddressZero
+      crowdsaleEnd = 946702800 // Jan. 1, 2000
+      _purchaseLimit = 0
+      _personalLimit = 0
+      termsHash = 0
+    }
+
     console.log(
-      'Proposal - ',
+      'Crowdsale setExtension() params - ',
       _purchaseAccess,
       purchaseMultiplier,
       _purchaseAsset,
