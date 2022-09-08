@@ -150,8 +150,10 @@ export default function Crowdsale({ info }) {
             eligibility = await accessManager.balanceOf(account.address, 1)
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
+              setWarning('')
             } else {
               setIsEligible(false)
+              setWarning('🤔 Contribution is not available to this address')
             }
             break
           default:
@@ -159,8 +161,10 @@ export default function Crowdsale({ info }) {
             eligibility = await accessManager.balanceOf(account.address, Number(info?.crowdsale?.listId))
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
+              setWarning('')
             } else {
               setIsEligible(false)
+              setWarning('🤔 Contribution is not available to this address')
             }
             break
         }
@@ -186,8 +190,18 @@ export default function Crowdsale({ info }) {
       }
     }
 
+    const checkExpiry = () => {
+      if (!isExpired) {
+        setWarning(
+          'Contribute enable KaliDAOs to swap KaliDAO tokens with ETH or ERC20s and diversify treasury holding. Add the Contribute extension and get started!',
+        )
+      }
+    }
+
     getPastPurchasers()
+    checkExpiry()
   }, [])
+  console.log(isExpired, isEligible)
 
   return (
     <>
@@ -478,8 +492,14 @@ export default function Crowdsale({ info }) {
             alignItems: 'center',
           }}
         >
-          <Text variant="warning">🤔 Your account is ineligible to contribute</Text>
-          <Text variant="warning">Please contact KaliDAO members for more</Text>
+          {warning && (
+            <Text variant="warning" css={{ width: '70%' }}>
+              {warning}
+            </Text>
+          )}
+          <Text variant="warning" css={{ width: '70%' }}>
+            Hop into the KALI Discord to learn more about this feature.
+          </Text>
         </Flex>
       )}
     </>
