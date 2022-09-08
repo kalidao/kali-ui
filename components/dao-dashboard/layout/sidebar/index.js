@@ -46,7 +46,7 @@ export default function Sidebar({ crowdsale }) {
       link: 'crowdsale',
       label: 'Contribute',
       icon: <GiCoins />,
-      active: crowdsale?.active,
+      active: true,
     },
     {
       link: 'treasury',
@@ -107,11 +107,14 @@ export default function Sidebar({ crowdsale }) {
         },
       }}
     >
-      {items
+      {/* {items
         .filter((item) => item.active === true)
         .map((item) => (
           <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
-        ))}
+        ))} */}
+      {items.map((item) => (
+        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
+      ))}
     </Flex>
   )
 }
