@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
 import { Flex, Text, Button } from '../../../../styles/elements'
 import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
@@ -19,6 +19,7 @@ import Editor from '../../../../components/editor'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../../components/editor/editor.module.css'
+import { Tip } from '../../../elements'
 
 export default function SetCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
@@ -26,6 +27,17 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   const chainId = router.query.chainId
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
+
+  const { data: kalidaoToken } = useContractRead(
+    {
+      addressOrName: daoAddress,
+      contractInterface: KALIDAO_ABI,
+    },
+    'symbol',
+    {
+      chainId: Number(chainId),
+    },
+  )
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -64,7 +76,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   const [receipt, setReceipt] = useState(null)
   const [receiptMessage, setReceiptMessage] = useState(null)
   const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
-  const [crowdsaleStatus, setCrowdsaleStatus] = useState('fetching...')
+  const [isActive, setIsActive] = useState('fetching...')
   const [toggleCrowdsale, setToggleCrowdsale] = useState(null)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
@@ -72,7 +84,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   useEffect(() => {
     const getCrowdsaleStatus = async () => {
       const status = await fetchExtensionStatus(chainId, daoAddress, crowdsaleAddress)
-      status ? setCrowdsaleStatus('Active') : setCrowdsaleStatus('Inactive')
+      status ? setIsActive('Yes') : setIsActive('No')
     }
 
     getCrowdsaleStatus()
@@ -190,9 +202,10 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     // Activate / Deactivate Crowdsale
     const _toggleCrowdsale = 0
-    if (toggleCrowdsale && crowdsaleStatus === 'Inactive') {
+    if (toggleCrowdsale && isActive === 'Inactive') {
+      _toggleCrowdsale = 1
     }
-    if (toggleCrowdsale && crowdsaleStatus === 'Active') {
+    if (toggleCrowdsale && isActive === 'Active') {
       console.log(toggleCrowdsale)
       _toggleCrowdsale = 1
       _purchaseAccess = 0
@@ -259,20 +272,26 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           fontFamily: 'Regular',
         }}
       >
-        The Contribution extension allows anyone to contribute ETH or ERC20 tokens, e.g., DAI, in exchange for KaliDAO
-        tokens. To enable the Contribution exntension, submit form below to create proposal, vote on the proposal, and
-        start accepting contributions from your community.
+        The Swap extension allows anyone to atomically swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.
+      </Text>
+      <Text
+        variant="instruction"
+        css={{
+          fontFamily: 'Regular',
+        }}
+      >
+        To enable the Swap exntension, check the "Deactivate Swap" box and fill out the rest to create a Swap proposal.
       </Text>
       <Form>
         <FormElement>
-          <Label htmlFor="recipient">Current Contribution Status</Label>
-          <Text>{crowdsaleStatus}</Text>
+          <Label htmlFor="recipient">Is Swap active?</Label>
+          <Text>{isActive}</Text>
         </FormElement>
         <FormElement>
-          {crowdsaleStatus === 'Inactive' ? (
-            <Label htmlFor="recipient">Activate Contribution</Label>
+          {isActive === 'Inactive' ? (
+            <Label htmlFor="recipient">Activate Swap</Label>
           ) : (
-            <Label htmlFor="recipient">Deactivate Contribution</Label>
+            <Label htmlFor="recipient">Deactivate Swap</Label>
           )}
           <Input
             type={'checkbox'}
@@ -283,19 +302,25 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         </FormElement>
         <FormElement>
           <Flex dir="col" gap="sm">
-            <Label>Background</Label>
+            <Label>
+              Swap context
+              <Tip label={'Share some context for users to swap'} />
+            </Label>
             <Editor editor={background} />
           </Flex>
         </FormElement>
         <FormElement>
-          <Label htmlFor="type">Asset</Label>
+          <Label htmlFor="type">
+            Token to swap{' '}
+            <Tip label={`Specify a token, e.g., DAI, to swap for this KaliDAO's token, ${kalidaoToken}`} />
+          </Label>
           <Select
             name="type"
             onChange={(e) => setPurchaseAsset(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           >
             <Select.Item value="select">Select</Select.Item>
-            <Select.Item value="eth">ETH</Select.Item>
+            <Select.Item value="eth">Ether</Select.Item>
             <Select.Item value="custom">Custom</Select.Item>
           </Select>
         </FormElement>
@@ -306,15 +331,18 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           </FormElement>
         )}
         <FormElement>
-          <Label htmlFor="type">Access</Label>
+          <Label htmlFor="type">
+            Swap access
+            <Tip label="Is this Swap open to all or only to a select collective of addresses?" />
+          </Label>
           <Select
             name="type"
             onChange={(e) => setPurchaseAccess(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           >
             <Select.Item value="select">Select</Select.Item>
             <Select.Item value="public">Public</Select.Item>
-            <Select.Item value="accredited">Accredited</Select.Item>
+            <Select.Item value="accredited">Accredited Investors</Select.Item>
             <Select.Item value="custom">Custom</Select.Item>
           </Select>
         </FormElement>
@@ -332,50 +360,64 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           </FormElement>
         )}
         <FormElement>
-          <Label htmlFor="purchaseMultiplier">Contribution Multiplier</Label>
+          <Label htmlFor="purchaseMultiplier">
+            Swap multiplier
+            <Tip label="Specify a rate for each swap. For example, a 5x swap multiplier will swap 5 KaliDAO tokens for 1 Ether or 1 ERC20 token." />
+          </Label>
           <Input
             name="purchaseMultiplier"
             type="number"
             onChange={(e) => setPurchaseMultiplier(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="purchaseLimit">Total Contribution Limit</Label>
+          <Label htmlFor="purchaseLimit">
+            Total swap limit{' '}
+            <Tip label="Specify a total number of KaliDAO tokens available to previously specified collective during this Swap" />
+          </Label>
           <Input
             name="purchaseLimit"
             type="number"
             onChange={(e) => setPurchaseLimit(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="personalLimit">Individual Contribution Limit</Label>
+          <Label htmlFor="personalLimit">
+            Individual swap limit{' '}
+            <Tip label="Specify a total number of KaliDAO tokens available to one address during this Swap" />
+          </Label>
           <Input
             name="personalLimit"
             type="number"
             onChange={(e) => setPersonalLimit(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           />
         </FormElement>
 
         <FormElement>
-          <Label htmlFor="recipient">Contribution Ends on</Label>
+          <Label htmlFor="recipient">
+            Swap Ends on <Tip label="Specify a time to which this Swap ends" />
+          </Label>
           <Input
             variant="calendar"
             type="datetime-local"
             onChange={(e) => setCrowdsaleEnd(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
+            disabled={isActive === 'Active' && toggleCrowdsale}
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor="tokenAddress">Contribution Terms</Label>
+          <Label htmlFor="tokenAddress">
+            Swap Terms
+            <Tip label="You may attach a file (.pdf, .jpeg) with Swap, and Kali will present as a clickwrap for Swap users to accept or decline before swapping." />
+          </Label>
           <Flex gap="sm" align="end" effect="glow">
             <FileUploader setFile={setTerms} />
           </Flex>{' '}
         </FormElement>
 
-        <FormElement>
+        {/* <FormElement>
           <Label htmlFor="receiptMessage">Message for Contributors</Label>
           <Input
             name="receiptMessage"
@@ -389,7 +431,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           <Flex gap="sm" align="end" effect="glow">
             <FileUploader setFile={setReceipt} />
           </Flex>{' '}
-        </FormElement>
+        </FormElement> */}
 
         {warning && <Warning warning={warning} />}
         {purchaseAccess === 'custom' && (
