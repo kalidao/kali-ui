@@ -105,7 +105,7 @@ export default function Info({ info, crowdsale }) {
           <Text>Token to swap: </Text>
           <Text
             as="a"
-            href={addresses[chainId]['blockExplorer'] + '/address/' + info['crowdsale']['purchaseToken']}
+            href={addresses[chainId]['blockExplorer'] + '/address/' + crowdsale.purchaseAsset}
             target="_blank"
             css={{
               color: '$amber11',

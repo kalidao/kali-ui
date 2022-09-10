@@ -245,7 +245,6 @@ export default function Crowdsale({ info }) {
       for (let i = 0; i < purchasers.length; i++) {
         try {
           const _purchaser = purchasers[i]
-          console.log(_purchaser, dao, crowdsaleV2)
           const _swap = await crowdsaleV2.checkPersonalPurchased(_purchaser, dao)
           _totalDistributed = _totalDistributed + Number(ethers.utils.formatEther(_swap))
 
@@ -275,6 +274,8 @@ export default function Crowdsale({ info }) {
         setWarning(
           'Swap enables KaliDAOs to atomically swap KaliDAO tokens with ETH or ERC20s and to diversify their treasury holding. Add the  extension and get started!',
         )
+      } else {
+        setWarning('')
       }
 
       // if (!inProgress || !info?.crowdsale) {
@@ -504,7 +505,7 @@ export default function Crowdsale({ info }) {
                           color: '$amber11',
                         }}
                       >
-                        Terms for swapping
+                        terms for swapping
                       </Text>
                     </Text>
                   </Flex>
