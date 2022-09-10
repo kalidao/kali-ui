@@ -22,7 +22,7 @@ export default function Process({ proposal }) {
       const tx = await writeAsync({
         args: [proposal['serial']],
         overrides: {
-          gasLimit: 1050000,
+          gasLimit: 2050000,
         },
       })
     } catch (e) {
