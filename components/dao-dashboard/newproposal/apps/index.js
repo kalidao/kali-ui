@@ -13,7 +13,7 @@ function AppsMenu({ setProposal }) {
   return (
     <Flex gap="md" dir="col">
       <Text> </Text>
-      <Text variant="instruction">(1) Contribute :</Text>
+      <Text variant="instruction">(1) Swap :</Text>
       <Text variant="instruction">
         KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.
       </Text>
@@ -24,7 +24,7 @@ function AppsMenu({ setProposal }) {
       <Menu>
         <Menu.Item onClick={() => setProposal('crowdsale')}>
           <MdOutlineConstruction />
-          Contribute
+          Swap
         </Menu.Item>
         <Menu.Item onClick={() => setProposal('redemption')}>
           <MdOutlineRedeem />

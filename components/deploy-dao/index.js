@@ -66,9 +66,9 @@ export default function DeployDaoWrapper() {
     },
     {
       component: <Crowdsale setStep={setStep} />,
-      title: 'Extension: Contribute',
+      title: 'Extension: Swap',
       description: `This extension gives KaliDAO the ability to swap KaliDAO tokens 
-      with ETH or ERC20s.`,
+      for Eth or ERC20s.`,
     },
     {
       component: <Members setStep={setStep} />,

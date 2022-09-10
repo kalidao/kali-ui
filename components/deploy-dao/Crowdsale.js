@@ -42,7 +42,7 @@ export default function Crowdsale({ setStep }) {
   return (
     <Form>
       <FormElement>
-        <Label htmlFor="legal">Add Contribute</Label>
+        <Label htmlFor="legal">Add Swap</Label>
         <Switch
           control={control}
           name="crowdsale"

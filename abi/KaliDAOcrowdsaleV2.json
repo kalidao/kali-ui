@@ -56,20 +56,19 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bytes[]",
-				"name": "data",
-				"type": "bytes[]"
-			}
-		],
-		"name": "multicall",
-		"outputs": [
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
 			{
-				"internalType": "bytes[]",
-				"name": "results",
-				"type": "bytes[]"
+				"internalType": "bytes32[]",
+				"name": "merkleProof",
+				"type": "bytes32[]"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"name": "joinList",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -96,19 +95,20 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32[]",
-				"name": "merkleProof",
-				"type": "bytes32[]"
+				"internalType": "bytes[]",
+				"name": "data",
+				"type": "bytes[]"
 			}
 		],
-		"name": "joinList",
-		"outputs": [],
-		"stateMutability": "payable",
+		"name": "multicall",
+		"outputs": [
+			{
+				"internalType": "bytes[]",
+				"name": "results",
+				"type": "bytes[]"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -205,6 +205,12 @@
 				"internalType": "uint256",
 				"name": "amountOut",
 				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address[]",
+				"name": "purchasers",
+				"type": "address[]"
 			}
 		],
 		"name": "ExtensionCalled",
@@ -326,7 +332,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "contract IERC20Permit",
+				"internalType": "contract IERC20permit",
 				"name": "token",
 				"type": "address"
 			},
@@ -407,6 +413,25 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "dao",
+				"type": "address"
+			}
+		],
+		"name": "checkPurchasers",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -452,6 +477,19 @@
 				"internalType": "string",
 				"name": "details",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "kaliRate",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",

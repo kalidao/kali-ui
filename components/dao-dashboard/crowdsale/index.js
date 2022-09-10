@@ -4,6 +4,8 @@ import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import Buy from './Buy'
 import Approve from './Approve'
+import DAO_ABI from '../../../abi/KaliDAO.json'
+import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import ACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
 import { useEffect, useState } from 'react'
 import { Input } from '../../../styles/form-elements'
@@ -26,9 +28,21 @@ export default function Crowdsale({ info }) {
   const { data: signer } = useSigner()
 
   // Contract interaction
+  const { data: crowdsale } = useContractRead(
+    {
+      addressOrName: addresses[chainId].extensions.crowdsale2,
+      contractInterface: CROWDSALE_ABI,
+    },
+    'crowdsales',
+    {
+      args: [dao],
+      chainId: Number(chainId),
+    },
+  )
+
   const { data: purchaseTokenSymbol } = useContractRead(
     {
-      addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
+      addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
       contractInterface: erc20ABI,
     },
     'symbol',
@@ -39,7 +53,7 @@ export default function Crowdsale({ info }) {
 
   const { data: decimals } = useContractRead(
     {
-      addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
+      addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
       contractInterface: erc20ABI,
     },
     'decimals',
@@ -49,7 +63,7 @@ export default function Crowdsale({ info }) {
   )
 
   const erc20 = useContract({
-    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
+    addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
     contractInterface: erc20ABI,
     signerOrProvider: signer,
   })
@@ -60,36 +74,76 @@ export default function Crowdsale({ info }) {
     signerOrProvider: signer,
   })
 
+  const crowdsaleV2 = useContract({
+    addressOrName: addresses[chainId]['extensions']['crowdsale2'],
+    contractInterface: CROWDSALE_ABI,
+    signerOrProvider: signer,
+  })
+
+  const { data: crowdsalePurchasers } = useContractRead(
+    {
+      addressOrName: addresses[chainId]['extensions']['crowdsale2'],
+      contractInterface: CROWDSALE_ABI,
+    },
+    'checkPurchasers',
+    {
+      args: [dao],
+      chainId: Number(chainId),
+    },
+  )
+
   // Crowdsale data
   let type
   // const isActive = info?.crowdsale?.active
-  const isExpired = info?.crowdsale?.saleEnds * 1000 > Date.now() ? true : false
-  const terms = info?.crowdsale?.details
-  const symbol =
-    info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
-    info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
-      ? 'ETH'
-      : purchaseTokenSymbol
-  const personalLimit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
-  const purchaseLimit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
+  // const inProgress = info?.crowdsale?.saleEnds * 1000 > Date.now() ? true : false
+  // const terms = info?.crowdsale?.details
+  // const symbol =
+  //   info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
+  //   info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
+  //     ? 'ETH'
+  //     : purchaseTokenSymbol
+  // const personalLimit = ethers.utils.formatEther(
+  //   info?.crowdsale?.personalLimit ? info?.crowdsale?.personalLimit : '1000000000000000000',
+  // )
+  // const purchaseLimit = ethers.utils.formatEther(
+  //   info?.crowdsale?.purchaseLimit ? info?.crowdsale?.purchaseLimit : '1000000000000000000',
+  // )
 
   // States
   const [clickedTerms, setClickedTerms] = useState(null)
   const [warning, setWarning] = useState(null)
   const [success, setSuccess] = useState(false)
   const [tx, setTx] = useState(null)
-  const [amountToContribute, setAmountToContribute] = useState(0)
+  const [amountToSwap, setAmountToSwap] = useState(0)
   const [amountToReceive, setAmountToReceive] = useState(0)
   const [shouldApprove, setShouldApprove] = useState(null)
   const [canPurchase, setCanPurchase] = useState(false)
   const [isEligible, setIsEligible] = useState(false)
   const [totalDistributed, setTotalDistributed] = useState(0)
 
+  // Temp states
+  // const symbol =
+  //   crowdsale.purchaseAsset === '0x0000000000000000000000000000000000000000' ||
+  //   crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
+  //     ? 'ETH'
+  //     : purchaseTokenSymbol
+  const [tempSymbol, setTempSymbol] = useState(null)
+  const [tempListId, setTempListId] = useState(0)
+  const [tempPurchaseAsset, setTempPurchaseAsset] = useState(null)
+  const [tempMultiplier, setTempMultiplier] = useState(0)
+  const [tempPersonalLimit, setTempPersonalLimit] = useState(0)
+  const [tempPurchaseLimit, setTempPurchaseLimit] = useState(0)
+  const [tempPurchaseTotal, setTempPurchaseTotal] = useState(0)
+  const [tempPurchaseDeadline, setTempPurchaseDeadline] = useState(null)
+  const [tempPurchasers, setTempPurchasers] = useState([])
+  const [tempInProgress, setTempInProgress] = useState(false)
+  const [tempTerms, setTempTerms] = useState('')
+
   // Helper functions
   const checkAllowance = async () => {
     try {
       const allowance = await erc20.allowance(account?.address, addresses[chainId].extensions.crowdsale2)
-      // console.log('allowance amount', ethers.utils.formatEther(allowance))
+      console.log('allowance amount', ethers.utils.formatEther(allowance))
 
       if (ethers.utils.formatEther(allowance) == '0.0') {
         setShouldApprove(true)
@@ -101,28 +155,29 @@ export default function Crowdsale({ info }) {
     }
   }
 
-  const handleAmount = async (_amountToContribute) => {
+  const handleAmount = async (_amountToSwap) => {
     let _canPurchase
-    const _amountToReceive = _amountToContribute * info['crowdsale']['purchaseMultiplier']
+    const _amountToReceive = _amountToSwap * crowdsale.purchaseMultiplier
+    // const _amountToReceive = _amountToSwap * info['crowdsale']['purchaseMultiplier']
 
-    setAmountToContribute(_amountToContribute)
+    setAmountToSwap(_amountToSwap)
     setAmountToReceive(_amountToReceive)
 
-    if (symbol != 'ETH') {
+    if (tempSymbol != 'ETH') {
       checkAllowance()
     }
-
-    if (_amountToReceive > Number(personalLimit)) {
+    console.log(crowdsale.purchaseLimit)
+    if (_amountToReceive > Number(ethers.utils.formatEther(crowdsale.purchaseLimit))) {
       _canPurchase = false
-      setWarning('Max contribution reached')
+      setWarning('Max swap reached')
     } else {
       setWarning('')
       _canPurchase = true
     }
 
-    if (_amountToReceive + totalDistributed > Number(purchaseLimit)) {
+    if (_amountToReceive + totalDistributed > Number(ethers.utils.formatEther(crowdsale.purchaseLimit))) {
       _canPurchase = false
-      setWarning('Max contribution reached')
+      setWarning('Max swap reached')
     } else {
       setWarning('')
       _canPurchase = true
@@ -139,8 +194,10 @@ export default function Crowdsale({ info }) {
   useEffect(() => {
     const getEligibilty = async () => {
       let eligibility
+      // console.log(Number(ethers.utils.formatEther(tempListId)).toString())
       try {
-        switch (info?.crowdsale?.listId) {
+        // switch (info?.crowdsale?.listId) {
+        switch (Number(ethers.utils.formatEther(tempListId)).toString()) {
           case '0':
             type = 'Public'
             setIsEligible(true)
@@ -153,59 +210,117 @@ export default function Crowdsale({ info }) {
               setWarning('')
             } else {
               setIsEligible(false)
-              setWarning('🤔 Contribution is not available to this address')
+              setWarning('🤔 Swap is available to accredited investors only')
             }
             break
           default:
             type = 'Private'
-            eligibility = await accessManager.balanceOf(account.address, Number(info?.crowdsale?.listId))
+            eligibility = await accessManager.balanceOf(account.address, Number(crowdsale.listId))
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
               setWarning('')
             } else {
               setIsEligible(false)
-              setWarning('🤔 Contribution is not available to this address')
+              setWarning('🤔 Swap is available to a select collective of addresses only')
             }
             break
         }
+        console.log(eligibility)
       } catch (e) {
         console.log(e)
       }
     }
 
-    console.log(info)
+    // console.log(info)
     getEligibilty()
-  }, [])
+  }, [tempListId])
 
   // Check total purchase limit
   useEffect(() => {
-    const getPastPurchasers = () => {
-      const contributors = info?.crowdsale?.purchase
+    const getTotalDistributed = async () => {
+      const purchasers = crowdsalePurchasers
+      let _purchasers = []
       let _totalDistributed = 0
 
-      for (let i = 0; i < contributors.length; i++) {
-        const contribution = Number(ethers.utils.formatEther(contributors[i].purchased))
-        _totalDistributed = contribution + _totalDistributed
-        setTotalDistributed(_totalDistributed)
+      for (let i = 0; i < purchasers.length; i++) {
+        try {
+          const _purchaser = purchasers[i]
+          console.log(_purchaser, dao, crowdsaleV2)
+          const _swap = await crowdsaleV2.checkPersonalPurchased(_purchaser, dao)
+          _totalDistributed = _totalDistributed + Number(ethers.utils.formatEther(_swap))
+
+          _purchasers.push({
+            purchaser: _purchaser,
+            purchased: Number(ethers.utils.formatEther(_swap)),
+          })
+        } catch (e) {
+          console.log(e)
+        }
       }
+
+      console.log(_purchasers)
+      setTempPurchasers(_purchasers)
+      setTotalDistributed(_totalDistributed)
+
+      // const contributors = info?.crowdsale?.purchase ? info?.crowdsale?.purchase : [{ purchaser: '', purchased: '0' }]
+      // for (let id = 0; i < contributors.length; i++) {
+      //   const swap = Number(ethers.utils.formatEther(contributors[i].purchased))
+      //   _totalDistributed = swap + _totalDistributed
+      //   setTotalDistributed(_totalDistributed)
+      // }
     }
 
     const checkExpiry = () => {
-      if (!isExpired) {
+      if (!tempInProgress) {
         setWarning(
-          'Contribute enable KaliDAOs to swap KaliDAO tokens with ETH or ERC20s and diversify treasury holding. Add the Contribute extension and get started!',
+          'Swap enables KaliDAOs to atomically swap KaliDAO tokens with ETH or ERC20s and to diversify their treasury holding. Add the  extension and get started!',
         )
       }
+
+      // if (!inProgress || !info?.crowdsale) {
+      //   setWarning(
+      // 'Swap enables KaliDAOs to atomically swap KaliDAO tokens with ETH or ERC20s and to diversify their treasury holding. Add the  extension and get started!',
+      //   )
+      // }
     }
 
-    getPastPurchasers()
+    getTotalDistributed()
     checkExpiry()
   }, [])
-  console.log(isExpired, isEligible)
+
+  // Temp helper function to get crowdsale until subgraph is updated
+  useEffect(() => {
+    const extractCrowdsaleData = async () => {
+      const symbol =
+        crowdsale.purchaseAsset === '0x0000000000000000000000000000000000000000' ||
+        crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
+          ? 'ETH'
+          : purchaseTokenSymbol
+      setTempSymbol(symbol)
+
+      const _inProgress = crowdsale.saleEnds * 1000 > Date.now() ? true : false
+
+      setTempInProgress(_inProgress)
+      setTempListId(crowdsale.listId)
+      setTempMultiplier(crowdsale.purchaseMultiplier)
+      setTempPersonalLimit(crowdsale.personalLimit)
+      setTempPurchaseLimit(crowdsale.purchaseLimit)
+      setTempPurchaseTotal(crowdsale.purchaseTotal)
+      setTempTerms(crowdsale.details)
+      setTempPurchaseAsset(crowdsale.purchaseAsset)
+      setTempPurchaseDeadline(crowdsale.saleEnds)
+
+      // console.log(_inProgress)
+    }
+
+    console.log(dao, crowdsale, crowdsalePurchasers)
+
+    extractCrowdsaleData()
+  }, [])
 
   return (
     <>
-      {isExpired && isEligible ? (
+      {tempInProgress && isEligible ? (
         <Flex
           gap="lg"
           css={{
@@ -233,10 +348,8 @@ export default function Crowdsale({ info }) {
                 height: 'auto',
               }}
             >
-              <Text variant="subheading">Contribute to {info['token']['name']}</Text>
-              <Text>
-                Enter an amount to swap {symbol} for {info?.token?.symbol} tokens
-              </Text>
+              <Text variant="subheading">Swap</Text>
+              <Text>Enter an amount to swap</Text>
               <Flex
                 dir="col"
                 css={{
@@ -273,10 +386,11 @@ export default function Crowdsale({ info }) {
                       name="amount"
                       type="number"
                       min={0}
-                      max={
-                        ethers.utils.formatUnits(info['crowdsale']['personalLimit']) /
-                        info['crowdsale']['purchaseMultiplier']
-                      }
+                      max={ethers.utils.formatUnits(tempPersonalLimit) / tempMultiplier}
+                      // max={
+                      //   ethers.utils.formatUnits(info['crowdsale']['personalLimit']) /
+                      //   info['crowdsale']['purchaseMultiplier']
+                      // }
                       defaultValue="0.0"
                       onChange={(e) => handleAmount(e.target.value)}
                       css={{
@@ -304,7 +418,7 @@ export default function Crowdsale({ info }) {
                       alignItems: 'center',
                     }}
                   >
-                    {symbol}
+                    {tempSymbol}
                   </Text>
                 </Flex>
                 <Flex>
@@ -341,7 +455,8 @@ export default function Crowdsale({ info }) {
                       type="number"
                       disabled={true}
                       min={0}
-                      max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}
+                      max={ethers.utils.formatUnits(tempPersonalLimit)}
+                      // max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}
                       value={amountToReceive}
                       defaultValue="0.0"
                       css={{
@@ -371,7 +486,7 @@ export default function Crowdsale({ info }) {
                     {info?.token?.symbol}
                   </Text>
                 </Flex>
-                {terms && terms != 'none' && (
+                {tempTerms && tempTerms != 'none' && (
                   <Flex dir="row" css={{ paddingTop: '1rem', paddingBottom: '1rem', alignItems: 'center' }}>
                     <Input
                       type={'checkbox'}
@@ -383,13 +498,13 @@ export default function Crowdsale({ info }) {
                       I agree to the{' '}
                       <Text
                         as="a"
-                        href={'https://ipfs.io/ipfs/' + terms}
+                        href={'https://ipfs.io/ipfs/' + tempTerms}
                         target="_blank"
                         css={{
                           color: '$amber11',
                         }}
                       >
-                        contribution terms
+                        Terms for swapping
                       </Text>
                     </Text>
                   </Flex>
@@ -397,8 +512,9 @@ export default function Crowdsale({ info }) {
                 {shouldApprove && (
                   <Approve
                     info={info}
+                    crowdsale={crowdsale}
                     dao={dao}
-                    amount={amountToContribute}
+                    amount={amountToSwap}
                     chainId={chainId}
                     purchaseTokenSymbol={purchaseTokenSymbol}
                   />
@@ -410,14 +526,14 @@ export default function Crowdsale({ info }) {
                     paddingBottom: '1rem',
                   }}
                 >
-                  {canPurchase && !shouldApprove && terms != 'none' && clickedTerms ? (
+                  {canPurchase && !shouldApprove && tempTerms != 'none' && clickedTerms ? (
                     <Buy
                       dao={dao}
-                      symbol={symbol}
+                      symbol={tempSymbol}
                       decimals={decimals ? decimals : 18}
-                      amount={amountToContribute}
+                      amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Contribute ${symbol}`}
+                      buttonText={`Swap ${tempSymbol}`}
                       shouldDisable={false}
                       setSuccess={setSuccess}
                       setTx={setTx}
@@ -425,11 +541,11 @@ export default function Crowdsale({ info }) {
                   ) : (
                     <Buy
                       dao={dao}
-                      symbol={symbol}
+                      symbol={tempSymbol}
                       decimals={decimals ? decimals : 18}
-                      amount={amountToContribute}
+                      amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Contribute ${symbol}`}
+                      buttonText={`Swap ${tempSymbol}`}
                       shouldDisable={true}
                       setSuccess={setSuccess}
                       setTx={setTx}
@@ -471,13 +587,13 @@ export default function Crowdsale({ info }) {
             }}
           >
             <Flex dir="col" gap="md">
-              <Info info={info} />
+              <Info info={info} crowdsale={crowdsale} />
               <Flex></Flex>
               <Flex></Flex>
               <Background />
               <Flex></Flex>
               <Flex></Flex>
-              <History info={info} symbol={symbol} />
+              <History info={info} crowdsale={crowdsale} purchasers={tempPurchasers} symbol={tempSymbol} />
             </Flex>
           </Flex>
         </Flex>
@@ -498,7 +614,7 @@ export default function Crowdsale({ info }) {
             </Text>
           )}
           <Text variant="warning" css={{ width: '70%' }}>
-            Hop into the KALI Discord to learn more about this feature.
+            Hop into the KALI Discord to learn more about this Extension ✌️
           </Text>
         </Flex>
       )}

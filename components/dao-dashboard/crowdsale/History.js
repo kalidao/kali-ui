@@ -4,17 +4,17 @@ import { Flex, Text } from '../../../styles/elements'
 import { ethers } from 'ethers'
 import { truncateAddress } from '../../../utils'
 
-export default function History({ info, symbol }) {
-  const [purchasers, setPurchasers] = useState(null)
+export default function History({ info, crowdsale, purchasers, symbol }) {
+  // const [purchasers, setPurchasers] = useState(null)
 
-  useEffect(() => {
-    const getPastPurchasers = () => {
-      setPurchasers(info['crowdsale']['purchase'])
-    }
+  // useEffect(() => {
+  //   const getPastPurchasers = () => {
+  //     setPurchasers(info['crowdsale']['purchase'])
+  //   }
 
-    getPastPurchasers()
-  }, [])
-
+  //   getPastPurchasers()
+  // }, [])
+  console.log(purchasers, crowdsale.purchaseMultiplier)
   return (
     <Flex
       dir="col"
@@ -26,7 +26,7 @@ export default function History({ info, symbol }) {
         justifyContent: 'center',
       }}
     >
-      <Text variant="subheading">Past Contributions:</Text>
+      <Text variant="subheading">Past Swaps:</Text>
       <Flex dir="col" gap="md">
         {purchasers &&
           purchasers.map((purchaser, index) => (
@@ -59,10 +59,7 @@ export default function History({ info, symbol }) {
                   width: '40%',
                 }}
               >
-                {Number(
-                  ethers.utils.formatEther(purchaser.purchased) / info['crowdsale']['purchaseMultiplier'],
-                ).toFixed(3)}{' '}
-                {symbol}
+                {Number(purchaser.purchased / crowdsale.purchaseMultiplier).toFixed(3)} {symbol}
               </Text>
             </Flex>
           ))}

@@ -5,25 +5,17 @@ import { addresses } from '../../../constants/addresses'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
 
-const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
+const Approve = ({ info, crowdsale, dao, amount, chainId, purchaseTokenSymbol }) => {
   const { writeAsync } = useContractWrite(
     {
-      addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
+      addressOrName: crowdsale.purchaseAsset,
       contractInterface: erc20ABI,
     },
     'approve',
-    {
-      args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
-    },
   )
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  const erc20 = useContract({
-    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
-    contractInterface: erc20ABI,
-    signerOrProvider: signer,
-  })
-
+  console.log(crowdsale.purchaseAsset)
   const approve = async () => {
     if (!dao || !amount) return
 

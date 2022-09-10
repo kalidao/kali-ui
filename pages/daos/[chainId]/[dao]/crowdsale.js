@@ -65,9 +65,9 @@ export const getServerSideProps = async (context) => {
 export default function CrowdsalePage({ info }) {
   const router = useRouter()
   const { chainId } = router.query
-
+  console.log(info)
   return (
-    <Layout heading="Contribute" content="Buy tokens in the crowdsale.">
+    <Layout heading="Swap" content="Swap Eth or tokens">
       <Crowdsale info={info} />
     </Layout>
   )

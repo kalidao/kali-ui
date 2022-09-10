@@ -103,7 +103,7 @@ export const addresses =
       access2: '0xa9eF2815a4CA3AfaF29c5234b6937A419cEC33a6',
       extensions: {
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
-        crowdsale2: '0x8c183bf7f68F70104657C6446d638178cbd6Fd11',
+        crowdsale2: '0x0484E8236452b582a9c45Bb1Bd5993e1a8619D0f',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
