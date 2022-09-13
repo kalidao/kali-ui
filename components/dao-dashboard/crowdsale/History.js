@@ -14,7 +14,7 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
 
   //   getPastPurchasers()
   // }, [])
-  console.log(purchasers, crowdsale.purchaseMultiplier)
+  // console.log(purchasers, crowdsale.purchaseMultiplier)
   return (
     <Flex
       dir="col"

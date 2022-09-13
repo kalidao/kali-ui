@@ -133,7 +133,6 @@ export async function fetchCrowdsaleDataHash(dao) {
       key: 'DAO (' + dao + ")'s Crowdsale Data",
       getOptions: ['hash'],
     })
-    console.log(hash_)
     if (hash_.hash) {
       hash = hash_.hash
     } else {

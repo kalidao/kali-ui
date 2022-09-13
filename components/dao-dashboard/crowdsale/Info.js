@@ -117,7 +117,7 @@ export default function Info({ info, crowdsale }) {
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text># of DAO tokens per {symbol}: </Text>
+          <Text># of DAO tokens per {symbol.toUpperCase()}: </Text>
           <Text>{crowdsale.purchaseMultiplier}</Text>
         </Flex>
       </Flex>
@@ -125,7 +125,7 @@ export default function Info({ info, crowdsale }) {
         <Flex dir="row" align="separate">
           <Text>Individual Swap Limit: </Text>
           <Text>
-            {personalLimit} {info?.token?.symbol}
+            {personalLimit} {info?.token?.symbol.toUpperCase()}
           </Text>
         </Flex>
       </Flex>
@@ -133,7 +133,7 @@ export default function Info({ info, crowdsale }) {
         <Flex dir="row" align="separate">
           <Text>Total Swap Limit: </Text>
           <Text>
-            {purchaseLimit} {info?.token?.symbol}
+            {purchaseLimit} {info?.token?.symbol.toUpperCase()}
           </Text>
         </Flex>
       </Flex>
