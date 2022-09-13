@@ -1,26 +1,17 @@
-import { erc20ABI, useContractRead, useContractWrite } from 'wagmi'
+import { useSigner, erc20ABI, useContract, useContractRead, useContractWrite } from 'wagmi'
 import { Button } from '../../../styles/elements'
 import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
 
 const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable, setSuccess, setTx }) => {
-  const { writeAsync: callExtension } = useContractWrite(
-    {
-      addressOrName: addresses[chainId].extensions.crowdsale2,
-      contractInterface: CROWDSALE_ABI,
-    },
-    'callExtension',
-    {
-      onSuccess(data) {
-        setSuccess(true)
-        setTx(data.hash)
-      },
-      onError(data) {
-        console.log(data)
-      },
-    },
-  )
+  const { data: signer } = useSigner()
+
+  const crowdsale = useContract({
+    addressOrName: addresses[chainId].extensions.crowdsale2,
+    contractInterface: CROWDSALE_ABI,
+    signerOrProvider: signer,
+  })
 
   const buy = async () => {
     console.log(dao, amount, decimals)
@@ -30,24 +21,13 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
     amount = amount.toString()
     if (symbol === 'ETH') {
       try {
-        const res = callExtension({
-          args: [dao, ethers.utils.parseEther(amount)],
-          overrides: {
-            value: ethers.utils.parseEther(amount),
-            gasLimit: 1050000,
-          },
-        })
+        const res = crowdsale.callExtension(dao, ethers.utils.parseEther(amount))
       } catch (e) {
         console.log(e)
       }
     } else {
       try {
-        const res = callExtension({
-          args: [dao, ethers.utils.parseUnits(amount, decimals)],
-          overrides: {
-            gasLimit: 1050000,
-          },
-        })
+        const res = crowdsale.callExtension(dao, ethers.utils.parseUnits(amount, decimals))
       } catch (e) {
         console.log(e)
       }
