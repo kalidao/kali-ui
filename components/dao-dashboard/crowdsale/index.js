@@ -16,11 +16,11 @@ import { addresses } from '../../../constants/addresses'
 import Info from './Info'
 import Background from './Background'
 import History from './History'
+import { fetchPurchasers } from './fetchPurchasers'
 
 const Arrow = styled(ArrowDownIcon, {
   color: 'White',
 })
-
 export default function Crowdsale({ info }) {
   const router = useRouter()
   const { dao, chainId } = router.query
@@ -121,7 +121,7 @@ export default function Crowdsale({ info }) {
   // )
 
   // States
-  const [clickedTerms, setClickedTerms] = useState(null)
+  const [clickedTerms, setClickedTerms] = useState(false)
   const [warning, setWarning] = useState(null)
   const [success, setSuccess] = useState(false)
   const [tx, setTx] = useState(null)
@@ -208,9 +208,7 @@ export default function Crowdsale({ info }) {
   useEffect(() => {
     const getEligibilty = async () => {
       let eligibility
-      // console.log(Number(ethers.utils.formatEther(tempListId)).toString())
       try {
-        // switch (info?.crowdsale?.listId) {
         switch (Number(ethers.utils.formatEther(tempListId)).toString()) {
           case '0':
             type = 'Public'
@@ -250,37 +248,36 @@ export default function Crowdsale({ info }) {
 
   // Check total purchase limit
   useEffect(() => {
-    const getTotalDistributed = async () => {
-      const purchasers = crowdsalePurchasers
-      let _purchasers = []
-      let _totalDistributed = 0
+    // const getTotalDistributed = async () => {
+    //   const purchasers = crowdsalePurchasers ? crowdsalePurchasers : []
+    //   console.log(purchasers)
+    //   let _purchasers = []
+    //   let _totalDistributed = 0
 
-      try {
-        for (let i = 0; i < purchasers.length; i++) {
-          const _purchaser = purchasers[i]
-          const _swap = await crowdsaleV2.checkPersonalPurchased(_purchaser, dao)
-          _totalDistributed = _totalDistributed + Number(ethers.utils.formatEther(_swap))
+    //   try {
+    //     for (let i = 0; i < purchasers.length; i++) {
+    //       const _purchaser = purchasers[i]
+    //       const _swap = await crowdsaleV2.checkPersonalPurchased(_purchaser, dao)
+    //       _totalDistributed = _totalDistributed + Number(ethers.utils.formatEther(_swap))
 
-          _purchasers.push({
-            purchaser: _purchaser,
-            purchased: Number(ethers.utils.formatEther(swap)),
-          })
-        }
+    //       _purchasers.push({
+    //         purchaser: _purchaser,
+    //         purchased: Number(ethers.utils.formatEther(_swap)),
+    //       })
+    //     }
 
-        console.log(_purchasers)
-        setTempPurchasers(_purchasers)
-        setTotalDistributed(_totalDistributed)
-      } catch (e) {
-        console.log(e)
-      }
-
-      // const contributors = info?.crowdsale?.purchase ? info?.crowdsale?.purchase : [{ purchaser: '', purchased: '0' }]
-      // for (let id = 0; i < contributors.length; i++) {
-      //   const swap = Number(ethers.utils.formatEther(contributors[i].purchased))
-      //   _totalDistributed = swap + _totalDistributed
-      //   setTotalDistributed(_totalDistributed)
-      // }
-    }
+    //     console.log(_purchasers)
+    //     setTempPurchasers(_purchasers)
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    //   // const contributors = info?.crowdsale?.purchase ? info?.crowdsale?.purchase : [{ purchaser: '', purchased: '0' }]
+    //   // for (let id = 0; i < contributors.length; i++) {
+    //   //   const swap = Number(ethers.utils.formatEther(contributors[i].purchased))
+    //   //   _totalDistributed = swap + _totalDistributed
+    //   //   setTotalDistributed(_totalDistributed)
+    //   // }
+    // }
 
     const checkExpiry = () => {
       if (!tempInProgress) {
@@ -290,15 +287,9 @@ export default function Crowdsale({ info }) {
       } else {
         setWarning('')
       }
-
-      // if (!inProgress || !info?.crowdsale) {
-      //   setWarning(
-      // 'Swap enables KaliDAOs to atomically swap KaliDAO tokens with ETH or ERC20s and to diversify their treasury holding. Add the  extension and get started!',
-      //   )
-      // }
     }
 
-    getTotalDistributed()
+    // getTotalDistributed()
     checkExpiry()
   }, [tempInProgress])
 
@@ -323,13 +314,21 @@ export default function Crowdsale({ info }) {
       setTempTerms(crowdsale.details)
       setTempPurchaseAsset(crowdsale.purchaseAsset)
       setTempPurchaseDeadline(crowdsale.saleEnds)
-
-      // console.log(_inProgress)
     }
 
-    console.log(dao, crowdsale, crowdsalePurchasers)
+    if (crowdsale) {
+      extractCrowdsaleData()
+    }
+  }, [])
 
-    extractCrowdsaleData()
+  useEffect(() => {
+    const getPurchasers = async () => {
+      const data = await fetchPurchasers(dao, chainId)
+      setTempPurchasers(data._purchasers)
+      setTotalDistributed(data._totalDistributed)
+    }
+
+    getPurchasers()
   }, [])
 
   return (
@@ -364,7 +363,7 @@ export default function Crowdsale({ info }) {
             >
               <Text variant="subheading">Swap for KaliDAO Tokens</Text>
               <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
-              <Text>Enter an amount to swap for {info?.token?.symbol}'s tokens.</Text>
+              <Text>Enter an amount to swap for DAO tokens, {info?.token?.symbol.toUpperCase()}:</Text>
               <Flex
                 dir="col"
                 css={{
@@ -513,6 +512,7 @@ export default function Crowdsale({ info }) {
                       variant="checkbox"
                       value={clickedTerms}
                       onChange={() => setClickedTerms(!clickedTerms)}
+                      // onChange={(e) => handleClickwrap(e.target.value)}
                     />
                     <Text>
                       I agree to the{' '}
@@ -546,14 +546,27 @@ export default function Crowdsale({ info }) {
                     paddingBottom: '1rem',
                   }}
                 >
-                  {canPurchase && !shouldApprove && tempTerms != 'none' && clickedTerms ? (
+                  {/* {canPurchase && !shouldApprove && tempTerms == 'none' && (
                     <Buy
                       dao={dao}
                       symbol={tempSymbol}
                       decimals={decimals ? decimals : 18}
                       amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol}`}
+                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
+                      shouldDisable={false}
+                      setSuccess={setSuccess}
+                      setTx={setTx}
+                    />
+                  )} */}
+                  {canPurchase && !shouldApprove && (tempTerms == 'none' || (tempTerms != 'none' && clickedTerms)) ? (
+                    <Buy
+                      dao={dao}
+                      symbol={tempSymbol}
+                      decimals={decimals ? decimals : 18}
+                      amount={amountToSwap}
+                      chainId={chainId}
+                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
                       shouldDisable={false}
                       setSuccess={setSuccess}
                       setTx={setTx}
@@ -565,7 +578,7 @@ export default function Crowdsale({ info }) {
                       decimals={decimals ? decimals : 18}
                       amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol}`}
+                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
                       shouldDisable={true}
                       setSuccess={setSuccess}
                       setTx={setTx}
@@ -574,7 +587,11 @@ export default function Crowdsale({ info }) {
                 </Flex>
               </Flex>
               {success && tx && (
-                <Flex>
+                <Flex dir="col" gap="sm">
+                  <Text>
+                    Congratulations! You've swapped {amountToSwap} {tempSymbol.toUpperCase()} for {amountToReceive}{' '}
+                    {info?.token?.symbol.toUpperCase()}.{' '}
+                  </Text>
                   <Text
                     as="a"
                     href={addresses[chainId]['blockExplorer'] + '/tx/' + tx}
@@ -588,7 +605,7 @@ export default function Crowdsale({ info }) {
                       gap: '0.2rem',
                     }}
                   >
-                    Etherscan
+                    View on Explorer
                   </Text>
                 </Flex>
               )}
