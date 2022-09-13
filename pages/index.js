@@ -1,9 +1,9 @@
 import Layout from '../components/layout'
 import { GRAPH_URL } from '../graph/url'
 import { productionChains } from '../constants/productionChains'
-import { Flex } from '../styles/elements'
+import { Flex, Text } from '../styles/elements'
 import { MyDAOs, NewDao, Search, Display, UserDAOs } from '../components/home/'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
 export const getServerSideProps = async () => {
@@ -51,28 +51,63 @@ export const getServerSideProps = async () => {
 export default function HomePage({ daos }) {
   const { data: account } = useAccount()
   const [display, setDisplay] = useState(daos[1])
+  const [hide, setHide] = useState(false)
   const [chain, setChain] = useState('1')
 
+  console.log(display)
+
+  useEffect(() => {
+    if (daos[1].length != display.length) {
+      console.log('hi')
+      setHide(true)
+    }
+  }, [display])
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
       <Flex
         css={{
+          width: '100%',
+          height: '100%',
+          background: 'Red',
           marginTop: '5rem',
           gap: '20px',
           justifyContent: 'space-between',
         }}
       >
-        <UserDAOs address={account?.address} />
+        <Flex dir="col" css={{ width: '30%', alignItems: 'flex-start', background: 'Blue', marginLeft: '2rem' }}>
+          <Flex css={{ background: 'Purple', width: '100%', justifyContent: 'center' }}>
+            <NewDao />
+          </Flex>
+
+          <Flex dir="col" css={{ background: 'Purple', width: '100%', height: '20%', justifyContent: 'center' }}>
+            <Search daos={daos} setDisplay={setDisplay} />
+            {hide ? (
+              <Display daos={display} />
+            ) : (
+              <Flex
+                dir="col"
+                gap="md"
+                css={{ alignItems: 'center', paddingTop: '1.5rem', width: '100%', background: 'Green' }}
+              >
+                <Text>Summon a KaliDAO</Text>
+                <Text>Search for KaliDAOs</Text>
+                <Text>Learn about KaliDAOs</Text>
+              </Flex>
+            )}
+          </Flex>
+        </Flex>
+
         <Flex
           dir="col"
           gap="md"
           css={{
-            minWidth: '75vw',
-            paddingTop: '1.5rem',
+            width: '20%',
+            background: 'Wheat',
+            // minWidth: '75vw',
+            // paddingTop: '1.5rem',
           }}
         >
-          <Search daos={daos} setDisplay={setDisplay} />
-          <Display daos={display} />
+          <UserDAOs address={account?.address} />
         </Flex>
       </Flex>
     </Layout>

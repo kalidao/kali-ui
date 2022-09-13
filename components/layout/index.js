@@ -1,10 +1,10 @@
 import Header from './Header'
 import Head from 'next/head'
-import { Box } from '../../styles/elements'
+import { Box, Flex } from '../../styles/elements'
 
 export default function Layout({ heading, content, children, props }) {
   const title = 'KALI - ' + heading
-
+  console.log(children)
   return (
     <div>
       <Head>
@@ -17,15 +17,18 @@ export default function Layout({ heading, content, children, props }) {
         <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
-      <Box
+      <Flex
         css={{
+          width: '100%',
+          height: '100%',
+          // background: 'Red',
           fontFamily: 'Screen',
         }}
         {...props}
       >
         <Header heading={heading} />
         {children}
-      </Box>
+      </Flex>
     </div>
   )
 }
