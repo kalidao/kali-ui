@@ -104,6 +104,7 @@ export const addresses =
       extensions: {
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
         crowdsale2: '0x0484E8236452b582a9c45Bb1Bd5993e1a8619D0f',
+        // crowdsale2: '0x2350C968C7B323Ad255E3942fcb9d578638792EC',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
