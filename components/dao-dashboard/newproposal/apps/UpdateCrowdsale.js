@@ -15,13 +15,13 @@ import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 import { createProposal } from '../../../tools/createProposal'
-import Editor from '../../../../components/editor'
+import Editor from '../../../editor'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../../components/editor/editor.module.css'
 import { Tip } from '../../../elements'
 
-export default function SetCrowdsale({ setProposal, title, editor }) {
+export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId

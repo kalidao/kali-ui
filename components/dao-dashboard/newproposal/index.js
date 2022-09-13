@@ -18,6 +18,8 @@ import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
 import { AssetMenu } from './mint'
 import MintArt from './mint/MintArt'
 import MintReal from './mint/MintReal'
+import UpdateCrowdsale from './apps/UpdateCrowdsale'
+import RemoveCrowdsale from './apps/RemoveCrowdsale'
 
 export function NewProposalModal({ proposalProp, editor, title }) {
   const [view, setView] = useState(proposalProp)
@@ -116,6 +118,18 @@ export function NewProposalModal({ proposalProp, editor, title }) {
     crowdsale: {
       title: 'Set Crowdsale Rules',
       component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
+    },
+    crowdsale_add: {
+      title: 'Set Crowdsale Rules',
+      component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
+    },
+    crowdsale_update: {
+      title: 'Set Crowdsale Rules',
+      component: <UpdateCrowdsale setProposal={setView} editor={editor} title={title} />,
+    },
+    crowdsale_remove: {
+      title: 'Set Crowdsale Rules',
+      component: <RemoveCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     redemption: {
       // TODO: need to add token approval/allowance logic at submission (added by proposal)
