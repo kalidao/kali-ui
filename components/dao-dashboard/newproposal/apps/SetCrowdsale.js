@@ -303,8 +303,8 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         <FormElement>
           <Flex dir="col" gap="sm">
             <Label>
-              Swap context
-              <Tip label={'Share some context for users to swap'} />
+              "Why should I swap?"
+              <Tip label={'Give users reasons to swap.'} />
             </Label>
             <Editor editor={background} />
           </Flex>
@@ -333,7 +333,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         <FormElement>
           <Label htmlFor="type">
             Swap access
-            <Tip label="Is this Swap open to all or only to a select collective of addresses?" />
+            <Tip label="Is this Swap open to all or only to a select collective of addresses? Public swaps are available to anyone with an Eth address." />
           </Label>
           <Select
             name="type"
@@ -373,8 +373,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         </FormElement>
         <FormElement>
           <Label htmlFor="purchaseLimit">
-            Total swap limit{' '}
-            <Tip label="Specify a total number of KaliDAO tokens available to previously specified collective during this Swap" />
+            Total swap limit <Tip label="Specify a total number of KaliDAO tokens available to access " />
           </Label>
           <Input
             name="purchaseLimit"
@@ -398,7 +397,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
         <FormElement>
           <Label htmlFor="recipient">
-            Swap Ends on <Tip label="Specify a time to which this Swap ends" />
+            Swap ends on <Tip label="Specify a time to which this Swap ends" />
           </Label>
           <Input
             variant="calendar"
@@ -409,7 +408,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         </FormElement>
         <FormElement>
           <Label htmlFor="tokenAddress">
-            Swap Terms
+            Swap terms
             <Tip label="You may attach a file (.pdf, .jpeg) with Swap, and Kali will present as a clickwrap for Swap users to accept or decline before swapping." />
           </Label>
           <Flex gap="sm" align="end" effect="glow">

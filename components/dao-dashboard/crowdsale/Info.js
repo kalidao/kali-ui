@@ -96,13 +96,13 @@ export default function Info({ info, crowdsale }) {
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text>Type: </Text>
+          <Text>Swap Access: </Text>
           <Text>{type}</Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text>Token to swap: </Text>
+          <Text>Token to Swap: </Text>
           <Text
             as="a"
             href={addresses[chainId]['blockExplorer'] + '/address/' + crowdsale.purchaseAsset}
@@ -117,13 +117,13 @@ export default function Info({ info, crowdsale }) {
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text>Swap Multiplier: </Text>
-          <Text>x{crowdsale.purchaseMultiplier}</Text>
+          <Text># of DAO tokens per {symbol}: </Text>
+          <Text>{crowdsale.purchaseMultiplier}</Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text>Personal Limit: </Text>
+          <Text>Individual Swap Limit: </Text>
           <Text>
             {personalLimit} {info?.token?.symbol}
           </Text>
@@ -131,7 +131,7 @@ export default function Info({ info, crowdsale }) {
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text>Total Limit: </Text>
+          <Text>Total Swap Limit: </Text>
           <Text>
             {purchaseLimit} {info?.token?.symbol}
           </Text>
@@ -139,7 +139,7 @@ export default function Info({ info, crowdsale }) {
       </Flex>
       <Flex dir="col" gap="lg">
         <Flex dir="row" align="separate">
-          <Text>Ends: </Text>
+          <Text>Swap ends on: </Text>
           <Text>{prettyDate(new Date(ethers.BigNumber.from(crowdsale.saleEnds * 1000).toNumber()))}</Text>
           {/* <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text> */}
         </Flex>

@@ -91,7 +91,6 @@ export default function Crowdsale({ info }) {
       chainId: Number(chainId),
     },
   )
-
   const { data: accountPurchased } = useContractRead(
     {
       addressOrName: addresses[chainId]['extensions']['crowdsale2'],
@@ -99,7 +98,7 @@ export default function Crowdsale({ info }) {
     },
     'checkPersonalPurchased',
     {
-      args: [account.address, dao],
+      args: [account?.address, dao],
       chainId: Number(chainId),
     },
   )
@@ -363,8 +362,9 @@ export default function Crowdsale({ info }) {
                 height: 'auto',
               }}
             >
-              <Text variant="subheading">Swap</Text>
-              <Text>Enter an amount to swap</Text>
+              <Text variant="subheading">Swap for KaliDAO Tokens</Text>
+              <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
+              <Text>Enter an amount to swap for {info?.token?.symbol}'s tokens.</Text>
               <Flex
                 dir="col"
                 css={{
@@ -553,7 +553,7 @@ export default function Crowdsale({ info }) {
                       decimals={decimals ? decimals : 18}
                       amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Swap ${tempSymbol}`}
+                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol}`}
                       shouldDisable={false}
                       setSuccess={setSuccess}
                       setTx={setTx}
@@ -565,7 +565,7 @@ export default function Crowdsale({ info }) {
                       decimals={decimals ? decimals : 18}
                       amount={amountToSwap}
                       chainId={chainId}
-                      buttonText={`Swap ${tempSymbol}`}
+                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol}`}
                       shouldDisable={true}
                       setSuccess={setSuccess}
                       setTx={setTx}

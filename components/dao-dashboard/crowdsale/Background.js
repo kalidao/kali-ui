@@ -31,7 +31,7 @@ export default function Background() {
 
   return (
     <Flex dir="col" gap="md">
-      <Text variant="subheading">Background</Text>
+      <Text variant="subheading">Why should I swap?</Text>
       {background && <Text>{background}</Text>}
     </Flex>
   )

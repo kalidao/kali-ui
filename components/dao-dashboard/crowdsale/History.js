@@ -26,7 +26,7 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
         justifyContent: 'center',
       }}
     >
-      <Text variant="subheading">Past Swaps:</Text>
+      <Text variant="subheading">Past swaps:</Text>
       <Flex dir="col" gap="md">
         {purchasers &&
           purchasers.map((purchaser, index) => (
