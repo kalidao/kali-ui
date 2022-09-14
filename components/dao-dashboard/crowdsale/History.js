@@ -14,7 +14,7 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
 
   //   getPastPurchasers()
   // }, [])
-  console.log(purchasers, Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')))
+  // console.log(purchasers, Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')))
   return (
     <Flex
       dir="col"

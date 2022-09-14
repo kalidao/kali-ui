@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useSigner } from 'wagmi'
 import { Flex, Text } from '../../../styles/elements'
@@ -10,7 +11,7 @@ export default function Info({ info, crowdsale }) {
   const router = useRouter()
   const { chainId } = router.query
   const { data: signer } = useSigner()
-
+  // const [symbol, setSymbol] = useState(null)
   const { data: purchaseTokenSymbol } = useContractRead(
     {
       addressOrName: crowdsale.purchaseAsset,
@@ -48,44 +49,10 @@ export default function Info({ info, crowdsale }) {
     100
   const personalLimit = ethers.utils.formatEther(crowdsale.personalLimit)
   const purchaseLimit = ethers.utils.formatEther(crowdsale.purchaseLimit)
-  console.log(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei'))
-  // const { data: purchaseTokenSymbol } = useContractRead(
-  //   {
-  //     addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
-  //     contractInterface: erc20ABI,
-  //   },
-  //   'symbol',
-  //   {
-  //     chainId: Number(chainId),
-  //   },
-  // )
 
-  // const symbol =
-  //   info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
-  //   info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
-  //     ? 'ETH'
-  //     : purchaseTokenSymbol
-
-  // let type = ''
-  // switch (info?.crowdsale?.listId) {
-  //   case '0':
-  //     type = 'Public'
-  //     break
-  //   case '1':
-  //     type = 'Accredited Investors'
-  //     break
-  //   default:
-  //     type = 'Private'
-  //     break
-  // }
-
-  // let progress = 0
-  // progress =
-  //   (ethers.utils.formatEther(info?.crowdsale?.amountPurchased) /
-  //     ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)) *
-  //   100
-  // const personalLimit = ethers.utils.formatEther(info?.crowdsale?.personalLimit)
-  // const purchaseLimit = ethers.utils.formatEther(info?.crowdsale?.purchaseLimit)
+  useEffect(() => {
+    // console.log(purchaseTokenSymbol, symbol)
+  }, [purchaseTokenSymbol])
 
   return (
     <Flex dir="col" gap="md">
@@ -113,13 +80,13 @@ export default function Info({ info, crowdsale }) {
               color: '$amber11',
             }}
           >
-            {symbol}
+            {symbol ? symbol.toUpperCase() : 'fetching...'}
           </Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
-          <Text># of DAO tokens per {symbol.toUpperCase()}: </Text>
+          <Text># of DAO tokens per {symbol ? symbol.toUpperCase() : 'fetching...'}: </Text>
           <Text>{ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')}</Text>
         </Flex>
       </Flex>
