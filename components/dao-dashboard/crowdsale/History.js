@@ -14,7 +14,7 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
 
   //   getPastPurchasers()
   // }, [])
-  // console.log(purchasers, crowdsale.purchaseMultiplier)
+  console.log(purchasers, Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')))
   return (
     <Flex
       dir="col"
@@ -59,7 +59,10 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
                   width: '40%',
                 }}
               >
-                {Number(purchaser.purchased / crowdsale.purchaseMultiplier).toFixed(3)} {symbol}
+                {Number(
+                  purchaser.purchased / Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')),
+                ).toFixed(3)}{' '}
+                {symbol}
               </Text>
             </Flex>
           ))}

@@ -80,17 +80,17 @@ export default function Crowdsale({ info }) {
     signerOrProvider: signer,
   })
 
-  const { data: crowdsalePurchasers } = useContractRead(
-    {
-      addressOrName: addresses[chainId]['extensions']['crowdsale2'],
-      contractInterface: CROWDSALE_ABI,
-    },
-    'checkPurchasers',
-    {
-      args: [dao],
-      chainId: Number(chainId),
-    },
-  )
+  // const { data: crowdsalePurchasers } = useContractRead(
+  //   {
+  //     addressOrName: addresses[chainId]['extensions']['crowdsale2'],
+  //     contractInterface: CROWDSALE_ABI,
+  //   },
+  //   'checkPurchasers',
+  //   {
+  //     args: [dao],
+  //     chainId: Number(chainId),
+  //   },
+  // )
   const { data: accountPurchased } = useContractRead(
     {
       addressOrName: addresses[chainId]['extensions']['crowdsale2'],
@@ -324,8 +324,9 @@ export default function Crowdsale({ info }) {
   useEffect(() => {
     const getPurchasers = async () => {
       const data = await fetchPurchasers(dao, chainId)
+      console.log(data)
       setTempPurchasers(data._purchasers)
-      setTotalDistributed(data._totalDistributed)
+      // setTotalDistributed(data._totalDistributed)
     }
 
     getPurchasers()
@@ -401,7 +402,7 @@ export default function Crowdsale({ info }) {
                       type="number"
                       min={0}
                       max={
-                        Number(ethers.utils.formatUnits(tempPersonalLimit)) / tempMultiplier -
+                        Number(ethers.utils.formatEther(tempPersonalLimit)) / tempMultiplier -
                         Number(ethers.utils.formatEther(accountPurchased)) / tempMultiplier
                       }
                       // max={
@@ -473,7 +474,7 @@ export default function Crowdsale({ info }) {
                       disabled={true}
                       min={0}
                       max={
-                        Number(ethers.utils.formatUnits(tempPersonalLimit)) -
+                        Number(ethers.utils.formatEther(tempPersonalLimit)) -
                         Number(ethers.utils.formatEther(accountPurchased))
                       }
                       // max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}

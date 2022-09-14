@@ -43,10 +43,12 @@ export default function Info({ info, crowdsale }) {
 
   let progress = 0
   progress =
-    (ethers.utils.formatEther(crowdsale.purchaseTotal) / ethers.utils.formatEther(crowdsale.purchaseLimit)) * 100
+    (Number(ethers.utils.formatEther(crowdsale.purchaseTotal)) /
+      Number(ethers.utils.formatEther(crowdsale.purchaseLimit))) *
+    100
   const personalLimit = ethers.utils.formatEther(crowdsale.personalLimit)
   const purchaseLimit = ethers.utils.formatEther(crowdsale.purchaseLimit)
-
+  console.log(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei'))
   // const { data: purchaseTokenSymbol } = useContractRead(
   //   {
   //     addressOrName: info ? info['crowdsale']['purchaseToken'] : AddressZero,
@@ -118,7 +120,7 @@ export default function Info({ info, crowdsale }) {
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
           <Text># of DAO tokens per {symbol.toUpperCase()}: </Text>
-          <Text>{crowdsale.purchaseMultiplier}</Text>
+          <Text>{ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')}</Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">
@@ -141,7 +143,6 @@ export default function Info({ info, crowdsale }) {
         <Flex dir="row" align="separate">
           <Text>Swap ends on: </Text>
           <Text>{prettyDate(new Date(ethers.BigNumber.from(crowdsale.saleEnds * 1000).toNumber()))}</Text>
-          {/* <Text>{prettyDate(new Date(ethers.BigNumber.from(info?.crowdsale?.saleEnds * 1000).toNumber()))}</Text> */}
         </Flex>
       </Flex>
     </Flex>
