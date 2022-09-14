@@ -6,8 +6,8 @@ import { publicProvider } from 'wagmi/providers/public'
 import { chain, configureChains, defaultChains, createClient, WagmiConfig } from 'wagmi'
 import { MoralisProvider } from 'react-moralis'
 import globalStyles from '../styles/globalStyles'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { QueryClient, QueryClientProvider } from 'react-query'
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(

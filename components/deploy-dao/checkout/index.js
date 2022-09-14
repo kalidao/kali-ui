@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
-import { useAccount, useContractEvent, useContractWrite, useNetwork } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
 import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
@@ -23,8 +23,8 @@ export default function Checkout({ setStep }) {
   const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { data: account } = useAccount()
-  const { activeChain } = useNetwork()
+  const { address: account, isConnected } = useAccount()
+  const { chain: activeChain } = useNetwork()
   const {
     data,
     writeAsync,
@@ -34,10 +34,11 @@ export default function Checkout({ setStep }) {
     error,
   } = useContractWrite(
     {
+      mode: 'recklesslyUnprepared',
       addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
       contractInterface: FACTORY_ABI,
+      functionName: 'deployKaliDAO',
     },
-    'deployKaliDAO',
     {
       onSuccess(data) {
         console.log('success!', data)
@@ -47,7 +48,7 @@ export default function Checkout({ setStep }) {
 
   // remove ricardian as default
   const deployKaliDao = useCallback(async () => {
-    if (!account || !activeChain) return
+    if (!isConnected || !activeChain) return
 
     const {
       name,
@@ -170,7 +171,7 @@ export default function Checkout({ setStep }) {
       govSettings,
     )
     const tx = await writeAsync({
-      args: [
+      recklesslySetUnpreparedArgs: [
         name,
         symbol,
         docs_,
@@ -181,7 +182,7 @@ export default function Checkout({ setStep }) {
         shares,
         govSettings,
       ],
-      overrides: {
+      recklesslySetUnpreparedOverrides: {
         gasLimit: 1050000,
       },
     }).catch((e) => {
@@ -207,7 +208,7 @@ export default function Checkout({ setStep }) {
           Previous
         </Button>
       </Flex>
-      {!account ? (
+      {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
         <Button
