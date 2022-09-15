@@ -7,27 +7,44 @@ import { ethers } from 'ethers'
 const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable, setSuccess, setTx }) => {
   const { data: signer } = useSigner()
 
-  const crowdsale = useContract({
-    addressOrName: addresses[chainId].extensions.crowdsale2,
-    contractInterface: CROWDSALE_ABI,
-    signerOrProvider: signer,
-  })
+  // const crowdsale = useContract({
+  //   addressOrName: addresses[chainId].extensions.crowdsale2,
+  //   contractInterface: CROWDSALE_ABI,
+  //   signerOrProvider: signer,
+  // })
+
+  const { writeAsync: callCrowdsale } = useContractWrite(
+    {
+      addressOrName: addresses[chainId].extensions.crowdsale2,
+      contractInterface: CROWDSALE_ABI,
+    },
+    'callExtension',
+  )
 
   const buy = async () => {
     console.log(dao, amount, decimals)
 
     if (!dao || !amount || !decimals) return
 
-    amount = amount.toString()
     if (symbol === 'ETH') {
       try {
-        const res = crowdsale.callExtension(dao, ethers.utils.parseEther(amount))
+        const res = await callCrowdsale({
+          args: [dao, ethers.utils.parseEther(amount).toString()],
+          overrides: {
+            value: ethers.utils.parseEther(amount).toString(),
+            gasLimit: 200000,
+          },
+        })
+        setSuccess(true)
+        setTx(res.hash)
       } catch (e) {
         console.log(e)
       }
     } else {
       try {
-        const res = crowdsale.callExtension(dao, ethers.utils.parseUnits(amount, decimals))
+        const res = crowdsale.callExtension(dao, ethers.utils.parseUnits(amount, decimals).toString())
+        setSuccess(true)
+        setTx(res.hash)
       } catch (e) {
         console.log(e)
       }

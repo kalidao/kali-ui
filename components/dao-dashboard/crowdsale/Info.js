@@ -41,7 +41,6 @@ export default function Info({ info, crowdsale }) {
       type = 'Private'
       break
   }
-
   let progress = 0
   progress =
     (Number(ethers.utils.formatEther(crowdsale.purchaseTotal)) /
@@ -60,7 +59,7 @@ export default function Info({ info, crowdsale }) {
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
           <Text>Progress: </Text>
-          <Text>{progress.toFixed(2)}%</Text>
+          <Text>{progress.toFixed(3)}%</Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">

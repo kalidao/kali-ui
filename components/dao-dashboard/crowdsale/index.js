@@ -324,8 +324,11 @@ export default function Crowdsale({ info }) {
   useEffect(() => {
     const getPurchasers = async () => {
       const data = await fetchPurchasers(dao, chainId)
-      console.log(data)
-      setTempPurchasers(data._purchasers)
+      const purchasers = [...new Map(data._purchasers.map((p) => [p.purchaser, p])).values()]
+      purchasers.sort((a, b) => b.purchased - a.purchased)
+      // console.log(data._purchasers, purchasers)
+
+      setTempPurchasers(purchasers)
       // setTotalDistributed(data._totalDistributed)
     }
 
