@@ -166,10 +166,10 @@ export default function UpdateCrowdsale({ setProposal, title, editor }) {
     // Crowdsale purchase limits
     const _purchaseLimit = ethers.utils.parseEther(purchaseLimit.toString())
     const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
-    if (_personalLimit > _purchaseLimit) {
-      setWarning('Personal swap limit may not be greater than the total swap limit')
-      return
-    }
+    // if (_personalLimit > _purchaseLimit) {
+    //   setWarning('Personal swap limit may not be greater than the total swap limit')
+    //   return
+    // }
 
     let docs
     try {
