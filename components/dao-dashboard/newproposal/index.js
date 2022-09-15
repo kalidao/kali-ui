@@ -115,20 +115,20 @@ export function NewProposalModal({ proposalProp, editor, title }) {
       title: 'Interact with External Contracts',
       component: <CallContract setProposal={setView} editor={editor} title={title} />,
     },
-    crowdsale: {
-      title: 'Set Crowdsale Rules',
-      component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
-    },
+    // crowdsale: {
+    //   title: 'Set Crowdsale Rules',
+    //   component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
+    // },
     crowdsale_add: {
       title: 'Set Crowdsale Rules',
       component: <SetCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     crowdsale_update: {
-      title: 'Set Crowdsale Rules',
+      title: 'Update Crowdsale Rules',
       component: <UpdateCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     crowdsale_remove: {
-      title: 'Set Crowdsale Rules',
+      title: 'Remove Crowdsale Rules',
       component: <RemoveCrowdsale setProposal={setView} editor={editor} title={title} />,
     },
     redemption: {

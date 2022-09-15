@@ -21,7 +21,7 @@ import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../../components/editor/editor.module.css'
 import { Tip } from '../../../elements'
 
-export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) {
+export default function UpdateCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
@@ -68,27 +68,13 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
   const [customAsset, setCustomAsset] = useState(null)
   const [purchaseAccess, setPurchaseAccess] = useState('select')
   const [customAccess, setCustomAccess] = useState('')
-  const [accessList, setAccessList] = useState(null)
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(10)
   const [purchaseLimit, setPurchaseLimit] = useState(1000)
   const [personalLimit, setPersonalLimit] = useState(10)
   const [terms, setTerms] = useState(null)
-  const [receipt, setReceipt] = useState(null)
-  const [receiptMessage, setReceiptMessage] = useState(null)
   const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
-  const [isActive, setIsActive] = useState('fetching...')
-  const [toggleCrowdsale, setToggleCrowdsale] = useState(false)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
-
-  useEffect(() => {
-    const getCrowdsaleStatus = async () => {
-      const status = await fetchExtensionStatus(chainId, daoAddress, crowdsaleAddress)
-      status ? setIsActive('Yes') : setIsActive('No')
-    }
-
-    getCrowdsaleStatus()
-  }, [])
 
   const handleValidation = async (e) => {
     e.preventDefault()
@@ -111,7 +97,6 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
 
       list.push(address)
     }
-    setAccessList(list)
 
     try {
       const tx = await kaliAccess.createList(list, ethers.utils.formatBytes32String('0x0'), '')
@@ -155,6 +140,11 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
     }
 
     // Crowdsale end time
+    console.log(Date.parse(crowdsaleEnd), Date.now())
+    if (Date.parse(crowdsaleEnd) < Date.now()) {
+      setWarning('Swap cannot end before current time. Please pick another Swap end date.')
+      return
+    }
     crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
 
     // Crowdsale terms
@@ -165,25 +155,10 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
       termsHash = 'none'
     }
 
-    // Crowdsale receipt
-    let receiptHash
-    if (receipt) {
-      receiptHash = await ipfsCrowdsaleReceipt(daoAddress, receipt)
-    } else {
-      receiptHash = 'none'
-    }
-
     // Crowdsale data
     let crowdsaleData
     try {
-      crowdsaleData = await ipfsCrowdsaleData(
-        daoAddress,
-        chainId,
-        background.getJSON(),
-        termsHash,
-        receiptHash,
-        receiptMessage,
-      )
+      crowdsaleData = await ipfsCrowdsaleData(daoAddress, chainId, background.getJSON(), termsHash)
     } catch (e) {
       console.error(e)
     }
@@ -191,6 +166,10 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
     // Crowdsale purchase limits
     const _purchaseLimit = ethers.utils.parseEther(purchaseLimit.toString())
     const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
+    if (_personalLimit > _purchaseLimit) {
+      setWarning('Personal swap limit may not be greater than the total swap limit')
+      return
+    }
 
     let docs
     try {
@@ -199,35 +178,6 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
       console.error(e)
       return
     }
-
-    // Activate / Deactivate Crowdsale
-    const _toggleCrowdsale = 0
-    if (toggleCrowdsale && isActive === 'Inactive') {
-      console.log('turning on crowdsale')
-      _toggleCrowdsale = 1
-    }
-    if (toggleCrowdsale && isActive === 'Active') {
-      console.log('turning off crowdsale')
-      _toggleCrowdsale = 1
-      _purchaseAccess = 0
-      purchaseMultiplier = 1
-      _purchaseAsset = AddressZero
-      crowdsaleEnd = 946702800 // Jan. 1, 2000
-      _purchaseLimit = 0
-      _personalLimit = 0
-      termsHash = 0
-    }
-
-    console.log(
-      'Crowdsale setExtension() params - ',
-      _purchaseAccess,
-      purchaseMultiplier,
-      _purchaseAsset,
-      crowdsaleEnd,
-      _purchaseLimit,
-      _personalLimit,
-      termsHash,
-    )
 
     // Prop payload
     let payload
@@ -244,7 +194,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
       return
     }
 
-    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [_toggleCrowdsale], [payload])
+    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [0], [payload])
 
     try {
       if (decimals == 18 || decimals == 6 || _purchaseAsset == AddressZero) {
@@ -253,7 +203,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
           9, // EXTENSION prop
           docs,
           [crowdsaleAddress],
-          [_toggleCrowdsale],
+          [0],
           [payload],
         )
         console.log('tx', tx)
@@ -266,7 +216,15 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        width: '100%',
+        paddingBottom: '2rem',
+        // background: 'Blue',
+      }}
+    >
       <Text
         variant="instruction"
         css={{
@@ -281,26 +239,10 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
           fontFamily: 'Regular',
         }}
       >
-        To enable the Swap exntension, check the "Deactivate Swap" box and fill out the rest to create a Swap proposal.
+        To update the Swap exntension, fill out and submit a new Swap proposal below. Please note, this will overrite
+        existing Swap parameters as soon as this Swap proposal is passed.
       </Text>
       <Form>
-        <FormElement>
-          <Label htmlFor="recipient">Is Swap active?</Label>
-          <Text>{isActive}</Text>
-        </FormElement>
-        <FormElement>
-          {isActive === 'Inactive' ? (
-            <Label htmlFor="recipient">Activate Swap</Label>
-          ) : (
-            <Label htmlFor="recipient">Deactivate Swap</Label>
-          )}
-          <Input
-            type={'checkbox'}
-            variant="checkbox"
-            value={toggleCrowdsale}
-            onChange={() => setToggleCrowdsale(!toggleCrowdsale)}
-          />
-        </FormElement>
         <FormElement>
           <Flex dir="col" gap="sm">
             <Label>
@@ -315,11 +257,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
             Token to swap{' '}
             <Tip label={`Specify a token, e.g., DAI, to swap for this KaliDAO's token, ${kalidaoToken}`} />
           </Label>
-          <Select
-            name="type"
-            onChange={(e) => setPurchaseAsset(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          >
+          <Select name="type" onChange={(e) => setPurchaseAsset(e.target.value)}>
             <Select.Item value="select">Select</Select.Item>
             <Select.Item value="eth">Ether</Select.Item>
             <Select.Item value="custom">Custom</Select.Item>
@@ -336,11 +274,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
             Swap access
             <Tip label="Is this Swap open to all or only to a select collective of addresses? Public swaps are available to anyone with an Eth address." />
           </Label>
-          <Select
-            name="type"
-            onChange={(e) => setPurchaseAccess(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          >
+          <Select name="type" onChange={(e) => setPurchaseAccess(e.target.value)}>
             <Select.Item value="select">Select</Select.Item>
             <Select.Item value="public">Public</Select.Item>
             <Select.Item value="accredited">Accredited Investors</Select.Item>
@@ -365,47 +299,27 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
             Swap multiplier
             <Tip label="Specify a rate for each swap. For example, a 5x swap multiplier will swap 5 KaliDAO tokens for 1 Ether or 1 ERC20 token." />
           </Label>
-          <Input
-            name="purchaseMultiplier"
-            type="number"
-            onChange={(e) => setPurchaseMultiplier(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          />
+          <Input name="purchaseMultiplier" type="number" onChange={(e) => setPurchaseMultiplier(e.target.value)} />
         </FormElement>
         <FormElement>
           <Label htmlFor="purchaseLimit">
             Total swap limit <Tip label="Specify a total number of KaliDAO tokens available to access " />
           </Label>
-          <Input
-            name="purchaseLimit"
-            type="number"
-            onChange={(e) => setPurchaseLimit(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          />
+          <Input name="purchaseLimit" type="number" onChange={(e) => setPurchaseLimit(e.target.value)} />
         </FormElement>
         <FormElement>
           <Label htmlFor="personalLimit">
             Individual swap limit{' '}
             <Tip label="Specify a total number of KaliDAO tokens available to one address during this Swap" />
           </Label>
-          <Input
-            name="personalLimit"
-            type="number"
-            onChange={(e) => setPersonalLimit(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          />
+          <Input name="personalLimit" type="number" onChange={(e) => setPersonalLimit(e.target.value)} />
         </FormElement>
 
         <FormElement>
           <Label htmlFor="recipient">
             Swap ends on <Tip label="Specify a time to which this Swap ends" />
           </Label>
-          <Input
-            variant="calendar"
-            type="datetime-local"
-            onChange={(e) => setCrowdsaleEnd(e.target.value)}
-            disabled={isActive === 'Active' && toggleCrowdsale}
-          />
+          <Input variant="calendar" type="datetime-local" onChange={(e) => setCrowdsaleEnd(e.target.value)} />
         </FormElement>
         <FormElement>
           <Label htmlFor="tokenAddress">
@@ -416,23 +330,6 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
             <FileUploader setFile={setTerms} />
           </Flex>{' '}
         </FormElement>
-
-        {/* <FormElement>
-          <Label htmlFor="receiptMessage">Message for Contributors</Label>
-          <Input
-            name="receiptMessage"
-            type="text"
-            onChange={(e) => setReceiptMessage(e.target.value)}
-            disabled={crowdsaleStatus === 'Active' && toggleCrowdsale}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="tokenAddress">Contribution Receipt</Label>
-          <Flex gap="sm" align="end" effect="glow">
-            <FileUploader setFile={setReceipt} />
-          </Flex>{' '}
-        </FormElement> */}
-
         {warning && <Warning warning={warning} />}
         {purchaseAccess === 'custom' && (
           <Button onClick={handleValidation} disabled={isRecorded}>
@@ -440,7 +337,25 @@ export default function UpdateCrowdsale({ setProposal, title, editor, toggle }) 
           </Button>
         )}
         <Back onClick={() => setProposal('appsMenu')} />
-        <Button onClick={submit}>Submit</Button>
+        <Button
+          css={{
+            width: '100%',
+            height: '3rem',
+            fontFamily: 'Regular',
+            fontWeight: '800',
+            border: '2px solid $gray4',
+            borderRadius: '10px',
+            '&:hover': {
+              background: '$gray10',
+            },
+            '&:active': {
+              transform: 'translate(1px, 1px)',
+            },
+          }}
+          onClick={submit}
+        >
+          Submit
+        </Button>
       </Form>
     </Flex>
   )

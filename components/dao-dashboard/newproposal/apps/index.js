@@ -21,7 +21,7 @@ function AppsMenu({ setProposal }) {
     const getCrowdsaleStatus = async () => {
       const status = await fetchExtensionStatus(chainId, dao, addresses[chainId]['extensions']['crowdsale2'])
       console.log(status)
-      status ? setIsCrowdsale('Yes') : setIsCrowdsale('No')
+      status ? setIsCrowdsale(true) : setIsCrowdsale(false)
     }
 
     getCrowdsaleStatus()
