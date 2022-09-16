@@ -1,17 +1,21 @@
+import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
-import Layout from '../../../../../../components/dao-dashboard/layout'
-import ProposalView from '../../../../../../components/dao-dashboard/proposal/page'
-import { Flex } from '../../../../../../styles/elements'
+import Layout from '@components/dao-dashboard/layout'
+import ProposalView from '@components/dao-dashboard/proposal/page'
+import { Flex } from '@design/elements'
 import { getProposal } from '../../../../../../graph/queries'
-import Back from '../../../../../../styles/proposal/Back'
+import Back from '@design/proposal/Back'
 
-export const getServerSideProps = async (context) => {
-  const address = context.params.dao
-  const proposalId = context.params.proposalId
-  const chainId = context.params.chainId
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { dao: address, chainId, proposalId } = context?.params!
 
   const result = await getProposal(chainId, address, proposalId)
+
+  if (!result?.data) {
+    return {
+      notFound: true
+    }
+  } 
 
   return {
     props: {
@@ -19,10 +23,9 @@ export const getServerSideProps = async (context) => {
     },
   }
 }
-export default function ProposalPage({ proposal }) {
-  const router = useRouter()
-  // const proposal = data && data['proposals'][0]
 
+const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const router = useRouter()
   console.log('proposal data', router.query.dao, router.query.proposalId, proposal)
 
   return (
@@ -43,3 +46,5 @@ export default function ProposalPage({ proposal }) {
     </Layout>
   )
 }
+
+export default ProposalPage

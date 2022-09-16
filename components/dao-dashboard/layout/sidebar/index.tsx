@@ -3,12 +3,14 @@ import { useRouter } from 'next/router'
 import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
 import { styled } from '../../../../styles/stitches.config'
-import { RiInformationFill } from 'react-icons/ri'
 import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
 import { GiCoins } from 'react-icons/gi'
 import { HiHome } from 'react-icons/hi'
 import { FaPen } from 'react-icons/fa'
 import { GearIcon } from '@radix-ui/react-icons'
+import { useQuery } from '@tanstack/react-query'
+import { getCrowdsaleStatus } from '@graph/queries/'
+
 const Icon = styled('span', {
   display: 'flex',
   justifyContent: 'center',
@@ -31,10 +33,14 @@ const Icon = styled('span', {
   },
 })
 
-export default function Sidebar({ crowdsale }) {
+export default function Sidebar() {
   const router = useRouter()
   const { chainId, dao } = router.query
+  const { data, isLoading, isError} = useQuery(['status', chainId, dao], () => getCrowdsaleStatus(Number(chainId), dao)) 
+  // todo: 
+  // check crowdsale is active or not
 
+  console.log('data', data)
   const items = [
     {
       link: '',
@@ -46,7 +52,7 @@ export default function Sidebar({ crowdsale }) {
       link: 'crowdsale',
       label: 'Contribute',
       icon: <GiCoins />,
-      active: crowdsale?.active,
+      active: false,
     },
     {
       link: 'treasury',
@@ -109,13 +115,21 @@ export default function Sidebar({ crowdsale }) {
       {items
         .filter((item) => item.active === true)
         .map((item) => (
-          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
+          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={Number(chainId)} dao={dao} />
         ))}
     </Flex>
   )
 }
 
-const Item = ({ link, label, icon, chainId, dao }) => {
+type ItemProps = {
+  link: string
+  label: string,
+  icon: React.ReactNode,
+  chainId: number,
+  dao: string
+}
+
+const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
   return (
     <Link
       href={{

@@ -1,10 +1,16 @@
 import Layout from '../../layout'
-import Sidebar from './sidebar/'
+import Sidebar from './sidebar'
 import { Flex } from '../../../styles/elements'
 
-export default function DaoLayout({ heading, crowdsale, children, props }) {
+type DaoLayoutProps = {
+  heading: string,
+  content: Boolean,
+  children: React.ReactNode
+}
+
+export default function DaoLayout({ heading, content, children }: DaoLayoutProps) {
   return (
-    <Layout heading={heading} {...props}>
+    <Layout heading={heading} content={content}>
       <Flex
         css={{
           position: 'relative',
@@ -15,7 +21,7 @@ export default function DaoLayout({ heading, crowdsale, children, props }) {
           justifyContent: 'space-evenly',
         }}
       >
-        <Sidebar crowdsale={crowdsale} />
+        <Sidebar />
         <Flex
           css={{
             width: '75vw',
