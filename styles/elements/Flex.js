@@ -28,10 +28,13 @@ const Flex = styled('div', {
     },
     gap: {
       sm: {
-        gap: '0.2rem',
+        gap: '0.5rem',
       },
       md: {
-        gap: '1.2em',
+        gap: '1rem',
+      },
+      lg: {
+        gap: '1.5rem',
       },
     },
     effect: {

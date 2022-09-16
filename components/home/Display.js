@@ -8,8 +8,9 @@ export default function Display({ daos }) {
       gap="sm"
       css={{
         marginTop: '1rem',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         width: '100%',
+        // background: 'White',
         // overflow: 'scroll',
       }}
     >

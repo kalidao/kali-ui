@@ -10,23 +10,24 @@ export default function NewDao() {
       <DialogTrigger>
         <Button
           css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            fontSize: '24px',
+            // display: 'flex',
+            // justifyContent: 'space-between',
+            // alignItems: 'center',
+            fontSize: '1.2rem',
             fontFamily: 'Bold',
             borderRadius: '10px',
             width: '100%',
+            height: '3rem',
             marginTop: '1rem',
             '&:hover': {
               background: '$gray11',
             },
-            '&:focus': {
-              background: '$gray10',
+            '&:active': {
+              transform: 'translate(1px, 1px)',
             },
           }}
         >
-          Create
+          Summon KaliDAO
           <PlusIcon />
         </Button>
       </DialogTrigger>

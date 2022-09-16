@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { styled } from '../../styles/stitches.config'
 import { truncateAddress } from '../../utils/'
-import { Flex, Box, Button } from '../../styles/elements'
+import { Flex, Box, Button, Text } from '../../styles/elements'
 import { getDaoChain } from '../../utils'
 import { useNetwork } from 'wagmi'
 import { getRandomEmoji } from '../../utils/'
@@ -39,6 +39,7 @@ export default function DaoCard({ dao, chain, side }) {
     }
     setLoading(false)
   }
+  console.log(dao)
 
   const getChainName = (chainId) => {
     switch (chainId) {
@@ -58,21 +59,24 @@ export default function DaoCard({ dao, chain, side }) {
   }
   return (
     <Flex
+      dir="row"
+      gap="md"
       css={{
-        width: '15rem',
+        width: '100%',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         fontSize: '16px',
         border: '1px solid $gray3',
-        background: side ? 'none' : '$gray2',
-        padding: '10px',
-        borderRadius: side ? 0 : '20px',
-        gap: '10px',
-        width: 'fit-content',
+        background: '$gray6',
 
-        '@media (max-width: 540px)': {
-          width: '15rem',
-        },
+        padding: '10px',
+        borderRadius: '15px',
+        gap: '10px',
+        width: '',
+
+        // '@media (max-width: 540px)': {
+        //   width: '15rem',
+        // },
 
         '&:hover': {
           background: side ? '$gray2' : '$gray3',
@@ -106,9 +110,12 @@ export default function DaoCard({ dao, chain, side }) {
       <Flex
         dir="col"
         gap="md"
-        css={{
-          width: '15rem',
-        }}
+        css={
+          {
+            // background: 'Green',
+            // width: '100%',
+          }
+        }
       >
         <Name>{dao['token']['name']}</Name>
         {dao['members'] != undefined && (
@@ -121,13 +128,13 @@ export default function DaoCard({ dao, chain, side }) {
           </Box>
         )}
 
-        <Box
+        <Text
           css={{
             fontFamily: 'Regular',
           }}
         >
           {getChainName(chain)}
-        </Box>
+        </Text>
       </Flex>
     </Flex>
   )

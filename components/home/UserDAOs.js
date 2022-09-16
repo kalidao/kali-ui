@@ -6,29 +6,30 @@ import DaoCard from './DaoCard'
 import { AddressZero } from '@ethersproject/constants'
 import { Flex } from '../../styles/elements'
 import NewDao from './NewDao'
+import { useRouter } from 'next/router'
 export default function UserDAOs({ address }) {
   const { activeChain } = useNetwork()
-  const { data, isLoading } = useGraph(activeChain?.id, USER_DAOS, {
+  const { data, isLoading } = useGraph(5, USER_DAOS, {
     address: address ? address : AddressZero,
   })
   const userDaos = data?.['members']
+  console.log(data, address, activeChain?.id)
 
   return (
     <Flex
       dir="col"
       css={{
-        borderRight: '1px solid $gray3',
-        minWidth: '10rem',
-        minHeight: '100vh',
+        width: '100%',
+        height: '100%',
       }}
     >
       {data &&
         !isLoading &&
         userDaos &&
         userDaos.map((dao) => (
-          <DaoCard key={dao['dao']['id']} dao={dao['dao']} chain={activeChain?.id.toString()} side={true} />
+          <DaoCard key={dao['dao']['id']} dao={dao['dao']} chain={activeChain?.id.toString()} side={false} />
         ))}
-      <NewDao />
+      {/* <NewDao /> */}
     </Flex>
   )
 }

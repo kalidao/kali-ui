@@ -20,7 +20,7 @@ const Text = styled('div', {
       },
       instruction: {
         fontSize: '1rem',
-        color: '$gray11',
+        color: '$gray10',
       },
     },
     color: {

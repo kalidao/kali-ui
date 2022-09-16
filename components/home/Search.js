@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { styled } from '../../styles/stitches.config'
 import { GoSearch } from 'react-icons/go'
+import { Text, Flex } from '../../styles/elements'
 
 const SearchBar = styled('div', {
   display: 'flex',
@@ -29,7 +30,8 @@ const SearchInput = styled('input', {
   background: 'none',
   color: '$gray12',
   lineHeight: '1.2',
-  fontSize: '24px',
+  padding: '5px',
+  fontSize: '16px',
 })
 
 export default function Search({ daos, setDisplay }) {
@@ -62,9 +64,17 @@ export default function Search({ daos, setDisplay }) {
   }
 
   return (
-    <SearchBar>
-      <GoSearch />
-      <SearchInput placeholder="Search" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
-    </SearchBar>
+    <Flex
+      css={{
+        width: '100%',
+        // background: 'Green',
+      }}
+    >
+      <SearchBar>
+        {/* <GoSearch /> */}
+        <Text>🔎</Text>
+        <SearchInput placeholder="search" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
+      </SearchBar>
+    </Flex>
   )
 }

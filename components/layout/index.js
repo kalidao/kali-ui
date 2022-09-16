@@ -20,7 +20,7 @@ export default function Layout({ heading, content, children, props }) {
       <Flex
         css={{
           width: '100%',
-          height: '100%',
+          height: '100rem',
           // background: 'Red',
           fontFamily: 'Screen',
         }}

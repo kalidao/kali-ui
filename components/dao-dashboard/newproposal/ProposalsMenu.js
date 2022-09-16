@@ -19,10 +19,10 @@ export default function ProposalsMenu({ setProposal }) {
         <Menu.Item onClick={() => setProposal('sendMenu')}>
           <MdOutlinePayments /> Payments
         </Menu.Item>
-        <Menu.Item onClick={() => setProposal('mintMenu')}>
+        {/* <Menu.Item onClick={() => setProposal('mintMenu')}>
           <MdDraw />
           Mint
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item onClick={() => setProposal('call')}>
           <ExitIcon />
           External Call

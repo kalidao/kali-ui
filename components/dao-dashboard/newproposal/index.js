@@ -93,10 +93,10 @@ export function NewProposalModal({ proposalProp, editor, title }) {
     //   title: 'Mint Art NFT',
     //   component: <MintArt setProposal={setView} />,
     // },
-    real: {
-      title: 'Mint real estate NFT',
-      component: <MintReal setProposal={setView} editor={editor} title={title} />,
-    },
+    // real: {
+    //   title: 'Mint real estate NFT',
+    //   component: <MintReal setProposal={setView} editor={editor} title={title} />,
+    // },
     manager: {
       title: 'Configure Extensions',
       component: <ConfigureExtensions setProposal={setView} editor={editor} title={title} />,
