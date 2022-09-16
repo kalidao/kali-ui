@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { Box } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
-import { useAccount, usePrepareContractWrite, useContractWrite } from 'wagmi'
+import { useAccount, usePrepareContractWrite, useContractWrite, useDeprecatedContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 
@@ -12,7 +12,7 @@ export default function Vote({ proposal }) {
 
   // const votingPeriod = proposal['dao']['votingPeriod']
   // console.log('votingPeriod', votingPeriod)
-  const { data: account } = useAccount()
+  const { address } = useAccount()
   const { config, error } = usePrepareContractWrite({
     addressOrName: daoAddress,
     contractInterface: DAO_ABI,
@@ -24,7 +24,7 @@ export default function Vote({ proposal }) {
       console.log({ usePrepareContractWriteError }, { daoAddress }, { DAO_ABI })
     },
   })
-  const { data, isLoading, writeAsync } = useContractWrite({
+  const { data, isLoading, writeAsync } = useDeprecatedContractWrite({
     ...config,
     onSuccess() {
       console.log('vote', data)
@@ -38,8 +38,7 @@ export default function Vote({ proposal }) {
 
   const vote = useCallback(
     async (approval) => {
-      console.log(1)
-      if (!proposal || !account) return
+      if (!proposal || !address) return
       console.log(2)
       try {
         const data = await writeAsync({ args: [proposal['serial'], approval] })
@@ -48,7 +47,7 @@ export default function Vote({ proposal }) {
       }
       console.log(3)
     },
-    [account, proposal],
+    [address, proposal],
   )
 
   return (
