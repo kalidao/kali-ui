@@ -1,11 +1,12 @@
-import '../styles/styles.css'
+import type { AppProps } from 'next/app'
+import '@design/styles.css'
+import globalStyles from '@design/globalStyles'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
-import { chain, configureChains, defaultChains, createClient, WagmiConfig } from 'wagmi'
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { MoralisProvider } from 'react-moralis'
-import globalStyles from '../styles/globalStyles'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
@@ -27,7 +28,7 @@ const wagmiClient = createClient({
   webSocketProvider,
 })
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   globalStyles()
 
   return (
