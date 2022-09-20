@@ -233,9 +233,9 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "purchaseMultiplier",
-				"type": "uint8"
+				"type": "uint256"
 			},
 			{
 				"indexed": false,
