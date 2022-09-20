@@ -38,7 +38,6 @@ export default function ProposalCard({ proposal }) {
       dir="row"
       gap="sm"
       css={{
-        minWidth: 'fit-content',
         padding: '1rem 0.5rem 1rem 0.5rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -55,7 +54,7 @@ export default function ProposalCard({ proposal }) {
         gap="md"
         height="100%"
         css={{
-          minWidth: '10%',
+          
           paddingRight: '1rem',
         }}
       >
@@ -82,7 +81,6 @@ export default function ProposalCard({ proposal }) {
           <Flex
             gap="md"
             css={{
-              minWidth: '50rem',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
@@ -92,6 +90,7 @@ export default function ProposalCard({ proposal }) {
               gap="sm"
               dir="row"
               css={{
+                minWidth: '60rem',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}
