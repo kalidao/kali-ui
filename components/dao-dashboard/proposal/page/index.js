@@ -16,7 +16,6 @@ import Visualizer from './visualizer'
 import { useFetch } from '../../../hooks/useFetch'
 
 export default function ProposalView({ proposal }) {
-  console.log('proposal', proposal)
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const { data: account } = useAccount()
@@ -105,7 +104,7 @@ export default function ProposalView({ proposal }) {
           ))}
         {canProcess() && (
           <Flex gap="sm">
-            <Process proposal={proposal} />
+            <Process chainId={chainId} dao={dao} proposalId={proposal?.serial} />
             <Button
               onClick={() =>
                 router.push(
