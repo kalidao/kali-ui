@@ -35,7 +35,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.js"  ],
   "exclude": [
     "node_modules"
   ]
