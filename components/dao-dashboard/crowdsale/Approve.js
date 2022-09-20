@@ -33,22 +33,21 @@ const Approve = ({ info, crowdsale, dao, amount, chainId, purchaseTokenSymbol })
   }
   return (
     <Button
-      variant="primary"
       onClick={approve}
+      // variant="cta"
       css={{
         width: '100%',
+        height: '3rem',
         fontFamily: 'Regular',
         fontWeight: '800',
-        // padding: '1rem',
-        paddingTop: '1rem',
-        paddingBottom: '1rem',
         border: '2px solid $gray4',
         borderRadius: '10px',
-        // color: '$mauve12',
-        // background: '$violet8',
-
         '&:hover': {
+          color: 'Black',
           background: '$gray12',
+        },
+        '&:active': {
+          transform: 'translate(1px, 1px)',
         },
       }}
     >

@@ -507,16 +507,24 @@ export default function Crowdsale({ info }) {
                     </Text>
                   </Flex>
                 )}
-                {shouldApprove && (
-                  <Approve
-                    info={info}
-                    crowdsale={crowdsale}
-                    dao={dao}
-                    amount={amountToSwap}
-                    chainId={chainId}
-                    purchaseTokenSymbol={purchaseTokenSymbol}
-                  />
-                )}
+                <Flex
+                  css={{
+                    width: '80%',
+                    paddingTop: '1rem',
+                    // paddingBottom: '1rem',
+                  }}
+                >
+                  {shouldApprove && (
+                    <Approve
+                      info={info}
+                      crowdsale={crowdsale}
+                      dao={dao}
+                      amount={amountToSwap}
+                      chainId={chainId}
+                      purchaseTokenSymbol={purchaseTokenSymbol}
+                    />
+                  )}
+                </Flex>
                 <Flex
                   css={{
                     width: '80%',

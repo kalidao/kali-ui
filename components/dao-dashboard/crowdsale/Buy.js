@@ -72,6 +72,9 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
           color: shouldDisable ? '$none' : 'Black',
           background: shouldDisable ? 'none' : '$gray12',
         },
+        '&:active': {
+          transform: 'translate(1px, 1px)',
+        },
       }}
     >
       {buttonText}
