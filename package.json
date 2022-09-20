@@ -45,6 +45,7 @@
     "magic-sdk": "^8.1.1",
     "moralis": "^1.11.0",
     "next": "^12.2.3",
+    "nextjs-progressbar": "^0.0.14",
     "node": "^17.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
