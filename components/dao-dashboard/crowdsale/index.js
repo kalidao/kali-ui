@@ -608,7 +608,13 @@ export default function Crowdsale({ info }) {
               <Background />
               <Flex></Flex>
               <Flex></Flex>
-              <History info={info} crowdsale={crowdsale} purchasers={tempPurchasers} symbol={tempSymbol} />
+              <History
+                info={info}
+                crowdsale={crowdsale}
+                decimals={decimals}
+                purchasers={tempPurchasers}
+                symbol={tempSymbol}
+              />
             </Flex>
           </Flex>
         </Flex>

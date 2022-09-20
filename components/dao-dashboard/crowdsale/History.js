@@ -4,7 +4,7 @@ import { Flex, Text } from '../../../styles/elements'
 import { ethers } from 'ethers'
 import { truncateAddress } from '../../../utils'
 
-export default function History({ info, crowdsale, purchasers, symbol }) {
+export default function History({ info, crowdsale, decimals, purchasers, symbol }) {
   // const [purchasers, setPurchasers] = useState(null)
 
   // useEffect(() => {
@@ -14,7 +14,16 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
 
   //   getPastPurchasers()
   // }, [])
-  // console.log(purchasers, Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')))
+
+  let multiplier
+
+  if (decimals < 18) {
+    multiplier = Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
+  } else {
+    multiplier = crowdsale.purchaseMultiplier
+  }
+
+  console.log(purchasers, crowdsale.purchaseMultiplier)
   return (
     <Flex
       dir="col"
@@ -59,10 +68,7 @@ export default function History({ info, crowdsale, purchasers, symbol }) {
                   width: '40%',
                 }}
               >
-                {Number(
-                  purchaser.purchased / Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')),
-                ).toFixed(3)}{' '}
-                {symbol}
+                {Number(purchaser.purchased) / multiplier} {symbol}
               </Text>
             </Flex>
           ))}
