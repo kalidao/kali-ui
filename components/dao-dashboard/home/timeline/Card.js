@@ -38,6 +38,7 @@ export default function ProposalCard({ proposal }) {
       dir="row"
       gap="sm"
       css={{
+        minWidth: 'fit-content',
         padding: '1rem 0.5rem 1rem 0.5rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
