@@ -6,8 +6,8 @@ const Button = styled('button', {
   '&:disabled': {
     background: 'none',
     '&:hover': {
-      background: 'none'
-    }
+      background: 'none',
+    },
   },
 
   variants: {
