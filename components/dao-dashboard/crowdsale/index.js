@@ -133,11 +133,6 @@ export default function Crowdsale({ info }) {
   const [totalDistributed, setTotalDistributed] = useState(0)
 
   // Temp states
-  // const symbol =
-  //   crowdsale.purchaseAsset === '0x0000000000000000000000000000000000000000' ||
-  //   crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
-  //     ? 'ETH'
-  //     : purchaseTokenSymbol
   const [tempSymbol, setTempSymbol] = useState(null)
   const [tempListId, setTempListId] = useState(0)
   const [tempPurchaseAsset, setTempPurchaseAsset] = useState(null)
@@ -168,8 +163,13 @@ export default function Crowdsale({ info }) {
 
   const handleAmount = async (_amountToSwap) => {
     let _canPurchase
-    const _amountToReceive = _amountToSwap * crowdsale.purchaseMultiplier
-    // const _amountToReceive = _amountToSwap * info['crowdsale']['purchaseMultiplier']
+    let _amountToReceive
+
+    if (decimals < 18) {
+      _amountToReceive = _amountToSwap * Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
+    } else {
+      _amountToReceive = _amountToSwap * Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei'))
+    }
 
     setAmountToSwap(_amountToSwap)
     setAmountToReceive(_amountToReceive)
@@ -248,37 +248,6 @@ export default function Crowdsale({ info }) {
 
   // Check total purchase limit
   useEffect(() => {
-    // const getTotalDistributed = async () => {
-    //   const purchasers = crowdsalePurchasers ? crowdsalePurchasers : []
-    //   console.log(purchasers)
-    //   let _purchasers = []
-    //   let _totalDistributed = 0
-
-    //   try {
-    //     for (let i = 0; i < purchasers.length; i++) {
-    //       const _purchaser = purchasers[i]
-    //       const _swap = await crowdsaleV2.checkPersonalPurchased(_purchaser, dao)
-    //       _totalDistributed = _totalDistributed + Number(ethers.utils.formatEther(_swap))
-
-    //       _purchasers.push({
-    //         purchaser: _purchaser,
-    //         purchased: Number(ethers.utils.formatEther(_swap)),
-    //       })
-    //     }
-
-    //     console.log(_purchasers)
-    //     setTempPurchasers(_purchasers)
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-    //   // const contributors = info?.crowdsale?.purchase ? info?.crowdsale?.purchase : [{ purchaser: '', purchased: '0' }]
-    //   // for (let id = 0; i < contributors.length; i++) {
-    //   //   const swap = Number(ethers.utils.formatEther(contributors[i].purchased))
-    //   //   _totalDistributed = swap + _totalDistributed
-    //   //   setTotalDistributed(_totalDistributed)
-    //   // }
-    // }
-
     const checkExpiry = () => {
       if (!tempInProgress) {
         setWarning(
@@ -289,7 +258,6 @@ export default function Crowdsale({ info }) {
       }
     }
 
-    // getTotalDistributed()
     checkExpiry()
   }, [tempInProgress])
 
@@ -301,6 +269,7 @@ export default function Crowdsale({ info }) {
         crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
           ? 'ETH'
           : purchaseTokenSymbol
+      console.log(symbol)
       setTempSymbol(symbol)
 
       const _inProgress = crowdsale.saleEnds * 1000 > Date.now() ? true : false
@@ -405,8 +374,13 @@ export default function Crowdsale({ info }) {
                       type="number"
                       min={0}
                       max={
-                        Number(ethers.utils.formatEther(tempPersonalLimit)) / tempMultiplier -
-                        Number(ethers.utils.formatEther(accountPurchased)) / tempMultiplier
+                        decimals < 18
+                          ? Number(ethers.utils.formatEther(tempPersonalLimit)) /
+                              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)) -
+                            Number(ethers.utils.formatEther(accountPurchased)) /
+                              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
+                          : Number(ethers.utils.formatEther(tempPersonalLimit)) / tempMultiplier -
+                            Number(ethers.utils.formatEther(accountPurchased)) / tempMultiplier
                       }
                       // max={
                       //   ethers.utils.formatUnits(info['crowdsale']['personalLimit']) /
@@ -628,7 +602,7 @@ export default function Crowdsale({ info }) {
             }}
           >
             <Flex dir="col" gap="md">
-              <Info info={info} crowdsale={crowdsale} />
+              <Info info={info} decimals={decimals} crowdsale={crowdsale} />
               <Flex></Flex>
               <Flex></Flex>
               <Background />

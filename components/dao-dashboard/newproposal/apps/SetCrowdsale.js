@@ -65,16 +65,17 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   })
 
   const [purchaseAsset, setPurchaseAsset] = useState('select')
-  const [customAsset, setCustomAsset] = useState(null)
+  const [customToken, setCustomToken] = useState(null)
   const [purchaseAccess, setPurchaseAccess] = useState('select')
-  const [customAccess, setCustomAccess] = useState('')
-  const [purchaseMultiplier, setPurchaseMultiplier] = useState(10)
-  const [purchaseLimit, setPurchaseLimit] = useState(1000)
-  const [personalLimit, setPersonalLimit] = useState(10)
+  const [customAccess, setCustomAccess] = useState(null)
+  const [purchaseMultiplier, setPurchaseMultiplier] = useState(null)
+  const [totalLimit, setTotalLimit] = useState(0)
+  const [personalLimit, setPersonalLimit] = useState(0)
   const [terms, setTerms] = useState(null)
-  const [crowdsaleEnd, setCrowdsaleEnd] = useState('2022-01-01T00:00')
+  const [crowdsaleEnd, setCrowdsaleEnd] = useState(null)
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
+  const [isEnabled, setIsEnabled] = useState(false)
 
   const handleValidation = async (e) => {
     e.preventDefault()
@@ -109,6 +110,37 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
   }
 
+  const handleTotalLimit = (e) => {
+    const _totalLimit = Number(e.target.value)
+    if (_totalLimit > personalLimit) {
+      setWarning('')
+      setTotalLimit(_totalLimit)
+    } else {
+      setWarning('Personal swap limit may not be greater than the total swap limit')
+    }
+  }
+
+  const handleIndividualLimit = (e) => {
+    const _personalLimit = Number(e.target.value)
+    if (_personalLimit > totalLimit) {
+      setWarning('Personal swap limit may not be greater than the total swap limit')
+    } else {
+      setWarning('')
+      setPersonalLimit(_personalLimit)
+    }
+  }
+
+  const handleDeadline = (e) => {
+    const _deadline = e.target.value
+
+    if (Date.parse(_deadline) < Date.now()) {
+      setWarning('Swap cannot end before current time. Please pick another Swap end date.')
+    } else {
+      _deadline = Date.parse(_deadline) / 1000
+      setCrowdsaleEnd(_deadline)
+    }
+  }
+
   const submit = async (e) => {
     e.preventDefault()
 
@@ -129,23 +161,24 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
 
     // Crowdsale asset
-    let _purchaseAsset
+    let _tokenToSwap
+    let _swapMultiplier
     let decimals
-    if (customAsset) {
-      _purchaseAsset = customAsset
-      const instance = new ethers.Contract(customAsset, erc20ABI, signer)
+    if (customToken) {
+      _tokenToSwap = customToken
+      const instance = new ethers.Contract(customToken, erc20ABI, signer)
       decimals = await instance.decimals()
-    } else {
-      _purchaseAsset = AddressZero
-    }
 
-    // Crowdsale end time
-    console.log(Date.parse(crowdsaleEnd), Date.now())
-    if (Date.parse(crowdsaleEnd) < Date.now()) {
-      setWarning('Swap cannot end before current time. Please pick another Swap end date.')
-      return
+      if (decimals < 18) {
+        const decimalsToAdd = 18 - decimals
+        _swapMultiplier = ethers.utils.parseUnits(purchaseMultiplier, decimalsToAdd)
+      } else {
+        _swapMultiplier = purchaseMultiplier
+      }
+    } else {
+      _tokenToSwap = AddressZero
+      _swapMultiplier = purchaseMultiplier
     }
-    crowdsaleEnd = Date.parse(crowdsaleEnd) / 1000
 
     // Crowdsale terms
     let termsHash
@@ -155,20 +188,24 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
       termsHash = 'none'
     }
 
-    // Crowdsale data
-    let crowdsaleData
+    // Upload background to IPFS
     try {
-      crowdsaleData = await ipfsCrowdsaleData(daoAddress, chainId, background.getJSON(), termsHash)
+      await ipfsCrowdsaleData(daoAddress, chainId, background.getJSON(), termsHash)
     } catch (e) {
       console.error(e)
     }
 
     // Crowdsale purchase limits
-    const _purchaseLimit = ethers.utils.parseEther(purchaseLimit.toString())
-    const _personalLimit = ethers.utils.parseEther(personalLimit.toString())
-    if (_personalLimit > _purchaseLimit) {
+    let _totalLimit
+    let _personalLimit
+    console.log(totalLimit, personalLimit)
+    if (personalLimit > totalLimit) {
       setWarning('Personal swap limit may not be greater than the total swap limit')
       return
+    } else {
+      _totalLimit = ethers.utils.parseEther(totalLimit.toString())
+      _personalLimit = ethers.utils.parseEther(personalLimit.toString())
+      setWarning('')
     }
 
     let docs
@@ -180,40 +217,71 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
     }
 
     // Prop payload
+    console.log(
+      'Swap Extensions Params - ',
+      _purchaseAccess,
+      _swapMultiplier,
+      _tokenToSwap,
+      crowdsaleEnd,
+      _totalLimit,
+      _personalLimit,
+      termsHash,
+    )
+
     let payload
     try {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(
-        ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [_purchaseAccess, purchaseMultiplier, _purchaseAsset, crowdsaleEnd, _purchaseLimit, _personalLimit, termsHash],
+        ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
+        [_purchaseAccess, _swapMultiplier, _tokenToSwap, crowdsaleEnd, _totalLimit, _personalLimit, termsHash],
       )
-      console.log(payload)
+      // console.log(payload)
     } catch (e) {
       setWarning('Error setting the crowdsale proposal.')
       console.log(e)
       return
     }
 
-    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [1], [payload])
+    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [0], [payload])
 
     try {
-      if (decimals == 18 || decimals == 6 || _purchaseAsset == AddressZero) {
-        setWarning('')
-        const tx = await kalidao.propose(
-          9, // EXTENSION prop
-          docs,
-          [crowdsaleAddress],
-          [1],
-          [payload],
-        )
-        console.log('tx', tx)
-      } else {
-        setWarning('Please set a different purchase asset.')
-      }
+      setWarning('')
+      const tx = await kalidao.propose(
+        9, // EXTENSION prop
+        docs,
+        [crowdsaleAddress],
+        [1],
+        [payload],
+      )
+      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }
   }
+
+  useEffect(() => {
+    if (
+      (purchaseAsset == 'eth' || (purchaseAsset == 'custom' && customToken)) &&
+      (purchaseAccess == 'public' || purchaseAccess == 'accredited' || (purchaseAccess == 'custom' && customAccess)) &&
+      purchaseMultiplier &&
+      totalLimit != 0 &&
+      personalLimit != 0 &&
+      crowdsaleEnd
+    ) {
+      setIsEnabled(true)
+    } else {
+      setIsEnabled(false)
+    }
+  }, [
+    purchaseAsset,
+    customToken,
+    purchaseAccess,
+    customAccess,
+    purchaseMultiplier,
+    totalLimit,
+    personalLimit,
+    crowdsaleEnd,
+  ])
 
   return (
     <Flex
@@ -239,7 +307,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
           fontFamily: 'Regular',
         }}
       >
-        To update the Swap exntension, fill out and submit a new Swap proposal below. Please note, this will overrite
+        To update the Swap exntension, fill out and submit a new Swap proposal below. Please note, this will overwrite
         existing Swap parameters as soon as this Swap proposal is passed.
       </Text>
       <Form>
@@ -265,8 +333,8 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         </FormElement>
         {purchaseAsset === 'custom' && (
           <FormElement>
-            <Label htmlFor="tokenAddress">Asset contract address</Label>
-            <Input name="tokenAddress" type="text" onChange={(e) => setCustomAsset(e.target.value)} />
+            <Label htmlFor="tokenAddress">Token contract address</Label>
+            <Input name="tokenAddress" type="text" onChange={(e) => setCustomToken(e.target.value)} />
           </FormElement>
         )}
         <FormElement>
@@ -299,27 +367,32 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
             Swap multiplier
             <Tip label="Specify a rate for each swap. For example, a 5x swap multiplier will swap 5 KaliDAO tokens for 1 Ether or 1 ERC20 token." />
           </Label>
-          <Input name="purchaseMultiplier" type="number" onChange={(e) => setPurchaseMultiplier(e.target.value)} />
+          <Input
+            name="purchaseMultiplier"
+            type="number"
+            min={1}
+            onChange={(e) => setPurchaseMultiplier(e.target.value)}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="purchaseLimit">
             Total swap limit <Tip label="Specify a total number of KaliDAO tokens available to access " />
           </Label>
-          <Input name="purchaseLimit" type="number" onChange={(e) => setPurchaseLimit(e.target.value)} />
+          <Input name="purchaseLimit" type="number" onChange={handleTotalLimit} />
         </FormElement>
         <FormElement>
           <Label htmlFor="personalLimit">
             Individual swap limit{' '}
             <Tip label="Specify a total number of KaliDAO tokens available to one address during this Swap" />
           </Label>
-          <Input name="personalLimit" type="number" onChange={(e) => setPersonalLimit(e.target.value)} />
+          <Input name="personalLimit" type="number" onChange={handleIndividualLimit} />
         </FormElement>
 
         <FormElement>
           <Label htmlFor="recipient">
             Swap ends on <Tip label="Specify a time to which this Swap ends" />
           </Label>
-          <Input variant="calendar" type="datetime-local" onChange={(e) => setCrowdsaleEnd(e.target.value)} />
+          <Input variant="calendar" type="datetime-local" onChange={handleDeadline} />
         </FormElement>
         <FormElement>
           <Label htmlFor="tokenAddress">
@@ -338,6 +411,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         )}
         <Back onClick={() => setProposal('appsMenu')} />
         <Button
+          disabled={!isEnabled}
           css={{
             width: '100%',
             height: '3rem',

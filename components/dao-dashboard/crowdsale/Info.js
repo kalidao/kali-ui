@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 import { prettyDate } from '../../../utils'
 import { addresses } from '../../../constants/addresses'
 
-export default function Info({ info, crowdsale }) {
+export default function Info({ info, decimals, crowdsale }) {
   const router = useRouter()
   const { chainId } = router.query
   const { data: signer } = useSigner()
@@ -49,10 +49,6 @@ export default function Info({ info, crowdsale }) {
   const personalLimit = ethers.utils.formatEther(crowdsale.personalLimit)
   const purchaseLimit = ethers.utils.formatEther(crowdsale.purchaseLimit)
 
-  useEffect(() => {
-    // console.log(purchaseTokenSymbol, symbol)
-  }, [purchaseTokenSymbol])
-
   return (
     <Flex dir="col" gap="md">
       <Text variant="subheading">Swap Guide</Text>
@@ -86,7 +82,11 @@ export default function Info({ info, crowdsale }) {
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
           <Text># of DAO tokens per {symbol ? symbol.toUpperCase() : 'fetching...'}: </Text>
-          <Text>{ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei')}</Text>
+          <Text>
+            {decimals < 18
+              ? Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
+              : Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 'wei'))}
+          </Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">

@@ -13,7 +13,7 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
   //   signerOrProvider: signer,
   // })
 
-  const { writeAsync: callCrowdsale } = useContractWrite(
+  const { writeAsync: callExtension } = useContractWrite(
     {
       addressOrName: addresses[chainId].extensions.crowdsale2,
       contractInterface: CROWDSALE_ABI,
@@ -28,7 +28,7 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
 
     if (symbol === 'ETH') {
       try {
-        const res = await callCrowdsale({
+        const res = await callExtension({
           args: [dao, ethers.utils.parseEther(amount).toString()],
           overrides: {
             value: ethers.utils.parseEther(amount).toString(),
@@ -42,7 +42,12 @@ const Buy = ({ dao, symbol, decimals, amount, chainId, buttonText, shouldDisable
       }
     } else {
       try {
-        const res = crowdsale.callExtension(dao, ethers.utils.parseUnits(amount, decimals).toString())
+        const res = await callExtension({
+          args: [dao, ethers.utils.parseUnits(amount, decimals).toString()],
+          overrides: {
+            // gasLimit: 200000,
+          },
+        })
         setSuccess(true)
         setTx(res.hash)
       } catch (e) {
