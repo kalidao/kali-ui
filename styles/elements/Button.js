@@ -8,7 +8,7 @@ const Button = styled('button', {
       film: {
         '&:hover': {
           background: 'hsl(0, 0%, 70%, 0.5)',
-          color: '$gray100',
+          color: '$gray1',
         },
       },
     },
