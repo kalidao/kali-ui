@@ -1,30 +1,42 @@
-import React, { useState } from 'react'
-import Layout from '../../../../../../components/dao-dashboard/layout'
-import { Escape } from '../../../../../../components/dao-dashboard/newproposal/internal/'
-import { Button, Flex } from '../../../../../../styles/elements'
-import { Label, Input } from '../../../../../../styles/form-elements'
+import React, { useEffect, useState } from 'react'
+import Layout from '@components/dao-dashboard/layout'
+import { Escape } from '@components/dao-dashboard/newproposal/internal'
+import { Button, Flex } from '@design/elements'
+import { Label, Input } from '@design/form-elements'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import styles from '../../../../../../components/editor'
-import Editor from '../../../../../../components/editor'
+import styles from '@components/editor/editor.module.css'
+import Editor from '@components/editor'
+import { NextPage } from 'next'
 
-export default function DeleteProposalPage() {
+const DeleteProposalPage: NextPage = () => {
   const router = useRouter()
-  const { proposalId } = router.query
-  const [title, setTitle] = useState(null)
+  const { chainId, dao, proposalId } = router.query
+  const [title, setTitle] = useState('')
   const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class: styles.editor,
+      },
+    },
     extensions: [
-      StarterKit.configure({
-        HTMLAttributes: {
-          class: styles.editor,
-        },
-      }),
+      StarterKit.configure(),
     ],
     content: '',
     injectCSS: false,
   })
+
+  useEffect(() => {
+    router.prefetch(`/daos/${chainId}/${dao}/${proposalId}`)
+  }, [chainId, dao, router])
+
+  const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    router.push(`/daos/${chainId}/${dao}/${proposalId}`)
+  }
 
   return (
     <Layout heading={`Delete Proposal #${proposalId} `} content="Delete the proposal to remove it from the queue.">
@@ -58,7 +70,7 @@ export default function DeleteProposalPage() {
             maxWidth: '5em',
             fontWeight: '500',
           }}
-          onClick={() => router.back()}
+          onClick={goBack}
         >
           <ArrowLeftIcon />
           Back
@@ -69,7 +81,7 @@ export default function DeleteProposalPage() {
             name="id"
             maxLength={30}
             placeholder={'Proposal for...'}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
             css={{
               minWidth: '39vw',
             }}
@@ -79,8 +91,10 @@ export default function DeleteProposalPage() {
           <Label>Description (Optional)</Label>
           <Editor editor={editor} />
         </Flex>
-        <Escape editor={editor} kill={proposalId} />
+        <Escape dao={dao as string} chainId={Number(chainId)} title={title} editor={editor} kill={Number(proposalId)} />
       </Flex>
     </Layout>
   )
 }
+
+export default DeleteProposalPage

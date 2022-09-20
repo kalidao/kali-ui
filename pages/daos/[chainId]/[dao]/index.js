@@ -26,14 +26,10 @@ export default function DaoHomePage() {
       : useGetProposalsResult.data?.data?.daos?.[0]['proposals']
   console.debug('DAO proposals', { proposals })
 
-  const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
-  const crowdsale =
-    useGetCrowdsaleResult.data?.crowdsales?.[0] === undefined ? null : useGetCrowdsaleResult.data?.crowdsales?.[0]
 
   return (
     <Layout
       heading={isLoading ? 'DAO' : data}
-      crowdsale={crowdsale}
       content="Create or vote on a proposal."
       back={true}
     >

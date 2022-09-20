@@ -26,6 +26,12 @@
       "@utils/*": [
         "utils/*"
       ],
+      "@graph/*": [
+        "graph/*"
+      ],
+      "@abi/*": [
+        "abi/*"
+      ],
       "@design/*": [
         "styles/*"
       ],
@@ -34,8 +40,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.js"  ],
+    "**/*.tsx",
+    "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

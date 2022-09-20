@@ -3,6 +3,13 @@ import { styled } from '../stitches.config'
 const Button = styled('button', {
   border: 'none',
 
+  '&:disabled': {
+    background: 'none',
+    '&:hover': {
+      background: 'none'
+    }
+  },
+
   variants: {
     effect: {
       film: {
