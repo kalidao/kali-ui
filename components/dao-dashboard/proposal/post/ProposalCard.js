@@ -56,6 +56,7 @@ export const ProposalCard = ({ proposal }) => {
       dir="row"
       gap="sm"
       css={{
+        width: '100%',
         padding: '1rem 0.5rem 1rem 0.5rem',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',

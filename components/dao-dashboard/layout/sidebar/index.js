@@ -43,7 +43,7 @@ export default function Sidebar({ crowdsale }) {
       active: true,
     },
     {
-      link: 'crowdsale',
+      link: 'swap',
       label: 'Swap',
       icon: <GiCoins />,
       active: true,
@@ -135,8 +135,8 @@ const Item = ({ link, label, icon, chainId, dao }) => {
           gap: '10px',
           borderRadius: '10px',
           color: '$gray12',
-          // paddingRight: '15px',
-          width: '9rem',
+          paddingRight: '15px',
+          // width: '100%',
 
           '&:hover': {
             background: '$gray5',

@@ -6,7 +6,7 @@ import { Flex } from '../../../styles/elements'
 export default function Dashboard({ proposals }) {
   return (
     <Flex
-      gap="md"
+      gap="lg"
       css={{
         width: '100%',
         // background: 'Green',
@@ -17,16 +17,14 @@ export default function Dashboard({ proposals }) {
     >
       <Flex
         css={{
-          width: '60%',
-          // background: 'Red',
+          width: '100%',
         }}
       >
         <Timeline proposals={proposals} />
       </Flex>
       <Flex
         css={{
-          width: '30%',
-          // background: 'Red',
+          width: '100%',
         }}
       >
         <Sidebar />

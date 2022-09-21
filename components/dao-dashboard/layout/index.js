@@ -2,29 +2,32 @@ import Layout from '../../layout'
 import Sidebar from './sidebar/'
 import { Flex } from '../../../styles/elements'
 
-export default function DaoLayout({ heading, crowdsale, children, props }) {
+export default function DaoLayout({ heading, children, props }) {
   return (
     <Layout heading={heading} {...props}>
       <Flex
-        gap="lg"
+        // gap="lg"
         css={{
           width: '100%',
           marginTop: '5rem',
-          left: '0',
-          right: '0',
+          // background: 'Red',
         }}
       >
         <Flex
-          css={{
-            width: '12%',
-          }}
+          css={
+            {
+              // width: '15%',
+              // background: 'Blue',
+            }
+          }
         >
-          <Sidebar crowdsale={crowdsale} />
+          <Sidebar />
         </Flex>
         <Flex
           css={{
             width: '100%',
-            height: '100vh',
+            // height: '100vh',
+            // background: 'Green',
           }}
         >
           {children}

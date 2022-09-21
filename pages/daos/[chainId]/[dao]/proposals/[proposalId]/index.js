@@ -34,7 +34,7 @@ export default function ProposalPage({ proposal }) {
           height: 'fit-content',
           minWidth: '80vw',
           padding: '20px',
-          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
         }}
       >
         <Back onClick={() => router.back()} />

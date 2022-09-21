@@ -35,7 +35,15 @@ export default function Timeline({ proposals }) {
         >
           Proposals
         </Text>
-        <Flex dir="col" gap="md" css={{ width: '100%' }}>
+        <Flex
+          dir="col"
+          gap="md"
+          css={{
+            width: '100%',
+            alignItems: 'center',
+            // background: 'Blue',
+          }}
+        >
           <NewProposalCard />
           {memoizedProposals?.length > 0 ? (
             memoizedProposals.map((proposal) => <Card key={proposal['id']} proposal={proposal} />)

@@ -22,7 +22,7 @@ export default function NewProposalTrigger() {
         dir="row"
         gap="sm"
         css={{
-          // width: '100%',
+          width: '90%',
           height: '3rem',
           alignItems: 'center',
           paddingLeft: '1rem',

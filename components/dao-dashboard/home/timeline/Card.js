@@ -38,10 +38,10 @@ export default function ProposalCard({ proposal }) {
       // dir="row"
       gap="sm"
       css={{
-        width: '95%',
-        padding: '1rem 0.5rem 1rem 0.5rem',
+        width: '90%',
+        padding: '1rem 0rem 1rem 0rem',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         border: '2px solid $gray6',
         borderRadius: '20px',
         // borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
@@ -59,6 +59,7 @@ export default function ProposalCard({ proposal }) {
         height="100%"
         css={{
           paddingRight: '1rem',
+          paddingLeft: '1rem',
         }}
       >
         <Vote proposal={proposal} />
@@ -87,6 +88,7 @@ export default function ProposalCard({ proposal }) {
             gap="md"
             css={{
               // minWidth: '50rem',
+              // background: 'Red',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
             }}

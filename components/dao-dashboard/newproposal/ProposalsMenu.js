@@ -7,7 +7,15 @@ import { Flex, Text } from '../../../styles/elements'
 
 export default function ProposalsMenu({ setProposal }) {
   return (
-    <Flex dir="col" gap="md">
+    <Flex
+      dir="col"
+      gap="md"
+      css={
+        {
+          // background: 'blue',
+        }
+      }
+    >
       <Text variant="instruction">Different types of proposals for different needs.</Text>
       <Text variant="instruction">External calls are calls to another smart contract directly. User beware.</Text>
       <Text variant="instruction">Apps are add-ons for KaliDAOs. Check out what's available. </Text>
