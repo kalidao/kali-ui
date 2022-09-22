@@ -12,7 +12,7 @@ export const getProposals = async (chainId, address) => {
             first: 1000, 
             orderBy: serial, 
             orderDirection: desc
-            where: {dao: "0x28feac06dc72188b385478b507f7c7a39a7026d5"}) {
+            where: {dao: "${dao}") {
               id
               serial
               proposer
