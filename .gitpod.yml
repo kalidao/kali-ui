@@ -1,8 +1,8 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: Start Kali UI dev environment
-    init: yarn install
-    command: yarn run dev
+    init: pnpm install
+    command: pnpm run dev
 
   - name: Command Line Shell
     command: bash
