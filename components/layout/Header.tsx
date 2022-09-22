@@ -1,9 +1,9 @@
 import React from 'react'
 import Kali from './Kali'
-import { styled } from '../../styles/stitches.config'
-import { Flex, Box, Text } from '../../styles/elements'
+import { styled } from '@design/stitches.config'
+import { Flex, Text } from '@design/elements'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import NavigationMenu from '../../styles/Navigation'
+import NavigationMenu from '@design/Navigation'
 
 const StyledHeader = styled(Flex, {
   // borderBottom: '1px solid $gray800',
@@ -21,9 +21,13 @@ const StyledHeader = styled(Flex, {
   zIndex: '99',
 })
 
-export default function Header({ heading, props }) {
+type HeaderProps = {
+  heading: string
+}
+
+export default function Header({ heading }: HeaderProps) {
   return (
-    <StyledHeader {...props}>
+    <StyledHeader>
       <Kali />
       <Flex
         css={{

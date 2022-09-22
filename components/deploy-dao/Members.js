@@ -12,8 +12,11 @@ import { fetchEnsAddress } from '../../utils/fetchEnsAddress'
 export default function Members({ setStep }) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
-  const { data: account } = useAccount()
-  const { data: ensName } = useEnsName()
+  const { address: account } = useAccount()
+  const { data: ensName } = useEnsName({
+    address: account,
+    chainId: 1,
+  })
 
   const {
     register,

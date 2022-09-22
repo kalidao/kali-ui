@@ -55,9 +55,9 @@ export default function NewProposalTrigger() {
         <Flex
           dir="col"
           gap="md"
-          minWidth="10%"
           height="100%"
           css={{
+            minWidth: '10%',
             paddingRight: '1rem',
           }}
         >

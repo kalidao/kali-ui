@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { styled } from '../../styles/stitches.config'
+import { styled } from '@design/stitches.config'
 import { useRouter } from 'next/router'
 
 const LogoContainer = styled('div', {

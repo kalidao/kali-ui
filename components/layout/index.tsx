@@ -2,7 +2,13 @@ import Header from './Header'
 import Head from 'next/head'
 import { Box } from '../../styles/elements'
 
-export default function Layout({ heading, content, children, props }) {
+type LayoutProps = {
+  heading: string
+  content: string
+  children: React.ReactNode
+}
+
+export default function Layout({ heading, content, children }: LayoutProps) {
   const title = 'KALI - ' + heading
 
   return (
@@ -21,7 +27,6 @@ export default function Layout({ heading, content, children, props }) {
         css={{
           fontFamily: 'Screen',
         }}
-        {...props}
       >
         <Header heading={heading} />
         {children}

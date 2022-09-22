@@ -87,8 +87,6 @@ export default function ProposalCard({ proposal }) {
             dir="col"
             gap="md"
             css={{
-              // minWidth: '50rem',
-              // background: 'Red',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
             }}
@@ -98,6 +96,7 @@ export default function ProposalCard({ proposal }) {
               gap="sm"
               dir="row"
               css={{
+                minWidth: '60rem',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
               }}

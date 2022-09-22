@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
-import { styled } from '../../../../styles/stitches.config'
-import { RiInformationFill } from 'react-icons/ri'
+
+import { styled } from '@design/stitches.config'
+import { Flex, Text } from '@design/elements'
+
 import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
 import { GiCoins } from 'react-icons/gi'
 import { HiHome } from 'react-icons/hi'
 import { FaPen } from 'react-icons/fa'
 import { GearIcon } from '@radix-ui/react-icons'
+import { useGetProposals } from '@graph/queries/getProposals'
+import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
+
 const Icon = styled('span', {
   display: 'flex',
   justifyContent: 'center',
@@ -31,9 +35,12 @@ const Icon = styled('span', {
   },
 })
 
-export default function Sidebar({ crowdsale }) {
+export default function Sidebar() {
   const router = useRouter()
-  const { chainId, dao } = router.query
+  const { chainId, dao } = router.query!
+  const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
+  const crowdsale =
+    useGetCrowdsaleResult?.data?.data?.crowdsales?.[0] === undefined ? false : useGetCrowdsaleResult?.data?.data?.crowdsales?.[0]?.active
 
   const items = [
     {
@@ -113,13 +120,21 @@ export default function Sidebar({ crowdsale }) {
           <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
         ))} */}
       {items.map((item) => (
-        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
+        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId as string} dao={dao as string} />
       ))}
     </Flex>
   )
 }
 
-const Item = ({ link, label, icon, chainId, dao }) => {
+type ItemProps = {
+  link: string
+  label: string
+  icon: React.ReactNode
+  chainId: string
+  dao: string
+}
+
+const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
   return (
     <Link
       href={{

@@ -1,10 +1,16 @@
-import Layout from '../../layout'
-import Sidebar from './sidebar/'
-import { Flex } from '../../../styles/elements'
+import Layout from '@components/layout'
+import Sidebar from './sidebar'
+import { Flex } from '@design/elements'
 
-export default function DaoLayout({ heading, children, props }) {
+type DaoLayoutProps = {
+  heading: string
+  content: string
+  children: React.ReactNode
+}
+
+export default function DaoLayout({ heading, content, children }: DaoLayoutProps) {
   return (
-    <Layout heading={heading} {...props}>
+    <Layout heading={heading} content={content}>
       <Flex
         // gap="lg"
         css={{
