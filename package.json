@@ -2,7 +2,7 @@
   "name": "kali-ui",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -28,9 +28,10 @@
     "@radix-ui/react-tabs": "^0.1.5",
     "@radix-ui/react-toast": "^1.0.0",
     "@radix-ui/react-tooltip": "^0.1.7",
-    "@rainbow-me/rainbowkit": "^0.2.4",
+    "@rainbow-me/rainbowkit": "^0.5.3",
     "@react-pdf/renderer": "^2.1.0",
     "@stitches/react": "^1.2.8",
+    "@tanstack/react-query": "^4.3.4",
     "@tiptap/react": "^2.0.0-beta.114",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@walletconnect/web3-provider": "^1.7.1",
@@ -42,8 +43,9 @@
     "graphql-request": "^4.3.0",
     "little-state-machine": "^4.3.1",
     "magic-sdk": "^8.1.1",
-    "moralis": "^1.8.0",
-    "next": "12.1.0",
+    "moralis": "^1.11.0",
+    "next": "^12.2.3",
+    "nextjs-progressbar": "^0.0.14",
     "node": "^17.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -55,11 +57,13 @@
     "sib-api-v3-sdk": "^8.3.0",
     "swr": "^1.3.0",
     "victory": "^36.5.3",
-    "wagmi": "^0.4.12"
+    "wagmi": "^0.6.6"
   },
   "devDependencies": {
+    "@types/react": "^18.0.20",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "typescript": "^4.8.3"
   }
 }

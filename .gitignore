@@ -34,5 +34,7 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local env file
+.env.local
 # ide
 .idea
