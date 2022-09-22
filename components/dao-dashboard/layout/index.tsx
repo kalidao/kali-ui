@@ -26,7 +26,6 @@ export default function DaoLayout({ heading, content, children }: DaoLayoutProps
           css={{
             width: '75vw',
             position: 'relative',
-            height: '100vh',
           }}
         >
           {children}

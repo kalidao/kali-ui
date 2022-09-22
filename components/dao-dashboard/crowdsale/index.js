@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
-import { erc20ABI, useContractRead, useContract, useSigner, useAccount } from 'wagmi'
+import { erc20ABI, useContractRead, useContract, useSigner, useAccount, useBalance } from 'wagmi'
 import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
-import Buy from './Buy'
+import Swap from './Swap'
 import Approve from './Approve'
 import DAO_ABI from '../../../abi/KaliDAO.json'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
@@ -24,43 +24,43 @@ const Arrow = styled(ArrowDownIcon, {
 export default function Crowdsale({ info }) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: account } = useAccount()
+  const { address } = useAccount()
   const { data: signer } = useSigner()
 
+  const { data: ethBalance } = useBalance({
+    addressOrName: address,
+  })
+
   // Contract interaction
-  const { data: crowdsale } = useContractRead(
-    {
-      addressOrName: addresses[chainId].extensions.crowdsale2,
-      contractInterface: CROWDSALE_ABI,
-    },
-    'crowdsales',
-    {
-      args: [dao],
-      chainId: Number(chainId),
-    },
-  )
+  const { data: crowdsale } = useContractRead({
+    addressOrName: addresses[chainId].extensions.crowdsale2,
+    contractInterface: CROWDSALE_ABI,
+    functionName: 'crowdsales',
+    args: [dao],
+    chainId: Number(chainId),
+  })
 
-  const { data: purchaseTokenSymbol } = useContractRead(
-    {
-      addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
-      contractInterface: erc20ABI,
-    },
-    'symbol',
-    {
-      chainId: Number(chainId),
-    },
-  )
+  const { data: purchaseTokenSymbol } = useContractRead({
+    addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
+    contractInterface: erc20ABI,
+    functionName: 'symbol',
+    chainId: Number(chainId),
+  })
 
-  const { data: decimals } = useContractRead(
-    {
-      addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
-      contractInterface: erc20ABI,
-    },
-    'decimals',
-    {
-      chainId: Number(chainId),
-    },
-  )
+  const { data: purchaseTokenBalance } = useContractRead({
+    addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
+    contractInterface: erc20ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    chainId: Number(chainId),
+  })
+
+  const { data: decimals } = useContractRead({
+    addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
+    contractInterface: erc20ABI,
+    functionName: 'decimals',
+    chainId: Number(chainId),
+  })
 
   const erc20 = useContract({
     addressOrName: crowdsale ? crowdsale.purchaseAsset : AddressZero,
@@ -74,34 +74,13 @@ export default function Crowdsale({ info }) {
     signerOrProvider: signer,
   })
 
-  const crowdsaleV2 = useContract({
+  const { data: accountPurchased } = useContractRead({
     addressOrName: addresses[chainId]['extensions']['crowdsale2'],
     contractInterface: CROWDSALE_ABI,
-    signerOrProvider: signer,
+    functionName: 'checkPersonalPurchased',
+    args: [address, dao],
+    chainId: Number(chainId),
   })
-
-  // const { data: crowdsalePurchasers } = useContractRead(
-  //   {
-  //     addressOrName: addresses[chainId]['extensions']['crowdsale2'],
-  //     contractInterface: CROWDSALE_ABI,
-  //   },
-  //   'checkPurchasers',
-  //   {
-  //     args: [dao],
-  //     chainId: Number(chainId),
-  //   },
-  // )
-  const { data: accountPurchased } = useContractRead(
-    {
-      addressOrName: addresses[chainId]['extensions']['crowdsale2'],
-      contractInterface: CROWDSALE_ABI,
-    },
-    'checkPersonalPurchased',
-    {
-      args: [account?.address, dao],
-      chainId: Number(chainId),
-    },
-  )
 
   // Crowdsale data
   let type
@@ -123,8 +102,6 @@ export default function Crowdsale({ info }) {
   // States
   const [clickedTerms, setClickedTerms] = useState(false)
   const [warning, setWarning] = useState(null)
-  const [success, setSuccess] = useState(false)
-  const [tx, setTx] = useState(null)
   const [amountToSwap, setAmountToSwap] = useState(0)
   const [amountToReceive, setAmountToReceive] = useState(0)
   const [shouldApprove, setShouldApprove] = useState(null)
@@ -134,7 +111,7 @@ export default function Crowdsale({ info }) {
 
   // Temp states
   const [tempSymbol, setTempSymbol] = useState(null)
-  const [tempListId, setTempListId] = useState(0)
+  const [tempListId, setTempListId] = useState(null)
   const [tempPurchaseAsset, setTempPurchaseAsset] = useState(null)
   const [tempMultiplier, setTempMultiplier] = useState(0)
   const [tempPersonalLimit, setTempPersonalLimit] = useState(0)
@@ -144,12 +121,14 @@ export default function Crowdsale({ info }) {
   const [tempPurchasers, setTempPurchasers] = useState([])
   const [tempInProgress, setTempInProgress] = useState(false)
   const [tempTerms, setTempTerms] = useState('')
+  const [maxInput, setMaxInput] = useState(null)
+  const [maxOutput, setMaxOutput] = useState(null)
 
   // Helper functions
   const checkAllowance = async () => {
     try {
-      const allowance = await erc20.allowance(account?.address, addresses[chainId].extensions.crowdsale2)
-      console.log('allowance amount', ethers.utils.formatEther(allowance))
+      const allowance = await erc20.allowance(address, addresses[chainId].extensions.crowdsale2)
+      // console.log('allowance amount', ethers.utils.formatEther(allowance))
 
       if (ethers.utils.formatEther(allowance) == '0.0') {
         setShouldApprove(true)
@@ -201,6 +180,18 @@ export default function Crowdsale({ info }) {
       _canPurchase = false
     }
 
+    if (tempSymbol != 'ETH') {
+      if (Number(_amountToSwap) > Number(ethers.utils.formatUnits(purchaseTokenBalance, decimals))) {
+        setWarning('Insufficient token balance.')
+        _canPurchase = false
+      }
+    } else {
+      if (Number(_amountToSwap) > Number(ethBalance?.formatted)) {
+        setWarning('Insufficient ETH balance.')
+        _canPurchase = false
+      }
+    }
+
     setCanPurchase(_canPurchase)
   }
 
@@ -216,7 +207,7 @@ export default function Crowdsale({ info }) {
             break
           case '1':
             type = 'Accredited Investors'
-            eligibility = await accessManager.balanceOf(account.address, 1)
+            eligibility = await accessManager.balanceOf(address, 1)
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
               setWarning('')
@@ -227,7 +218,7 @@ export default function Crowdsale({ info }) {
             break
           default:
             type = 'Private'
-            eligibility = await accessManager.balanceOf(account.address, Number(crowdsale.listId))
+            eligibility = await accessManager.balanceOf(address, Number(crowdsale.listId))
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
               setWarning('')
@@ -269,10 +260,25 @@ export default function Crowdsale({ info }) {
         crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
           ? 'ETH'
           : purchaseTokenSymbol
-      console.log(symbol)
       setTempSymbol(symbol)
 
       const _inProgress = crowdsale.saleEnds * 1000 > Date.now() ? true : false
+
+      decimals < 18
+        ? setMaxInput(
+            Number(ethers.utils.formatEther(crowdsale.personalLimit)) /
+              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)) -
+              Number(ethers.utils.formatEther(accountPurchased)) /
+                Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)),
+          )
+        : setMaxInput(
+            Number(ethers.utils.formatEther(crowdsale.personalLimit)) / crowdsale.purchaseMultiplier -
+              Number(ethers.utils.formatEther(accountPurchased)) / crowdsale.purchaseMultiplier,
+          )
+
+      setMaxOutput(
+        Number(ethers.utils.formatEther(crowdsale.personalLimit)) - Number(ethers.utils.formatEther(accountPurchased)),
+      )
 
       setTempInProgress(_inProgress)
       setTempListId(crowdsale.listId)
@@ -288,7 +294,7 @@ export default function Crowdsale({ info }) {
     if (crowdsale) {
       extractCrowdsaleData()
     }
-  }, [])
+  }, [crowdsale])
 
   useEffect(() => {
     const getPurchasers = async () => {
@@ -304,6 +310,15 @@ export default function Crowdsale({ info }) {
     getPurchasers()
   }, [])
 
+  // console.log(
+  //   dao,
+  //   crowdsale,
+  //   tempInProgress,
+  //   accountPurchased,
+  //   addresses[chainId].extensions.crowdsale2,
+  //   purchaseTokenSymbol,
+  //   isEligible,
+  // )
   return (
     <>
       {tempInProgress && isEligible ? (
@@ -373,26 +388,13 @@ export default function Crowdsale({ info }) {
                       name="amount"
                       type="number"
                       min={0}
-                      max={
-                        decimals < 18
-                          ? Number(ethers.utils.formatEther(tempPersonalLimit)) /
-                              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)) -
-                            Number(ethers.utils.formatEther(accountPurchased)) /
-                              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
-                          : Number(ethers.utils.formatEther(tempPersonalLimit)) / tempMultiplier -
-                            Number(ethers.utils.formatEther(accountPurchased)) / tempMultiplier
-                      }
-                      // max={
-                      //   ethers.utils.formatUnits(info['crowdsale']['personalLimit']) /
-                      //   info['crowdsale']['purchaseMultiplier']
-                      // }
+                      max={maxInput}
                       defaultValue="0.0"
                       onChange={(e) => handleAmount(e.target.value)}
                       css={{
                         fontSize: '1.5em',
                         width: '100%',
                         color: '$mauve12',
-                        // background: 'Purple',
                         border: 'none',
                         '&:hover': {
                           background: 'none',
@@ -409,7 +411,6 @@ export default function Crowdsale({ info }) {
                     css={{
                       width: '25%',
                       fontSize: '1.5rem',
-                      // background: 'Purple',
                       alignItems: 'center',
                     }}
                   >
@@ -435,14 +436,12 @@ export default function Crowdsale({ info }) {
                     css={{
                       width: '20%',
                       height: '100%',
-                      // background: 'Red',
                       alignItems: 'center',
                     }}
                   ></Flex>
                   <Flex
                     css={{
                       width: '50%',
-                      // background: 'Red',
                     }}
                   >
                     <Input
@@ -450,17 +449,13 @@ export default function Crowdsale({ info }) {
                       type="number"
                       disabled={true}
                       min={0}
-                      max={
-                        Number(ethers.utils.formatEther(tempPersonalLimit)) -
-                        Number(ethers.utils.formatEther(accountPurchased))
-                      }
+                      max={maxOutput}
                       // max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}
                       value={amountToReceive}
                       css={{
                         fontSize: '1.5em',
                         width: '100%',
                         color: '$mauve12',
-                        // background: 'Purple',
                         border: 'none',
                         '&:hover': {
                           background: 'none',
@@ -490,7 +485,6 @@ export default function Crowdsale({ info }) {
                       variant="checkbox"
                       value={clickedTerms}
                       onChange={() => setClickedTerms(!clickedTerms)}
-                      // onChange={(e) => handleClickwrap(e.target.value)}
                     />
                     <Text>
                       I agree to the{' '}
@@ -507,24 +501,24 @@ export default function Crowdsale({ info }) {
                     </Text>
                   </Flex>
                 )}
-                <Flex
-                  css={{
-                    width: '80%',
-                    paddingTop: '1rem',
-                    // paddingBottom: '1rem',
-                  }}
-                >
-                  {shouldApprove && (
+                {shouldApprove && (
+                  <Flex
+                    css={{
+                      width: '80%',
+                      paddingTop: '1rem',
+                      // paddingBottom: '1rem',
+                    }}
+                  >
                     <Approve
                       info={info}
+                      symbol={tempSymbol}
                       crowdsale={crowdsale}
                       dao={dao}
                       amount={amountToSwap}
                       chainId={chainId}
-                      purchaseTokenSymbol={purchaseTokenSymbol}
                     />
-                  )}
-                </Flex>
+                  </Flex>
+                )}
                 <Flex
                   css={{
                     width: '80%',
@@ -532,33 +526,21 @@ export default function Crowdsale({ info }) {
                     paddingBottom: '1rem',
                   }}
                 >
-                  {/* {canPurchase && !shouldApprove && tempTerms == 'none' && (
-                    <Buy
-                      dao={dao}
-                      symbol={tempSymbol}
-                      decimals={decimals ? decimals : 18}
-                      amount={amountToSwap}
-                      chainId={chainId}
-                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
-                      shouldDisable={false}
-                      setSuccess={setSuccess}
-                      setTx={setTx}
-                    />
-                  )} */}
                   {canPurchase && !shouldApprove && (tempTerms == 'none' || (tempTerms != 'none' && clickedTerms)) ? (
-                    <Buy
+                    <Swap
+                      info={info}
                       dao={dao}
                       symbol={tempSymbol}
                       decimals={decimals ? decimals : 18}
                       amount={amountToSwap}
+                      amountToReceive={amountToReceive}
                       chainId={chainId}
                       buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
                       shouldDisable={false}
-                      setSuccess={setSuccess}
-                      setTx={setTx}
                     />
                   ) : (
-                    <Buy
+                    <Swap
+                      info={info}
                       dao={dao}
                       symbol={tempSymbol}
                       decimals={decimals ? decimals : 18}
@@ -566,35 +548,10 @@ export default function Crowdsale({ info }) {
                       chainId={chainId}
                       buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
                       shouldDisable={true}
-                      setSuccess={setSuccess}
-                      setTx={setTx}
                     />
                   )}
                 </Flex>
               </Flex>
-              {success && tx && (
-                <Flex dir="col" gap="sm">
-                  <Text>
-                    Congratulations! You've swapped {amountToSwap} {tempSymbol.toUpperCase()} for {amountToReceive}{' '}
-                    {info?.token?.symbol.toUpperCase()}.{' '}
-                  </Text>
-                  <Text
-                    as="a"
-                    href={addresses[chainId]['blockExplorer'] + '/tx/' + tx}
-                    target="_blank"
-                    css={{
-                      fontFamily: 'Regular',
-                      color: '$amber11',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                      gap: '0.2rem',
-                    }}
-                  >
-                    View on Explorer
-                  </Text>
-                </Flex>
-              )}
               {warning && (
                 <Flex css={{ justifyContent: 'center' }}>
                   <Text variant="warning">{warning}</Text>
@@ -610,7 +567,7 @@ export default function Crowdsale({ info }) {
             }}
           >
             <Flex dir="col" gap="md">
-              <Info info={info} decimals={decimals} crowdsale={crowdsale} />
+              <Info info={info} decimals={decimals} crowdsale={crowdsale} symbol={tempSymbol} />
               <Flex></Flex>
               <Flex></Flex>
               <Background />

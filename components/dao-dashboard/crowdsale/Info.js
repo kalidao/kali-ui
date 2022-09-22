@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 import { prettyDate } from '../../../utils'
 import { addresses } from '../../../constants/addresses'
 
-export default function Info({ info, decimals, crowdsale }) {
+export default function Info({ info, decimals, crowdsale, symbol }) {
   const router = useRouter()
   const { chainId } = router.query
   const { data: signer } = useSigner()
@@ -23,11 +23,11 @@ export default function Info({ info, decimals, crowdsale }) {
     },
   )
 
-  const symbol =
-    crowdsale.purchaseAsset === '0x0000000000000000000000000000000000000000' ||
-    crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
-      ? 'ETH'
-      : purchaseTokenSymbol
+  // const symbol =
+  //   crowdsale.purchaseAsset === '0x0000000000000000000000000000000000000000' ||
+  //   crowdsale.purchaseAsset.toLowerCase() === '0x000000000000000000000000000000000000dead'
+  //     ? 'ETH'
+  //     : purchaseTokenSymbol
 
   let type = ''
   switch (Number(ethers.utils.formatEther(crowdsale.listId)).toString()) {
