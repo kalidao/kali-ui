@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { Flex, Text } from '../../../../styles/elements'
 import Link from 'next/link'
 
 import { styled } from '@design/stitches.config'
@@ -117,11 +118,8 @@ export default function Sidebar() {
       {/* {items
         .filter((item) => item.active === true)
         .map((item) => (
-          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId} dao={dao} />
-        ))} */}
-      {items.map((item) => (
-        <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId as string} dao={dao as string} />
-      ))}
+          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId as string} dao={dao as string} />
+        ))}
     </Flex>
   )
 }
