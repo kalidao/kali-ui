@@ -24,9 +24,10 @@ const DashboardPage: NextPage = ({ proposals }: InferGetServerSidePropsType<type
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao!
-  const chainId = context?.params?.chainId!
+  const address = context?.params?.dao
+  const chainId = context?.params?.chainId
 
+  console.debug('address chainId', address, chainId)
   const result = await getProposals(chainId, address)
 
   if (!result?.data?.proposals) {
