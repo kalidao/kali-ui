@@ -54,21 +54,21 @@ export default function DeployDaoWrapper() {
     {
       component: <Governance setStep={setStep} />,
       title: 'Voting',
-      description: `Update voting parameters according to your workflow. We recommend shorter 
-      voting period and lower participation if decision-making is generally consistent and
-      frequent.`,
+      description: `Update voting parameters according to your workflow. if 
+      decision-making is generally consistent and frequent, we recommend shorter 
+      voting period and lower participation.`,
     },
     {
       component: <Redemption setStep={setStep} />,
       title: 'Extension: Redemption',
       description: `This extension gives everyone the ability
-      to redeem KaliDAO treasury based on her balance ratio of KaliDAO tokens.`,
+      to redeem KaliDAO treasury by burning her KaliDAO tokens.`,
     },
     {
       component: <Crowdsale setStep={setStep} />,
-      title: 'Extension: Contribute',
+      title: 'Extension: Swap',
       description: `This extension gives KaliDAO the ability to swap KaliDAO tokens 
-      with ETH or ERC20s.`,
+      for Eth or ERC20s.`,
     },
     {
       component: <Members setStep={setStep} />,
@@ -88,9 +88,8 @@ export default function DeployDaoWrapper() {
       component: <Checkout setStep={setStep} />,
       title: 'Checkout',
       description: `Other than "Name" and "Symbol," everything else can be changed after
-      summoning of your KaliDAO. Any updates will require the proposal process, i.e., 
-      voting period, participation %, but you already knew that. That's just blockchain 
-      being real.`,
+      your KaliDAO is summoned. Future updates will require going through the proposal 
+      process, i.e., voting period, participation %.`,
     },
   ]
 

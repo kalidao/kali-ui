@@ -11,18 +11,13 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
     contractInterface: erc20ABI,
     chainId,
     functionName: 'approve',
-    args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
+    // args: [addresses[chainId].extensions.crowdsale2, ethers.utils.parseEther(info?.crowdsale?.personalLimit)],
     cacheTime: 2_000,
   })
   const { writeAsync } = useContractWrite(config)
   const { data: account } = useAccount()
   const { data: signer } = useSigner()
-  const erc20 = useContract({
-    addressOrName: info ? info?.crowdsale?.purchaseToken : AddressZero,
-    contractInterface: erc20ABI,
-    signerOrProvider: signer,
-  })
-
+  console.log(crowdsale.purchaseAsset)
   const approve = async () => {
     if (!dao || !amount) return
 
@@ -44,14 +39,18 @@ const Approve = ({ info, dao, amount, chainId, purchaseTokenSymbol }) => {
         disabled={!writeAsync}
         onClick={approve}
         css={{
+          width: '100%',
+          height: '3rem',
           fontFamily: 'Regular',
           fontWeight: '800',
-          padding: '6px 10px',
-          color: '$mauve12',
-          background: '$violet8',
-
+          border: '2px solid $gray4',
+          borderRadius: '10px',
           '&:hover': {
-            background: '$violet7',
+            color: 'Black',
+            background: '$gray12',
+          },
+          '&:active': {
+            transform: 'translate(1px, 1px)',
           },
         }}
       >

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Menu } from '../../../../styles/proposal/Menu'
 import { Flex, Text } from '../../../../styles/elements'
 import { FcSalesPerformance } from 'react-icons/fc'
@@ -8,12 +8,29 @@ import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
 import Tribute from './Tribute'
 import Back from '../../../../styles/proposal/Back'
+import { useRouter } from 'next/router'
+import { addresses } from '../../../../constants/addresses'
+import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 
 function AppsMenu({ setProposal }) {
+  const router = useRouter()
+  const { dao, chainId } = router.query
+
+  const [isCrowdsale, setIsCrowdsale] = useState(false)
+  useEffect(() => {
+    const getCrowdsaleStatus = async () => {
+      const status = await fetchExtensionStatus(chainId, dao, addresses[chainId]['extensions']['crowdsale2'])
+      console.log(status)
+      status ? setIsCrowdsale(true) : setIsCrowdsale(false)
+    }
+
+    getCrowdsaleStatus()
+  }, [])
+
   return (
     <Flex gap="md" dir="col">
       <Text> </Text>
-      <Text variant="instruction">(1) Contribute :</Text>
+      <Text variant="instruction">(1) Swap :</Text>
       <Text variant="instruction">
         KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.
       </Text>
@@ -22,10 +39,23 @@ function AppsMenu({ setProposal }) {
         KaliDAO members may redeem a portion of KaliDAO treasury by burning their KaliDAO tokens.
       </Text>
       <Menu>
-        <Menu.Item onClick={() => setProposal('crowdsale')}>
-          <MdOutlineConstruction />
-          Contribute
-        </Menu.Item>
+        {isCrowdsale ? (
+          <>
+            <Menu.Item onClick={() => setProposal('crowdsale_update')}>
+              <MdOutlineConstruction />
+              Update Swap
+            </Menu.Item>
+            <Menu.Item onClick={() => setProposal('crowdsale_remove')}>
+              <MdOutlineConstruction />
+              Remove Swap
+            </Menu.Item>
+          </>
+        ) : (
+          <Menu.Item onClick={() => setProposal('crowdsale_add')}>
+            <MdOutlineConstruction />
+            Add Swap
+          </Menu.Item>
+        )}
         <Menu.Item onClick={() => setProposal('redemption')}>
           <MdOutlineRedeem />
           Redemption

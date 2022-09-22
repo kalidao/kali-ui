@@ -6,16 +6,29 @@ import { Flex } from '../../../styles/elements'
 export default function Dashboard({ proposals }) {
   return (
     <Flex
+      gap="lg"
       css={{
-        gap: '10px',
-
+        width: '100%',
+        // background: 'Green',
         '@media (max-width: 640px)': {
           flexDirection: 'column-reverse',
         },
       }}
     >
-      <Timeline proposals={proposals} />
-      <Sidebar />
+      <Flex
+        css={{
+          width: '100%',
+        }}
+      >
+        <Timeline proposals={proposals} />
+      </Flex>
+      <Flex
+        css={{
+          width: '100%',
+        }}
+      >
+        <Sidebar />
+      </Flex>
     </Flex>
   )
 }

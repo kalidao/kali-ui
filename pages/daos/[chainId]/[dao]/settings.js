@@ -13,7 +13,7 @@ export default function SettingsPage() {
         css={{
           position: 'fixed',
           flexDirection: 'row',
-          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
           alignItems: 'flex-start',
           justifyContent: 'space-between',
           height: '100vh',

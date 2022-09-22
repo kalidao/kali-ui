@@ -10,6 +10,10 @@ const Text = styled('div', {
         fontFamily: 'Bold',
         color: '$gray12',
       },
+      subheading: {
+        fontSize: '1.5em',
+        color: '$gray12',
+      },
       link: {
         display: 'flex',
         gap: '0.5rem',
@@ -21,6 +25,9 @@ const Text = styled('div', {
       instruction: {
         fontSize: '1rem',
         color: '$gray11',
+      },
+      warning: {
+        color: '$amber11',
       },
     },
     color: {

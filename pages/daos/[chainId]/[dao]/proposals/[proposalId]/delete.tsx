@@ -49,7 +49,7 @@ const DeleteProposalPage: NextPage = () => {
           height: '100%',
           minWidth: '80vw',
           color: '$gray12',
-          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
           gap: '10px',
           justifyContent: 'flex-start',
           alignItems: 'center',

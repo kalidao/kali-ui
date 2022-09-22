@@ -67,7 +67,7 @@ const Button = styled('button', {
         background: 'white',
         color: 'black',
         padding: '0.3rem 0.8rem',
-        borderRadius: '22.81px',
+        // borderRadius: '22.81px',
 
         '&:disabled': {
           background: '$gray200',
