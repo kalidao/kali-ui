@@ -46,6 +46,7 @@ export default function Info({ info, decimals, crowdsale }) {
     (Number(ethers.utils.formatEther(crowdsale.purchaseTotal)) /
       Number(ethers.utils.formatEther(crowdsale.purchaseLimit))) *
     100
+
   const personalLimit = ethers.utils.formatEther(crowdsale.personalLimit)
   const purchaseLimit = ethers.utils.formatEther(crowdsale.purchaseLimit)
 
@@ -55,7 +56,7 @@ export default function Info({ info, decimals, crowdsale }) {
       <Flex dir="col" gap="md">
         <Flex dir="row" align="separate">
           <Text>Progress: </Text>
-          <Text>{progress.toFixed(3)}%</Text>
+          <Text>{progress.toFixed(2)}%</Text>
         </Flex>
       </Flex>
       <Flex dir="col" gap="md">

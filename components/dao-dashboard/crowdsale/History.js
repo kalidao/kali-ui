@@ -68,7 +68,7 @@ export default function History({ info, crowdsale, decimals, purchasers, symbol 
                   width: '40%',
                 }}
               >
-                {Number(purchaser.purchased) / multiplier} {symbol}
+                {(Number(purchaser.purchased) / multiplier).toFixed(2)} {symbol}
               </Text>
             </Flex>
           ))}
