@@ -75,7 +75,7 @@ export default function Crowdsale({ info }) {
   })
 
   const { data: accountPurchased } = useContractRead({
-    addressOrName: addresses[chainId]['extensions']['crowdsale2'],
+    addressOrName: addresses[chainId].extensions.crowdsale2,
     contractInterface: CROWDSALE_ABI,
     functionName: 'checkPersonalPurchased',
     args: [address, dao],
@@ -199,14 +199,16 @@ export default function Crowdsale({ info }) {
   useEffect(() => {
     const getEligibilty = async () => {
       let eligibility
+
       try {
-        switch (Number(ethers.utils.formatEther(tempListId)).toString()) {
-          case '0':
+        switch (Number(ethers.utils.formatEther(tempListId).toString())) {
+          case 0:
             type = 'Public'
             setIsEligible(true)
             break
-          case '1':
+          case 1:
             type = 'Accredited Investors'
+
             eligibility = await accessManager.balanceOf(address, 1)
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
@@ -218,7 +220,11 @@ export default function Crowdsale({ info }) {
             break
           default:
             type = 'Private'
-            eligibility = await accessManager.balanceOf(address, Number(crowdsale.listId))
+            try {
+              eligibility = await accessManager.balanceOf(address, Number(crowdsale.listId))
+            } catch (e) {
+              console.log(e)
+            }
             if (Number(ethers.utils.formatEther(eligibility)) > 0) {
               setIsEligible(true)
               setWarning('')
@@ -264,17 +270,21 @@ export default function Crowdsale({ info }) {
 
       const _inProgress = crowdsale.saleEnds * 1000 > Date.now() ? true : false
 
-      decimals < 18
-        ? setMaxInput(
-            Number(ethers.utils.formatEther(crowdsale.personalLimit)) /
-              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)) -
-              Number(ethers.utils.formatEther(accountPurchased)) /
-                Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)),
-          )
-        : setMaxInput(
-            Number(ethers.utils.formatEther(crowdsale.personalLimit)) / crowdsale.purchaseMultiplier -
-              Number(ethers.utils.formatEther(accountPurchased)) / crowdsale.purchaseMultiplier,
-          )
+      console.log(accountPurchased)
+
+      if (decimals < 18) {
+        setMaxInput(
+          Number(ethers.utils.formatEther(crowdsale.personalLimit)) /
+            Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)) -
+            Number(ethers.utils.formatEther(accountPurchased)) /
+              Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals)),
+        )
+      } else {
+        setMaxInput(
+          Number(ethers.utils.formatEther(crowdsale.personalLimit)) / crowdsale.purchaseMultiplier -
+            Number(ethers.utils.formatEther(accountPurchased)) / crowdsale.purchaseMultiplier,
+        )
+      }
 
       setMaxOutput(
         Number(ethers.utils.formatEther(crowdsale.personalLimit)) - Number(ethers.utils.formatEther(accountPurchased)),
@@ -310,15 +320,7 @@ export default function Crowdsale({ info }) {
     getPurchasers()
   }, [])
 
-  // console.log(
-  //   dao,
-  //   crowdsale,
-  //   tempInProgress,
-  //   accountPurchased,
-  //   addresses[chainId].extensions.crowdsale2,
-  //   purchaseTokenSymbol,
-  //   isEligible,
-  // )
+  // console.log(tempInProgress, isEligible)
   return (
     <>
       {tempInProgress && isEligible ? (

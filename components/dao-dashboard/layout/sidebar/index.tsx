@@ -143,7 +143,6 @@ const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
       <Flex
         css={{
           alignItems: 'center',
-          // justifyContent: 'flex-start',
           gap: '10px',
           borderRadius: '10px',
           color: '$gray12',

@@ -12,20 +12,21 @@ export default function DaoLayout({ heading, content, children }: DaoLayoutProps
   return (
     <Layout heading={heading} content={content}>
       <Flex
+        gap="md"
         css={{
           position: 'relative',
           top: '5rem',
-          left: '0',
-          right: '0',
-          maxWidth: '100vw',
-          justifyContent: 'space-evenly',
+          width: '100%',
         }}
       >
         <Sidebar />
         <Flex
           css={{
-            width: '75vw',
-            position: 'relative',
+            width: '100%',
+
+            '@media (max-width: 640px)': {
+              width: '100%',
+            },
           }}
         >
           {children}

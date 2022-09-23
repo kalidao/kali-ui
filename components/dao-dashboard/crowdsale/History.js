@@ -23,7 +23,7 @@ export default function History({ info, crowdsale, decimals, purchasers, symbol 
     multiplier = crowdsale.purchaseMultiplier
   }
 
-  console.log(purchasers, crowdsale.purchaseMultiplier)
+  // console.log(purchasers, crowdsale.purchaseMultiplier)
   return (
     <Flex
       dir="col"

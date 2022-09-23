@@ -1,6 +1,6 @@
 import Header from './Header'
 import Head from 'next/head'
-import { Box } from '../../styles/elements'
+import { Box, Flex } from '../../styles/elements'
 
 type LayoutProps = {
   heading: string
@@ -25,6 +25,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
       </Head>
       <Box
         css={{
+          // background: 'red',
           fontFamily: 'Screen',
         }}
       >

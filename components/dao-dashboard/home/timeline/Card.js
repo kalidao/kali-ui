@@ -122,8 +122,8 @@ export default function ProposalCard({ proposal }) {
           <Box>
             {isSchema
               ? 'Expand to read more.'
-              : proposal['description'].length > 100
-              ? proposal['description'].slice(0, 100) + '...'
+              : proposal['description'].length > 70
+              ? proposal['description'].slice(0, 70) + '...'
               : proposal['description']}
           </Box>
         </Flex>

@@ -25,7 +25,7 @@ export default function NewProposalTrigger() {
           width: '90%',
           height: '3rem',
           alignItems: 'center',
-          paddingLeft: '1rem',
+          // paddingLeft: '1rem',
           justifyContent: 'flex-start',
           fontFamily: 'Regular',
           fontWeight: '800',
@@ -39,17 +39,6 @@ export default function NewProposalTrigger() {
           '&:active': {
             transform: 'translate(1px, 1px)',
           },
-          // padding: '1rem 0.5rem 1rem 0.5rem',
-          // justifyContent: 'flex-start',
-          // alignItems: 'center',
-          // paddingLeft: '1rem',
-          // borderRadius: '10px',
-          // borderBottom: '1px solid hsla(0, 0%, 90%, 0.1)',
-          // borderTop: '1px solid hsla(0, 0%, 90%, 0.1)',
-          // fontFamily: 'Regular',
-          // background: 'White',
-          // color: 'Black',
-          // '&:hover': {},
         }}
       >
         <Flex
@@ -58,7 +47,7 @@ export default function NewProposalTrigger() {
           height="100%"
           css={{
             minWidth: '10%',
-            paddingRight: '1rem',
+            paddingLeft: '1rem',
           }}
         >
           <FaPen />

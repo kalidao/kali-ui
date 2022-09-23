@@ -1,19 +1,21 @@
 import React from 'react'
-import { useNetwork } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 import { useGraph } from '../hooks/useGraph'
 import { USER_DAOS } from '../../graph'
 import DaoCard from './DaoCard'
 import { AddressZero } from '@ethersproject/constants'
 import { Box, Flex, Text } from '../../styles/elements'
 import NewDao from './NewDao'
-export default function UserDAOs({ address }) {
+
+export default function UserDAOs() {
+  const { address } = useAccount()
   const { activeChain } = useNetwork()
   const { data, isLoading } = useGraph(activeChain?.id, USER_DAOS, {
     address: address ? address : AddressZero,
   })
   const userDaos = data?.['members']
 
-  console.log(data, isLoading, userDaos)
+  console.log(data, isLoading, userDaos, address)
 
   return (
     <Flex
