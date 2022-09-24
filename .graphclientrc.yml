@@ -1,0 +1,16 @@
+sources:
+  - name: Kali
+    handler:
+      graphql:
+        # Default value is mainnet
+        # This is needed for the initial introspection on buildtime
+        endpoint: https://api.thegraph.com/subgraphs/name/nerderlyne/kali-{context.chainName:mainnet}
+
+additionalResolvers:
+  - ./graph/resolvers.ts
+
+documents:
+  - ./graph/**/*.graphql
+
+codegen:
+  contextType: "MeshContext & { chainName: string }"

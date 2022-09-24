@@ -38,3 +38,6 @@ yarn-error.log*
 .env.local
 # ide
 .idea
+
+# graph
+.graphclient
