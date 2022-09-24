@@ -4,6 +4,10 @@ query UserDAOs($address: Bytes!) {
             id
             token {
                 name
+                symbol
+            }
+            members {
+                id
             }
         }
         }

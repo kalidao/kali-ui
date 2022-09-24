@@ -1,5 +1,12 @@
 import { GRAPH_URL } from '../url'
 import { useQuery } from '@tanstack/react-query'
+import { getBuiltGraphSDK } from '../../.graphclient'
+import { ExecutionResult } from 'graphql'
+import React from 'react'
+
+const sdk = getBuiltGraphSDK({
+  chainName: 'mainnet', // We can provide a default value here
+})
 
 export const getUserDaos = async (chainId: number, address: string) => {
   try {
@@ -36,10 +43,9 @@ export const getUserDaos = async (chainId: number, address: string) => {
 }
 
 export function useUserDaos(chainId: number, address: string) {
-  return useQuery(['getUserDaos', chainId, address], async () => {
-    const data = await getUserDaos(chainId, address)
-    return data
-  }, {
-    enabled: chainId !== undefined
-  })
+  const { data, isLoading, error, refetch } = useQuery(['UserDAOs', chainId, address], () => sdk.UserDAOs({
+    address: address
+  }))
+
+  return { data, isLoading, error, refetch }
 }

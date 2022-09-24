@@ -25,13 +25,19 @@ const ExplorePage: NextPage = () => {
     console.table(data?.data?.daos)
 
     return (<Layout heading={'Explore'} content="Create a Kali DAO.">
-        <Box position="relative" top="10" display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center" height="10" gap="3" width="viewWidth" paddingX="3">
-            <Box width="viewWidth" display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" paddingX="10" >
+        <Box position="relative" top="10" display="flex" flexDirection="column" gap="3" marginLeft={{
+            md: '7',
+            lg: '16'
+        }} marginRight={{
+            md: '7',
+            lg: '16'
+        }} >
+            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
                 <Button variant="transparent" shape="circle" as="a" href="/"><IconArrowUp /></Button>
                 <Search daos={data?.data} setDisplay={setDisplay} />
             </Box>
             <Skeleton>
-                <Box position="absolute" display="flex" alignItems="flex-end" justifyContent="flex-start" gap="2" width="viewWidth" flexWrap="wrap">
+                <Box position="absolute" display="flex" alignItems="center" justifyContent="center" gap="2" flexWrap="wrap" >
                     {data && !error && display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
                 </Box>
             </Skeleton>
