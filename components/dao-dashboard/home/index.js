@@ -1,21 +1,18 @@
 import React from 'react'
+import { Box } from '@kalidao/reality'
 import Timeline from './timeline/'
 import Sidebar from './sidebar'
-import { Flex } from '../../../styles/elements'
+
 
 export default function Dashboard({ proposals }) {
   return (
-    <Flex
-      css={{
-        gap: '10px',
-
-        '@media (max-width: 640px)': {
-          flexDirection: 'column-reverse',
-        },
-      }}
-    >
+    <Box display="flex" flexDirection="row" gap="10" paddingY={"8"} maxWidth={{
+      sm: 'screenSm',
+      md: 'screenMd',
+      lg: 'screenLg'
+    }}>
       <Timeline proposals={proposals} />
       <Sidebar />
-    </Flex>
+    </Box>
   )
 }

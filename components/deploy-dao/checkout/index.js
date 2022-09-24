@@ -202,7 +202,6 @@ export default function Checkout({ setStep }) {
     <Flex dir="col" gap="sm">
       {isError && <Error message={error.message} />}
       {data ? <Success /> : <Confirmation />}
-
       <Flex>
         <Button variant="transparent" onClick={prev}>
           Previous

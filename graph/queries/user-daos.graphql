@@ -1,0 +1,11 @@
+query UserDAOs($address: ID!) {
+    members(where: { address: $address }) {
+        dao {
+            id
+            token {
+                name
+            }
+        }
+        }
+}
+

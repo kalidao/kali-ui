@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '../../styles/stitches.config'
-import { DialogTitle } from '../../styles/Dialog'
+import { Box, Heading } from '@kalidao/reality'
 import { Progress, ProgressIndicator } from '../../styles/Progress'
 import Identity from './Identity'
 import Governance from './Governance'
@@ -12,14 +12,35 @@ import Checkout from './checkout'
 import { StateMachineProvider, createStore } from 'little-state-machine'
 import { Text } from '../../styles/elements'
 import Toggle from './Toggle'
+import { pulse, contentShow } from '@design/animation'
 
 const Flex = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
+  
+  background: '$mauve1',
+  color: '$mauve12',
+  borderRadius: '20px',
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '90vw',
+  maxWidth: '600px',
+  maxHeight: '90vh',
+  padding: 25,
+  '@media (prefers-reduced-motion: no-preference)': {
+    animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+  },
+  '@media (prefers-reduced-motion: no-preference)': {
+    animation: `${pulse} 10s linear 0ms infinite alternate`,
+  },
 })
 
 createStore({
+  name: '',
+  symbol: '',
   hardMode: false,
   votingPeriod: '5',
   votingPeriodUnit: 'day',
@@ -46,10 +67,10 @@ export default function DeployDaoWrapper() {
   const steps = [
     {
       component: <Identity setStep={setStep} />,
-      title: 'Summon KaliDAO',
+      title: 'Summon',
       description: `You are about to summon a KaliDAO, an on-chain organization 
-      with a native KaliDAO token, voting mechanism, and legal structure. To get 
-      started, pick a name and symbol for your KaliDAO and KaliDAO token`,
+      with a native token, voting mechanism, and legal structure. To get 
+      started, pick a name and symbol for your DAO and Token`,
     },
     {
       component: <Governance setStep={setStep} />,
@@ -87,28 +108,18 @@ export default function DeployDaoWrapper() {
     {
       component: <Checkout setStep={setStep} />,
       title: 'Checkout',
-      description: `Other than "Name" and "Symbol," everything else can be changed after
-      summoning of your KaliDAO. Any updates will require the proposal process, i.e., 
-      voting period, participation %, but you already knew that. That's just blockchain 
-      being real.`,
+      description: `Updates to the DAO require proposals, i.e., 
+      minting tokens, amending quorum etc.`,
     },
   ]
 
   return (
     <StateMachineProvider>
       <Flex>
-        <DialogTitle
-          css={{
-            display: 'flex',
-            gap: '20px',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <Text>{steps[step]['title']}</Text>
-
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Heading>{steps[step]['title']}</Heading>
           <Toggle />
-        </DialogTitle>
+        </Box>
         <Text variant="instruction">{steps[step]['description']}</Text>
         <Text></Text>
         <Progress value={(step / (steps.length - 1)) * 100}>

@@ -1,4 +1,4 @@
-export const GRAPH_URL = {
+export const GRAPH_URL: { [key: number]: string } = {
   1: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-mainnet',
   42161: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-arbitrum',
   4: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-rinkeby',

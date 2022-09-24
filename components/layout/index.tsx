@@ -1,9 +1,9 @@
 import Header from './Header'
 import Head from 'next/head'
-import { Box } from '../../styles/elements'
+import { Box } from '@kalidao/reality'
 
 type LayoutProps = {
-  heading: string
+  heading?: string
   content: string
   children: React.ReactNode
 }
@@ -23,11 +23,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
-      <Box
-        css={{
-          fontFamily: 'Screen',
-        }}
-      >
+      <Box width="viewWidth">
         <Header heading={heading} />
         {children}
       </Box>

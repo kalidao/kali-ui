@@ -9,6 +9,9 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { MoralisProvider } from 'react-moralis'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from "nextjs-progressbar";
+import { ThemeProvider } from '@kalidao/reality';
+import '@kalidao/reality/styles'
+
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -43,8 +46,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           })}
         >
           <MoralisProvider serverUrl="https://amaolyvrejmm.usemoralis.com:2053/server" appId="NEXT_PUBLIC_MORALIS_ID">
-            <NextNProgress color="#5842c3" />
-            <Component {...pageProps} />
+            <ThemeProvider defaultAccent='violet' defaultMode="dark" >
+              <NextNProgress color="#5842c3" />
+              <Component {...pageProps} />
+            </ThemeProvider>
           </MoralisProvider>
         </RainbowKitProvider>
       </WagmiConfig>
