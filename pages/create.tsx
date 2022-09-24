@@ -15,7 +15,7 @@ const CreatePage: NextPage = () => {
 
     return (<Layout heading="Create" content="Create a Kali DAO.">
         <Box display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center" height="10" gap="3" width="viewWidth">
-            <Button variant="transparent" as="a" href="/"><ArrowLeftIcon /></Button>
+            <Button variant="transparent" shape="circle" as="a" href="/"><ArrowLeftIcon /></Button>
             <Box width="viewWidth">
                 <DeployDaoWrapper />
             </Box>

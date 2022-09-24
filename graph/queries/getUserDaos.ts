@@ -13,10 +13,16 @@ export const getUserDaos = async (chainId: number, address: string) => {
             }) {
               dao {
                 id
-                    token {
-                      name
-                    }
-                  }
+                token {
+                  name
+                }
+                members {
+                  id
+                }
+                proposals {
+                  id
+                }
+              }
               }
             }`,
       }),
@@ -33,5 +39,7 @@ export function useUserDaos(chainId: number, address: string) {
   return useQuery(['getUserDaos', chainId, address], async () => {
     const data = await getUserDaos(chainId, address)
     return data
+  }, {
+    enabled: chainId !== undefined
   })
 }

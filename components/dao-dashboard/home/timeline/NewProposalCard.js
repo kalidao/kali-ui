@@ -19,8 +19,7 @@ export default function NewProposalTrigger() {
       passHref
     >
       <Box display="flex" alignItems="center" justifyContent="flex-start" padding="6" gap="2" borderWidth="0.375">
-        <Box 
-        >
+        <Box>
           <FaPen />
         </Box>
         <Text

@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
-import { Heading, Text, Box, Button } from '@kalidao/reality'
+import { Heading, Text, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import { useAccount } from 'wagmi'
-import { MdCreate, MdExplore } from 'react-icons/md'
 import UserDAOs from '@components/home/UserDAOs'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
   const { address: account } = useAccount()
-
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     router.prefetch('/')
   })
@@ -20,12 +19,14 @@ const HomePage: NextPage = () => {
   })
 
   const goTo = (to: string) => {
+    setLoading(true)
     if (to === 'explore') {
       router.push('/explore')
     }
     if (to === 'create') {
       router.push('/create')
     }
+    setLoading(false)
   }
 
   return (
@@ -44,8 +45,8 @@ const HomePage: NextPage = () => {
           Commit with code and reduce legal spend.
         </Text>
         <Box display="flex" gap="2">
-          <Button prefix={<MdCreate />} variant="primary" onClick={() => goTo('create')}>Create</Button>
-          <Button prefix={<MdExplore />} variant="secondary" onClick={() => goTo('explore')}>Explore</Button>
+          <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>Create</Button>
+          <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>Explore</Button>
         </Box>
       </Box>
       <UserDAOs />

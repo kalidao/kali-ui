@@ -18,7 +18,7 @@ const Flex = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-  
+
   background: '$mauve1',
   color: '$mauve12',
   borderRadius: '20px',

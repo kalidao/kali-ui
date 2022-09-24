@@ -1,4 +1,4 @@
-query UserDAOs($address: ID!) {
+query UserDAOs($address: Bytes!) {
     members(where: { address: $address }) {
         dao {
             id

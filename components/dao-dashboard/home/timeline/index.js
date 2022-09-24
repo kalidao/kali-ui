@@ -12,27 +12,25 @@ export default function Timeline({ proposals }) {
   )
 
   return (
-        <Box  display="flex" flexDirection="column" padding="2" maxWidth="3/4">
-          <NewProposalCard />
-          {memoizedProposals?.length > 0 ? (
-            <>
-              {memoizedProposals.slice(0, show).map((proposal) => (
-                <Card key={proposal['id']} proposal={proposal} />
-              ))}
-              <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Button variant="transparent" size="small" onClick={() => setShow(show + 10)}>
-                  Show More
-                </Button>
-                <Text>
-                  Showing {show} of {memoizedProposals.length}
-                </Text>
-              </Box>
-            </>
-          ) : (
+    <Box display="flex" flexDirection="column" padding="2" maxWidth="3/4">
+      <NewProposalCard />
+      {memoizedProposals?.length > 0 ? (
+        <>
+          {memoizedProposals.slice(0, show).map((proposal) => (
+            <Card key={proposal['id']} proposal={proposal} />
+          ))}
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Button variant="transparent" size="small" onClick={() => setShow(show + 10)}>
+              Show More
+            </Button>
             <Text>
-              We couldn't find any proposals for this DAO. Make one now.
+              Showing {show} of {memoizedProposals.length}
             </Text>
-          )}
-        </Box>
+          </Box>
+        </>
+      ) : (
+        <Text>We couldn't find any proposals for this DAO. Make one now.</Text>
+      )}
+    </Box>
   )
 }
