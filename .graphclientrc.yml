@@ -1,16 +1,27 @@
 sources:
-  - name: Kali
+  - name: Sushiswap
     handler:
       graphql:
-        # Default value is mainnet
+        # Default value is bentobox-avalance
         # This is needed for the initial introspection on buildtime
-        endpoint: https://api.thegraph.com/subgraphs/name/nerderlyne/kali-{context.chainName:mainnet}
+        endpoint: https://api.thegraph.com/subgraphs/name/nerderlyne/{context.chainName:kali-mainnet}
+    transforms:
+      # Enable Automatic Block Tracking
+      - blockTracking:
+          validateSchema: true
+      - autoPagination:
+          validateSchema: true
+
+additionalTypeDefs: |
+  extend type DAO {
+    chainName: String!
+  }
 
 additionalResolvers:
   - ./graph/resolvers.ts
 
 documents:
-  - ./graph/**/*.graphql
+  - "./graph/**/*.graphql"
 
 codegen:
   contextType: "MeshContext & { chainName: string }"

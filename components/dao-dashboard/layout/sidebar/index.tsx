@@ -40,7 +40,9 @@ export default function Sidebar() {
   const { chainId, dao } = router.query!
   const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
   const crowdsale =
-    useGetCrowdsaleResult?.data?.data?.crowdsales?.[0] === undefined ? false : useGetCrowdsaleResult?.data?.data?.crowdsales?.[0]?.active
+    useGetCrowdsaleResult?.data?.data?.crowdsales?.[0] === undefined
+      ? false
+      : useGetCrowdsaleResult?.data?.data?.crowdsales?.[0]?.active
 
   const items = [
     {
@@ -116,7 +118,14 @@ export default function Sidebar() {
       {items
         .filter((item) => item.active === true)
         .map((item) => (
-          <Item key={item.label} link={item.link} label={item.label} icon={item.icon} chainId={chainId as string} dao={dao as string} />
+          <Item
+            key={item.label}
+            link={item.link}
+            label={item.label}
+            icon={item.icon}
+            chainId={chainId as string}
+            dao={dao as string}
+          />
         ))}
     </Flex>
   )

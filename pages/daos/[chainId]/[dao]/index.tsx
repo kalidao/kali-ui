@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!result?.data?.proposals) {
     return {
-      notFound: true
+      notFound: true,
     }
   }
 
@@ -43,5 +43,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default DashboardPage
-
-

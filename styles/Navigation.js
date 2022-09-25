@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled, keyframes } from './stitches.config'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
-import { CaretDownIcon } from '@radix-ui/react-icons'
+import { IconMenu } from '@kalidao/reality'
 import { violet, mauve, indigo, purple, blackA } from '@radix-ui/colors'
 import { FaDiscord, FaTwitter, FaGithub } from 'react-icons/fa'
 
@@ -87,20 +87,21 @@ const StyledTrigger = styled(NavigationMenuPrimitive.Trigger, {
   gap: 2,
 })
 
-const StyledCaret = styled(CaretDownIcon, {
+const StyledIcon = styled(IconMenu, {
   position: 'relative',
   color: '$violet10',
   top: 1,
-  '[data-state=open] &': { transform: 'rotate(-180deg)' },
+  '[data-state=open] &': { transform: 'rotate(-90deg)' },
+
   '@media (prefers-reduced-motion: no-preference)': {
     transition: 'transform 250ms ease',
   },
 })
 
-const StyledTriggerWithCaret = React.forwardRef(({ children, ...props }, forwardedRef) => (
+const StyledTriggerWithIcon = React.forwardRef(({ children, ...props }, forwardedRef) => (
   <StyledTrigger {...props} ref={forwardedRef}>
     {children}
-    <StyledCaret aria-hidden />
+    <StyledIcon aria-hidden />
   </StyledTrigger>
 ))
 
@@ -185,7 +186,7 @@ const StyledViewport = styled(NavigationMenuPrimitive.Viewport, {
 const NavigationMenu = StyledMenu
 const NavigationMenuList = StyledList
 const NavigationMenuItem = NavigationMenuPrimitive.Item
-const NavigationMenuTrigger = StyledTriggerWithCaret
+const NavigationMenuTrigger = StyledTriggerWithIcon
 const NavigationMenuLink = StyledLink
 const NavigationMenuContent = StyledContent
 const NavigationMenuViewport = StyledViewport

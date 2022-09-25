@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { ButtonCard, Avatar, Stat } from '@kalidao/reality'
 
 type Props = {
-  dao: any,
+  dao: any
   chain: number
 }
 // disable when not active chain
@@ -34,13 +34,11 @@ export default function DaoCard({ dao, chain }: Props) {
   return (
     <ButtonCard
       onClick={gotoDAO}
-      buttonText={dao['token']['name']} prefix={<Avatar label="DAO Avatar" address={dao?.['id']} placeholder />}
+      buttonText={dao['token']['name']}
+      prefix={<Avatar label="DAO Avatar" address={dao?.['id']} placeholder />}
       loading={loading}
     >
-      <Stat
-        label="Members"
-        value={dao?.['members'].length}
-      />
+      <Stat label="Members" value={dao?.['members'].length} />
     </ButtonCard>
   )
 }

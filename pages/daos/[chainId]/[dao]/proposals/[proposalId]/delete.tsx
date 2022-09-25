@@ -21,9 +21,7 @@ const DeleteProposalPage: NextPage = () => {
         class: styles.editor,
       },
     },
-    extensions: [
-      StarterKit.configure(),
-    ],
+    extensions: [StarterKit.configure()],
     content: '',
     injectCSS: false,
   })

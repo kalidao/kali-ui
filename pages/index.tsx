@@ -31,22 +31,32 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="viewHeight" gap="3" width="viewWidth">
-        <Heading>
-          Form a  DAO. Enjoy true ownership.
-        </Heading>
-        <Text size={{
-          xs: "small",
-          sm: "small"
-        }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="viewHeight"
+        gap="3"
+        width="viewWidth"
+      >
+        <Heading>Form a DAO. Enjoy true ownership.</Heading>
+        <Text
+          size={{
+            xs: 'small',
+            sm: 'small',
+          }}
+        >
           DAOs are a new operating system for organizing online.
         </Text>
-        <Text>
-          Commit with code and reduce legal spend.
-        </Text>
+        <Text>Commit with code and reduce legal spend.</Text>
         <Box display="flex" gap="2">
-          <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>Create</Button>
-          <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>Explore</Button>
+          <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
+            Create
+          </Button>
+          <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
+            Explore
+          </Button>
         </Box>
       </Box>
       <UserDAOs />

@@ -12,25 +12,41 @@ const sdk = getBuiltGraphSDK()
 export default function UserDAOs() {
   const { address } = useAccount()
   const { chain } = useNetwork()
-  const { data, error, isLoading } = useQuery(['UserDAOs', chain, address], () => sdk.UserDAOs({
-    address: address ? address : ethers.constants.AddressZero
-  }, {
-    chainName: getName(chain ? chain.id : 1),
-  }))
+  const { data, error, isLoading } = useQuery(['UserDAOs', chain, address], () =>
+    sdk.UserDAOs(
+      {
+        address: address ? address : ethers.constants.AddressZero,
+      },
+      {
+        chainName: getName(chain ? chain.id : 1),
+      },
+    ),
+  )
 
   console.table(data)
 
-
-  return (<Box width="viewWidth" display="flex" flexDirection="column" alignItems="center" justifyContent="center" gap="3" paddingBottom="3">
-    <Skeleton>
-      <Heading>{chain?.name}</Heading>
-    </Skeleton>
-    <Skeleton>
-      <Box display="flex" flex="auto" gap="2" flexWrap="wrap">
-        {data && !error && data?.members?.map((dao: { [x: string]: any }) => (
-          <DaoCard key={dao?.['dao']['id']} dao={dao?.['dao']} chain={chain ? chain.id : 1} />
-        ))}
-      </Box>
-    </Skeleton>
-  </Box >)
+  return (
+    <Box
+      width="viewWidth"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      gap="3"
+      paddingBottom="3"
+    >
+      <Skeleton>
+        <Heading>{chain?.name}</Heading>
+      </Skeleton>
+      <Skeleton>
+        <Box display="flex" flex="auto" gap="2" flexWrap="wrap">
+          {data &&
+            !error &&
+            data?.members?.map((dao: { [x: string]: any }) => (
+              <DaoCard key={dao?.['dao']['id']} dao={dao?.['dao']} chain={chain ? chain.id : 1} />
+            ))}
+        </Box>
+      </Skeleton>
+    </Box>
+  )
 }

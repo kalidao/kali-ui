@@ -8,7 +8,7 @@ import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 
 type Status = {
   text: string
-  color: "accent" | "green" | "red" | "blue" | "orange" | "pink" | "purple" | "violet" | "secondary" | undefined
+  color: 'accent' | 'green' | 'red' | 'blue' | 'orange' | 'pink' | 'purple' | 'violet' | 'secondary' | undefined
   icon: React.ReactNode
 }
 
@@ -42,12 +42,12 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   }
 
   const currentStatus = (): Status => {
-    // unsponsored 
+    // unsponsored
     if (!proposal?.sponsored) {
       return {
         color: 'secondary',
         icon: <></>,
-        text: 'Unsponsored'
+        text: 'Unsponsored',
       }
     }
     // voting
@@ -59,54 +59,55 @@ export default function ProposalCard({ proposal }: PropCardProp) {
           return {
             color: 'accent',
             icon: <></>,
-            text: 'Process'
+            text: 'Process',
           }
         } else {
           return {
             color: proposal?.status ? 'green' : 'red',
             icon: <></>,
-            text: proposal?.status ? 'Passed' : 'Failed'
+            text: proposal?.status ? 'Passed' : 'Failed',
           }
         }
       } else {
         return {
           color: 'accent',
           icon: <></>,
-          text: 'Voting'
+          text: 'Voting',
         }
       }
     }
-    // execute 
+    // execute
 
     return {
       color: undefined,
       icon: <></>,
-      text: '...'
+      text: '...',
     }
   }
 
   const { color, icon, text } = currentStatus()
 
   return (
-    <Box display="flex" flexDirection="column" padding="6" backgroundColor="background" borderWidth="0.375" gap="3" >
+    <Box display="flex" flexDirection="column" padding="6" backgroundColor="background" borderWidth="0.375" gap="3">
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center" gap="1">
-          <Heading>
-            {`#${proposal?.serial} ${details ? details?.title : ''}`}
-          </Heading>
+          <Heading>{`#${proposal?.serial} ${details ? details?.title : ''}`}</Heading>
           <Tag tone="secondary">{proposer}</Tag>
         </Box>
-        <Tag label={proposal["proposalType"]} tone={color!} >{text}</Tag>
+        <Tag label={proposal['proposalType']} tone={color!}>
+          {text}
+        </Tag>
       </Box>
-      <Text as="p" ellipsis >
+      <Text as="p" ellipsis>
         {isSchema
           ? 'Expand to read more.'
-          : (proposal['description'].length == 0 ? 'No description.' : proposal['description'])
-        }
+          : proposal['description'].length == 0
+          ? 'No description.'
+          : proposal['description']}
       </Text>
       <Box display="flex">
         <Vote proposal={proposal} />
       </Box>
-    </Box >
+    </Box>
   )
 }

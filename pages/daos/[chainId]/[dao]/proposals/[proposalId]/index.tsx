@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!result) {
     return {
-      notFound: true
+      notFound: true,
     }
   }
 

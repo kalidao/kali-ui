@@ -1,6 +1,5 @@
-import { GRAPH_NAME } from "./url"
+import { GRAPH_NAME } from './url'
 
 export const getName = (chainId: number) => {
-    return GRAPH_NAME[chainId]
+  return GRAPH_NAME[chainId]
 }
-

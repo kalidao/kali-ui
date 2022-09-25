@@ -43,9 +43,11 @@ export const getUserDaos = async (chainId: number, address: string) => {
 }
 
 export function useUserDaos(chainId: number, address: string) {
-  const { data, isLoading, error, refetch } = useQuery(['UserDAOs', chainId, address], () => sdk.UserDAOs({
-    address: address
-  }))
+  const { data, isLoading, error, refetch } = useQuery(['UserDAOs', chainId, address], () =>
+    sdk.UserDAOs({
+      address: address,
+    }),
+  )
 
   return { data, isLoading, error, refetch }
 }
