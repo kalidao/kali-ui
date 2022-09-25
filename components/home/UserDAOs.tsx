@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAccount, useNetwork } from 'wagmi'
 import DaoCard from './DaoCard'
-import { Heading, Box, Skeleton } from '@kalidao/reality'
+import { Heading, Box, Stack, Skeleton } from '@kalidao/reality'
 import { getName } from '@graph/getName'
 import { getBuiltGraphSDK } from '.graphclient'
 import { useQuery } from '@tanstack/react-query'
@@ -23,8 +23,6 @@ export default function UserDAOs() {
     ),
   )
 
-  console.table(data)
-
   return (
     <Box
       width="viewWidth"
@@ -39,13 +37,13 @@ export default function UserDAOs() {
         <Heading>{chain?.name}</Heading>
       </Skeleton>
       <Skeleton>
-        <Box display="flex" flex="auto" gap="2" flexWrap="wrap">
+        <Stack direction="horizontal" wrap>
           {data &&
             !error &&
             data?.members?.map((dao: { [x: string]: any }) => (
               <DaoCard key={dao?.['dao']['id']} dao={dao?.['dao']} chain={chain ? chain.id : 1} />
             ))}
-        </Box>
+        </Stack>
       </Skeleton>
     </Box>
   )

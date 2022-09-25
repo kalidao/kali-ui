@@ -4,7 +4,7 @@ import Layout from '@components/layout'
 import { useRouter } from 'next/router'
 import { useGetDaos } from '@graph/queries/getDaos'
 import { useNetwork } from 'wagmi'
-import { Box, Button, IconArrowLeft, IconSearch, Input, Skeleton } from '@kalidao/reality'
+import { Box, Button, IconArrowLeft, IconSearch, Input, Skeleton, Stack } from '@kalidao/reality'
 import DaoCard from '@components/home/DaoCard'
 import Search from '@components/home/Search'
 import { useQuery } from '@tanstack/react-query'
@@ -61,10 +61,10 @@ const ExplorePage: NextPage = () => {
           <Search daos={daos} setDisplay={setDisplay} />
         </Box>
         <Skeleton>
-          <Box position="absolute" display="flex" alignItems="center" justifyContent="center" gap="2" flexWrap="wrap">
+          <Stack direction="horizontal" wrap>
             {display &&
               display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
-          </Box>
+          </Stack>
         </Skeleton>
       </Box>
     </Layout>

@@ -12,6 +12,7 @@ import { FaPen } from 'react-icons/fa'
 import { GearIcon } from '@radix-ui/react-icons'
 import { useGetProposals } from '@graph/queries/getProposals'
 import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
+import { Box } from '@kalidao/reality'
 
 const Icon = styled('span', {
   display: 'flex',
@@ -35,7 +36,7 @@ const Icon = styled('span', {
   },
 })
 
-export default function Sidebar() {
+export default function Menu() {
   const router = useRouter()
   const { chainId, dao } = router.query!
   const useGetCrowdsaleResult = useGetCrowdsale(chainId, dao)
@@ -91,30 +92,11 @@ export default function Sidebar() {
   ]
 
   return (
-    <Flex
-      css={{
-        position: 'fixed',
-        left: 0,
-        padding: '10px',
-        flexDirection: 'column',
-        gap: '10px',
-        height: '100%',
-        boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
-
-        '@media (max-width: 640px)': {
-          position: 'fixed',
-          padding: '0',
-          bottom: 0,
-          right: 0,
-          left: 0,
-          flexDirection: 'row',
-          height: '8rem',
-          background: '$gray2',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-      }}
-    >
+    <Box display="flex" flexDirection="row" alignItems={{
+      xs: 'center'
+    }} position="sticky" width="fit" padding={{
+      md: '20'
+    }}>
       {items
         .filter((item) => item.active === true)
         .map((item) => (
@@ -127,7 +109,7 @@ export default function Sidebar() {
             dao={dao as string}
           />
         ))}
-    </Flex>
+    </Box>
   )
 }
 
