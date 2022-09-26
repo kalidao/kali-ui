@@ -59,14 +59,14 @@ const ExplorePage: NextPage = () => {
             <IconArrowLeft />
           </Button>
           <Search daos={daos} setDisplay={setDisplay} />
-        </Box >
+        </Box>
         <Skeleton loading={!isLoading}>
           <Stack direction="horizontal" wrap>
             {display && display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
           </Stack>
         </Skeleton>
       </Box>
-    </Layout >
+    </Layout>
   )
 }
 

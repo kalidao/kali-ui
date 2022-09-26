@@ -101,7 +101,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
       width={{
         xs: '80',
         md: '128',
-        lg: '168'
+        lg: '168',
       }}
     >
       <Link
@@ -119,7 +119,9 @@ export default function ProposalCard({ proposal }: PropCardProp) {
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Box display="flex" alignItems="center" gap="1">
               <Heading responsive>{`#${proposal?.serial} ${details ? details?.title : ''}`}</Heading>
-              <Tag tone="secondary" size="small">{proposer}</Tag>
+              <Tag tone="secondary" size="small">
+                {proposer}
+              </Tag>
             </Box>
             <Tag label={proposal['proposalType']} tone={color!} size="medium">
               {text}
@@ -129,8 +131,8 @@ export default function ProposalCard({ proposal }: PropCardProp) {
             {isSchema
               ? details?.description
               : proposal['description'].length == 0
-                ? 'No description.'
-                : proposal['description']}
+              ? 'No description.'
+              : proposal['description']}
           </Text>
         </a>
       </Link>

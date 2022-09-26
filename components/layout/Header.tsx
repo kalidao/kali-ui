@@ -11,7 +11,14 @@ type HeaderProps = {
 
 export default function Header({ heading, show }: HeaderProps) {
   if (show) {
-    ; <Box display="flex" flexDirection={'row'} alignItems="center" justifyContent="space-between" paddingX="3" className={header}>
+    ;<Box
+      display="flex"
+      flexDirection={'row'}
+      alignItems="center"
+      justifyContent="space-between"
+      paddingX="3"
+      className={header}
+    >
       {show && <Heading as="h1">{heading}</Heading>}
       <Box display="flex" flexDirection="row" alignItems="center" justifyContent={'space-between'}>
         <NavigationMenu />

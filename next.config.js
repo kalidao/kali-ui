@@ -6,7 +6,13 @@ const withVanillaExtract = createVanillaExtractPlugin({
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ['cdn.moralis.io', 'gateway.moralisipfs.com', 'gateway.pinata.cloud', 'ipfs.infura.io', 'raw.githubusercontent.com'],
+    domains: [
+      'cdn.moralis.io',
+      'gateway.moralisipfs.com',
+      'gateway.pinata.cloud',
+      'ipfs.infura.io',
+      'raw.githubusercontent.com',
+    ],
   },
   webpack: function (config, options) {
     config.experiments = {

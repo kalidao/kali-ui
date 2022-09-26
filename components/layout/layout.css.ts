@@ -1,4 +1,2 @@
-import { style } from "@vanilla-extract/css"
-export const header = style({
-
-})
+import { style } from '@vanilla-extract/css'
+export const header = style({})

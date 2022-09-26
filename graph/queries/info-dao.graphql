@@ -14,7 +14,7 @@ query DaoInfo($address: Bytes) {
     quorum
     supermajority
     proposals {
-        id
+      id
     }
     tribute {
       active

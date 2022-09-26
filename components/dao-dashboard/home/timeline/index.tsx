@@ -20,7 +20,7 @@ export default function Timeline() {
   } = useQuery(['', dao, chainId], () =>
     sdk.DaoProposals(
       {
-        dao: dao ? dao as string : ethers.constants.AddressZero,
+        dao: dao ? (dao as string) : ethers.constants.AddressZero,
       },
       {
         chainName: getName(chainId ? Number(chainId) : 1),
