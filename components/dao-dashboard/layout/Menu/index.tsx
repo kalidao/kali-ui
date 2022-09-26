@@ -53,10 +53,10 @@ export default function Menu() {
       active: true,
     },
     {
-      link: 'crowdsale',
-      label: 'Contribute',
+      link: 'swap',
+      label: 'Swap',
       icon: <GiCoins />,
-      active: crowdsale,
+      active: true,
     },
     {
       link: 'treasury',
@@ -129,15 +129,14 @@ const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
       <Flex
         css={{
           alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '5px',
-          borderRadius: '20px',
+          gap: '10px',
+          borderRadius: '10px',
           color: '$gray12',
-          padding: '5px',
-          width: '8rem',
+          paddingRight: '15px',
+          // width: '100%',
 
           '&:hover': {
-            background: '$gray2',
+            background: '$gray5',
           },
           '@media (max-width: 640px)': {
             borderRadius: '100%',

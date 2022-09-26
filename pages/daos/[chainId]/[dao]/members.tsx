@@ -93,4 +93,55 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
+<<<<<<< HEAD:pages/daos/[chainId]/[dao]/members.tsx
 export default MembersPage
+=======
+export default function MembersPage({ members, votes, proposals }) {
+  const router = useRouter()
+  const { chainId, dao } = router.query
+  const [member, setMember] = useState(null)
+  // const members = data && data['daos'][0]
+  // if (loading) return "Loading..."
+  console.log('members {} votes {} proposals {}', members, votes, proposals)
+
+  const list = useMemo(
+    () => members?.members.sort((a, b) => b.shares - a.shares).filter((p) => p.shares > 0),
+    [members],
+  )
+
+  const memberVotes = useMemo(() => votes.filter((p) => p.voter == member?.address), [votes, member])
+
+  const memberProposals = useMemo(() => proposals.filter((p) => p.proposer == member?.address), [proposals, member])
+
+  console.log('memberVotes', memberVotes)
+  console.log('memberProposals', memberProposals)
+  // const memberProposals = proposals.length
+
+  useEffect(() => {
+    setMember(list[0])
+  }, [list])
+
+  return (
+    <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
+      <Flex
+        css={{
+          height: '100%',
+          maxWidth: '80vw',
+          color: '$gray12',
+          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          gap: '10px',
+          justifyContent: 'flex-start',
+        }}
+      >
+        <MembersList members={list} active={member} setActive={setMember} />
+        <MemberProfile
+          member={member}
+          proposals={memberProposals}
+          votes={memberVotes}
+          totalSupply={members?.token?.totalSupply}
+        />
+      </Flex>
+    </Layout>
+  )
+}
+>>>>>>> 8cd1792483f8c6163e232bf55b8b9d855880a3a0:pages/daos/[chainId]/[dao]/members.js
