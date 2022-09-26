@@ -53,10 +53,10 @@ export default function Menu() {
       active: true,
     },
     {
-      link: 'crowdsale',
-      label: 'Contribute',
+      link: 'swap',
+      label: 'Swap',
       icon: <GiCoins />,
-      active: crowdsale,
+      active: true,
     },
     {
       link: 'treasury',
@@ -92,7 +92,30 @@ export default function Menu() {
   ]
 
   return (
-    <Stack direction={'horizontal'}>
+    <Flex
+      css={{
+        position: 'fixed',
+        left: 0,
+        padding: '10px',
+        flexDirection: 'column',
+        gap: '10px',
+        height: '100%',
+        boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
+
+        '@media (max-width: 640px)': {
+          position: 'fixed',
+          padding: '0',
+          bottom: 0,
+          right: 0,
+          left: 0,
+          flexDirection: 'row',
+          height: '8rem',
+          background: '$gray2',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      }}
+    >
       {items
         .filter((item) => item.active === true)
         .map((item) => (
@@ -129,15 +152,14 @@ const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
       <Flex
         css={{
           alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '5px',
-          borderRadius: '20px',
+          gap: '10px',
+          borderRadius: '10px',
           color: '$gray12',
-          padding: '5px',
-          width: '8rem',
+          paddingRight: '15px',
+          // width: '100%',
 
           '&:hover': {
-            background: '$gray2',
+            background: '$gray5',
           },
           '@media (max-width: 640px)': {
             borderRadius: '100%',

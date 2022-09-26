@@ -14,7 +14,7 @@ export const addresses =
       extensions: {
         tribute: '0x561D9C4EdB64524556856133Bf7B5640dB904656',
         crowdsale: '0xD76B629c528548582Af14c4D3a851830BB0c6978',
-        crowdsale2: '0xB677FA3DD5C2C0472f7520b48AA3F642F9c4Af11',
+        crowdsale2: '0x8a426b34c7a45c8361351f88730ac1d824ec8c58',
         redemption: '0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0',
         manager: '0xeEffB992BE91B1FAC8C69bE4F2a8d5e334C02282',
       },
@@ -33,7 +33,7 @@ export const addresses =
       extensions: {
         tribute: '0xAe3357E4D401495Cfe6e6022734E11293BC63dfb',
         crowdsale: '0x0AE06840C05bf261B1798571696F58F9Ac3b3174',
-        crowdsale2: '0x77eC90818fD2116D29A7C39ea3D21808F09986EE',
+        crowdsale2: '0x58c9cdDaD6c523834d00A425c46E871e5a195188',
         redemption: '0xC43AE97f12d979FCAe346E93b62d747963956d63',
         manager: '0x54e2b96d6f23B5ec8244054816fe3B33412c8538',
       },
@@ -52,7 +52,7 @@ export const addresses =
       extensions: {
         tribute: '0xf1D291A527281049e66ABD3A41624B13D962868f',
         crowdsale: '0x0bb3F43533FBf16d69dBdccf6AaAef81acd76FAB',
-        crowdsale2: '0x36a40E0e1581F9a5a6D6B52f5d064F5c8031068f',
+        crowdsale2: '0x38e1C40B8625C26204F90812881652E406148c3c',
         redemption: '0x7452BDCED6f344e0E4e1169377D369aDE1cB0Ca0',
         manager: '0xb47c9A6A494d344026C60c19C74f54f6AbA54fAa',
       },
@@ -66,7 +66,7 @@ export const addresses =
       access2: '0x9E07053081E51F962d51C755272531B0846e4C31',
       extensions: {
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
-        crowdsale2: '0x05622EF2b9290f19230FD10e80BB468c51e17b2d',
+        crowdsale2: '0xB96b13E38caBF09A79A8b6a427FBB9e09A1aB6b2',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
       },
       kaliMaster: '0x0D46996D55bB33D32D43E610aac5B64b477e9cBD',
@@ -103,7 +103,8 @@ export const addresses =
       access2: '0xa9eF2815a4CA3AfaF29c5234b6937A419cEC33a6',
       extensions: {
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
-        crowdsale2: '0x8c183bf7f68F70104657C6446d638178cbd6Fd11',
+        crowdsale2: '0xB682e773768e68C02B8b3892CF32eA090600b4b4',
+        // crowdsale2: '0x2350C968C7B323Ad255E3942fcb9d578638792EC',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
       },
       blockExplorer: 'https://goerli.etherscan.io/',

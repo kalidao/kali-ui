@@ -21,7 +21,7 @@ import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../../components/editor/editor.module.css'
 import { Tip } from '../../../elements'
 
-export default function SetCrowdsale({ setProposal, title, editor }) {
+export default function UpdateCrowdsale({ setProposal, title, editor }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
@@ -250,7 +250,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
         9, // EXTENSION prop
         docs,
         [crowdsaleAddress],
-        [1],
+        [0],
         [payload],
       )
       console.log('tx', tx)

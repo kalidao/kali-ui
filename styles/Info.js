@@ -12,7 +12,7 @@ export default function Info({ heading, children, props }) {
           fontFamily: 'Screen',
           fontWeight: '700',
           fontSize: '24px',
-          border: '1px solid $gray6',
+          border: '2px solid $gray6',
           borderTopLeftRadius: '25px',
           borderTopRightRadius: '25px',
           borderBottom: '1px solid rgba(0, 0, 0, 0.15)',
@@ -26,7 +26,7 @@ export default function Info({ heading, children, props }) {
       <Box
         css={{
           padding: '1rem',
-          border: '1px solid $gray6',
+          border: '2px solid $gray6',
           borderBottomLeftRadius: '25px',
           borderBottomRightRadius: '25px',
           minWidth: '15rem',

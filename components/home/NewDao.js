@@ -13,11 +13,12 @@ export default function NewDao() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            fontSize: '24px',
+            fontSize: '14px',
             fontFamily: 'Bold',
             borderRadius: '10px',
-            width: '100%',
+            width: '50%',
             marginTop: '1rem',
+            marginBottom: '1rem',
             '&:hover': {
               background: '$gray11',
             },
@@ -26,7 +27,7 @@ export default function NewDao() {
             },
           }}
         >
-          Create
+          Summon KaliDAO
           <PlusIcon />
         </Button>
       </DialogTrigger>

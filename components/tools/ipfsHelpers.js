@@ -46,32 +46,13 @@ export async function ipfsIncorporationDoc(name, summoner, doc) {
 }
 
 // Upload crowdsale data
-export async function ipfsCrowdsaleData(
-  dao,
-  chainId,
-  background,
-  purchaseAccess,
-  purchaseMultiplier,
-  purchaseAsset,
-  crowdsaleEnd,
-  purchaseLimit,
-  personalLimit,
-  termsHash,
-  receiptHash,
-  receiptMessage,
-) {
+export async function ipfsCrowdsaleData(dao, chainId, background, termsHash, receiptHash, receiptMessage) {
   const obj = {
     contract: 'KaliV1',
     dao: dao,
     crowdsale: 'KaliDAOcrowdsaleV2',
     chainId: chainId,
     background: background,
-    purchaseAccess: purchaseAccess,
-    purchaseMultiplier: purchaseMultiplier,
-    purchaseAsset: purchaseAsset,
-    crowdsaleEnd: crowdsaleEnd,
-    purchaseLimit: purchaseLimit,
-    personalLimit: personalLimit,
     terms: termsHash,
     receipt: receiptHash,
     receiptMessage: receiptMessage,
@@ -150,16 +131,15 @@ export async function fetchCrowdsaleDataHash(dao) {
       apiSecret: process.env.NEXT_PUBLIC_FLEEK_API_SECRET,
       bucket: 'fa221543-b374-4588-8026-c2c9aefa4206-bucket',
       key: 'DAO (' + dao + ")'s Crowdsale Data",
-      getOptions: ['publicUrl'],
+      getOptions: ['hash'],
     })
-    console.log(hash_)
-    if (hash_.publicUrl) {
-      hash = hash_.publicUrl
+    if (hash_.hash) {
+      hash = hash_.hash
     } else {
       hash = 'none'
     }
   } catch (e) {
-    console.log('Error retrieving terms.')
+    console.log('Error retrieving crowdsale data.')
   }
   return hash
 }

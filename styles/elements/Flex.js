@@ -33,6 +33,9 @@ const Flex = styled('div', {
       md: {
         gap: '1.2em',
       },
+      lg: {
+        gap: '2.2em',
+      },
     },
     effect: {
       glow: {

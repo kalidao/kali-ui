@@ -20,7 +20,7 @@ const FileUploader = (props) => {
     <>
       {hasFile ? (
         <Flex align="end">
-          <Button>Got it!</Button>
+          <Button disabled={true}>Got it!</Button>
           <input style={{ width: '30px', display: 'none' }} type="file" ref={hiddenFileInput} onChange={handleChange} />
         </Flex>
       ) : (

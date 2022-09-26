@@ -24,14 +24,16 @@ export default function ProposePage() {
   return (
     <Layout heading={'Propose'} content="Create a proposal.">
       <Flex
+        dir="col"
+        gap="md"
         css={{
+          width: '100%',
           padding: '20px',
-          flexDirection: 'column',
-          height: '100%',
-          minWidth: '80vw',
-          color: '$gray12',
-          borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
-          gap: '10px',
+          // height: '100%',
+          // minWidth: '80vw',
+          // color: '$gray12',
+          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
+          // gap: '10px',
           justifyContent: 'flex-start',
           alignItems: 'center',
         }}
