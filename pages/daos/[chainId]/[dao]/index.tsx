@@ -22,27 +22,4 @@ const DashboardPage: NextPage = () => {
   )
 }
 
-<<<<<<< HEAD
-=======
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao
-  const chainId = context?.params?.chainId
-
-  console.debug('address chainId', address, chainId)
-  const result = await getProposals(chainId, address)
-
-  if (!result?.data?.proposals) {
-    return {
-      notFound: true
-    }
-  }
-
-  return {
-    props: {
-      proposals: result?.data?.proposals,
-    },
-  }
-}
-
->>>>>>> 8cd1792483f8c6163e232bf55b8b9d855880a3a0
 export default DashboardPage
