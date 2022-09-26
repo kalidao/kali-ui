@@ -29,11 +29,7 @@ export default function GovSettings() {
     },
   ]
   return (
-    <Flex
-      css={{
-        width: '100%',
-      }}
-    >
+    <Flex>
       {views[view]['component']}
     </Flex>
   )

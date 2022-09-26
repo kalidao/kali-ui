@@ -1,10 +1,9 @@
-import { NextPage, InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
 import { Home } from '@components/dao-dashboard'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { getProposals } from '@graph/queries/getProposals'
 
 const DashboardPage: NextPage = () => {
   const router = useRouter()

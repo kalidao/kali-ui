@@ -1,11 +1,14 @@
+import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { truncateAddress } from '../../../../utils'
+import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../../proposal/vote'
 import { useFetch } from '../../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 import { linkStyle } from './ProposalCard.css'
+import StarterKit from '@tiptap/starter-kit'
+import { generateHTML } from '@tiptap/react'
 
 type Status = {
   text: string
@@ -28,20 +31,6 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
 
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
-
-  const canProcess = () => {
-    const timeLeft =
-      new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
-
-    if (proposal?.sponsored === true) {
-      if (timeLeft > 0) {
-        if (proposal?.status === null) {
-          return true
-        }
-      }
-    }
-    return false
-  }
 
   const currentStatus = (): Status => {
     // unsponsored
@@ -87,7 +76,15 @@ export default function ProposalCard({ proposal }: PropCardProp) {
     }
   }
 
-  const { color, icon, text } = currentStatus()
+  const { color, text } = currentStatus()
+
+  const output = useMemo(() => {
+    if (isSchema && details?.description != undefined) {
+      return generateHTML(details?.description, [StarterKit])
+    } else {
+      return null
+    }
+  }, [details, isSchema])
 
   return (
     <Box
@@ -129,10 +126,12 @@ export default function ProposalCard({ proposal }: PropCardProp) {
           </Box>
           <Text as="p" ellipsis>
             {isSchema
-              ? details?.description
+              ? (
+                output && <div dangerouslySetInnerHTML={{ __html: output }} />
+              )
               : proposal['description'].length == 0
-              ? 'No description.'
-              : proposal['description']}
+                ? 'No description.'
+                : proposal['description']}
           </Text>
         </a>
       </Link>

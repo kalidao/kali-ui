@@ -1,4 +1,4 @@
-import { Flex } from '../../../styles/elements'
+import { Box } from '@kalidao/reality'
 import GovSettings from './GovSettings'
 import LegalSettings from './LegalSettings'
 
@@ -12,14 +12,9 @@ export default function Setting({ setting }) {
   }
 
   return (
-    <Flex
-      css={{
-        width: '80vw',
-        height: '100%',
-        borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
-      }}
+    <Box
     >
       {render}
-    </Flex>
+    </Box>
   )
 }
