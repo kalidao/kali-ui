@@ -11,10 +11,5 @@ export default function Setting({ setting }) {
     render = <LegalSettings />
   }
 
-  return (
-    <Box
-    >
-      {render}
-    </Box>
-  )
+  return <Box>{render}</Box>
 }

@@ -4,9 +4,11 @@ import { Stack, Button, IconChevronDown } from '@kalidao/reality'
 
 export default function SettingsMenu({ setting, setSetting }) {
   return (
-    <Stack direction={"horizontal"}>
+    <Stack direction={'horizontal'}>
       {items.map((item) => (
-        <Button key={item.value} onClick={() => setSetting(item.value)} variant={'transparent'}>{item.title}</Button>
+        <Button key={item.value} onClick={() => setSetting(item.value)} variant={'transparent'}>
+          {item.title}
+        </Button>
       ))}
     </Stack>
   )

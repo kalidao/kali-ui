@@ -15,9 +15,13 @@ export default function Sidebar() {
     <Stack>
       <About address={address as string} chainId={chainId as string} />
       {/*<Entity address={address as string} />*/}
-      <Button prefix={<IconSparkles />} variant="secondary" onClick={() => router.push(`/daos/${chainId}/${address}/tribute`)}>
+      <Button
+        prefix={<IconSparkles />}
+        variant="secondary"
+        onClick={() => router.push(`/daos/${chainId}/${address}/tribute`)}
+      >
         Tribute
       </Button>
-    </Stack >
+    </Stack>
   )
 }

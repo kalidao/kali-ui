@@ -118,8 +118,8 @@ export default function ProposalCard({ proposal }: PropCardProp) {
             {isSchema
               ? 'Expand to read'
               : proposal['description'].length == 0
-                ? 'No description.'
-                : proposal['description']}
+              ? 'No description.'
+              : proposal['description']}
           </Text>
         </a>
       </Link>

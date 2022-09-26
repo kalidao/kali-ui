@@ -1,4 +1,1 @@
-export type DeploymentT = {
-
-}
-
+export type DeploymentT = {}

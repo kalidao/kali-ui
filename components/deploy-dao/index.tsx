@@ -31,7 +31,7 @@ const Flex = styled('div', {
   padding: 25,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards, ${pulse} 10s linear 0ms infinite alternate`,
-  }
+  },
 })
 
 createStore({
@@ -53,10 +53,12 @@ createStore({
   crowdsaleEnd: new Date(),
   legal: false,
   docType: 'none',
-  founders: [{
-    member: '',
-    share: ''
-  }]
+  founders: [
+    {
+      member: '',
+      share: '',
+    },
+  ],
 })
 
 // TODO:

@@ -13,13 +13,19 @@ const MembersPage = ({ members, votes, proposals }: InferGetServerSidePropsType<
   console.log('members {} votes {} proposals {}', members, votes, proposals)
 
   const list = useMemo(
-    () => members?.members.sort((a: { shares: number }, b: { shares: number }) => b.shares - a.shares).filter((p: { shares: number }) => p.shares > 0),
+    () =>
+      members?.members
+        .sort((a: { shares: number }, b: { shares: number }) => b.shares - a.shares)
+        .filter((p: { shares: number }) => p.shares > 0),
     [members],
   )
 
   const memberVotes = useMemo(() => votes.filter((p: { voter: any }) => p.voter == member?.address), [votes, member])
 
-  const memberProposals = useMemo(() => proposals.filter((p: { proposer: any }) => p.proposer == member?.address), [proposals, member])
+  const memberProposals = useMemo(
+    () => proposals.filter((p: { proposer: any }) => p.proposer == member?.address),
+    [proposals, member],
+  )
 
   useEffect(() => {
     setMember(list[0])
@@ -27,7 +33,7 @@ const MembersPage = ({ members, votes, proposals }: InferGetServerSidePropsType<
 
   return (
     <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Stack direction={"horizontal"}>
+      <Stack direction={'horizontal'}>
         <MembersList members={list} active={member} setActive={setMember} />
         <MemberProfile
           member={member}

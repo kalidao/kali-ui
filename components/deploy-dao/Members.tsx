@@ -94,7 +94,7 @@ export default function Members({ setStep }: Props) {
       <Stack justify="flex-start">
         {fields.map((item, index) => {
           return (
-            <Stack key={item.id} direction="horizontal" align="center" justify="center" >
+            <Stack key={item.id} direction="horizontal" align="center" justify="center">
               <Input
                 label={`Member`}
                 hideLabel={index !== 0}
@@ -146,7 +146,7 @@ export default function Members({ setStep }: Props) {
           Add
         </Button>
       </Stack>
-      <Stack direction={"horizontal"} align="center" justify={"flex-end"}>
+      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>

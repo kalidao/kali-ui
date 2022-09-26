@@ -10,7 +10,7 @@ const Settings: NextPage = () => {
 
   return (
     <Layout heading={`Settings`} content="View and edit DAO configurations.">
-      <Stack direction={"vertical"}>
+      <Stack direction={'vertical'}>
         <SettingsMenu setSetting={setSetting} setting={setting} />
         <Setting setting={setting} />
       </Stack>

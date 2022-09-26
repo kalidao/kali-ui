@@ -8,7 +8,7 @@ const StyledTabs = styled(TabsPrimitive.Root, {
   flexDirection: 'column',
   width: '90vw',
   boxShadow: `0 2px 10px ${'$gray100'}`,
-  color: vars.colors.foreground
+  color: vars.colors.foreground,
 })
 
 const StyledList = styled(TabsPrimitive.List, {
