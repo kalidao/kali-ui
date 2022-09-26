@@ -14,7 +14,7 @@ export const addresses =
       extensions: {
         tribute: '0x561D9C4EdB64524556856133Bf7B5640dB904656',
         crowdsale: '0xD76B629c528548582Af14c4D3a851830BB0c6978',
-        crowdsale2: '0xB677FA3DD5C2C0472f7520b48AA3F642F9c4Af11',
+        crowdsale2: '0x8a426b34c7a45c8361351f88730ac1d824ec8c58',
         redemption: '0x3c9eB1c92b4063e6B9fA0531bC8966D3a09565D0',
         manager: '0xeEffB992BE91B1FAC8C69bE4F2a8d5e334C02282',
       },
