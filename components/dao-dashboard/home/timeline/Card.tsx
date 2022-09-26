@@ -7,8 +7,6 @@ import Vote from '../../proposal/vote'
 import { useFetch } from '../../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 import { linkStyle } from './ProposalCard.css'
-import StarterKit from '@tiptap/starter-kit'
-import { generateHTML } from '@tiptap/react'
 
 type Status = {
   text: string
@@ -78,14 +76,6 @@ export default function ProposalCard({ proposal }: PropCardProp) {
 
   const { color, text } = currentStatus()
 
-  const output = useMemo(() => {
-    if (isSchema && details?.description != undefined) {
-      return generateHTML(details?.description, [StarterKit])
-    } else {
-      return null
-    }
-  }, [details, isSchema])
-
   return (
     <Box
       display="flex"
@@ -126,9 +116,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
           </Box>
           <Text as="p" ellipsis>
             {isSchema
-              ? (
-                output && <div dangerouslySetInnerHTML={{ __html: output }} />
-              )
+              ? 'Expand to read'
               : proposal['description'].length == 0
                 ? 'No description.'
                 : proposal['description']}
