@@ -8,7 +8,7 @@ import { Box, Button, IconArrowLeft, IconSearch, Input, Skeleton, SkeletonGroup,
 import DaoCard from '@components/home/DaoCard'
 import Search from '@components/home/Search'
 import { useQuery } from '@tanstack/react-query'
-import { getBuiltGraphSDK } from '.graphclient'
+import { getBuiltGraphSDK } from '../.graphclient'
 import { getName } from '@graph/getName'
 
 const sdk = getBuiltGraphSDK()

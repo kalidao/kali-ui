@@ -3,7 +3,7 @@ import { useAccount, useNetwork } from 'wagmi'
 import DaoCard from './DaoCard'
 import { Heading, Box, Stack, Skeleton } from '@kalidao/reality'
 import { getName } from '@graph/getName'
-import { getBuiltGraphSDK } from '.graphclient'
+import { getBuiltGraphSDK } from '../../.graphclient'
 import { useQuery } from '@tanstack/react-query'
 import { ethers } from 'ethers'
 

@@ -4,8 +4,8 @@ import { Box, Stack, Button, Skeleton, IconPencil, IconBookOpen } from '@kalidao
 import Card from './Card'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
-import { getBuiltGraphSDK } from '.graphclient'
 import { getName } from '@graph/getName'
+import { getBuiltGraphSDK } from '../../../../.graphclient'
 import { ethers } from 'ethers'
 
 const sdk = getBuiltGraphSDK()
