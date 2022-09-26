@@ -330,6 +330,11 @@ export default function Crowdsale({ info }) {
             width: '100%',
             margin: '1rem',
             marginTop: '1.2rem',
+
+            '@media (max-width: 640px)': {
+              flexDirection: 'column',
+              justifyContent: 'center',
+            },
           }}
         >
           <Flex
@@ -337,18 +342,26 @@ export default function Crowdsale({ info }) {
             gap="lg"
             css={{
               width: '45%',
-              // background: 'Blue',
               borderRadius: '10px',
               marginRight: '20px',
+
+              '@media (max-width: 640px)': {
+                width: '100%',
+                justifyContent: 'center',
+              },
             }}
           >
             <Flex
               dir="col"
               gap="md"
               css={{
-                // background: 'Blue',
                 width: '100%',
                 height: 'auto',
+
+                '@media (max-width: 640px)': {
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                },
               }}
             >
               <Text variant="subheading">Swap for KaliDAO Tokens</Text>
@@ -566,6 +579,11 @@ export default function Crowdsale({ info }) {
             gap="lg"
             css={{
               width: '40%',
+
+              '@media (max-width: 640px)': {
+                width: '100%',
+                justifyContent: 'center',
+              },
             }}
           >
             <Flex dir="col" gap="md">
