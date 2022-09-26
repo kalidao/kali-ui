@@ -1,10 +1,6 @@
 import Header from './Header'
 import Head from 'next/head'
-<<<<<<< HEAD
 import { Box } from '@kalidao/reality'
-=======
-import { Box, Flex } from '../../styles/elements'
->>>>>>> main
 
 type LayoutProps = {
   heading?: string
@@ -27,16 +23,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
-<<<<<<< HEAD
       <Box width="viewWidth">
-=======
-      <Box
-        css={{
-          // background: 'red',
-          fontFamily: 'Screen',
-        }}
-      >
->>>>>>> main
         <Header heading={heading} />
         {children}
       </Box>
