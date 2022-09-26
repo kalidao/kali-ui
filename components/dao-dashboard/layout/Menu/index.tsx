@@ -92,7 +92,35 @@ export default function Menu() {
   ]
 
   return (
+<<<<<<< HEAD:components/dao-dashboard/layout/Menu/index.tsx
     <Stack direction={'horizontal'}>
+=======
+    <Flex
+      dir="col"
+      gap="md"
+      css={{
+        // background: 'Green',
+        // position: 'fixed',
+        left: 0,
+        padding: '10px',
+        height: '100%',
+        // boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
+
+        '@media (max-width: 640px)': {
+          position: 'fixed',
+          padding: '0',
+          bottom: 0,
+          right: 0,
+          left: 0,
+          flexDirection: 'row',
+          height: '8rem',
+          background: '$gray2',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      }}
+    >
+>>>>>>> main:components/dao-dashboard/layout/sidebar/index.tsx
       {items
         .filter((item) => item.active === true)
         .map((item) => (
