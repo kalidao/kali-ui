@@ -11,7 +11,7 @@ type HeaderProps = {
 
 export default function Header({ heading, show }: HeaderProps) {
   if (show) {
-    ;<Box
+    return <Box
       display="flex"
       flexDirection={'row'}
       alignItems="center"

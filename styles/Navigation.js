@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { styled, keyframes } from './stitches.config'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
@@ -276,6 +277,7 @@ export const NavigationMenuComponent = () => {
           <NavigationMenuTrigger></NavigationMenuTrigger>
           <NavigationMenuContent>
             <ContentList layout="one">
+              <ContentListItem title="Home" href="/"></ContentListItem>
               <ContentListItem title="Getting Started" href="https://docs.kali.gg/"></ContentListItem>
               <ContentListItem title="Service Providers" href="/services"></ContentListItem>
               <ContentListItem title="Legal Tools" href="/tools"></ContentListItem>
