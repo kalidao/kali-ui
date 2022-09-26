@@ -63,13 +63,13 @@ export default function Timeline() {
       </Stack>
       <Skeleton>
         <Stack>
-          {/*memoizedProposals && (
+          {memoizedProposals && (
             <>
-              {memoizedProposals.slice(0, show).map((proposal: { [x: string]: React.Key | null | undefined }) => (
+              {memoizedProposals.slice(0, show).map((proposal) => (
                 <Card key={proposal['id']} proposal={proposal} />
               ))}
             </>
-              )*/}
+          )}
         </Stack>
       </Skeleton>
     </Box>

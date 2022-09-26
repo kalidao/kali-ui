@@ -17,13 +17,20 @@ const ExplorePage: NextPage = () => {
   const router = useRouter()
   const { chain: activeChain } = useNetwork()
   const [chain, setChain] = useState(activeChain ? activeChain.id : 1)
-  const { data: daos, isLoading } = useQuery(['AllDAOs', chain], () =>
-    sdk.AllDAOs(
-      {},
-      {
-        chainName: getName(chain),
+  const { data: daos, isLoading } = useQuery(
+    ['AllDAOs', chain],
+    () =>
+      sdk.AllDAOs(
+        {},
+        {
+          chainName: getName(chain),
+        },
+      ),
+    {
+      onSuccess: (data) => {
+        setDisplay(data?.daos)
       },
-    ),
+    },
   )
   const [display, setDisplay] = useState(daos ? daos?.daos : [])
 
@@ -60,7 +67,7 @@ const ExplorePage: NextPage = () => {
           </Button>
           <Search daos={daos} setDisplay={setDisplay} />
         </Box>
-        <Skeleton loading={!isLoading}>
+        <Skeleton loading={isLoading}>
           <Stack direction="horizontal" wrap>
             {display && display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
           </Stack>
