@@ -34,7 +34,15 @@ export default function Timeline({ proposals }) {
         >
           Proposals
         </Text>
-        <Flex dir="col" gap="md">
+        <Flex
+          dir="col"
+          gap="md"
+          css={{
+            '@media (max-width: 640px)': {
+              alignItems: 'center',
+            },
+          }}
+        >
           <NewProposalCard />
           {memoizedProposals?.length > 0 ? (
             <>

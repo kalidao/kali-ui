@@ -9,25 +9,32 @@ export default function Dashboard({ proposals }) {
       gap="md"
       css={{
         width: '100%',
+        // background: 'blue',
 
         '@media (max-width: 640px)': {
           flexDirection: 'column-reverse',
+          justifyContent: 'center',
         },
       }}
     >
       <Flex
         css={{
-          width: '60%',
+          width: '50%',
+          // background: 'yellow',
+
+          '@media (max-width: 640px)': {
+            width: '100%',
+          },
         }}
       >
         <Timeline proposals={proposals} />
       </Flex>
       <Flex
-        css={
-          {
-            // width: '100%',
-          }
-        }
+        css={{
+          // width: '40%',
+          // background: 'red',
+          justifyContent: 'center',
+        }}
       >
         <Sidebar />
       </Flex>
