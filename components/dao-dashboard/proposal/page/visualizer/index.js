@@ -11,7 +11,7 @@ import Extension from './Extension'
 import Escape from './Escape'
 import Docs from './Docs'
 import Call from './Call'
-import Info from '../../../../../styles/Info'
+import { Box } from '@kalidao/reality'
 
 export default function Visualizer({ proposal }) {
   console.log(proposal)
@@ -68,13 +68,8 @@ export default function Visualizer({ proposal }) {
   }
 
   return (
-    <Info
-      heading={heading}
-      css={{
-        maxWidth: '80vw',
-      }}
-    >
+    <Box borderWidth={'1'} padding="2" borderRadius={'2xLarge'}>
       {component}
-    </Info>
+    </Box>
   )
 }

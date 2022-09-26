@@ -1,21 +1,14 @@
 import React from 'react'
-import { Flex, Text } from '../../../../styles/elements'
-import Info from '../../../../styles/Info'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { Stack, Stat } from '@kalidao/reality'
 
 export default function Results({ votes }) {
   const yesVotes = votes.filter((vote) => vote['vote'] === true)
 
   return (
-    <Info heading={'Status'}>
-      <Flex align="separate">
-        <CheckIcon color="green" />
-        {yesVotes.length}
-      </Flex>
-      <Flex align="separate">
-        <Cross2Icon color="red" />
-        {votes.length - yesVotes.length}
-      </Flex>
-    </Info>
+    <Stack direction="horizontal">
+      <Stat label="Yes" value={yesVotes.length} meta={<CheckIcon color="green" />} />
+      <Stat label="No" value={votes.length - yesVotes.length} meta={<Cross2Icon color="red" />} />
+    </Stack>
   )
 }

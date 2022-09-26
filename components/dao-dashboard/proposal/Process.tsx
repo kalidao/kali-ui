@@ -1,7 +1,8 @@
 import React from 'react'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { Button } from '@design/elements'
+import { Button } from '@kalidao/reality'
 import DAO_ABI from '@abi/KaliDAO.json'
+import { IconCheck } from '@kalidao/reality'
 
 type ProcessProps = {
   chainId: number
@@ -23,7 +24,7 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   const { write } = useContractWrite(config)
 
   return (
-    <Button variant="cta" onClick={() => write?.()} disabled={!write}>
+    <Button prefix={<IconCheck />} tone="green" onClick={() => write?.()} disabled={!write}>
       Process
     </Button>
   )

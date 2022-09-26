@@ -1,19 +1,13 @@
 import { ethers } from 'ethers'
-import { Flex, Text } from '../../../../../styles/elements'
+import { Stack, Text } from '@kalidao/reality'
 
 export default function Mint({ accounts, amounts }) {
   for (let i = 0; i < accounts.length; i++) {
     return (
-      <Flex
-        css={{
-          fontFamily: 'Regular',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}
-      >
+      <Stack direction="horizontal" justify={'space-between'} align="center">
         <Text>{accounts[i]}</Text>
         <Text>{ethers.utils.formatEther(amounts[i])}</Text>
-      </Flex>
+      </Stack>
     )
   }
 }
