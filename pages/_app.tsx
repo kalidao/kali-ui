@@ -5,7 +5,6 @@ import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/ra
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
-import { MoralisProvider } from 'react-moralis'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
 
@@ -43,12 +42,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             accentColorForeground: '#ededed',
           })}
         >
-          <MoralisProvider serverUrl="https://amaolyvrejmm.usemoralis.com:2053/server" appId="NEXT_PUBLIC_MORALIS_ID">
-            <ThemeProvider defaultAccent="violet" defaultMode="dark">
-              <NextNProgress color="#5842c3" />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </MoralisProvider>
+          <ThemeProvider defaultAccent="violet" defaultMode="dark">
+            <NextNProgress color="#5842c3" />
+            <Component {...pageProps} />
+          </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </QueryClientProvider>

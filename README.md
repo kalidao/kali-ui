@@ -6,11 +6,11 @@ You can find the latest deployment at https://app.kalidao.xyz/
 
 ## Install
 
-Install Node dependencies: `yarn install`
+Install Node dependencies: `pnpm install`
 
 ## Local Development
 
-1. Start the app: `yarn dev`
+1. Start the app: `pnpm dev`
 1. View the app at localhost:3000
 
 ## Environment settings

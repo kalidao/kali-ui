@@ -1,12 +1,14 @@
 import React from 'react'
 import { styled } from './stitches.config'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { vars } from '@kalidao/reality'
 
 const StyledTabs = styled(TabsPrimitive.Root, {
   display: 'flex',
   flexDirection: 'column',
   width: '90vw',
   boxShadow: `0 2px 10px ${'$gray100'}`,
+  color: vars.colors.foreground
 })
 
 const StyledList = styled(TabsPrimitive.List, {
@@ -18,7 +20,7 @@ const StyledList = styled(TabsPrimitive.List, {
 const StyledTrigger = styled(TabsPrimitive.Trigger, {
   all: 'unset',
   fontFamily: 'inherit',
-  backgroundColor: '$background',
+  backgroundColor: vars.colors.backgroundSecondary,
   padding: '0 20px',
   height: 45,
   flex: 1,
@@ -43,7 +45,7 @@ const StyledTrigger = styled(TabsPrimitive.Trigger, {
 const StyledContent = styled(TabsPrimitive.Content, {
   flexGrow: 1,
   padding: 20,
-  backgroundColor: '$background',
+  background: vars.colors.background,
   borderBottomLeftRadius: 6,
   borderBottomRightRadius: 6,
   outline: 'none',

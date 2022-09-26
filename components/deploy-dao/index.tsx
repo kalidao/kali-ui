@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { styled } from '../../styles/stitches.config'
-import { Box, Heading } from '@kalidao/reality'
+import { Text, Box, Heading } from '@kalidao/reality'
 import { Progress, ProgressIndicator } from '../../styles/Progress'
 import Identity from './Identity'
 import Governance from './Governance'
@@ -10,7 +10,6 @@ import Members from './Members'
 import Legal from './Legal'
 import Checkout from './checkout'
 import { StateMachineProvider, createStore } from 'little-state-machine'
-import { Text } from '../../styles/elements'
 import Toggle from './Toggle'
 import { pulse, contentShow } from '@design/animation'
 
@@ -31,21 +30,18 @@ const Flex = styled('div', {
   maxHeight: '90vh',
   padding: 25,
   '@media (prefers-reduced-motion: no-preference)': {
-    animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
-  },
-  '@media (prefers-reduced-motion: no-preference)': {
-    animation: `${pulse} 10s linear 0ms infinite alternate`,
-  },
+    animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards, ${pulse} 10s linear 0ms infinite alternate`,
+  }
 })
 
 createStore({
   name: '',
   symbol: '',
   hardMode: false,
-  votingPeriod: '5',
+  votingPeriod: 5,
   votingPeriodUnit: 'day',
-  quorum: '20',
-  approval: '60',
+  quorum: 20,
+  approval: 60,
   transferability: false,
   redemption: false,
   redemptionStart: new Date(),
@@ -57,6 +53,10 @@ createStore({
   crowdsaleEnd: new Date(),
   legal: false,
   docType: 'none',
+  founders: [{
+    member: '',
+    share: ''
+  }]
 })
 
 // TODO:
@@ -120,8 +120,7 @@ export default function DeployDaoWrapper() {
           <Heading>{steps[step]['title']}</Heading>
           <Toggle />
         </Box>
-        <Text variant="instruction">{steps[step]['description']}</Text>
-        <Text></Text>
+        <Text>{steps[step]['description']}</Text>
         <Progress value={(step / (steps.length - 1)) * 100}>
           <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
         </Progress>
