@@ -12,7 +12,7 @@ import { FaPen } from 'react-icons/fa'
 import { GearIcon } from '@radix-ui/react-icons'
 import { useGetProposals } from '@graph/queries/getProposals'
 import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
-import { Box } from '@kalidao/reality'
+import { Stack } from '@kalidao/reality'
 
 const Icon = styled('span', {
   display: 'flex',
@@ -92,11 +92,7 @@ export default function Menu() {
   ]
 
   return (
-    <Box display="flex" flexDirection="row" alignItems={{
-      xs: 'center'
-    }} position="sticky" width="fit" padding={{
-      md: '20'
-    }}>
+    <Stack direction={'horizontal'}>
       {items
         .filter((item) => item.active === true)
         .map((item) => (
@@ -109,7 +105,7 @@ export default function Menu() {
             dao={dao as string}
           />
         ))}
-    </Box>
+    </Stack>
   )
 }
 

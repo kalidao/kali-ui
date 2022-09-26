@@ -13,11 +13,9 @@ export default function DaoLayout({ heading, content, children }: DaoLayoutProps
   return (
     <Layout heading={heading} content={content}>
       <Box className={layout}>
-        <Box>
-          {children}
-        </Box>
+        <Box>{children}</Box>
         <Menu />
       </Box>
-    </Layout >
+    </Layout>
   )
 }

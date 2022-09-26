@@ -7,19 +7,22 @@ export default function Dashboard() {
   return (
     <Box
       display="flex"
-      flexDirection="row"
-      alignItems={"center"}
+      flexDirection={{
+        xs: 'column',
+        md: 'row',
+      }}
+      alignItems={'center'}
       justifyContent="center"
-      gap="10"
-      paddingY={'8'}
-      maxWidth={{
-        sm: 'screenSm',
-        md: 'screenMd',
-        lg: 'screenLg',
+      gap={{
+        xs: '1',
+        sm: '2',
+        md: '5',
+        lg: '7',
+        xl: '10',
       }}
     >
-      <Timeline />
       <Sidebar />
+      <Timeline />
     </Box>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
-import { Box, Text, Button, Heading, Skeleton } from '@kalidao/reality'
+import Link from 'next/link'
+import { Box, Stack, Button, Skeleton, IconPencil, IconBookOpen } from '@kalidao/reality'
 import Card from './Card'
-import NewProposalCard from './NewProposalCard'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { getBuiltGraphSDK } from '.graphclient'
@@ -11,12 +11,16 @@ import { ethers } from 'ethers'
 const sdk = getBuiltGraphSDK()
 
 export default function Timeline() {
-  const router = useRouter();
+  const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: proposals, isLoading, error } = useQuery(['', dao, chainId], () =>
-    sdk.Proposals(
+  const {
+    data: proposals,
+    isLoading,
+    error,
+  } = useQuery(['', dao, chainId], () =>
+    sdk.DaoProposals(
       {
-        dao: dao ? dao : ethers.constants.AddressZero,
+        dao: dao ? dao as string : ethers.constants.AddressZero,
       },
       {
         chainName: getName(chainId ? Number(chainId) : 1),
@@ -24,33 +28,50 @@ export default function Timeline() {
     ),
   )
 
-  console.table('proposals', proposals)
+  console.log('proposals', proposals)
 
   const [show, setShow] = useState(2)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
-    () => proposals?.proposals?.sort((a: { serial: number }, b: { serial: number }) => b.serial - a.serial).filter((p: { cancelled: boolean }) => !(p.cancelled == true)),
+    () =>
+      proposals?.proposals
+        ?.sort((a: { serial: number }, b: { serial: number }) => b.serial - a.serial)
+        .filter((p: any) => !(p.cancelled == true)),
     [proposals],
   )
 
-
   return (
     <Box display="flex" flexDirection="column" gap="5">
-      <NewProposalCard />
+      <Stack direction="horizontal" align="center" justify="space-between">
+        <Button prefix={<IconBookOpen />} variant="transparent" size="small" onClick={() => setShow(show + 10)}>
+          View All
+        </Button>
+        <Link
+          href={{
+            pathname: '/daos/[chainId]/[dao]/propose',
+            query: {
+              dao: dao as string,
+              chainId: chainId as string,
+            },
+          }}
+          passHref
+        >
+          <Button prefix={<IconPencil />} as="a">
+            New Proposal
+          </Button>
+        </Link>
+      </Stack>
       <Skeleton>
-        <Box width="96">
-          {memoizedProposals && (
+        <Stack>
+          {/*memoizedProposals && (
             <>
               {memoizedProposals.slice(0, show).map((proposal: { [x: string]: React.Key | null | undefined }) => (
                 <Card key={proposal['id']} proposal={proposal} />
               ))}
             </>
-          )}
-        </Box>
+              )*/}
+        </Stack>
       </Skeleton>
-      <Button variant="transparent" size="small" onClick={() => setShow(show + 10)}>
-        View All
-      </Button>
     </Box>
   )
 }

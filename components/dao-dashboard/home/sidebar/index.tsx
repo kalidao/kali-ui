@@ -1,13 +1,23 @@
 import React from 'react'
-import { Box } from '@kalidao/reality'
-import Profile from './Profile'
+import { Button, IconSparkles, Stack } from '@kalidao/reality'
+import About from './About'
 import Entity from './Entity'
+import { useRouter } from 'next/router'
 
+type Props = {
+  address: string
+}
 export default function Sidebar() {
+  const router = useRouter()
+  const { dao: address, chainId } = router.query
+
   return (
-    <Box>
-      <Profile />
-      <Entity />
-    </Box>
+    <Stack>
+      <About address={address as string} chainId={chainId as string} />
+      {/*<Entity address={address as string} />*/}
+      <Button prefix={<IconSparkles />} variant="secondary">
+        Tribute
+      </Button>
+    </Stack>
   )
 }

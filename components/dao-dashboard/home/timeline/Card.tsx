@@ -5,6 +5,7 @@ import { truncateAddress } from '../../../../utils'
 import Vote from '../../proposal/vote'
 import { useFetch } from '../../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
+import { linkStyle } from './ProposalCard.css'
 
 type Status = {
   text: string
@@ -18,6 +19,7 @@ type PropCardProp = {
 }
 export default function ProposalCard({ proposal }: PropCardProp) {
   const router = useRouter()
+  const { chainId, dao } = router.query
   const ensName = useEnsName({
     address: proposal['proposer'],
     chainId: 1,
@@ -88,23 +90,50 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, icon, text } = currentStatus()
 
   return (
-    <Box display="flex" flexDirection="column" padding="6" backgroundColor="background" borderWidth="0.375" gap="3">
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Box display="flex" alignItems="center" gap="1">
-          <Heading>{`#${proposal?.serial} ${details ? details?.title : ''}`}</Heading>
-          <Tag tone="secondary">{proposer}</Tag>
-        </Box>
-        <Tag label={proposal['proposalType']} tone={color!}>
-          {text}
-        </Tag>
-      </Box>
-      <Text as="p" ellipsis>
-        {isSchema
-          ? 'Expand to read more.'
-          : proposal['description'].length == 0
-          ? 'No description.'
-          : proposal['description']}
-      </Text>
+    <Box
+      display="flex"
+      flexDirection="column"
+      padding="6"
+      backgroundColor="background"
+      borderWidth="0.375"
+      gap="3"
+      borderRadius={'2xLarge'}
+      width={{
+        xs: '80',
+        md: '128',
+        lg: '168'
+      }}
+    >
+      <Link
+        href={{
+          pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
+          query: {
+            dao: dao as string,
+            chainId: chainId as string,
+            proposalId: proposal?.serial,
+          },
+        }}
+        passHref
+      >
+        <a className={linkStyle}>
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box display="flex" alignItems="center" gap="1">
+              <Heading responsive>{`#${proposal?.serial} ${details ? details?.title : ''}`}</Heading>
+              <Tag tone="secondary" size="small">{proposer}</Tag>
+            </Box>
+            <Tag label={proposal['proposalType']} tone={color!} size="medium">
+              {text}
+            </Tag>
+          </Box>
+          <Text as="p" ellipsis>
+            {isSchema
+              ? details?.description
+              : proposal['description'].length == 0
+                ? 'No description.'
+                : proposal['description']}
+          </Text>
+        </a>
+      </Link>
       <Box display="flex">
         <Vote proposal={proposal} />
       </Box>

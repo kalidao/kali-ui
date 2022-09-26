@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs}\"",
+    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs,graphql}\"",
     "build-client": "graphclient build",
     "graphiql": "graphclient serve-dev"
   },
