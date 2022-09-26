@@ -3,11 +3,7 @@ import { UpdateDocs } from '../newproposal/internal'
 
 export default function LegalSettings() {
   return (
-    <Flex
-      css={{
-        width: '100%',
-      }}
-    >
+    <Flex>
       <UpdateDocs />
     </Flex>
   )

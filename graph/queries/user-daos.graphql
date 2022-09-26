@@ -1,0 +1,14 @@
+query UserDAOs($address: Bytes!) {
+  members(where: { address: $address }) {
+    dao {
+      id
+      token {
+        name
+        symbol
+      }
+      members {
+        id
+      }
+    }
+  }
+}

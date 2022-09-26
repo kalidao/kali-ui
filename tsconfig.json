@@ -20,6 +20,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@public/*": [
+        "public/*"
+      ],
       "@components/*": [
         "components/*"
       ],
@@ -42,7 +45,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx"
-  ],
+, "components/dao-dashboard/home/timeline/Card.jsx"  ],
   "exclude": [
     "node_modules"
   ]

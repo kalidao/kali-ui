@@ -1,41 +1,11 @@
 import React, { useState } from 'react'
-import { styled } from '../../styles/stitches.config'
-import { GoSearch } from 'react-icons/go'
-
-const SearchBar = styled('div', {
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  padding: '5px',
-  maxWidth: '20rem',
-  background: '$gray2',
-  color: '$gray12',
-  border: '1px solid $gray6',
-  borderRadius: '20px',
-  gap: '5px',
-  '&:focus': {
-    outline: 'none',
-  },
-
-  '@media (max-width: 540px)': {
-    minWidth: '20rem',
-  },
-})
-
-const SearchInput = styled('input', {
-  border: 'none',
-  outline: 'none',
-  background: 'none',
-  color: '$gray12',
-  lineHeight: '1.2',
-  fontSize: '24px',
-})
+import { Input, IconSearch } from '@kalidao/reality'
 
 export default function Search({ daos, setDisplay }) {
   const [search, setSearch] = useState('')
   const [searched, setSearched] = React.useState(false)
 
-  const handleSearch = React.useCallback((e) => {
+  const handleSearch = (e) => {
     if (search === '') return
     setSearched(false)
 
@@ -51,7 +21,7 @@ export default function Search({ daos, setDisplay }) {
     })
     setDisplay(results)
     setSearched(true)
-  })
+  }
 
   const handleKeypress = (e) => {
     // it triggers by pressing the enter key
@@ -61,9 +31,15 @@ export default function Search({ daos, setDisplay }) {
   }
 
   return (
-    <SearchBar>
-      <GoSearch />
-      <SearchInput placeholder="Search" onChange={(e) => setSearch(e.target.value)} onKeyPress={handleKeypress} />
-    </SearchBar>
+    <Input
+      label="Find"
+      prefix={<IconSearch />}
+      onChange={(e) => setSearch(e.target.value)}
+      onKeyPress={handleKeypress}
+      width={{
+        xs: 'fit',
+        lg: '1/3',
+      }}
+    />
   )
 }

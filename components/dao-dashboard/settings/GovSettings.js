@@ -28,13 +28,5 @@ export default function GovSettings() {
       component: <ToggleTransfer setView={setView} />,
     },
   ]
-  return (
-    <Flex
-      css={{
-        width: '100%',
-      }}
-    >
-      {views[view]['component']}
-    </Flex>
-  )
+  return <Flex>{views[view]['component']}</Flex>
 }

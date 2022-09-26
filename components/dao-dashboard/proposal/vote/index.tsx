@@ -38,7 +38,7 @@ export default function Vote({ proposal }: VoteProps) {
       console.log(2)
       try {
         const data = await writeAsync({
-          recklesslySetUnpreparedArgs: [proposal['serial'], approval]
+          recklesslySetUnpreparedArgs: [proposal['serial'], approval],
         })
       } catch (e) {
         console.log('error', e)

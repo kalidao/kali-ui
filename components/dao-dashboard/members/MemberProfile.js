@@ -9,7 +9,6 @@ export default function MemberProfile({ member, proposals, votes, totalSupply })
       dir="col"
       css={{
         maxWidth: '80vw',
-        minHeight: '100vh',
         flexDirection: 'row',
         paddingTop: '20px',
         gap: '10px',

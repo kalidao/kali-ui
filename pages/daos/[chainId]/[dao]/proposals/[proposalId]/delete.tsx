@@ -6,9 +6,9 @@ import { Label, Input } from '@design/form-elements'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import { useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import styles from '@components/editor/editor.module.css'
 import Editor from '@components/editor'
+import StarterKit from '@tiptap/starter-kit'
 import { NextPage } from 'next'
 
 const DeleteProposalPage: NextPage = () => {
@@ -21,16 +21,14 @@ const DeleteProposalPage: NextPage = () => {
         class: styles.editor,
       },
     },
-    extensions: [
-      StarterKit.configure(),
-    ],
+    extensions: [StarterKit],
     content: '',
     injectCSS: false,
   })
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}/${proposalId}`)
-  }, [chainId, dao, router])
+  }, [chainId, dao, router, proposalId])
 
   const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()

@@ -1,0 +1,30 @@
+query DaoInfo($address: Bytes) {
+  daos(where: { address: $address }) {
+    id
+    token {
+      id
+      name
+      symbol
+      paused
+      totalSupply
+    }
+    docs
+    votingPeriod
+    gracePeriod
+    quorum
+    supermajority
+    proposals {
+      id
+    }
+    tribute {
+      active
+    }
+    crowdsale {
+      active
+      saleEnds
+    }
+    redemption {
+      active
+    }
+  }
+}

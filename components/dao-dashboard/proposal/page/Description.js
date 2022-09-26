@@ -1,6 +1,6 @@
-import StarterKit from '@tiptap/starter-kit'
 import React, { useMemo } from 'react'
-import { Flex, Text } from '../../../../styles/elements'
+import StarterKit from '@tiptap/starter-kit'
+import { Stack, Text } from '@kalidao/reality'
 import { generateHTML } from '@tiptap/react'
 
 export default function Description({ description, isSchema }) {
@@ -13,18 +13,16 @@ export default function Description({ description, isSchema }) {
   }, [description, isSchema])
 
   return (
-    <Flex
-      css={{
-        flexDirection: 'column',
-        gap: '0.3rem',
-        fontFamily: 'Regular',
-      }}
-    >
+    <>
       {/* TODO: output could be anything, sanitize?  */}
       {isSchema ? (
-        output && <div dangerouslySetInnerHTML={{ __html: output }} />
+        output && (
+          <Text color="foreground">
+            <div dangerouslySetInnerHTML={{ __html: output }}></div>
+          </Text>
+        )
       ) : description.length > 0 ? (
-        <Text>{description}</Text>
+        <Text color="foreground">{description}</Text>
       ) : (
         <Text
           css={{
@@ -34,6 +32,6 @@ export default function Description({ description, isSchema }) {
           No description.
         </Text>
       )}
-    </Flex>
+    </>
   )
 }

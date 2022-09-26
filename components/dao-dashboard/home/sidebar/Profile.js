@@ -13,7 +13,7 @@ import { getRandomEmoji } from '../../../../utils'
 import { addresses } from '../../../../constants/addresses'
 import REDEMPTION_ABI from '../../../../abi/KaliDAOredemption.json'
 
-export default function ProfileComponent({ dao }) {
+export default function Profile() {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChain = Number(router.query.chainId)

@@ -1,12 +1,11 @@
-import { NextPage, InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
 import { Home } from '@components/dao-dashboard'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { getProposals } from '@graph/queries/getProposals'
 
-const DashboardPage: NextPage = ({ proposals }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const DashboardPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data } = useContractRead({
@@ -18,31 +17,9 @@ const DashboardPage: NextPage = ({ proposals }: InferGetServerSidePropsType<type
 
   return (
     <Layout heading={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
-      <Home proposals={proposals} />
+      <Home />
     </Layout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao
-  const chainId = context?.params?.chainId
-
-  console.debug('address chainId', address, chainId)
-  const result = await getProposals(chainId, address)
-
-  if (!result?.data?.proposals) {
-    return {
-      notFound: true
-    }
-  }
-
-  return {
-    props: {
-      proposals: result?.data?.proposals,
-    },
-  }
-}
-
 export default DashboardPage
-
-
