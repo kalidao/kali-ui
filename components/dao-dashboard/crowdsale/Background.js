@@ -13,7 +13,7 @@ export default function Background() {
 
   useEffect(() => {
     const getCrowdsaleData = async () => {
-      const data = await fetchCrowdsaleDataHash(ethers.utils.getAddress(dao))
+      const data = await fetchCrowdsaleDataHash(dao)
       const response = await fetch('https://ipfs.io/ipfs/' + data)
       const responseJson = await response.json()
       console.log(data)
