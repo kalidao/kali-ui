@@ -6,7 +6,11 @@ import { MembersList, MemberProfile } from '../../../../components/dao-dashboard
 import { GRAPH_URL } from '../../../../graph'
 import { Stack } from '@kalidao/reality'
 
-const MembersPage: NextPage = ({ members, votes, proposals }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const MembersPage: NextPage = ({
+  members,
+  votes,
+  proposals,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [member, setMember] = useState(members[0])
   console.log('members {} votes {} proposals {}', members, votes, proposals)
 
