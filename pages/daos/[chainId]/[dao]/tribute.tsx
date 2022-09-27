@@ -21,7 +21,7 @@ const TributePage: NextPage = () => {
       <Stack>
         <Heading>Work Under Progress</Heading>
         <Box minHeight="96" width="320">
-          <Tribute title={''} description={''} />
+          <Tribute />
         </Box>
       </Stack>
     </Layout>
