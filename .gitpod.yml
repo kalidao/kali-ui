@@ -4,10 +4,6 @@ tasks:
     init: pnpm install && pnpm run build-client
     command: pnpm run dev
 
-  - name: Start Graph Client
-    init: pnpm run build-client
-    command: pnpm run graphiql
-
   - name: Command Line Shell
     command: bash
 
