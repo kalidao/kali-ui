@@ -9,7 +9,7 @@ export default function NFTs({ nftBalance }) {
     <Flex>
       {nftBalance ? (
         nftBalance.length > 0 ? (
-          nftBalance.map((nft) => <NftCard key={nft.token_address} nft={nft} />)
+          nftBalance.map((nft) => <NftCard key={nft.tokenAddress} nft={nft} />)
         ) : (
           'There are no NFTs in this DAO :('
         )

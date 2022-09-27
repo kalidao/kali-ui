@@ -11,7 +11,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function NftCard({ nft }) {
   console.log('nft', nft)
-  const { data, error } = useSWR(nft.token_uri, fetcher)
+  const { data, error } = useSWR(nft.tokenUri, fetcher)
 
   if (error) return 'An error has occurred.'
   if (!data) return 'Loading...'

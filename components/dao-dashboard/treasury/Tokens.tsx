@@ -15,7 +15,7 @@ export default function Tokens({ tokenBalance }: Props) {
       <Box>
         {tokenBalance &&
           (tokenBalance.length > 0
-            ? tokenBalance.map((token: any) => <TokenCard key={token.token_address} token={token} />)
+            ? tokenBalance.map((token: any) => <TokenCard key={token.token.contractAddress} token={token} />)
             : 'There are no Tokens in this DAO :(')}
       </Box>
     </Skeleton>
