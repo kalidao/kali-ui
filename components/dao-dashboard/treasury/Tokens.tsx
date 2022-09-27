@@ -1,7 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import Image from 'next/image'
-import { Skeleton, Box, Text, Stack } from '@kalidao/reality'
+import { Skeleton, Box, Text, Stack, Avatar } from '@kalidao/reality'
 
 // TODO: Typechecking
 type Props = {
@@ -9,6 +9,7 @@ type Props = {
 }
 
 export default function Tokens({ tokenBalance }: Props) {
+  console.log('tokens', tokenBalance)
   return (
     <Skeleton>
       <Box>
@@ -27,14 +28,14 @@ type TokenProps = {
 
 function TokenCard({ token }: TokenProps) {
   return (
-    <Stack>
-      <Stack>
-        {token.logo != null && <Image src={token.logo} height="32px" width="32px" alt="Token LOGO" />}
-        <Text>{token.name}</Text>
+    <Stack direction="horizontal" align="center" justify="space-between">
+      <Stack direction="horizontal" align="center">
+        {token.token.logo != null && <Avatar src={token.token.logo} label="Token LOGO" />}
+        <Text>{token.token.name}</Text>
       </Stack>
-      <Stack>
-        <Text>{ethers.utils.formatUnits(token.balance, token.decimals)}</Text>
-        <Text>{token.symbol}</Text>
+      <Stack direction="horizontal">
+        <Text weight="bold">{token.value}</Text>
+        <Text>{token.token.symbol}</Text>
       </Stack>
     </Stack>
   )

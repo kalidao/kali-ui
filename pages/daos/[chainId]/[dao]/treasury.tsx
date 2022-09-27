@@ -38,23 +38,26 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // reads the api key from .env.local and starts Moralis SDK
-  await Moralis.start({ apiKey: process.env.MORALIS_API_KEY })
   const address = context?.params?.dao as string
   const chainId = context?.params?.chainId
+
   if (chainId == '137' || chainId == '1') {
-    const tokenBalance = await Moralis.EvmApi.token.getWalletTokenBalances({
-      address,
-      chain: 1,
-    })
-    const nftBalance = await Moralis.EvmApi.nft.getWalletNFTs({
-      address,
-      chain: 1,
-    })
+    await Moralis.start({ apiKey: process.env.MORALIS_API_KEY })
+    const [tokenBalance, nftBalance] = await Promise.all([
+      Moralis.EvmApi.token.getWalletTokenBalances({
+        address,
+        chain: Number(chainId),
+      }),
+      Moralis.EvmApi.nft.getWalletNFTs({
+        address,
+        chain: Number(chainId),
+      }),
+    ]);
+    console.log(tokenBalance, nftBalance)
 
     return {
       props: {
-        tokens: JSON.parse(JSON.stringify(tokenBalance)),
+        tokenBalance: tokenBalance.result.map((token) => JSON.parse(JSON.stringify(token))),
         nftBalance: JSON.parse(JSON.stringify(nftBalance)),
       },
     }
