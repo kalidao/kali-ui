@@ -29,6 +29,9 @@
       "@utils/*": [
         "utils/*"
       ],
+      "@constants/*": [
+        "constants/*"
+      ],
       "@graph/*": [
         "graph/*"
       ],
