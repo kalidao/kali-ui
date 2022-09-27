@@ -91,7 +91,7 @@ export default function Menu() {
   ]
 
   return (
-    <Stack direction={'horizontal'}>
+    <Stack direction={'vertical'}>
       {items
         .filter((item) => item.active === true)
         .map((item) => (

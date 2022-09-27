@@ -1,36 +1,47 @@
 import React, { useState, useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { Box, Text } from '@kalidao/reality'
+import { Stack, Button, Box, Text } from '@kalidao/reality'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@design/Tabs'
 import { Tokens, NFTs } from '@components/dao-dashboard/treasury'
 import Moralis from 'moralis'
 
 const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [show, setShow] = useState('tokens')
+
+  const render = () => {
+    if (show === 'tokens') {
+      if (tokenBalance?.notSupported) {
+        return <Text>We are working on bringing Treasury support for your chain.</Text>
+      } else {
+        return <Tokens tokenBalance={tokenBalance} />
+      }
+    }
+
+    if (show === 'nft') {
+      if (nftBalance?.notSupported) {
+        return <Text>We are working on bringing Treasury support for your chain.</Text>
+      } else {
+        return <NFTs nftBalance={nftBalance} />
+      }
+    }
+  }
+
   return (
     <Layout heading={`Treasury`} content="Look at the treasury analytics for the DAO.">
-      <Box minHeight="96">
-        <Tabs defaultValue="token">
-          <TabsList>
-            <TabsTrigger value="token">Tokens</TabsTrigger>
-            <TabsTrigger value="nft">NFTs</TabsTrigger>
-          </TabsList>
-          <TabsContent value="token">
-            {tokenBalance?.notSupported !== '' ? (
-              <Tokens tokenBalance={tokenBalance} />
-            ) : (
-              <Text>We are working on bringing Treasury support for your chain.</Text>
-            )}
-          </TabsContent>
-          <TabsContent value="nft">
-            {!nftBalance?.notSupported ? (
-              <NFTs nftBalance={nftBalance} />
-            ) : (
-              <Text>We are working on bringing Treasury support for your chain.</Text>
-            )}
-          </TabsContent>
-        </Tabs>
-      </Box>
+      <Stack>
+        <Stack direction="horizontal">
+          <Button variant={show === 'tokens' ? 'secondary' : 'transparent'} onClick={() => setShow('tokens')}>
+            Tokens
+          </Button>
+          <Button variant={show === 'nft' ? 'secondary' : 'transparent'} onClick={() => setShow('nft')}>
+            NFTs
+          </Button>
+        </Stack>
+        <Box minHeight="96" width="320">
+          {render()}
+        </Box>
+      </Stack>
     </Layout>
   )
 }
@@ -66,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      tokens: notSupported,
+      tokenBalance: notSupported,
       nftBalance: notSupported,
     },
   }

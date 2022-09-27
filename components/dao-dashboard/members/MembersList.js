@@ -9,7 +9,7 @@ export default function MembersList({ members, active, setActive }) {
       css={{
         flexDirection: 'column',
         borderRight: '1px solid hsla(0, 0%, 90%, 0.1)',
-        height: 'fit-content',
+        height: '90vh',
       }}
     >
       {members.map((member) => (

@@ -1,16 +1,17 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Box, Stack, Button, Skeleton, IconPencil, IconBookOpen } from '@kalidao/reality'
-import Card from './Card'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
+import Card from '@components/dao-dashboard/home/timeline/Card'
 import { getName } from '@graph/getName'
-import { getBuiltGraphSDK } from '../../../../.graphclient'
+import { getBuiltGraphSDK } from '../../../.graphclient'
 import { ethers } from 'ethers'
+import { container, timeline } from './proposals.css'
 
 const sdk = getBuiltGraphSDK()
 
-export default function Timeline() {
+const Proposals = () => {
   const router = useRouter()
   const { dao, chainId } = router.query
   const {
@@ -29,8 +30,7 @@ export default function Timeline() {
   )
 
   console.log('proposals', proposals)
-
-  const [show, setShow] = useState(2)
+  const [show, setShow] = useState(10)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
     () =>
@@ -40,20 +40,9 @@ export default function Timeline() {
     [proposals],
   )
 
-  useEffect(() => {
-    router.prefetch(`/daos/${chainId}/${dao}/proposals`)
-  }, [chainId, dao, router])
-
-  const gotoProposals = () => {
-    router.push(`/daos/${chainId}/${dao}/proposals`)
-  }
-
   return (
-    <Box display="flex" flexDirection="column" gap="5">
-      <Stack direction="horizontal" align="center" justify="space-between">
-        <Button prefix={<IconBookOpen />} variant="transparent" size="small" onClick={gotoProposals}>
-          View All
-        </Button>
+    <Box className={container}>
+      <Stack direction="horizontal" align="center" justify="flex-end">
         <Link
           href={{
             pathname: '/daos/[chainId]/[dao]/propose',
@@ -70,7 +59,7 @@ export default function Timeline() {
         </Link>
       </Stack>
       <Skeleton>
-        <Stack>
+        <Box className={timeline}>
           {memoizedProposals && (
             <>
               {memoizedProposals.slice(0, show).map((proposal) => (
@@ -78,8 +67,13 @@ export default function Timeline() {
               ))}
             </>
           )}
-        </Stack>
+        </Box>
       </Skeleton>
+      <Button variant="transparent" onClick={() => setShow(show + 10)}>
+        View More
+      </Button>
     </Box>
   )
 }
+
+export default Proposals
