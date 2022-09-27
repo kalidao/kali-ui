@@ -136,7 +136,7 @@ export default function Tribute({ title, editor }) {
 
   return (
     <Flex dir="col" gap="md">
-      <Text
+      {/*<Text
         css={{
           fontFamily: 'Regular',
         }}
@@ -190,7 +190,7 @@ export default function Tribute({ title, editor }) {
           />
         </FormElement>
         <Button onClick={submit}>Submit</Button>
-      </Form>
+        </Form>*/}
     </Flex>
   )
 }

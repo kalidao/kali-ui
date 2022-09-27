@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { Heading, Stack, Text, Input } from '@kalidao/reality'
+import { Heading, Stack, Box } from '@kalidao/reality'
+import Tribute from '@components/dao-dashboard/newproposal/apps/Tribute'
 
-const Tribute: NextPage = () => {
+const TributePage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data } = useContractRead({
@@ -16,13 +17,15 @@ const Tribute: NextPage = () => {
   })
 
   return (
-    <Layout heading={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
+    <Layout heading={data ? data.toString() : 'Tribute'} content="Create or vote on a proposal.">
       <Stack>
-        <Heading>Make a Tribute</Heading>
-        <Input label="Description" />
+        <Heading>Work Under Progress</Heading>
+        <Box minHeight="96" width="320">
+          <Tribute title={''} description={''} />
+        </Box>
       </Stack>
     </Layout>
   )
 }
 
-export default Tribute
+export default TributePage
