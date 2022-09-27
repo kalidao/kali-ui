@@ -68,7 +68,15 @@ export default function Visualizer({ proposal }) {
   }
 
   return (
-    <Box borderWidth={'1'} padding="2" borderRadius={'2xLarge'}>
+    <Box
+      borderWidth={'1'}
+      padding="2"
+      borderRadius={'2xLarge'}
+      maxWidth={{
+        xs: '80',
+        lg: '288',
+      }}
+    >
       {component}
     </Box>
   )

@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { Flex, Button } from '../../styles/elements'
+import { Stack, Button } from '@kalidao/reality'
 import { Form } from '../../styles/form-elements'
 import { useForm } from 'react-hook-form'
-import { useStateMachine } from 'little-state-machine'
+import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
 import { getNames } from '../../graph/queries'
 import { FieldSet, Input } from '@kalidao/reality'
 
-export default function Identity({ setStep }) {
+type Props = {
+  setStep: React.Dispatch<React.SetStateAction<number>>
+}
+
+export default function Identity({ setStep }: Props) {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm()
-  const { activeChain } = useNetwork()
+  } = useForm<GlobalState>()
+  const { chain: activeChain } = useNetwork()
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
-  const [names, setNames] = useState([])
+  const [names, setNames] = useState<string[]>([])
 
   useEffect(() => {
     if (!activeChain) return
@@ -38,7 +42,7 @@ export default function Identity({ setStep }) {
     }
   }, [activeChain])
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: GlobalState) => {
     // name check
     if (names.includes(data?.name)) {
       setError(
@@ -99,11 +103,11 @@ export default function Identity({ setStep }) {
         {errors.name && <span>{errors?.name?.message}</span>}
         {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
       </FieldSet>
-      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
+      <Stack direction={"horizontal"} justify="flex-end">
         <Button variant="primary" type="submit">
           Next
         </Button>
-      </Flex>
+      </Stack>
     </Form>
   )
 }

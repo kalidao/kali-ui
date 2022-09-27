@@ -45,7 +45,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx"
-, "components/dao-dashboard/home/timeline/Card.jsx"  ],
+, "components/dao-dashboard/home/timeline/Card.jsx", "components/hooks/useExplorer.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import StarterKit from '@tiptap/starter-kit'
-import { Stack, Text } from '@kalidao/reality'
+import { Text } from '@kalidao/reality'
 import { generateHTML } from '@tiptap/react'
 
 export default function Description({ description, isSchema }) {
@@ -17,14 +17,17 @@ export default function Description({ description, isSchema }) {
       {/* TODO: output could be anything, sanitize?  */}
       {isSchema ? (
         output && (
-          <Text color="foreground">
+          <Text color="foreground" responsive>
             <div dangerouslySetInnerHTML={{ __html: output }}></div>
           </Text>
         )
       ) : description.length > 0 ? (
-        <Text color="foreground">{description}</Text>
+        <Text color="foreground" responsive>
+          {description}
+        </Text>
       ) : (
         <Text
+          responsive
           css={{
             color: '$gray300',
           }}

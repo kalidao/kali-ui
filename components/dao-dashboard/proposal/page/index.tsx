@@ -39,16 +39,29 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Stack>
+    <Box
+      display="flex"
+      flexDirection="column"
+      gap="2"
+      maxWidth={{
+        xs: 'screenSm',
+        xl: '320',
+      }}
+    >
       <Stack direction="horizontal" align="center">
-        <Heading>
+        <Heading responsive>
           {`#${proposalId} `}
           {details && details?.title}
         </Heading>
         <Tag>{proposal['proposalType']}</Tag>
       </Stack>
       <InfoBar proposal={proposal} />
-      <Stack direction="horizontal">
+      <Stack
+        direction={{
+          xs: 'vertical',
+          md: 'horizontal',
+        }}
+      >
         <Stack>
           {proposal && (
             <Description
@@ -93,6 +106,6 @@ export default function ProposalView({ proposal }: Props) {
           </>
         )}
       </Stack>
-    </Stack>
+    </Box>
   )
 }

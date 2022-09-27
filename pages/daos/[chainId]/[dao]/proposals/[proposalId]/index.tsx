@@ -22,7 +22,12 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
 
   return (
     <Layout heading={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
-      <Stack direction="horizontal">
+      <Stack
+        direction={{
+          xs: 'vertical',
+          lg: 'horizontal',
+        }}
+      >
         <Button variant="transparent" shape="circle" onClick={goBack}>
           <IconArrowLeft />
         </Button>
