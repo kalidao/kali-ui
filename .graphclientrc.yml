@@ -1,8 +1,8 @@
 sources:
-  - name: Sushiswap
+  - name: Kali
     handler:
       graphql:
-        # Default value is bentobox-avalance
+        # Default value is kali-mainnet
         # This is needed for the initial introspection on buildtime
         endpoint: https://api.thegraph.com/subgraphs/name/nerderlyne/{context.chainName:kali-mainnet}
     transforms:
