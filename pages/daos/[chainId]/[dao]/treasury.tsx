@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         address,
         chain: Number(chainId),
       }),
-    ]);
+    ])
     console.log(tokenBalance, nftBalance)
 
     return {

@@ -103,7 +103,7 @@ export default function Identity({ setStep }: Props) {
         {errors.name && <span>{errors?.name?.message}</span>}
         {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
       </FieldSet>
-      <Stack direction={"horizontal"} justify="flex-end">
+      <Stack direction={'horizontal'} justify="flex-end">
         <Button variant="primary" type="submit">
           Next
         </Button>

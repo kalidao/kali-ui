@@ -1,12 +1,12 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
+  - name: Start Kali UI dev environment
+    init: pnpm install && pnpm run build-client
+    command: pnpm run dev
+
   - name: Start Graph Client
     init: pnpm run build-client
     command: pnpm run graphiql
-
-  - name: Start Kali UI dev environment
-    init: pnpm install
-    command: pnpm run dev
 
   - name: Command Line Shell
     command: bash
