@@ -1,12 +1,12 @@
 import { EditorContent } from '@tiptap/react'
-import { Flex } from '../../styles/elements'
 import Menu from './Menu'
+import { Box } from '@kalidao/reality'
 
 export default function Editor({ editor }) {
   return (
-    <Flex>
+    <Box width="2/3">
       <Menu editor={editor} />
       <EditorContent editor={editor} />
-    </Flex>
+    </Box>
   )
 }

@@ -38,7 +38,7 @@
     "@react-pdf/renderer": "^2.1.0",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.3.4",
-    "@tiptap/react": "^2.0.0-beta.114",
+    "@tiptap/react": "2.0.0-beta.197",
     "@tiptap/starter-kit": "2.0.0-beta.196",
     "@vanilla-extract/css-utils": "^0.1.2",
     "@walletconnect/web3-provider": "^1.7.1",

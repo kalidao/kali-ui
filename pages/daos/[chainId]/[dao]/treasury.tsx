@@ -29,19 +29,21 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
 
   return (
     <Layout heading={`Treasury`} content="Look at the treasury analytics for the DAO.">
-      <Stack>
-        <Stack direction="horizontal">
-          <Button variant={show === 'tokens' ? 'secondary' : 'transparent'} onClick={() => setShow('tokens')}>
-            Tokens
-          </Button>
-          <Button variant={show === 'nft' ? 'secondary' : 'transparent'} onClick={() => setShow('nft')}>
-            NFTs
-          </Button>
+      <Box minHeight="96" width="320">
+        <Stack>
+          <Stack direction="horizontal">
+            <Button variant={show === 'tokens' ? 'secondary' : 'transparent'} onClick={() => setShow('tokens')}>
+              Tokens
+            </Button>
+            <Button variant={show === 'nft' ? 'secondary' : 'transparent'} onClick={() => setShow('nft')}>
+              NFTs
+            </Button>
+          </Stack>
+          <Box >
+            {render()}
+          </Box>
         </Stack>
-        <Box minHeight="96" width="320">
-          {render()}
-        </Box>
-      </Stack>
+      </Box>
     </Layout>
   )
 }

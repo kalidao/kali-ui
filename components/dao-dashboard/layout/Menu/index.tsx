@@ -2,38 +2,14 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
-import { styled } from '@design/stitches.config'
-import { Flex, Text } from '@design/elements'
-
 import { BsPiggyBank, BsFillPeopleFill } from 'react-icons/bs'
 import { GiCoins } from 'react-icons/gi'
 import { HiHome } from 'react-icons/hi'
 import { FaPen } from 'react-icons/fa'
 import { GearIcon } from '@radix-ui/react-icons'
 import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
-import { Stack } from '@kalidao/reality'
-
-const Icon = styled('span', {
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '6px',
-  alignItems: 'center',
-  background: '$background',
-  maxWidth: '2rem',
-  borderRadius: '100%',
-  height: '24px',
-  width: '24px',
-
-  '& svg': {
-    color: `$gray7`,
-    '&:hover': {
-      color: `$gray8`,
-    },
-    '&:active': {
-      color: `$gray9`,
-    },
-  },
-})
+import { IconTokens, IconCogSolid, IconPencil, IconUserGroupSolid, Stack, Button } from '@kalidao/reality'
+import type { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
 
 export default function Menu() {
   const router = useRouter()
@@ -54,7 +30,7 @@ export default function Menu() {
     {
       link: 'swap',
       label: 'Swap',
-      icon: <GiCoins />,
+      icon: <IconTokens />,
       active: true,
     },
     {
@@ -66,7 +42,7 @@ export default function Menu() {
     {
       link: 'members',
       label: 'Members',
-      icon: <BsFillPeopleFill />,
+      icon: <IconUserGroupSolid />,
       active: true,
     },
     // TODO: Add analytics
@@ -79,13 +55,13 @@ export default function Menu() {
     {
       link: 'settings',
       label: 'Settings',
-      icon: <GearIcon />,
+      icon: <IconCogSolid />,
       active: true,
     },
     {
       link: 'propose',
       label: 'Propose',
-      icon: <FaPen />,
+      icon: <IconPencil />,
       active: true,
     },
   ]
@@ -125,41 +101,9 @@ const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
       }}
       passHref
     >
-      <Flex
-        css={{
-          alignItems: 'center',
-          gap: '10px',
-          borderRadius: '10px',
-          color: '$gray12',
-          paddingRight: '15px',
-          // width: '100%',
-
-          '&:hover': {
-            background: '$gray5',
-          },
-          '@media (max-width: 640px)': {
-            borderRadius: '100%',
-            justifyContent: 'center',
-            height: '24px',
-            width: '24px',
-            padding: '10px',
-          },
-        }}
-      >
-        <Icon>{icon}</Icon>
-        <Text
-          css={{
-            fontFamily: 'Regular',
-            fontSize: '16px',
-
-            '@media (max-width: 640px)': {
-              display: 'none',
-            },
-          }}
-        >
-          {label}
-        </Text>
-      </Flex>
+      <Button as="a" justifyContent={"space-between"} prefix={icon as ReactNodeNoStrings} variant="transparent" width="full">
+        {label}
+      </Button>
     </Link>
   )
 }
