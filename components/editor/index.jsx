@@ -1,6 +1,6 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import { css, styled } from '../../styles/stitches.config'
-import StarterKit from "@tiptap/starter-kit";
+import StarterKit from '@tiptap/starter-kit'
 
 import { BubbleMenu } from '@tiptap/react'
 import { FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons'
@@ -30,9 +30,7 @@ const Item = styled('button', {
 
 export default function Editor({ setContent }) {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
     content: `
       <p>
         Provide a detailed description of your proposal here!
@@ -41,7 +39,7 @@ export default function Editor({ setContent }) {
     onUpdate({ editor }) {
       console.log('editor', editor.getJSON())
       setContent(editor.getJSON())
-    }
+    },
   })
 
   return (

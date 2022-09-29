@@ -54,7 +54,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
     try {
       console.log('tx params', 0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)])
       const tx = propose({
-        recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]]
+        recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
       })
     } catch (e) {
       console.error('error', e)
@@ -63,7 +63,10 @@ export default function AddMember({ setProposal, content, title }: Props) {
 
   return (
     <Stack>
-      <FieldSet legend="Mint Tokens" description="This will create a proposal to create and give tokens to the recipient.">
+      <FieldSet
+        legend="Mint Tokens"
+        description="This will create a proposal to create and give tokens to the recipient."
+      >
         <Input
           label="Recipient"
           description="The user that will receive tokens."
@@ -79,14 +82,16 @@ export default function AddMember({ setProposal, content, title }: Props) {
           description="The amount of tokens to mint."
           name="amount"
           type="number"
-          inputMode='decimal'
+          inputMode="decimal"
           placeholder="1000"
           value={amount}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value))}
         />
       </FieldSet>
-      <Stack direction={"horizontal"} justify="space-between">
-        <Button variant="transparent" shape="circle" onClick={() => setProposal('membersMenu')}><IconArrowLeft /></Button>
+      <Stack direction={'horizontal'} justify="space-between">
+        <Button variant="transparent" shape="circle" onClick={() => setProposal('membersMenu')}>
+          <IconArrowLeft />
+        </Button>
         <ChainGuard>
           <Button variant="primary" onClick={submit} disabled={!propose || isProposePending || isProposeSuccess}>
             {isProposePending ? 'Submitting...(check wallet)' : 'Submit'}
@@ -98,6 +103,6 @@ export default function AddMember({ setProposal, content, title }: Props) {
           </Text>
         </ChainGuard>
       </Stack>
-    </Stack >
+    </Stack>
   )
 }
