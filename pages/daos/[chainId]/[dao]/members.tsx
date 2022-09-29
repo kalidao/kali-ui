@@ -35,7 +35,7 @@ const MembersPage: NextPage = ({
 
   return (
     <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-       <Box minHeight="96" width="320">
+      <Box minHeight="96" width="320">
         <Stack direction="horizontal">
           <MembersList members={list} active={member} setActive={setMember} />
           <MemberProfile

@@ -3,15 +3,13 @@ import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
 import { useEditor } from '@tiptap/react'
-import StarterKit from "@tiptap/starter-kit";
+import StarterKit from '@tiptap/starter-kit'
 import { Box, FieldSet, Input, Text } from '@kalidao/reality'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')
   const editor = useEditor({
-    extensions: [
-      StarterKit as any,
-    ],
+    extensions: [StarterKit as any],
     content: `
       <p>
         Provide a detailed description of your proposal here!

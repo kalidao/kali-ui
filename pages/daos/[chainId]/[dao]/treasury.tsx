@@ -39,9 +39,7 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
               NFTs
             </Button>
           </Stack>
-          <Box >
-            {render()}
-          </Box>
+          <Box>{render()}</Box>
         </Stack>
       </Box>
     </Layout>
