@@ -1,6 +1,11 @@
-import { BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent } from '@tiptap/react'
 import { css, styled } from '../../styles/stitches.config'
+import StarterKit from "@tiptap/starter-kit";
+
+import { BubbleMenu } from '@tiptap/react'
 import { FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons'
+
+import { Box } from '@kalidao/reality'
 
 const bubbles = css({
   backgroundColor: '$mauve12',
@@ -23,13 +28,28 @@ const Item = styled('button', {
   },
 })
 
-export default function Menu({ editor }) {
+export default function Editor({ setContent }) {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+    ],
+    content: `
+      <p>
+        Provide a detailed description of your proposal here!
+      </p>
+    `,
+    onUpdate({ editor }) {
+      console.log('editor', editor.getJSON())
+      setContent(editor.getJSON())
+    }
+  })
+
   return (
-    <>
+    <Box width="2/3">
       {editor && (
         <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className={bubbles()}>
           <Item
-            onClick={() => editor.chain().focus().toggleBold().run()}
+            onClick={() => editor.chain().focus().toggleBold('bold').run()}
             className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <FontBoldIcon />
@@ -48,6 +68,7 @@ export default function Menu({ editor }) {
           </Item>
         </BubbleMenu>
       )}
-    </>
+      <EditorContent editor={editor} />
+    </Box>
   )
 }

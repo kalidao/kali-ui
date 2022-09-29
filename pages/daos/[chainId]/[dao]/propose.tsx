@@ -2,22 +2,12 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { useEditor } from '@tiptap/react'
-import StarterKit from "@tiptap/starter-kit";
 import { Box, FieldSet, Input, Text } from '@kalidao/reality'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')
-  const editor = useEditor({
-    extensions: [
-      StarterKit as any,
-    ],
-    content: `
-      <p>
-        Provide a detailed description of your proposal here!
-      </p>
-    `,
-  })
+  const [content, setContent] = useState()
+
   return (
     <Layout heading={'Propose'} content="Create a proposal.">
       <Box minHeight="96" width="320">
@@ -34,9 +24,9 @@ export default function ProposePage() {
             required
           />
           <Text>Description</Text>
-          <Editor editor={editor} />
+          <Editor setContent={setContent} />
           <Text>Instruction</Text>
-          <NewProposalModal proposalProp="menu" editor={editor} title={title} />
+          <NewProposalModal proposalProp="menu" content={content} title={title} />
         </FieldSet>
       </Box>
     </Layout>
