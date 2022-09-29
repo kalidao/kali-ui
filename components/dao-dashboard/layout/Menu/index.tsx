@@ -101,7 +101,13 @@ const Item = ({ link, label, icon, chainId, dao }: ItemProps) => {
       }}
       passHref
     >
-      <Button as="a" prefix={icon as ReactNodeNoStrings} variant="transparent" width="full">
+      <Button
+        as="a"
+        justifyContent={'space-between'}
+        prefix={icon as ReactNodeNoStrings}
+        variant="transparent"
+        width="full"
+      >
         {label}
       </Button>
     </Link>
