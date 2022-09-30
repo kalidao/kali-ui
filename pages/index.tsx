@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
-import { Heading, Text, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
+import { Heading, Text, Box, Button, IconPencil, IconGrid, IconBookOpen } from '@kalidao/reality'
 import { useAccount } from 'wagmi'
 import UserDAOs from '@components/home/UserDAOs'
 
@@ -56,6 +56,9 @@ const HomePage: NextPage = () => {
           </Button>
           <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
             Explore
+          </Button>
+          <Button prefix={<IconBookOpen />} variant="secondary" as="a" href={"https://www.loom.com/share/76197b675b714316a752c895451381e2"} target="_blank" >
+            Tutorial
           </Button>
         </Box>
       </Box>
