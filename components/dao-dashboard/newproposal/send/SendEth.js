@@ -8,7 +8,7 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function SendEth({ setProposal, title, editor }) {
   const router = useRouter()

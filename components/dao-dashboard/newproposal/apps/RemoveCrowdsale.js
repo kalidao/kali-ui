@@ -9,7 +9,7 @@ import { addresses } from '../../../../constants/addresses'
 import { Warning } from '../../../../styles/elements'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function RemoveCrowdsale({ setProposal, title, editor, toggle }) {
   const router = useRouter()

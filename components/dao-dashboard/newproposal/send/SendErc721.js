@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { isHolder } from '../../../../utils'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function SendErc721({ setProposal, title, editor }) {
   const router = useRouter()

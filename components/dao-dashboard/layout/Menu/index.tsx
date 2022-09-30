@@ -45,13 +45,6 @@ export default function Menu() {
       icon: <IconUserGroupSolid />,
       active: true,
     },
-    // TODO: Add analytics
-    // {
-    //   link: 'analytics',
-    //   label: 'Analytics',
-    //   icon: <RiInformationFill />,
-    //   active: true,
-    // },
     {
       link: 'settings',
       label: 'Settings',

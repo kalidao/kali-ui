@@ -26,7 +26,7 @@ type Props = {
 }
 
 interface Component {
-  title: string,
+  title: string
   component: React.ReactNode
 }
 
@@ -159,13 +159,5 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     },
   }
 
-  return (
-    <>
-      {view && (
-        <Box width="2/3">
-          {proposals[view]['component']}
-        </Box>
-      )}
-    </>
-  )
+  return <>{view && <Box width="2/3">{proposals[view]['component']}</Box>}</>
 }

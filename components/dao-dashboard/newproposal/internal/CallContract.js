@@ -10,7 +10,7 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
 import { ethers } from 'ethers'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function CallContract({ setProposal, title, editor }) {
   const router = useRouter()

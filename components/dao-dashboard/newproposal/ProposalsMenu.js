@@ -1,4 +1,4 @@
-import { ExitIcon} from '@radix-ui/react-icons'
+import { ExitIcon } from '@radix-ui/react-icons'
 import { MdOutlinePayments, MdOutlineManageAccounts, MdDraw } from 'react-icons/md'
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
 import React from 'react'
@@ -7,8 +7,7 @@ import { Stack, Text } from '@kalidao/reality'
 
 export default function ProposalsMenu({ setProposal }) {
   return (
-    <Stack
-    >
+    <Stack>
       <Text>Different types of proposals for different needs.</Text>
       <Text>External calls are calls to another smart contract directly. User beware.</Text>
       <Text>Apps are add-ons for KaliDAOs. Check out what's available. </Text>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { createProposal } from '@components/tools/createProposal'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { AddressZero } from '@ethersproject/constants'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack, IconArrowLeft } from '@kalidao/reality'
@@ -39,31 +39,39 @@ export default function AddMember({ setProposal, content, title }: Props) {
   } = useContractWriteResult
 
   const submit = async () => {
-    if (!propose) return // wallet not ready to submit on chain
+    if (!propose || !dao || !chainId) return // wallet not ready to submit on chain
 
     let docs
     try {
-      docs = await createProposal(dao, chainId, 0, title, content)
+      docs = await createProposal(dao as string, Number(chainId), 0, title, content)
+      try {
+        console.log(
+          'tx params',
+          0,
+          'docs:',
+          docs,
+          [recipient],
+          [ethers.utils.parseEther(amount.toString())],
+          [Array(0)],
+        )
+        const tx = propose({
+          recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
+        })
+      } catch (e) {
+        console.error('error', e)
+      }
     } catch (e) {
       console.error(e)
       return
-    }
-
-    console.log(amount, content)
-
-    try {
-      console.log('tx params', 0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)])
-      const tx = propose({
-        recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]]
-      })
-    } catch (e) {
-      console.error('error', e)
     }
   }
 
   return (
     <Stack>
-      <FieldSet legend="Mint Tokens" description="This will create a proposal to create and give tokens to the recipient.">
+      <FieldSet
+        legend="Mint Tokens"
+        description="This will create a proposal to create and give tokens to the recipient."
+      >
         <Input
           label="Recipient"
           description="The user that will receive tokens."
@@ -79,17 +87,26 @@ export default function AddMember({ setProposal, content, title }: Props) {
           description="The amount of tokens to mint."
           name="amount"
           type="number"
-          inputMode='decimal'
+          inputMode="decimal"
           placeholder="1000"
+          min={0}
           value={amount}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value))}
         />
       </FieldSet>
-      <Stack direction={"horizontal"} justify="space-between">
-        <Button variant="transparent" shape="circle" onClick={() => setProposal('membersMenu')}><IconArrowLeft /></Button>
+      <Stack direction={'horizontal'} justify="space-between">
+        <Button variant="transparent" shape="circle" onClick={() => setProposal('membersMenu')}>
+          <IconArrowLeft />
+        </Button>
         <ChainGuard>
-          <Button variant="primary" onClick={submit} disabled={!propose || isProposePending || isProposeSuccess}>
-            {isProposePending ? 'Submitting...(check wallet)' : 'Submit'}
+          <Button
+            center
+            variant="primary"
+            onClick={submit}
+            loading={isProposePending}
+            disabled={!propose || isProposePending || isProposeSuccess}
+          >
+            {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
           <Text>
             {isProposeSuccess
@@ -98,6 +115,6 @@ export default function AddMember({ setProposal, content, title }: Props) {
           </Text>
         </ChainGuard>
       </Stack>
-    </Stack >
+    </Stack>
   )
 }

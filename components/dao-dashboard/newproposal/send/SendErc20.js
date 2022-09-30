@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { tokens } from '../../../../constants/tokens'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function SendErc20({ setProposal, title, editor }) {
   const router = useRouter()

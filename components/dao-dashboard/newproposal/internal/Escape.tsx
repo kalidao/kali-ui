@@ -5,7 +5,7 @@ import { Form, FormElement, Label, Input } from '@design/form-elements'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 type EscapeProps = {
   dao: string

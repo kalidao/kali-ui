@@ -6,7 +6,7 @@ import { Form, FormElement, Label, Input } from '../../../../styles/form-element
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/createProposal.ts'
 
 export default function RemoveMember({ setProposal, editor, title }) {
   const router = useRouter()

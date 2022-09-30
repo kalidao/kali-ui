@@ -7,6 +7,8 @@ import { isHolder } from './isHolder'
 import { fetchTokens } from './fetchTokens'
 import { getRandomEmoji } from './getRandomEmoji'
 import { truncateAddress } from './truncateAddress'
+import { convertIpfsHash } from './convertIpfsHash'
+import { isURL, isProp } from './proposals'
 
 export {
   copy,
@@ -19,4 +21,7 @@ export {
   fetchTokens,
   getRandomEmoji,
   truncateAddress,
+  convertIpfsHash,
+  isProp,
+  isURL,
 }
