@@ -10,9 +10,9 @@ import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
 import { ethers } from 'ethers'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/'
 
-export default function CallContract({ setProposal, title, editor }) {
+export default function CallContract({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -124,7 +124,7 @@ export default function CallContract({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+      docs = await createProposal(daoAddress, daoChainId, 2, title, content)
     } catch (e) {
       console.error(e)
       return

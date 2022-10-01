@@ -47,8 +47,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx"
-, "components/dao-dashboard/home/timeline/Card.jsx", "components/hooks/useExplorer.js"  ],
+    "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx",
+    "components/dao-dashboard/home/timeline/Card.jsx",
+    "components/hooks/useExplorer.js",
+    "components/editor/index.jsx",
+    "components/dao-dashboard/newproposal/apps/SetCrowdsale.js"
+  ],
   "exclude": [
     "node_modules"
   ]

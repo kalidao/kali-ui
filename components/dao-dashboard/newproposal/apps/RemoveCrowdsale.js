@@ -9,9 +9,9 @@ import { addresses } from '../../../../constants/addresses'
 import { Warning } from '../../../../styles/elements'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/'
 
-export default function RemoveCrowdsale({ setProposal, title, editor, toggle }) {
+export default function RemoveCrowdsale({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
@@ -32,7 +32,7 @@ export default function RemoveCrowdsale({ setProposal, title, editor, toggle }) 
 
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return

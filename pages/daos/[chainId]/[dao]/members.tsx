@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../../../components/dao-dashboard/layout'
 import { MembersList, MemberProfile } from '../../../../components/dao-dashboard/members'
 import { GRAPH_URL } from '../../../../graph'
-import { Stack } from '@kalidao/reality'
+import { Box, Stack } from '@kalidao/reality'
 
 const MembersPage: NextPage = ({
   members,
@@ -35,15 +35,17 @@ const MembersPage: NextPage = ({
 
   return (
     <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Stack direction={'horizontal'}>
-        <MembersList members={list} active={member} setActive={setMember} />
-        <MemberProfile
-          member={member}
-          proposals={memberProposals}
-          votes={memberVotes}
-          totalSupply={members?.token?.totalSupply}
-        />
-      </Stack>
+      <Box minHeight="96" width="320">
+        <Stack direction="horizontal">
+          <MembersList members={list} active={member} setActive={setMember} />
+          <MemberProfile
+            member={member}
+            proposals={memberProposals}
+            votes={memberVotes}
+            totalSupply={members?.token?.totalSupply}
+          />
+        </Stack>
+      </Box>
     </Layout>
   )
 }

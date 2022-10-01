@@ -6,14 +6,9 @@ import { Box } from '../../styles/elements'
 
 export default function ChainGuard({ children }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
-
-  console.log({ daoAddress, daoChainId })
-
   const { chain: userChain, chains } = useNetwork()
   const daoChainName = chains?.find((chain) => chain.id == daoChainId)?.name
-  console.log({ chains, daoChainName })
 
   const isWrongChain = userChain?.id != daoChainId ? true : false
   const wrongChainWarning = userChain

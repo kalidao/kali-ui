@@ -14,12 +14,7 @@ const config = {
       'raw.githubusercontent.com',
     ],
   },
-  webpack: function (config, options) {
-    config.experiments = {
-      topLevelAwait: true,
-    }
-    return config
-  },
+  swcMinify: true,
 }
 
 module.exports = withVanillaExtract(config)

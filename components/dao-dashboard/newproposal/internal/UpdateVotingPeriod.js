@@ -15,7 +15,7 @@ import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../editor'
 import Editor from '../../../editor'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/'
 
 export default function UpdateVotingPeriod({ setView }) {
   const router = useRouter()

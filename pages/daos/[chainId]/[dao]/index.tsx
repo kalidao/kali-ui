@@ -4,6 +4,7 @@ import Layout from '@components/dao-dashboard/layout'
 import { Home } from '@components/dao-dashboard'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
+import { Box } from '@kalidao/reality'
 
 const DashboardPage: NextPage = () => {
   const router = useRouter()
@@ -17,7 +18,9 @@ const DashboardPage: NextPage = () => {
 
   return (
     <Layout heading={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
-      <Home />
+      <Box minHeight="96" width="320">
+        <Home />
+      </Box>
     </Layout>
   )
 }

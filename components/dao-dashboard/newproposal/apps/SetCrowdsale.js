@@ -7,63 +7,42 @@ import { Form, FormElement, Label, Input, Select } from '../../../../styles/form
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import KALIACCESS_ABI from '../../../../abi/KaliAccessManagerV2.json'
-import { ipfsCrowdsaleData, ipfsCrowdsaleReceipt, ipfsCrowdsaleTerms } from '../../../tools/ipfsHelpers'
+import { ipfsCrowdsaleData, ipfsCrowdsaleTerms } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
-import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
-import Editor from '../../../editor'
-import { useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import styles from '../../../../components/editor/editor.module.css'
+import { createProposal } from '../utils/'
+import Editor from '@components/editor'
 import { Tip } from '../../../elements'
 
-export default function SetCrowdsale({ setProposal, title, editor }) {
+export default function SetCrowdsale({ setProposal, title, content }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const chainId = router.query.chainId
+  const { dao, chainId } = router.query
   const { data: signer } = useSigner()
-  const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
+  const crowdsaleAddress = addresses[Number(chainId)]['extensions']['crowdsale2']
 
-  const { data: kalidaoToken } = useContractRead(
-    {
-      addressOrName: daoAddress,
-      contractInterface: KALIDAO_ABI,
-    },
-    'symbol',
-    {
-      chainId: Number(chainId),
-    },
-  )
+  const { data: kalidaoToken } = useContractRead({
+    addressOrName: dao ? dao : ethers.constants.AddressZero,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'symbol',
+    chainId: Number(chainId),
+  })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
+    addressOrName: dao ? dao : ethers.constants.AddressZero,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[chainId]['access2'],
+    addressOrName: addresses[Number(chainId)]['access2'],
     contractInterface: KALIACCESS_ABI,
     signerOrProvider: signer,
   })
 
   // form
-  const background = useEditor({
-    extensions: [
-      StarterKit.configure({
-        HTMLAttributes: {
-          class: styles.editor,
-        },
-      }),
-    ],
-    content: '',
-    injectCSS: false,
-  })
-
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customToken, setCustomToken] = useState(null)
   const [purchaseAccess, setPurchaseAccess] = useState('select')
@@ -76,6 +55,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
   const [warning, setWarning] = useState(null)
   const [isRecorded, setIsRecorded] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
+  const [background, setBackground] = useState()
 
   const handleValidation = async (e) => {
     e.preventDefault()
@@ -210,7 +190,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -317,7 +297,7 @@ export default function SetCrowdsale({ setProposal, title, editor }) {
               "Why should I swap?"
               <Tip label={'Give users reasons to swap.'} />
             </Label>
-            <Editor editor={background} />
+            <Editor setContent={setBackground} />
           </Flex>
         </FormElement>
         <FormElement>

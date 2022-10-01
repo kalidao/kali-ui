@@ -14,30 +14,23 @@ import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../../../tools/createProposal'
+import { createProposal } from '../utils/'
 import Editor from '../../../editor'
-import { useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import styles from '../../../../components/editor/editor.module.css'
 import { Tip } from '../../../elements'
 
-export default function UpdateCrowdsale({ setProposal, title, editor }) {
+export default function UpdateCrowdsale({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
-  const { data: kalidaoToken } = useContractRead(
-    {
-      addressOrName: daoAddress,
-      contractInterface: KALIDAO_ABI,
-    },
-    'symbol',
-    {
-      chainId: Number(chainId),
-    },
-  )
+  const { data: kalidaoToken } = useContractRead({
+    addressOrName: daoAddress,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'symbol',
+    chainId: Number(chainId),
+  })
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -52,17 +45,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor }) {
   })
 
   // form
-  const background = useEditor({
-    extensions: [
-      StarterKit.configure({
-        HTMLAttributes: {
-          class: styles.editor,
-        },
-      }),
-    ],
-    content: '',
-    injectCSS: false,
-  })
+  const [background, setBackground] = useState()
 
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customToken, setCustomToken] = useState(null)
@@ -190,7 +173,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor }) {
 
     // Upload background to IPFS
     try {
-      await ipfsCrowdsaleData(daoAddress, chainId, background.getJSON(), termsHash)
+      await ipfsCrowdsaleData(daoAddress, chainId, background, termsHash)
     } catch (e) {
       console.error(e)
     }
@@ -210,7 +193,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -317,7 +300,7 @@ export default function UpdateCrowdsale({ setProposal, title, editor }) {
               "Why should I swap?"
               <Tip label={'Give users reasons to swap.'} />
             </Label>
-            <Editor editor={background} />
+            <Editor setContent={setBackground} />
           </Flex>
         </FormElement>
         <FormElement>
