@@ -13,6 +13,7 @@ import Process from '../Process'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
 import { useFetch } from '../../../hooks/useFetch'
+import { isURL } from '@utils/proposals'
 
 type Props = {
   proposal: any
@@ -22,7 +23,15 @@ export default function ProposalView({ proposal }: Props) {
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const { address } = useAccount()
-  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
+  const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
+  const url = isURL(proposal?.description)
+  const {
+    data: details,
+    isLoading,
+    error,
+  } = useFetch(
+    url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
+  )
 
   const canProcess = () => {
     const timeLeft =
@@ -66,7 +75,7 @@ export default function ProposalView({ proposal }: Props) {
           {proposal && (
             <Description
               description={details ? details?.description : proposal?.description}
-              isSchema={details && proposal?.description.slice(0, 7) == 'prop://' ? true : false}
+              isSchema={details ? true : false}
             />
           )}
           <Visualizer proposal={proposal} />
