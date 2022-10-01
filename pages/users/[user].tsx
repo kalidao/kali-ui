@@ -7,10 +7,7 @@ import { NextPage } from 'next'
 const UserDAOsPage: NextPage = () => {
   const router = useRouter()
   return (
-    <Layout
-      heading={'User'}
-      content={`Learn more about user activity on Kali platform.`}
-    >
+    <Layout heading={'User'} content={`Learn more about user activity on Kali platform.`}>
       <UserDAOs address={router.query.user as string} />
     </Layout>
   )
