@@ -118,7 +118,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
               : isProposeError && `Error submitting proposal: ${proposeError}`}
           </Text>
         </ChainGuard>
-      </Stack>
-    </Stack>
+      </Stack >
+    </Stack >
   )
 }
