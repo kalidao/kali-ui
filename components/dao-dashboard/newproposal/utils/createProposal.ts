@@ -18,16 +18,12 @@ const createProposal = async (
       description: description,
     }
 
-    const result = await fetch('api/json', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
+    const result = await fetch('https://api.pinata.cloud/pinning/pinJSONToIPFS', {
+      method: 'post',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
       },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       body: JSON.stringify(obj),
     }).then((res) => res.json())
 
