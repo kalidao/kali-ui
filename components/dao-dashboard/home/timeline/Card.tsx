@@ -7,6 +7,7 @@ import Vote from '../../proposal/vote'
 import { useFetch } from '../../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 import { linkStyle } from './ProposalCard.css'
+import { isURL } from '@utils/proposals'
 
 type Status = {
   text: string
@@ -25,8 +26,15 @@ export default function ProposalCard({ proposal }: PropCardProp) {
     address: proposal['proposer'],
     chainId: 1,
   })
-  const { data: details, isLoading, error } = useFetch(`https://${proposal?.description.slice(7)}.ipfs.dweb.link/`)
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
+  const url = isURL(proposal?.description)
+  const {
+    data: details,
+    isLoading,
+    error,
+  } = useFetch(
+    url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
+  )
 
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
 
