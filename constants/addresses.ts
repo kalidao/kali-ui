@@ -1,5 +1,5 @@
 // TODO: Add kali master for polygon
-export const addresses =
+export const addresses: { [key: number]: any } =
   // organized by chainId
   {
     // Ethereum

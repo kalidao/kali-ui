@@ -5,8 +5,9 @@ import { useRouter } from 'next/router'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { AddressZero } from '@ethersproject/constants'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
-import { FieldSet, Text, Input, Button, Stack, IconArrowLeft } from '@kalidao/reality'
+import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { ethers } from 'ethers'
+import Back from '@design/proposal/Back'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
@@ -22,21 +23,18 @@ export default function AddMember({ setProposal, content, title }: Props) {
   const [recipient, setRecipient] = useState(ethers.constants.AddressZero)
   const [amount, setAmount] = useState(0)
 
-  const useContractWriteResult = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
-    functionName: 'propose',
-    args: [0, '', [AddressZero], [0], [Array(0)]], // dummy params for gas estimate
-  })
-
   const {
     isSuccess: isProposeSuccess,
     isError: isProposeError,
     error: proposeError,
     isLoading: isProposePending,
     write: propose,
-  } = useContractWriteResult
+  } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: dao as string,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'propose',
+  })
 
   const submit = async () => {
     if (!propose || !dao || !chainId) return // wallet not ready to submit on chain
@@ -54,15 +52,23 @@ export default function AddMember({ setProposal, content, title }: Props) {
           [ethers.utils.parseEther(amount.toString())],
           [Array(0)],
         )
-        const tx = propose({
-          recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
-        })
       } catch (e) {
         console.error('error', e)
       }
     } catch (e) {
       console.error(e)
       return
+    }
+
+    if (docs) {
+      try {
+        const tx = propose({
+          recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
+        })
+        console.log('tx', tx)
+      } catch (e) {
+        console.log('error', e)
+      }
     }
   }
 
@@ -95,9 +101,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
         />
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
-        <Button variant="transparent" shape="circle" onClick={() => setProposal('membersMenu')}>
-          <IconArrowLeft />
-        </Button>
+        <Back onClick={() => setProposal('membersMenu')} />
         <ChainGuard>
           <Button
             center

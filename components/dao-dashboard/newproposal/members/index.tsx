@@ -1,17 +1,20 @@
 import React from 'react'
-import { Menu } from '../../../../styles/proposal/Menu'
-import { Button, Flex } from '../../../../styles/elements'
+import { Menu } from '@design/proposal/Menu'
+import { Stack } from '@kalidao/reality'
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
 // menu items
 import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
-import ManageMembership from './ManageMembership'
 import Redeem from './Redeem'
-import Back from '../../../../styles/proposal/Back'
+import Back from '@design/proposal/Back'
 
-function MembersMenu({ setProposal }) {
+type Props = {
+  setProposal: React.Dispatch<React.SetStateAction<string>>
+}
+
+function MembersMenu({ setProposal }: Props) {
   return (
-    <Flex dir="col" gap="md">
+    <Stack>
       <Menu>
         <Menu.Item onClick={() => setProposal('addMember')}>
           <AiOutlineUserAdd /> Add Member
@@ -19,12 +22,10 @@ function MembersMenu({ setProposal }) {
         <Menu.Item onClick={() => setProposal('removeMember')}>
           <AiOutlineUserDelete /> Remove Member
         </Menu.Item>
-        {/* <Menu.Item onClick={() => setProposal('addMemberWithVesting')}>Add Member with Vesting</Menu.Item> */}
-        {/* <Menu.Item onClick={() => setProposal('quit')}>Quit</Menu.Item> */}
       </Menu>
       <Back onClick={() => setProposal('menu')} />
-    </Flex>
+    </Stack>
   )
 }
 
-export { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem }
+export { MembersMenu, AddMember, RemoveMember, Redeem }

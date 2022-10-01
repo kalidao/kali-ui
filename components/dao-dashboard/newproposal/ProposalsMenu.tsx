@@ -2,10 +2,14 @@ import { ExitIcon } from '@radix-ui/react-icons'
 import { MdOutlinePayments, MdOutlineManageAccounts, MdDraw } from 'react-icons/md'
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
 import React from 'react'
-import { Menu } from '../../../styles/proposal/Menu'
+import { Menu } from '@design/proposal/Menu'
 import { Stack, Text } from '@kalidao/reality'
 
-export default function ProposalsMenu({ setProposal }) {
+type Props = {
+  setProposal: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function ProposalsMenu({ setProposal }: Props) {
   return (
     <Stack>
       <Text>Different types of proposals for different needs.</Text>
