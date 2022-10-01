@@ -45,7 +45,6 @@ export default function UserDAOs({ address }: Props) {
         }
       }
     }
-
   }, [activeChain, address])
 
   return (
@@ -59,7 +58,10 @@ export default function UserDAOs({ address }: Props) {
           ) : (
             <Text>They are not in any DAO!</Text>
           )}
-          <div>{daos && daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} chain={Number(activeChain?.id)} />)}</div>
+          <div>
+            {daos &&
+              daos.map((dao) => <DaoCard key={dao['dao']['id']} dao={dao['dao']} chain={Number(activeChain?.id)} />)}
+          </div>
         </Flex>
       ) : null}
     </>
