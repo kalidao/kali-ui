@@ -14,7 +14,7 @@ import { Warning } from '../../../../styles/elements'
 import { fetchEnsAddress } from '../../../../utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../utils/createProposal.ts'
+import { createProposal } from '../utils/'
 import Editor from '../../../editor'
 import { Tip } from '../../../elements'
 
