@@ -1,10 +1,13 @@
 import Layout from '../components/layout'
-import { Box, Button } from '../styles/elements'
+import { Box } from '../styles/elements'
+import { Button } from '@kalidao/reality'
 import Services from '../components/services'
-import NewDaoSquare from '../components/home/NewDaoSquare'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { NextPage } from 'next'
+import Back from '@design/proposal/Back'
+import { useRouter } from 'next/router'
 
-export default function ServicesPage() {
+const ServicesPage: NextPage = () => {
+  const router = useRouter()
   return (
     <Layout heading="Services" content="Find a service provider for legal, tax, security and other needs.">
       <Box
@@ -17,13 +20,11 @@ export default function ServicesPage() {
           gap: '5px',
         }}
       >
-        <Button variant="back">
-          <ArrowLeftIcon />
-          Back
-        </Button>
+        <Back onClick={() => router.replace('/')} />
         <Services />
       </Box>
-      <NewDaoSquare />
     </Layout>
   )
 }
+
+export default ServicesPage

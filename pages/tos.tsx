@@ -18,7 +18,6 @@ export default function ToS() {
       >
         <ReactMarkdown>{tos}</ReactMarkdown>
       </Box>
-      {/* <NewDaoSquare /> */}
     </Layout>
   )
 }
