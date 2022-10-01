@@ -1,20 +1,28 @@
-import Link from 'next/link'
-import { Avatar, ButtonCard, Heading, Stat, Skeleton, Stack, SkeletonGroup } from '@kalidao/reality'
-import { ethers } from 'ethers'
-import { useBalance, useContractReads } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import Link from "next/link";
+import {
+  Avatar,
+  ButtonCard,
+  Heading,
+  Stat,
+  Skeleton,
+  Stack,
+  SkeletonGroup,
+} from "@kalidao/reality";
+import { ethers } from "ethers";
+import { useBalance, useContractReads } from "wagmi";
+import DAO_ABI from "@abi/KaliDAO.json";
 
 type Props = {
-  address: string
-  chainId: string
-}
+  address: string;
+  chainId: string;
+};
 
 const About = ({ address, chainId }: Props) => {
   const contract = {
     addressOrName: address,
     contractInterface: DAO_ABI,
     chainId: Number(chainId),
-  }
+  };
   const {
     data: reads,
     isLoading: isLoadingReads,
@@ -23,24 +31,24 @@ const About = ({ address, chainId }: Props) => {
     contracts: [
       {
         ...contract,
-        functionName: 'name',
+        functionName: "name",
       },
       {
         ...contract,
-        functionName: 'proposalCount',
+        functionName: "proposalCount",
       },
     ],
-  })
+  });
   const { data: balance, isLoading: isLoadingBalance } = useBalance({
     addressOrName: address,
     chainId: Number(chainId),
     watch: true,
-  })
+  });
 
   return (
     <Link
       href={{
-        pathname: '/daos/[chainId]/[dao]/info',
+        pathname: "/daos/[chainId]/[dao]/info",
         query: {
           dao: address,
           chainId: chainId,
@@ -48,14 +56,18 @@ const About = ({ address, chainId }: Props) => {
       }}
       passHref
     >
-      <ButtonCard buttonText="Learn More" prefix={<Avatar label={'DAO Image'} address={address} placeholder />} as="a">
+      <ButtonCard
+        buttonText="Learn More"
+        prefix={<Avatar label={"DAO Image"} address={address} placeholder />}
+        as="a"
+      >
         <Stack>
           <Skeleton loading={!isFetched}>
             <Heading>{reads?.[0]}</Heading>
           </Skeleton>
           <Skeleton loading={!isFetched}>
             <Stat
-              label={'Propasals'}
+              label={"Proposals"}
               value={
                 reads &&
                 ethers.BigNumber.isBigNumber(reads?.[1]) &&
@@ -65,16 +77,20 @@ const About = ({ address, chainId }: Props) => {
           </Skeleton>
           <Skeleton loading={isLoadingBalance}>
             <Stat
-              label={'Balance'}
-              value={`${balance ? Number(ethers.utils.formatUnits(balance.value, balance.decimals)).toFixed(2) : ''} ${
-                balance ? balance?.symbol : ''
-              }`}
+              label={"Balance"}
+              value={`${
+                balance
+                  ? Number(
+                      ethers.utils.formatUnits(balance.value, balance.decimals)
+                    ).toFixed(2)
+                  : ""
+              } ${balance ? balance?.symbol : ""}`}
             />
           </Skeleton>
         </Stack>
       </ButtonCard>
     </Link>
-  )
-}
+  );
+};
 
-export default About
+export default About;
