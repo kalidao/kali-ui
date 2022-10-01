@@ -22,7 +22,7 @@ const createProposal = async (
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
       },
       body: JSON.stringify(obj),
     }).then((res) => res.json())

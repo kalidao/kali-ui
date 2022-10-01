@@ -21,6 +21,12 @@ const decodeExtensions = (address, payload, chainId) => {
             }
             if (extensionsHelper[key]['display'][i] === 'BigNumber') {
               value = ethers.utils.formatEther(value)
+
+              if (extensionsHelper[key]['labels'][i] === 'Purchase Multiplier') {
+                value = (value + '').split('.')
+                console.log(value)
+                value = Number(value[1])
+              }
             }
             if (extensionsHelper[key]['display'][i] === 'token') {
               if (value == ethers.constants.AddressZero) {
@@ -53,8 +59,8 @@ const extensionsHelper = {
       'Personal Limit',
       'Details',
     ],
-    types: ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-    display: ['saleType', 'number', 'token', 'date', 'BigNumber', 'BigNumber', 'string'],
+    types: ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
+    display: ['saleType', 'BigNumber', 'token', 'date', 'BigNumber', 'BigNumber', 'string'],
   },
   redemption: {
     labels: ['Redeemable Tokens', 'Starts From'],
