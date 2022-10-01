@@ -1,18 +1,23 @@
 import React from 'react'
 import Image from 'next/image'
-import { Menu } from '../../../../styles/proposal/Menu'
-import { Flex, Button } from '../../../../styles/elements'
+import { Menu } from '@design/proposal/Menu'
+import { IconNFT, Box } from '@kalidao/reality'
+import { Flex } from '@design/elements'
 import { FaEthereum } from 'react-icons/fa'
 import { GiToken } from 'react-icons/gi'
 // menu items
 import SendErc20 from './SendErc20'
 import SendErc721 from './SendErc721'
 import SendEth from './SendEth'
-import Back from '../../../../styles/proposal/Back'
+import Back from '@design/proposal/Back'
 
-function SendMenu({ setProposal }) {
+type Props = {
+  setProposal: React.Dispatch<React.SetStateAction<string>>
+}
+
+function SendMenu({ setProposal }: Props) {
   return (
-    <Flex gap="md" dir="col">
+    <Box>
       <Menu>
         <Menu.Item onClick={() => setProposal('eth')}>
           <FaEthereum /> ETH
@@ -21,11 +26,11 @@ function SendMenu({ setProposal }) {
           <GiToken /> ERC20
         </Menu.Item>
         <Menu.Item onClick={() => setProposal('erc721')}>
-          <Image src="/icons/NFT.svg" height="25px" width="25px" /> ERC721
+          <IconNFT /> ERC721
         </Menu.Item>
       </Menu>
       <Back onClick={() => setProposal('menu')} />
-    </Flex>
+    </Box>
   )
 }
 

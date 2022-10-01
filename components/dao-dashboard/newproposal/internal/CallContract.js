@@ -12,7 +12,7 @@ import { ethers } from 'ethers'
 import Back from '../../../../styles/proposal/Back'
 import { createProposal } from '../utils/createProposal.ts'
 
-export default function CallContract({ setProposal, title, editor }) {
+export default function CallContract({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -124,7 +124,7 @@ export default function CallContract({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+      docs = await createProposal(daoAddress, daoChainId, 2, title, content)
     } catch (e) {
       console.error(e)
       return

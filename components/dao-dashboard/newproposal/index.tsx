@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Box } from '@kalidao/reality'
 import ProposalsMenu from './ProposalsMenu'
-import { MembersMenu, AddMember, RemoveMember, ManageMembership, Redeem } from './members'
+import { MembersMenu, AddMember, RemoveMember, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import {
   CallContract,
@@ -66,13 +66,13 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} content={content} title={title} />,
     },
-    addMemberWithVesting: {
-      title: 'Add Member with Vesting',
-      component: <ManageMembership setProposal={setView} content={content} title={title} />,
-    },
+    // addMemberWithVesting: {
+    //   title: 'Add Member with Vesting',
+    //   component: <ManageMembership setProposal={setView} content={content} title={title} />,
+    // },
     quit: {
       title: 'Redeem and Quit',
-      component: <Redeem setProposal={setView} content={content} title={title} />,
+      component: <Redeem content={content} title={title} />,
     },
     eth: {
       title: 'Send ETH',
@@ -88,15 +88,15 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     },
     transferability: {
       title: 'Toggle Transferability',
-      component: <ToggleTransfer setProposal={setView} content={content} title={title} />,
+      component: <ToggleTransfer setView={setView} />,
     },
     votingPeriod: {
       title: 'Update Voting Period',
-      component: <UpdateVotingPeriod setProposal={setView} content={content} title={title} />,
+      component: <UpdateVotingPeriod setView={setView} />,
     },
     quorum: {
       title: 'Update Quorum',
-      component: <UpdateQuorum setProposal={setView} content={content} title={title} />,
+      component: <UpdateQuorum setView={setView} />,
     },
     // Create Asset Menu
     // FIXME: Commenting out till fixed
@@ -106,20 +106,20 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     // },
     real: {
       title: 'Mint real estate NFT',
-      component: <MintReal setProposal={setView} content={content} title={title} />,
+      component: <MintReal setProposal={setView} />,
     },
-    manager: {
-      title: 'Configure Extensions',
-      component: <ConfigureExtensions setProposal={setView} content={content} title={title} />,
-    },
+    // manager: {
+    //   title: 'Configure Extensions',
+    //   component: <ConfigureExtensions setProposal={setView} content={content} title={title} />,
+    // },
     docs: {
       title: 'Update Documentation',
-      component: <UpdateDocs setProposal={setView} content={content} title={title} />,
+      component: <UpdateDocs />,
     },
-    escape: {
-      title: 'Kill a Proposal',
-      component: <Escape setProposal={setView} content={content} title={title} />,
-    },
+    // escape: {
+    //   title: 'Kill a Proposal',
+    //   component: <Escape />,
+    // },
     call: {
       title: 'Interact with External Contracts',
       component: <CallContract setProposal={setView} content={content} title={title} />,
@@ -130,32 +130,32 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     // },
     crowdsale_add: {
       title: 'Set Crowdsale Rules',
-      component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
+      component: <SetCrowdsale setProposal={setView} title={title} content={content} />,
     },
     crowdsale_update: {
       title: 'Update Crowdsale Rules',
-      component: <UpdateCrowdsale setProposal={setView} content={content} title={title} />,
+      component: <UpdateCrowdsale setProposal={setView} title={title} content={content} />,
     },
     crowdsale_remove: {
       title: 'Remove Crowdsale Rules',
-      component: <RemoveCrowdsale setProposal={setView} content={content} title={title} />,
+      component: <RemoveCrowdsale setProposal={setView} title={title} content={content} />,
     },
     redemption: {
       // TODO: need to add token approval/allowance logic at submission (added by proposal)
       title: 'Set Redemption Rules',
-      component: <SetRedemption setProposal={setView} content={content} title={title} />,
+      component: <SetRedemption setProposal={setView} title={title} content={content} />,
     },
-    crowdsaleWithVesting: {
-      title: 'Crowdsale with Vesting',
-      component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
-    },
-    tributeWithVesting: {
-      title: 'Tribute with Vesting',
-      component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
-    },
+    // crowdsaleWithVesting: {
+    //   title: 'Crowdsale with Vesting',
+    //   component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
+    // },
+    // tributeWithVesting: {
+    //   title: 'Tribute with Vesting',
+    //   component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
+    // },
     tribute: {
       title: 'Tribute',
-      component: <Tribute setProposal={setView} content={content} title={title} />,
+      component: <Tribute />,
     },
   }
 

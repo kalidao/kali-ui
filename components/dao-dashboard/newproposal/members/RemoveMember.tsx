@@ -5,16 +5,10 @@ import { FieldSet, Input, Text, Button, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Back from '@design/proposal/Back'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
-
+import { ProposalProps } from '../utils/types'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 
-type Props = {
-  setProposal: React.Dispatch<React.SetStateAction<string>>
-  title: string
-  content: { [key: string]: any } | undefined
-}
-
-export default function RemoveMember({ setProposal, content, title }: Props) {
+export default function RemoveMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
   const {
@@ -91,7 +85,7 @@ export default function RemoveMember({ setProposal, content, title }: Props) {
         />
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
-        <Back onClick={() => setProposal('membersMenu')} />
+        <Back onClick={() => setProposal?.('membersMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Stack>
     </Stack>

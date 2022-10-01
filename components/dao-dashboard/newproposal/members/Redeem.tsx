@@ -13,18 +13,14 @@ import KALIDAO_ABI from '@abi/KaliDAO.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import { addresses } from '@constants/addresses'
 import { Form } from '@design/form-elements'
-
-type Props = {
-  title: string
-  content: { [key: string]: any } | undefined
-}
+import { ProposalProps } from '../utils/types'
 
 type FormType = {
   amount: number
 }
 
 // TODO: Add error handling
-export default function Redeem({ content, title }: Props) {
+export default function Redeem({ content, title }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
   const { isConnected, address } = useAccount()

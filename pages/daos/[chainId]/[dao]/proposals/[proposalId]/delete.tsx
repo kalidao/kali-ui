@@ -15,16 +15,7 @@ const DeleteProposalPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const [title, setTitle] = useState('')
-  const editor = useEditor({
-    editorProps: {
-      attributes: {
-        class: styles.editor,
-      },
-    },
-    extensions: [StarterKit],
-    content: '',
-    injectCSS: false,
-  })
+  const [content, setContent] = useState()
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}/${proposalId}`)
@@ -87,9 +78,15 @@ const DeleteProposalPage: NextPage = () => {
         </Flex>
         <Flex dir="col" gap="sm">
           <Label>Description (Optional)</Label>
-          <Editor editor={editor} />
+          <Editor setContent={setContent} />
         </Flex>
-        <Escape dao={dao as string} chainId={Number(chainId)} title={title} editor={editor} kill={Number(proposalId)} />
+        <Escape
+          dao={dao as string}
+          chainId={Number(chainId)}
+          title={title}
+          content={content}
+          kill={Number(proposalId)}
+        />
       </Flex>
     </Layout>
   )

@@ -8,14 +8,9 @@ import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { ethers } from 'ethers'
 import Back from '@design/proposal/Back'
+import { ProposalProps } from '../utils/types'
 
-type Props = {
-  setProposal: React.Dispatch<React.SetStateAction<string>>
-  title: string
-  content: { [key: string]: any } | undefined
-}
-
-export default function AddMember({ setProposal, content, title }: Props) {
+export default function AddMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
 
@@ -41,6 +36,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
 
     let docs
     try {
+      console.log('content', title, content)
       docs = await createProposal(dao as string, Number(chainId), 0, title, content)
       try {
         console.log(
@@ -60,6 +56,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
       return
     }
 
+    console.log('docs', docs)
     if (docs) {
       try {
         const tx = propose({
@@ -101,7 +98,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
         />
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
-        <Back onClick={() => setProposal('membersMenu')} />
+        <Back onClick={() => setProposal?.('membersMenu')} />
         <ChainGuard>
           <Button
             center
@@ -118,7 +115,7 @@ export default function AddMember({ setProposal, content, title }: Props) {
               : isProposeError && `Error submitting proposal: ${proposeError}`}
           </Text>
         </ChainGuard>
-      </Stack >
-    </Stack >
+      </Stack>
+    </Stack>
   )
 }

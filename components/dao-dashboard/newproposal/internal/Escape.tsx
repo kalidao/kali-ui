@@ -5,18 +5,18 @@ import { Form, FormElement, Label, Input } from '@design/form-elements'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { createProposal } from '../utils/createProposal.ts'
+import { createProposal } from '../utils/'
 
 type EscapeProps = {
   dao: string
   chainId: number
   kill: number
   title: string
-  editor: any
+  content: { [key: string]: any } | undefined
 }
 
 // TODO: Show this along with process proposal
-export default function Escape({ dao, chainId, kill, title, editor }: EscapeProps) {
+export default function Escape({ dao, chainId, kill, title, content }: EscapeProps) {
   // Contract functions
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
@@ -35,7 +35,7 @@ export default function Escape({ dao, chainId, kill, title, editor }: EscapeProp
 
     let docs
     try {
-      docs = await createProposal(dao, chainId, 10, title, editor.getJSON())
+      docs = await createProposal(dao, chainId, 10, title, content)
     } catch (e) {
       console.error(e)
       setWarning('There was an error in submitting this proposal.')

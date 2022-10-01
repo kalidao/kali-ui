@@ -13,7 +13,7 @@ import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
 import { Warning } from '../../../../styles/elements'
 import Back from '../../../../styles/proposal/Back'
 
-export default function SetRedemption({ setProposal, title, editor }) {
+export default function SetRedemption({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const daoChainId = router.query.chainId
@@ -85,7 +85,7 @@ export default function SetRedemption({ setProposal, title, editor }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 9, title, editor.getJSON())
+      docs = await createProposal(daoAddress, daoChainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return

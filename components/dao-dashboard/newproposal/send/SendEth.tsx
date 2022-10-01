@@ -8,45 +8,38 @@ import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import Back from '../../../../styles/proposal/Back'
-import { createProposal } from '../utils/createProposal.ts'
+import { createProposal } from '../utils/'
+import { ProposalProps } from '../utils/types'
 
-export default function SendEth({ setProposal, title, editor }) {
+export default function SendEth({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChainId = router.query.chainId
-  const { data: daoName, isLoading } = useContractRead(
-    {
-      addressOrName: daoAddress,
-      contractInterface: KALIDAO_ABI,
-    },
-    'name',
-    {
-      chainId: Number(daoChainId),
-    },
-  )
+  const { dao: daoAddress, chainId: daoChainId } = router.query
+  const { data: daoName, isLoading } = useContractRead({
+    addressOrName: daoAddress ? (daoAddress as string) : ethers.constants.AddressZero,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'name',
+    chainId: Number(daoChainId),
+  })
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
+    addressOrName: daoAddress ? (daoAddress as string) : ethers.constants.AddressZero,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
   // form
-  const [recipient, setRecipient] = useState(null)
-  const [amount, setAmount] = useState(null)
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
+  const [recipient, setRecipient] = useState<string>()
+  const [amount, setAmount] = useState<string>()
 
   // TODO: Popup to change network if on different network from DAO
-  const submit = async (e) => {
-    e.preventDefault()
-
-    let amt = ethers.utils.parseEther(amount).toString()
+  const submit = async () => {
+    if (!amount) return
+    let amt = amount && ethers.utils.parseEther(amount).toString()
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 2, title, editor.getJSON())
+      docs = await createProposal(daoAddress as string, Number(daoChainId), 2, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -80,13 +73,21 @@ export default function SendEth({ setProposal, title, editor }) {
       <Form>
         <FormElement>
           <Label htmlFor="recipient">Recipient</Label>
-          <Input name="recipient" type="text" defaultValue={recipient} onChange={(e) => setRecipient(e.target.value)} />
+          <Input
+            name="recipient"
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
+          />
         </FormElement>
         <FormElement>
           <Label htmlFor="amount">Amount</Label>
-          <Input name="amount" type="number" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
+          <Input
+            name="amount"
+            type="number"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
+          />
         </FormElement>
-        <Back onClick={() => setProposal('sendMenu')} />
+        <Back onClick={() => setProposal?.('sendMenu')} />
         <Button onClick={submit}>Submit</Button>
       </Form>
     </Flex>
