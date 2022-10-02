@@ -63,7 +63,7 @@ const StyledDescription = styled(DialogPrimitive.Description, {
 
 export const StyledTrigger = styled(DialogPrimitive.Trigger, {
   border: 'none',
-  background: '$background',
+  background: 'none',
 })
 
 export const IconButton = styled('button', {

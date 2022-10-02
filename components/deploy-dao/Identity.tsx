@@ -7,6 +7,7 @@ import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
 import { getNames } from '../../graph/queries'
 import { FieldSet, Input } from '@kalidao/reality'
+import Tutorial from './tutorial'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -103,7 +104,8 @@ export default function Identity({ setStep }: Props) {
         {errors.name && <span>{errors?.name?.message}</span>}
         {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
       </FieldSet>
-      <Stack direction={'horizontal'} justify="flex-end">
+      <Stack direction={'horizontal'} justify="space-between">
+        <Tutorial />
         <Button variant="primary" type="submit">
           Next
         </Button>
