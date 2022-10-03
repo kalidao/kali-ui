@@ -5,7 +5,7 @@ const Tutorial = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button prefix={<IconBookOpen />} variant="transparent">
+        <Button prefix={<IconBookOpen />} variant="secondary">
           Tutorial
         </Button>
       </DialogTrigger>
