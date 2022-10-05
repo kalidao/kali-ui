@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import '@design/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
+import { getDefaultWallets, RainbowKitProvider, darkTheme, DisclaimerComponent } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
@@ -30,6 +30,20 @@ const wagmiClient = createClient({
   webSocketProvider,
 })
 
+
+const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
+  <Text>
+    By connecting your wallet, you agree to the{" "}<Link href="/tos">Terms of Service</Link>{" "}and
+    acknowledge you have read and understand the Disclaimers therein.
+  </Text>
+);
+
+const appInfo = {
+  appName: 'KALI',
+  learnMoreUrl: 'https://docs.kali.gg/',
+  disclaimer: Disclaimer,
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
@@ -41,6 +55,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             accentColor: 'hsl(250, 51.8%, 51.2%)',
             accentColorForeground: '#ededed',
           })}
+          appInfo={appInfo}
+          modalSize="compact"
         >
           <ThemeProvider defaultAccent="violet" defaultMode="dark">
             <NextNProgress color="#5842c3" />
