@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useContract, useSigner, useAccount, useBalance } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
 import { styled } from '../../../styles/stitches.config'
 import Swap from './Swap'
 import Approve from './Approve'
@@ -8,7 +7,7 @@ import DAO_ABI from '../../../abi/KaliDAO.json'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import ACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
 import { useEffect, useState } from 'react'
-import { Input } from '../../../styles/form-elements'
+// import { Input } from '../../../styles/form-elements'
 import { ArrowDownIcon } from '@radix-ui/react-icons'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
@@ -17,6 +16,8 @@ import Info from './Info'
 import Background from './Background'
 import History from './History'
 import { fetchPurchasers } from './fetchPurchasers'
+import { Stack, Text, Box, Input, Heading } from '@kalidao/reality'
+import { Checkbox } from '@radix-ui/react-checkbox'
 
 const Arrow = styled(ArrowDownIcon, {
   color: 'White',
@@ -324,305 +325,141 @@ export default function Crowdsale({ info }) {
   return (
     <>
       {tempInProgress && isEligible ? (
-        <Flex
-          gap="lg"
-          css={{
-            width: '100%',
-            margin: '1rem',
-            marginTop: '1.2rem',
-
-            '@media (max-width: 640px)': {
-              flexDirection: 'column',
-              justifyContent: 'center',
-            },
-          }}
-        >
-          <Flex
-            dir="col"
-            gap="lg"
-            css={{
-              width: '45%',
-              borderRadius: '10px',
-              marginRight: '20px',
-
-              '@media (max-width: 640px)': {
-                width: '100%',
-                justifyContent: 'center',
-              },
-            }}
-          >
-            <Flex
-              dir="col"
-              gap="md"
-              css={{
-                width: '100%',
-                height: 'auto',
-
-                '@media (max-width: 640px)': {
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                },
-              }}
-            >
-              <Text variant="subheading">Swap for KaliDAO Tokens</Text>
-              <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
-              <Text>Enter an amount to swap for DAO tokens, {info?.token?.symbol.toUpperCase()}:</Text>
-              <Flex
-                dir="col"
-                css={{
-                  width: '100%',
-                  // background: 'red',
-                  alignItems: 'center',
-                }}
-              >
-                <Flex
-                  css={{
-                    width: '80%',
-                    height: '100%',
-                    alignItems: 'center',
-                    background: '$gray7',
-                    borderRadius: '10px',
-                    paddingTop: '1rem',
-                    paddingBottom: '1rem',
-                    margin: '1rem',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      width: '20%',
-                      height: '100%',
-                      alignItems: 'center',
-                    }}
-                  ></Flex>
-                  <Flex
-                    css={{
-                      width: '50%',
-                    }}
-                  >
+        <Box width="full" marginTop={'24'}>
+          <Stack direction={'horizontal'} justify={'space-between'}>
+            <Box width="1/2">
+              <Stack>
+                <Heading level="2">Swap for KaliDAO Tokens</Heading>
+                <Box width={'fit'} alignSelf={'center'} marginRight="20">
+                  <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
+                </Box>
+                <Text>Enter an amount to swap for DAO tokens, {info?.token?.symbol.toUpperCase()}:</Text>
+                <Stack>
+                  <Stack align="center">
                     <Input
-                      name="amount"
                       type="number"
                       min={0}
                       max={maxInput}
                       defaultValue="0.0"
                       onChange={(e) => handleAmount(e.target.value)}
-                      css={{
-                        fontSize: '1.5em',
-                        width: '100%',
-                        color: '$mauve12',
-                        border: 'none',
-                        '&:hover': {
-                          background: 'none',
-                          border: 'none',
-                        },
-                        '&:focus': {
-                          background: 'none',
-                          border: 'none',
-                        },
-                      }}
+                      suffix={tempSymbol}
+                      width={'2/3'}
                     />
-                  </Flex>
-                  <Text
-                    css={{
-                      width: '25%',
-                      fontSize: '1.5rem',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {tempSymbol}
-                  </Text>
-                </Flex>
-                <Flex>
-                  <Arrow />
-                </Flex>
-                <Flex
-                  css={{
-                    width: '80%',
-                    height: '100%',
-                    alignItems: 'center',
-                    background: '$gray7',
-                    borderRadius: '10px',
-                    paddingTop: '1rem',
-                    paddingBottom: '1rem',
-                    margin: '1rem',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      width: '20%',
-                      height: '100%',
-                      alignItems: 'center',
-                    }}
-                  ></Flex>
-                  <Flex
-                    css={{
-                      width: '50%',
-                    }}
-                  >
+                  </Stack>
+                  <Stack align="center">
+                    <Arrow />
+                  </Stack>
+                  <Stack align="center">
                     <Input
-                      name="amount"
                       type="number"
                       disabled={true}
                       min={0}
                       max={maxOutput}
                       // max={ethers.utils.formatUnits(info['crowdsale']['personalLimit'])}
                       value={amountToReceive}
-                      css={{
-                        fontSize: '1.5em',
-                        width: '100%',
-                        color: '$mauve12',
-                        border: 'none',
-                        '&:hover': {
-                          background: 'none',
-                          border: 'none',
-                        },
-                        '&:focus': {
-                          background: 'none',
-                          border: 'none',
-                        },
-                      }}
+                      suffix={info?.token?.symbol}
+                      width={'2/3'}
                     />
-                  </Flex>
-                  <Text
-                    css={{
-                      fontSize: '1.5em',
-                      width: '25%',
-                      // background: 'Yellow',
-                    }}
-                  >
-                    {info?.token?.symbol}
-                  </Text>
-                </Flex>
-                {tempTerms && tempTerms != 'none' && (
-                  <Flex dir="row" css={{ paddingTop: '1rem', paddingBottom: '1rem', alignItems: 'center' }}>
-                    <Input
-                      type={'checkbox'}
-                      variant="checkbox"
-                      value={clickedTerms}
-                      onChange={() => setClickedTerms(!clickedTerms)}
-                    />
-                    <Text>
-                      I agree to the{' '}
-                      <Text
-                        as="a"
-                        href={'https://ipfs.io/ipfs/' + tempTerms}
-                        target="_blank"
-                        css={{
-                          color: '$amber11',
-                        }}
-                      >
-                        terms for swapping
+                  </Stack>
+                  <Stack></Stack>
+                  {tempTerms && tempTerms != 'none' && (
+                    <Stack direction={'horizontal'} justify="center">
+                      <input
+                        type="checkbox"
+                        width="25px"
+                        height="25px"
+                        value={clickedTerms}
+                        onChange={() => setClickedTerms(!clickedTerms)}
+                      />
+                      <Text>
+                        I agree to the{' '}
+                        <a href={'https://ipfs.io/ipfs/' + tempTerms} target="_blank" rel="noreferrer">
+                          terms for swapping
+                        </a>
                       </Text>
-                    </Text>
-                  </Flex>
-                )}
-                {shouldApprove && (
-                  <Flex
-                    css={{
-                      width: '80%',
-                      paddingTop: '1rem',
-                      // paddingBottom: '1rem',
-                    }}
-                  >
-                    <Approve
-                      info={info}
-                      symbol={tempSymbol}
-                      crowdsale={crowdsale}
-                      dao={dao}
-                      amount={amountToSwap}
-                      chainId={chainId}
-                    />
-                  </Flex>
-                )}
-                <Flex
-                  css={{
-                    width: '80%',
-                    paddingTop: '1rem',
-                    paddingBottom: '1rem',
-                  }}
-                >
-                  {canPurchase && !shouldApprove && (tempTerms == 'none' || (tempTerms != 'none' && clickedTerms)) ? (
-                    <Swap
-                      info={info}
-                      dao={dao}
-                      symbol={tempSymbol}
-                      decimals={decimals ? decimals : 18}
-                      amount={amountToSwap}
-                      amountToReceive={amountToReceive}
-                      chainId={chainId}
-                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
-                      shouldDisable={false}
-                    />
-                  ) : (
-                    <Swap
-                      info={info}
-                      dao={dao}
-                      symbol={tempSymbol}
-                      decimals={decimals ? decimals : 18}
-                      amount={amountToSwap}
-                      chainId={chainId}
-                      buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
-                      shouldDisable={true}
-                    />
+                    </Stack>
                   )}
-                </Flex>
-              </Flex>
-              {warning && (
-                <Flex css={{ justifyContent: 'center' }}>
-                  <Text variant="warning">{warning}</Text>
-                </Flex>
-              )}
-            </Flex>
-          </Flex>
-          <Flex
-            dir="col"
-            gap="lg"
-            css={{
-              width: '40%',
-
-              '@media (max-width: 640px)': {
-                width: '100%',
-                justifyContent: 'center',
-              },
-            }}
-          >
-            <Flex dir="col" gap="md">
-              <Info info={info} decimals={decimals} crowdsale={crowdsale} symbol={tempSymbol} />
-              <Flex></Flex>
-              <Flex></Flex>
-              <Background />
-              <Flex></Flex>
-              <Flex></Flex>
-              <History
-                info={info}
-                crowdsale={crowdsale}
-                decimals={decimals}
-                purchasers={tempPurchasers}
-                symbol={tempSymbol}
-              />
-            </Flex>
-          </Flex>
-        </Flex>
+                  <Stack></Stack>
+                  <Box width={'full'}>
+                    <Stack>
+                      {shouldApprove && (
+                        <Stack align={'center'}>
+                          <Box width={'2/3'}>
+                            <Approve
+                              info={info}
+                              symbol={tempSymbol}
+                              crowdsale={crowdsale}
+                              dao={dao}
+                              amount={amountToSwap}
+                              chainId={chainId}
+                            />
+                          </Box>
+                        </Stack>
+                      )}
+                      <Stack align="center">
+                        {canPurchase &&
+                        !shouldApprove &&
+                        (tempTerms == 'none' || (tempTerms != 'none' && clickedTerms)) ? (
+                          <Box width={'2/3'}>
+                            <Swap
+                              info={info}
+                              dao={dao}
+                              symbol={tempSymbol}
+                              decimals={decimals ? decimals : 18}
+                              amount={amountToSwap}
+                              amountToReceive={amountToReceive}
+                              chainId={chainId}
+                              buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
+                              shouldDisable={false}
+                            />
+                          </Box>
+                        ) : (
+                          <Box width={'2/3'}>
+                            <Swap
+                              info={info}
+                              dao={dao}
+                              symbol={tempSymbol}
+                              decimals={decimals ? decimals : 18}
+                              amount={amountToSwap}
+                              chainId={chainId}
+                              buttonText={`Swap ${tempSymbol} for ${info?.token?.symbol.toUpperCase()}`}
+                              shouldDisable={true}
+                            />
+                          </Box>
+                        )}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Stack>
+                {warning && (
+                  <Stack>
+                    <Text align={'center'} color={'orange'}>
+                      {warning}
+                    </Text>
+                  </Stack>
+                )}
+              </Stack>
+            </Box>
+            <Box width="1/2">
+              <Stack space={'10'}>
+                <Info info={info} decimals={decimals} crowdsale={crowdsale} symbol={tempSymbol} />
+                <Background />
+                <History
+                  info={info}
+                  crowdsale={crowdsale}
+                  decimals={decimals}
+                  purchasers={tempPurchasers}
+                  symbol={tempSymbol}
+                />
+              </Stack>
+            </Box>
+          </Stack>
+        </Box>
       ) : (
-        <Flex
-          dir="col"
-          gap="md"
-          css={{
-            width: '100%',
-            margin: '1rem',
-            marginTop: '3rem',
-            alignItems: 'center',
-          }}
-        >
-          {warning && (
-            <Text variant="warning" css={{ width: '70%' }}>
-              {warning}
-            </Text>
-          )}
-          <Text variant="warning" css={{ width: '70%' }}>
-            Hop into the KALI Discord to learn more about this Extension ✌️
-          </Text>
-        </Flex>
+        <Stack>
+          {warning && <Text variant="warning">{warning}</Text>}
+          <Text variant="warning">Hop into the KALI Discord to learn more about this Extension ✌️</Text>
+        </Stack>
       )}
     </>
   )

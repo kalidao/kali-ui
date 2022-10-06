@@ -1,6 +1,6 @@
 import { erc20ABI, useContract, useContractWrite, usePrepareContractWrite, useAccount, useSigner } from 'wagmi'
-import { Flex, Text, Button } from '../../../styles/elements'
-
+import { Flex } from '../../../styles/elements'
+import { Text, Button, Stack, Box } from '@kalidao/reality'
 import { addresses } from '../../../constants/addresses'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
@@ -28,42 +28,19 @@ const Approve = ({ info, dao, crowdsale, amount, chainId, symbol }) => {
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        width: '100%',
-        alignItems: 'center',
-      }}
-    >
-      <Button
-        disabled={!approve}
-        onClick={approveToken}
-        css={{
-          width: '100%',
-          height: '3rem',
-          fontFamily: 'Regular',
-          fontWeight: '800',
-          border: '2px solid $gray4',
-          borderRadius: '10px',
-          '&:hover': {
-            color: 'Black',
-            background: '$gray12',
-          },
-          '&:active': {
-            transform: 'translate(1px, 1px)',
-          },
-        }}
-      >
+    <Stack align={'center'}>
+      <Button width={'full'} disabled={!approve} onClick={approveToken}>
         Allow KALI to use your {symbol.toUpperCase()}
       </Button>
       {isSuccess && (
-        <Flex dir="col" gap="sm">
-          <Text variant="warning">{symbol.toUpperCase()} has been approved. Please refresh this page.</Text>
-        </Flex>
+        <Stack>
+          <Text align={'center'} color={'orange'}>
+            {symbol.toUpperCase()} has been approved. Please refresh this page.
+          </Text>
+        </Stack>
       )}
       {error && <Text variant="warning">An error occurred preparing the transaction: {error.message}</Text>}
-    </Flex>
+    </Stack>
   )
 }
 

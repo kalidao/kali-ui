@@ -1,8 +1,8 @@
 import { usePrepareContractWrite, useContractWrite, useTransaction } from 'wagmi'
-import { Button, Flex, Text } from '../../../styles/elements'
 import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
+import { Text, Button, Stack } from '@kalidao/reality'
 
 const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, buttonText, shouldDisable }) => {
   const { config: ethSwapConfig, error: ethSwapError } = usePrepareContractWrite({
@@ -64,38 +64,13 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        width: '100%',
-      }}
-    >
-      <Button
-        // variant="cta"
-        disabled={shouldDisable}
-        onClick={buy}
-        css={{
-          width: '100%',
-          height: '3rem',
-          fontFamily: 'Regular',
-          fontWeight: '800',
-          border: '2px solid $gray4',
-          borderRadius: '10px',
-          '&:hover': {
-            color: shouldDisable ? '$none' : 'Black',
-            background: shouldDisable ? 'none' : '$gray12',
-          },
-          '&:active': {
-            transform: 'translate(1px, 1px)',
-          },
-        }}
-      >
+    <Stack align={'center'}>
+      <Button width={'full'} disabled={shouldDisable} onClick={buy}>
         {buttonText}
       </Button>
       {isEthSwapSuccess ||
         (isTokenSwapScuccess && (
-          <Flex dir="col" gap="sm">
+          <Stack>
             <Text>
               Congratulations! You've swapped {amount} {symbol.toUpperCase()} for {amountToReceive}{' '}
               {info?.token?.symbol.toUpperCase()}.{' '}
@@ -108,28 +83,20 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
                   : addresses[chainId]['blockExplorer'] + '/tx/' + tokenSwapData.hash
               }
               target="_blank"
-              css={{
-                fontFamily: 'Regular',
-                color: '$amber11',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                gap: '0.2rem',
-              }}
             >
               View on Explorer
             </Text>
-          </Flex>
+          </Stack>
         ))}
-      {isEthSwapError && <Text variant="warning">Error submitting transaction: {ethSwapTxError.message}</Text>}
-      {isTokenSwapError && <Text variant="warning">Error submitting transaction: {tokenSwapTxError.message}</Text>}
+      {isEthSwapError && <Text color={'orange'}>Error submitting transaction: {ethSwapTxError.message}</Text>}
+      {isTokenSwapError && <Text color={'orange'}>Error submitting transaction: {tokenSwapTxError.message}</Text>}
       {ethSwapError && (
-        <Text variant="warning">An error occurred preparing the transaction: {ethSwapError.message}</Text>
+        <Text color={'orange'}>An error occurred preparing the transaction: {ethSwapError.message}</Text>
       )}
       {tokenSwapError && (
-        <Text variant="warning">An error occurred preparing the transaction: {tokenSwapError.message}</Text>
+        <Text color={'orange'}>An error occurred preparing the transaction: {tokenSwapError.message}</Text>
       )}
-    </Flex>
+    </Stack>
   )
 }
 

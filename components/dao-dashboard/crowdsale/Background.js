@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { erc20ABI, useContractRead, useSigner } from 'wagmi'
-import { Flex, Text } from '../../../styles/elements'
-import { AddressZero } from '@ethersproject/constants'
-import { ethers } from 'ethers'
 import { fetchCrowdsaleDataHash } from '../../tools/ipfsHelpers'
+import { Text, Box, Stack, Heading } from '@kalidao/reality'
 
 export default function Background() {
   const router = useRouter()
@@ -30,9 +27,9 @@ export default function Background() {
   }, [])
 
   return (
-    <Flex dir="col" gap="md">
-      <Text variant="subheading">Why should I swap?</Text>
-      {background && <Text>{background}</Text>}
-    </Flex>
+    <Stack>
+      <Heading level="2">Why should I swap?</Heading>
+      <Box width={'3/4'}>{background && <Text>{background}</Text>}</Box>
+    </Stack>
   )
 }
