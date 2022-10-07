@@ -329,11 +329,11 @@ export default function Crowdsale({ info }) {
           <Stack direction={'horizontal'} justify={'space-between'}>
             <Box width="1/2">
               <Stack>
-                <Heading level="2">Swap for KaliDAO Tokens</Heading>
+                <Heading level="2">Swap for {info?.token?.symbol}</Heading>
                 <Box width={'fit'} alignSelf={'center'} marginRight="20">
                   <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
                 </Box>
-                <Text>Enter an amount to swap for DAO tokens, {info?.token?.symbol.toUpperCase()}:</Text>
+                <Text>Enter an amount to swap for {info?.token?.symbol.toUpperCase()}:</Text>
                 <Stack>
                   <Stack align="center">
                     <Input
