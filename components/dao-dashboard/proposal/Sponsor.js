@@ -6,23 +6,22 @@ import DAO_ABI from '../../../abi/KaliDAO.json'
 
 export default function Sponsor({ proposal }) {
   const router = useRouter()
-  const { dao } = router.query
-  const { data: account } = useAccount()
-  const { data, isError, isLoading, writeAsync } = useContractWrite(
-    {
-      addressOrName: dao,
-      contractInterface: DAO_ABI,
-    },
-    'sponsorProposal',
-  )
+  const { dao, chainId } = router.query
+  const { writeAsync } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: dao,
+    contractInterface: DAO_ABI,
+    functionName: 'sponsorProposal',
+    chainId: Number(chainId),
+  })
 
   const sponsor = useCallback(async () => {
     // if (!account || !dao || !proposal) return
-    console.log('sponsor', proposal['serial'])
+    // console.log('sponsor', proposal['serial'])
     try {
       const tx = await writeAsync({
-        args: [proposal['serial']],
-        overrides: {
+        recklesslySetUnpreparedArgs: [proposal['serial']],
+        recklesslySetUnpreparedOverrides: {
           gasLimit: 1050000,
         },
       })
