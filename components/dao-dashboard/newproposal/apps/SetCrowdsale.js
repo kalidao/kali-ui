@@ -163,14 +163,14 @@ export default function SetCrowdsale({ setProposal, title, content }) {
     // Crowdsale terms
     let termsHash
     if (terms) {
-      termsHash = await ipfsCrowdsaleTerms(daoAddress, terms)
+      termsHash = await ipfsCrowdsaleTerms(dao, terms)
     } else {
       termsHash = 'none'
     }
 
     // Upload background to IPFS
     try {
-      await ipfsCrowdsaleData(daoAddress, chainId, background.getJSON(), termsHash)
+      await ipfsCrowdsaleData(dao, chainId, background.getJSON(), termsHash)
     } catch (e) {
       console.error(e)
     }
@@ -190,7 +190,7 @@ export default function SetCrowdsale({ setProposal, title, content }) {
 
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, content)
+      docs = await createProposal(dao, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return

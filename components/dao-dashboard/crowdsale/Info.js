@@ -63,16 +63,13 @@ export default function Info({ info, decimals, crowdsale, symbol }) {
       <Box width={'3/4'}>
         <Stack direction={'horizontal'} justify={'space-between'}>
           <Text>Token to Swap: </Text>
-          <Text
-            as="a"
+          <a
             href={addresses[chainId]['blockExplorer'] + '/address/' + crowdsale.purchaseAsset}
             target="_blank"
-            css={{
-              color: '$amber11',
-            }}
+            rel="noreferrer"
           >
-            {symbol ? symbol.toUpperCase() : 'fetching...'}
-          </Text>
+            <Text color={'orange'}>{symbol ? symbol.toUpperCase() : 'fetching...'}</Text>
+          </a>
         </Stack>
       </Box>
       <Box width={'3/4'}>
