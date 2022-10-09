@@ -13,8 +13,7 @@ import Process from '../Process'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
 import { useFetch } from '../../../hooks/useFetch'
-import { isURL } from '@utils/proposals'
-
+import { cleanProposalDescription, isURL } from '@utils/proposals'
 type Props = {
   proposal: any
 }
@@ -23,6 +22,7 @@ export default function ProposalView({ proposal }: Props) {
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const { address } = useAccount()
+  const { type, description } = cleanProposalDescription(proposal?.description) 
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
   const url = isURL(proposal?.description)
   const {
@@ -46,6 +46,8 @@ export default function ProposalView({ proposal }: Props) {
     }
     return false
   }
+
+  console.log('details',  url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null, details?.body)
 
   return (
     <Box

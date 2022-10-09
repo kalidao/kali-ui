@@ -83,7 +83,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   }
 
   const { color, text } = currentStatus()
-
+  console.log('details', details)
   return (
     <Box
       display="flex"

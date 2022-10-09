@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
-import { chainId } from 'wagmi'
-import useSWR from 'swr'
 import { Flex, Box, Text } from '../../../styles/elements'
 import { Spinner } from '../../elements/'
-import { Dialog, DialogTrigger, DialogContent, DialogClose, DialogTitle } from '../../../styles/Dialog'
+import { Dialog, DialogTrigger, DialogContent, DialogClose, DialogTitle } from '@design/Dialog'
 import { ExternalLinkIcon } from '@radix-ui/react-icons'
+import { useFetch } from '@components/hooks/useFetch'
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function NftCard({ nft }) {
   console.log('nft', nft)
-  const { data, error } = useSWR(nft.tokenUri, fetcher)
+  const { data, error } = useFetch(nft.tokenUri)
 
   if (error) return 'An error has occurred.'
   if (!data) return 'Loading...'

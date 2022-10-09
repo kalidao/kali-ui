@@ -23,3 +23,12 @@ export const isProp = (prop: string) => {
   ) // validate fragment locator
   return !!pattern.test(prop)
 }
+
+// Proposal description can be - 
+// a plain string
+// a url
+// `prop://` patterns
+// an ipfs hash 
+export const cleanProposalDescription = (description: string) => {
+
+}

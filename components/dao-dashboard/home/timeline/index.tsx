@@ -7,38 +7,21 @@ import { useRouter } from 'next/router'
 import { getName } from '@graph/getName'
 import { getBuiltGraphSDK } from '../../../../.graphclient'
 import { ethers } from 'ethers'
-
-const sdk = getBuiltGraphSDK()
+import { useGetProposals } from '@graph/queries/getProposals';
 
 export default function Timeline() {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const {
-    data: proposals,
-    isLoading,
-    error,
-  } = useQuery(['', dao, chainId], () =>
-    sdk.DaoProposals(
-      {
-        dao: dao ? (dao as string) : ethers.constants.AddressZero,
-      },
-      {
-        chainName: getName(chainId ? Number(chainId) : 1),
-      },
-    ),
-  )
+  const { data, isLoading } = useGetProposals(Number(chainId), dao ? dao as string : ethers.constants.AddressZero);
 
-  console.log('proposals', proposals)
-
-  const [show, setShow] = useState(2)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
     () =>
-      proposals?.proposals
-        ?.sort((a: { serial: number }, b: { serial: number }) => b.serial - a.serial)
-        .filter((p: any) => !(p.cancelled == true)),
-    [proposals],
+      data?.data?.proposals?.sort((a: { serial: number }, b: { serial: number }) => b.serial - a.serial).filter((p: any) => !(p.cancelled == true)),
+    [data],
   )
+
+  console.log('proposals', data?.data?.proposals)
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}/proposals`)
@@ -71,13 +54,9 @@ export default function Timeline() {
       </Stack>
       <Skeleton>
         <Stack>
-          {memoizedProposals && (
-            <>
-              {memoizedProposals.slice(0, show).map((proposal) => (
-                <Card key={proposal['id']} proposal={proposal} />
-              ))}
-            </>
-          )}
+            {memoizedProposals && memoizedProposals.slice(0, 2).map((proposal: any) => (
+              <Card key={proposal['id']} proposal={proposal} />
+            ))}
         </Stack>
       </Skeleton>
     </Box>
