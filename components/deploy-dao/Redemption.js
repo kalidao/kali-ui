@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormElement, Label, Form, Input, Switch } from '../../styles/form-elements'
-import { Flex, Button } from '../../styles/elements'
+import { Flex } from '../../styles/elements'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useForm } from 'react-hook-form'
+import { Stack, Button } from '@kalidao/reality'
 
 // TODO: Add grace period
 export default function Redemption({ setStep }) {
@@ -66,14 +67,14 @@ export default function Redemption({ setStep }) {
           />
         </FormElement>
       )}
-      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
+      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>
+      </Stack>
     </Form>
   )
 }

@@ -4,9 +4,10 @@ import { Select } from '../../styles/form-elements/Select'
 import { useForm } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
-import { Flex, Button, Text } from '../../styles/elements'
+import { Flex, Text } from '../../styles/elements'
 import { legalEntities } from '../../constants/legalEntities'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { Stack, Button } from '@kalidao/reality'
 
 export default function Legal({ setStep }) {
   const {
@@ -167,14 +168,14 @@ export default function Legal({ setStep }) {
         </>
       )}
 
-      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
+      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="primary" onClick={handleSubmit(onNext)}>
+        <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>
+      </Stack>
     </Form>
   )
 }

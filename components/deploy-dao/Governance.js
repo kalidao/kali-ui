@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Flex } from '../../styles/elements'
+import { Flex } from '../../styles/elements'
 import { Input, Form, FormElement, Label, Switch, Checkbox } from '../../styles/form-elements'
 import { Select } from '../../styles/form-elements/Select'
 import { useForm, Controller } from 'react-hook-form'
 import { useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { Tip } from '../elements/'
+import { Stack, Button } from '@kalidao/reality'
 
 export default function Governance({ setStep }) {
   const {
@@ -140,14 +141,14 @@ export default function Governance({ setStep }) {
           onValueChange={(value) => setValue('transferability', value)}
         />
       </FormElement>
-      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
+      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>
+      </Stack>
     </Form>
   )
 }

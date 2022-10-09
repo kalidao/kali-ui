@@ -1,10 +1,11 @@
 import React from 'react'
 import { FormElement, Label, Form, Input, Switch } from '../../styles/form-elements'
-import { Flex, Button } from '../../styles/elements'
+import { Flex } from '../../styles/elements'
 import { Select } from '../../styles/form-elements/Select'
 import { useStateMachine } from 'little-state-machine'
 import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
+import { Stack, Button } from '@kalidao/reality'
 
 // TODO:
 // Add purchase terms
@@ -153,14 +154,14 @@ export default function Crowdsale({ setStep }) {
         </>
       )}
 
-      <Flex css={{ justifyContent: 'flex-end' }} gap="md">
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
+      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
+        <Button variant="transparent" onClick={handleSubmit(onPrevious)} direction={'horizontal'} align="center" justify={'flex-end'}>
           Previous
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
           Next
         </Button>
-      </Flex>
+      </Stack>
     </Form>
   )
 }
