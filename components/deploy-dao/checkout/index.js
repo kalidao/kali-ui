@@ -8,7 +8,8 @@ import validateDocs from './validateDocs'
 import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
 import { validateFounders } from './validateFounders'
 
-import { Button, Flex, Text, Warning } from '../../../styles/elements'
+import { Warning } from '../../../styles/elements'
+import { Stack, Button } from '@kalidao/reality'
 import { Error } from '../../../styles/form-elements'
 import Confirmation from './Confirmation'
 import Success from './Success'
@@ -188,7 +189,7 @@ export default function Checkout({ setStep }) {
     }).catch((e) => {
       console.log('error', e.code, e.reason)
     })
-  }, [account, activeChain, state, writeAsync])
+  }, [isConnected, activeChain, state, writeAsync])
 
   const prev = () => {
     if (!hardMode) {
@@ -199,26 +200,24 @@ export default function Checkout({ setStep }) {
   }
 
   return (
-    <Flex dir="col" gap="sm">
+    <Stack>
       {isError && <Error message={error.message} />}
       {data ? <Success /> : <Confirmation />}
-      <Flex>
-        <Button variant="transparent" onClick={prev}>
-          Previous
-        </Button>
-      </Flex>
+      <Button variant="transparent" onClick={prev}>
+        Previous
+      </Button>
       {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
         <Button
-          variant="cta"
-          css={{ width: '100%' }}
+          variant='primary'
+          width="full"
           onClick={deployKaliDao}
           disabled={isWritePending || isWriteSuccess}
         >
           {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
         </Button>
       )}
-    </Flex>
+    </Stack>
   )
 }
