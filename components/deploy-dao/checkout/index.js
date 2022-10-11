@@ -209,12 +209,7 @@ export default function Checkout({ setStep }) {
       {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
-        <Button
-          variant='primary'
-          width="full"
-          onClick={deployKaliDao}
-          disabled={isWritePending || isWriteSuccess}
-        >
+        <Button variant="primary" width="full" onClick={deployKaliDao} disabled={isWritePending || isWriteSuccess}>
           {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
         </Button>
       )}

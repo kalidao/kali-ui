@@ -1,6 +1,5 @@
 import Layout from '../components/layout'
-import { Box } from '../styles/elements'
-import { Button } from '@kalidao/reality'
+import { Box, Button } from '@kalidao/reality'
 import Services from '../components/services'
 import { NextPage } from 'next'
 import Back from '@design/proposal/Back'
@@ -11,13 +10,14 @@ const ServicesPage: NextPage = () => {
   return (
     <Layout heading="Services" content="Find a service provider for legal, tax, security and other needs.">
       <Box
-        css={{
-          position: 'absolute',
-          top: '5rem',
-          padding: '0.5rem 1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '5px',
+        marginY={{
+          md: '5',
+        }}
+        marginX={{
+          xs: '2',
+          sm: '8',
+          md: '12',
+          lg: '6'
         }}
       >
         <Back onClick={() => router.replace('/')} />
