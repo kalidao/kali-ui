@@ -17,7 +17,7 @@ const ServicesPage: NextPage = () => {
           xs: '2',
           sm: '8',
           md: '12',
-          lg: '6'
+          lg: '6',
         }}
       >
         <Back onClick={() => router.replace('/')} />

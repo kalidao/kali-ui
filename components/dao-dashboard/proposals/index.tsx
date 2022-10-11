@@ -5,39 +5,27 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import Card from '@components/dao-dashboard/home/timeline/Card'
 import { getName } from '@graph/getName'
-import { getBuiltGraphSDK } from '../../../.graphclient'
 import { ethers } from 'ethers'
 import { container, timeline } from './proposals.css'
-
-const sdk = getBuiltGraphSDK()
+import { useGetProposals } from '@graph/queries/getProposals'
 
 const Proposals = () => {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const {
-    data: proposals,
-    isLoading,
-    error,
-  } = useQuery(['', dao, chainId], () =>
-    sdk.DaoProposals(
-      {
-        dao: dao ? (dao as string) : ethers.constants.AddressZero,
-      },
-      {
-        chainName: getName(chainId ? Number(chainId) : 1),
-      },
-    ),
+  const { data, isLoading, error } = useGetProposals(
+    chainId ? Number(chainId) : 1,
+    dao ? (dao as string) : ethers.constants.AddressZero,
   )
 
-  console.log('proposals', proposals)
+  // console.log('proposals', proposals)
   const [show, setShow] = useState(10)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
     () =>
-      proposals?.proposals
+      data
         ?.sort((a: { serial: number }, b: { serial: number }) => b.serial - a.serial)
         .filter((p: any) => !(p.cancelled == true)),
-    [proposals],
+    [data],
   )
 
   return (
@@ -62,7 +50,7 @@ const Proposals = () => {
         <Box className={timeline}>
           {memoizedProposals && (
             <>
-              {memoizedProposals.slice(0, show).map((proposal) => (
+              {memoizedProposals.slice(0, show).map((proposal: { [x: string]: any }) => (
                 <Card key={proposal['id']} proposal={proposal} />
               ))}
             </>

@@ -12,16 +12,16 @@ export default function Sidebar() {
   const { dao: address, chainId } = router.query
 
   return (
-    <Stack>
+    <Stack direction="horizontal">
       <About address={address as string} chainId={chainId as string} />
-      {/*<Entity address={address as string} />*/}
-      <Button
+      <Entity address={address as string} chainId={chainId as string} />
+      {/* <Button
         prefix={<IconSparkles />}
         variant="secondary"
         onClick={() => router.push(`/daos/${chainId}/${address}/tribute`)}
       >
         Tribute
-      </Button>
+      </Button> */}
     </Stack>
   )
 }

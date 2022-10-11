@@ -7,10 +7,7 @@ export default function Dashboard() {
   return (
     <Box
       display="flex"
-      flexDirection={{
-        xs: 'column',
-        md: 'row',
-      }}
+      flexDirection="column"
       alignItems={'center'}
       justifyContent="center"
       gap={{

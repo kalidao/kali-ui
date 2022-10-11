@@ -22,13 +22,13 @@ export const getUserDaos = async (address: string, chainId: number) => {
                 }
               }
             }`,
-        }),
+      }),
     })
 
     const data = await res.json()
     if (res.ok) {
-        console.log('data', data)
-        return data?.data?.members
+      console.log('data', data)
+      return data?.data?.members
     }
   } catch (e) {
     console.error('Error fetching user daos.')

@@ -48,7 +48,12 @@ const About = ({ address, chainId }: Props) => {
       }}
       passHref
     >
-      <ButtonCard buttonText="Learn More" prefix={<Avatar label={'DAO Image'} address={address} placeholder />} as="a">
+      <ButtonCard
+        buttonText="Learn More"
+        prefix={<Avatar label={'DAO Image'} address={address} placeholder />}
+        as="a"
+        width="96"
+      >
         <Stack>
           <Skeleton loading={!isFetched}>
             <Heading>{reads?.[0]}</Heading>

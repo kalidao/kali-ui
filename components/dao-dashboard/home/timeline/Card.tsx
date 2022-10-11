@@ -96,7 +96,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
       width={{
         xs: '80',
         md: '128',
-        lg: '168',
+        lg: '192',
       }}
     >
       <Link
