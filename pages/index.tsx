@@ -3,13 +3,12 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
 import { Heading, Text, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
-import { useAccount } from 'wagmi'
 import UserDAOs from '@components/home/UserDAOs'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
-  const { address: account } = useAccount()
   const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     router.prefetch('/')
   })

@@ -6,22 +6,16 @@ import { getName } from '@graph/getName'
 import { getBuiltGraphSDK } from '../../.graphclient'
 import { useQuery } from '@tanstack/react-query'
 import { ethers } from 'ethers'
-
+import { useGetUserDaos } from '@graph/queries/getUserDaos'
 const sdk = getBuiltGraphSDK()
 
 export default function UserDAOs() {
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
   const { chain } = useNetwork()
-  const { data, error, isLoading } = useQuery(['UserDAOs', chain, address], () =>
-    sdk.UserDAOs(
-      {
-        address: address ? address : ethers.constants.AddressZero,
-      },
-      {
-        chainName: getName(chain ? chain.id : 1),
-      },
-    ),
-  )
+  const { data, error, isLoading } = useGetUserDaos(address ? address as string : ethers.constants.AddressZero, chain ? Number(chain.id) : 1);
+ 
+
+  console.log('deta', address, data, error)
 
   return (
     <Box
@@ -34,13 +28,15 @@ export default function UserDAOs() {
       paddingBottom="3"
     >
       <Skeleton>
-        <Heading>{chain?.name}</Heading>
+        {isConnected && data?.length != 0 && <Stack direction={"horizontal"}>
+        <Heading>Yours  ~ </Heading><Heading color="foregroundSecondary">{chain?.name}</Heading>
+        </Stack>}
       </Skeleton>
       <Skeleton>
         <Stack direction="horizontal" wrap>
-          {data &&
+          {data && isConnected &&
             !error &&
-            data?.members?.map((dao: { [x: string]: any }) => (
+            data?.map((dao: { [x: string]: any }) => (
               <DaoCard key={dao?.['dao']['id']} dao={dao?.['dao']} chain={chain ? chain.id : 1} />
             ))}
         </Stack>
