@@ -30,13 +30,12 @@ const wagmiClient = createClient({
   webSocketProvider,
 })
 
-
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
-    By connecting your wallet, you agree to the{" "}<Link href="/tos">Terms of Service</Link>{" "}and
-    acknowledge you have read and understand the Disclaimers therein.
+    By connecting your wallet, you agree to the <Link href="/tos">Terms of Service</Link> and acknowledge you have read
+    and understand the Disclaimers therein.
   </Text>
-);
+)
 
 const appInfo = {
   appName: 'KALI',

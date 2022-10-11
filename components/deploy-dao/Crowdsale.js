@@ -155,7 +155,13 @@ export default function Crowdsale({ setStep }) {
       )}
 
       <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)} direction={'horizontal'} align="center" justify={'flex-end'}>
+        <Button
+          variant="transparent"
+          onClick={handleSubmit(onPrevious)}
+          direction={'horizontal'}
+          align="center"
+          justify={'flex-end'}
+        >
           Previous
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>

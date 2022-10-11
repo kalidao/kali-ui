@@ -7,7 +7,7 @@ type Props = {
 
 export default function Back({ onClick }: Props) {
   return (
-    <Button prefix={<IconArrowLeft />} variant="transparent" onClick={onClick}>
+    <Button prefix={<IconArrowLeft />} variant="transparent" onClick={onClick} size="small">
       Back
     </Button>
   )
