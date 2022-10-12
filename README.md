@@ -10,9 +10,8 @@ Install Node dependencies: `pnpm install`
 
 ## Local Development
 
-1. Build graph-client: `pnpm build-client`
-2. Start the app: `pnpm dev`
-3. View the app at localhost:3000
+1. Start the app: `pnpm dev`
+2. View the app at localhost:3000
 
 ## Environment settings
 
