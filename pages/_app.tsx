@@ -4,6 +4,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultWallets, RainbowKitProvider, darkTheme, DisclaimerComponent } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
@@ -15,7 +16,12 @@ const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.rinkeby, chain.goerli],
-  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }), publicProvider()],
+  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),     jsonRpcProvider({
+    rpc: (chain) => {
+      if (chain.id !== 42161) return null
+      return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
+    },
+  }), publicProvider()],
 )
 
 const { connectors } = getDefaultWallets({
