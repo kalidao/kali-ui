@@ -32,13 +32,15 @@ export default function Search({ daos, setDisplay }) {
 
   return (
     <Input
-      label="Find"
+      hideLabel
+      label="Search a DAO"
+      placeholder="Search"
       prefix={<IconSearch />}
       onChange={(e) => setSearch(e.target.value)}
       onKeyPress={handleKeypress}
       width={{
         xs: 'fit',
-        lg: '1/3',
+        lg: '96',
       }}
     />
   )

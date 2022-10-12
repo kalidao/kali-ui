@@ -2,37 +2,33 @@ import { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
 import Layout from '@components/layout'
 import { useRouter } from 'next/router'
-import { useGetDaos } from '@graph/queries/getDaos'
 import { useNetwork } from 'wagmi'
-import { Box, Button, IconArrowLeft, IconSearch, Input, Skeleton, SkeletonGroup, Stack } from '@kalidao/reality'
+import { Box, Button, IconArrowLeft, Skeleton, IconRefresh, Stack } from '@kalidao/reality'
 import DaoCard from '@components/home/DaoCard'
 import Search from '@components/home/Search'
-import { useQuery } from '@tanstack/react-query'
-import { getBuiltGraphSDK } from '../.graphclient'
-import { getName } from '@graph/getName'
-
-const sdk = getBuiltGraphSDK()
+import { useGetDaos } from '@graph/queries/getDaos'
 
 const ExplorePage: NextPage = () => {
   const router = useRouter()
   const { chain: activeChain } = useNetwork()
   const [chain, setChain] = useState(activeChain ? activeChain.id : 1)
-  const { data: daos, isLoading } = useQuery(
-    ['AllDAOs', chain],
-    () =>
-      sdk.AllDAOs(
-        {},
-        {
-          chainName: getName(chain),
-        },
-      ),
-    {
-      onSuccess: (data) => {
-        setDisplay(data?.daos)
-      },
-    },
-  )
-  const [display, setDisplay] = useState(daos ? daos?.daos : [])
+  const { data: daos, isLoading, isSuccess, refetch } = useGetDaos(chain)
+  const [display, setDisplay] = useState([])
+
+  useEffect(() => {
+    if (isSuccess) {
+      setDisplay(daos?.daos)
+    }
+  }, [daos, isSuccess])
+
+  useEffect(() => {
+    if (activeChain) {
+      if (activeChain.id != chain) {
+        setChain(activeChain.id)
+        refetch()
+      }
+    }
+  }, [activeChain])
 
   useEffect(() => {
     router.prefetch('/')
@@ -42,7 +38,10 @@ const ExplorePage: NextPage = () => {
     router.prefetch('/create')
   })
 
-  console.log('display', display.length, isLoading)
+  const reset = () => {
+    refetch()
+    setDisplay(daos?.daos)
+  }
 
   return (
     <Layout heading={'Explore'} content="Create a Kali DAO.">
@@ -61,14 +60,20 @@ const ExplorePage: NextPage = () => {
           lg: '16',
         }}
       >
-        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+        <Stack direction={'horizontal'} align="center" justify={'space-between'}>
           <Button variant="transparent" shape="circle" as="a" href="/">
             <IconArrowLeft />
           </Button>
-          <Search daos={daos} setDisplay={setDisplay} />
-        </Box>
+          <Stack direction={'horizontal'} align="center">
+            <Search daos={daos} setDisplay={setDisplay} />
+            <Button shape="circle" size="small" variant="secondary" onClick={reset}>
+              <IconRefresh />
+            </Button>
+          </Stack>
+        </Stack>
+
         <Skeleton loading={isLoading}>
-          <Stack direction="horizontal" wrap>
+          <Stack direction="horizontal" align="center" justify={'space-between'} wrap>
             {display && display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
           </Stack>
         </Skeleton>

@@ -6,16 +6,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs,graphql}\"",
-    "build-client": "graphclient build",
-    "graphiql": "graphclient serve-dev"
+    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs,graphql}\""
   },
   "dependencies": {
     "@ethersproject/constants": "^5.6.0",
     "@ethersproject/providers": "^5.5.3",
     "@fleekhq/fleek-storage-js": "^1.0.20",
-    "@graphprotocol/client-add-source-name": "1.0.11",
-    "@graphprotocol/client-cli": "2.2.11",
     "@kalidao/reality": "^0.0.5",
     "@pinata/sdk": "^1.1.26",
     "@radix-ui/colors": "^0.1.8",
@@ -48,7 +44,6 @@
     "ethers": "^5.6.5",
     "framer-motion": "^5.6.0",
     "graphql": "16.6.0",
-    "graphql-request": "^4.3.0",
     "little-state-machine": "^4.3.1",
     "magic-sdk": "^8.1.1",
     "moralis": "^2.5.7",
