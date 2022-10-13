@@ -24,7 +24,9 @@ export default function ProposalView({ proposal }: Props) {
   const { chainId, dao, proposalId } = router.query
   const { address } = useAccount()
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
-  const url = isURL(proposal?.description)
+  // const url = isURL(proposal?.description)
+  const url = `https://content.wrappr.wtf/ipfs/${proposal?.description}`
+
   const {
     data: details,
     isLoading,

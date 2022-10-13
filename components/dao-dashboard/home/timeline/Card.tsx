@@ -27,7 +27,10 @@ export default function ProposalCard({ proposal }: PropCardProp) {
     chainId: 1,
   })
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
-  const url = isURL(proposal?.description)
+  // const url = isURL(proposal?.description)
+
+  const url = `https://content.wrappr.wtf/ipfs/${proposal?.description.substring(7)}`
+
   const {
     data: details,
     isLoading,
