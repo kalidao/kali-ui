@@ -183,9 +183,6 @@ export default function Checkout({ setStep }) {
         shares,
         govSettings,
       ],
-      recklesslySetUnpreparedOverrides: {
-        gasLimit: 1050000,
-      },
     }).catch((e) => {
       console.log('error', e.code, e.reason)
     })
