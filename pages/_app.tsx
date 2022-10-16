@@ -15,7 +15,7 @@ import '@kalidao/reality/styles'
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.rinkeby, chain.goerli],
+  [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.goerli],
   [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),     jsonRpcProvider({
     rpc: (chain) => {
       if (chain.id !== 42161) return null
