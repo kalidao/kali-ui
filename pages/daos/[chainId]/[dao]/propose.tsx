@@ -13,7 +13,7 @@ export default function ProposePage() {
       <Box minHeight="96" width="320">
         <FieldSet legend="Create Proposals">
           <Input
-            label="Title"
+            label="Proposal Title"
             type="text"
             inputMode="text"
             name="id"
@@ -23,7 +23,7 @@ export default function ProposePage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <Text>Description</Text>
+          <Text>Proposal Description</Text>
           <Editor setContent={setContent} />
           <Text>Instruction</Text>
           <NewProposalModal proposalProp="menu" content={content} title={title} />

@@ -25,7 +25,7 @@ const FileUploader = (props) => {
         </Flex>
       ) : (
         <>
-          <Button variant="transparent" onClick={handleClick}>
+          <Button onClick={handleClick}>
             Upload <UploadIcon />
           </Button>
           <input style={{ width: '30px', display: 'none' }} type="file" ref={hiddenFileInput} onChange={handleChange} />
