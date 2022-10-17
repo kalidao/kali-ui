@@ -4,17 +4,21 @@ import { useRouter } from 'next/router'
 import { addresses } from '../../../../../constants/addresses'
 import decodeExtensions from './decodeExtensions'
 import KALIDAO_ABI from '../../../../../abi/KaliDAO.json'
-import { useContractRead } from 'wagmi'
+import { useContractRead, useSigner } from 'wagmi'
 import { useExplorer } from '@components/hooks/useExplorer'
+import { useEffect, useState } from 'react'
+import { decodeSwap } from './decodeSwap'
 
 export default function Extension({ accounts, amounts, payloads }) {
   const router = useRouter()
+  const { data: signer } = useSigner()
   const { dao, chainId } = router.query
   const extensions = addresses[router.query.chainId]['extensions']
   const link = useExplorer({
     chainId: Number(chainId),
     type: 'address',
   })
+  const [decoded, setDecoded] = useState(null)
 
   const { data: status, error } = useContractRead(
     {
@@ -28,14 +32,27 @@ export default function Extension({ accounts, amounts, payloads }) {
     },
   )
 
-  for (let i = 0; i < accounts.length; i++) {
-    const decoded = decodeExtensions(accounts[i], payloads[i], chainId)
-    let extension
-    for (const key in extensions) {
-      if (accounts[i].toLowerCase() == extensions[key].toLowerCase()) {
-        extension = key
+  useEffect(() => {
+    const visualize = async () => {
+      if (accounts[0].toLowerCase() === extensions.crowdsale2.toLowerCase()) {
+        const { values, decimals } = await decodeSwap(payloads[0], signer)
+        console.log(values, decimals)
+        setDecoded(values)
+      } else {
+        const _decoded = decodeExtensions(accounts[0], payloads[0], chainId)
+        setDecoded(_decoded)
       }
     }
+
+    if (signer) {
+      visualize()
+    }
+
+    // for (const key in extensions) {
+    //   if (accounts[i].toLowerCase() == extensions[key].toLowerCase()) {
+    //     extension = key
+  }, [signer])
+
 
     return (
       <Stack>
@@ -43,11 +60,11 @@ export default function Extension({ accounts, amounts, payloads }) {
         {/* <Text>{extension}</Text>
         <Text>{amounts[i] != 0 ? (status == true ? 'Deactivating' : 'Activating') : 'Activating'}</Text> */}
         {decoded &&
-          decoded['values'].map((item) => (
+          decoded.map((item) => (
             <Stack direction="horizontal" justify="space-between" align="center" border="" key={item['label']}>
               <Text responsive>{item['label']}</Text>
               <Text weight="bold" responsive>
-                {item['label'] == 'Details' ? (
+                {item['label'] == 'Details' && item['value'] != 'none' ? (
                   <Button
                     as="a"
                     href={`https://${item['value']}.ipfs.dweb.link/`}
@@ -59,7 +76,7 @@ export default function Extension({ accounts, amounts, payloads }) {
                   >
                     <IconLink />
                   </Button>
-                ) : item['display'] == 'token' ? (
+                ) : (item['display'] == 'token' && item['value'] != 'ETH') ? (
                   <Button
                     as="a"
                     href={`${link}${item['value']}`}
@@ -79,5 +96,4 @@ export default function Extension({ accounts, amounts, payloads }) {
           ))}
       </Stack>
     )
-  }
 }

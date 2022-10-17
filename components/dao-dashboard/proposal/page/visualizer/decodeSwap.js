@@ -1,0 +1,124 @@
+import { ethers } from 'ethers'
+import { unixToDate } from '../../../../../utils/time'
+import { erc20ABI } from 'wagmi'
+import { useEffect } from 'react'
+
+export async function decodeSwap(payload, signer) {
+  const decoded = ethers.utils.defaultAbiCoder.decode(extensionsHelper['crowdsale2']['types'], payload)
+
+  if (decoded) {
+    let values = []
+    let decimals
+
+    // Sale Type
+    if (decoded[0].toString() == '0')
+      values.push({
+        label: 'Sale Type',
+        value: 'Public',
+        display: 'saleType',
+      })
+    else
+      values.push({
+        label: 'Sale Type',
+        value: 'Private',
+        display: 'saleType',
+      })
+
+    // Purchase Asset
+    const asset = decoded[2]
+    let multiplier = ethers.utils.formatEther(decoded[1])
+
+    if (asset === ethers.constants.AddressZero) {
+      values.push({
+        label: 'Purchase Asset',
+        value: 'ETH',
+        display: 'token',
+      })
+
+      // Purchase Multiplier
+      multiplier = (multiplier + '').split('.')
+      multiplier = Number(multiplier[1])
+      values.push({
+        label: 'Purchase Multiplier',
+        value: multiplier,
+        display: 'BigNumber',
+      })
+    } else {
+      try {
+        console.log(asset, signer)
+        const instance = new ethers.Contract(asset, erc20ABI, signer)
+        decimals = await instance.decimals()
+      } catch (e) {
+        console.log(e)
+      }
+      values.push({
+        label: 'Purchase Asset',
+        value: asset,
+        display: 'token',
+      })
+
+      // Purchase Multiplier
+      values.push({
+        label: 'Purchase Multiplier',
+        value: decimals ? Math.ceil(1 / (multiplier * 10 ** decimals)) : 'N/A',
+        display: 'BigNumber',
+      })
+    }
+
+    // Sale Ends
+    const deadline = unixToDate(decoded[3])
+    values.push({
+      label: 'Sale Ends',
+      value: deadline,
+      display: 'date',
+    })
+
+    // Purchase Limit
+    const purchaseLimit = ethers.utils.formatEther(decoded[4])
+    values.push({
+      label: 'Purchase Limit',
+      value: purchaseLimit,
+      display: 'BigNumber',
+    })
+
+    // Personal Limit
+    const personalLimit = ethers.utils.formatEther(decoded[5])
+    values.push({
+      label: 'Personal Limit',
+      value: personalLimit,
+      display: 'BigNumber',
+    })
+
+    // Details
+    values.push({
+      label: 'Details',
+      value: decoded[6],
+      display: 'string',
+    })
+
+    console.log(values, decimals)
+
+    return { values, decimals }
+  }
+}
+
+const extensionsHelper = {
+  crowdsale2: {
+    labels: [
+      'Sale Type',
+      'Purchase Multiplier',
+      'Purchase Asset',
+      'Sale Ends',
+      'Purchase Limit',
+      'Personal Limit',
+      'Details',
+    ],
+    types: ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
+    display: ['saleType', 'BigNumber', 'token', 'date', 'BigNumber', 'BigNumber', 'string'],
+  },
+  redemption: {
+    labels: ['Redeemable Tokens', 'Starts From'],
+    types: ['address[]', 'uint256'],
+    display: ['array', 'date'],
+  },
+}
