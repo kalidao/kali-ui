@@ -20,6 +20,15 @@ export default function Extension({ accounts, amounts, payloads }) {
   })
   const [decoded, setDecoded] = useState(null)
 
+  const { data: symbol } = useContractRead(
+    {
+      addressOrName: dao,
+      contractInterface: KALIDAO_ABI,
+      functionName: 'symbol',
+      chainId: Number(chainId),
+    },
+  )
+
   const { data: status, error } = useContractRead(
     {
       addressOrName: dao,
@@ -35,7 +44,7 @@ export default function Extension({ accounts, amounts, payloads }) {
   useEffect(() => {
     const visualize = async () => {
       if (accounts[0].toLowerCase() === extensions.crowdsale2.toLowerCase()) {
-        const { values, decimals } = await decodeSwap(payloads[0], signer)
+        const { values, decimals } = await decodeSwap(payloads[0], symbol, signer)
         console.log(values, decimals)
         setDecoded(values)
       } else {
@@ -51,7 +60,7 @@ export default function Extension({ accounts, amounts, payloads }) {
     // for (const key in extensions) {
     //   if (accounts[i].toLowerCase() == extensions[key].toLowerCase()) {
     //     extension = key
-  }, [signer])
+  }, [signer, symbol])
 
 
     return (

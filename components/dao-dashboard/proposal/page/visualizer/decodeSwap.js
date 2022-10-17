@@ -3,11 +3,12 @@ import { unixToDate } from '../../../../../utils/time'
 import { erc20ABI } from 'wagmi'
 import { useEffect } from 'react'
 
-export async function decodeSwap(payload, signer) {
+export async function decodeSwap(payload, symbol, signer) {
   const decoded = ethers.utils.defaultAbiCoder.decode(extensionsHelper['crowdsale2']['types'], payload)
 
   if (decoded) {
     let values = []
+    let assetSymbol
     let decimals
 
     // Sale Type
@@ -39,14 +40,15 @@ export async function decodeSwap(payload, signer) {
       multiplier = (multiplier + '').split('.')
       multiplier = Number(multiplier[1])
       values.push({
-        label: 'Purchase Multiplier',
-        value: multiplier,
+        label: 'Purchase Ratio',
+        value: `1 ETH for ${multiplier} ${symbol.toUpperCase()}`,
         display: 'BigNumber',
       })
     } else {
       try {
-        console.log(asset, signer)
+        // console.log(asset, signer)
         const instance = new ethers.Contract(asset, erc20ABI, signer)
+        assetSymbol = await instance.symbol()
         decimals = await instance.decimals()
       } catch (e) {
         console.log(e)
@@ -59,8 +61,10 @@ export async function decodeSwap(payload, signer) {
 
       // Purchase Multiplier
       values.push({
-        label: 'Purchase Multiplier',
-        value: decimals ? Math.ceil(1 / (multiplier * 10 ** decimals)) : 'N/A',
+        label: 'Purchase Ratio',
+        value: `1 ${assetSymbol.toUpperCase()} for ${
+          decimals ? (multiplier * 10 ** decimals).toFixed(2) : 'N/A'
+        } ${symbol.toUpperCase()}`,
         display: 'BigNumber',
       })
     }
