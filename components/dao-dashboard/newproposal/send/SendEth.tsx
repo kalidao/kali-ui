@@ -99,7 +99,7 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
           placeholder="0"
           min={0}
           value={amount}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
         />
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
