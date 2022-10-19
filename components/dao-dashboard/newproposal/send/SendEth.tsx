@@ -14,7 +14,7 @@ import { AddressZero } from '@ethersproject/constants'
 export default function SendEth({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: daoName, isLoading } = useContractRead({
+  const { data: daoName } = useContractRead({
     addressOrName: dao ? (dao as string) : AddressZero,
     contractInterface: KALIDAO_ABI,
     functionName: 'name',
@@ -61,13 +61,15 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
 
     try {
-      const tx = await kalidao.propose(
-        2, // CALL prop
-        docs,
-        [recipient],
-        [amt],
-        [Array(0)],
-      )
+      const tx = propose({
+        recklesslySetUnpreparedArgs: [
+          2, // CALL prop
+          docs,
+          [recipient],
+          [amt],
+          [Array(0)],
+        ],
+      })
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
@@ -82,7 +84,6 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
       >
         <Input
           label="Recipient"
-          // description="The recipient address that will receive Ether"
           name="recipient"
           type="text"
           inputMode="text"
@@ -92,7 +93,6 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
         />
         <Input
           label="Amount"
-          // description="The amount of Ether to send."
           name="amount"
           type="number"
           inputMode="decimal"

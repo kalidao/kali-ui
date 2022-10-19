@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContractWrite, erc20ABI, useContractRead } from 'wagmi'
-import { Flex, Text, Button } from '@design/elements'
-import { Form, FormElement, Label, Input } from '@design/form-elements'
+import { Label } from '@design/form-elements'
 import { Select } from '@design/form-elements/Select'
-
+import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { tokens } from '@constants/tokens'
 import Back from '@design/proposal/Back'
@@ -12,6 +11,7 @@ import { ethers } from 'ethers'
 import { AddressZero } from '@ethersproject/constants'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { ProposalProps } from '../utils/types'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 export default function SendErc20({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -25,19 +25,24 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const { isConnected, address } = useAccount()
   const { chain: activeChain } = useNetwork()
 
-  const { write: propose } = useContractWrite({
+  const {
+    isSuccess: isProposeSuccess,
+    isError: isProposeError,
+    error: proposeError,
+    isLoading: isProposePending,
+    write: propose,
+  } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
+    addressOrName: dao as string,
     contractInterface: KALIDAO_ABI,
     functionName: 'propose',
-    chainId: Number(chainId),
   })
 
   // form
   const [type, setType] = useState('dai')
-  const [recipient, setRecipient] = useState(ethers.constants.AddressZero)
+  const [recipient, setRecipient] = useState(AddressZero)
   const [amount, setAmount] = useState('1')
-  const [tokenAddress, setTokenAddress] = useState(ethers.constants.AddressZero)
+  const [tokenAddress, setTokenAddress] = useState(AddressZero)
 
   const { data: tokenDecimals } = useContractRead({
     addressOrName: tokenAddress,
@@ -59,22 +64,22 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
       case 'dai':
         asset = activeChain?.id && tokens[activeChain.id]['DAI']['address']
         amt = ethers.utils.parseUnits(amount, 18)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
+        payload = iface.encodeFunctionData('transfer', [recipient, amt])
         break
       case 'usdc':
         asset = activeChain?.id && tokens[activeChain.id]['USDC']['address']
         amt = ethers.utils.parseUnits(amount, 6)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
+        payload = iface.encodeFunctionData('transfer', [recipient, amt])
         break
       case 'weth':
         asset = activeChain?.id && tokens[activeChain.id]['WETH']['address']
         amt = ethers.utils.parseUnits(amount, 18)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
+        payload = iface.encodeFunctionData('transfer', [recipient, amt])
         break
       case 'custom':
         asset = tokenAddress
         amt = ethers.utils.parseUnits(amount, tokenDecimals)
-        payload = iface.encodeFunctionData('transfer', [recipient, amount])
+        payload = iface.encodeFunctionData('transfer', [recipient, amt])
         break
       default:
         Error('Invalid type')
@@ -91,7 +96,7 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     console.log('Proposal Params - ', 2, docs, [asset], [0], [payload])
 
     try {
-      const tx = await propose({
+      const tx = propose({
         recklesslySetUnpreparedArgs: [
           2, // CALL prop
           docs,
@@ -107,17 +112,12 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   }
 
   return (
-    <Flex dir="col" gap="md">
-      <Text
-        css={{
-          fontFamily: 'Regular',
-        }}
+    <Stack>
+      <FieldSet
+        legend="Send ERC20 tokens"
+        description={`Send ERC20 tokens from ${daoName} treasury`}
       >
-        Send ERC20s from {daoName} treasury
-      </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="type">Asset</Label>
+        <Label htmlFor="type">Asset</Label>
           <Select
             name="type"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
@@ -128,39 +128,56 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
             <Select.Item value="weth">WETH</Select.Item>
             <Select.Item value="custom">Custom</Select.Item>
           </Select>
-        </FormElement>
-        {type === 'custom' && (
-          <FormElement>
-            <Label htmlFor="tokenAddress">Contract Address</Label>
+          {type === 'custom' && (
             <Input
+              label="ERC20 Contract Address"
               name="tokenAddress"
               type="text"
-              defaultValue={tokenAddress}
+              inputMode='text'
+              placeholder={AddressZero}
+              value={tokenAddress}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
             />
-          </FormElement>
         )}
-        <FormElement>
-          <Label htmlFor="recipient">Recipient</Label>
-          <Input
-            name="recipient"
-            type="text"
-            defaultValue={recipient}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="amount">Amount</Label>
-          <Input
-            name="amount"
-            type="number"
-            defaultValue={amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
-          />
-        </FormElement>
-        <Back onClick={() => setProposal?.('sendMenu')} />
-        <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+        <Input
+          label="Recipient"
+          name="recipient"
+          type="text"
+          inputMode="text"
+          placeholder={AddressZero}
+          value={recipient}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
+        />
+        <Input
+          label="Amount"
+          name="amount"
+          type="number"
+          inputMode="decimal"
+          placeholder="0"
+          min={0}
+          value={amount}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
+        />
+      </FieldSet>
+      <Stack direction={'horizontal'} justify="space-between">
+        <Back onClick={() => setProposal?.('membersMenu')} />
+        <ChainGuard>
+          <Button
+            center
+            variant="primary"
+            onClick={submit}
+            loading={isProposePending}
+            disabled={!propose || isProposePending || isProposeSuccess}
+          >
+            {isProposePending ? 'Submitting...' : 'Submit'}
+          </Button>
+          <Text>
+            {isProposeSuccess
+              ? 'Proposal submitted on chain!'
+              : isProposeError && `Error submitting proposal: ${proposeError}`}
+          </Text>
+        </ChainGuard>
+      </Stack>
+    </Stack>
   )
 }
