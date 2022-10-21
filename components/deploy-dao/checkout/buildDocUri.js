@@ -3,7 +3,7 @@ import buildTokenUri from './buildTokenUri'
 import { calculateWrapprId } from './calculateWrapprId'
 import { wrapprAddresses } from './wrapprAddresses'
 
-export default async function buildDocUri(chain, docType, setError, state) {
+export default async function buildWrapprTokenUri(chain, docType, setError, state) {
   const wrapprAddress = wrapprAddresses[chain][docType]
   let tokenId = 0
   let agreement
@@ -38,13 +38,11 @@ export default async function buildDocUri(chain, docType, setError, state) {
       tokenURI = res
       console.log(tokenURI)
       setError('Creating token URI for legal wrapper...')
-      return tokenURI
     }
   } catch (e) {
     console.log(e)
     setError("Something's wrong with building token URI!")
   }
 
-  console.log()
-  // return 'hello'
+  return { tokenId, tokenURI }
 }

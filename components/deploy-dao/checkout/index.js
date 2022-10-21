@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
 import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
-import { AddressZero } from '@ethersproject/constants'
+import { HashZero, AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
-import buildDocUri from './buildDocUri'
+import buildWrapprTokenUri from './buildDocUri'
 import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
 import { validateFounders } from './validateFounders'
 
@@ -16,9 +16,11 @@ import Confirmation from './Confirmation'
 import Success from './Success'
 
 import { addresses } from '../../../constants/addresses'
+import { wrapprAddresses } from './wrapprAddresses'
 import FACTORY_ABI from '../../../abi/KaliDAOfactory.json'
 import REDEMPTION_ABI from '../../../abi/KaliDAOredemption.json'
 import SALE_ABI from '../../../abi/KaliDAOcrowdsale.json'
+import WRAPPR_ABI from '../../../abi/Wrappr.json'
 import { useRouter } from 'next/router'
 
 export default function Checkout({ setStep }) {
@@ -30,8 +32,8 @@ export default function Checkout({ setStep }) {
   const [error, setError] = useState(null)
 
   const {
-    data,
-    writeAsync,
+    data: deployKaliData,
+    writeAsync: deployKali,
     isLoading: isWritePending,
     isSuccess: isWriteSuccess,
     isError: isDeployError,
@@ -68,17 +70,23 @@ export default function Checkout({ setStep }) {
       email,
     } = state
 
-    let docs_
+    const extensionsArray = new Array()
+    const extensionsData = new Array()
+
+    // Set up Wrappr
     if (legal) {
-      // docs_ = validateDocs(
-      //   docType,
-      //   state.existingDocs ? state.existingDocs : null,
-      //   name,
-      //   state.mission ? state.mission : null,
-      // )
-      docs_ = buildDocUri(activeChain.id, docType, setError, state)
-    } else {
-      docs_ = 'na'
+      const { wrapprTokenId, wrapprTokenUri } = buildWrapprTokenUri(activeChain.id, docType, setError, state)
+      console.log(wrapprTokenId, wrapprTokenUri)
+
+      const iface = new ethers.utils.Interface(WRAPPR_ABI)
+      const encodedParams = ethers.utils.defaultAbiCoder.encode(
+        ['address', 'uint256', 'uint256', 'bytes', 'string', 'address'],
+        [account, wrapprTokenId, 1, HashZero, wrapprTokenUri, account],
+      )
+      const payload = iface.encodeFunctionData('mint', [encodedParams])
+
+      extensionsArray.push(wrapprAddresses[activeChain.id][docType])
+      extensionsData.push(payload)
     }
 
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
@@ -111,9 +119,6 @@ export default function Checkout({ setStep }) {
       govSettings = new Array(voteTime, 0, quorum, 52, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
-    const extensionsArray = new Array()
-    const extensionsData = new Array()
-
     // tribute
     extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
     extensionsData.push('0x')
@@ -132,6 +137,7 @@ export default function Checkout({ setStep }) {
     //   extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
     //   extensionsData.push(payload)
     // }
+
     // crowdsale
     // if (state.crowdsale === true) {
     //   const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
@@ -163,7 +169,7 @@ export default function Checkout({ setStep }) {
     //   extensionsData.push(payload)
     // }
 
-    console.log('docs - ', legal, docType, docs_)
+    console.log('docs - ', legal, docType, wrapprTokenUri)
     // console.log(
     //   'deploy params',
     //   name,
@@ -194,7 +200,7 @@ export default function Checkout({ setStep }) {
     // }).catch((e) => {
     //   console.log('error', e.code, e.reason)
     // })
-  }, [isConnected, activeChain, state, writeAsync])
+  }, [isConnected, activeChain, state, deployKali])
 
   const prev = () => {
     if (!hardMode) {
@@ -206,7 +212,7 @@ export default function Checkout({ setStep }) {
 
   return (
     <Stack>
-      {data ? <Success /> : <Confirmation />}
+      {deployKaliData ? <Success /> : <Confirmation />}
       <Button variant="transparent" onClick={prev}>
         Previous
       </Button>
