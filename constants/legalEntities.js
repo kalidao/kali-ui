@@ -1,5 +1,5 @@
 export const legalEntities = {
-  series: {
+  deSeries: {
     text: 'Series LLC',
     template: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
     docs: '',
@@ -8,7 +8,7 @@ export const legalEntities = {
     message:
       'Your series will be formed instantly, but we will follow up to request information we must keep on file for your series.',
   },
-  delawareUNA: {
+  deUNA: {
     text: 'Delaware UNA',
     template: 'https://gateway.pinata.cloud/ipfs/QmSEEcunxFs8oRQbPaoeV2pYBYJihpZUx6QYUsUqc89Gci',
     docs: 'UNA',
@@ -17,14 +17,14 @@ export const legalEntities = {
     message: 'Your Delaware UNA will be formed instantly.',
   },
   verein: {
-    text: 'Swiss Verein',
+    text: 'Swiss Verein (non-profit)',
     template: null,
     docs: 'none',
     email: true,
     mission: false,
-    message: 'We will contact you to provide options for registering a Swiss Verein and the associated costs.',
+    message: 'Your Swiss Verein will be formed instantly.',
   },
-  delawareLLC: {
+  deLLC: {
     text: 'Delaware LLC',
     template: null,
     docs: 'none',
@@ -33,7 +33,7 @@ export const legalEntities = {
     message:
       'It will take around 1-2 weeks to establish a Delaware LLC. We will contact you to provide options for registering a Delaware LLC and the associated costs.',
   },
-  wyomingLLC: {
+  wyLLC: {
     text: 'Wyoming LLC',
     template: null,
     docs: 'none',

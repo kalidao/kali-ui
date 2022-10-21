@@ -26,7 +26,7 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
     args: [dao, amount ? ethers.utils.parseUnits(amount.toString(), decimals) : 0],
     cacheTime: 2_000,
     overrides: {
-      gasLimit: 300000,
+      gasLimit: 3000000,
     },
   })
 
