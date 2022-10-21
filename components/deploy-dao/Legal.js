@@ -22,20 +22,20 @@ export default function Legal({ setStep }) {
   const { hardMode, legal, docType } = state
   const watchLegal = watch('legal', legal)
   const watchDocs = watch('docType', docType)
-
+  console.log(watchDocs)
   const onPrevious = (data) => {
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(0)
-    } else {
-      setStep(4)
-    }
+    setStep(2)
+    // if (!hardMode) {
+    //   setStep(0)
+    // } else {
+    //   setStep(4)
+    // }
   }
   const onNext = (data) => {
     actions.updateAction(data)
 
-    setStep(6)
+    setStep(4)
   }
 
   let selectArray = []

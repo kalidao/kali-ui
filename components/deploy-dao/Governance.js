@@ -27,12 +27,12 @@ export default function Governance({ setStep }) {
 
   const onNext = (data) => {
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(4)
-    } else {
-      setStep(2)
-    }
+    setStep(2)
+    // if (!hardMode) {
+    //   setStep(4)
+    // } else {
+    //   setStep(2)
+    // }
   }
 
   return (

@@ -61,7 +61,7 @@ export default function Identity({ setStep }: Props) {
     actions.updateAction(data)
 
     if (!hardMode) {
-      setStep(4)
+      setStep(2)
     } else {
       setStep(1)
     }

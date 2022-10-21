@@ -66,7 +66,7 @@ export default function Members({ setStep }: Props) {
         if (!hardMode) {
           setStep(0)
         } else {
-          setStep(3)
+          setStep(1)
         }
       }
     } catch (e) {
@@ -81,9 +81,9 @@ export default function Members({ setStep }: Props) {
       actions.updateAction(data)
 
       if (!hardMode) {
-        setStep(6)
+        setStep(4)
       } else {
-        setStep(5)
+        setStep(3)
       }
     }
   }
@@ -94,7 +94,7 @@ export default function Members({ setStep }: Props) {
       <Stack justify="flex-start">
         {fields.map((item, index) => {
           return (
-            <Stack key={item.id} direction="horizontal" align="center" justify="center">
+            <Stack key={item.id} direction="horizontal" align="center" >
               <Input
                 label={`Member`}
                 hideLabel={index !== 0}
@@ -102,6 +102,7 @@ export default function Members({ setStep }: Props) {
                 {...register(`founders.${index}.member` as const, {
                   required: true,
                 })}
+                value={account}
                 defaultValue={item.member}
                 type="text"
               />
@@ -114,6 +115,7 @@ export default function Members({ setStep }: Props) {
                   required: true,
                   min: 1,
                 })}
+                value={'1000'}
                 defaultValue={item.share}
               />
               <Button

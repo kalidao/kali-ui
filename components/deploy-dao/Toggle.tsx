@@ -18,7 +18,7 @@ export default function Toggle() {
         })
       }
     >
-      {hardMode === false ? '2 Clicks' : '7 Clicks'}
+      {hardMode === false ? '3 Clicks' : '5 Clicks'}
     </Button>
   )
 }

@@ -81,18 +81,18 @@ export default function DeployDaoWrapper() {
       decision-making is generally consistent and frequent, we recommend shorter 
       voting period and lower participation.`,
     },
-    {
-      component: <Redemption setStep={setStep} />,
-      title: 'Extension: Redemption',
-      description: `This extension gives everyone the ability
-      to redeem KaliDAO treasury by burning her KaliDAO tokens.`,
-    },
-    {
-      component: <Crowdsale setStep={setStep} />,
-      title: 'Extension: Swap',
-      description: `This extension gives KaliDAO the ability to swap KaliDAO tokens 
-      for Eth or ERC20s.`,
-    },
+    // {
+    //   component: <Redemption setStep={setStep} />,
+    //   title: 'Extension: Redemption',
+    //   description: `This extension gives everyone the ability
+    //   to redeem KaliDAO treasury by burning her KaliDAO tokens.`,
+    // },
+    // {
+    //   component: <Crowdsale setStep={setStep} />,
+    //   title: 'Extension: Swap',
+    //   description: `This extension gives KaliDAO the ability to swap KaliDAO tokens 
+    //   for Eth or ERC20s.`,
+    // },
     {
       component: <Members setStep={setStep} />,
       title: 'Founding Members',
