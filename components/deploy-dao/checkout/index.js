@@ -1,10 +1,11 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
+import buildDocUri from './buildDocUri'
 import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
 import { validateFounders } from './validateFounders'
 
@@ -26,13 +27,15 @@ export default function Checkout({ setStep }) {
   const { hardMode } = state
   const { address: account, isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
+  const [error, setError] = useState(null)
+
   const {
     data,
     writeAsync,
     isLoading: isWritePending,
     isSuccess: isWriteSuccess,
-    isError,
-    error,
+    isError: isDeployError,
+    error: deployError,
   } = useContractWrite(
     {
       mode: 'recklesslyUnprepared',
@@ -67,12 +70,13 @@ export default function Checkout({ setStep }) {
 
     let docs_
     if (legal) {
-      docs_ = validateDocs(
-        docType,
-        state.existingDocs ? state.existingDocs : null,
-        name,
-        state.mission ? state.mission : null,
-      )
+      // docs_ = validateDocs(
+      //   docType,
+      //   state.existingDocs ? state.existingDocs : null,
+      //   name,
+      //   state.mission ? state.mission : null,
+      // )
+      docs_ = buildDocUri(activeChain.id, docType, setError, state)
     } else {
       docs_ = 'na'
     }
@@ -115,97 +119,99 @@ export default function Checkout({ setStep }) {
     extensionsData.push('0x')
 
     // redemption
-    if (state.redemption === true) {
-      let { redemptionStart } = state
-      redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000)
-      console.log('redemptionStarts', new Date(redemptionStart))
-      const tokenArray = fetchTokens(activeChain?.id)
+    // if (state.redemption === true) {
+    //   let { redemptionStart } = state
+    //   redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000)
+    //   console.log('redemptionStarts', new Date(redemptionStart))
+    //   const tokenArray = fetchTokens(activeChain?.id)
 
-      const iface = new ethers.utils.Interface(REDEMPTION_ABI)
-      const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, redemptionStart])
-      const payload = iface.encodeFunctionData('setExtension', [encodedParams])
+    //   const iface = new ethers.utils.Interface(REDEMPTION_ABI)
+    //   const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, redemptionStart])
+    //   const payload = iface.encodeFunctionData('setExtension', [encodedParams])
 
-      extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
-      extensionsData.push(payload)
-    }
+    //   extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
+    //   extensionsData.push(payload)
+    // }
     // crowdsale
-    if (state.crowdsale === true) {
-      const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
-      if (purchaseToken === 'eth') {
-        purchaseToken = '0x000000000000000000000000000000000000dead'
-      }
-      if (purchaseToken === 'custom') {
-        purchaseToken = state.customTokenAddress
-      }
+    // if (state.crowdsale === true) {
+    //   const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
+    //   if (purchaseToken === 'eth') {
+    //     purchaseToken = '0x000000000000000000000000000000000000dead'
+    //   }
+    //   if (purchaseToken === 'custom') {
+    //     purchaseToken = state.customTokenAddress
+    //   }
 
-      crowdsaleEnd = parseInt(new Date(crowdsaleEnd).getTime() / 1000)
+    //   crowdsaleEnd = parseInt(new Date(crowdsaleEnd).getTime() / 1000)
 
-      const iface = new ethers.utils.Interface(SALE_ABI)
-      const encodedData = new ethers.utils.AbiCoder().encode(
-        ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [
-          0,
-          purchaseMultiplier,
-          purchaseToken,
-          crowdsaleEnd,
-          ethers.utils.parseEther(purchaseLimit),
-          ethers.utils.parseEther(personalLimit),
-          'documentation',
-        ],
-      )
-      const payload = iface.encodeFunctionData('setExtension', [encodedData])
+    //   const iface = new ethers.utils.Interface(SALE_ABI)
+    //   const encodedData = new ethers.utils.AbiCoder().encode(
+    //     ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
+    //     [
+    //       0,
+    //       purchaseMultiplier,
+    //       purchaseToken,
+    //       crowdsaleEnd,
+    //       ethers.utils.parseEther(purchaseLimit),
+    //       ethers.utils.parseEther(personalLimit),
+    //       'documentation',
+    //     ],
+    //   )
+    //   const payload = iface.encodeFunctionData('setExtension', [encodedData])
 
-      extensionsArray.push(addresses[activeChain?.id]['extensions']['crowdsale2'])
-      extensionsData.push(payload)
-    }
+    //   extensionsArray.push(addresses[activeChain?.id]['extensions']['crowdsale2'])
+    //   extensionsData.push(payload)
+    // }
 
-    console.log(
-      'deploy params',
-      name,
-      symbol,
-      docs_,
-      Number(!transferability),
-      extensionsArray,
-      extensionsData,
-      voters,
-      shares,
-      govSettings,
-    )
-    const tx = await writeAsync({
-      recklesslySetUnpreparedArgs: [
-        name,
-        symbol,
-        docs_,
-        Number(!transferability),
-        extensionsArray,
-        extensionsData,
-        voters,
-        shares,
-        govSettings,
-      ],
-      recklesslySetUnpreparedOverrides: {
-        gasLimit: 1600000,
-      },
-    }).catch((e) => {
-      console.log('error', e.code, e.reason)
-    })
+    console.log('docs - ', legal, docType, docs_)
+    // console.log(
+    //   'deploy params',
+    //   name,
+    //   symbol,
+    //   docs_,
+    //   Number(!transferability),
+    //   extensionsArray,
+    //   extensionsData,
+    //   voters,
+    //   shares,
+    //   govSettings,
+    // )
+    // const tx = await writeAsync({
+    //   recklesslySetUnpreparedArgs: [
+    //     name,
+    //     symbol,
+    //     docs_,
+    //     Number(!transferability),
+    //     extensionsArray,
+    //     extensionsData,
+    //     voters,
+    //     shares,
+    //     govSettings,
+    //   ],
+    //   recklesslySetUnpreparedOverrides: {
+    //     gasLimit: 1600000,
+    //   },
+    // }).catch((e) => {
+    //   console.log('error', e.code, e.reason)
+    // })
   }, [isConnected, activeChain, state, writeAsync])
 
   const prev = () => {
     if (!hardMode) {
-      setStep(4)
+      setStep(2)
     } else {
-      setStep(5)
+      setStep(3)
     }
   }
 
   return (
     <Stack>
-      {isError && <Error message={error.message} />}
       {data ? <Success /> : <Confirmation />}
       <Button variant="transparent" onClick={prev}>
         Previous
       </Button>
+      {isDeployError && <Error message={deployError.message} />}
+      {error && <Error message={error} />}
       {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
