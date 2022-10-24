@@ -49,15 +49,17 @@ const Arrow = styled(Tooltip.Arrow, {
 // Add label
 export default function Tip({ label }) {
   return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
-        <QuestionMarkIcon color="#ffa00a" />
-      </Tooltip.Trigger>
-      <Content sideOffset={5}>
-        {label}
-        <Arrow />
-      </Content>
-    </Tooltip.Root>
+    <Tooltip.Provider>
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <QuestionMarkIcon color="#ffa00a" />
+        </Tooltip.Trigger>
+        <Content sideOffset={5}>
+          {label}
+          <Arrow />
+        </Content>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   )
 }
 

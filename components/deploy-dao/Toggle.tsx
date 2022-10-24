@@ -9,6 +9,7 @@ export default function Toggle() {
   const { hardMode } = state
 
   return (
+    <>
     <Button
       suffix={<DotFilledIcon color={hardMode === false ? 'green' : 'red'} />}
       variant="transparent"
@@ -20,5 +21,6 @@ export default function Toggle() {
     >
       {hardMode === false ? '3 Clicks' : '5 Clicks'}
     </Button>
+    </>
   )
 }
