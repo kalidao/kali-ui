@@ -5,7 +5,7 @@ import { HashZero, AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
-import buildWrapprTokenUri from './buildDocUri'
+import buildWrapprTokenUri from './buildWrapprTokenUri'
 import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
 import { validateFounders } from './validateFounders'
 
@@ -41,8 +41,8 @@ export default function Checkout({ setStep }) {
   } = useContractWrite(
     {
       mode: 'recklesslyUnprepared',
-      addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
-      contractInterface: FACTORY_ABI,
+      address: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
+      abi: FACTORY_ABI,
       functionName: 'deployKaliDAO',
     },
     {
@@ -75,15 +75,24 @@ export default function Checkout({ setStep }) {
 
     // Set up Wrappr
     if (legal) {
-      const { wrapprTokenId, wrapprTokenUri } = buildWrapprTokenUri(activeChain.id, docType, setError, state)
-      console.log(wrapprTokenId, wrapprTokenUri)
+      // const { wrapprTokenId, wrapprTokenUri } = await buildWrapprTokenUri(activeChain.id, docType, setError, state)
+      const wrapprToken = await buildWrapprTokenUri(activeChain.id, docType, setError, state)
+
+      console.log(wrapprToken)
 
       const iface = new ethers.utils.Interface(WRAPPR_ABI)
       const encodedParams = ethers.utils.defaultAbiCoder.encode(
         ['address', 'uint256', 'uint256', 'bytes', 'string', 'address'],
-        [account, wrapprTokenId, 1, HashZero, wrapprTokenUri, account],
+        [account, wrapprToken.tokenId, 1, HashZero, wrapprToken.tokenUri, account],
       )
-      const payload = iface.encodeFunctionData('mint', [encodedParams])
+      const payload = iface.encodeFunctionData('mint', [
+        account,
+        wrapprToken.tokenId,
+        1,
+        HashZero,
+        wrapprToken.tokenUri,
+        account,
+      ])
 
       extensionsArray.push(wrapprAddresses[activeChain.id][docType])
       extensionsData.push(payload)
@@ -169,37 +178,37 @@ export default function Checkout({ setStep }) {
     //   extensionsData.push(payload)
     // }
 
-    console.log('docs - ', legal, docType, wrapprTokenUri)
-    // console.log(
-    //   'deploy params',
-    //   name,
-    //   symbol,
-    //   docs_,
-    //   Number(!transferability),
-    //   extensionsArray,
-    //   extensionsData,
-    //   voters,
-    //   shares,
-    //   govSettings,
-    // )
-    // const tx = await writeAsync({
-    //   recklesslySetUnpreparedArgs: [
-    //     name,
-    //     symbol,
-    //     docs_,
-    //     Number(!transferability),
-    //     extensionsArray,
-    //     extensionsData,
-    //     voters,
-    //     shares,
-    //     govSettings,
-    //   ],
-    //   recklesslySetUnpreparedOverrides: {
-    //     gasLimit: 1600000,
-    //   },
-    // }).catch((e) => {
-    //   console.log('error', e.code, e.reason)
-    // })
+    console.log('docs - ', legal, docType)
+    console.log(
+      'deploy params',
+      name,
+      symbol,
+      '',
+      Number(!transferability),
+      extensionsArray,
+      extensionsData,
+      voters,
+      shares,
+      govSettings,
+    )
+    const tx = await deployKali({
+      recklesslySetUnpreparedArgs: [
+        name,
+        symbol,
+        '',
+        Number(!transferability),
+        extensionsArray,
+        extensionsData,
+        voters,
+        shares,
+        govSettings,
+      ],
+      recklesslySetUnpreparedOverrides: {
+        gasLimit: 1600000,
+      },
+    }).catch((e) => {
+      console.log('error', e.code, e.reason)
+    })
   }, [isConnected, activeChain, state, deployKali])
 
   const prev = () => {
@@ -217,7 +226,7 @@ export default function Checkout({ setStep }) {
         Previous
       </Button>
       {isDeployError && <Error message={deployError.message} />}
-      {error && <Error message={error} />}
+      {error || (isDeployError && <Error message={isDeployError ? isDeployError : error} />)}
       {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
