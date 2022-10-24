@@ -1,5 +1,5 @@
-import { Flex } from '../../../../../styles/elements'
+import { Text } from '@kalidao/reality'
 
 export default function Supermajority({ amount }) {
-  return <Flex>This proposal will update supermajority to {amount}%</Flex>
+  return <Text>This proposal will update supermajority to {amount}%</Text>
 }
