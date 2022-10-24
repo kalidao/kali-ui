@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useContract, useContractRead, useSigner } from 'wagmi'
-import { Flex, Text, Button, Warning } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
-import FileUploader from '../../../tools/FileUpload'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
+import React, { useState } from 'react'
+import { useContractRead, useContractWrite } from 'wagmi'
+import { Warning } from '../../../../styles/elements'
+import { Label } from '../../../../styles/form-elements'
+import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 import { useEditor } from '@tiptap/react'
@@ -13,11 +11,13 @@ import StarterKit from '@tiptap/starter-kit'
 import styles from '../../../editor'
 import Editor from '../../../editor'
 import { createProposal } from '../utils/'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { FieldSet, Text, Input, Button, Stack, Box } from '@kalidao/reality'
 
 export default function UpdateQuorum({ setView }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChain = router.query.chainId
+  const { dao, chainId } = router.query
+  const [content, setContent] = useState()
   const [title, setTitle] = useState(null)
   const editor = useEditor({
     extensions: [
@@ -30,22 +30,23 @@ export default function UpdateQuorum({ setView }) {
     content: '',
     injectCSS: false,
   })
-  const { data: currentQuorum } = useContractRead(
-    {
-      addressOrName: daoAddress,
-      contractInterface: KALIDAO_ABI,
-    },
-    'quorum',
-    {
-      chainId: Number(daoChain),
-    },
-  )
-  const { data: signer } = useSigner()
+  const { data: currentQuorum } = useContractRead({
+    address: dao ? dao : AddressZero,
+    abi: DAO_ABI,
+    functionName: 'quorum',
+    chainId: Number(chainId),
+  })
 
-  const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
+  const {
+    isSuccess: isProposeSuccess,
+    isError: isProposeError,
+    isLoading: isProposePending,
+    write: propose,
+  } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    address: dao ? dao : AddressZero,
+    abi: DAO_ABI,
+    functionName: 'propose',
   })
 
   // form
@@ -54,11 +55,17 @@ export default function UpdateQuorum({ setView }) {
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e) => {
+    if (!propose || !dao || !chainId) return
+    if (quorum === 0) {
+      setWarning('Participation must be greater than 0')
+      return
+    }
+
     e.preventDefault()
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChain, 5, title, editor.getJSON())
+      docs = await createProposal(dao, chainId, 5, title, content)
     } catch (e) {
       console.error(e)
       setWarning('There was an error in submitting this proposal.')
@@ -69,13 +76,15 @@ export default function UpdateQuorum({ setView }) {
 
     if (quorum) {
       try {
-        const tx = await kalidao.propose(
-          5, // QUORUM prop
-          docs,
-          [AddressZero],
-          [quorum],
-          [Array(0)],
-        )
+        const tx = propose({
+          recklesslySetUnpreparedArgs: [
+            5, // QUORUM prop
+            docs,
+            [AddressZero],
+            [quorum],
+            [Array(0)],
+          ],
+        })
         console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
@@ -86,57 +95,64 @@ export default function UpdateQuorum({ setView }) {
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        padding: '20px',
-        width: '40vw',
-        fontFamily: 'Regular',
-      }}
-    >
-      <Back onClick={() => setView(0)} />
-      <Flex dir="col" gap="sm">
-        <Label>Title</Label>
-        <Input
-          name="id"
-          maxLength={30}
-          placeholder={'Proposal for...'}
-          onChange={(e) => setTitle(e.target.value)}
-          css={{
-            minWidth: '39vw',
-          }}
-        />
-      </Flex>
-      <Flex dir="col" gap="sm">
-        <Label>Description (Optional)</Label>
-        <Editor editor={editor} />
-      </Flex>
-      <Text
-        css={{
-          fontFamily: 'Regular',
-        }}
-      >
-        Update participation required for a proposal to pass.
-      </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="recipient">Current</Label>
-          <Text>{currentQuorum}%</Text>
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">Changing to</Label>
+    <Box width={'full'}>
+      <Stack>
+        <Box width={'full'}>
+          <Stack>
+            <Label>Title</Label>
+            <Input
+              name="id"
+              maxLength={30}
+              placeholder={'Proposal for...'}
+              onChange={(e) => setTitle(e.target.value)}
+              css={{
+                minWidth: '39vw',
+              }}
+            />
+            <Box width={'full'}>
+              <Label>Description (Optional)</Label>
+              <Editor setContent={setContent} />
+            </Box>
+          </Stack>
+        </Box>
+
+        <FieldSet
+          legend="Update Participation Percentage"
+          description="This will create a proposal to update participation percentage"
+        >
           <Input
-            name="recipient"
-            placeholder="20"
+            label="Participation"
+            description={`Current approval percentage: ${currentQuorum ? currentQuorum : 'fething...'}%`}
+            name="amount"
             type="number"
-            defaultValue={quorum}
-            onChange={(e) => setQuorum(e.target.value)}
+            inputMode="decimal"
+            placeholder="51"
+            suffix="%"
+            min={0}
+            value={quorum}
+            onChange={(e) => setQuorum(Number(e.target.value))}
           />
-        </FormElement>
+        </FieldSet>
         {warning && <Warning warning={warning} />}
-        <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+        <Stack direction={'horizontal'} justify={'space-between'}>
+          <Back onClick={() => setView(0)} />
+
+          <ChainGuard>
+            <Button
+              center
+              variant="primary"
+              onClick={submit}
+              loading={isProposePending}
+              disabled={!propose || isProposePending || isProposeSuccess}
+            >
+              {isProposePending ? 'Submitting...' : 'Submit'}
+            </Button>
+            <Text>
+              {isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}
+            </Text>
+          </ChainGuard>
+        </Stack>
+      </Stack>
+    </Box>
   )
 }
