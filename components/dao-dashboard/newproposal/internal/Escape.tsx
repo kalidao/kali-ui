@@ -20,8 +20,8 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
   // Contract functions
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao,
-    contractInterface: KALIDAO_ABI,
+    address: dao,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: chainId,
   })

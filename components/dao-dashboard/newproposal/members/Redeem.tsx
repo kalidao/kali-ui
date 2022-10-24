@@ -31,21 +31,21 @@ export default function Redeem({ content, title }: ProposalProps) {
     writeAsync,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as string) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'callExtension',
   })
   const { data: symbol, isLoading: isSymbolLoading } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as string) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
   const { data: starts, isLoading: isStartLoading } = useContractRead({
-    addressOrName: chainId ? addresses[Number(chainId)]['extensions']['redemption'] : AddressZero,
-    contractInterface: REDEMPTION_ABI,
+    address: chainId ? addresses[Number(chainId)]['extensions']['redemption'] : AddressZero,
+    abi: REDEMPTION_ABI,
     functionName: 'redemptionStarts',
-    args: dao ? (dao as string) : AddressZero,
+    args: [dao ? (dao as string) : AddressZero],
     chainId: Number(chainId),
   })
   const {

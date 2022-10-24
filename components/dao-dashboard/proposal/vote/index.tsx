@@ -4,7 +4,7 @@ import { Box } from '../../../../styles/elements'
 import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
 import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
-import { ethers } from 'ethers'
+import { AddressZero } from '@ethersproject/constants'
 
 // TODO: add actual types
 type VoteProps = {
@@ -13,31 +13,28 @@ type VoteProps = {
 
 export default function Vote({ proposal }: VoteProps) {
   const router = useRouter()
-  const { chainId, dao: daoAddress } = router.query
+  const { chainId, dao } = router.query
   const { isConnected } = useAccount()
-  const { data, writeAsync } = useContractWrite({
+
+  const { write: vote } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: daoAddress ? daoAddress.toString() : ethers.constants.AddressZero,
-    contractInterface: DAO_ABI,
-    chainId: Number(chainId),
+    address: dao ? (dao as string) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'vote',
-    onSuccess() {
-      console.log('vote', data)
-    },
   })
 
   const left =
     new Date().getTime() - new Date(proposal?.dao?.votingPeriod * 1000 + proposal?.votingStarts * 1000).getTime()
 
-  const disabled = proposal['sponsored'] === null || left > 0 || !writeAsync ? true : false
+  const disabled = proposal['sponsored'] === null || left > 0 || !vote ? true : false
 
-  const vote = useCallback(
+  const submitVote = useCallback(
     async (approval: Boolean) => {
       console.log(1)
-      if (!proposal || !isConnected) return
+      if (!vote || !proposal || !isConnected) return
       console.log(2)
       try {
-        const data = await writeAsync({
+        const data = vote({
           recklesslySetUnpreparedArgs: [proposal['serial'], approval],
         })
       } catch (e) {
@@ -50,10 +47,10 @@ export default function Vote({ proposal }: VoteProps) {
 
   return (
     <>
-      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => vote(true)}>
+      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => submitVote(true)}>
         <BsFillHandThumbsUpFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(151, 55.0%, 41.5%)'} />
       </Box>
-      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => vote(false)}>
+      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => submitVote(false)}>
         <BsFillHandThumbsDownFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(10, 80.2%, 35.7%)'} />
       </Box>
     </>

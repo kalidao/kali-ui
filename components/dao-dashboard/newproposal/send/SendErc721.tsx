@@ -16,8 +16,8 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: daoName, isLoading } = useContractRead({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as string) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
@@ -27,8 +27,8 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
   const { write: propose } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as string) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
   })

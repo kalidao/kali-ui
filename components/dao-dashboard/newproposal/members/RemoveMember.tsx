@@ -19,16 +19,16 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as string,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
   })
 
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as string,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
