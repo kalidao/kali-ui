@@ -18,10 +18,10 @@ type EscapeProps = {
 // TODO: Show this along with process proposal
 export default function Escape({ dao, chainId, kill, title, content }: EscapeProps) {
   // Contract functions
-  const { writeAsync } = useContractWrite({
+  const { writeAsync: propose } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao,
-    contractInterface: KALIDAO_ABI,
+    address: dao,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: chainId,
   })
@@ -44,7 +44,7 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
 
     console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
     try {
-      const tx = await writeAsync({
+      const tx = propose({
         recklesslySetUnpreparedArgs: [
           10, // ESCAPE prop
           docs,
