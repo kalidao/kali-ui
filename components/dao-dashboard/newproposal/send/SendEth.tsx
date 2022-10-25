@@ -15,16 +15,16 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: daoName } = useContractRead({
-    address: dao ? (dao as string) : AddressZero,
-    abi: KALIDAO_ABI,
+    addressOrName: dao ? (dao as string) : AddressZero,
+    contractInterface: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    address: dao ? (dao as string) : AddressZero,
-    abi: KALIDAO_ABI,
+    addressOrName: dao ? (dao as string) : AddressZero,
+    contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -36,8 +36,8 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao as string,
-    abi: KALIDAO_ABI,
+    addressOrName: dao as string,
+    contractInterface: KALIDAO_ABI,
     functionName: 'propose',
   })
 

@@ -26,8 +26,8 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao as string,
-    abi: KALIDAO_ABI,
+    addressOrName: dao as string,
+    contractInterface: KALIDAO_ABI,
     functionName: 'propose',
   })
 

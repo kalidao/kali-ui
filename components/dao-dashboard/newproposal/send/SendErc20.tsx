@@ -17,8 +17,8 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: daoName } = useContractRead({
-    address: dao ? (dao as string) : AddressZero,
-    abi: KALIDAO_ABI,
+    addressOrName: dao ? (dao as string) : AddressZero,
+    contractInterface: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
@@ -33,8 +33,8 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao as string,
-    abi: KALIDAO_ABI,
+    addressOrName: dao as string,
+    contractInterface: KALIDAO_ABI,
     functionName: 'propose',
   })
 
@@ -45,8 +45,8 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const [tokenAddress, setTokenAddress] = useState(AddressZero)
 
   const { data: tokenDecimals } = useContractRead({
-    address: tokenAddress,
-    abi: erc20ABI,
+    addressOrName: tokenAddress,
+    contractInterface: erc20ABI,
     functionName: 'decimals',
     chainId: Number(chainId),
     watch: true,
