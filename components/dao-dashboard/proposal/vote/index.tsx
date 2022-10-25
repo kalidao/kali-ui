@@ -18,8 +18,8 @@ export default function Vote({ proposal }: VoteProps) {
 
   const { write: vote } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao ? (dao as string) : AddressZero,
-    abi: DAO_ABI,
+    addressOrName: dao ? (dao as string) : AddressZero,
+    contractInterface: DAO_ABI,
     functionName: 'vote',
   })
 

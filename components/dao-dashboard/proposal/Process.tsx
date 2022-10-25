@@ -20,8 +20,8 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   // })
   const { write } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao,
-    abi: DAO_ABI,
+    addressOrName: dao,
+    contractInterface: DAO_ABI,
     functionName: 'processProposal',
     chainId: chainId,
     args: [proposalId],
