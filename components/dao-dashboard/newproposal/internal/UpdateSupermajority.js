@@ -32,8 +32,8 @@ export default function UpdateSupermajority({ setView }) {
   })
 
   const { data: currentSupermajority } = useContractRead({
-    address: dao ? dao : AddressZero,
-    abi: DAO_ABI,
+    addressOrName: dao ? dao : AddressZero,
+    contractInterface: DAO_ABI,
     functionName: 'supermajority',
     chainId: Number(chainId),
   })
@@ -45,8 +45,8 @@ export default function UpdateSupermajority({ setView }) {
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao ? dao : AddressZero,
-    abi: DAO_ABI,
+    addressOrName: dao ? dao : AddressZero,
+    contractInterface: DAO_ABI,
     functionName: 'propose',
   })
 

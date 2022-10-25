@@ -31,8 +31,8 @@ export default function UpdateQuorum({ setView }) {
     injectCSS: false,
   })
   const { data: currentQuorum } = useContractRead({
-    address: dao ? dao : AddressZero,
-    abi: DAO_ABI,
+    addressOrName: dao ? dao : AddressZero,
+    contractInterface: DAO_ABI,
     functionName: 'quorum',
     chainId: Number(chainId),
   })
@@ -44,8 +44,8 @@ export default function UpdateQuorum({ setView }) {
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    address: dao ? dao : AddressZero,
-    abi: DAO_ABI,
+    addressOrName: dao ? dao : AddressZero,
+    contractInterface: DAO_ABI,
     functionName: 'propose',
   })
 
