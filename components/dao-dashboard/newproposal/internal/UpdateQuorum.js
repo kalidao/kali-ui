@@ -122,7 +122,7 @@ export default function UpdateQuorum({ setView }) {
         >
           <Input
             label="Participation"
-            description={`Current approval percentage: ${currentQuorum ? currentQuorum : 'fething...'}%`}
+            description={`Current participation percentage: ${currentQuorum ? currentQuorum : 'fething...'}%`}
             name="amount"
             type="number"
             inputMode="decimal"
