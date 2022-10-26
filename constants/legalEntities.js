@@ -1,5 +1,13 @@
 export const legalEntities = {
-  deSeries: {
+  select: {
+    text: 'Select',
+    template: null,
+    docs: '',
+    email: false,
+    mission: false,
+    message: '',
+  },
+  deLLC: {
     text: 'Series LLC',
     template: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
     docs: '',
@@ -7,31 +15,6 @@ export const legalEntities = {
     mission: false,
     message:
       'Your series will be formed instantly, but we will follow up to request information we must keep on file for your series.',
-  },
-  deUNA: {
-    text: 'Delaware UNA',
-    template: 'https://gateway.pinata.cloud/ipfs/QmSEEcunxFs8oRQbPaoeV2pYBYJihpZUx6QYUsUqc89Gci',
-    docs: 'UNA',
-    email: false,
-    mission: true,
-    message: 'Your Delaware UNA will be formed instantly.',
-  },
-  verein: {
-    text: 'Swiss Verein (non-profit)',
-    template: null,
-    docs: 'none',
-    email: true,
-    mission: false,
-    message: 'Your Swiss Verein will be formed instantly.',
-  },
-  deLLC: {
-    text: 'Delaware LLC',
-    template: null,
-    docs: 'none',
-    email: true,
-    mission: false,
-    message:
-      'It will take around 1-2 weeks to establish a Delaware LLC. We will contact you to provide options for registering a Delaware LLC and the associated costs.',
   },
   wyLLC: {
     text: 'Wyoming LLC',
@@ -42,6 +25,31 @@ export const legalEntities = {
     message:
       'It will take around 1-2 weeks to establish a Wyoming LLC. We will contact you to provide options for registering a Wyoming LLC and the associated costs.',
   },
+  deUNA: {
+    text: 'Delaware UNA',
+    template: 'https://gateway.pinata.cloud/ipfs/QmSEEcunxFs8oRQbPaoeV2pYBYJihpZUx6QYUsUqc89Gci',
+    docs: 'UNA',
+    email: false,
+    mission: true,
+    message: 'Your Delaware UNA will be formed instantly.',
+  },
+  // swissVerein: {
+  //   text: 'Swiss Verein (non-profit)',
+  //   template: null,
+  //   docs: 'none',
+  //   email: true,
+  //   mission: false,
+  //   message: 'Your Swiss Verein will be formed instantly.',
+  // },
+  // deLLC: {
+  //   text: 'Delaware LLC',
+  //   template: null,
+  //   docs: 'none',
+  //   email: true,
+  //   mission: false,
+  //   message:
+  //     'It will take around 1-2 weeks to establish a Delaware LLC. We will contact you to provide options for registering a Delaware LLC and the associated costs.',
+  // },
   custom: {
     text: 'Custom Entity Type',
     template: null,
