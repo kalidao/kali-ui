@@ -3,7 +3,7 @@ import buildTokenUri from './buildTokenUri'
 import { calculateWrapprId } from './calculateWrapprId'
 import { wrapprAddresses } from './wrapprAddresses'
 
-export default async function buildWrapprTokenUri(chain, docType, setError, state) {
+export default async function buildWrapprTokenUri(chain, docType, setMessage, state) {
   const wrapprAddress = wrapprAddresses[chain][docType]
   const wrappr = {
     tokenId: 0,
@@ -17,10 +17,10 @@ export default async function buildWrapprTokenUri(chain, docType, setError, stat
   // Get Wrappr ID by jurisdiction
   try {
     wrappr.tokenId = await calculateWrapprId(wrapprAddress, chain)
-    setError('Fetching legal wrapper template...')
+    setMessage('Fetching legal wrapper template...')
   } catch (e) {
     console.log(e)
-    setError("Something's wrong with getting legal wrappr ID!")
+    setMessage("Something's wrong with getting legal wrappr ID!")
   }
 
   // Build agreement
@@ -28,11 +28,11 @@ export default async function buildWrapprTokenUri(chain, docType, setError, stat
     agreement = await buildAgreement(docType, state.name, tokenId, state.mission, 'FOR CHARTER USE', chain)
     if (typeof agreement === 'string') {
       console.log(agreement)
-      setError('Populating legal wrapper template...')
+      setMessage('Populating legal wrapper template...')
     }
   } catch (e) {
     console.log(e)
-    setError("Something's wrong with building legal agreement!")
+    setMessage("Something's wrong with building legal agreement!")
   }
 
   // Build token URI
@@ -41,11 +41,11 @@ export default async function buildWrapprTokenUri(chain, docType, setError, stat
     if (res) {
       wrappr.tokenUri = res
       console.log(wrappr.tokenUri)
-      setError('Creating token URI for legal wrapper...')
+      setMessage('Creating token URI for legal wrapper...')
     }
   } catch (e) {
     console.log(e)
-    setError("Something's wrong with building token URI!")
+    setMessage("Something's wrong with building token URI!")
   }
 
   console.log(wrappr)
