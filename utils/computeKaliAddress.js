@@ -14,5 +14,5 @@ export const computeKaliAddress = (name, chainId) => {
 
   const address = ethers.utils.getCreate2Address(factoryAddress, salt, bytecodeHash)
   console.log(`Address for ${name} on ${chainId}:`, address)
-  // return address
+  return address
 }
