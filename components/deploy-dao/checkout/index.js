@@ -4,13 +4,12 @@ import { useStateMachine } from 'little-state-machine'
 import { HashZero, AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
-import validateDocs from './validateDocs'
 import buildWrapprTokenUri from './buildWrapprTokenUri'
-import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
+import { votingPeriodToSeconds, computeKaliAddress } from '../../../utils/'
 import { validateFounders } from './validateFounders'
 
 import { Warning } from '../../../styles/elements'
-import { Stack, Button } from '@kalidao/reality'
+import { Stack, Button, Box } from '@kalidao/reality'
 import { Error } from '../../../styles/form-elements'
 import Confirmation from './Confirmation'
 import Success from './Success'
@@ -18,18 +17,14 @@ import Success from './Success'
 import { addresses } from '../../../constants/addresses'
 import { wrapprAddresses } from './wrapprAddresses'
 import FACTORY_ABI from '../../../abi/KaliDAOfactory.json'
-import REDEMPTION_ABI from '../../../abi/KaliDAOredemption.json'
-import SALE_ABI from '../../../abi/KaliDAOcrowdsale.json'
 import WRAPPR_ABI from '../../../abi/Wrappr.json'
-import { useRouter } from 'next/router'
 
 export default function Checkout({ setStep }) {
-  const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { address: account, isConnected } = useAccount()
+  const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
-  const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
 
   const {
     data: deployKaliData,
@@ -41,8 +36,8 @@ export default function Checkout({ setStep }) {
   } = useContractWrite(
     {
       mode: 'recklesslyUnprepared',
-      address: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
-      abi: FACTORY_ABI,
+      addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
+      contractInterface: FACTORY_ABI,
       functionName: 'deployKaliDAO',
     },
     {
@@ -73,29 +68,25 @@ export default function Checkout({ setStep }) {
     const extensionsArray = new Array()
     const extensionsData = new Array()
 
-    // Set up Wrappr
+    // Set up Wrappr via Extension
     if (legal) {
-      // const { wrapprTokenId, wrapprTokenUri } = await buildWrapprTokenUri(activeChain.id, docType, setError, state)
-      const wrapprToken = await buildWrapprTokenUri(activeChain.id, docType, setError, state)
-
-      console.log(wrapprToken)
+      const wrapprToken = await buildWrapprTokenUri(activeChain.id, docType, setMessage, state)
+      const kaliAddress = computeKaliAddress(state.name, activeChain.id)
 
       const iface = new ethers.utils.Interface(WRAPPR_ABI)
-      const encodedParams = ethers.utils.defaultAbiCoder.encode(
-        ['address', 'uint256', 'uint256', 'bytes', 'string', 'address'],
-        [account, wrapprToken.tokenId, 1, HashZero, wrapprToken.tokenUri, account],
-      )
       const payload = iface.encodeFunctionData('mint', [
-        account,
+        kaliAddress,
         wrapprToken.tokenId,
         1,
         HashZero,
         wrapprToken.tokenUri,
-        account,
+        kaliAddress,
       ])
 
       extensionsArray.push(wrapprAddresses[activeChain.id][docType])
       extensionsData.push(payload)
+
+      setMessage('Wrapping DAO with populated legal template...')
     }
 
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
@@ -132,58 +123,11 @@ export default function Checkout({ setStep }) {
     extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
     extensionsData.push('0x')
 
-    // redemption
-    // if (state.redemption === true) {
-    //   let { redemptionStart } = state
-    //   redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000)
-    //   console.log('redemptionStarts', new Date(redemptionStart))
-    //   const tokenArray = fetchTokens(activeChain?.id)
-
-    //   const iface = new ethers.utils.Interface(REDEMPTION_ABI)
-    //   const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, redemptionStart])
-    //   const payload = iface.encodeFunctionData('setExtension', [encodedParams])
-
-    //   extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
-    //   extensionsData.push(payload)
-    // }
-
-    // crowdsale
-    // if (state.crowdsale === true) {
-    //   const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
-    //   if (purchaseToken === 'eth') {
-    //     purchaseToken = '0x000000000000000000000000000000000000dead'
-    //   }
-    //   if (purchaseToken === 'custom') {
-    //     purchaseToken = state.customTokenAddress
-    //   }
-
-    //   crowdsaleEnd = parseInt(new Date(crowdsaleEnd).getTime() / 1000)
-
-    //   const iface = new ethers.utils.Interface(SALE_ABI)
-    //   const encodedData = new ethers.utils.AbiCoder().encode(
-    //     ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-    //     [
-    //       0,
-    //       purchaseMultiplier,
-    //       purchaseToken,
-    //       crowdsaleEnd,
-    //       ethers.utils.parseEther(purchaseLimit),
-    //       ethers.utils.parseEther(personalLimit),
-    //       'documentation',
-    //     ],
-    //   )
-    //   const payload = iface.encodeFunctionData('setExtension', [encodedData])
-
-    //   extensionsArray.push(addresses[activeChain?.id]['extensions']['crowdsale2'])
-    //   extensionsData.push(payload)
-    // }
-
-    console.log('docs - ', legal, docType)
     console.log(
       'deploy params',
       name,
       symbol,
-      '',
+      'reserved',
       Number(!transferability),
       extensionsArray,
       extensionsData,
@@ -191,24 +135,34 @@ export default function Checkout({ setStep }) {
       shares,
       govSettings,
     )
-    const tx = await deployKali({
-      recklesslySetUnpreparedArgs: [
-        name,
-        symbol,
-        '',
-        Number(!transferability),
-        extensionsArray,
-        extensionsData,
-        voters,
-        shares,
-        govSettings,
-      ],
-      recklesslySetUnpreparedOverrides: {
-        gasLimit: 1600000,
-      },
-    }).catch((e) => {
-      console.log('error', e.code, e.reason)
-    })
+    try {
+      setMessage('Getting ready to deploy...')
+      const tx = await deployKali({
+        recklesslySetUnpreparedArgs: [
+          name,
+          symbol,
+          'reserved',
+          Number(!transferability),
+          extensionsArray,
+          extensionsData,
+          voters,
+          shares,
+          govSettings,
+        ],
+        recklesslySetUnpreparedOverrides: {
+          gasLimit: 2100000,
+        },
+      }).catch((e) => {
+        console.log('error', e.code, e.reason)
+      })
+
+      const _tx = await tx.wait()
+      console.log(_tx)
+
+      setMessage(`Deploying DAO on ${activeChain.name}...`)
+    } catch (e) {
+      console.log(e)
+    }
   }, [isConnected, activeChain, state, deployKali])
 
   const prev = () => {
@@ -225,8 +179,8 @@ export default function Checkout({ setStep }) {
       <Button variant="transparent" onClick={prev}>
         Previous
       </Button>
-      {isDeployError && <Error message={deployError.message} />}
-      {error || (isDeployError && <Error message={isDeployError ? isDeployError : error} />)}
+      {/* {isDeployError && <Error message={deployError.message} />} */}
+      <Box>{(message || isDeployError) && <Error message={isDeployError ? deployError.message : message} />}</Box>
       {!isConnected ? (
         <Warning warning="Your wallet is not connected. Please connect." />
       ) : (
