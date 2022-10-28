@@ -85,7 +85,7 @@ export const addresses: { [key: number]: any } =
       },
       kaliMaster: '0x93e9dcFA934664c0651f11e92785eD92B7F05c46',
       ricardian: '0x0000000000000000000000000000000000000000',
-      blockExplorer: 'https://blockscout.com/xdai/mainnet',
+      blockExplorer: 'https://gnosisscan.io',
     },
     // Rinkeby
     4: {
