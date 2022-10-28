@@ -42,6 +42,20 @@ export const supportedChains = [
     maxBlocks: 3000,
   },
   {
+    chainId: 100,
+    hexChain: '0x64',
+    name: 'Gnosis',
+    //infura: 'gnosis-mainnet.infura.io',
+    nativeCurrency: {
+      name: 'xDai',
+      symbol: 'xDai',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.gnosischain.com'],
+    blockExplorerUrls: ['https://gnosisscan.io/'],
+    maxBlocks: null,
+  },
+  {
     chainId: 4,
     hexChain: '0x4',
     name: 'Rinkeby (testnet)',
