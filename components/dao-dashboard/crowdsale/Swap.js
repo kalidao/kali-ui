@@ -14,7 +14,7 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
     cacheTime: 2_000,
     overrides: {
       value: amount ? ethers.utils.parseEther(amount.toString()) : 0,
-      gasLimit: 3000000,
+      gasLimit: 1000000,
     },
   })
 
@@ -26,7 +26,7 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
     args: [dao, amount ? ethers.utils.parseUnits(amount.toString(), decimals) : 0],
     cacheTime: 2_000,
     overrides: {
-      gasLimit: 3000000,
+      gasLimit: 1000000,
     },
   })
 
@@ -68,26 +68,25 @@ const Swap = ({ info, dao, symbol, decimals, amount, amountToReceive, chainId, b
       <Button width={'full'} disabled={shouldDisable} onClick={buy}>
         {buttonText}
       </Button>
-      {isEthSwapSuccess ||
-        (isTokenSwapScuccess && (
-          <Stack>
-            <Text>
-              Congratulations! You've swapped {amount} {symbol.toUpperCase()} for {amountToReceive}{' '}
-              {info?.token?.symbol.toUpperCase()}.{' '}
-            </Text>
-            <Text
-              as="a"
-              href={
-                symbol.toUpperCase() === 'eth'
-                  ? addresses[chainId]['blockExplorer'] + '/tx/' + ethSwapData.hash
-                  : addresses[chainId]['blockExplorer'] + '/tx/' + tokenSwapData.hash
-              }
-              target="_blank"
-            >
-              View on Explorer
-            </Text>
-          </Stack>
-        ))}
+      {(isEthSwapSuccess || isTokenSwapScuccess) && (
+        <Stack>
+          <Text>
+            Congratulations! You've swapped {amount} {symbol.toUpperCase()} for {amountToReceive}{' '}
+            {info?.token?.symbol.toUpperCase()}.{' '}
+          </Text>
+          <a
+            href={
+              symbol.toUpperCase() === 'ETH'
+                ? addresses[chainId]['blockExplorer'] + '/tx/' + ethSwapData.hash
+                : addresses[chainId]['blockExplorer'] + '/tx/' + tokenSwapData.hash
+            }
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Text color={'orange'}>View on Explorer</Text>
+          </a>
+        </Stack>
+      )}
       {isEthSwapError && <Text color={'orange'}>Error submitting transaction: {ethSwapTxError.message}</Text>}
       {isTokenSwapError && <Text color={'orange'}>Error submitting transaction: {tokenSwapTxError.message}</Text>}
       {ethSwapError && (
