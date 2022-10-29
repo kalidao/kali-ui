@@ -137,7 +137,6 @@ export default function Call({ accounts, amounts, payloads }) {
 }
 
 const createParams = (to, chain, decoded) => {
-  console.log('decoded', decoded)
   if (!decoded || decoded == 'none') return
   let array = []
   for (let i = 0; i < decoded['tx']['args'].length; i++) {
@@ -150,7 +149,7 @@ const createParams = (to, chain, decoded) => {
         const cTokens = tokens[chain]
         for (let key in cTokens) {
           if (!cTokens.hasOwnProperty(key)) continue
-          if (cTokens[key]['address'] === to) {
+          if (cTokens[key]['address'].toLowerCase() === to.toLowerCase()) {
             value = ethers.utils.formatUnits(decoded['tx']['args'][i], cTokens[key]['decimals'])
           }
         }
