@@ -11,9 +11,10 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function NftCard({ nft }) {
   console.log('nft', nft)
-  const { data, error } = useSWR(nft.tokenUri, fetcher)
+  const url = nft.tokenUri.slice(0, 5) === 'https' ? nft.tokenUri : 'https://ipfs.io/ipfs/' + nft.tokenUri
+  const { data, error } = useSWR(url, fetcher)
 
-  if (error) return 'An error has occurred.'
+  if (error) return <Text>An error has occurred.</Text>
   if (!data) return 'Loading...'
 
   console.log('nftMeta', data)
@@ -37,7 +38,12 @@ export default function NftCard({ nft }) {
               },
             }}
           >
-            <Image src={data['image']} height="250px" width="250px" alt="NFT Image" />
+            <Image
+              src={data['image'] ? data['image'] : 'https://ipfs.io/ipfs/' + data['file']}
+              height="250px"
+              width="250px"
+              alt="NFT Image"
+            />
             <Text
               css={{
                 color: '$gray11',
@@ -47,7 +53,7 @@ export default function NftCard({ nft }) {
                 marginBottom: '1rem',
               }}
             >
-              {data['name']}
+              {data['name'] || data['title']}
             </Text>
           </Flex>
         ) : (
@@ -61,7 +67,7 @@ export default function NftCard({ nft }) {
             fontFamily: 'Bold',
           }}
         >
-          {data['name']}
+          {data['name'] || data['title']}
         </DialogTitle>
         <Flex
           css={{
@@ -69,7 +75,12 @@ export default function NftCard({ nft }) {
             gap: '0.5rem',
           }}
         >
-          <Image src={data['image']} height="100%" width="100%" alt="NFT Image" />
+          <Image
+            src={data['image'] ? data['image'] : 'https://ipfs.io/ipfs/' + data['file']}
+            height="100%"
+            width="100%"
+            alt="NFT Image"
+          />
           <Flex gap="sm" dir="col" align="separate">
             <Text
               css={{
@@ -78,22 +89,24 @@ export default function NftCard({ nft }) {
             >
               {data['description']}
             </Text>
-            <Text
-              as="a"
-              css={{
-                fontFamily: 'Regular',
-                color: '$amber11',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                gap: '0.2rem',
-              }}
-              href={data['external_url']}
-              target="_blank"
-            >
-              External URL
-              <ExternalLinkIcon />
-            </Text>
+            {data['external_url'] && (
+              <Text
+                as="a"
+                css={{
+                  fontFamily: 'Regular',
+                  color: '$amber11',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  gap: '0.2rem',
+                }}
+                href={data['external_url']}
+                target="_blank"
+              >
+                External URL
+                <ExternalLinkIcon />
+              </Text>
+            )}
           </Flex>
         </Flex>
       </DialogContent>
