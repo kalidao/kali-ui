@@ -12,6 +12,8 @@ const config = {
       'gateway.pinata.cloud',
       'ipfs.infura.io',
       'raw.githubusercontent.com',
+      'ipfs.io',
+      'content.wrappr.wtf',
     ],
   },
   swcMinify: true,
