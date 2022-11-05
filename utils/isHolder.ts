@@ -1,12 +1,13 @@
 import { BigNumber, ethers } from 'ethers'
 import { erc721ABI } from 'wagmi'
+import { getProvider } from '@utils/getProvider'
 
-export async function isHolder(chainId, tokenContract, tokenId, owner) {
+export async function isHolder(chainId: number, tokenContract: string, tokenId: number, owner: string) {
   if (!chainId || !tokenContract || !owner) return
 
   console.log(tokenContract, tokenId, owner)
   try {
-    const provider = new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_ID)
+    const provider = getProvider(chainId)
     const contract = new ethers.Contract(tokenContract, erc721ABI, provider)
     const holder = await contract.ownerOf(tokenId)
 

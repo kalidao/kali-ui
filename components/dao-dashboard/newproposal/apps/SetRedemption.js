@@ -37,7 +37,7 @@ export default function SetRedemption({ setProposal, title, content }) {
 
   useEffect(() => {
     const getRedemptionStatus = async () => {
-      const status = await fetchExtensionStatus(daoChainId, daoAddress, redemptionAddress)
+      const status = await fetchExtensionStatus(Number(daoChainId), daoAddress, redemptionAddress)
       status ? setRedemptionStatus('Active') : setRedemptionStatus('Inactive')
     }
 
