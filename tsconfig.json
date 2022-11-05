@@ -52,7 +52,7 @@
     "components/hooks/useExplorer.js",
     "components/editor/index.jsx",
     "components/dao-dashboard/newproposal/apps/SetCrowdsale.js"
-  ],
+, "components/dao-dashboard/crowdsale/fetchPurchasers.js"  ],
   "exclude": [
     "node_modules"
   ]

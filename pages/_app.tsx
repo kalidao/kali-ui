@@ -8,18 +8,19 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
-
+import { xdai } from '@constants/chains'
 import { ThemeProvider } from '@kalidao/reality'
 import '@kalidao/reality/styles'
 
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.goerli],
+  [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, xdai, chain.goerli],
   [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),     jsonRpcProvider({
-    rpc: (chain) => {
-      if (chain.id !== 42161) return null
-      return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
+    rpc: (c) => {
+      if (c.id === xdai.id) return { http: process.env.NEXT_PUBLIC_QUICKNODE_GNOSIS! }
+      if (c.id === chain.arbitrum.id || c.id === chain.goerli.id) return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
+      return null 
     },
   }), publicProvider()],
 )
