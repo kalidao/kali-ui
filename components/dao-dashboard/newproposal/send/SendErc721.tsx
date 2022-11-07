@@ -41,7 +41,7 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
-    const isHolding = await isHolder(Number(chainId), tokenAddress, tokenId, dao as string)
+    const isHolding = await isHolder(Number(chainId), tokenAddress as string, Number(tokenId), dao as string)
     if (isHolding) {
       console.log('DAO is holder')
     } else {
