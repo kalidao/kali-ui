@@ -1,13 +1,14 @@
 import { ethers } from 'ethers'
+import { getProvider } from './getProvider'
 
 // fetch from mainnet
-export async function fetchEnsAddress(ensName) {
+export async function fetchEnsAddress(ensName: string) {
   if (!ensName) return
   let address
   try {
-    const provider = new ethers.providers.InfuraProvider(1, process.env.NEXT_PUBLIC_INFURA_ID)
+    const provider = getProvider(1)
     address = await provider.resolveName(String(ensName))
-    if (ethers.utils.isAddress(address)) return address
+    if (address && ethers.utils.isAddress(address)) return address
     else return `Invalid address - ${ensName}`
   } catch (e) {
     console.log(`fetchEnsAddress ${ensName}`, e)

@@ -40,7 +40,7 @@ const Entity = ({ address, chainId }: Props) => {
     <Card padding="8" width="112" borderRadius={'large'} shadow hover>
       <Stack direction={'horizontal'} align={'flex-end'} justify={'space-between'}>
         <Stack align="flex-start" justify={'flex-start'} as="a">
-          <Heading>{uri ? uri?.name : data ? data?.wrappr.name : 'Wrapprs'}</Heading>
+          <Heading>{uri ? uri?.name : data ? data?.wrappr?.name : 'Wrapprs'}</Heading>
           <Text>{!data && 'Add a legal wrappr to your DAO.'}</Text>
           {/* {!data && <Image src={'/img/wrappr.svg'} height='180' width='180' />} */}
           {<Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />}

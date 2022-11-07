@@ -5,6 +5,7 @@ export const GRAPH_URL: { [key: number]: string } = {
   137: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-matic',
   10: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-optimism',
   5: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-goerli',
+  100: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-gnosis',
 }
 
 export const WRAPPR_GRAPH_URL: { [key: number]: string } = {

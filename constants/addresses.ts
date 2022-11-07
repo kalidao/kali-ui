@@ -92,6 +92,19 @@ export const addresses: { [key: number]: any } =
       blockExplorer: 'https://rinkeby.etherscan.io',
       kaliMaster: '0x55967de5aE91F6E1D98b813b9Dca3946bE9f5C20',
     },
+    100: {
+      name: 'Gnosis',
+      factory: '0x5DEfA5A73f75bF9E2E91211C15aaB5DBbeeF2FDe',
+      access2: '0x80Df86B9A976A4B89c17765187e92b58110d1B9f',
+      extensions: {
+        tribute: '0x2e7ba1623880c412989c2cc0593e474D45F9e9e3',
+        crowdsale2: '0x376874Adf4146b33afC13a884C31fC3D579Eedf1',
+        redemption: '0xd36150A4A2016ed2c5A15d92Bd69EfFe1c4c3aD5',
+      },
+      kaliMaster: '0x93e9dcFA934664c0651f11e92785eD92B7F05c46',
+      ricardian: '0x0000000000000000000000000000000000000000',
+      blockExplorer: 'https://blockscout.com/xdai/mainnet',
+    },
     // Goerli
     5: {
       name: 'Goerli',

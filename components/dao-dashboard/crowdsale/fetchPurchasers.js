@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { ethers } from 'ethers'
 import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
+import { getProvider } from '../../../utils/getProvider'
 
 export async function fetchPurchasers(dao, chainId) {
-  const provider = new ethers.providers.InfuraProvider(Number(chainId), process.env.NEXT_PUBLIC_INFURA_ID)
+  const provider = getProvider(chainId)
   const instance = new ethers.Contract(addresses[chainId]['extensions']['crowdsale2'], CROWDSALE_ABI, provider)
 
   const purchasers = await instance.checkPurchasers(dao)
