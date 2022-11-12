@@ -10,6 +10,9 @@ import { GearIcon } from '@radix-ui/react-icons'
 import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
 import { IconTokens, IconCogSolid, IconPencil, IconUserGroupSolid, Stack, Button } from '@kalidao/reality'
 import type { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
+import Profile from '@components/dao-dashboard/layout/Menu/Profile'
+import Members from '@components/dao-dashboard/layout/Menu/Members'
+import Wrappr from '@components/dao-dashboard/layout/Menu/Wrappr'
 
 export default function Menu() {
   const router = useRouter()
@@ -60,8 +63,11 @@ export default function Menu() {
   ]
 
   return (
-    <Stack direction={'vertical'}>
-      {items
+    <Stack direction={'horizontal'}>
+      <Profile />
+      <Wrappr address={dao as string} chainId={chainId as string} />
+      <Members />
+      {/* {items
         .filter((item) => item.active === true)
         .map((item) => (
           <Item
@@ -72,7 +78,7 @@ export default function Menu() {
             chainId={chainId as string}
             dao={dao as string}
           />
-        ))}
+        ))} */}
     </Stack>
   )
 }

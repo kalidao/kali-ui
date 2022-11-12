@@ -18,7 +18,7 @@ export default function Dashboard() {
         xl: '10',
       }}
     >
-      <Sidebar />
+      {/* <Sidebar /> */}
       <Timeline />
     </Box>
   )

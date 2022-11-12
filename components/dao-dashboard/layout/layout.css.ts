@@ -3,9 +3,8 @@ import { vars } from '@kalidao/reality'
 
 export const layout = style({
   height: '90vh',
-  minWidth: '75vw',
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   gap: vars.space[10],
