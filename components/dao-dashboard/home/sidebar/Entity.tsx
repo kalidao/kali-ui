@@ -33,8 +33,8 @@ const Entity = ({ address, chainId }: Props) => {
 
   const wrapprLink =
     isSuccess && data
-      ? 'https://www.wrappr.wtf/${chainId}/${data?.wrappr?.id}/${data?.collectionId}'
-      : 'https://www.wrappr.wtf/'
+      ? `https://www.wrappr.wtf/${chainId}/${data?.wrappr?.id}/${data?.collectionId}`
+      : `https://www.wrappr.wtf/`
 
   return (
     <Card padding="8" width="112" borderRadius={'large'} shadow hover>
