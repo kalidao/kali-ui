@@ -10,7 +10,6 @@ import { ProposalProps } from '../utils/types'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { AddressZero } from '@ethersproject/constants'
 
-
 export default function SendEth({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
@@ -78,10 +77,7 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
 
   return (
     <Stack>
-      <FieldSet
-        legend="Send Ether"
-        description={`Send Ether from ${daoName} treasury`}
-      >
+      <FieldSet legend="Send Ether" description={`Send Ether from ${daoName} treasury`}>
         <Input
           label="Recipient"
           name="recipient"

@@ -18,7 +18,7 @@ const DashboardPage: NextPage = () => {
 
   return (
     <Layout heading={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
-        <Home />
+      <Home />
     </Layout>
   )
 }

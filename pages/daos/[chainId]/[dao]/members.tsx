@@ -1,9 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
-import { useRouter } from 'next/router'
-import Layout from '../../../../components/dao-dashboard/layout'
-import { MembersList, MemberProfile } from '../../../../components/dao-dashboard/members'
-import { GRAPH_URL } from '../../../../graph'
+import Layout from '@components/dao-dashboard/layout'
+import { MembersList, MemberProfile } from '@components/dao-dashboard/members'
+import { GRAPH_URL } from '@graph/url'
 import { Box, Stack } from '@kalidao/reality'
 
 const MembersPage: NextPage = ({
@@ -35,7 +34,6 @@ const MembersPage: NextPage = ({
 
   return (
     <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Box minHeight="96" width="320">
         <Stack direction="horizontal">
           <MembersList members={list} active={member} setActive={setMember} />
           <MemberProfile
@@ -45,7 +43,6 @@ const MembersPage: NextPage = ({
             totalSupply={members?.token?.totalSupply}
           />
         </Stack>
-      </Box>
     </Layout>
   )
 }

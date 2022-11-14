@@ -113,31 +113,28 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
 
   return (
     <Stack>
-      <FieldSet
-        legend="Send ERC20 tokens"
-        description={`Send ERC20 tokens from ${daoName} treasury`}
-      >
+      <FieldSet legend="Send ERC20 tokens" description={`Send ERC20 tokens from ${daoName} treasury`}>
         <Label htmlFor="type">Asset</Label>
-          <Select
-            name="type"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
-            defaultValue={type}
-          >
-            <Select.Item value="dai">DAI</Select.Item>
-            <Select.Item value="usdc">USDC</Select.Item>
-            <Select.Item value="weth">WETH</Select.Item>
-            <Select.Item value="custom">Custom</Select.Item>
-          </Select>
-          {type === 'custom' && (
-            <Input
-              label="ERC20 Contract Address"
-              name="tokenAddress"
-              type="text"
-              inputMode='text'
-              placeholder={AddressZero}
-              value={tokenAddress}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
-            />
+        <Select
+          name="type"
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
+          defaultValue={type}
+        >
+          <Select.Item value="dai">DAI</Select.Item>
+          <Select.Item value="usdc">USDC</Select.Item>
+          <Select.Item value="weth">WETH</Select.Item>
+          <Select.Item value="custom">Custom</Select.Item>
+        </Select>
+        {type === 'custom' && (
+          <Input
+            label="ERC20 Contract Address"
+            name="tokenAddress"
+            type="text"
+            inputMode="text"
+            placeholder={AddressZero}
+            value={tokenAddress}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
+          />
         )}
         <Input
           label="Recipient"
