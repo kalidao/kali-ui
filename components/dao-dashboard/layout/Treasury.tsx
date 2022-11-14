@@ -29,7 +29,7 @@ const Treasury = ({
         {isLoading && <Spinner />}
         {isError && <Text>Something went wrong</Text>}
         {data && data?.error === true && <Text>Something went wrong</Text>}
-        {data && data?.data?.items?.length > 0 && data?.data?.items?.slice(0, 3).map((item: any) => <Card level="2" padding="3"><Stack direction={"horizontal"} align="center" justify={"space-between"}>
+        {data && data?.data?.items?.length > 0 && data?.data?.items?.slice(0, 3).map((item: any) => <Card key={item?.contract_address} level="2" padding="3"><Stack direction={"horizontal"} align="center" justify={"space-between"}>
           <Stack direction={"horizontal"} align="center">
           <Avatar src={item?.logo_url} label={`${item?.contract_name} logo`} />
           <Text size="small">{item?.contract_ticker_symbol}</Text>

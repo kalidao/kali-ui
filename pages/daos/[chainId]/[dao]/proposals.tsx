@@ -22,7 +22,7 @@ const ProposalsPage: NextPage = () => {
   }, [chainId, dao, router])
 
   return (
-    <Layout heading={data ? `${data.toString()}} Proposals` : 'Proposals'} content="Create or vote on a proposal.">
+    <Layout title={data ? `${data.toString()}} Proposals` : 'Proposals'} content="Create or vote on a proposal.">
       <Stack>
         <Proposals />
       </Stack>

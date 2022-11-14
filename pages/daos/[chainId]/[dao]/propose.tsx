@@ -9,7 +9,7 @@ export default function ProposePage() {
   const [content, setContent] = useState()
 
   return (
-    <Layout heading={'Propose'} content="Create a proposal.">
+    <Layout title={'Propose'} content="Create a proposal.">
       <Box minHeight="96" width="320">
         <FieldSet legend="Create Proposals">
           <Input

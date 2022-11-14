@@ -21,7 +21,7 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
   }
 
   return (
-    <Layout heading={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
+    <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
       <Stack
         direction={{
           xs: 'vertical',

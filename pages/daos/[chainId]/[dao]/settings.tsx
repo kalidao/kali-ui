@@ -9,7 +9,7 @@ const Settings: NextPage = () => {
   const [setting, setSetting] = useState('gov')
 
   return (
-    <Layout heading={`Settings`} content="View and edit DAO configurations.">
+    <Layout title={`Settings`} content="View and edit DAO configurations.">
       <Stack direction={'vertical'}>
         <SettingsMenu setSetting={setSetting} setting={setting} />
         <Setting setting={setting} />

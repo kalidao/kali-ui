@@ -28,7 +28,7 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
   }
 
   return (
-    <Layout heading={`Treasury`} content="Look at the treasury analytics for the DAO.">
+    <Layout title={`Treasury`} content="Look at the treasury analytics for the DAO.">
       <Box minHeight="96" width="320">
         <Stack>
           <Stack direction="horizontal">

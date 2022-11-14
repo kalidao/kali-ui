@@ -28,7 +28,7 @@ const DeleteProposalPage: NextPage = () => {
   }
 
   return (
-    <Layout heading={`Delete Proposal #${proposalId} `} content="Delete the proposal to remove it from the queue.">
+    <Layout title={`Delete Proposal #${proposalId} `} content="Delete the proposal to remove it from the queue.">
       <Flex
         dir="col"
         gap="md"
