@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { Box, FieldSet, Input, Text } from '@kalidao/reality'
+import { Card, Box, FieldSet, Input, Stack, Text } from '@kalidao/reality'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')
@@ -10,7 +10,8 @@ export default function ProposePage() {
 
   return (
     <Layout title={'Propose'} content="Create a proposal.">
-      <Box minHeight="96" width="320">
+      <Card padding="6">
+      <Stack>
         <FieldSet legend="Create Proposals">
           <Input
             label="Proposal Title"
@@ -28,7 +29,8 @@ export default function ProposePage() {
           <Text>Instruction</Text>
           <NewProposalModal proposalProp="menu" content={content} title={title} />
         </FieldSet>
-      </Box>
+      </Stack>
+      </Card>
     </Layout>
   )
 }

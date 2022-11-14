@@ -10,7 +10,7 @@ const Treasury = ({
   address, 
   chainId
 }: DashboardElementProps) => {
-  const { data, isLoading, isError } = useQuery(['daoTreasuryDashboard', address, chainId], () => fetcher(`https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=false&no-nft-fetch=false&key=ckey_cc2c7c99af324f1b8cbe8c919f9`, {
+  const { data, isLoading, isError } = useQuery(['daoTreasuryDashboard', address, chainId], () => fetcher(`https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=false&no-nft-fetch=false&key=${process.env.NEXT_PUBLIC_COVALENT_API_KEY}`, {
     method: 'GET',
   }), {
     enabled: !!address && !!chainId

@@ -22,13 +22,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const heading = `Kali | ${title}}`
-  // const { data, error } = useQuery(['keep', chainId, keep], async () =>
-  //   fetcher(`${process.env.NEXT_PUBLIC_KEEP_API}/keeps/${chainId}/${keep}/`),
-  // )
-  // const heading = title + data ? ((' ' + data?.name) as string) + ' ' : '' + '- Keep'
-  // const { data: treasury, error: treasuryError } = useQuery(['keep', 'treasury', chainId, keep], async () =>
-  //   fetcher(`${process.env.NEXT_PUBLIC_KEEP_API}/keeps/${chainId}/${keep}/treasury`),
-  // )
+
 
   return (
     <Box className={layout}>
@@ -52,6 +46,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
           {children}
         </Stack>
       </Box>
+      <Footer />
     </Box>
     
   )
