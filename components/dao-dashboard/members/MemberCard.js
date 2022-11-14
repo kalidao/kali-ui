@@ -1,9 +1,8 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { Box, Flex, Text } from '../../../styles/elements'
+import { Box, Card, Text, Stack, Spinner } from '@kalidao/reality'
 import { truncateAddress } from '../../../utils/'
-import { Spinner } from '../../elements'
 
 export default function MemberCard({ member, active, setActive }) {
   const { data: ensName, isLoading } = useEnsName({
@@ -20,25 +19,18 @@ export default function MemberCard({ member, active, setActive }) {
   console.log('ens', ensName)
 
   return (
-    <Flex
+    <Card
       as="button"
       key={member?.address}
-      gap="md"
-      css={{
-        all: 'unset',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        fontFamily: 'Regular',
-        background: active ? '$violet3' : '$gray2',
-        padding: '10px 20px',
-        border: '1px solid $gray3',
-        color: '$gray12',
-      }}
+      padding="6"
+      level="1"
       onClick={() => setActive(member)}
+      hover
     >
-      <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
-      <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
-    </Flex>
+      {member ? <Stack>
+        <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
+        <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
+      </Stack> : <Spinner />}
+    </Card>
   )
 }

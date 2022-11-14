@@ -1,67 +1,35 @@
 import { MagicWandIcon } from '@radix-ui/react-icons'
 import { MdHowToVote } from 'react-icons/md'
-import { Flex, Box, Text } from '../../../styles/elements'
+import { Card, Stack, Box, Text, Heading } from '@kalidao/reality'
 import Pie from './Pie'
 
 export default function MemberProfile({ member, proposals, votes, totalSupply }) {
   return (
-    <Flex
-      dir="col"
-      css={{
-        maxWidth: '80vw',
-        flexDirection: 'row',
-        paddingTop: '20px',
-        gap: '10px',
-      }}
-    >
-      <Card title="Proposals" icon={<MagicWandIcon />} info={proposals?.length} />
-      <Card title="Votes" icon={<MdHowToVote />} info={votes?.length} />
+    <Stack direction={"horizontal"} gap={"md"}>
+    
+      <MemberCard title="Proposals" icon={<MagicWandIcon height={30} width={30} color={"white"} />} info={proposals?.length} />
+      <MemberCard title="Votes" icon={<MdHowToVote size={30} color={"white"} />} info={votes?.length} />
       <Pie totalSupply={totalSupply} member={member} />
-    </Flex>
+    </Stack>
   )
 }
 
-const Card = ({ title, icon, info }) => {
+const MemberCard = ({ title, icon, info }) => {
   return (
-    <Flex
-      css={{
-        flexDirection: 'column',
-        gap: '10px',
-        padding: '20px',
-        border: '1px solid $gray3',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: '20px',
-        boxShadow: 'rgba(0, 0, 0, 0.28) 0px 2px 4px',
-        minWidth: '10rem',
-        maxHeight: '10rem',
-      }}
-    >
-      <Box
-        css={{
-          '& svg': {
-            height: '35px',
-            width: '35px',
-          },
-        }}
-      >
+    <Box height="64" width="64" padding="6" backgroundColor={"backgroundSecondary"} borderRadius="2xLarge">
+    <Stack align="center" justify={"center"} gap={"md"}>
+      <Box color="foreground">
         {icon}
       </Box>
-      <Text
-        css={{
-          fontSize: '24px',
-        }}
-      >
+      <Heading>
         {title}
-      </Text>
+        </Heading>
       <Text
-        css={{
-          fontFamily: 'Regular',
-          fontSize: '24px',
-        }}
+      size="headingOne"
       >
         {info}
       </Text>
-    </Flex>
+    </Stack>
+    </Box>
   )
 }

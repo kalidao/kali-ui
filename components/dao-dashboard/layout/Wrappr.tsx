@@ -3,13 +3,9 @@ import Image from 'next/image'
 import { Avatar, Text, Button, Card, Heading, Stack, IconArrowRight } from '@kalidao/reality'
 import { useGetWrappr } from '@graph/queries/getWrappr'
 import { useQuery } from '@tanstack/react-query'
+import { DashboardElementProps } from './types'
 
-type Props = {
-  address: string
-  chainId: string
-}
-
-const Entity = ({ address, chainId }: Props) => {
+const Wrappr = ({ address, chainId }: DashboardElementProps) => {
   const { data, error, isSuccess, isLoading } = useGetWrappr(Number(chainId), address)
   const tokenURI = data?.uri ? data?.uri : data?.wrappr?.baseURI
   const {
@@ -34,21 +30,20 @@ const Entity = ({ address, chainId }: Props) => {
       : `https://www.wrappr.wtf/`
 
   return (
-    <a target="_blank" rel="noopenner noreferrer" href={wrapprLink} style={{
+    <Card padding="6"  shadow hover>
+        <a target="_blank" rel="noopenner noreferrer" href={wrapprLink} style={{
       textDecoration: 'none',
     }}>
-    <Card padding="6"  shadow hover>
-      <Stack direction={'vertical'} align={'center'} justify={'center'}>
-      
+      <Stack direction={'vertical'} align={'center'} justify={'center'} space="3">
           <Heading>{uri ? uri?.name : data ? data?.wrappr?.name : 'Wrapprs'}</Heading>
           <Text>{!data && 'Add a legal wrappr to your DAO.'}</Text>
           {/* {!data && <Image src={'/img/wrappr.svg'} height='180' width='180' />} */}
-          {<Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />}
+          <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
+         
         </Stack>
-      
+        </a>
     </Card>
-    </a>
   )
 }
 
-export default Entity
+export default Wrappr

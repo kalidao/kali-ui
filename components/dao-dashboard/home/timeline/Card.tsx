@@ -88,19 +88,10 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      padding="6"
-      backgroundColor="background"
-      borderWidth="0.375"
-      gap="3"
-      borderRadius={'2xLarge'}
-      width={{
-        xs: '80',
-        md: '128',
-        lg: '192',
-      }}
+    <Card
+    padding="6"
+    level="2"
+    hover
     >
       <Link
         href={{
@@ -137,6 +128,6 @@ export default function ProposalCard({ proposal }: PropCardProp) {
       <Box display="flex">
         <Vote proposal={proposal} />
       </Box>
-    </Box>
+    </Card>
   )
 }

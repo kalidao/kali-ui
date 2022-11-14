@@ -48,9 +48,9 @@ export default function Timeline() {
   }
 
   return (
-    <Box display="flex" flexDirection="column" gap="5">
+    <Stack>
       <Stack direction="horizontal" align="center" justify="space-between">
-        <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals}>
+        <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals} >
           View All
         </Button>
         <Link
@@ -63,8 +63,8 @@ export default function Timeline() {
           }}
           passHref
         >
-          <Button prefix={<IconPencil />} as="a">
-            New Proposal
+          <Button as="a" shape="circle">
+            <IconPencil />
           </Button>
         </Link>
       </Stack>
@@ -77,7 +77,7 @@ export default function Timeline() {
               ))}
             </>
           ) : (
-            <CardComponent padding="10" width="192">
+            <CardComponent padding="6">
               <Stack>
                 <Heading level="2">We could not find any proposals for {name}.</Heading>
                 <Text wordBreak="break-word">
@@ -89,6 +89,6 @@ export default function Timeline() {
           )}
         </Stack>
       </Skeleton>
-    </Box>
+    </Stack>
   )
 }

@@ -10,9 +10,9 @@ import { GearIcon } from '@radix-ui/react-icons'
 import { useGetCrowdsale } from '@graph/queries/getCrowdsale'
 import { IconTokens, IconCogSolid, IconPencil, IconUserGroupSolid, Stack, Button } from '@kalidao/reality'
 import type { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
-import Profile from '@components/dao-dashboard/layout/Menu/Profile'
-import Members from '@components/dao-dashboard/layout/Menu/Members'
-import Wrappr from '@components/dao-dashboard/layout/Menu/Wrappr'
+import Profile from '@components/dao-dashboard/layout/Profile'
+import Members from '@components/dao-dashboard/layout/Members'
+import Wrappr from '@components/dao-dashboard/layout/Wrappr'
 
 export default function Menu() {
   const router = useRouter()
