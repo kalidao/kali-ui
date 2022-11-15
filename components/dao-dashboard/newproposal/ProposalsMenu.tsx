@@ -3,7 +3,6 @@ import { MdOutlinePayments, MdOutlineManageAccounts, MdDraw } from 'react-icons/
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
 import React from 'react'
 import { Menu } from '@design/proposal/Menu'
-import { Stack, Button, Text } from '@kalidao/reality'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>

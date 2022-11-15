@@ -157,7 +157,7 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
         />
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
-        <Back onClick={() => setProposal?.('membersMenu')} />
+        <Back onClick={() => setProposal?.('sendMenu')} />
         <ChainGuard>
           <Button
             center

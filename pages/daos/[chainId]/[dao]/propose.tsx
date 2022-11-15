@@ -30,6 +30,7 @@ export default function ProposePage() {
             <NewProposalModal proposalProp="menu" content={content} title={title} />
           </FieldSet>
         </Stack>
+        
       </Card>
     </Layout>
   )

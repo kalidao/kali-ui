@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContract, useSigner, erc20ABI, useContractRead } from 'wagmi'
-import { Flex, Text, Button, Warning } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import { Flex, Text, Warning } from '../../../../styles/elements'
+import { Button, Stack, Input, Textarea, FieldSet } from '@kalidao/reality'
+import { FormElement, Label } from '../../../../styles/form-elements'
 import { Select } from '../../../../styles/form-elements/Select'
-import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
 import { addresses } from '../../../../constants/addresses'
 import { ethers } from 'ethers'
 import Back from '../../../../styles/proposal/Back'
@@ -14,21 +13,8 @@ import { createProposal } from '../utils/'
 
 export default function CallContract({ setProposal, title, content }) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChainId = router.query.chainId
-  const { data: daoName, isLoading } = useContractRead(
-    {
-      addressOrName: daoAddress,
-      contractInterface: KALIDAO_ABI,
-    },
-    'name',
-    {
-      chainId: Number(daoChainId),
-    },
-  )
-  const { data: account } = useAccount()
+  const { chainId: daoChainId, dao: daoAddress } = router.query
   const { data: signer } = useSigner()
-  const { activeChain } = useNetwork()
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -154,12 +140,7 @@ export default function CallContract({ setProposal, title, content }) {
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        maxWidth: '40vw',
-      }}
+    <Stack
     >
       <Text
         variant="instruction"
@@ -180,42 +161,27 @@ export default function CallContract({ setProposal, title, content }) {
         confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
         help you out.
       </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="contractAddress">Contract Address</Label>
-          <Input
-            name="contractAddress"
-            type="text"
-            defaultValue={contractAddress}
-            onChange={(e) => setContractAddress(e.target.value)}
-          />
-        </FormElement>
-        <FormElement variant="vertical">
-          <Label htmlFor="description">Contract ABI</Label>
-          <Input
-            as="textarea"
-            name="description"
-            type="text"
-            defaultValue={contractAbi}
-            onChange={(e) => setContractAbi(e.target.value)}
-            css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-          />
-          <Button onClick={handleParse}>Parse ABI</Button>
-        </FormElement>
-        {readFuncs && (
-          <FormElement>
-            <Label htmlFor="amount">Read Functions</Label>
-            <Text>
-              {' '}
-              <a href={etherscanLink} target="_blank" rel="noopener noreferrer">
-                Etherscan
-              </a>
-            </Text>
-          </FormElement>
-        )}
+        <Input
+          label="Contract Address"
+          description="The address of the contract you wish to interact with."
+          name="contractAddress"
+          type="text"
+          defaultValue={contractAddress}
+          onChange={(e) => setContractAddress(e.target.value)}
+        />
+        <Textarea
+          label="Contract ABI"
+          description="Supply the contract ABI here."
+          as="textarea"
+          name="description"
+          type="text"
+          defaultValue={contractAbi}
+          onChange={(e) => setContractAbi(e.target.value)}
+          css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
+        />
+        <Button variant="secondary" onClick={handleParse}>Parse ABI</Button>
         {writeFuncs && (
-          <FormElement>
-            <Label htmlFor="amount">Write Functions</Label>
+          <FieldSet label="Write Functions">
             <Select onChange={onWriteFunctionSelect}>
               <option>Select a function</option>
               {writeFuncs.map((f, index) => (
@@ -224,22 +190,18 @@ export default function CallContract({ setProposal, title, content }) {
                 </option>
               ))}
             </Select>{' '}
-          </FormElement>
+          </FieldSet>
         )}
         {inputs == null ? null : (
-          <div id="inputFields">
-            {inputs.map((input, index) => (
-              <FormElement id="inputFields" key={index}>
-                <Text>{input['name']}</Text>
-                <Input onChange={onInputChange} />
-              </FormElement>
-            ))}
-          </div>
+          <Stack id="inputFields">
+            {inputs.map((input, index) => <Input label={input["name"]}  onChange={onInputChange} />)}
+          </Stack>
         )}
         {warning && <Warning warning={warning} />}
+        <Stack align="center" justify="space-between" direction={"horizontal"}>
         <Back onClick={() => setProposal('menu')} />
         <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+        </Stack>
+    </Stack>
   )
 }

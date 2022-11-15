@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
-import { Flex, Text, Button, Warning } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
+import { Stack, Text, Input } from '@kalidao/reality'
+import { Warning } from '../../../../styles/elements'
 import { ethers } from 'ethers'
-import FileUploader from '../../../tools/FileUpload'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { isHolder } from '../../../../utils'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
-import Back from '../../../../styles/proposal/Back'
+import { isHolder } from '@utils/isHolder'
 import { createProposal } from '../utils/'
 import { ProposalProps } from '../utils/types'
+import { ProposalFooter } from '../utils/ProposalFooter'
 
 export default function SendErc721({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -82,43 +80,40 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
   }
 
   return (
-    <Flex dir="col" gap="md">
+    <Stack>
       <Text
-        css={{
-          fontFamily: 'Regular',
-        }}
+       
       >
         Send an ERC721 from {daoName} treasury
       </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="contractAddress">ERC721 Contract Address</Label>
+      
+         
           <Input
+            label="ERC721 Contract Address"
             name="contractAddress"
             type="text"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
           />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="tokenId">Token ID</Label>
+   
+        
+         
           <Input
+          label="Token ID"
             name="tokenId"
             type="number"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenId(e.target.value)}
           />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">Recipient</Label>
+       
+        
           <Input
+          label="Recipient Address"
             name="recipient"
             type="text"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
           />
-        </FormElement>
+
         {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal?.('sendMenu')} />
-        <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+        <ProposalFooter setProposal={setProposal} proposal={"sendMenu"} submitProposal={submit} />
+    </Stack>
   )
 }
