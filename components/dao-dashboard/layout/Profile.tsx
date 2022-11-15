@@ -23,30 +23,27 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       </Card>
   </Skeleton>
 
- 
-  console.log('router', router.asPath === `/daos/${chainId}/${address}`)
   return (
     <Card padding="6" width="full">
+      <Stack direction={"horizontal"} align="flex-start" justify={"space-between"}>
       {isLoading ? (
         <Spinner />
       ) : (
-        <Link href={`/daos/${chainId}/${address}/`}>
         <Stack align="center">
           <Avatar src="" label="dao profile pic" address={address as string} size="32" />
             <Heading>
               {info?.token?.name} ({info?.token?.symbol})
             </Heading>
-          
           <Stack direction={'horizontal'}>
-            <Stat label="Members" value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null} />
+            <Stat label="Total Supply" value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null} />
             <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+          </Stack>
+        </Stack>
+      )}
             {router.asPath === `/daos/${chainId}/${address}` ? null : <Link href={`/daos/${chainId}/${address}/`}>
               <Button size="small" variant="transparent"><IconArrowRight /></Button>
             </Link>}
-          </Stack>
-        </Stack>
-        </Link>
-      )}
+      </Stack>
     </Card>
   )
 }

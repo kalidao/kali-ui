@@ -1,9 +1,9 @@
 import React from 'react'
 import { Flex } from '../../../styles/elements'
-import { Spinner } from '../../elements/'
+import { Spinner } from '../../elements'
 import NftCard from './NftCard'
 
-export default function NFTs({ nftBalance }) {
+export default function NFTs({ nftBalance }: { nftBalance: any[] }) {
   console.log('nftBalance', nftBalance)
   return (
     <Flex>
