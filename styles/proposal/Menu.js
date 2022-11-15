@@ -2,7 +2,6 @@ import { styled } from '../stitches.config'
 
 const Menu = styled('div', {
   display: 'grid',
-  gap: '5px',
 
   '@media (min-width: 340px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
@@ -10,8 +9,9 @@ const Menu = styled('div', {
   },
 
   '@media (min-width: 540px)': {
-    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridTemplateColumns: 'repeat(4, 1fr)',
     gridTemplateRows: 'auto',
+    gap: '1rem',
   },
 })
 
@@ -19,7 +19,7 @@ const Item = styled('div', {
   background: '$gray2',
   border: '1px solid $gray5',
   color: '$mauve12',
-  bordeRadius: '10px',
+  borderRadius: '20px',
   padding: '1rem',
   overflow: 'hidden',
   boxShadow: '2px 1px 10px 3px $gray7',
@@ -31,12 +31,10 @@ const Item = styled('div', {
   fontWeight: '600',
 
   '@media (min-width: 340px)': {
-    width: '5rem',
     height: '5rem',
     fontSize: '12px',
   },
   '@media (min-width: 640px)': {
-    width: '9rem',
     height: '3rem',
     fontSize: '21px',
 
