@@ -13,7 +13,6 @@ import Process from '../Process'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
 import { useFetch } from '../../../hooks/useFetch'
-import { isURL } from '@utils/proposals'
 
 type Props = {
   proposal: any
@@ -50,15 +49,7 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      gap="2"
-      maxWidth={{
-        xs: 'screenSm',
-        xl: '320',
-      }}
-    >
+    <Stack>
       <Stack direction="horizontal" align="center">
         <Heading responsive>
           {`#${proposalId} `}
@@ -117,6 +108,6 @@ export default function ProposalView({ proposal }: Props) {
           </>
         )}
       </Stack>
-    </Box>
+    </Stack>
   )
 }

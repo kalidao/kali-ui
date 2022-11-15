@@ -4,7 +4,7 @@ import Layout from '@components/dao-dashboard/layout'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { Card } from '@kalidao/reality'
-import Timeline from '@components/dao-dashboard/home/timeline'
+import Timeline from '@components/dao-dashboard/timeline'
 
 const DashboardPage: NextPage = () => {
   const router = useRouter()

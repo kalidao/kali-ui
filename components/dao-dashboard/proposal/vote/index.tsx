@@ -5,6 +5,7 @@ import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs
 import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
+import { Button, IconCheck, IconClose, Stack } from '@kalidao/reality'
 
 // TODO: add actual types
 type VoteProps = {
@@ -46,13 +47,13 @@ export default function Vote({ proposal }: VoteProps) {
   )
 
   return (
-    <>
-      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => submitVote(true)}>
-        <BsFillHandThumbsUpFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(151, 55.0%, 41.5%)'} />
-      </Box>
-      <Box as="button" variant={disabled ? 'vote-disabled' : 'vote'} onClick={() => submitVote(false)}>
-        <BsFillHandThumbsDownFill color={disabled ? 'hsl(0, 0%, 20%)' : 'hsl(10, 80.2%, 35.7%)'} />
-      </Box>
-    </>
+    <Stack direction={'horizontal'}>
+      <Button shape="circle" tone="green" size="small" disabled={disabled} onClick={() => submitVote(true)}>
+        <IconCheck />
+      </Button>
+      <Button shape="circle" tone="red" size="small" disabled={disabled} onClick={() => submitVote(false)}>
+        <IconClose />
+      </Button>
+    </Stack>
   )
 }
