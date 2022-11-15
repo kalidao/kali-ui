@@ -19,18 +19,15 @@ export default function MemberCard({ member, active, setActive }) {
   console.log('ens', ensName)
 
   return (
-    <Card
-      as="button"
-      key={member?.address}
-      padding="6"
-      level="1"
-      onClick={() => setActive(member)}
-      hover
-    >
-      {member ? <Stack>
-        <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
-        <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
-      </Stack> : <Spinner />}
+    <Card as="button" key={member?.address} padding="6" level="1" onClick={() => setActive(member)} hover>
+      {member ? (
+        <Stack>
+          <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
+          <Text>{Number(ethers.utils.formatEther(member?.shares)).toFixed(2)}</Text>
+        </Stack>
+      ) : (
+        <Spinner />
+      )}
     </Card>
   )
 }

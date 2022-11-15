@@ -10,13 +10,21 @@ type Props = {
 export default function Tokens({ tokens }: Props) {
   console.log('tokens', tokens)
   return (
-      <Stack>
-        <></>
-        {tokens &&
-          (tokens.length > 0
-            ? tokens.map((token: any) => <TokenCard key={token.contract_address} name={token?.token?.name} symbol={token?.token?.symbol} logo_url={token?.token?.thumbnail} balance={token?.value} />)
-            : 'There are no Tokens in this DAO :(')}
-      </Stack>
+    <Stack>
+      <></>
+      {tokens &&
+        (tokens.length > 0
+          ? tokens.map((token: any) => (
+              <TokenCard
+                key={token.contract_address}
+                name={token?.token?.name}
+                symbol={token?.token?.symbol}
+                logo_url={token?.token?.thumbnail}
+                balance={token?.value}
+              />
+            ))
+          : 'There are no Tokens in this DAO :(')}
+    </Stack>
   )
 }
 

@@ -23,7 +23,6 @@ const DashboardLayout = ({ title, content, children }: Props) => {
   const { chainId, dao } = router.query
   const heading = `Kali | ${title}}`
 
-
   return (
     <Box className={layout}>
       <Head>
@@ -34,12 +33,15 @@ const DashboardLayout = ({ title, content, children }: Props) => {
       <Header />
       <Box className={container}>
         <Stack>
-          <Stack direction={{
-            xs: 'vertical',
-            lg: 'horizontal',
-          }} justify="space-between">
+          <Stack
+            direction={{
+              xs: 'vertical',
+              lg: 'horizontal',
+            }}
+            justify="space-between"
+          >
             <Profile address={dao as string} chainId={Number(chainId)} />
-            <Treasury address={dao as string} chainId={Number(chainId)}  />
+            <Treasury address={dao as string} chainId={Number(chainId)} />
             <Wrappr address={dao as string} chainId={Number(chainId)} />
             <Members />
           </Stack>
@@ -48,7 +50,6 @@ const DashboardLayout = ({ title, content, children }: Props) => {
       </Box>
       <Footer />
     </Box>
-    
   )
 }
 

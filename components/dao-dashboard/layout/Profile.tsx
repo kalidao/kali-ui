@@ -18,31 +18,40 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
   )
   const info = data?.data?.daos?.[0]
 
-  if (isLoading) return <Skeleton>
-    <Card padding="6" shadow hover>
-      </Card>
-  </Skeleton>
+  if (isLoading)
+    return (
+      <Skeleton>
+        <Card padding="6" shadow hover></Card>
+      </Skeleton>
+    )
 
   return (
     <Card padding="6" width="full">
-      <Stack direction={"horizontal"} align="flex-start" justify={"space-between"}>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <Stack align="center">
-          <Avatar src="" label="dao profile pic" address={address as string} size="32" />
+      <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Stack align="center">
+            <Avatar src="" label="dao profile pic" address={address as string} size="32" />
             <Heading>
               {info?.token?.name} ({info?.token?.symbol})
             </Heading>
-          <Stack direction={'horizontal'}>
-            <Stat label="Total Supply" value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null} />
-            <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+            <Stack direction={'horizontal'}>
+              <Stat
+                label="Total Supply"
+                value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null}
+              />
+              <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+            </Stack>
           </Stack>
-        </Stack>
-      )}
-            {router.asPath === `/daos/${chainId}/${address}` ? null : <Link href={`/daos/${chainId}/${address}/`}>
-              <Button size="small" variant="transparent"><IconArrowRight /></Button>
-            </Link>}
+        )}
+        {router.asPath === `/daos/${chainId}/${address}` ? null : (
+          <Link href={`/daos/${chainId}/${address}/`}>
+            <Button size="small" variant="transparent">
+              <IconArrowRight />
+            </Button>
+          </Link>
+        )}
       </Stack>
     </Card>
   )

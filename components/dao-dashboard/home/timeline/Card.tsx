@@ -88,11 +88,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <Card
-    padding="6"
-    level="2"
-    hover
-    >
+    <Card padding="6" level="2" hover>
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',

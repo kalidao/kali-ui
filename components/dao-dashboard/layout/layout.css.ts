@@ -21,14 +21,13 @@ export const dashboardHeader = style({
   minHeight: '10vh',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',    
+  justifyContent: 'space-between',
   '@media': {
     '(min-width: 1024px)': {
       paddingRight: vars.space['5'],
     },
-  }
+  },
 })
-
 
 export const container = style({
   minHeight: '90vh',

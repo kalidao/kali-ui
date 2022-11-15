@@ -43,7 +43,7 @@ export default function Editor({ setContent }) {
   })
 
   return (
-    <Box >
+    <Box>
       {editor && (
         <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className={bubbles()}>
           <Item

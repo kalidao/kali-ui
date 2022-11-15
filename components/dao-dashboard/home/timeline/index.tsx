@@ -50,7 +50,7 @@ export default function Timeline() {
   return (
     <Stack>
       <Stack direction="horizontal" align="center" justify="space-between">
-        <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals} >
+        <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals}>
           View All
         </Button>
         <Link

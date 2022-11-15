@@ -11,21 +11,21 @@ type Props = {
 
 export default function ProposalsMenu({ setProposal }: Props) {
   return (
-      <Menu>
-        <Menu.Item onClick={() => setProposal('membersMenu')}>
-          <MdOutlineManageAccounts />
-          Members
-        </Menu.Item>
-        <Menu.Item onClick={() => setProposal('sendMenu')}>
-          <MdOutlinePayments /> Payments
-        </Menu.Item>
-        <Menu.Item onClick={() => setProposal('call')}>
-          <ExitIcon />
-          External Call
-        </Menu.Item>
-        <Menu.Item onClick={() => setProposal('appsMenu')}>
-          <AiOutlineAppstoreAdd /> Apps
-        </Menu.Item>
-        </Menu> 
+    <Menu>
+      <Menu.Item onClick={() => setProposal('membersMenu')}>
+        <MdOutlineManageAccounts />
+        Members
+      </Menu.Item>
+      <Menu.Item onClick={() => setProposal('sendMenu')}>
+        <MdOutlinePayments /> Payments
+      </Menu.Item>
+      <Menu.Item onClick={() => setProposal('call')}>
+        <ExitIcon />
+        External Call
+      </Menu.Item>
+      <Menu.Item onClick={() => setProposal('appsMenu')}>
+        <AiOutlineAppstoreAdd /> Apps
+      </Menu.Item>
+    </Menu>
   )
 }

@@ -18,12 +18,12 @@ const DashboardPage: NextPage = () => {
 
   return (
     <Layout title={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
-      <Card padding={
-       {
-        xs: '2',
-        md: '6'
-       } 
-      }>
+      <Card
+        padding={{
+          xs: '2',
+          md: '6',
+        }}
+      >
         <Timeline />
       </Card>
     </Layout>

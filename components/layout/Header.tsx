@@ -31,9 +31,7 @@ export default function Header({ heading, show }: HeaderProps) {
   }
 
   return (
-    <Box
-      className={dashboardHeader}
-    >
+    <Box className={dashboardHeader}>
       <NavigationMenu />
       <ConnectButton />
     </Box>

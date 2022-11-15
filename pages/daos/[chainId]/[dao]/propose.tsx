@@ -11,23 +11,25 @@ export default function ProposePage() {
   return (
     <Layout title={'Propose'} content="Create a proposal.">
       <Card padding="6">
-      <Stack align="center" space="10">
-        <FieldSet legend="Make a Proposal">
-          <Input
-            label="Title"
-            type="text"
-            inputMode="text"
-            name="id"
-            placeholder={'Proposal for...'}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-          <Box color="foreground" fontWeight="bold" marginLeft="1.5">Description</Box>
-          <Editor setContent={setContent} /> 
-          <NewProposalModal proposalProp="menu" content={content} title={title} />
-        </FieldSet>
-      </Stack>
+        <Stack align="center" space="10">
+          <FieldSet legend="Make a Proposal">
+            <Input
+              label="Title"
+              type="text"
+              inputMode="text"
+              name="id"
+              placeholder={'Proposal for...'}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <Box color="foreground" fontWeight="bold" marginLeft="1.5">
+              Description
+            </Box>
+            <Editor setContent={setContent} />
+            <NewProposalModal proposalProp="menu" content={content} title={title} />
+          </FieldSet>
+        </Stack>
       </Card>
     </Layout>
   )

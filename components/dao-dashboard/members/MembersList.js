@@ -5,8 +5,7 @@ import MemberCard from './MemberCard'
 export default function MembersList({ members, active, setActive }) {
   // TODO: Add search
   return (
-    <Stack
-    >
+    <Stack>
       {members.map((member) => (
         <MemberCard
           key={member?.address}

@@ -31,12 +31,15 @@ const Members = () => {
           {info?.members?.slice(0, 3)?.map((member: any) => (
             <Member key={member?.address} address={member?.address} shares={member?.shares} />
           ))}
-          <Link href={{
-                pathname: `/daos/[chainId]/[dao]/members`,
-                query: { chainId: chainId, dao: dao },
-            }} passHref>
-            <Button as="a"  variant="transparent"  width={"full"} size="small" prefix={<IconBookOpen />}>
-             View All
+          <Link
+            href={{
+              pathname: `/daos/[chainId]/[dao]/members`,
+              query: { chainId: chainId, dao: dao },
+            }}
+            passHref
+          >
+            <Button as="a" variant="transparent" width={'full'} size="small" prefix={<IconBookOpen />}>
+              View All
             </Button>
           </Link>
         </Stack>

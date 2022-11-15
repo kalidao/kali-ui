@@ -7,10 +7,7 @@ import { ExternalLinkIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 
-export default function NftCard({ nft }: {
-  nft: any
-}) {
-  
+export default function NftCard({ nft }: { nft: any }) {
   const url = wrapprUrl(nft.tokenUri)
   console.log('nft', nft.name, nft.tokenUri, url)
   const { data, isLoading, isError, error } = useQuery(['nftMetadata', nft], () => fetcher(url), {
@@ -64,7 +61,7 @@ export default function NftCard({ nft }: {
         )}
       </DialogTrigger>
       <DialogContent>
-        <DialogClose  />
+        <DialogClose />
         <DialogTitle
           css={{
             fontFamily: 'Bold',
@@ -79,7 +76,7 @@ export default function NftCard({ nft }: {
           }}
         >
           <Image
-            src={ data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])}
+            src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])}
             height="100%"
             width="100%"
             alt="NFT Image"
