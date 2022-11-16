@@ -19,7 +19,7 @@ export default function RemoveCrowdsale({ setProposal, title, content }: Proposa
   const crowdsaleAddress = addresses[Number(chainId)]['extensions']['crowdsale2']
 
   const kalidao = useContract({
-    addressOrName: daoAddress ? daoAddress as string : AddressZero,
+    addressOrName: daoAddress ? (daoAddress as string) : AddressZero,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
@@ -28,7 +28,7 @@ export default function RemoveCrowdsale({ setProposal, title, content }: Proposa
   const [warning, setWarning] = useState<string>()
 
   const submit = async () => {
-    if (toggleConfirm === false) return;
+    if (toggleConfirm === false) return
 
     let docs
     try {
@@ -70,31 +70,24 @@ export default function RemoveCrowdsale({ setProposal, title, content }: Proposa
   }
 
   return (
-    <Stack >
-      <Text
-      
-      >
+    <Stack>
+      <Text>
         The Swap extension allows anyone to atomically swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.
       </Text>
-      <Text
-     
-      >
-        Please confirm and submit this removal proposal to remove current Swap.
-      </Text>
-   
-        <Stack direction={"horizontal"}>
-          <Input
-            type={'checkbox'}
-            variant="checkbox"
-            checked={toggleConfirm}
-            size="sm"
-            onChange={() => setToggleConfirm(!toggleConfirm)}
-          />
-          <Label htmlFor="recipient">Confirm to submit this Swap removal proposal</Label>
-        </Stack>
-        {warning && <Warning warning={warning} />}
-        <ProposalFooter setProposal={setProposal} proposal="appsMenu" submitProposal={submit} disabled={!toggleConfirm} />
-     
+      <Text>Please confirm and submit this removal proposal to remove current Swap.</Text>
+
+      <Stack direction={'horizontal'}>
+        <Input
+          type={'checkbox'}
+          variant="checkbox"
+          checked={toggleConfirm}
+          size="sm"
+          onChange={() => setToggleConfirm(!toggleConfirm)}
+        />
+        <Label htmlFor="recipient">Confirm to submit this Swap removal proposal</Label>
+      </Stack>
+      {warning && <Warning warning={warning} />}
+      <ProposalFooter setProposal={setProposal} proposal="appsMenu" submitProposal={submit} disabled={!toggleConfirm} />
     </Stack>
   )
 }

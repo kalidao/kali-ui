@@ -23,7 +23,7 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
       enabled: data !== undefined ? true : false,
     },
   )
- 
+
   if (!data) {
     return null
   }

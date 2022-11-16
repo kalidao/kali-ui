@@ -7,9 +7,7 @@ import Docs from './Docs'
 import Analytics from './Analytics'
 import { container, infoGrid } from './styles.css'
 
-export default function InfoComponent({ info }: {
-  info: any
-}) {
+export default function InfoComponent({ info }: { info: any }) {
   return (
     <Box className={container}>
       {info === undefined ? (

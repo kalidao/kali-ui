@@ -42,7 +42,7 @@ export const splashContainer = style({
 export const navMenu = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: vars.space['1']
+  gap: vars.space['1'],
 })
 
 export const navItem = style({
@@ -54,9 +54,8 @@ export const navItem = style({
   border: `1px solid ${vars.colors.accentSecondary}`,
   borderRadius: vars.radii['2xLarge'],
 
-  ":hover": {
+  ':hover': {
     background: vars.colors.accentSecondaryHover,
     border: `1px solid ${vars.colors.accent}`,
-
-  }
+  },
 })

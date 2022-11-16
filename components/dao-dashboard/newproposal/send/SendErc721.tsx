@@ -81,39 +81,31 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
   return (
     <Stack>
-      <Text
-       
-      >
-        Send an ERC721 from {daoName} treasury
-      </Text>
-      
-         
-          <Input
-            label="ERC721 Contract Address"
-            name="contractAddress"
-            type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
-          />
-   
-        
-         
-          <Input
-          label="Token ID"
-            name="tokenId"
-            type="number"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenId(e.target.value)}
-          />
-       
-        
-          <Input
-          label="Recipient Address"
-            name="recipient"
-            type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
-          />
+      <Text>Send an ERC721 from {daoName} treasury</Text>
 
-        {warning && <Warning warning={warning} />}
-        <ProposalFooter setProposal={setProposal} proposal={"sendMenu"} submitProposal={submit} />
+      <Input
+        label="ERC721 Contract Address"
+        name="contractAddress"
+        type="text"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
+      />
+
+      <Input
+        label="Token ID"
+        name="tokenId"
+        type="number"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenId(e.target.value)}
+      />
+
+      <Input
+        label="Recipient Address"
+        name="recipient"
+        type="text"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
+      />
+
+      {warning && <Warning warning={warning} />}
+      <ProposalFooter setProposal={setProposal} proposal={'sendMenu'} submitProposal={submit} />
     </Stack>
   )
 }

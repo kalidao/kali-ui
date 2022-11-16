@@ -87,7 +87,8 @@ export default function ProposalCard({ proposal }: PropCardProp) {
 
   const { color, text } = currentStatus()
 
-  return (<Box className={proposalCard} >
+  return (
+    <Box className={proposalCard}>
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',

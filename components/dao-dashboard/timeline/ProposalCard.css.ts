@@ -7,8 +7,8 @@ export const linkStyle = style({
 })
 
 export const proposalCard = style({
-  padding: vars.space["6"],
-  borderRadius: vars.radii["2xLarge"],
+  padding: vars.space['6'],
+  borderRadius: vars.radii['2xLarge'],
   display: 'flex',
   flexDirection: 'column',
   gap: vars.space[2],

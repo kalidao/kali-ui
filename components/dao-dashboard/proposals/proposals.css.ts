@@ -9,7 +9,7 @@ export const container = style({
   gap: vars.space[5],
   padding: vars.space[6],
   backgroundColor: vars.colors.black,
-  borderRadius: vars.radii["2xLarge"],
+  borderRadius: vars.radii['2xLarge'],
 })
 
 export const timeline = style({

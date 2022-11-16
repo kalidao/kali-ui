@@ -23,7 +23,7 @@ const ProposalsPage: NextPage = () => {
 
   return (
     <Layout title={data ? `${data.toString()}} Proposals` : 'Proposals'} content="Create or vote on a proposal.">
-        <Proposals />
+      <Proposals />
     </Layout>
   )
 }

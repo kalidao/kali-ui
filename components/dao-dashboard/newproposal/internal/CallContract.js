@@ -140,8 +140,7 @@ export default function CallContract({ setProposal, title, content }) {
   }
 
   return (
-    <Stack
-    >
+    <Stack>
       <Text
         variant="instruction"
         css={{
@@ -161,47 +160,51 @@ export default function CallContract({ setProposal, title, content }) {
         confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
         help you out.
       </Text>
-        <Input
-          label="Contract Address"
-          description="The address of the contract you wish to interact with."
-          name="contractAddress"
-          type="text"
-          defaultValue={contractAddress}
-          onChange={(e) => setContractAddress(e.target.value)}
-        />
-        <Textarea
-          label="Contract ABI"
-          description="Supply the contract ABI here."
-          as="textarea"
-          name="description"
-          type="text"
-          defaultValue={contractAbi}
-          onChange={(e) => setContractAbi(e.target.value)}
-          css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
-        />
-        <Button variant="secondary" onClick={handleParse}>Parse ABI</Button>
-        {writeFuncs && (
-          <FieldSet label="Write Functions">
-            <Select onChange={onWriteFunctionSelect}>
-              <option>Select a function</option>
-              {writeFuncs.map((f, index) => (
-                <option key={index} value={index}>
-                  {f['name']}
-                </option>
-              ))}
-            </Select>{' '}
-          </FieldSet>
-        )}
-        {inputs == null ? null : (
-          <Stack id="inputFields">
-            {inputs.map((input, index) => <Input label={input["name"]} key={index} onChange={onInputChange} />)}
-          </Stack>
-        )}
-        {warning && <Warning warning={warning} />}
-        <Stack align="center" justify="space-between" direction={"horizontal"}>
+      <Input
+        label="Contract Address"
+        description="The address of the contract you wish to interact with."
+        name="contractAddress"
+        type="text"
+        defaultValue={contractAddress}
+        onChange={(e) => setContractAddress(e.target.value)}
+      />
+      <Textarea
+        label="Contract ABI"
+        description="Supply the contract ABI here."
+        as="textarea"
+        name="description"
+        type="text"
+        defaultValue={contractAbi}
+        onChange={(e) => setContractAbi(e.target.value)}
+        css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
+      />
+      <Button variant="secondary" onClick={handleParse}>
+        Parse ABI
+      </Button>
+      {writeFuncs && (
+        <FieldSet label="Write Functions">
+          <Select onChange={onWriteFunctionSelect}>
+            <option>Select a function</option>
+            {writeFuncs.map((f, index) => (
+              <option key={index} value={index}>
+                {f['name']}
+              </option>
+            ))}
+          </Select>{' '}
+        </FieldSet>
+      )}
+      {inputs == null ? null : (
+        <Stack id="inputFields">
+          {inputs.map((input, index) => (
+            <Input label={input['name']} key={index} onChange={onInputChange} />
+          ))}
+        </Stack>
+      )}
+      {warning && <Warning warning={warning} />}
+      <Stack align="center" justify="space-between" direction={'horizontal'}>
         <Back onClick={() => setProposal('menu')} />
         <Button onClick={submit}>Submit</Button>
-        </Stack>
+      </Stack>
     </Stack>
   )
 }

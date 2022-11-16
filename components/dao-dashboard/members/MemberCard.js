@@ -17,7 +17,7 @@ export default function MemberCard({ member, active, setActive }) {
 
   // TODO:
   //  - Add profile image
-  
+
   return (
     <button className={memberButton} key={member?.address} onClick={() => setActive(member)} width="full">
       {member ? (
