@@ -5,6 +5,7 @@ import { useEnsAvatar, useEnsName, useQuery } from 'wagmi'
 import { getMembers } from '@graph/queries'
 import { truncateAddress } from '@utils/truncateAddress'
 import { formatEther } from 'ethers/lib/utils'
+import { useMemo } from 'react'
 
 const Members = () => {
   const router = useRouter()
@@ -18,6 +19,16 @@ const Members = () => {
   )
   const info = data?.data?.daos?.[0]
 
+  const list = useMemo(
+    () =>
+      info?.members
+        ?.sort((a: { shares: number }, b: { shares: number }) => b.shares - a.shares)
+        .filter((p: { shares: number }) => p.shares > 0),
+    [info],
+  )
+
+  console.log('list', list)
+
   if (isLoading) return <Spinner />
 
   console.log('members', info)
@@ -27,8 +38,8 @@ const Members = () => {
         <Spinner />
       ) : (
         <Stack>
-          <Heading>Members ({info?.members?.length})</Heading>
-          {info?.members?.slice(0, 3)?.map((member: any) => (
+          <Heading>Members ({list?.length})</Heading>
+          {list?.slice(0, 3)?.map((member: any) => (
             <Member key={member?.address} address={member?.address} shares={member?.shares} />
           ))}
           <Link
@@ -55,6 +66,7 @@ const Member = ({ address, shares }: { address: string; shares: string }) => {
   const { data: ensAvatar } = useEnsAvatar({
     addressOrName: address,
   })
+
   return (
     <Stack direction={'horizontal'} align="center">
       <Avatar
