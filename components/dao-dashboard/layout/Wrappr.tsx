@@ -23,6 +23,10 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
       enabled: data !== undefined ? true : false,
     },
   )
+ 
+  if (!data) {
+    return null
+  }
 
   const wrapprLink =
     isSuccess && data
@@ -40,11 +44,8 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
         }}
       >
         <Stack direction={'vertical'} align={'center'} justify={'center'} space="3">
-          <Heading>{uri ? uri?.name : data ? data?.wrappr?.name : 'Wrapprs'}</Heading>
-          {/* {!data && <Image src={'/img/wrappr.svg'} height='180' width='180' />} */}
-          <img src='/img/wrappr.svg' />
-          {/* <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} /> */}
-          <Text>{!data && 'Add a legal wrappr to your DAO.'}</Text>
+          <Heading>{uri ? uri?.name : data?.wrappr?.name}</Heading>
+          <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
         </Stack>
       </a>
     </Card>
