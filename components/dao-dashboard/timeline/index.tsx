@@ -49,10 +49,16 @@ export default function Timeline() {
 
   return (
     <Stack>
-      <Stack direction="horizontal" align="center" justify="space-between">
-        <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals}>
-          View All
-        </Button>
+      <Stack
+        direction="horizontal"
+        align="center"
+        justify={memoizedProposals && memoizedProposals.length != 0 ? 'space-between' : 'flex-end'}
+      >
+        {memoizedProposals && memoizedProposals.length != 0 ? (
+          <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals}>
+            View All
+          </Button>
+        ) : null}
         <Link
           href={{
             pathname: '/daos/[chainId]/[dao]/propose',
