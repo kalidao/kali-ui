@@ -17,10 +17,9 @@ export default function MemberCard({ member, active, setActive }) {
 
   // TODO:
   //  - Add profile image
-  console.log('ens', ensName)
-
+  
   return (
-    <button className={memberButton} key={member?.address} padding="6" level="1" onClick={() => setActive(member)} width="full">
+    <button className={memberButton} key={member?.address} onClick={() => setActive(member)} width="full">
       {member ? (
         <Stack>
           <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>

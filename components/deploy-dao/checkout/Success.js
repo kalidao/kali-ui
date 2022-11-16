@@ -7,7 +7,7 @@ import { addresses } from '../../../constants/addresses'
 import FACTORY_ABI from '../../../abi/KaliDAOfactory.json'
 import { useRouter } from 'next/router'
 import { init, send } from 'emailjs-com'
-import ethers from 'ethers'
+import { ethers } from 'ethers'
 
 init(process.env.NEXT_PUBLIC_EMAIL_ID)
 
