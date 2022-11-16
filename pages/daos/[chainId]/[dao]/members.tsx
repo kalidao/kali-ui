@@ -1,10 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
-import { useRouter } from 'next/router'
-import Layout from '../../../../components/dao-dashboard/layout'
-import { MembersList, MemberProfile } from '../../../../components/dao-dashboard/members'
-import { GRAPH_URL } from '../../../../graph'
-import { Box, Stack } from '@kalidao/reality'
+import Layout from '@components/dao-dashboard/layout'
+import { MembersList, MemberProfile } from '@components/dao-dashboard/members'
+import { GRAPH_URL } from '@graph/url'
+import { Card, Box, Stack } from '@kalidao/reality'
 
 const MembersPage: NextPage = ({
   members,
@@ -32,20 +31,20 @@ const MembersPage: NextPage = ({
   useEffect(() => {
     setMember(list[0])
   }, [list])
-
+  console.log('member', member)
   return (
-    <Layout heading={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Box minHeight="96" width="320">
-        <Stack direction="horizontal">
-          <MembersList members={list} active={member} setActive={setMember} />
+    <Layout title={`Members`} content="Look at the members and their analytics for the DAO.">
+      <Stack direction="horizontal">
+        <MembersList members={list} active={member} setActive={setMember} />
+        <Box minHeight={'32'}>
           <MemberProfile
             member={member}
             proposals={memberProposals}
             votes={memberVotes}
             totalSupply={members?.token?.totalSupply}
           />
-        </Stack>
-      </Box>
+        </Box>
+      </Stack>
     </Layout>
   )
 }

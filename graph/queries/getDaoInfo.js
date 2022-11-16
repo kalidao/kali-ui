@@ -24,7 +24,9 @@ export const getDaoInfo = async (chainId, address) => {
               gracePeriod
               quorum
               supermajority
-              proposals
+              proposals {
+                id
+              }
               tribute {
                 active
               }

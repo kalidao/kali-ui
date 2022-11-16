@@ -1,3 +1,4 @@
+import { vars } from '@kalidao/reality'
 import { Box } from './elements'
 
 export default function Info({ heading, children, props }) {
@@ -12,6 +13,7 @@ export default function Info({ heading, children, props }) {
           fontFamily: 'Screen',
           fontWeight: '700',
           fontSize: '24px',
+          color: vars.colors.foreground,
           border: '2px solid $gray6',
           borderTopLeftRadius: '25px',
           borderTopRightRadius: '25px',

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
-import { IconArrowLeft, Button, Stack } from '@kalidao/reality'
+import { Card, IconArrowLeft, Button, Stack } from '@kalidao/reality'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
+import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
 import { getProposal } from '@graph/queries'
 
 const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -21,18 +22,23 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
   }
 
   return (
-    <Layout heading={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
-      <Stack
-        direction={{
-          xs: 'vertical',
-          lg: 'horizontal',
-        }}
-      >
-        <Button variant="transparent" shape="circle" onClick={goBack}>
-          <IconArrowLeft />
-        </Button>
-        <ProposalView proposal={proposal} />
-      </Stack>
+    <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
+      <Card padding="6">
+        <Stack>
+          <Stack
+            direction={{
+              xs: 'vertical',
+              lg: 'horizontal',
+            }}
+          >
+            <Button variant="transparent" shape="circle" onClick={goBack}>
+              <IconArrowLeft />
+            </Button>
+            <ProposalView proposal={proposal} />
+          </Stack>
+          <VotesView votes={proposal?.votes} />
+        </Stack>
+      </Card>
     </Layout>
   )
 }

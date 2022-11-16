@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Box, Stack, Button, Skeleton, IconPencil, IconBookOpen } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
-import Card from '@components/dao-dashboard/home/timeline/Card'
+import Card from '@components/dao-dashboard/timeline/Card'
 import { getName } from '@graph/getName'
 import { ethers } from 'ethers'
 import { container, timeline } from './proposals.css'
@@ -18,7 +18,7 @@ const Proposals = () => {
   )
 
   // console.log('proposals', proposals)
-  const [show, setShow] = useState(10)
+  const [show, setShow] = useState(5)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
     () =>
@@ -57,7 +57,7 @@ const Proposals = () => {
           )}
         </Box>
       </Skeleton>
-      <Button variant="transparent" onClick={() => setShow(show + 10)}>
+      <Button variant="transparent" onClick={() => setShow(show + 5)}>
         View More
       </Button>
     </Box>

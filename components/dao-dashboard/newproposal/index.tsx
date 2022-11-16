@@ -159,5 +159,5 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     },
   }
 
-  return <>{view && <Box width="2/3">{proposals[view]['component']}</Box>}</>
+  return <>{view && <Box width="288">{proposals[view]['component']}</Box>}</>
 }

@@ -2,33 +2,35 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { Box, FieldSet, Input, Text } from '@kalidao/reality'
+import { Card, Box, FieldSet, Input, Stack, Text } from '@kalidao/reality'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState()
 
   return (
-    <Layout heading={'Propose'} content="Create a proposal.">
-      <Box minHeight="96" width="320">
-        <FieldSet legend="Create Proposals">
-          <Input
-            label="Proposal Title"
-            type="text"
-            inputMode="text"
-            name="id"
-            width="2/3"
-            placeholder={'Proposal for...'}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-          <Text>Proposal Description</Text>
-          <Editor setContent={setContent} />
-          <Text>Instruction</Text>
-          <NewProposalModal proposalProp="menu" content={content} title={title} />
-        </FieldSet>
-      </Box>
+    <Layout title={'Propose'} content="Create a proposal.">
+      <Card padding="6">
+        <Stack align="center" space="10">
+          <FieldSet legend="Make a Proposal">
+            <Input
+              label="Title"
+              type="text"
+              inputMode="text"
+              name="id"
+              placeholder={'Proposal for...'}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <Box color="foreground" fontWeight="bold" marginLeft="1.5">
+              Description
+            </Box>
+            <Editor setContent={setContent} />
+            <NewProposalModal proposalProp="menu" content={content} title={title} />
+          </FieldSet>
+        </Stack>
+      </Card>
     </Layout>
   )
 }

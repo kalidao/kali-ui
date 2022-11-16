@@ -16,13 +16,18 @@ const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, xdai, chain.goerli],
-  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),     jsonRpcProvider({
-    rpc: (c) => {
-      if (c.id === xdai.id) return { http: process.env.NEXT_PUBLIC_QUICKNODE_GNOSIS! }
-      if (c.id === chain.arbitrum.id || c.id === chain.goerli.id) return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
-      return null 
-    },
-  }), publicProvider()],
+  [
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),
+    jsonRpcProvider({
+      rpc: (c) => {
+        if (c.id === xdai.id) return { http: process.env.NEXT_PUBLIC_QUICKNODE_GNOSIS! }
+        if (c.id === chain.arbitrum.id || c.id === chain.goerli.id)
+          return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
+        return null
+      },
+    }),
+    publicProvider(),
+  ],
 )
 
 const { connectors } = getDefaultWallets({

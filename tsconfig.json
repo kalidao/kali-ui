@@ -48,11 +48,11 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx",
-    "components/dao-dashboard/home/timeline/Card.jsx",
+    "components/dao-dashboard/timeline/timeline/Card.jsx",
     "components/hooks/useExplorer.js",
     "components/editor/index.jsx",
     "components/dao-dashboard/newproposal/apps/SetCrowdsale.js"
-, "components/dao-dashboard/crowdsale/fetchPurchasers.js"  ],
+, "components/dao-dashboard/crowdsale/fetchPurchasers.js", "pages/daos/[chainId]/[dao]/swap.tsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -20,14 +20,12 @@ export default function Extension({ accounts, amounts, payloads }) {
   })
   const [decoded, setDecoded] = useState(null)
 
-  const { data: symbol } = useContractRead(
-    {
-      addressOrName: dao,
-      contractInterface: KALIDAO_ABI,
-      functionName: 'symbol',
-      chainId: Number(chainId),
-    },
-  )
+  const { data: symbol } = useContractRead({
+    addressOrName: dao,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'symbol',
+    chainId: Number(chainId),
+  })
 
   const { data: status, error } = useContractRead(
     {
@@ -62,47 +60,46 @@ export default function Extension({ accounts, amounts, payloads }) {
     //     extension = key
   }, [signer, symbol])
 
-
-    return (
-      <Stack>
-        {/* TODO: Removing till I add activation to subgraph  */}
-        {/* <Text>{extension}</Text>
+  return (
+    <Stack>
+      {/* TODO: Removing till I add activation to subgraph  */}
+      {/* <Text>{extension}</Text>
         <Text>{amounts[i] != 0 ? (status == true ? 'Deactivating' : 'Activating') : 'Activating'}</Text> */}
-        {decoded &&
-          decoded.map((item) => (
-            <Stack direction="horizontal" justify="space-between" align="center" border="" key={item['label']}>
-              <Text responsive>{item['label']}</Text>
-              <Text weight="bold" responsive>
-                {item['label'] == 'Details' && item['value'] != 'none' ? (
-                  <Button
-                    as="a"
-                    href={`https://${item['value']}.ipfs.dweb.link/`}
-                    target="_blank"
-                    rel="noreferrer"
-                    shape="circle"
-                    variant="transparent"
-                    size="small"
-                  >
-                    <IconLink />
-                  </Button>
-                ) : (item['display'] == 'token' && item['value'] != 'ETH') ? (
-                  <Button
-                    as="a"
-                    href={`${link}${item['value']}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    shape="circle"
-                    variant="transparent"
-                    size="small"
-                  >
-                    <IconTokens />
-                  </Button>
-                ) : (
-                  item['value']
-                )}
-              </Text>
-            </Stack>
-          ))}
-      </Stack>
-    )
+      {decoded &&
+        decoded.map((item) => (
+          <Stack direction="horizontal" justify="space-between" align="center" border="" key={item['label']}>
+            <Text responsive>{item['label']}</Text>
+            <Text weight="bold" responsive>
+              {item['label'] == 'Details' && item['value'] != 'none' ? (
+                <Button
+                  as="a"
+                  href={`https://${item['value']}.ipfs.dweb.link/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  shape="circle"
+                  variant="transparent"
+                  size="small"
+                >
+                  <IconLink />
+                </Button>
+              ) : item['display'] == 'token' && item['value'] != 'ETH' ? (
+                <Button
+                  as="a"
+                  href={`${link}${item['value']}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  shape="circle"
+                  variant="transparent"
+                  size="small"
+                >
+                  <IconTokens />
+                </Button>
+              ) : (
+                item['value']
+              )}
+            </Text>
+          </Stack>
+        ))}
+    </Stack>
+  )
 }

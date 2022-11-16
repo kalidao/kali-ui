@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
-import { chainId } from 'wagmi'
-import useSWR from 'swr'
 import { Flex, Box, Text } from '../../../styles/elements'
-import { Spinner } from '../../elements/'
+import { Spinner } from '../../elements'
 import { Dialog, DialogTrigger, DialogContent, DialogClose, DialogTitle } from '../../../styles/Dialog'
 import { ExternalLinkIcon } from '@radix-ui/react-icons'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '@utils/fetcher'
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
+export default function NftCard({ nft }: { nft: any }) {
+  const url = wrapprUrl(nft.tokenUri)
+  console.log('nft', nft.name, nft.tokenUri, url)
+  const { data, isLoading, isError, error } = useQuery(['nftMetadata', nft], () => fetcher(url), {
+    enabled: !!nft.tokenUri,
+  })
 
-export default function NftCard({ nft }) {
-  console.log('nft', nft)
-  const url = nft.tokenUri.slice(0, 5) === 'https' ? nft.tokenUri : 'https://ipfs.io/ipfs/' + nft.tokenUri
-  const { data, error } = useSWR(url, fetcher)
-
-  if (error) return <Text>An error has occurred.</Text>
-  if (!data) return 'Loading...'
+  if (isError) return <Text>An error has occurred.</Text>
+  if (!data) return <Spinner />
 
   console.log('nftMeta', data)
   return (
@@ -61,7 +61,7 @@ export default function NftCard({ nft }) {
         )}
       </DialogTrigger>
       <DialogContent>
-        <DialogClose asChild />
+        <DialogClose />
         <DialogTitle
           css={{
             fontFamily: 'Bold',
@@ -76,7 +76,7 @@ export default function NftCard({ nft }) {
           }}
         >
           <Image
-            src={data['image'] ? data['image'] : 'https://ipfs.io/ipfs/' + data['file']}
+            src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])}
             height="100%"
             width="100%"
             alt="NFT Image"
@@ -112,4 +112,14 @@ export default function NftCard({ nft }) {
       </DialogContent>
     </Dialog>
   )
+}
+
+const wrapprUrl = (url: string) => {
+  if (url.includes('https://ipfs.moralis.io:2053/ipfs/')) {
+    return url.replace('https://ipfs.moralis.io:2053/ipfs/', 'https://content.wrappr.wtf/ipfs/')
+  }
+  if (url.includes('ipfs://')) {
+    return url.replace('ipfs://', 'https://content.wrappr.wtf/ipfs/')
+  }
+  return `https://content.wrappr.wtf/ipfs/${url}`
 }

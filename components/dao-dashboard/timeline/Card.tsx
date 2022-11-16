@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
-import Vote from '../../proposal/vote'
-import { useFetch } from '../../../hooks/useFetch'
+import Vote from '../proposal/vote'
+import { useFetch } from '../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
-import { linkStyle } from './ProposalCard.css'
+import { linkStyle, proposalCard } from './ProposalCard.css'
 import { isURL } from '@utils/proposals'
 
 type Status = {
@@ -88,20 +88,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      padding="6"
-      backgroundColor="background"
-      borderWidth="0.375"
-      gap="3"
-      borderRadius={'2xLarge'}
-      width={{
-        xs: '80',
-        md: '128',
-        lg: '192',
-      }}
-    >
+    <Box className={proposalCard}>
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
@@ -125,7 +112,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
               {text}
             </Tag>
           </Box>
-          <Text as="p" ellipsis>
+          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
             {isSchema
               ? 'Expand to read'
               : proposal['description'].length == 0

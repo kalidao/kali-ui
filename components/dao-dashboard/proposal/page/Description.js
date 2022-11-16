@@ -22,7 +22,7 @@ export default function Description({ description, isSchema }) {
           </Text>
         )
       ) : description.length > 0 ? (
-        <Text color="foreground" responsive>
+        <Text color="foreground" whiteSpace="pre-line" responsive>
           {description}
         </Text>
       ) : (

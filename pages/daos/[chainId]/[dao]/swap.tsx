@@ -1,15 +1,14 @@
-import Layout from '../../../../components/dao-dashboard/layout'
-import Crowdsale from '../../../../components/dao-dashboard/crowdsale'
-import { Spinner } from '../../../../components/elements'
-import { GRAPH_URL } from '../../../../graph'
-import { useRouter } from 'next/router'
-import { useNetwork } from 'wagmi'
+import Layout from '@components/dao-dashboard/layout'
+import Crowdsale from '@components/dao-dashboard/crowdsale'
+import { GRAPH_URL } from '@graph/url'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
-export const getServerSideProps = async (context) => {
-  const address = context.params.dao.toLowerCase()
-  const chainId = context.params.chainId
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const address = context?.params?.dao as string
+  const chainId = context?.params?.chainId
+
   try {
-    const res = await fetch(GRAPH_URL[chainId], {
+    const res = await fetch(GRAPH_URL[Number(chainId)], {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,12 +60,9 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-export default function CrowdsalePage({ info }) {
-  const router = useRouter()
-  const { chainId } = router.query
-  // console.log(info)
+export default function CrowdsalePage({ info }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <Layout heading="Swap" content="Swap Eth or tokens">
+    <Layout title="Swap" content="Swap Eth or tokens">
       <Crowdsale info={info} />
     </Layout>
   )

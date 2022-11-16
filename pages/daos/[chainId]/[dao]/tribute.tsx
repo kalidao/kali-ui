@@ -17,7 +17,7 @@ const TributePage: NextPage = () => {
   })
 
   return (
-    <Layout heading={data ? data.toString() : 'Tribute'} content="Create or vote on a proposal.">
+    <Layout title={data ? data.toString() : 'Tribute'} content="Create or vote on a proposal.">
       <Stack>
         <Heading>Work Under Progress</Heading>
         <Box minHeight="96" width="320">
