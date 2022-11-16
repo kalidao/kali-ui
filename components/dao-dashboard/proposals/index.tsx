@@ -18,7 +18,7 @@ const Proposals = () => {
   )
 
   // console.log('proposals', proposals)
-  const [show, setShow] = useState(10)
+  const [show, setShow] = useState(5)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(
     () =>
@@ -57,7 +57,7 @@ const Proposals = () => {
           )}
         </Box>
       </Skeleton>
-      <Button variant="transparent" onClick={() => setShow(show + 10)}>
+      <Button variant="transparent" onClick={() => setShow(show + 5)}>
         View More
       </Button>
     </Box>

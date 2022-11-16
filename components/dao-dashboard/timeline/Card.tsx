@@ -6,7 +6,7 @@ import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
 import { useFetch } from '../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
-import { linkStyle } from './ProposalCard.css'
+import { linkStyle, proposalCard } from './ProposalCard.css'
 import { isURL } from '@utils/proposals'
 
 type Status = {
@@ -87,8 +87,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
 
   const { color, text } = currentStatus()
 
-  return (
-    <Card padding="6" level="2" hover>
+  return (<Box className={proposalCard} >
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
@@ -112,7 +111,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
               {text}
             </Tag>
           </Box>
-          <Text as="p" ellipsis>
+          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
             {isSchema
               ? 'Expand to read'
               : proposal['description'].length == 0
@@ -124,6 +123,6 @@ export default function ProposalCard({ proposal }: PropCardProp) {
       <Box display="flex">
         <Vote proposal={proposal} />
       </Box>
-    </Card>
+    </Box>
   )
 }
