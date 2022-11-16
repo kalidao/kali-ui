@@ -27,11 +27,11 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
 
   return (
     <Card padding="6" width="full">
-      <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
+      <Stack direction={'horizontal'} align={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'flex-start'} justify={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'space-between'}>
         {isLoading ? (
           <Spinner />
         ) : (
-          <Stack align="center">
+          <Stack align="center" justify={"center"}>
             <Avatar src="" label="dao profile pic" address={address as string} size="32" />
             <Heading>
               {info?.token?.name} ({info?.token?.symbol})

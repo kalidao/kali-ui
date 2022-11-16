@@ -194,7 +194,7 @@ export default function CallContract({ setProposal, title, content }) {
         )}
         {inputs == null ? null : (
           <Stack id="inputFields">
-            {inputs.map((input, index) => <Input label={input["name"]}  onChange={onInputChange} />)}
+            {inputs.map((input, index) => <Input label={input["name"]} key={index} onChange={onInputChange} />)}
           </Stack>
         )}
         {warning && <Warning warning={warning} />}
