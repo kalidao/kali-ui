@@ -41,9 +41,10 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
       >
         <Stack direction={'vertical'} align={'center'} justify={'center'} space="3">
           <Heading>{uri ? uri?.name : data ? data?.wrappr?.name : 'Wrapprs'}</Heading>
-          <Text>{!data && 'Add a legal wrappr to your DAO.'}</Text>
           {/* {!data && <Image src={'/img/wrappr.svg'} height='180' width='180' />} */}
-          <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
+          <img src='/img/wrappr.svg' />
+          {/* <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} /> */}
+          <Text>{!data && 'Add a legal wrappr to your DAO.'}</Text>
         </Stack>
       </a>
     </Card>
