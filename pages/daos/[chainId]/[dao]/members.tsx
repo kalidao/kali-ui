@@ -31,7 +31,7 @@ const MembersPage: NextPage = ({
   useEffect(() => {
     setMember(list[0])
   }, [list])
-
+  console.log('member', member)
   return (
     <Layout title={`Members`} content="Look at the members and their analytics for the DAO.">
       <Stack direction="horizontal">

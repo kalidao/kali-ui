@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
-import { Box, Card, Text, Stack, Spinner } from '@kalidao/reality'
+import { Button, Card, Text, Stack, Spinner } from '@kalidao/reality'
 import { truncateAddress } from '../../../utils/'
+import { memberButton } from './styles.css'
 
 export default function MemberCard({ member, active, setActive }) {
   const { data: ensName, isLoading } = useEnsName({
@@ -19,7 +20,7 @@ export default function MemberCard({ member, active, setActive }) {
   console.log('ens', ensName)
 
   return (
-    <Card as="button" key={member?.address} padding="6" level="1" onClick={() => setActive(member)} hover>
+    <button className={memberButton} key={member?.address} padding="6" level="1" onClick={() => setActive(member)} width="full">
       {member ? (
         <Stack>
           <Text>{isLoading || ensName === null ? truncateAddress(member?.address) : ensName}</Text>
@@ -28,6 +29,6 @@ export default function MemberCard({ member, active, setActive }) {
       ) : (
         <Spinner />
       )}
-    </Card>
+    </button>
   )
 }

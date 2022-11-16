@@ -4,6 +4,7 @@ import MemberCard from './MemberCard'
 
 export default function MembersList({ members, active, setActive }) {
   // TODO: Add search
+  console.log('active', active)
   return (
     <Stack>
       {members.map((member) => (
