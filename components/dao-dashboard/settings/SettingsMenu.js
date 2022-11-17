@@ -1,12 +1,23 @@
-import { ChevronRightIcon } from '@radix-ui/react-icons'
-import { Flex, Box, Text } from '../../../styles/elements'
-import { Stack, Button, IconChevronDown } from '@kalidao/reality'
+import { Stack, Button } from '@kalidao/reality'
 
 export default function SettingsMenu({ setting, setSetting }) {
+  const items = [
+    {
+      title: 'Governance',
+      value: 'gov',
+      active: setting === 'gov',
+    },
+    {
+      title: 'Documents',
+      value: 'legal',
+      active: setting === 'legal',
+    },
+  ]
+
   return (
     <Stack direction={'horizontal'}>
       {items.map((item) => (
-        <Button key={item.value} onClick={() => setSetting(item.value)} variant={'transparent'}>
+        <Button key={item.value} size="small" onClick={() => setSetting(item.value)} variant={item.active ? 'secondary' : 'transparent'}>
           {item.title}
         </Button>
       ))}
@@ -14,13 +25,3 @@ export default function SettingsMenu({ setting, setSetting }) {
   )
 }
 
-const items = [
-  {
-    title: 'Governance',
-    value: 'gov',
-  },
-  {
-    title: 'Documents',
-    value: 'legal',
-  },
-]

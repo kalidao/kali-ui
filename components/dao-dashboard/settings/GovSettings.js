@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flex } from '../../../styles/elements'
+import { Stack } from '@kalidao/reality'
 import { UpdateVotingPeriod, UpdateQuorum, GovMenu, ToggleTransfer } from '../newproposal/internal'
 import UpdateSupermajority from '../newproposal/internal/UpdateSupermajority'
 
@@ -28,5 +28,5 @@ export default function GovSettings() {
       component: <ToggleTransfer setView={setView} />,
     },
   ]
-  return <Flex>{views[view]['component']}</Flex>
+  return <>{views[view]['component']}</>
 }
