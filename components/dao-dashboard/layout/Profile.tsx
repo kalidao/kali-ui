@@ -1,4 +1,4 @@
-import { Avatar, Card, Heading, Skeleton, Spinner, Stack, Stat, Button, IconArrowRight } from '@kalidao/reality'
+import { Avatar, Box, Card, Heading, Skeleton, Spinner, Stack, Stat, Button, IconArrowRight } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { chain, useQuery } from 'wagmi'
 import { getDaoInfo } from '@graph/queries'
@@ -32,6 +32,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
         align={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'flex-start'}
         justify={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'space-between'}
       >
+        <Box width="full" display="flex" alignItems="center" justifyContent={"center"}>
         {isLoading ? (
           <Spinner />
         ) : (
@@ -49,6 +50,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
             </Stack>
           </Stack>
         )}
+        </Box>
         {router.asPath === `/daos/${chainId}/${address}` ? null : (
           <Link href={`/daos/${chainId}/${address}/`}>
             <Button size="small" variant="transparent">
