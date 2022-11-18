@@ -13,6 +13,7 @@ import Treasury from '@components/dao-dashboard/layout/Treasury'
 import Header from '@components/layout/Header'
 import Nav from '@components/dao-dashboard/layout/Nav'
 import Swap from '@components/dao-dashboard/layout/Swap'
+import Layout from '@components/layout'
 
 type Props = {
   title: string
@@ -26,13 +27,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
   const heading = `Kali | ${title}}`
 
   return (
-    <Box className={layout}>
-      <Head>
-        <title>{heading}</title>
-        <meta name="description" content={content} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
+    <Layout heading={heading} content={content}>
       <Box className={container}>
         <Stack>
           <Stack
@@ -53,7 +48,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
         </Stack>
       </Box>
       <Footer />
-    </Box>
+    </Layout>
   )
 }
 
