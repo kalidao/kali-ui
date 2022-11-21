@@ -288,7 +288,7 @@ export const NavigationMenuComponent = () => {
               <ContentListItem
                 title="Twitter"
                 icon={<FaTwitter />}
-                href="https://twitter.com/_KaliDAO"
+                href="https://twitter.com/kali__gg"
               ></ContentListItem>
               <ContentListItem title="GitHub" icon={<FaGithub />} href="https://github.com/kalidao/"></ContentListItem>
             </ContentList>
