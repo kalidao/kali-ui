@@ -41,16 +41,6 @@ globalStyle('*, ::before, ::after', {
   boxSizing: 'border-box',
 })
 
-globalStyle('html', {
-  fontSize: vars.fontSizes.root,
-  background: vars.colors.background,
-  color: vars.colors.foreground,
-  textRendering: 'optimizeLegibility',
-})
-
-globalStyle('body', {
-  margin: 0,
-})
 
 globalStyle('a', {
   textDecoration: 'none',

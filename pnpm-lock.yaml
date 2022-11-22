@@ -4,7 +4,7 @@ specifiers:
   '@ethersproject/constants': ^5.6.0
   '@ethersproject/providers': ^5.5.3
   '@fleekhq/fleek-storage-js': ^1.0.20
-  '@kalidao/reality': ^0.0.5
+  '@kalidao/reality': latest
   '@pinata/sdk': ^1.1.26
   '@radix-ui/colors': ^0.1.8
   '@radix-ui/react-accordion': ^0.1.6
@@ -64,7 +64,7 @@ dependencies:
   '@ethersproject/constants': 5.7.0
   '@ethersproject/providers': 5.7.1
   '@fleekhq/fleek-storage-js': 1.0.22
-  '@kalidao/reality': 0.0.5_sfoxds7t5ydpegc3knd667wn6m
+  '@kalidao/reality': 0.0.9-patch_sfoxds7t5ydpegc3knd667wn6m
   '@pinata/sdk': 1.1.26
   '@radix-ui/colors': 0.1.8
   '@radix-ui/react-accordion': 0.1.6_react@17.0.2
@@ -1978,12 +1978,14 @@ packages:
       '@pedrouid/environment': 1.0.1
     dev: false
 
-  /@kalidao/reality/0.0.5_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-C/wshcA/JgsCEqfSZgypl6EhpfcxiystGnQ6hmcMabn2hLoZ0370JwS1YcKFBLxLJ6TmN5X3ntAQsaVqeisViA==}
+  /@kalidao/reality/0.0.9-patch_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-0/lriI+LX/IWZkWvyBy6GKtS/3y3iORM6JvL0JuLcfkiTebn5SUeOpcte2BEJ2TQrvL+qsdFJsTivJuexGYXfA==}
     peerDependencies:
       react: ^17
       react-dom: ^17
     dependencies:
+      '@radix-ui/react-checkbox': 1.0.1_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-separator': 1.0.1_sfoxds7t5ydpegc3knd667wn6m
       '@vanilla-extract/css': 1.9.1
       '@vanilla-extract/css-utils': 0.1.2
       '@vanilla-extract/dynamic': 2.0.2
@@ -2426,6 +2428,25 @@ packages:
       '@radix-ui/react-use-previous': 0.1.1_react@17.0.2
       '@radix-ui/react-use-size': 0.1.1_react@17.0.2
       react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-checkbox/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-TisH0B8hWmYP3ONRduYCyN04rR9yLPIw/Rwyn1RoC1suSoGCa8Wn+YPdSSSarSszeIbcg3p2lBkDp2XXit4sZw==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@radix-ui/primitive': 1.0.0
+      '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
+      '@radix-ui/react-context': 1.0.0_react@17.0.2
+      '@radix-ui/react-presence': 1.0.0_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-primitive': 1.0.1_sfoxds7t5ydpegc3knd667wn6m
+      '@radix-ui/react-use-controllable-state': 1.0.0_react@17.0.2
+      '@radix-ui/react-use-previous': 1.0.0_react@17.0.2
+      '@radix-ui/react-use-size': 1.0.0_react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /@radix-ui/react-collapsible/0.1.6_react@17.0.2:
@@ -2874,6 +2895,18 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
+  /@radix-ui/react-primitive/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-fHbmislWVkZaIdeF6GZxF0A/NH/3BjrGIYj+Ae6eTmTCr7EB0RQAAVEiqsXK6p3/JcRqVSBQoceZroj30Jj3XA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@radix-ui/react-slot': 1.0.1_react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /@radix-ui/react-progress/0.1.4_react@17.0.2:
     resolution: {integrity: sha512-Q+H7r/S0HMlwVriksgyUgBtol5TgkNllQPVtaXDDaeJBNFK2uiToHBp3j1Gi88/4Fw+EKT+SyWpeM/5nVtGujw==}
     peerDependencies:
@@ -2953,6 +2986,18 @@ packages:
       - '@types/react'
     dev: false
 
+  /@radix-ui/react-separator/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-uc6Izot0D8uVz6T2nSb/HI7OaxkeaD50GgKr3W6HORnbfGVrG7LWuy+g6Fd58n8wHbrRblSYJZEfcjgymMlJjw==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@radix-ui/react-primitive': 1.0.1_sfoxds7t5ydpegc3knd667wn6m
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /@radix-ui/react-slider/0.1.4_react@17.0.2:
     resolution: {integrity: sha512-0z3bCcdrAi+FIcoLXS6r0ESVWuuyMnUJoCsFm7tC7Rtv95x34YtaI8YfSyQmzuMVS4rTsNtCCTZ/s727uRaVkQ==}
     peerDependencies:
@@ -2985,6 +3030,16 @@ packages:
 
   /@radix-ui/react-slot/1.0.0_react@17.0.2:
     resolution: {integrity: sha512-3mrKauI/tWXo1Ll+gN5dHcxDPdm/Df1ufcDLCecn+pnCIVcdWE7CujXo8QaXOWRJyZyQWWbpB8eFwHzWXlv5mQ==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@radix-ui/react-compose-refs': 1.0.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-slot/1.0.1_react@17.0.2:
+    resolution: {integrity: sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw==}
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:

@@ -12,7 +12,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
   const title = 'KALI - ' + heading
 
   return (
-    <div>
+    <Box>
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />
@@ -23,10 +23,10 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
-      <Box width="viewWidth">
+      <Box>
         <Header heading={heading} />
         {children}
       </Box>
-    </div>
+    </Box>
   )
 }

@@ -87,11 +87,7 @@ export default class Document extends NextDocument {
             key="font-style"
           />
         </Head>
-        <body
-          style={{
-            background: 'hsl(0, 0%, 8.5%)',
-          }}
-        >
+        <body>
           <Main />
           <NextScript />
         </body>

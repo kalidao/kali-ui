@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app'
-import '@design/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultWallets, RainbowKitProvider, darkTheme, DisclaimerComponent } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
@@ -9,7 +8,7 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
 import { xdai } from '@constants/chains'
-import { ThemeProvider } from '@kalidao/reality'
+import { ThemeProvider, vars } from '@kalidao/reality'
 import '@kalidao/reality/styles'
 
 const queryClient = new QueryClient()
@@ -56,7 +55,9 @@ const appInfo = {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  console.log('mode', vars.colors.background)
   return (
+    <ThemeProvider defaultMode='light' defaultAccent='violet'>
     <QueryClientProvider client={queryClient}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
@@ -69,13 +70,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           appInfo={appInfo}
           modalSize="compact"
         >
-          <ThemeProvider defaultAccent="violet" defaultMode="dark">
             <NextNProgress color="#5842c3" />
             <Component {...pageProps} />
-          </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 
