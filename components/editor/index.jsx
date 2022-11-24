@@ -1,32 +1,10 @@
 import { useEditor, EditorContent } from '@tiptap/react'
-import { css, styled } from '../../styles/stitches.config'
 import StarterKit from '@tiptap/starter-kit'
 
 import { BubbleMenu } from '@tiptap/react'
 import { FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons'
-
-import { Box } from '@kalidao/reality'
-
-const bubbles = css({
-  backgroundColor: '$mauve12',
-  borderRadius: '10px',
-  fontSize: '16px',
-  padding: '5px',
-})
-
-const Item = styled('button', {
-  border: 'none',
-  backgroundColor: 'none',
-  color: '$gray1',
-  padding: '5px',
-  borderRadius: '100%',
-  height: '30px',
-  width: '30px',
-
-  '&:hover': {
-    backgroundColor: '$mauve11',
-  },
-})
+import * as styles from './editor.css'
+import { Field, Button, Box } from '@kalidao/reality'
 
 export default function Editor({ setContent }) {
   const editor = useEditor({
@@ -45,28 +23,36 @@ export default function Editor({ setContent }) {
   return (
     <Box>
       {editor && (
-        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className={bubbles()}>
-          <Item
+        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className={styles.bubbles}>
+          <Button
+            shape="circle"
+            size="small"
+            variant="transparent"
             onClick={() => editor.chain().focus().toggleBold('bold').run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <FontBoldIcon />
-          </Item>
-          <Item
+          </Button>
+          <Button
+            shape="circle"
+            size="small"
+            variant="transparent"
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive('italic') ? 'is-active' : ''}
           >
             <FontItalicIcon />
-          </Item>
-          <Item
+          </Button>
+          <Button
+            shape="circle"
+            size="small"
+            variant="transparent"
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={editor.isActive('strike') ? 'is-active' : ''}
           >
             <StrikethroughIcon />
-          </Item>
+          </Button>
         </BubbleMenu>
       )}
-      <EditorContent editor={editor} />
+      <Field label="Description (Optional)">
+        <EditorContent className={styles.editor} editor={editor} />
+      </Field>
     </Box>
   )
 }

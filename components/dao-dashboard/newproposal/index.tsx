@@ -88,15 +88,15 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     },
     transferability: {
       title: 'Toggle Transferability',
-      component: <ToggleTransfer setView={setView} />,
+      component: <ToggleTransfer />,
     },
     votingPeriod: {
       title: 'Update Voting Period',
-      component: <UpdateVotingPeriod setView={setView} />,
+      component: <UpdateVotingPeriod />,
     },
     quorum: {
       title: 'Update Quorum',
-      component: <UpdateQuorum setView={setView} />,
+      component: <UpdateQuorum />,
     },
     // Create Asset Menu
     // FIXME: Commenting out till fixed

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
-import { Flex, Text, Button, Warning } from '@design/elements'
-import { Form, FormElement, Label, Input } from '@design/form-elements'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
-import { useRouter } from 'next/router'
+import { Warning } from '@design/elements'
+import { Stack, Text, Button, Input } from '@kalidao/reality'
+import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
-import { createProposal } from '../utils/'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 
 type EscapeProps = {
   dao: string
@@ -32,6 +31,17 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
   // TODO: Popup to change network if on different network from DAO
   const submit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    if (!dao || !chainId || !kill) return
+
+    if (!title) {
+      setWarning('You must provide a title')
+      return
+    }
+
+    if (!chainId) {
+      setWarning('Please connect your wallet')
+      return
+    }
 
     let docs
     try {
@@ -60,29 +70,16 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        maxWidth: '40vw',
-      }}
-    >
-      <Text
-        css={{
-          fontFamily: 'Regular',
-        }}
-      >
-        Proposals get stuck sometimes. All we gotta do is remove faulty proposal from the proposal queue, and re-submit
-        a valid proposal.{' '}
-      </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="type">Proposal to Kill</Label>
-          <Input disabled={true} defaultValue={kill} />
-        </FormElement>
-        {warning !== '' && <Warning warning={warning} />}
-        <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+    <Stack>
+      <Stack direction={'horizontal'}>
+        <Text>This action will create a proposal to delete</Text>
+        <Text weight={'bold'} color="red">
+          proposal #{kill}
+        </Text>
+        <Text>and remove it from the queue.</Text>
+      </Stack>
+      {warning !== '' && <Warning warning={warning} />}
+      <Button onClick={submit}>Confirm</Button>
+    </Stack>
   )
 }
