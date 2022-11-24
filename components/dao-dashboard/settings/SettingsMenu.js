@@ -17,11 +17,15 @@ export default function SettingsMenu({ setting, setSetting }) {
   return (
     <Stack direction={'horizontal'}>
       {items.map((item) => (
-        <Button key={item.value} size="small" onClick={() => setSetting(item.value)} variant={item.active ? 'secondary' : 'transparent'}>
+        <Button
+          key={item.value}
+          size="small"
+          onClick={() => setSetting(item.value)}
+          variant={item.active ? 'secondary' : 'transparent'}
+        >
           {item.title}
         </Button>
       ))}
     </Stack>
   )
 }
-

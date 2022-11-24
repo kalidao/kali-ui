@@ -32,24 +32,24 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
         align={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'flex-start'}
         justify={router.asPath === `/daos/${chainId}/${address}` ? 'center' : 'space-between'}
       >
-        <Box width="full" display="flex" alignItems="center" justifyContent={"center"}>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Stack align="center" justify={'center'}>
-            <Avatar src="" label="dao profile pic" address={address as string} size="32" />
-            <Heading>
-              {info?.token?.name} ({info?.token?.symbol})
-            </Heading>
-            <Stack direction={'horizontal'}>
-              <Stat
-                label="Total Supply"
-                value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null}
-              />
-              <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+        <Box width="full" display="flex" alignItems="center" justifyContent={'center'}>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Stack align="center" justify={'center'}>
+              <Avatar src="" label="dao profile pic" address={address as string} size="32" />
+              <Heading>
+                {info?.token?.name} ({info?.token?.symbol})
+              </Heading>
+              <Stack direction={'horizontal'}>
+                <Stat
+                  label="Total Supply"
+                  value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null}
+                />
+                <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+              </Stack>
             </Stack>
-          </Stack>
-        )}
+          )}
         </Box>
         {router.asPath === `/daos/${chainId}/${address}` ? null : (
           <Link href={`/daos/${chainId}/${address}/`}>

@@ -1,21 +1,22 @@
 .ProseMirror {
-    min-width: 39vw;
+    all: 'unset';
+    /* min-width: 39vw;
     min-height: 5rem;
     background: #1c1c1c;
     outline: 1px solid #232323;
     color: #ededed;
     padding: 8px;
     border-radius: 10px;
-    font-family: 'Regular';
+    font-family: 'Regular'; */
 }
 
 .ProseMirror:hover {
-    outline: 1px solid #282828;
+    all: 'unset';
+  
 }
 
 .ProseMirror:focus-visible {
     outline: none;
-    outline: 1px solid #282828;
 }
 
 

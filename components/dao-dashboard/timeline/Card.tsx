@@ -8,6 +8,7 @@ import { useFetch } from '../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 import { linkStyle, proposalCard } from './ProposalCard.css'
 import { isURL } from '@utils/proposals'
+import Description from '../proposal/page/Description'
 
 type Status = {
   text: string
@@ -38,7 +39,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   } = useFetch(
     url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
   )
-
+  console.log('details', details)
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
 
   const currentStatus = (): Status => {
@@ -112,13 +113,11 @@ export default function ProposalCard({ proposal }: PropCardProp) {
               {text}
             </Tag>
           </Box>
-          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
-            {isSchema
-              ? 'Expand to read'
-              : proposal['description'].length == 0
-              ? 'No description.'
-              : proposal['description']}
-          </Text>
+          <Description
+            description={details ? details?.description : proposal?.description}
+            isSchema={details ? true : false}
+            short
+          />
         </a>
       </Link>
       <Box display="flex">

@@ -57,7 +57,7 @@ export default function ProposalView({ proposal }: Props) {
         </Heading>
         <Tag>{proposal['proposalType']}</Tag>
       </Stack>
-      <InfoBar proposal={proposal} />
+      <InfoBar proposalId={Number(proposalId)} proposer={proposal['proposer']} />
       <Stack
         direction={{
           xs: 'vertical',

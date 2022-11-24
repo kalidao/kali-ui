@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { Escape } from '@components/dao-dashboard/newproposal/internal'
-import { Button, Flex } from '@design/elements'
-import { Label, Input } from '@design/form-elements'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { Button, Input, Text, Stack, Card } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import { useEditor } from '@tiptap/react'
-import styles from '@components/editor/editor.module.css'
 import Editor from '@components/editor'
-import StarterKit from '@tiptap/starter-kit'
 import { NextPage } from 'next'
+import Back from '@design/proposal/Back'
 
 const DeleteProposalPage: NextPage = () => {
   const router = useRouter()
@@ -24,70 +20,35 @@ const DeleteProposalPage: NextPage = () => {
   const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    router.push(`/daos/${chainId}/${dao}/${proposalId}`)
+    router.push(`/daos/${chainId}/${dao}/proposals/${proposalId}`)
   }
 
   return (
     <Layout title={`Delete Proposal #${proposalId} `} content="Delete the proposal to remove it from the queue.">
-      <Flex
-        dir="col"
-        gap="md"
-        css={{
-          padding: '20px',
-          flexDirection: 'column',
-          height: '100%',
-          minWidth: '80vw',
-          color: '$gray12',
-          // borderLeft: '1px solid hsla(0, 0%, 90%, 0.1)',
-          gap: '10px',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          fontFamily: 'Regular',
-        }}
-      >
-        <Button
-          variant="transparent"
-          effect="film"
-          css={{
-            position: 'absolute',
-            left: '2rem',
-            color: '$gray100',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '0.2em',
-            maxWidth: '5em',
-            fontWeight: '500',
-          }}
-          onClick={goBack}
-        >
-          <ArrowLeftIcon />
-          Back
-        </Button>
-        <Flex dir="col" gap="sm">
-          <Label>Title</Label>
-          <Input
-            name="id"
-            maxLength={30}
-            placeholder={'Proposal for...'}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-            css={{
-              minWidth: '39vw',
-            }}
-          />
-        </Flex>
-        <Flex dir="col" gap="sm">
-          <Label>Description (Optional)</Label>
-          <Editor setContent={setContent} />
-        </Flex>
-        <Escape
-          dao={dao as string}
-          chainId={Number(chainId)}
-          title={title}
-          content={content}
-          kill={Number(proposalId)}
-        />
-      </Flex>
+      <Card padding="6">
+        <Stack direction={'horizontal'} align="flex-start" justify={'center'}>
+          <Back onClick={goBack} />
+          <Stack>
+            <Input
+              label="Title"
+              name="id"
+              maxLength={30}
+              placeholder={'Proposal for...'}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+              required
+            />
+            <Text variant="label">Description (Optional)</Text>
+            <Editor setContent={setContent} />
+            <Escape
+              dao={dao as string}
+              chainId={Number(chainId)}
+              title={title}
+              content={content}
+              kill={Number(proposalId)}
+            />
+          </Stack>
+        </Stack>
+      </Card>
     </Layout>
   )
 }
