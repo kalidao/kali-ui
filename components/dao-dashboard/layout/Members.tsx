@@ -6,6 +6,7 @@ import { getMembers } from '@graph/queries'
 import { truncateAddress } from '@utils/truncateAddress'
 import { formatEther } from 'ethers/lib/utils'
 import { useMemo } from 'react'
+import { fetcher } from '@utils/fetcher'
 
 const Members = () => {
   const router = useRouter()
@@ -63,15 +64,15 @@ const Member = ({ address, shares }: { address: string; shares: string }) => {
   const { data: ensName } = useEnsName({
     address: address,
   })
-  const { data: ensAvatar } = useEnsAvatar({
-    addressOrName: address,
-  })
+  const { data: profile, isLoading } = useQuery(['memberDashboardCard', address], () =>
+    fetcher(`/api/users/${address}`),
+  )
 
   return (
     <Stack direction={'horizontal'} align="center">
       <Avatar
-        src={ensAvatar ? ensAvatar : ''}
-        placeholder={ensAvatar ? false : true}
+        src={profile?.handle ? profile?.handle : truncateAddress(address)}
+        placeholder={profile?.picture?.original?.url}
         address={address}
         label={`${address} picture`}
       />

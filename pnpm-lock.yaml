@@ -35,6 +35,7 @@ specifiers:
   '@vanilla-extract/next-plugin': ^2.1.0
   '@walletconnect/web3-provider': ^1.7.1
   '@web3auth/web3auth': ^1.0.0
+  axios: ^1.2.0
   emailjs-com: ^3.2.0
   eslint: 8.7.0
   eslint-config-next: 12.0.8
@@ -92,6 +93,7 @@ dependencies:
   '@vanilla-extract/css-utils': 0.1.2
   '@walletconnect/web3-provider': 1.8.0_@babel+core@7.19.3
   '@web3auth/web3auth': 1.2.4_@babel+runtime@7.19.0
+  axios: 1.2.0
   emailjs-com: 3.2.0
   ethers: 5.7.1
   framer-motion: 5.6.0_sfoxds7t5ydpegc3knd667wn6m
@@ -5592,6 +5594,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.2.0:
+    resolution: {integrity: sha512-zT7wZyNYu3N5Bu0wuZ6QccIf93Qk1eV8LOewxgjOZFd2DenOs98cJ7+Y6703d0wkaXGY6/nZd4EweJaHz9uzQw==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
@@ -10807,6 +10819,10 @@ packages:
       prosemirror-model: 1.18.1
       prosemirror-state: 1.4.1
       prosemirror-transform: 1.7.0
+    dev: false
+
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
   /prr/1.0.1:

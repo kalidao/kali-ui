@@ -5,6 +5,7 @@ import Layout from '@components/layout'
 import { Box, Button } from '@kalidao/reality'
 import DeployDaoWrapper from '@components/deploy-dao'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import Back from '@design/proposal/Back'
 
 const CreatePage: NextPage = () => {
   const router = useRouter()
@@ -12,6 +13,10 @@ const CreatePage: NextPage = () => {
   useEffect(() => {
     router.prefetch('/')
   })
+
+  const goto = () => {
+    router.push('/')
+  }
 
   return (
     <Layout heading="Create" content="Create a Kali DAO.">
@@ -23,10 +28,9 @@ const CreatePage: NextPage = () => {
         height="10"
         gap="3"
         width="viewWidth"
+        padding="6"
       >
-        <Button variant="transparent" shape="circle" as="a" href="/">
-          <ArrowLeftIcon />
-        </Button>
+        <Back onClick={goto} />
         <Box width="viewWidth">
           <DeployDaoWrapper />
         </Box>

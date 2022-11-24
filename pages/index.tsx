@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
-import { Heading, Text, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
+import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
+import * as styles from '@design/landing.css'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
@@ -30,33 +31,22 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="viewHeight"
-        gap="3"
-        width="viewWidth"
-      >
-        <Heading>Form a DAO. Enjoy true ownership.</Heading>
-        <Text
-          size={{
-            xs: 'small',
-            sm: 'small',
-          }}
-        >
-          DAOs are a new operating system for organizing online.
-        </Text>
-        <Text>Commit with code and reduce legal spend.</Text>
-        <Box display="flex" gap="2">
-          <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
-            Create
-          </Button>
-          <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
-            Explore
-          </Button>
-        </Box>
+      <Box className={styles.container}>
+        <Stack space="12">
+          <Box>
+            <h1 className={styles.heading}>Form.</h1>
+            <h1 className={styles.heading}>Govern.</h1>
+            <h1 className={styles.heading}>Organize.</h1>
+          </Box>
+          <Box display="flex" gap="2">
+            <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
+              Create
+            </Button>
+            <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
+              Explore
+            </Button>
+          </Box>
+        </Stack>
       </Box>
       <UserDAOs />
     </Layout>

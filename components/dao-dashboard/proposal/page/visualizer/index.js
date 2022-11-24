@@ -12,9 +12,12 @@ import Escape from './Escape'
 import Docs from './Docs'
 import Call from './Call'
 import { Box } from '@kalidao/reality'
+import { useRouter } from 'next/router'
 
 export default function Visualizer({ proposal }) {
-  console.log(proposal)
+  const router = useRouter()
+  const { dao, chainId } = router.query
+
   let heading, component
   switch (proposal?.proposalType) {
     case 'MINT':
@@ -51,7 +54,7 @@ export default function Visualizer({ proposal }) {
       break
     case 'PAUSE':
       heading = 'Update Token Transferability'
-      component = <Pause amount={proposal?.amounts?.[0]} />
+      component = <Pause dao={dao.toString()} chainId={Number(chainId)} />
       break
     case 'EXTENSION':
       heading = 'Update Extension'
@@ -63,7 +66,7 @@ export default function Visualizer({ proposal }) {
       break
     case 'DOCS':
       heading = 'Update Docs'
-      component = <Docs amount={proposal?.description} />
+      component = <Docs docs={proposal?.description} />
       break
   }
 

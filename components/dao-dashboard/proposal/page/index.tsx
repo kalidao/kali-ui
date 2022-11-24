@@ -54,6 +54,7 @@ export default function ProposalView({ proposal }: Props) {
         <Heading responsive>
           {`#${proposalId} `}
           {details && details?.title}
+          {proposal?.['proposalType'] === 'DOCS' && 'Update Docs'}
         </Heading>
         <Tag>{proposal['proposalType']}</Tag>
       </Stack>
@@ -65,7 +66,7 @@ export default function ProposalView({ proposal }: Props) {
         }}
       >
         <Stack>
-          {proposal && (
+          {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
               description={details ? details?.description : proposal?.description}
               isSchema={details ? true : false}

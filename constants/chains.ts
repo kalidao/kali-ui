@@ -1,4 +1,5 @@
 import { Chain } from 'wagmi'
+import ALL_CHAINS from './chains.json'
 
 interface Icon {
   iconUrl: string
@@ -22,3 +23,30 @@ export const xdai: Chain & Icon = {
   testnet: false,
   iconUrl: '/chains/xdai.png',
 }
+
+interface ChainType {
+  name: string
+  chain: string
+  rpc: string[]
+  faucets: []
+  nativeCurrency: {
+    name: string
+    symbol: string
+    decimals: number
+  }
+  infoURL: string
+  shortName: string
+  chainId: number
+  networkId: number
+  icon: string
+  explorers: [
+    {
+      name: string
+      url: string
+      icon: string
+      standard: string
+    },
+  ]
+}
+
+export const chains = ALL_CHAINS
