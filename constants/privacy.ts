@@ -31,4 +31,4 @@ We reserve the right to update or change our Privacy Policy at any time and you 
 
 ## Contact Information
 
-For any questions or concerns regarding this privacy policy, please send us an email to `contact@kali.gg`.
+For any questions or concerns regarding this privacy policy, please send us an email at "contact@kali.gg".`
