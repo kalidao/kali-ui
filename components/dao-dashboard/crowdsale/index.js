@@ -1,14 +1,10 @@
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useContract, useSigner, useAccount, useBalance } from 'wagmi'
-import { styled } from '../../../styles/stitches.config'
 import Swap from './Swap'
 import Approve from './Approve'
-import DAO_ABI from '../../../abi/KaliDAO.json'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import ACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
 import { useEffect, useState } from 'react'
-// import { Input } from '../../../styles/form-elements'
-import { ArrowDownIcon } from '@radix-ui/react-icons'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
 import { addresses } from '../../../constants/addresses'
@@ -16,12 +12,8 @@ import Info from './Info'
 import Background from './Background'
 import History from './History'
 import { fetchPurchasers } from './fetchPurchasers'
-import { Stack, Text, Box, Input, Heading } from '@kalidao/reality'
-import { Checkbox } from '@radix-ui/react-checkbox'
+import { Stack, Text, Box, Input, Heading, IconArrowDown } from '@kalidao/reality'
 
-const Arrow = styled(ArrowDownIcon, {
-  color: 'White',
-})
 export default function Crowdsale({ info }) {
   const router = useRouter()
   const { dao, chainId } = router.query
@@ -347,7 +339,7 @@ export default function Crowdsale({ info }) {
                     />
                   </Stack>
                   <Stack align="center">
-                    <Arrow />
+                    <IconArrowDown />
                   </Stack>
                   <Stack align="center">
                     <Input

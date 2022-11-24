@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { styled } from '../../styles/stitches.config'
-import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from '../../styles/animation'
+import { slideDownAndFade, slideLeftAndFade, slideUpAndFade, slideRightAndFade } from '../../styles/animation.css'
 import { QuestionMarkIcon } from '@radix-ui/react-icons'
 
 const Content = styled(Tooltip.Content, {

@@ -1,4 +1,4 @@
-import { keyframes } from './stitches.config'
+import { keyframes } from '@vanilla-extract/css'
 
 export const pulse = keyframes({
   '0%': {

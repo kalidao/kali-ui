@@ -101,7 +101,7 @@ type NavCardProps = {
 const NavCard = ({ title, href, icon, active }: NavCardProps) => {
   return (
     <Link href={href} passHref>
-      <Box as="a" className={navItem} backgroundColor={active ? 'accent' : 'black'}>
+      <Box as="a" className={navItem} backgroundColor={active ? 'accentSecondary' : 'background'}>
         {icon}
         <Heading>{title}</Heading>
       </Box>

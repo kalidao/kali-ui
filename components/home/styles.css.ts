@@ -2,13 +2,12 @@ import { vars } from '@kalidao/reality'
 import { style } from '@vanilla-extract/css'
 
 export const card = style({
-  backgroundColor: vars.colors.background,
+  backgroundColor: vars.colors.backgroundSecondary,
   borderRadius: vars.radii['2xLarge'],
   borderWidth: vars.borderWidths['0.5'],
-  borderColor: vars.colors.background,
+  borderColor: vars.colors.backgroundSecondary,
 
   ':hover': {
-    backgroundColor: vars.colors.accent,
-    borderColor: vars.colors.accent,
+    borderColor: vars.colors.accentSecondaryHover,
   },
 })

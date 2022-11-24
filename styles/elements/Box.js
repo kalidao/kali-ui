@@ -1,5 +1,5 @@
 import { styled } from '../stitches.config'
-import { bounce } from '../animation'
+import { bounce } from '../animation.css'
 
 const Box = styled('div', {
   variants: {

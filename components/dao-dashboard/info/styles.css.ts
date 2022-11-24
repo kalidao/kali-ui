@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '@kalidao/reality'
 
 export const container = style({
-  background: vars.colors.black,
+  background: vars.colors.background,
   width: vars.space.full,
   padding: vars.space['6'],
   borderRadius: vars.radii['2xLarge'],

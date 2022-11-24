@@ -1,7 +1,13 @@
 import type { AppProps } from 'next/app'
 import '@design/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultWallets, RainbowKitProvider, darkTheme, DisclaimerComponent } from '@rainbow-me/rainbowkit'
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  darkTheme,
+  DisclaimerComponent,
+  lightTheme,
+} from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
@@ -62,14 +68,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RainbowKitProvider
           coolMode
           chains={chains}
-          theme={darkTheme({
-            accentColor: 'hsl(250, 51.8%, 51.2%)',
+          theme={lightTheme({
             accentColorForeground: '#ededed',
           })}
           appInfo={appInfo}
           modalSize="compact"
         >
-          <ThemeProvider defaultAccent="violet" defaultMode="dark">
+          <ThemeProvider defaultAccent="violet" defaultMode="light">
             <NextNProgress color="#5842c3" />
             <Component {...pageProps} />
           </ThemeProvider>

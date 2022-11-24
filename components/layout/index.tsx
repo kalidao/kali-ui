@@ -12,7 +12,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
   const title = 'KALI - ' + heading
 
   return (
-    <div>
+    <Box>
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />
@@ -27,6 +27,6 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <Header heading={heading} />
         {children}
       </Box>
-    </div>
+    </Box>
   )
 }

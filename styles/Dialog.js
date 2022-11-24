@@ -1,7 +1,7 @@
 import { styled, keyframes } from './stitches.config'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { pulse, contentShow, overlayShow } from './animation'
+import { pulse, contentShow, overlayShow } from './animation.css'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backdropFilter: 'blur(100px) contrast(0.9)',
