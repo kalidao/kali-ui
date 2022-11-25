@@ -6,6 +6,7 @@ import { arrow, icon, content, item, itemLink, label, separator } from './menu.c
 import { useIsMounted } from '@components/hooks/useIsMounted'
 import { useThemeStore } from '@components/hooks/useThemeStore'
 import { setThemeMode } from '@utils/cookies'
+import { ReactNodeNoStrings } from '@kalidao/reality/dist/types/types'
 
 export const Menu = () => {
   const isMounted = useIsMounted()
@@ -23,29 +24,18 @@ export const Menu = () => {
     <Box>
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger asChild>
-          <Button shape="circle" variant="transparent">
+          <Button shape="circle" variant="secondary" tone="background">
             <IconMenu aria-label="Menu" className={icon} />
           </Button>
         </DropdownMenuPrimitive.Trigger>
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.Content className={content}>
-            <Item label="Getting Started" href="/" />
-            <Item label="Services" href="/services" />
+            <Item label="Getting Started" href="/" isExternal={false} />
+            <Item label="Services" href="/services" isExternal={false} />
             <Item
               type="button"
-              label={
-                mode === 'dark' ? (
-                  <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-                    <IconSun />
-                    <Text>Light</Text>
-                  </Stack>
-                ) : (
-                  <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-                    <IconMoon />
-                    <Text>Dark</Text>
-                  </Stack>
-                )
-              }
+              icon={mode === 'dark' ? <IconSun /> : <IconMoon />}
+              label={mode === 'dark' ? 'Light' : 'Dark'}
               onClick={toggleMode}
             />
             <DropdownMenuPrimitive.Separator className={separator} />
@@ -86,24 +76,27 @@ export const Menu = () => {
 }
 
 type ItemProps = {
+  icon?: ReactNodeNoStrings
   label: React.ReactNode
   href?: string
+  isExternal?: boolean
   type?: 'button' | 'link'
   onClick?: () => void
 }
 
-export const Item = ({ type = 'link', label, href, onClick }: ItemProps) => {
+export const Item = ({ type = 'link', label, href, onClick, icon, isExternal = true }: ItemProps) => {
   if (type === 'button') {
     return (
-      <Box as="button" onClick={onClick} className={itemLink}>
-        <DropdownMenuPrimitive.Item className={item}>{label}</DropdownMenuPrimitive.Item>
-      </Box>
+      <Button onClick={onClick} variant="transparent" size="small" width="full" prefix={icon}>
+        <DropdownMenuPrimitive.Item>{label}</DropdownMenuPrimitive.Item>
+      </Button>
     )
   }
-
   return (
-    <a href={href} target="_blank" className={itemLink}>
-      <DropdownMenuPrimitive.Item className={item}>{label}</DropdownMenuPrimitive.Item>
+    <a href={href} target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noreferrer noopener" : ""} className={itemLink}>
+      <DropdownMenuPrimitive.Item className={item}>
+        <Text>{label}</Text>
+      </DropdownMenuPrimitive.Item>
     </a>
   )
 }

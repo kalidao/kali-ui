@@ -22,12 +22,12 @@ export const item = style({
   borderRadius: vars.radii.large,
   display: 'flex',
   alignItems: 'center',
-  height: 25,
+  height: vars.space[10],
   padding: vars.space[1],
   position: 'relative',
   paddingLeft: vars.space[6],
   userSelect: 'none',
-
+ 
   ':hover': {
     color: vars.colors.foreground,
     background: vars.colors.backgroundTertiary,
@@ -63,6 +63,7 @@ export const label = style({
   fontSize: vars.fontSizes.base,
   lineHeight: vars.lineHeights[2],
   color: vars.colors.accent,
+  width: vars.space.full
 })
 
 export const itemLink = style({
