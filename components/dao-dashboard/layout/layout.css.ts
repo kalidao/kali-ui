@@ -14,6 +14,7 @@ export const header = style({
   alignItems: 'center',
   justifyContent: 'flex-end',
   zIndex: 10,
+  gap: vars.space['2'],
   position: 'relative',
 })
 

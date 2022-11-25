@@ -49,15 +49,33 @@ export const icon = style({
   position: 'relative',
   color: vars.colors.foreground,
   top: 1,
-  transition: 'transform 250ms ease',
 
   selectors: {
     '&[data-state=open]': {
-      transform: 'rotate(-90deg)',
+        transform: 'rotate(-90deg)',
+        transition: 'transform 250ms ease',
     },
   },
 })
 
+export const trigger = style({
+  all: 'unset',
+  fontFamily: vars.fonts.sans,
+  lineHeight: vars.lineHeights.normal,
+  padding: vars.space[3],
+  borderRadius: vars.radii.full,
+
+  ':hover': {
+    backgroundColor: vars.colors.accentSecondaryHover,
+  },
+  transition: 'transform 250ms ease',
+  selectors: {
+    '&[data-state=open]': {
+      backgroundColor: vars.colors.accentSecondary,
+      transform: 'rotate(-90deg)',
+    },
+  }
+})
 export const label = style({
   paddingLeft: vars.space[6],
   fontSize: vars.fontSizes.base,

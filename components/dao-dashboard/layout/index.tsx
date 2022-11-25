@@ -1,10 +1,7 @@
 import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Box, Button, IconGrid, Stack } from '@kalidao/reality'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Box, Stack } from '@kalidao/reality'
 import Head from 'next/head'
-import { layout, dashboardHeader, container } from './layout.css'
+import { layout, container } from './layout.css'
 import Footer from '@components/dao-dashboard/layout/Footer'
 import Members from '@components/dao-dashboard/layout/Members'
 import Profile from '@components/dao-dashboard/layout/Profile'
@@ -12,7 +9,6 @@ import Wrappr from '@components/dao-dashboard/layout/Wrappr'
 import Treasury from '@components/dao-dashboard/layout/Treasury'
 import Header from '@components/layout/Header'
 import Nav from '@components/dao-dashboard/layout/Nav'
-import Swap from '@components/dao-dashboard/layout/Swap'
 
 type Props = {
   title: string
@@ -23,7 +19,7 @@ type Props = {
 const DashboardLayout = ({ title, content, children }: Props) => {
   const router = useRouter()
   const { chainId, dao } = router.query
-  const heading = `Kali | ${title}}`
+  const heading = `Kali | ${title}`
 
   return (
     <Box className={layout}>

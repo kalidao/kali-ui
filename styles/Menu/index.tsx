@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Box, Button, IconMenu, IconMoon, IconSun, Stack, Text, useTheme } from '@kalidao/reality'
 import { TwitterLogoIcon, GitHubLogoIcon, DiscordLogoIcon } from '@radix-ui/react-icons'
-import { arrow, icon, content, item, itemLink, label, separator } from './menu.css'
+import { arrow, icon, content, item, itemLink, label, trigger, separator } from './menu.css'
 import { useIsMounted } from '@components/hooks/useIsMounted'
 import { useThemeStore } from '@components/hooks/useThemeStore'
 import { setThemeMode } from '@utils/cookies'
@@ -23,8 +23,8 @@ export const Menu = () => {
   return (
     <Box>
       <DropdownMenuPrimitive.Root>
-        <DropdownMenuPrimitive.Trigger asChild>
-          <Button shape="circle" variant="secondary" tone="background">
+        <DropdownMenuPrimitive.Trigger asChild className={trigger}>
+          <Button shape="circle">
             <IconMenu aria-label="Menu" className={icon} />
           </Button>
         </DropdownMenuPrimitive.Trigger>
