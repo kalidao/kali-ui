@@ -33,7 +33,7 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
             <Stack>
               <Text size="base">{profile?.bio}</Text>
               <Stack direction={'horizontal'}>
-                <a href={getExplorerLink(Number(chainId), 'ADDRESS', member?.address)} target="_blank">
+                <a href={getExplorerLink(Number(chainId), 'ADDRESS', member?.address)} target="_blank" rel="noreferrer">
                   <IconEth />
                 </a>
               </Stack>

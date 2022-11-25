@@ -13,7 +13,7 @@ import {
 export default function SwitchChain({ chainId }) {
   const { chains, switchNetwork } = useNetwork()
   const chain = chains.find((c) => c.id == chainId)
-  console.log('chain', chain)
+
   return (
     <AlertDialog defaultOpen={true}>
       <AlertDialogContent>

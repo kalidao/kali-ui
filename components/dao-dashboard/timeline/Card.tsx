@@ -4,11 +4,12 @@ import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
-import { useFetch } from '../../hooks/useFetch'
 import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
 import { linkStyle, proposalCard } from './ProposalCard.css'
 import { isURL } from '@utils/proposals'
 import Description from '../proposal/page/Description'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '@utils/fetcher'
 
 type Status = {
   text: string
@@ -31,15 +32,20 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   // const url = isURL(proposal?.description)
 
   const url = `https://content.wrappr.wtf/ipfs/${proposal?.description.substring(7)}`
-
   const {
     data: details,
     isLoading,
     error,
-  } = useFetch(
-    url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
+  } = useQuery(['proposalDetails', url, proposal], async () =>
+    fetcher(
+      url
+        ? proposal?.description
+        : isSchema
+        ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}`
+        : null,
+    ),
   )
-  console.log('details', details)
+
   const proposer = ensName.data != null ? ensName.data : truncateAddress(proposal['proposer'])
 
   const currentStatus = (): Status => {

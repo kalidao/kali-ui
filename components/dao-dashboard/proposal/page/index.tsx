@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Button, Heading, Stack, Text, Tag, IconClose } from '@kalidao/reality'
 import InfoCard from './InfoCard'
 import Results from './Results'
-import Votes from './Votes'
 import Description from './Description'
 import Vote from '../vote'
 import InfoBar from '../InfoBar'
@@ -12,7 +11,8 @@ import Cancel from '../Cancel'
 import Process from '../Process'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
-import { useFetch } from '../../../hooks/useFetch'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '@utils/fetcher'
 
 type Props = {
   proposal: any
@@ -25,13 +25,18 @@ export default function ProposalView({ proposal }: Props) {
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
   // const url = isURL(proposal?.description)
   const url = `https://content.wrappr.wtf/ipfs/${proposal?.description}`
-
   const {
     data: details,
     isLoading,
     error,
-  } = useFetch(
-    url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
+  } = useQuery(['proposalDetails', url, proposal], async () =>
+    fetcher(
+      url
+        ? proposal?.description
+        : isSchema
+        ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}`
+        : null,
+    ),
   )
 
   const canProcess = () => {

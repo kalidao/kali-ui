@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContractWrite, erc20ABI, useContractRead } from 'wagmi'
-import { Label } from '@design/form-elements'
-import { Select } from '@design/form-elements/Select'
+import { Select } from '@design/Select'
 import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { tokens } from '@constants/tokens'
@@ -114,17 +113,18 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   return (
     <Stack>
       <FieldSet legend="Send ERC20 tokens" description={`Send ERC20 tokens from ${daoName} treasury`}>
-        <Label htmlFor="type">Asset</Label>
         <Select
           name="type"
+          label="Asset"
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
           defaultValue={type}
-        >
-          <Select.Item value="dai">DAI</Select.Item>
-          <Select.Item value="usdc">USDC</Select.Item>
-          <Select.Item value="weth">WETH</Select.Item>
-          <Select.Item value="custom">Custom</Select.Item>
-        </Select>
+          options={[
+            { value: 'dai', label: 'DAI' },
+            { value: 'usdc', label: 'USDC' },
+            { value: 'weth', label: 'WETH' },
+            { value: 'custom', label: 'Custom' },
+          ]}
+        />
         {type === 'custom' && (
           <Input
             label="ERC20 Contract Address"

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Text, Box, Heading } from '@kalidao/reality'
-import { Progress, ProgressIndicator } from '../../styles/Progress'
+import { Progress } from '@design/Progress/index'
 import Identity from './Identity'
 import Governance from './Governance'
 import Redemption from './Redemption'
@@ -25,12 +25,16 @@ createStore({
   redemptionStart: new Date(),
   crowdsale: false,
   purchaseToken: 'eth',
+  customTokenAddress: '',
   purchaseLimit: 10000,
   personalLimit: 100,
   purchaseMultiplier: 10,
   crowdsaleEnd: new Date(),
   legal: false,
   docType: 'none',
+  email: '',
+  mission: '',
+  existingDocs: '',
   founders: [
     {
       member: '',
@@ -101,9 +105,10 @@ export default function DeployDaoWrapper() {
           <Toggle />
         </Box>
         <Text>{steps[step]['description']}</Text>
-        <Progress value={(step / (steps.length - 1)) * 100}>
+        {/* <Progress value={(step / (steps.length - 1)) * 100}>
           <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
-        </Progress>
+        </Progress> */}
+        <Progress value={(step / (steps.length - 1)) * 100} />
         {steps[step]['component']}
       </Box>
     </StateMachineProvider>

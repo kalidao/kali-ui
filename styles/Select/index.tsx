@@ -2,6 +2,7 @@ import * as styles from './select.css'
 import { Field, Box } from '@kalidao/reality'
 
 type Props = {
+  name?: string
   label: string
   error?: string
   options: Array<{ label: string; value: string }>
@@ -10,13 +11,14 @@ type Props = {
   disabled?: boolean
 }
 
-export function Select({ label, disabled, error, options, onChange, defaultValue }: Props) {
+export function Select({ name, label, disabled, error, options, onChange, defaultValue }: Props) {
   const hasError = error ? true : undefined
 
   return (
     <Field label={label}>
       <Box
         as="select"
+        name={name}
         className={[styles.select, disabled && styles.disabled, hasError && styles.error]}
         onChange={onChange}
         disabled={disabled}

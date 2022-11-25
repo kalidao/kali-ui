@@ -68,17 +68,18 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     // }
   ]
 
-  if (!isSwapLoading && !isSwapError && swap) {
-    if (swap?.saleEnds < Date.now()) {
-      items.push({
-        id: items.length + 1,
-        title: 'Swap',
-        icon: <IconTokens size={itemSize} color={itemColor} />,
-        href: `/daos/${chainId}/${address}/swap`,
-        active: router.asPath === `/daos/${chainId}/${address}/swap` ? true : false,
-      })
-    }
-  }
+  // TODO
+  // if (!isSwapLoading && !isSwapError && swap) {
+  //   if (swap?.saleEnds < Date.now()) {
+  //     items.push({
+  //       id: items.length + 1,
+  //       title: 'Swap',
+  //       icon: <IconTokens size={itemSize} color={itemColor} />,
+  //       href: `/daos/${chainId}/${address}/swap`,
+  //       active: router.asPath === `/daos/${chainId}/${address}/swap` ? true : false,
+  //     })
+  //   }
+  // }
 
   return (
     <Card padding="6" width="full">

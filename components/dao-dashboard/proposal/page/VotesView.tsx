@@ -9,7 +9,6 @@ type Props = {
 }
 
 export default function VotesView({ votes }: Props) {
-  console.log('votes', votes)
   return (
     <Stack>
       {votes?.map((vote: any) => {

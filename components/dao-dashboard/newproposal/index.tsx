@@ -14,8 +14,6 @@ import {
   InternalMenu,
 } from './internal'
 import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
-import { AssetMenu } from './mint'
-import MintReal from './mint/MintReal'
 import UpdateCrowdsale from './apps/UpdateCrowdsale'
 import RemoveCrowdsale from './apps/RemoveCrowdsale'
 
@@ -45,10 +43,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     sendMenu: {
       title: 'Send',
       component: <SendMenu setProposal={setView} />,
-    },
-    mintMenu: {
-      title: 'Mint',
-      component: <AssetMenu setProposal={setView} />,
     },
     internalMenu: {
       title: 'Internal',
@@ -104,10 +98,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     //   title: 'Mint Art NFT',
     //   component: <MintArt setProposal={setView} />,
     // },
-    real: {
-      title: 'Mint real estate NFT',
-      component: <MintReal setProposal={setView} />,
-    },
     // manager: {
     //   title: 'Configure Extensions',
     //   component: <ConfigureExtensions setProposal={setView} content={content} title={title} />,

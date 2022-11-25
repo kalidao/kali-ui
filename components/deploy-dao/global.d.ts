@@ -10,16 +10,20 @@ declare module 'little-state-machine' {
     quorum: number
     approval: number
     transferability: boolean
-    redemption: false
+    redemption: boolean
     redemptionStart: Date
     crowdsale: boolean
     purchaseToken: string
+    customTokenAddress: string
     purchaseLimit: number
     personalLimit: number
     purchaseMultiplier: number
     crowdsaleEnd: Date
     legal: boolean
     docType: string
+    email: string
+    mission: string
+    existingDocs: string
     founders: {
       member: string
       share: string

@@ -15,29 +15,53 @@ export const content = style({
 
 export const item = style({
   all: 'unset',
-  fontSize: 13,
-  lineHeight: 1,
+  fontSize: vars.fontSizes.base,
+  lineHeight: vars.lineHeights.normal,
   color: vars.colors.foreground,
-  borderRadius: 3,
+  borderRadius: vars.radii.none,
   display: 'flex',
   alignItems: 'center',
   height: 25,
-  padding: '0 5px',
+  padding: vars.space[1],
   position: 'relative',
-  paddingLeft: 25,
+  paddingLeft: vars.space[6],
   userSelect: 'none',
 
   ':hover': {
-    background: vars.colors.foregroundTertiary,
+    background: vars.colors.foregroundSecondary,
   },
 
   ':focus': {
-    background: vars.colors.foregroundSecondary,
+    background: vars.colors.foregroundSecondaryHover,
   },
 })
 
 export const separator = style({
-  backgroundColor: vars.colors.accent,
+  backgroundColor: vars.colors.foregroundTertiary,
   height: 1,
   margin: 5,
+})
+
+export const icon = style({
+  position: 'relative',
+  color: vars.colors.foreground,
+  top: 1,
+  transition: 'transform 250ms ease',
+
+  selectors: {
+    '&[data-state=open]': {
+      transform: 'rotate(-90deg)',
+    },
+  },
+})
+
+export const label = style({
+  paddingLeft: vars.space[6],
+  fontSize: vars.fontSizes.base,
+  lineHeight: vars.lineHeights[2],
+  color: vars.colors.accent,
+})
+
+export const itemLink = style({
+  all: 'unset',
 })

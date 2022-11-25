@@ -1,12 +1,12 @@
 import React from 'react'
-import { Menu } from '@design/proposal/Menu'
 import { Stack } from '@kalidao/reality'
-import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
+import { IconUserSolid } from '@kalidao/reality'
 // menu items
 import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
 import Redeem from './Redeem'
 import Back from '@design/proposal/Back'
+import { Item } from '../Item'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
@@ -15,14 +15,10 @@ type Props = {
 function MembersMenu({ setProposal }: Props) {
   return (
     <Stack>
-      <Menu>
-        <Menu.Item onClick={() => setProposal('addMember')}>
-          <AiOutlineUserAdd /> Add Member
-        </Menu.Item>
-        <Menu.Item onClick={() => setProposal('removeMember')}>
-          <AiOutlineUserDelete /> Remove Member
-        </Menu.Item>
-      </Menu>
+      <Stack>
+        <Item onClick={() => setProposal('addMember')} icon={<IconUserSolid />} label="Add Member" />
+        <Item onClick={() => setProposal('removeMember')} icon={<IconUserSolid />} label="Remove Member" />
+      </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>
   )

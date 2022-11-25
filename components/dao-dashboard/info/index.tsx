@@ -18,15 +18,22 @@ export default function InfoComponent({ info }: { info: any }) {
       ) : (
         <Box className={infoGrid}>
           <Meta
-            symbol={info['token']['symbol']}
-            totalSupply={info['token']['totalSupply']}
-            address={info['id']}
+            symbol={info?.['token']?.['symbol']}
+            totalSupply={info?.['token']?.['totalSupply']}
+            address={info?.['id']}
             chainId={Number(chainId)}
           />
-          {/* <Governance info={info} />
-          <Extensions info={info} />
-          <Docs info={info} />
-          <Analytics info={info} /> */}
+          <Governance
+            votingPeriod={Number(info?.['votingPeriod'])}
+            quorum={Number(info?.quorum)}
+            supermajority={Number(info?.supermajority)}
+            paused={Boolean(info?.token?.paused)}
+            gracePeriod={Number(info?.gracePeriod)}
+          />
+          <Extensions tribute={info?.tribute} redemption={info?.redemption} swap={info?.crowdsale} />
+          <Docs docs={info?.docs} />
+          {/* TODO */}
+          {/* <Analytics /> */}
         </Box>
       )}
     </Box>

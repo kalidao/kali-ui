@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Flex } from '../../styles/elements'
 import { Select } from '@design/Select'
 import { useForm, Controller } from 'react-hook-form'
 import updateAction from './updateAction'
-import { Tip } from '../elements'
-import { Stack, FieldSet, Checkbox, Input, Button } from '@kalidao/reality'
+import { Stack, FieldSet, Input, Button } from '@kalidao/reality'
 import { GlobalState, useStateMachine } from 'little-state-machine'
+import Switch from '@design/Switch'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -111,15 +110,8 @@ export default function Governance({ setStep }: Props) {
         })}
         defaultValue={state.approval}
       />
-
-      <Checkbox
-        label="Allow token transferability"
-        control={control}
-        name="transferability"
-        value="transferability"
-        defaultValue={state.transferability}
-        onValueChange={(value) => setValue('transferability', value)}
-      />
+      {/* !!!TODO */}
+      <Switch control={control} label="Allow token transferability" name="transferability" value="transferability" />
       <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous
