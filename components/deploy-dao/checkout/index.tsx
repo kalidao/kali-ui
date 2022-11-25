@@ -5,12 +5,11 @@ import { AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
-import { votingPeriodToSeconds, fetchTokens } from '../../../utils/'
+import { votingPeriodToSeconds, fetchTokens } from '../../../utils'
 import { validateFounders } from './validateFounders'
 
 import { Warning } from '../../../styles/elements'
 import { Stack, Button } from '@kalidao/reality'
-import { Error } from '../../../styles/form-elements'
 import Confirmation from './Confirmation'
 import Success from './Success'
 
@@ -201,7 +200,7 @@ export default function Checkout({ setStep }) {
 
   return (
     <Stack>
-      {isError && <Error message={error.message} />}
+      {isError && <Text>{error.message}</Text>}
       {data ? <Success /> : <Confirmation />}
       <Button variant="transparent" onClick={prev}>
         Previous

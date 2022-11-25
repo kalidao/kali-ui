@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import { Input, Label } from '@design/form-elements'
-import { Stack, Text } from '@kalidao/reality'
+import { Stack, Input, Text } from '@kalidao/reality'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { addresses } from '@constants/addresses'
 import { Warning } from '@design/elements'
@@ -78,13 +77,13 @@ export default function RemoveCrowdsale({ setProposal, title, content }: Proposa
 
       <Stack direction={'horizontal'}>
         <Input
+          label="Confirm to submit this Swap removal proposal"
           type={'checkbox'}
           variant="checkbox"
           checked={toggleConfirm}
           size="sm"
           onChange={() => setToggleConfirm(!toggleConfirm)}
         />
-        <Label htmlFor="recipient">Confirm to submit this Swap removal proposal</Label>
       </Stack>
       {warning && <Warning warning={warning} />}
       <ProposalFooter setProposal={setProposal} proposal="appsMenu" submitProposal={submit} disabled={!toggleConfirm} />

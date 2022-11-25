@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractRead, useContractWrite } from 'wagmi'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'

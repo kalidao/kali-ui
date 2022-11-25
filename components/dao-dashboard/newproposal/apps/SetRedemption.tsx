@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import { Flex, Text, Button } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
-import FileUploader from '../../../tools/FileUpload'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
-import { uploadIpfs } from '../../../tools/ipfsHelpers'
-import { addresses } from '../../../../constants/addresses'
-import { tokens } from '../../../../constants/tokens'
-import { fetchExtensionStatus } from '../../../../utils/fetchExtensionStatus'
-import { Warning } from '../../../../styles/elements'
-import Back from '../../../../styles/proposal/Back'
+import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { addresses } from '@constants/addresses'
+import { tokens } from '@constants/tokens'
+import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
+import { Warning } from '@design/elements'
+import Back from '@design/proposal/Back'
+import { ProposalProps } from '../utils/types'
+import { FieldSet, Stack, Button, Text, Input, Field } from '@kalidao/reality'
+import Switch from '@design/Switch'
 
-export default function SetRedemption({ setProposal, title, content }) {
+export default function SetRedemption({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
-  const daoAddress = router.query.dao
-  const daoChainId = router.query.chainId
+  const daoAddress = router.query.dao as string
+  const daoChainId = Number(router.query.chainId)
   const { data: signer } = useSigner()
   const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
 
@@ -28,9 +27,9 @@ export default function SetRedemption({ setProposal, title, content }) {
 
   // form
   const [redemptionStatus, setRedemptionStatus] = useState('fetching...')
-  const [redemptionStart, setRedemptionStart] = useState(null)
+  const [redemptionStart, setRedemptionStart] = useState<string>()
   const [tokenArray, setTokenArray] = useState([])
-  const [toggleRedemption, setToggleRedemption] = useState(null)
+  const [toggleRedemption, setToggleRedemption] = useState<boolean>()
   const [description, setDescription] = useState('')
   const [file, setFile] = useState(null)
   const [warning, setWarning] = useState(null)
@@ -115,57 +114,29 @@ export default function SetRedemption({ setProposal, title, content }) {
   }
 
   return (
-    <Flex
-      dir="col"
-      gap="md"
-      css={{
-        maxWidth: '40vw',
-      }}
+    <FieldSet
+      legend="Redemption"
+      description={`Set redemption for DAI, USDC, WETH. Current status - ${redemptionStatus}`}
     >
-      <Text
-        css={{
-          fontFamily: 'Regular',
-        }}
-      >
-        Pick the DAO assets that DAO members will receive when quitting and burning their DAO tokens{' '}
-      </Text>
-      <Form>
-        <FormElement>
-          <Label htmlFor="recipient">Current redemption Status</Label>
-          <Text>{redemptionStatus}</Text>
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">Assets to redeem</Label>
-          <Text>DAI, USDC, WETH</Text>
-        </FormElement>
-        <FormElement>
-          {redemptionStatus === 'Inactive' ? (
-            <Label htmlFor="recipient">Activate Redemption</Label>
-          ) : (
-            <Label htmlFor="recipient">Deactivate Redemption</Label>
-          )}
-          <Input
-            type={'checkbox'}
-            variant="checkbox"
-            value={toggleRedemption}
-            onChange={() => setToggleRedemption(!toggleRedemption)}
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor="recipient">Redemption starts on</Label>
-          <Input
-            variant="calendar"
-            type="datetime-local"
-            onChange={(e) => setRedemptionStart(e.target.value)}
-            // defaultValue={state['crowdsale-end']}
-            // name="crowdsale-end"
-            // {...register('crowdsale-end')}
-          />
-        </FormElement>
-        {warning && <Warning warning={warning} />}
-        <Back onClick={() => setProposal('appsMenu')} />
+      <Switch
+        label={redemptionStatus === 'Inactive' ? 'Activate Redemption' : 'Deactivate Redemption'}
+        value={toggleRedemption}
+        onChange={() => setToggleRedemption(!toggleRedemption)}
+      />
+      <Input
+        label="Redemption Stats On"
+        variant="calendar"
+        type="datetime-local"
+        onChange={(e) => setRedemptionStart(e.target.value)}
+        // defaultValue={state['crowdsale-end']}
+        // name="crowdsale-end"
+        // {...register('crowdsale-end')}
+      />
+      {warning && <Warning warning={warning} />}
+      <Stack align="center" justify={'space-between'} direction="horizontal">
+        <Back onClick={() => setProposal?.('appsMenu')} />
         <Button onClick={submit}>Submit</Button>
-      </Form>
-    </Flex>
+      </Stack>
+    </FieldSet>
   )
 }

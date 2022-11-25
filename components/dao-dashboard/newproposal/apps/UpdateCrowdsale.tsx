@@ -15,9 +15,9 @@ import { AddressZero } from '@ethersproject/constants'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
 import Editor from '@components/editor'
-import { Tip } from '@components/elements'
+import { ProposalProps } from '../utils/types'
 
-export default function UpdateCrowdsale({ setProposal, title, content }) {
+export default function UpdateCrowdsale({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId

@@ -1,13 +1,15 @@
 import * as styles from './select.css'
 import { Field, Box } from '@kalidao/reality'
+import { description } from '@design/Dialog/styles.css'
 
 type Props = {
   name?: string
   label: string
+  description?: string
   error?: string
   options: Array<{ label: string; value: string }>
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  defaultValue: string
+  defaultValue?: string
   disabled?: boolean
 }
 
@@ -15,10 +17,11 @@ export function Select({ name, label, disabled, error, options, onChange, defaul
   const hasError = error ? true : undefined
 
   return (
-    <Field label={label}>
+    <Field label={label} description={description}>
       <Box
         as="select"
         name={name}
+        defaultValue={defaultValue}
         className={[styles.select, disabled && styles.disabled, hasError && styles.error]}
         onChange={onChange}
         disabled={disabled}

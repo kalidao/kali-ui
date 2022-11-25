@@ -1,11 +1,10 @@
 import React from 'react'
-import { Stack, FieldSet, Input, Button, Field } from '@kalidao/reality'
+import { Stack, FieldSet, Input, Text, Button, Field } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import { Switch } from '@design/Switch'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
-import { Flex, Text } from '../../styles/elements'
 import { legalEntities } from '../../constants/legalEntities'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
 

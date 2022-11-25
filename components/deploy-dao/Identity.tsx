@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Stack, Button } from '@kalidao/reality'
-import { Form } from '../../styles/form-elements'
+import { Stack, Box, Button } from '@kalidao/reality'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
-import { getNames } from '../../graph/queries'
+import { getNames } from '@graph/queries'
 import { FieldSet, Input } from '@kalidao/reality'
 import Tutorial from './tutorial'
 
@@ -68,7 +67,7 @@ export default function Identity({ setStep }: Props) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <FieldSet
         legend="Token"
         description="Your token is the identity of your organization. The token created will be ERC20 compliant."
@@ -110,6 +109,6 @@ export default function Identity({ setStep }: Props) {
           Next
         </Button>
       </Stack>
-    </Form>
+    </Box>
   )
 }

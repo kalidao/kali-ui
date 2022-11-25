@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { Box } from '../../../../styles/elements'
-import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
 import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'

@@ -5,7 +5,7 @@ import { useEnsName } from 'wagmi'
 import Link from 'next/link'
 import { Share2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
-import Toast from '../../../styles/Toast'
+import Toast from '@design/Toast'
 
 type InfoBarProps = {
   proposer: string
@@ -44,7 +44,17 @@ export default function InfoBar({ proposer, proposalId }: InfoBarProps) {
       <Button shape="circle" variant="transparent" onClick={share} size="small">
         <Share2Icon />
       </Button>
-      <Toast open={open} setOpen={setOpen} title={'Copied!'} description={'Share the proposal with DAO members.'} />
+      <Toast
+        open={open}
+        setOpen={setOpen}
+        title={'Copied!'}
+        description={'Share the proposal with DAO members.'}
+        action={
+          <Button tone="red" size="small">
+            Close
+          </Button>
+        }
+      />
     </Stack>
   )
 }

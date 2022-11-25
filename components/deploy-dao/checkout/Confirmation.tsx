@@ -1,15 +1,15 @@
-import { useStateMachine } from 'little-state-machine'
+import { GlobalState, useStateMachine } from 'little-state-machine'
 
-import { legalEntities } from '../../../constants/legalEntities'
-import { Flex, Text } from '../../../styles/elements'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../styles/elements/Accordion'
+import { legalEntities } from '@constants/legalEntities'
+import { Box, Stack, Text } from '@kalidao/reality'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@design/Accordion'
 
 import { CheckIcon, Cross1Icon } from '@radix-ui/react-icons'
-import { GiToken } from 'react-icons/gi'
-import { RiGovernmentFill, RiAppsFill } from 'react-icons/ri'
-import { GoLaw } from 'react-icons/go'
+import { useEnsName } from 'wagmi'
+import { truncateAddress } from '@utils/truncateAddress'
+import { ethers } from 'ethers'
 
-const formatVotingPeriodUnit = (unit) => {
+const formatVotingPeriodUnit = (unit: string) => {
   switch (unit) {
     case 'day': {
       return 'Days'
@@ -23,53 +23,46 @@ const formatVotingPeriodUnit = (unit) => {
   }
 }
 
-const Row = ({ name, value }) => {
+const Row = ({ name, value }: { name: string; value: React.ReactNode }) => {
   return (
-    <Flex
-      dir="row"
-      align="separate"
-      css={{
-        padding: '0.5rem',
-      }}
-    >
-      <Text>{name}</Text>
-      <Text>{value}</Text>
-    </Flex>
+    <Box width="full" padding="3">
+      <Stack direction="horizontal" align="center" justify={'space-between'}>
+        <Text>{name}</Text>
+        <Text weight="bold">{value}</Text>
+      </Stack>
+    </Box>
   )
+}
+
+type FounderProps = {
+  member: string
+  shares: string
+}
+
+const Founder = ({ member, shares }: FounderProps) => {
+  const { data: ensName, isSuccess } = useEnsName({
+    address: member,
+  })
+
+  const name = ensName ? ensName?.toString() : truncateAddress(member)
+  console.log('name', member, name, truncateAddress(member))
+  return <Row name={name} value={ethers.utils.formatEther(ethers.utils.parseEther(shares))} />
 }
 
 export default function Confirmation() {
   const { state } = useStateMachine()
-
+  console.log('state', state)
   return (
     <Accordion type="single" defaultValue="token" collapsible>
       <AccordionItem value="token">
-        <AccordionTrigger>
-          <Flex
-            css={{
-              gap: '8px',
-            }}
-          >
-            <GiToken />
-            Token
-          </Flex>
-        </AccordionTrigger>
+        <AccordionTrigger>Token</AccordionTrigger>
         <AccordionContent>
           <Row name="Name" value={state.name} />
           <Row name="Symbol" value={state.symbol} />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="gov">
-        <AccordionTrigger>
-          <Flex
-            css={{
-              gap: '8px',
-            }}
-          >
-            <RiGovernmentFill />
-            Governance
-          </Flex>
-        </AccordionTrigger>
+        <AccordionTrigger>Governance</AccordionTrigger>
         <AccordionContent>
           <Row name="Participation Needed" value={`${state.quorum}%`} />
           <Row name="Approval Needed" value={`${state.approval}%`} />
@@ -81,16 +74,7 @@ export default function Confirmation() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="apps">
-        <AccordionTrigger>
-          <Flex
-            css={{
-              gap: '8px',
-            }}
-          >
-            <RiAppsFill />
-            Apps
-          </Flex>
-        </AccordionTrigger>
+        <AccordionTrigger>Apps</AccordionTrigger>
         <AccordionContent>
           <Row name="Tribute" value={<CheckIcon color="green" />} />
           <Row name="Crowdsale" value={state.crowdsale ? <CheckIcon color="green" /> : <Cross1Icon color="red" />} />
@@ -98,16 +82,7 @@ export default function Confirmation() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="legal">
-        <AccordionTrigger>
-          <Flex
-            css={{
-              gap: '8px',
-            }}
-          >
-            <GoLaw />
-            Legal
-          </Flex>
-        </AccordionTrigger>
+        <AccordionTrigger>Legal</AccordionTrigger>
         <AccordionContent>
           <Row
             name="Structure"
@@ -123,6 +98,14 @@ export default function Confirmation() {
               )
             }
           />
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="members">
+        <AccordionTrigger>Member</AccordionTrigger>
+        <AccordionContent>
+          {state.founders.map((founder, index) => (
+            <Founder key={index} member={founder.member} shares={founder.share} />
+          ))}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

@@ -1,6 +1,6 @@
 import { MagicWandIcon } from '@radix-ui/react-icons'
 import { MdHowToVote } from 'react-icons/md'
-import { Card, Stack, Box, Text, Heading, Avatar, IconEth } from '@kalidao/reality'
+import { Card, Stack, Box, Text, Heading, Avatar, IconEth, IconTokens } from '@kalidao/reality'
 import Pie from './Pie'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
@@ -45,15 +45,11 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
           }
         />
       )}
-      <MemberCard
-        title="Proposals"
-        icon={<MagicWandIcon height={30} width={30} color={'white'} />}
-        info={proposals?.length}
-      />
-      <MemberCard title="Votes" icon={<MdHowToVote size={30} color={'white'} />} info={votes?.length} />
+      <MemberCard title="Proposals" icon={<MagicWandIcon height={30} width={30} />} info={proposals?.length} />
+      <MemberCard title="Votes" icon={<MdHowToVote size={30} />} info={votes?.length} />
       <MemberCard
         title="Owns"
-        icon={<Pie totalSupply={totalSupply} member={member} />}
+        icon={<IconTokens size={'14'} />}
         info={`${((Number(member?.shares) / totalSupply) * 100).toFixed(2)}%`}
       />
       {/* <Pie totalSupply={totalSupply} member={member} /> */}

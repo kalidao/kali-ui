@@ -1,5 +1,4 @@
 import { erc20ABI, useContract, useContractWrite, usePrepareContractWrite, useAccount, useSigner } from 'wagmi'
-import { Flex } from '../../../styles/elements'
 import { Text, Button, Stack, Box } from '@kalidao/reality'
 import { addresses } from '../../../constants/addresses'
 import { AddressZero } from '@ethersproject/constants'

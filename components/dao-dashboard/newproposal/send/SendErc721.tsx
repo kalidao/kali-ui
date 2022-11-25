@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
 import { Stack, Text, Input } from '@kalidao/reality'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import { ethers } from 'ethers'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'

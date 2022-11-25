@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractRead, useContractWrite } from 'wagmi'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import { Stack, Text, Button, Input, Spinner, FieldSet } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import KALIDAO_ABI from '@abi/KaliDAO.json'

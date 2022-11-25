@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useSigner } from 'wagmi'
-import { Flex } from '../../../styles/elements'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
 import { prettyDate } from '../../../utils'

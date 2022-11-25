@@ -90,7 +90,7 @@ export default function ProposalView({ proposal }: Props) {
         <Vote proposal={proposal} />
         {proposal['sponsored'] == false &&
           (address?.toLowerCase() === proposal['proposer'] ? (
-            <Cancel proposal={proposal} />
+            <Cancel proposalId={Number(proposal?.serial)} />
           ) : (
             <Sponsor proposalId={Number(proposal?.serial)} />
           ))}

@@ -1,7 +1,14 @@
 import { VictoryPie, VictoryLabel, VictoryTooltip } from 'victory'
 import { ethers } from 'ethers'
+import { Member } from './types'
+import * as styles from './styles.css'
 
-export default function Pie({ member, totalSupply }) {
+type Props = {
+  member: Member
+  totalSupply: string
+}
+
+export default function Pie({ member, totalSupply }: Props) {
   const share = member && parseInt(ethers.utils.formatEther(ethers.BigNumber.from(member?.shares)))
   const supply =
     totalSupply &&
@@ -27,7 +34,7 @@ export default function Pie({ member, totalSupply }) {
   )
 }
 
-function CustomLabel(props) {
+function CustomLabel(props: any) {
   return (
     <g>
       {/* <VictoryLabel {...props}/> */}
@@ -40,7 +47,11 @@ function CustomLabel(props) {
         cornerRadius={50}
         flyoutWidth={100}
         flyoutHeight={100}
-        flyoutStyle={{ fill: 'black' }}
+        flyoutStyle={{
+          data: {
+            fill: 'white',
+          },
+        }}
       />
     </g>
   )
