@@ -38,7 +38,7 @@ export default function DaoCard({ dao, chain }: Props) {
       prefix={<Avatar label="DAO Avatar" address={dao?.['id']} placeholder />}
       loading={loading}
     >
-      <Stat label="Members" value={dao?.['members'].length} />
+      <Stat label="Members" value={dao?.['members']?.length} />
     </ButtonCard>
   )
 }
