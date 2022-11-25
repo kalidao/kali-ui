@@ -4,7 +4,7 @@ export default function Warning({ warning }: { warning?: string }) {
   if (!warning) return null
 
   return (
-    <Stack>
+    <Stack direction={'horizontal'} align="center">
       <IconExclamation color="yellow" />
       <Text>{warning}</Text>
     </Stack>

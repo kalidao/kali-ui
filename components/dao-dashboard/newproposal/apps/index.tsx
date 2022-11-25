@@ -21,7 +21,11 @@ function AppsMenu({ setProposal }: Props) {
   const [isCrowdsale, setIsCrowdsale] = useState(false)
   useEffect(() => {
     const getCrowdsaleStatus = async () => {
-      const status = await fetchExtensionStatus(Number(chainId), dao, addresses[chainId]['extensions']['crowdsale2'])
+      const status = await fetchExtensionStatus(
+        Number(chainId),
+        dao as string,
+        addresses[Number(chainId)]['extensions']['crowdsale2'],
+      )
       console.log(status)
       status ? setIsCrowdsale(true) : setIsCrowdsale(false)
     }

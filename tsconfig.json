@@ -49,7 +49,7 @@
     "**/*.tsx",
     "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx",
     "components/dao-dashboard/timeline/timeline/Card.jsx",
-    "components/hooks/useExplorer.js",
+    "components/hooks/useExplorer.tsx",
     "components/editor/index.jsx",
     "components/dao-dashboard/newproposal/apps/SetCrowdsale.tsx"
 , "components/dao-dashboard/crowdsale/fetchPurchasers.js", "pages/daos/[chainId]/[dao]/swap.tsx"  ],

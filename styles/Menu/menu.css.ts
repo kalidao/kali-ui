@@ -7,18 +7,19 @@ export const arrow = style({
 
 export const content = style({
   minWidth: 220,
-  backgroundColor: vars.colors.backgroundSecondary,
-  borderRadius: 6,
-  padding: 5,
-  boxShadow: '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
+  background: vars.colors.background,
+  borderRadius: vars.radii['2xLarge'],
+  padding: vars.space[2],
+  boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundTertiary}`,
 })
 
 export const item = style({
   all: 'unset',
+  fontFamily: vars.fonts.sans,
   fontSize: vars.fontSizes.base,
   lineHeight: vars.lineHeights.normal,
   color: vars.colors.foreground,
-  borderRadius: vars.radii.none,
+  borderRadius: vars.radii.large,
   display: 'flex',
   alignItems: 'center',
   height: 25,
@@ -28,11 +29,13 @@ export const item = style({
   userSelect: 'none',
 
   ':hover': {
-    background: vars.colors.foregroundSecondary,
+    color: vars.colors.foreground,
+    background: vars.colors.backgroundTertiary,
   },
 
   ':focus': {
-    background: vars.colors.foregroundSecondaryHover,
+    color: vars.colors.foreground,
+    background: vars.colors.backgroundSecondary,
   },
 })
 

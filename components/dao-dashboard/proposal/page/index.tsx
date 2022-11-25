@@ -92,7 +92,7 @@ export default function ProposalView({ proposal }: Props) {
           (address?.toLowerCase() === proposal['proposer'] ? (
             <Cancel proposal={proposal} />
           ) : (
-            <Sponsor proposal={proposal} />
+            <Sponsor proposalId={Number(proposal?.serial)} />
           ))}
         {canProcess() && (
           <>

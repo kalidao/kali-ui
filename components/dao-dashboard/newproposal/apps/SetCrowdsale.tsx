@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
-import { Stack, Box, Text, Button, FieldSet, FileInput } from '@kalidao/reality'
+import { Stack, Box, Text, Button, FieldSet, FileInput, Textarea } from '@kalidao/reality'
 import { Flex } from '../../../../styles/elements'
-import { Form, FormElement, Label, Input, Select } from '../../../../styles/form-elements'
+import { Form, FormElement, Label, Input } from '../../../../styles/form-elements'
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import KALIACCESS_ABI from '../../../../abi/KaliAccessManagerV2.json'
@@ -16,30 +16,31 @@ import { AddressZero } from '@ethersproject/constants'
 import Back from '../../../../styles/proposal/Back'
 import { createProposal } from '../utils'
 import Editor from '../../../editor'
-import { Tip } from '../../../elements'
+import { Select } from '@design/Select'
+import { Tip } from '@design/Tip'
 
 export default function SetCrowdsale({ setProposal, title, content }) {
   const router = useRouter()
   const daoAddress = router.query.dao
   const chainId = router.query.chainId
   const { data: signer } = useSigner()
-  const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
+  const crowdsaleAddress = addresses[Number(chainId)]['extensions']['crowdsale2']
 
   const { data: kalidaoToken } = useContractRead({
-    addressOrName: daoAddress,
+    addressOrName: daoAddress as string,
     contractInterface: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
+    addressOrName: daoAddress as string,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[chainId]['access2'],
+    addressOrName: addresses[Number(chainId)]['access2'],
     contractInterface: KALIACCESS_ABI,
     signerOrProvider: signer,
   })
@@ -49,28 +50,28 @@ export default function SetCrowdsale({ setProposal, title, content }) {
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customToken, setCustomToken] = useState(null)
   const [purchaseAccess, setPurchaseAccess] = useState('select')
-  const [customAccess, setCustomAccess] = useState(null)
+  const [customAccess, setCustomAccess] = useState<string>()
   const [purchaseMultiplier, setPurchaseMultiplier] = useState(null)
   const [totalLimit, setTotalLimit] = useState(0)
   const [personalLimit, setPersonalLimit] = useState(0)
   const [terms, setTerms] = useState(null)
   const [crowdsaleEnd, setCrowdsaleEnd] = useState(null)
-  const [warning, setWarning] = useState(null)
+  const [warning, setWarning] = useState<string>()
   const [isRecorded, setIsRecorded] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
 
-  const handleValidation = async (e) => {
-    e.preventDefault()
+  const handleValidation = async () => {
+    if (!customAccess) return
 
     let list = []
-    customAccess = customAccess.split(', ')
+    let customAccessArray = customAccess.split(', ')
 
     if (!customAccess) {
       setWarning('Please input custom access list.')
     }
 
     for (let i = 0; i < customAccess.length; i++) {
-      const address = await fetchEnsAddress(chainId, customAccess[i])
+      const address = await fetchEnsAddress(customAccessArray[i])
 
       if (address && address.slice(0, 7) === 'Invalid') {
         setWarning(`${address}.`)
@@ -85,7 +86,7 @@ export default function SetCrowdsale({ setProposal, title, content }) {
       const tx = await kaliAccess.createList(list, ethers.utils.formatBytes32String('0x0'), '')
       console.log('tx ', tx)
       setIsRecorded(true)
-      setWarning(null)
+      setWarning('')
     } catch (e) {
       setWarning('Error recording access list.')
       console.log(e)
@@ -112,8 +113,8 @@ export default function SetCrowdsale({ setProposal, title, content }) {
     }
   }
 
-  const handleDeadline = (e) => {
-    const _deadline = e.target.value
+  const handleDeadline = (e: ChangeEvent) => {
+    let _deadline = e.target.value
 
     if (Date.parse(_deadline) < Date.now()) {
       setWarning('Swap cannot end before current time. Please pick another Swap end date.')
@@ -319,8 +320,8 @@ export default function SetCrowdsale({ setProposal, title, content }) {
           {purchaseAccess === 'custom' && (
             <FormElement variant={'vertical'}>
               <Label htmlFor="tokenAddress">Custom access list</Label>
-              <Input
-                as="textarea"
+              <Textarea
+                label="Custom access list"
                 name="customList"
                 type="text"
                 placeholder="Separate ENS/address by single comma, e.g., 'abc.eth, def.eth' "

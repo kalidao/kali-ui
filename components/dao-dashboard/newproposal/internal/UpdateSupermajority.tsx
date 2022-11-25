@@ -116,10 +116,8 @@ export default function UpdateSupermajority() {
           >
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
-          <Text>
-            {isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}
-          </Text>
         </ChainGuard>
+        <Text>{isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}</Text>
       </Stack>
     </FieldSet>
   )

@@ -109,12 +109,12 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
           >
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
-          <Text>
-            {isProposeSuccess
-              ? 'Proposal submitted on chain!'
-              : isProposeError && `Error submitting proposal: ${proposeError}`}
-          </Text>
         </ChainGuard>
+        <Text>
+          {isProposeSuccess
+            ? 'Proposal submitted on chain!'
+            : isProposeError && `Error submitting proposal: ${proposeError}`}
+        </Text>
       </Stack>
     </Stack>
   )

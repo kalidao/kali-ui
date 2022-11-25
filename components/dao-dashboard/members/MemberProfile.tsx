@@ -5,7 +5,7 @@ import Pie from './Pie'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
 import { useQuery } from '@tanstack/react-query'
-import getExplorerLink from '@utils/getExplorerLink'
+import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useRouter } from 'next/router'
 import { truncateAddress } from '@utils/truncateAddress'
 
@@ -33,7 +33,11 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
             <Stack>
               <Text size="base">{profile?.bio}</Text>
               <Stack direction={'horizontal'}>
-                <a href={getExplorerLink(Number(chainId), 'ADDRESS', member?.address)} target="_blank" rel="noreferrer">
+                <a
+                  href={getExplorerLink(Number(chainId), ExplorerType.ADDRESS, member?.address)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <IconEth />
                 </a>
               </Stack>
