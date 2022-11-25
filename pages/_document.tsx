@@ -5,7 +5,16 @@ export default class Document extends NextDocument {
   render() {
     return (
       <Html lang="en">
-        <Head></Head>
+        <Head>
+          <link
+            rel="preload"
+            href="/fonts/Inter.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+            key="InterVar"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

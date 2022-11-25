@@ -61,6 +61,7 @@ export const icon = style({
 export const label = style({
   paddingLeft: vars.space[6],
   fontSize: vars.fontSizes.base,
+  fontFamily: vars.fonts.sans,
   lineHeight: vars.lineHeights[2],
   color: vars.colors.accent,
   width: vars.space.full

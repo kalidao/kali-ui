@@ -1,5 +1,5 @@
 import GovSettings from '@components/dao-dashboard/settings/GovSettings'
-import { Box, Button, Heading, Stack, Text } from '@kalidao/reality'
+import { Box, Button, Heading, Stack, Text, vars } from '@kalidao/reality'
 import { MdOutlineBallot, MdPeopleOutline, MdCached, MdApproval } from 'react-icons/md'
 import { govItem, govItemLabel, icon } from './styles.css'
 
@@ -10,7 +10,7 @@ type Props = {
 
 export default function GovMenu({ view, setView }: Props) {
   const iconSize = 24
-  const iconColor = 'white'
+  const iconColor = vars.colors.foreground
 
   const items = [
     {
