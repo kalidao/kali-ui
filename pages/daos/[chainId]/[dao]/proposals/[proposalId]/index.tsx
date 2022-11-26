@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
-import { Card, IconArrowLeft, Button, Stack } from '@kalidao/reality'
+import { Box, IconArrowLeft, Button, Stack } from '@kalidao/reality'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
@@ -23,8 +23,11 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
 
   return (
     <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
-      <Card padding="6">
-        <Stack>
+      <Box padding={{
+        xs: '2',
+        lg: '6'
+      }}>
+        <Stack space="3">
           <Stack
             direction={{
               xs: 'vertical',
@@ -38,7 +41,7 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
           </Stack>
           <VotesView votes={proposal?.votes} />
         </Stack>
-      </Card>
+      </Box>
     </Layout>
   )
 }

@@ -1,6 +1,6 @@
 import { MagicWandIcon } from '@radix-ui/react-icons'
 import { MdHowToVote } from 'react-icons/md'
-import { Card, Stack, Box, Text, Heading, Avatar, IconEth, IconTokens } from '@kalidao/reality'
+import { Card, Stack, Box, Text, Tag, Heading, Avatar, IconEth, IconTokens } from '@kalidao/reality'
 import Pie from './Pie'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useRouter } from 'next/router'
 import { truncateAddress } from '@utils/truncateAddress'
+import { useEnsName } from 'wagmi'
 
 type ProfileProps = {
   member: Member
@@ -19,16 +20,28 @@ type ProfileProps = {
 export default function MemberProfile({ member, proposals, votes, totalSupply }: ProfileProps) {
   const router = useRouter()
   const { chainId } = router.query
-  const { data: profile, isLoading } = useQuery(['memberCard', member], () => fetcher(`/api/users/${member?.address}`))
+  const { data: ensName } = useEnsName({
+    address: member?.address,
+  })
+  const { data: profile, isLoading } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
   console.log('profile', profile, isLoading)
 
   return (
     <Stack direction={'horizontal'} space={'1'}>
-      {profile && (
+      {member && profile && (
         <MemberCard
-          title={profile?.handle ? profile?.handle : truncateAddress(member?.address)}
-          icon={<Avatar src={profile?.picture?.original?.url} label="profile" />}
+          title={
+            profile?.handle ? (
+              <Stack direction={"vertical"} align="center" justify={'center'} space="1">
+                <Text weight="bold" size="large">{profile?.name}</Text>
+                <Tag size="small">{profile?.handle}</Tag>
+              </Stack>
+            ) : (
+              <Text>{ensName ? ensName : truncateAddress(member?.address)}</Text>
+            )
+          }
+          icon={<Avatar src={profile?.picture} size="16" label="profile" />}
           info={
             <Stack>
               <Text size="base">{profile?.bio}</Text>
@@ -58,7 +71,7 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
 }
 
 type CardProps = {
-  title: string
+  title: React.ReactNode
   icon: React.ReactNode
   info: React.ReactNode
 }
@@ -68,7 +81,7 @@ const MemberCard = ({ title, icon, info }: CardProps) => {
     <Box minHeight="64" minWidth="64" padding="6" backgroundColor={'backgroundSecondary'} borderRadius="2xLarge">
       <Stack align="center" justify={'center'} space={'2'}>
         <Box color="foreground">{icon}</Box>
-        <Heading>{title}</Heading>
+        <Box> {title} </Box>
         <Text size="headingOne">{info}</Text>
       </Stack>
     </Box>

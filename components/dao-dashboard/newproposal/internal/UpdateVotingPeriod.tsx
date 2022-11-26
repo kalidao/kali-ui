@@ -114,6 +114,7 @@ export default function UpdateVotingPeriod() {
           label={'Unit'}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUnit(e.currentTarget.value)}
           defaultValue={unit}
+          description=""
           options={[
             {
               label: 'Minutes',

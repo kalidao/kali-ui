@@ -7,7 +7,8 @@ export const root = style({
   background: vars.colors.backgroundTertiary,
   borderRadius: vars.radii['2xLarge'],
   width: '100%',
-  height: vars.space[1],
+  height: vars.space[2],
+  marginTop: vars.space[2],
 })
 
 export const indicator = style({

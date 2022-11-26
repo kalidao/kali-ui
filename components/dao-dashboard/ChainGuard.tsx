@@ -18,7 +18,7 @@ export default function ChainGuard({ fallback, children }: Props) {
 
   const isWrongChain = userChain?.id != daoChainId ? true : false
 
-  console.log('isWrongChain', isWrongChain)
+ 
   if (isWrongChain) {
     return (
       <Alert

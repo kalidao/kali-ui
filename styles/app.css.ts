@@ -5,5 +5,5 @@ globalStyle('html, body', {
   margin: 0,
   padding: 0,
   background: vars.colors.background,
-  fontFamily: vars.fonts.sans
+  fontFamily: vars.fonts.sans,
 })

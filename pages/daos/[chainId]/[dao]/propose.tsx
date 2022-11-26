@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { Card, Box, FieldSet, Input, Stack, Text } from '@kalidao/reality'
+import { Card, Box, FieldSet, Input, Stack } from '@kalidao/reality'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')

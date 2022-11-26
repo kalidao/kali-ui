@@ -41,7 +41,6 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     args: [address],
   })
 
-  console.log('swap', swap)
 
   const itemSize = '16'
   const itemColor = 'foreground'

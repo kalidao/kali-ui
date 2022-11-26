@@ -3,7 +3,8 @@ import { Box, Avatar, Card, Button, Heading, Stack, Text, Tag, IconClose, IconCh
 import { ethers } from 'ethers'
 import { truncateAddress } from '@utils/truncateAddress'
 import { useEnsAvatar, useEnsName } from 'wagmi'
-
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '@utils/fetcher'
 type Props = {
   votes: any
 }
@@ -36,17 +37,16 @@ const Vote = ({ address, weight, vote }: VoteProps) => {
     address,
     chainId: 1,
   })
-  const { data: avatar } = useEnsAvatar({
-    addressOrName: name || address,
-    chainId: 1,
-  })
+  const { data: profile, isLoading } = useQuery(['userProfile', address], () =>
+  fetcher(`/api/users/${address}`),
+)
 
   return (
     <Card padding="3">
       <Stack direction={'horizontal'} align="center" justify={'space-between'}>
         <Stack direction={'horizontal'} align="center">
-          <Avatar src={avatar ? (avatar as string) : ''} address={address} label={`voter ${address} profile`} />
-          <Text>{name ? name : truncateAddress(address)}</Text>
+          <Avatar src={profile?.picture} address={address} label={`voter ${address} profile`} />
+          <Text>{profile?.handle ? profile?.handle : name ? name : truncateAddress(address)}</Text>
         </Stack>
         <Text>{weight}</Text>
         <Box color={vote === true ? 'green' : 'red'}>{vote == true ? <IconCheck /> : <IconClose />}</Box>

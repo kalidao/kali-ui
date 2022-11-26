@@ -8,7 +8,7 @@ export const container = style({
   flexDirection: 'column',
   gap: vars.space[5],
   padding: vars.space[6],
-  backgroundColor: vars.colors.black,
+  backgroundColor: vars.colors.background,
   borderRadius: vars.radii['2xLarge'],
 })
 

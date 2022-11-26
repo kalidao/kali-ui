@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import StarterKit from '@tiptap/starter-kit'
-import { Text } from '@kalidao/reality'
+import { Box, Text } from '@kalidao/reality'
 import { generateHTML } from '@tiptap/react'
+
 
 // TODO: description types
 type Props = {
@@ -22,7 +23,7 @@ export default function Description({ description, isSchema, short }: Props) {
   // <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis></Text>
   if (short) {
     return (
-      <>
+      <Box width="full">
         {isSchema ? (
           output && (
             <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
@@ -38,12 +39,12 @@ export default function Description({ description, isSchema, short }: Props) {
             No description.
           </Text>
         )}
-      </>
+      </Box>
     )
   }
 
   return (
-    <>
+    <Box width="full">
       {/* TODO: output could be anything, sanitize?  */}
       {isSchema ? (
         output && (
@@ -58,6 +59,6 @@ export default function Description({ description, isSchema, short }: Props) {
       ) : (
         <Text>No description.</Text>
       )}
-    </>
+    </Box>
   )
 }

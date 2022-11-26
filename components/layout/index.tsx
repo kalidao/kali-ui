@@ -27,9 +27,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
       <Header heading={heading} />
-      <Box className={container}>
-        {children}
-      </Box>
+      <Box className={container}>{children}</Box>
       <Footer />
     </Box>
   )

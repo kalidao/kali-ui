@@ -69,8 +69,22 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     })
 
     if (data?.data?.data?.profiles?.items.length > 0) {
-      console.log('profile', data?.data?.data?.profiles?.items[0])
-      return res.status(200).json(data?.data?.data?.profiles?.items[0])
+      const profile = {
+        handle: data?.data?.data?.profiles?.items[0].handle,
+        bio: data?.data?.data?.profiles?.items[0].bio,
+        name: data?.data?.data?.profiles?.items[0].name,
+        ownedBy: data?.data?.data?.profiles?.items[0].ownedBy,
+        picture:
+          data?.data?.data?.profiles?.items[0].picture.__typename === 'NftImage'
+            ? data?.data?.data?.profiles?.items[0].picture.uri
+            : data?.data?.data?.profiles?.items[0].picture.original.url,
+        cover_picture:
+          data?.data?.data?.profiles?.items[0].coverPicture.__typename === 'NftImage'
+            ? data?.data?.data?.profiles?.items[0].coverPicture.uri
+            : data?.data?.data?.profiles?.items[0].coverPicture.original.url,
+      }
+
+      return res.status(200).json(profile)
     }
 
     return res.status(400).json({

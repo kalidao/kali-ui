@@ -54,7 +54,7 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Stack>
+    <Box width="full" display="flex" flexDirection={"column"} gap="3">
       <Stack direction="horizontal" align="center">
         <Heading responsive>
           {`#${proposalId} `}
@@ -70,7 +70,7 @@ export default function ProposalView({ proposal }: Props) {
           md: 'horizontal',
         }}
       >
-        <Stack>
+        <Box width="full" display={"flex"} flexDirection="column" justifyContent={"space-between"}>
           {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
               description={details ? details?.description : proposal?.description}
@@ -78,7 +78,7 @@ export default function ProposalView({ proposal }: Props) {
             />
           )}
           <Visualizer proposal={proposal} />
-        </Stack>
+        </Box>
         <Stack>
           {proposal && (
             <InfoCard start={Number(proposal['votingStarts'])} votingPeriod={Number(proposal['dao']['votingPeriod'])} />
@@ -114,6 +114,6 @@ export default function ProposalView({ proposal }: Props) {
           </>
         )}
       </Stack>
-    </Stack>
+    </Box>
   )
 }

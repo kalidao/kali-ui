@@ -17,7 +17,7 @@ export function Select({ name, label, disabled, error, options, onChange, defaul
   const hasError = error ? true : undefined
 
   return (
-    <Field label={label} description={description}>
+    <Field label={label}>
       <Box
         as="select"
         name={name}

@@ -93,7 +93,12 @@ export const Item = ({ type = 'link', label, href, onClick, icon, isExternal = t
     )
   }
   return (
-    <a href={href} target={isExternal ? '_blank' : '_self'} rel={isExternal ? "noreferrer noopener" : ""} className={itemLink}>
+    <a
+      href={href}
+      target={isExternal ? '_blank' : '_self'}
+      rel={isExternal ? 'noreferrer noopener' : ''}
+      className={itemLink}
+    >
       <DropdownMenuPrimitive.Item className={item}>
         <Text>{label}</Text>
       </DropdownMenuPrimitive.Item>

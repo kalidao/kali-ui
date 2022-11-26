@@ -27,7 +27,7 @@ export const item = style({
   position: 'relative',
   paddingLeft: vars.space[6],
   userSelect: 'none',
- 
+
   ':hover': {
     color: vars.colors.foreground,
     background: vars.colors.backgroundTertiary,
@@ -52,8 +52,8 @@ export const icon = style({
 
   selectors: {
     '&[data-state=open]': {
-        transform: 'rotate(-90deg)',
-        transition: 'transform 250ms ease',
+      transform: 'rotate(-90deg)',
+      transition: 'transform 250ms ease',
     },
   },
 })
@@ -74,7 +74,7 @@ export const trigger = style({
       backgroundColor: vars.colors.accentSecondary,
       transform: 'rotate(-90deg)',
     },
-  }
+  },
 })
 export const label = style({
   paddingLeft: vars.space[6],
@@ -82,7 +82,7 @@ export const label = style({
   fontFamily: vars.fonts.sans,
   lineHeight: vars.lineHeights[2],
   color: vars.colors.accent,
-  width: vars.space.full
+  width: vars.space.full,
 })
 
 export const itemLink = style({
