@@ -1,10 +1,8 @@
 import { GlobalState, useStateMachine } from 'little-state-machine'
 
 import { legalEntities } from '@constants/legalEntities'
-import { Box, Stack, Text } from '@kalidao/reality'
+import { Box, Stack, Text, IconCheck, IconClose } from '@kalidao/reality'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@design/Accordion'
-
-import { CheckIcon, Cross1Icon } from '@radix-ui/react-icons'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import { ethers } from 'ethers'
@@ -69,16 +67,16 @@ export default function Confirmation() {
           <Row name="Voting Period" value={`${state.votingPeriod} ${formatVotingPeriodUnit(state.votingPeriodUnit)}`} />
           <Row
             name="Token Transferability"
-            value={state.transferability === true ? <CheckIcon color="green" /> : <Cross1Icon color="red" />}
+            value={state.transferability === true ? <IconCheck color="green" /> : <IconClose color="red" />}
           />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="apps">
         <AccordionTrigger>Apps</AccordionTrigger>
         <AccordionContent>
-          <Row name="Tribute" value={<CheckIcon color="green" />} />
-          <Row name="Crowdsale" value={state.crowdsale ? <CheckIcon color="green" /> : <Cross1Icon color="red" />} />
-          <Row name="Redemption" value={state.redemption ? <CheckIcon color="green" /> : <Cross1Icon color="red" />} />
+          <Row name="Tribute" value={<IconCheck color="green" />} />
+          <Row name="Crowdsale" value={state.crowdsale ? <IconCheck color="green" /> : <IconClose color="red" />} />
+          <Row name="Redemption" value={state.redemption ? <IconCheck color="green" /> : <IconClose color="red" />} />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="legal">
@@ -91,10 +89,10 @@ export default function Confirmation() {
                 state.legal ? (
                   legalEntities[state.docType]['text']
                 ) : (
-                  <Cross1Icon color="red" />
+                  <IconClose color="red" />
                 )
               ) : (
-                <Cross1Icon color="red" />
+                <IconClose color="red" />
               )
             }
           />

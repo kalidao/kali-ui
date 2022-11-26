@@ -54,7 +54,7 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Box width="full" display="flex" flexDirection={"column"} gap="3">
+    <Box width="full" display="flex" flexDirection={'column'} gap="3">
       <Stack direction="horizontal" align="center">
         <Heading responsive>
           {`#${proposalId} `}
@@ -70,7 +70,7 @@ export default function ProposalView({ proposal }: Props) {
           md: 'horizontal',
         }}
       >
-        <Box width="full" display={"flex"} flexDirection="column" justifyContent={"space-between"}>
+        <Box width="full" display={'flex'} flexDirection="column" justifyContent={'space-between'}>
           {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
               description={details ? details?.description : proposal?.description}

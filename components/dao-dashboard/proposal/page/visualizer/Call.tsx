@@ -1,8 +1,7 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { Stack, Button, Text, IconLink } from '@kalidao/reality'
-import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
-import getExplorerLink, { ExplorerType } from '../../../../../utils/getExplorerLink'
+import { Stack, Button, Text, IconLink, IconDuplicate } from '@kalidao/reality'
+import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'
 
@@ -61,7 +60,7 @@ export default function Call({
               <Stack>
                 Payload
                 <Button onClick={() => navigator.clipboard.writeText(payloads[i])}>
-                  <CopyIcon />
+                  <IconDuplicate />
                 </Button>
               </Stack>
               <Text>{payloads[i]}</Text>

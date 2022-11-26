@@ -10,7 +10,7 @@ type Props = {
 
 export default function InfoCard({ start, votingPeriod }: Props) {
   const startDate = prettyDate(new Date(start * 1000))
-  const end = (start * 1000) + (votingPeriod * 1000)
+  const end = start * 1000 + votingPeriod * 1000
   const endDate = prettyDate(new Date(end))
   const endTimestamp = new Date(end).getSeconds()
   const now = new Date().getSeconds()
@@ -23,7 +23,7 @@ export default function InfoCard({ start, votingPeriod }: Props) {
       </Card>
     )
   }
-  
+
   return (
     <Card padding="6">
       <Stack>

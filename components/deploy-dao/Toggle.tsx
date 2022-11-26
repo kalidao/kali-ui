@@ -1,8 +1,7 @@
 import React from 'react'
 import updateAction from './updateAction'
 import { useStateMachine } from 'little-state-machine'
-import { Button } from '@kalidao/reality'
-import { DotFilledIcon } from '@radix-ui/react-icons'
+import { Button, IconLightningBolt, IconMinus, IconPlus } from '@kalidao/reality'
 
 export default function Toggle() {
   const { actions, state } = useStateMachine({ updateAction })
@@ -10,7 +9,8 @@ export default function Toggle() {
 
   return (
     <Button
-      suffix={<DotFilledIcon color={hardMode === false ? 'green' : 'red'} />}
+      size="small"
+      suffix={hardMode === false ? <IconPlus /> : <IconMinus />}
       variant="transparent"
       onClick={() =>
         actions.updateAction({
@@ -18,7 +18,7 @@ export default function Toggle() {
         })
       }
     >
-      {hardMode === false ? '2 Clicks' : '7 Clicks'}
+      {hardMode === false ? 'Easy' : 'Hard'}
     </Button>
   )
 }

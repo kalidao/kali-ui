@@ -28,7 +28,6 @@ const Members = () => {
     [info],
   )
 
-
   if (isLoading) return <Spinner />
 
   return (
@@ -67,9 +66,7 @@ const Member = ({ address, shares }: { address: string; shares: string }) => {
   const { data: ensName } = useEnsName({
     address: address,
   })
-  const { data: profile, isLoading } = useQuery(['userProfile', address], () =>
-    fetcher(`/api/users/${address}`),
-  )
+  const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
   return (
     <Stack direction={'horizontal'} align="center">

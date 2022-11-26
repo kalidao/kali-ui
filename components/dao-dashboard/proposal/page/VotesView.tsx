@@ -37,9 +37,7 @@ const Vote = ({ address, weight, vote }: VoteProps) => {
     address,
     chainId: 1,
   })
-  const { data: profile, isLoading } = useQuery(['userProfile', address], () =>
-  fetcher(`/api/users/${address}`),
-)
+  const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
   return (
     <Card padding="3">

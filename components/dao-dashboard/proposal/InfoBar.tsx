@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Stack, Tag, Button } from '@kalidao/reality'
+import { Stack, Tag, Button, IconLink } from '@kalidao/reality'
 import { copy, truncateAddress } from '../../../utils'
 import { useEnsName } from 'wagmi'
 import Link from 'next/link'
-import { Share2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
 import Toast from '@design/Toast'
 
@@ -42,7 +41,7 @@ export default function InfoBar({ proposer, proposalId }: InfoBarProps) {
         </Tag>
       </Link>
       <Button shape="circle" variant="transparent" onClick={share} size="small">
-        <Share2Icon />
+        <IconLink />
       </Button>
       <Toast
         open={open}

@@ -47,7 +47,7 @@ createStore({
 // Allow interaction with outside from within the modal
 export default function DeployDaoWrapper() {
   const [step, setStep] = useState(0)
-  // const [hardMode, setHardMode] = useState(false)
+
   const steps = [
     {
       component: <Identity setStep={setStep} />,
@@ -105,9 +105,6 @@ export default function DeployDaoWrapper() {
           <Toggle />
         </Box>
         <Text>{steps[step]['description']}</Text>
-        {/* <Progress value={(step / (steps.length - 1)) * 100}>
-          <ProgressIndicator style={{ transform: `translateX(-${100 - (step / (steps.length - 1)) * 100}%)` }} />
-        </Progress> */}
         <Progress value={(step / (steps.length - 1)) * 100} />
         {steps[step]['component']}
       </Box>

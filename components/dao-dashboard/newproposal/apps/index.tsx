@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { MdOutlineRedeem, MdOutlineConstruction } from 'react-icons/md'
 // menu items
 import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
@@ -7,7 +6,7 @@ import Back from '@design/proposal/Back'
 import { useRouter } from 'next/router'
 import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
-import { Stack, Text } from '@kalidao/reality'
+import { IconSparkles, IconTrash, Stack, Text } from '@kalidao/reality'
 import { Item } from '../Item'
 
 type Props = {
@@ -42,21 +41,13 @@ function AppsMenu({ setProposal }: Props) {
       <Stack>
         {isCrowdsale ? (
           <>
-            <Item
-              onClick={() => setProposal('crowdsale_update')}
-              label="Update Swap"
-              icon={<MdOutlineConstruction />}
-            />
-            <Item
-              onClick={() => setProposal('crowdsale_remove')}
-              label="Remove Swap"
-              icon={<MdOutlineConstruction />}
-            />
+            <Item onClick={() => setProposal('crowdsale_update')} label="Update Swap" icon={<IconSparkles />} />
+            <Item onClick={() => setProposal('crowdsale_remove')} label="Remove Swap" icon={<IconTrash />} />
           </>
         ) : (
-          <Item onClick={() => setProposal('crowdsale_add')} label="Add Swap" icon={<MdOutlineConstruction />} />
+          <Item onClick={() => setProposal('crowdsale_add')} label="Add Swap" icon={<IconSparkles />} />
         )}
-        <Item onClick={() => setProposal('redemption')} label="Redemption" icon={<MdOutlineRedeem />} />
+        <Item onClick={() => setProposal('redemption')} label="Redemption" icon={<IconSparkles />} />
       </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>

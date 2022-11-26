@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiOutlineDelete } from 'react-icons/ai'
+import { IconTrash } from '@kalidao/reality'
 
 // menu items
 import CallContract from './CallContract'
@@ -21,7 +21,7 @@ function InternalMenu({ setProposal }: Props) {
   return (
     <Stack>
       <Stack>
-        <Item onClick={() => setProposal('escape')} icon={<AiOutlineDelete />} label="Escape Proposal" />
+        <Item onClick={() => setProposal('escape')} icon={<IconTrash />} label="Escape Proposal" />
       </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>

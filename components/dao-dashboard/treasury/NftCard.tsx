@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react'
-import Image from 'next/image'
-import { Card, Box, Spinner, Text, Stack, Avatar, Button, Heading } from '@kalidao/reality'
+import React from 'react'
+import { Box, Spinner, Text, Stack, Avatar, Button, IconLink } from '@kalidao/reality'
 import { Dialog } from '@design/Dialog/index'
-import { ExternalLinkIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 
@@ -42,13 +40,7 @@ export default function NftCard({ nft }: { nft: any }) {
         />
         <Stack space="1" align="center">
           {data['external_url'] && (
-            <Button
-              as="a"
-              href={data['external_url']}
-              target="_blank"
-              rel="noopener noreferrer"
-              prefix={<ExternalLinkIcon />}
-            >
+            <Button as="a" href={data['external_url']} target="_blank" rel="noopener noreferrer" prefix={<IconLink />}>
               External URL
             </Button>
           )}

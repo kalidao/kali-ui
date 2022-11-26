@@ -1,7 +1,6 @@
-
 import { getProvider } from './getProvider'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { ethers, BigNumber } from "ethers"
+import { ethers, BigNumber } from 'ethers'
 
 export const isURL = (url: string) => {
   let pattern = new RegExp(
@@ -29,18 +28,17 @@ export const isProp = (prop: string) => {
   return !!pattern.test(prop)
 }
 
-// 
+//
 export const calculateParticipation = async (dao: string, chainId: number, votes: BigNumber) => {
   try {
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(dao, DAO_ABI, provider)
     const quorum = await contract.quorum() // 30
-    const totalSupply = await contract.totalSupply() // 13 
+    const totalSupply = await contract.totalSupply() // 13
 
     const q = BigNumber.from(quorum)
     const required = totalSupply.mul(q).div(BigNumber.from(100))
     const participation = required < votes ? 100 : votes.mul(BigNumber.from(100)).div(required)
-   
 
     return Number(participation) > 100 ? 100 : Number(participation)
   } catch (e) {
@@ -62,7 +60,7 @@ export const calculateApproval = async (dao: string, chainId: number, proposalTy
   } catch (e) {
     console.error(e)
     return 0
-  } 
+  }
 }
 
 export const getProposalStatus = (dao: string, chainId: number, proposalId: number) => {
@@ -75,4 +73,3 @@ export const getProposalStatus = (dao: string, chainId: number, proposalId: numb
     return new Error('Error getting proposal status')
   }
 }
-  

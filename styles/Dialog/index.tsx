@@ -1,6 +1,5 @@
-import { Stack, Button } from '@kalidao/reality'
+import { Stack, Button, IconClose } from '@kalidao/reality'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import * as styles from './styles.css'
 
 function DialogContent({ children, ...props }: React.ComponentProps<typeof DialogPrimitive.Content>) {
@@ -22,7 +21,7 @@ export const DialogClose = () => {
   return (
     <DialogPrimitive.Close asChild>
       <Button shape="circle" size="small" tone="red" variant="secondary">
-        <Cross2Icon />
+        <IconClose />
       </Button>
     </DialogPrimitive.Close>
   )

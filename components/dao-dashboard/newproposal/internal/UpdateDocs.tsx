@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Warning } from '@design/elements'
-import { Stack, Text, Button, FieldSet, Input } from '@kalidao/reality'
+import { Stack, Text, Button, FieldSet, Input, IconLink } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { uploadIpfs } from '@components/tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
-import { BsFillArrowUpRightSquareFill } from 'react-icons/bs'
 
 // Move to DAO settings UI
 export default function UpdateDocs() {
@@ -69,7 +68,7 @@ export default function UpdateDocs() {
         <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
           <Text>Current Docs:</Text>
           <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">
-            <BsFillArrowUpRightSquareFill color="white" />
+            <IconLink color="white" />
           </a>
         </Stack>
       ) : (

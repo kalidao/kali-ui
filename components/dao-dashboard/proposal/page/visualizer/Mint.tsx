@@ -7,10 +7,7 @@ import { truncateAddress } from '@utils/truncateAddress'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useRouter } from 'next/router'
 
-export default function Mint({ accounts, amounts }: {
-  accounts: string[],
-  amounts: any
-}) {
+export default function Mint({ accounts, amounts }: { accounts: string[]; amounts: any }) {
   const router = useRouter()
   const chainId = Number(router.query.chainId)
   for (let i = 0; i < accounts.length; i++) {
@@ -23,7 +20,7 @@ const MintRow = (account: string, amount: any, chainId: number) => {
   const { data: ensName } = useEnsName({
     address: account,
   })
-  
+
   return (
     <Stack direction="horizontal" justify={'space-between'} align="center">
       <Avatar src={profile?.picture} label={`${account} profile picture`} />
@@ -35,5 +32,3 @@ const MintRow = (account: string, amount: any, chainId: number) => {
     </Stack>
   )
 }
-
-

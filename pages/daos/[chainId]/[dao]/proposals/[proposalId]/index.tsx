@@ -23,10 +23,12 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
 
   return (
     <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
-      <Box padding={{
-        xs: '2',
-        lg: '6'
-      }}>
+      <Box
+        padding={{
+          xs: '2',
+          lg: '6',
+        }}
+      >
         <Stack space="3">
           <Stack
             direction={{

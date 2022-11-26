@@ -3,7 +3,6 @@ import StarterKit from '@tiptap/starter-kit'
 import { Box, Text } from '@kalidao/reality'
 import { generateHTML } from '@tiptap/react'
 
-
 // TODO: description types
 type Props = {
   description: any

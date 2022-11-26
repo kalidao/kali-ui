@@ -1,12 +1,11 @@
 import React from 'react'
-import { Stack, FieldSet, Input, Text, Button, Field } from '@kalidao/reality'
+import { Stack, FieldSet, Input, Text, Button, IconLink } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import { Switch } from '@design/Switch'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { legalEntities } from '../../constants/legalEntities'
-import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -130,12 +129,7 @@ export default function Legal({ setStep }: Props) {
           )}
           {watchDocs && <Text>{legalEntities[watchDocs]['message']}</Text>}
           {watchDocs && legalEntities[watchDocs]['template'] !== null && (
-            <Button
-              as="a"
-              href={legalEntities[watchDocs]['template'] as string}
-              target="_blank"
-              prefix={<OpenInNewWindowIcon />}
-            >
+            <Button as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
               Review Template
             </Button>
           )}

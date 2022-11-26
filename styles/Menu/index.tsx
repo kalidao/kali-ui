@@ -1,7 +1,18 @@
 import React, { useCallback } from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { Box, Button, IconMenu, IconMoon, IconSun, Stack, Text, useTheme } from '@kalidao/reality'
-import { TwitterLogoIcon, GitHubLogoIcon, DiscordLogoIcon } from '@radix-ui/react-icons'
+import {
+  Box,
+  Button,
+  IconMenu,
+  IconMoon,
+  IconSun,
+  IconTwitter,
+  IconDiscord,
+  IconGitHub,
+  Stack,
+  Text,
+  useTheme,
+} from '@kalidao/reality'
 import { arrow, icon, content, item, itemLink, label, trigger, separator } from './menu.css'
 import { useIsMounted } from '@components/hooks/useIsMounted'
 import { useThemeStore } from '@components/hooks/useThemeStore'
@@ -43,7 +54,7 @@ export const Menu = () => {
             <Item
               label={
                 <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-                  <TwitterLogoIcon aria-label="Twitter" />
+                  <IconTwitter aria-label="Twitter" />
                   <Text>Twitter</Text>
                 </Stack>
               }
@@ -52,7 +63,7 @@ export const Menu = () => {
             <Item
               label={
                 <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-                  <DiscordLogoIcon aria-label="Twitter" />
+                  <IconDiscord aria-label="Twitter" />
                   <Text>Discord</Text>
                 </Stack>
               }
@@ -61,7 +72,7 @@ export const Menu = () => {
             <Item
               label={
                 <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-                  <GitHubLogoIcon aria-label="Twitter" />
+                  <IconGitHub aria-label="Twitter" />
                   <Text>GitHub</Text>
                 </Stack>
               }

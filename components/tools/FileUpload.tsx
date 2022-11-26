@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Stack, Button } from '@kalidao/reality'
-import { UploadIcon } from '@radix-ui/react-icons'
+import { Stack, Button, IconUpload } from '@kalidao/reality'
 
 const FileUploader = (props: any) => {
   const [hasFile, setHasFile] = useState(false)
@@ -32,7 +31,7 @@ const FileUploader = (props: any) => {
       ) : (
         <Stack>
           <Button variant="transparent" onClick={handleClick}>
-            Upload <UploadIcon />
+            Upload <IconUpload />
           </Button>
           <input style={{ width: '30px', display: 'none' }} type="file" ref={hiddenFileInput} onChange={handleChange} />
         </Stack>

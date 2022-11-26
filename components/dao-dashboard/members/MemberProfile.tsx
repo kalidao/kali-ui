@@ -1,7 +1,16 @@
-import { MagicWandIcon } from '@radix-ui/react-icons'
-import { MdHowToVote } from 'react-icons/md'
-import { Card, Stack, Box, Text, Tag, Heading, Avatar, IconEth, IconTokens } from '@kalidao/reality'
-import Pie from './Pie'
+import {
+  Card,
+  Stack,
+  Box,
+  Text,
+  Tag,
+  Heading,
+  Avatar,
+  IconEth,
+  IconTokens,
+  IconDocumentsSolid,
+  IconSparkles,
+} from '@kalidao/reality'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
 import { useQuery } from '@tanstack/react-query'
@@ -33,8 +42,10 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
         <MemberCard
           title={
             profile?.handle ? (
-              <Stack direction={"vertical"} align="center" justify={'center'} space="1">
-                <Text weight="bold" size="large">{profile?.name}</Text>
+              <Stack direction={'vertical'} align="center" justify={'center'} space="1">
+                <Text weight="bold" size="large">
+                  {profile?.name}
+                </Text>
                 <Tag size="small">{profile?.handle}</Tag>
               </Stack>
             ) : (
@@ -58,11 +69,11 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
           }
         />
       )}
-      <MemberCard title="Proposals" icon={<MagicWandIcon height={30} width={30} />} info={proposals?.length} />
-      <MemberCard title="Votes" icon={<MdHowToVote size={30} />} info={votes?.length} />
+      <MemberCard title="Proposals" icon={<IconDocumentsSolid />} info={proposals?.length} />
+      <MemberCard title="Votes" icon={<IconSparkles />} info={votes?.length} />
       <MemberCard
         title="Owns"
-        icon={<IconTokens size={'14'} />}
+        icon={<IconTokens />}
         info={`${((Number(member?.shares) / totalSupply) * 100).toFixed(2)}%`}
       />
       {/* <Pie totalSupply={totalSupply} member={member} /> */}

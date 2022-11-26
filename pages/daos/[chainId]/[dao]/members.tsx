@@ -11,7 +11,7 @@ const MembersPage: NextPage = ({
   proposals,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [member, setMember] = useState(members[0])
- 
+
   const list = useMemo(
     () =>
       members?.members
