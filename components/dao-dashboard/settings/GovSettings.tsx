@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Stack, Box, Text } from '@kalidao/reality'
+import { Stack, Box } from '@kalidao/reality'
 import { UpdateVotingPeriod, UpdateQuorum, GovMenu, ToggleTransfer } from '../newproposal/internal'
 import UpdateSupermajority from '../newproposal/internal/UpdateSupermajority'
 

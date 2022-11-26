@@ -13,25 +13,25 @@ export default function GovMenu({ view, setView }: Props) {
   const items = [
     {
       title: 'Voting Period',
-      icon: <IconHand size={iconSize} color={iconColor} className={icon} />,
+      icon: <IconHand className={icon} />,
       onClick: () => setView(1),
       active: view === 1 ? true : false,
     },
     {
       title: 'Participation Needed',
-      icon: <IconUserGroupSolid size={iconSize} color={iconColor} className={icon} />,
+      icon: <IconUserGroupSolid className={icon} />,
       onClick: () => setView(2),
       active: view === 2 ? true : false,
     },
     {
       title: 'Approval Needed',
-      icon: <IconCheck size={iconSize} color={iconColor} className={icon} />,
+      icon: <IconCheck className={icon} />,
       onClick: () => setView(3),
       active: view === 3 ? true : false,
     },
     {
       title: 'Token Transferability',
-      icon: <IconTokens size={iconSize} color={iconColor} className={icon} />,
+      icon: <IconTokens className={icon} />,
       onClick: () => setView(4),
       active: view === 4 ? true : false,
     },

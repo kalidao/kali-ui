@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NextPage } from 'next'
-import Layout from '../../../../components/dao-dashboard/layout'
-import { Card, Button, Stack, Text, IconPencil } from '@kalidao/reality'
+import Layout from '@components/dao-dashboard/layout'
+import { Card, Stack } from '@kalidao/reality'
 import { Setting, SettingsMenu } from '@components/dao-dashboard/settings'
 
 const Settings: NextPage = () => {

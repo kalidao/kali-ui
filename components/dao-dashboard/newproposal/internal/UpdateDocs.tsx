@@ -5,8 +5,8 @@ import { Stack, Text, Button, FieldSet, Input, IconLink } from '@kalidao/reality
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { uploadIpfs } from '@components/tools/ipfsHelpers'
 import { AddressZero } from '@ethersproject/constants'
+import { uploadFile } from '@utils/uploadFile'
 
 // Move to DAO settings UI
 export default function UpdateDocs() {
@@ -36,7 +36,7 @@ export default function UpdateDocs() {
   const submit = async () => {
     let docs
     if (newDocFile) {
-      docs = await uploadIpfs(daoAddress, 'Docs Proposal', newDocFile)
+      docs = await uploadFile(newDocFile)
     } else {
       docs = newDocLink
     }
