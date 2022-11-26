@@ -8,11 +8,12 @@ import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateSupermajority() {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
   const [warning, setWarning] = useState<string>()
 
@@ -33,6 +34,12 @@ export default function UpdateSupermajority() {
     addressOrName: dao ? (dao as string) : AddressZero,
     contractInterface: DAO_ABI,
     functionName: 'propose',
+    chainId: Number(chainId),
+    onSuccess: () => {
+      setTimeout(() => {
+        router.push(`/daos/${chainId}/${dao}/`)
+      }, 30000)
+    }
   })
 
   // form
@@ -97,9 +104,9 @@ export default function UpdateSupermajority() {
         name="amount"
         type="number"
         inputMode="decimal"
-        placeholder="51"
+        placeholder="52"
         suffix="%"
-        min={51}
+        min={52}
         max={100}
         value={supermajority}
         onChange={(e) => setSupermajority(Number(e.target.value))}

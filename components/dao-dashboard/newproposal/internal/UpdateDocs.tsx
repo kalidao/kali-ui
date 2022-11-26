@@ -101,7 +101,7 @@ export default function UpdateDocs() {
       <FileUploader setFile={setNewDocFile} label="Upload Document" />
       {warning && <Warning warning={warning} />}
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button onClick={submit} loading={loading} disabled={warning ? true : false}>
+        <Button  center onClick={submit} loading={loading} disabled={warning ? true : false}>
           Submit
         </Button>
       </ChainGuard>

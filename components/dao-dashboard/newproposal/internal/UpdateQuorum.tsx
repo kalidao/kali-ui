@@ -8,12 +8,13 @@ import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack, Box } from '@kalidao/reality'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateQuorum() {
   const router = useRouter()
   const { dao, chainId } = router.query
 
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
 
   const { data: currentQuorum } = useContractRead({

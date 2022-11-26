@@ -72,6 +72,7 @@ export default function UpdateVotingPeriod() {
             [Array(0)],
           ],
         })
+        setWarning('')
       } catch (e) {
         console.error(e)
       }
@@ -140,7 +141,7 @@ export default function UpdateVotingPeriod() {
       ) : null}
       {warning && <Warning warning={warning} />}
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button onClick={submit} disabled={isSuccess} loading={loading}>
+        <Button  center onClick={submit} disabled={isSuccess} loading={loading}>
           Submit
         </Button>
       </ChainGuard>

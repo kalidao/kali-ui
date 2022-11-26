@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
 import { createProposal } from '../utils'
-import { FieldSet, Text, Button, Input } from '@kalidao/reality'
+import { FieldSet, Button, Input } from '@kalidao/reality'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { JSONContent } from '@tiptap/react'
 
@@ -94,7 +94,7 @@ export default function ToggleTransfer() {
         description="Why should the token transferability be flipped?"
       />
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button onClick={submit} disabled={isSuccess} loading={loading}>
+        <Button  center onClick={submit} disabled={isSuccess} loading={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </Button>
       </ChainGuard>
