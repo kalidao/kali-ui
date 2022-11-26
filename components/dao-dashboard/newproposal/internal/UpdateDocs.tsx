@@ -41,13 +41,12 @@ export default function UpdateDocs() {
     } else {
       setWarning(undefined)
     }
-    
   }, [newDocLink, newDocFile])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
     setLoading(true)
-  
+
     let docs
     if (newDocFile) {
       console.log('uploading file', newDocFile)
@@ -80,8 +79,12 @@ export default function UpdateDocs() {
     <FieldSet legend="Update Docs" description={'New documentation will be uploaded to IPFS'}>
       {/* FIXME: Is not fetching  */}
       <Text>{prevDocs?.message}</Text>
-      {data && prevDocs?.isLink && <Button as="a" href={data.toString()}>Review</Button>}  
-      
+      {data && prevDocs?.isLink && (
+        <Button as="a" href={data.toString()}>
+          Review
+        </Button>
+      )}
+
       <Input
         label="Link to new document."
         name="recipient"

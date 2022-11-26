@@ -40,9 +40,16 @@ export default function GovMenu({ view, setView }: Props) {
   return (
     <Stack direction="vertical" align={'flex-start'} space="2.5">
       <Text>Review setting and make proposal to change them.</Text>
-      {items.map((item) => (
-        <GovItem key={item.title} active={item.active} title={item.title} icon={item.icon} onClick={item.onClick} />
-      ))}
+      <Stack
+        direction={{
+          xs: 'horizontal',
+          lg: 'vertical',
+        }}
+      >
+        {items.map((item) => (
+          <GovItem key={item.title} active={item.active} title={item.title} icon={item.icon} onClick={item.onClick} />
+        ))}
+      </Stack>
     </Stack>
   )
 }

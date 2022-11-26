@@ -1,4 +1,4 @@
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 import { BubbleMenu } from '@tiptap/react'
@@ -6,16 +6,18 @@ import { FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react
 import * as styles from './editor.css'
 import { Field, Button, Box } from '@kalidao/reality'
 
-export default function Editor({ setContent }) {
+type Props = {
+  setContent: React.Dispatch<React.SetStateAction<JSONContent>>
+  placeholder?: string
+  label?: string
+  description?: string
+}
+
+export default function Editor({ placeholder, label = 'Description (Optional)', description, setContent }: Props) {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: `
-      <p>
-        Provide a detailed description of your proposal here!
-      </p>
-    `,
+    content: ``,
     onUpdate({ editor }) {
-      console.log('editor', editor.getJSON())
       setContent(editor.getJSON())
     },
   })
@@ -28,7 +30,7 @@ export default function Editor({ setContent }) {
             shape="circle"
             size="small"
             variant="transparent"
-            onClick={() => editor.chain().focus().toggleBold('bold').run()}
+            onClick={() => editor.chain().focus().toggleBold().run()}
           >
             <FontBoldIcon />
           </Button>
@@ -50,8 +52,8 @@ export default function Editor({ setContent }) {
           </Button>
         </BubbleMenu>
       )}
-      <Field label="Description (Optional)">
-        <EditorContent className={styles.editor} editor={editor} />
+      <Field label={label} description={description}>
+        <EditorContent placeholder={placeholder} className={styles.editor} editor={editor} />
       </Field>
     </Box>
   )

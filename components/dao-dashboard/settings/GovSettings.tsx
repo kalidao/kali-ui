@@ -30,7 +30,14 @@ export default function GovSettings() {
   ]
 
   return (
-    <Stack direction={'horizontal'} align="flex-start" justify={'space-between'}>
+    <Stack
+      direction={{
+        xs: 'vertical',
+        md: 'horizontal',
+      }}
+      align="flex-start"
+      justify={'space-between'}
+    >
       {views[0]['component']}
       <Box width="full">{views[view]['component']}</Box>
     </Stack>

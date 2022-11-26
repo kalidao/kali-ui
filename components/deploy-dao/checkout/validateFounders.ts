@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 
-export const validateFounders = (founders) => {
+export const validateFounders = (founders: { member: string; share: string }[]) => {
   let voters = []
   let shares = []
 

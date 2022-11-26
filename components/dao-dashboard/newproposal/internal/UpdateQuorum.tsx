@@ -107,7 +107,7 @@ export default function UpdateQuorum() {
       />
       {warning && <Warning warning={warning} />}
       <Stack direction={'horizontal'} justify={'space-between'}>
-        <ChainGuard>
+        <ChainGuard fallback={<Button>Submit</Button>}>
           <Button
             center
             variant="primary"

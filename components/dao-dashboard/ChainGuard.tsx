@@ -19,6 +19,24 @@ export default function ChainGuard({ fallback, children }: Props) {
   const isWrongChain = userChain?.id != daoChainId ? true : false
 
   if (isWrongChain) {
+    if (daoChainId === 4) {
+      return (
+        <Alert
+          onClick={() => router.push('/')}
+          title="Deprecated!"
+          message={`Go Home`}
+          description={`This DAO is on the deprecated Rinkeby testnet. We have switched to Goerli for testing now.`}
+        >
+          {fallback ? (
+            fallback
+          ) : (
+            <Button variant="secondary" tone="green">
+              Go Home
+            </Button>
+          )}
+        </Alert>
+      )
+    }
     return (
       <Alert
         onClick={() => switchNetwork?.(daoChainId)}

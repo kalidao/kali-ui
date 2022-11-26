@@ -50,7 +50,7 @@
     "pages/daos/[chainId]/[dao]/proposals/[proposalId]/index.tsx",
     "components/dao-dashboard/timeline/timeline/Card.jsx",
     "components/hooks/useExplorer.tsx",
-    "components/editor/index.jsx",
+    "components/editor/index.tsx",
     "components/dao-dashboard/newproposal/apps/SetCrowdsale.tsx"
 , "components/dao-dashboard/crowdsale/fetchPurchasers.ts", "pages/daos/[chainId]/[dao]/swap.tsx"  ],
   "exclude": [

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
-import { Heading, Box, Text, Tag, Card } from '@kalidao/reality'
+import { Heading, Box, Text, Tag, Card, Stack } from '@kalidao/reality'
 import { linkStyle, proposalCard } from './ProposalCard.css'
 import { isURL } from '@utils/proposals'
 import Description from '../proposal/page/Description'
@@ -108,18 +108,27 @@ export default function ProposalCard({ proposal }: PropCardProp) {
         passHref
       >
         <a className={linkStyle}>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Box display="flex" alignItems="center" gap="1">
-              <Heading responsive>{`#${proposal?.serial} ${details ? details?.title : ''}`}</Heading>
+          <Stack
+            direction={{
+              xs: 'horizontal',
+            }}
+            align={{ xs: 'flex-start', md: 'center' }}
+            justify={'space-between'}
+          >
+            <Stack direction={{ xs: 'vertical', md: 'horizontal' }} align={{ xs: 'flex-start', md: 'center' }}>
+              <Text size="extraLarge" color="foreground">{`#${proposal?.serial} ${
+                details ? details?.title : ''
+              }`}</Text>
               <Tag tone="secondary" size="small">
                 {proposer}
               </Tag>
-            </Box>
+            </Stack>
             <Tag label={proposal['proposalType']} tone={color!} size="medium">
               {text}
             </Tag>
-          </Box>
+          </Stack>
           <Description
+            type={proposal['proposalType']}
             description={details ? details?.description : proposal?.description}
             isSchema={details ? true : false}
             short

@@ -106,7 +106,7 @@ export default function UpdateSupermajority() {
       />
       {warning && <Warning warning={warning} />}
       <Stack direction={'horizontal'} justify={'space-between'}>
-        <ChainGuard>
+        <ChainGuard fallback={<Button>Submit</Button>}>
           <Button
             center
             variant="primary"

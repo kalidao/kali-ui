@@ -54,7 +54,7 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Box width="full" display="flex" flexDirection={'column'} gap="3">
+    <Box width="full" display="flex" flexDirection={'column'} gap="10">
       <Stack direction="horizontal" align="center">
         <Heading responsive>
           {`#${proposalId} `}
@@ -73,6 +73,7 @@ export default function ProposalView({ proposal }: Props) {
         <Box width="full" display={'flex'} flexDirection="column" justifyContent={'space-between'}>
           {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
+              type={proposal?.['proposalType']}
               description={details ? details?.description : proposal?.description}
               isSchema={details ? true : false}
             />
@@ -100,6 +101,7 @@ export default function ProposalView({ proposal }: Props) {
             <Button
               variant="secondary"
               tone="red"
+              size="small"
               prefix={<IconClose />}
               onClick={() =>
                 router.push(

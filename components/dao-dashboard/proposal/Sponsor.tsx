@@ -19,7 +19,7 @@ export default function Sponsor({ proposalId }: { proposalId: number }) {
 
   return (
     <ChainGuard fallback={<Button tone="green">Sponsor</Button>}>
-      <Button tone="green" onClick={() => write?.()} disabled={!write} loading={isLoading}>
+      <Button size="small" tone="green" onClick={() => write?.()} disabled={!write} loading={isLoading}>
         Sponsor
       </Button>
     </ChainGuard>

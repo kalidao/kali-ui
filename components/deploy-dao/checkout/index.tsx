@@ -13,17 +13,20 @@ import { Stack, Button } from '@kalidao/reality'
 import Confirmation from './Confirmation'
 import Success from './Success'
 
-import { addresses } from '../../../constants/addresses'
-import FACTORY_ABI from '../../../abi/KaliDAOfactory.json'
-import REDEMPTION_ABI from '../../../abi/KaliDAOredemption.json'
-import SALE_ABI from '../../../abi/KaliDAOcrowdsale.json'
+import { addresses } from '@constants/addresses'
+import FACTORY_ABI from '@abi/KaliDAOfactory.json'
+import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
+import SALE_ABI from '@abi/KaliDAOcrowdsale.json'
 import { useRouter } from 'next/router'
 
-export default function Checkout({ setStep }) {
-  const router = useRouter()
+type Props = {
+  setStep: React.Dispatch<React.SetStateAction<number>>
+}
+
+export default function Checkout({ setStep }: Props) {
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { address: account, isConnected } = useAccount()
+  const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
   const {
     data,
@@ -32,19 +35,15 @@ export default function Checkout({ setStep }) {
     isSuccess: isWriteSuccess,
     isError,
     error,
-  } = useContractWrite(
-    {
-      mode: 'recklesslyUnprepared',
-      addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
-      contractInterface: FACTORY_ABI,
-      functionName: 'deployKaliDAO',
+  } = useContractWrite({
+    mode: 'recklesslyUnprepared',
+    addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
+    contractInterface: FACTORY_ABI,
+    functionName: 'deployKaliDAO',
+    onSuccess(data) {
+      console.log('success!', data)
     },
-    {
-      onSuccess(data) {
-        console.log('success!', data)
-      },
-    },
-  )
+  })
 
   // remove ricardian as default
   const deployKaliDao = useCallback(async () => {
@@ -66,12 +65,7 @@ export default function Checkout({ setStep }) {
 
     let docs_
     if (legal) {
-      docs_ = validateDocs(
-        docType,
-        state.existingDocs ? state.existingDocs : null,
-        name,
-        state.mission ? state.mission : null,
-      )
+      docs_ = validateDocs(docType, state.existingDocs)
     } else {
       docs_ = 'na'
     }

@@ -6,6 +6,8 @@ import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import { FieldSet, Text, Button, Input } from '@kalidao/reality'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { JSONContent } from '@tiptap/react'
 
 export default function ToggleTransfer() {
   // Router
@@ -13,7 +15,7 @@ export default function ToggleTransfer() {
   const { dao, chainId } = router.query
 
   const [title, setTitle] = useState<string>()
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
   const [warning, setWarning] = useState<string>()
   const [loading, setLoading] = useState(false)
   // Contract functions
@@ -23,6 +25,17 @@ export default function ToggleTransfer() {
     contractInterface: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
+    onSuccess: () => {
+      setTimeout(() => {
+        setLoading(false)
+        router.push(`/daos/${chainId}/${dao}/`)
+      }, 35000)
+    },
+    onError: (e) => {
+      console.error(e)
+      setWarning('There was an error in submitting this proposal.')
+      setLoading(false)
+    },
   })
   const { data: paused } = useContractRead({
     addressOrName: dao ? (dao as string) : AddressZero,
@@ -58,11 +71,15 @@ export default function ToggleTransfer() {
     } catch (e) {
       console.log('error', e)
     }
-    setLoading(false)
   }
 
   return (
-    <FieldSet legend="Toggle Transfer" description="Submit proposal to pause or unpause DAO token transferability.">
+    <FieldSet
+      legend="Toggle Transfer"
+      description={`Submit proposal to pause or unpause DAO token transferability. ${
+        paused ? 'The token is currently not transferable' : 'The token is currently transferable'
+      }`}
+    >
       <Input
         name="id"
         label="Title"
@@ -70,12 +87,17 @@ export default function ToggleTransfer() {
         placeholder={'Proposal for...'}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <Editor setContent={setContent} />
-      <Text>{paused ? 'The token is currently not transferable' : 'The token is currently transferable'}</Text>
-
-      <Button onClick={submit} disabled={isSuccess}>
-        Submit
-      </Button>
+      <Editor
+        setContent={setContent}
+        placeholder="You can describe your proposal here."
+        label="Details"
+        description="Why should the token transferability be flipped?"
+      />
+      <ChainGuard fallback={<Button>Submit</Button>}>
+        <Button onClick={submit} disabled={isSuccess} loading={loading}>
+          {loading ? 'Submitting...' : 'Submit'}
+        </Button>
+      </ChainGuard>
     </FieldSet>
   )
 }

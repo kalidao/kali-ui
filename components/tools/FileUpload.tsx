@@ -15,12 +15,17 @@ const FileUploader = ({ setFile, label }: Props) => {
           context.name ? (
             <Box className={styles.container}>
               <Text>{context.name}</Text>
-              <Button size="small" variant="transparent" suffix={<IconClose />} onClick={(e) => {
-                e.preventDefault()
+              <Button
+                size="small"
+                variant="transparent"
+                suffix={<IconClose />}
+                onClick={(e) => {
+                  e.preventDefault()
 
-                context.reset(e)
-                setFile(undefined)
-                }}>
+                  context.reset(e)
+                  setFile(undefined)
+                }}
+              >
                 Remove
               </Button>
             </Box>

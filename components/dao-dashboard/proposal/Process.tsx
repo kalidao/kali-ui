@@ -28,7 +28,7 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   })
 
   return (
-    <Button prefix={<IconCheck />} tone="green" onClick={() => write?.()} disabled={!write}>
+    <Button size="small" prefix={<IconCheck />} tone="green" onClick={() => write?.()} disabled={!write}>
       Process
     </Button>
   )

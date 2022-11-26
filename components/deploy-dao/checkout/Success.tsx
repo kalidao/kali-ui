@@ -4,7 +4,6 @@ import { useStateMachine } from 'little-state-machine'
 import { Spinner } from '@kalidao/reality'
 import { addresses } from '@constants/addresses'
 import FACTORY_ABI from '@abi/KaliDAOfactory.json'
-import { useRouter } from 'next/router'
 import { init, send } from 'emailjs-com'
 import { ethers } from 'ethers'
 
@@ -13,7 +12,6 @@ init(process.env.NEXT_PUBLIC_EMAIL_ID as string)
 export default function Success() {
   const { state } = useStateMachine()
   const { chain: activeChain } = useNetwork()
-  const router = useRouter()
 
   useContractEvent({
     addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : ethers.constants.AddressZero,

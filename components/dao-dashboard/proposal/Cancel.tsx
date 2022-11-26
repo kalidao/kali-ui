@@ -19,7 +19,7 @@ export default function Cancel({ proposalId }: { proposalId: number }) {
 
   return (
     <ChainGuard fallback={<Button tone="red">Cancel</Button>}>
-      <Button tone="red" onClick={() => write?.()} disabled={!write}>
+      <Button size="small" tone="red" onClick={() => write?.()} disabled={!write}>
         Cancel
       </Button>
     </ChainGuard>

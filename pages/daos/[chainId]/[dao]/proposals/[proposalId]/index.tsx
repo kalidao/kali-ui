@@ -29,7 +29,7 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
           lg: '6',
         }}
       >
-        <Stack space="3">
+        <Stack space="10">
           <Stack
             direction={{
               xs: 'vertical',

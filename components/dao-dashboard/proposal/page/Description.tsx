@@ -5,12 +5,13 @@ import { generateHTML } from '@tiptap/react'
 
 // TODO: description types
 type Props = {
+  type?: string
   description: any
   isSchema: boolean
   short?: boolean
 }
 
-export default function Description({ description, isSchema, short }: Props) {
+export default function Description({ type, description, isSchema, short }: Props) {
   const output = useMemo(() => {
     if (isSchema && description != undefined) {
       return generateHTML(description, [StarterKit])
@@ -21,20 +22,34 @@ export default function Description({ description, isSchema, short }: Props) {
 
   // <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis></Text>
   if (short) {
+    if (type === 'DOCS') {
+      return (
+        <Box width="full" height={'20'} marginTop="5">
+          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
+            This will update the docs for this DAO. Expand to review the details.
+          </Text>
+        </Box>
+      )
+    }
     return (
-      <Box width="full">
+      <Box width="full" height={'20'}>
         {isSchema ? (
           output && (
-            <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
-              <div dangerouslySetInnerHTML={{ __html: output }}></div>
+            <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
+              <div
+                dangerouslySetInnerHTML={{ __html: output }}
+                style={{
+                  height: 60,
+                }}
+              ></div>
             </Text>
           )
         ) : description.length > 0 ? (
-          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
+          <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
             {description}
           </Text>
         ) : (
-          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
+          <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
             No description.
           </Text>
         )}
@@ -43,20 +58,20 @@ export default function Description({ description, isSchema, short }: Props) {
   }
 
   return (
-    <Box width="full">
+    <Box width={{ xs: 'full', md: '128', lg: '224' }}>
       {/* TODO: output could be anything, sanitize?  */}
       {isSchema ? (
         output && (
-          <Text color="foreground">
+          <Text color="text">
             <div dangerouslySetInnerHTML={{ __html: output }}></div>
           </Text>
         )
       ) : description.length > 0 ? (
-        <Text color="foreground" whiteSpace="pre-line">
+        <Text color="text" whiteSpace="pre-line">
           {description}
         </Text>
       ) : (
-        <Text>No description.</Text>
+        <Text color="text">No description.</Text>
       )}
     </Box>
   )

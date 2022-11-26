@@ -1,5 +1,5 @@
 // TODO: put UNA template on-chain, return hash
-export default function validateDocs(type, existingDocs, name, mission) {
+export default function validateDocs(type: string, existingDocs?: string) {
   switch (type) {
     case 'series':
       return ''
