@@ -69,9 +69,9 @@ const Member = ({ address, shares }: { address: string; shares: string }) => {
   const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
   return (
-    <Stack direction={'horizontal'} align="center">
+    <Stack direction={'horizontal'} align="center" justify={'space-between'}>
       <Avatar src={profile?.picture} address={address} label={`${address} picture`} />
-      <Text>{profile ? profile?.handle : ensName ? ensName : truncateAddress(address)}</Text>
+      <Text>{profile?.handle ? profile?.handle : ensName ? ensName : truncateAddress(address)}</Text>
       <Text>{formatEther(shares)}</Text>
     </Stack>
   )

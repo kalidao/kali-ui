@@ -5,7 +5,7 @@ const pinata = pinataSDK(process.env.PINATA_KEY, process.env.PINATA_SECRET)
 
 const options = {
   pinataMetadata: {
-    name: 'Wrappr',
+    name: 'Kali',
   },
   pinataOptions: {
     cidVersion: 0,

@@ -7,3 +7,9 @@ globalStyle('html, body', {
   background: vars.colors.background,
   fontFamily: vars.fonts.sans,
 })
+
+globalStyle('a', {
+  color: vars.colors.accent,
+  fontFamily: vars.fonts.sans,
+  textDecoration: 'none',
+})

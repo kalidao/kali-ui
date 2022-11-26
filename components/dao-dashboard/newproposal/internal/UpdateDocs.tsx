@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Warning } from '@design/elements'
-import { Stack, Text, Button, FieldSet, Input, IconLink } from '@kalidao/reality'
+import { Stack, Text, Button, FieldSet, Divider, Input, IconLink } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import { uploadFile } from '@utils/uploadFile'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { resolveDocs } from '@utils/resolveDocs'
 
 // Move to DAO settings UI
 export default function UpdateDocs() {
@@ -20,22 +22,35 @@ export default function UpdateDocs() {
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
-  const { data: prevDoc, isLoading: isFetchingDocs } = useContractRead({
+  const { data, isLoading: isFetchingDocs } = useContractRead({
     addressOrName: daoAddress,
     contractInterface: KALIDAO_ABI,
     functionName: 'docs',
     chainId: daoChain,
   })
-
+  const prevDocs = resolveDocs(data?.toString())
   // form
   const [newDocLink, setNewDocLink] = useState<string>()
-  const [newDocFile, setNewDocFile] = useState(null)
+  const [newDocFile, setNewDocFile] = useState<File>()
   const [warning, setWarning] = useState<string>()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (newDocLink && newDocFile) {
+      setWarning('You can only submit one document at a time')
+    } else {
+      setWarning(undefined)
+    }
+    
+  }, [newDocLink, newDocFile])
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
+    setLoading(true)
+  
     let docs
     if (newDocFile) {
+      console.log('uploading file', newDocFile)
       docs = await uploadFile(newDocFile)
     } else {
       docs = newDocLink
@@ -52,42 +67,41 @@ export default function UpdateDocs() {
           [0],
           [Array(0)],
         )
-        console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }
     } else {
       setWarning('Please set a new document.')
     }
+    setLoading(false)
   }
 
   return (
     <FieldSet legend="Update Docs" description={'New documentation will be uploaded to IPFS'}>
       {/* FIXME: Is not fetching  */}
-      {!isFetchingDocs && prevDoc && prevDoc.toString() != 'none' ? (
-        <Stack direction={'horizontal'} align="center" justify={'flex-start'}>
-          <Text>Current Docs:</Text>
-          <a href={`https://ipfs.fleek.co/ipfs/${prevDoc}`} target="_blank" rel="noreferrer noopener">
-            <IconLink color="white" />
-          </a>
-        </Stack>
-      ) : (
-        <Text>We could not find any docs for your DAO.</Text>
-      )}
+      <Text>{prevDocs?.message}</Text>
+      {data && prevDocs?.isLink && <Button as="a" href={data.toString()}>Review</Button>}  
+      
       <Input
         label="Link to new document."
         name="recipient"
         type="text"
         defaultValue={newDocLink}
         onChange={(e) => setNewDocLink(e.target.value)}
+        prefix={<IconLink />}
       />
-
-      <Text>OR</Text>
-
-      <Text>Upload</Text>
-      <FileUploader setFile={setNewDocFile} />
+      <Stack direction={'horizontal'} align="center">
+        <Divider />
+        <Text weight={'semiBold'}>OR</Text>
+        <Divider />
+      </Stack>
+      <FileUploader setFile={setNewDocFile} label="Upload Document" />
       {warning && <Warning warning={warning} />}
-      <Button onClick={submit}>Submit</Button>
+      <ChainGuard fallback={<Button>Submit</Button>}>
+        <Button onClick={submit} loading={loading} disabled={warning ? true : false}>
+          Submit
+        </Button>
+      </ChainGuard>
     </FieldSet>
   )
 }

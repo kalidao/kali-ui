@@ -3,10 +3,13 @@ import { convertIpfsHash } from './convertIpfsHash'
 // General use case
 export async function uploadFile(attachment: any) {
   try {
-    const result = await fetch('api/upload/file', {
+    const formData = new FormData()
+    formData.append('file', attachment)
+    const result = await fetch('/api/upload/file', {
       method: 'POST',
-      body: attachment,
+      body: formData,
     }).then((res) => res.json())
+
     const url = convertIpfsHash(result.IpfsHash)
     return url
   } catch (e) {

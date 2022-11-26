@@ -1,42 +1,38 @@
-import React, { useState } from 'react'
-import { Stack, Button, IconUpload } from '@kalidao/reality'
+import React from 'react'
+import { Button, Text, Field, IconClose, Box, IconUpload, FileInput } from '@kalidao/reality'
+import * as styles from './styles.css'
 
-const FileUploader = (props: any) => {
-  const [hasFile, setHasFile] = useState(false)
-  const hiddenFileInput = React.useRef(null)
+type Props = {
+  setFile: React.Dispatch<React.SetStateAction<File | undefined>>
+  label: string
+}
 
-  const handleClick = (e) => {
-    e.preventDefault()
-    if (!hiddenFileInput) return
-    hiddenFileInput.current.click()
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    if (!e.target.files) return
-    const fileUploaded = e.target.files[0]
-    props.setFile(fileUploaded)
-    setHasFile(true)
-  }
-
+const FileUploader = ({ setFile, label }: Props) => {
   return (
-    <>
-      {hasFile ? (
-        <Stack>
-          <Button variant="transparent" disabled={true}>
-            Got it!
-          </Button>
-          <input style={{ width: '30px', display: 'none' }} type="file" ref={hiddenFileInput} onChange={handleChange} />
-        </Stack>
-      ) : (
-        <Stack>
-          <Button variant="transparent" onClick={handleClick}>
-            Upload <IconUpload />
-          </Button>
-          <input style={{ width: '30px', display: 'none' }} type="file" ref={hiddenFileInput} onChange={handleChange} />
-        </Stack>
-      )}
-    </>
+    <Field label={label}>
+      <FileInput onChange={(file) => setFile(file)} accept="application/pdf">
+        {(context) =>
+          context.name ? (
+            <Box className={styles.container}>
+              <Text>{context.name}</Text>
+              <Button size="small" variant="transparent" suffix={<IconClose />} onClick={(e) => {
+                e.preventDefault()
+
+                context.reset(e)
+                setFile(undefined)
+                }}>
+                Remove
+              </Button>
+            </Box>
+          ) : (
+            <Box className={styles.container}>
+              <IconUpload />
+              <Text>{context.droppable ? 'Drop file' : 'Attach file'}</Text>
+            </Box>
+          )
+        }
+      </FileInput>
+    </Field>
   )
 }
 

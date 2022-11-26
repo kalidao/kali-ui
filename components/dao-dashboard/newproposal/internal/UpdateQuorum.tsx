@@ -95,7 +95,7 @@ export default function UpdateQuorum() {
 
       <Input
         label="Participation"
-        description={`Current participation percentage: ${currentQuorum ? currentQuorum : 'fething...'}%`}
+        description={`Current participation percentage: ${currentQuorum ? currentQuorum : 'Fetching...'}%`}
         name="amount"
         type="number"
         inputMode="decimal"

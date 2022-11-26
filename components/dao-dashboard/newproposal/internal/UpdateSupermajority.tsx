@@ -93,7 +93,7 @@ export default function UpdateSupermajority() {
       <Editor setContent={setContent} />
       <Input
         label="Approval"
-        description={`Current approval percentage: ${currentSupermajority ? currentSupermajority : 'fething...'}%`}
+        description={`Current approval percentage: ${currentSupermajority ? currentSupermajority : 'Fetching...'}%`}
         name="amount"
         type="number"
         inputMode="decimal"

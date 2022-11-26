@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import fs from 'fs'
+import * as fs from 'fs'
 import formidable, { File } from 'formidable'
+import { pinataOptions } from '../../../constants/pinata'
 
 export const config = {
   api: {
@@ -12,15 +13,6 @@ type ProcessedFiles = Array<[string, File]>
 
 const pinataSDK = require('@pinata/sdk')
 const pinata = pinataSDK(process.env.PINATA_KEY, process.env.PINATA_SECRET)
-
-const options = {
-  pinataMetadata: {
-    name: 'Wrappr',
-  },
-  pinataOptions: {
-    cidVersion: 0,
-  },
-}
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   let status = 200,
@@ -48,7 +40,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     for (const file of files) {
       const readableStreamForFile = fs.createReadStream(file[1].filepath)
       pinata
-        .pinFileToIPFS(readableStreamForFile, options)
+        .pinFileToIPFS(readableStreamForFile, pinataOptions)
         .then((result: any) => {
           //handle results here
           status = 200
