@@ -75,23 +75,6 @@ export default function Crowdsale({ info }) {
     chainId: Number(chainId),
   })
 
-  // Crowdsale data
-  let type
-  // const isActive = info?.crowdsale?.active
-  // const inProgress = info?.crowdsale?.saleEnds * 1000 > Date.now() ? true : false
-  // const terms = info?.crowdsale?.details
-  // const symbol =
-  //   info?.crowdsale?.purchaseToken === '0x0000000000000000000000000000000000000000' ||
-  //   info?.crowdsale?.purchaseToken.toLowerCase() === '0x000000000000000000000000000000000000dead'
-  //     ? 'ETH'
-  //     : purchaseTokenSymbol
-  // const personalLimit = ethers.utils.formatEther(
-  //   info?.crowdsale?.personalLimit ? info?.crowdsale?.personalLimit : '1000000000000000000',
-  // )
-  // const purchaseLimit = ethers.utils.formatEther(
-  //   info?.crowdsale?.purchaseLimit ? info?.crowdsale?.purchaseLimit : '1000000000000000000',
-  // )
-
   // States
   const [clickedTerms, setClickedTerms] = useState(false)
   const [warning, setWarning] = useState(null)

@@ -1,4 +1,4 @@
-import { GlobalState, useStateMachine } from 'little-state-machine'
+import { useStateMachine } from 'little-state-machine'
 
 import { legalEntities } from '@constants/legalEntities'
 import { Box, Stack, Text, IconCheck, IconClose } from '@kalidao/reality'
@@ -6,20 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@d
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import { ethers } from 'ethers'
-
-const formatVotingPeriodUnit = (unit: string) => {
-  switch (unit) {
-    case 'day': {
-      return 'Days'
-    }
-    case 'hour': {
-      return 'Hours'
-    }
-    case 'min': {
-      return 'Minutes'
-    }
-  }
-}
+import { formatVotingPeriod, votingPeriodToSeconds } from '@utils/index'
 
 const Row = ({ name, value }: { name: string; value: React.ReactNode }) => {
   return (
@@ -50,6 +37,8 @@ const Founder = ({ member, shares }: FounderProps) => {
 export default function Confirmation() {
   const { state } = useStateMachine()
   console.log('state', state)
+  const voting = votingPeriodToSeconds(state.votingPeriod, state.votingPeriodUnit)
+
   return (
     <Accordion type="single" defaultValue="token" collapsible>
       <AccordionItem value="token">
@@ -64,7 +53,7 @@ export default function Confirmation() {
         <AccordionContent>
           <Row name="Participation Needed" value={`${state.quorum}%`} />
           <Row name="Approval Needed" value={`${state.approval}%`} />
-          <Row name="Voting Period" value={`${state.votingPeriod} ${formatVotingPeriodUnit(state.votingPeriodUnit)}`} />
+          <Row name="Voting Period" value={`${typeof voting == 'number' ? formatVotingPeriod(voting) : 'Invalid'}`} />
           <Row
             name="Token Transferability"
             value={state.transferability === true ? <IconCheck color="green" /> : <IconClose color="red" />}

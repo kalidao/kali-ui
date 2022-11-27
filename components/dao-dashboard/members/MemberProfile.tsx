@@ -37,7 +37,7 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   console.log('profile', profile, isLoading)
 
   return (
-    <Stack direction={'horizontal'} space={'1'}>
+    <Stack direction={'horizontal'} space={'1'} wrap>
       {member && profile && (
         <MemberCard
           title={
@@ -89,11 +89,20 @@ type CardProps = {
 
 const MemberCard = ({ title, icon, info }: CardProps) => {
   return (
-    <Box minHeight="64" minWidth="64" padding="6" backgroundColor={'backgroundSecondary'} borderRadius="2xLarge">
+    <Box
+      minHeight="44"
+      minWidth="44"
+      padding="6"
+      backgroundColor={'backgroundSecondary'}
+      display="flex"
+      alignItems={'center'}
+      justifyContent="center"
+      borderRadius="2xLarge"
+    >
       <Stack align="center" justify={'center'} space={'2'}>
         <Box color="foreground">{icon}</Box>
-        <Box> {title} </Box>
-        <Text size="headingOne">{info}</Text>
+        <Text size="extraLarge"> {title} </Text>
+        <Text size="extraLarge">{info}</Text>
       </Stack>
     </Box>
   )

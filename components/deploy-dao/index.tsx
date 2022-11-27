@@ -16,20 +16,20 @@ createStore({
   name: '',
   symbol: '',
   hardMode: false,
-  votingPeriod: 5,
+  votingPeriod: 1,
   votingPeriodUnit: 'day',
   quorum: 20,
   approval: 60,
   transferability: false,
   redemption: false,
-  redemptionStart: new Date(),
+  redemptionStart: new Date().toDateString(),
   crowdsale: false,
   purchaseToken: 'eth',
   customTokenAddress: '',
   purchaseLimit: 10000,
   personalLimit: 100,
   purchaseMultiplier: 10,
-  crowdsaleEnd: new Date(),
+  crowdsaleEnd: new Date().toDateString(),
   legal: false,
   docType: 'none',
   email: '',
@@ -104,7 +104,7 @@ export default function DeployDaoWrapper() {
           <Heading>{steps[step]['title']}</Heading>
           <Toggle />
         </Box>
-        <Text>{steps[step]['description']}</Text>
+        <Text color="text">{steps[step]['description']}</Text>
         <Progress value={(step / (steps.length - 1)) * 100} />
         {steps[step]['component']}
       </Box>

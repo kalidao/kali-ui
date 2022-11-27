@@ -26,8 +26,8 @@ export function Select({ name, label, disabled, error, options, onChange, defaul
         onChange={onChange}
         disabled={disabled}
       >
-        {options.map((option) => (
-          <Box as="option" value={option.value}>
+        {options.map((option, index) => (
+          <Box key={index} as="option" value={option.value}>
             {option.label}
           </Box>
         ))}

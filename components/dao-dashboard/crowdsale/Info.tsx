@@ -1,27 +1,21 @@
-import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { erc20ABI, useContractRead, useSigner } from 'wagmi'
-import { AddressZero } from '@ethersproject/constants'
+import { erc20ABI, useContractRead } from 'wagmi'
 import { ethers } from 'ethers'
-import { prettyDate } from '../../../utils'
-import { addresses } from '../../../constants/addresses'
+import { prettyDate } from '@utils/prettyDate'
+import { addresses } from '@constants/addresses'
 import { Text, Heading, Stack, Box } from '@kalidao/reality'
 
 export default function Info({ info, decimals, crowdsale, symbol }) {
   const router = useRouter()
-  const { chainId } = router.query
-  const { data: signer } = useSigner()
+  const chainId = Number(router.query.chainId)
+
   // const [symbol, setSymbol] = useState(null)
-  const { data: purchaseTokenSymbol } = useContractRead(
-    {
-      addressOrName: crowdsale.purchaseAsset,
-      contractInterface: erc20ABI,
-    },
-    'symbol',
-    {
-      chainId: Number(chainId),
-    },
-  )
+  const { data: purchaseTokenSymbol } = useContractRead({
+    addressOrName: crowdsale.purchaseAsset,
+    contractInterface: erc20ABI,
+    functionName: 'symbol',
+    chainId: chainId,
+  })
 
   let type = ''
   switch (Number(ethers.utils.formatEther(crowdsale.listId)).toString()) {
@@ -100,7 +94,7 @@ export default function Info({ info, decimals, crowdsale, symbol }) {
       <Box width={'3/4'}>
         <Stack direction={'horizontal'} justify={'space-between'}>
           <Text>Swap ends on: </Text>
-          <Text>{prettyDate(new Date(ethers.BigNumber.from(crowdsale.saleEnds * 1000).toNumber()))}</Text>
+          <Text>{prettyDate(crowdsale.saleEnds)}</Text>
         </Stack>
       </Box>
     </Stack>

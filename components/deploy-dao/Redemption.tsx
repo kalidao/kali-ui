@@ -4,6 +4,7 @@ import updateAction from './updateAction'
 import { useForm } from 'react-hook-form'
 import { Stack, Button, Input, FieldSet } from '@kalidao/reality'
 import Switch from '@design/Switch'
+import { DateInput } from '@design/DateInput'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -54,17 +55,10 @@ export default function Redemption({ setStep }: Props) {
         onValueChange={(value: boolean) => setValue('redemption', value)}
       />
       {watchRedemption && (
-        <Input
+        <DateInput
           label="Start Date"
           defaultValue={state['redemptionStart']}
-          variant="calendar"
-          type="datetime-local"
-          {...register('redemptionStart', {
-            required: {
-              value: true,
-              message: 'Start date is required.',
-            },
-          })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue('redemptionStart', e.target.value)}
         />
       )}
       <Stack direction={'horizontal'} align="center" justify={'flex-end'}>

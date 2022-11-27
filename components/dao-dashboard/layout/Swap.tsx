@@ -12,7 +12,7 @@ import { useContractRead } from 'wagmi'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import { prettyDate } from '@utils/prettyDate'
 
-const Profile = ({ address, chainId }: DashboardElementProps) => {
+const Swap = ({ address, chainId }: DashboardElementProps) => {
   const {
     data: swap,
     isLoading: isSwapLoading,
@@ -41,7 +41,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       >
         {JSON.stringify(swap, null, 2)}
       </pre>
-      <Heading>{prettyDate(new Date(ethers.BigNumber.from(swap?.saleEnds * 1000).toNumber()))}</Heading>
+      <Heading>{prettyDate(swap?.saleEnds)}</Heading>
     </Card>
   )
 }

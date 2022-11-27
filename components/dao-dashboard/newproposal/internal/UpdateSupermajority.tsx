@@ -39,7 +39,7 @@ export default function UpdateSupermajority() {
       setTimeout(() => {
         router.push(`/daos/${chainId}/${dao}/`)
       }, 30000)
-    }
+    },
   })
 
   // form

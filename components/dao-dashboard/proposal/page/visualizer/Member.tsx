@@ -3,9 +3,8 @@ import { Avatar, IconEth, Stack, Text } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { useEnsName } from 'wagmi'
-import { truncateAddress } from '@utils/truncateAddress'
-import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useRouter } from 'next/router'
+import { User } from '@components/tools/User'
 
 interface MemberProps {
   id: number
@@ -43,14 +42,7 @@ const Row = ({ account, amount, chainId }: { account: string; amount: any; chain
 
   return (
     <Stack direction="horizontal" justify={'space-between'} align="center">
-      <Stack direction={'horizontal'} align="center">
-        <Avatar size="9" src={profile?.picture} label={`${account} profile picture`} />
-        <Text>
-          <a href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}>
-            {ensName ? ensName : truncateAddress(account)}
-          </a>
-        </Text>
-      </Stack>
+      <User address={account} />
       <Text>{ethers.utils.formatEther(amount)}</Text>
     </Stack>
   )

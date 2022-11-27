@@ -3,17 +3,8 @@ import { Box } from '@kalidao/reality'
 import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
-import {
-  CallContract,
-  ConfigureExtensions,
-  ToggleTransfer,
-  UpdateQuorum,
-  UpdateVotingPeriod,
-  UpdateDocs,
-  Escape,
-  InternalMenu,
-} from './internal'
-import { AppsMenu, SetCrowdsale, SetRedemption, Tribute } from './apps'
+import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
+import { AppsMenu, SetCrowdsale, SetRedemption } from './apps'
 import UpdateCrowdsale from './apps/UpdateCrowdsale'
 import RemoveCrowdsale from './apps/RemoveCrowdsale'
 
@@ -60,10 +51,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} content={content} title={title} />,
     },
-    // addMemberWithVesting: {
-    //   title: 'Add Member with Vesting',
-    //   component: <ManageMembership setProposal={setView} content={content} title={title} />,
-    // },
     quit: {
       title: 'Redeem and Quit',
       component: <Redeem content={content} title={title} />,
@@ -92,32 +79,14 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Update Quorum',
       component: <UpdateQuorum />,
     },
-    // Create Asset Menu
-    // FIXME: Commenting out till fixed
-    // art: {
-    //   title: 'Mint Art NFT',
-    //   component: <MintArt setProposal={setView} />,
-    // },
-    // manager: {
-    //   title: 'Configure Extensions',
-    //   component: <ConfigureExtensions setProposal={setView} content={content} title={title} />,
-    // },
     docs: {
       title: 'Update Documentation',
       component: <UpdateDocs />,
     },
-    // escape: {
-    //   title: 'Kill a Proposal',
-    //   component: <Escape />,
-    // },
     call: {
       title: 'Interact with External Contracts',
       component: <CallContract setProposal={setView} content={content} title={title} />,
     },
-    // crowdsale: {
-    //   title: 'Set Crowdsale Rules',
-    //   component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
-    // },
     crowdsale_add: {
       title: 'Set Crowdsale Rules',
       component: <SetCrowdsale setProposal={setView} title={title} content={content} />,
@@ -135,18 +104,11 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Set Redemption Rules',
       component: <SetRedemption setProposal={setView} title={title} content={content} />,
     },
-    // crowdsaleWithVesting: {
-    //   title: 'Crowdsale with Vesting',
-    //   component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
+    // TODO: add tribute back
+    // tribute: {
+    //   title: 'Tribute',
+    //   component: <Tribute />,
     // },
-    // tributeWithVesting: {
-    //   title: 'Tribute with Vesting',
-    //   component: <SetCrowdsale setProposal={setView} content={content} title={title} />,
-    // },
-    tribute: {
-      title: 'Tribute',
-      component: <Tribute />,
-    },
   }
 
   return <>{view && <Box width="288">{proposals[view]['component']}</Box>}</>

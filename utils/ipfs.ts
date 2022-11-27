@@ -2,7 +2,10 @@ import { convertIpfsHash } from './convertIpfsHash'
 
 export async function uploadFile(attachment: any) {
   try {
-    const result = await fetch('api/file', {
+    const formData = new FormData()
+    formData.append('file', attachment)
+    console.log('file', attachment)
+    const result = await fetch('/api/upload/file', {
       method: 'POST',
       body: attachment,
     }).then((res) => res.json())
@@ -17,7 +20,7 @@ export async function uploadFile(attachment: any) {
 // General use case
 export async function uploadBlob(attachment: any) {
   try {
-    const result = await fetch('api/blob', {
+    const result = await fetch('/api/uplaod/blob', {
       method: 'POST',
       body: attachment,
     }).then((res) => res.json())
@@ -31,7 +34,7 @@ export async function uploadBlob(attachment: any) {
 
 export async function uploadJSON(obj: any) {
   try {
-    const result = await fetch('api/json', {
+    const result = await fetch('/api/upload/json', {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',

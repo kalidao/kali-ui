@@ -29,6 +29,11 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     addressOrName: dao as string,
     contractInterface: KALIDAO_ABI,
     functionName: 'propose',
+    onSuccess: async () => {
+      await setTimeout(() => {
+        router.push(`/daos/${chainId}/${dao}/`)
+      }, 35000)
+    },
   })
 
   const submit = async () => {
@@ -36,30 +41,15 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
 
     let docs
     try {
-      console.log('content', title, content)
       docs = await createProposal(dao as string, Number(chainId), 0, title, content)
-      try {
-        console.log(
-          'tx params',
-          0,
-          'docs:',
-          docs,
-          [recipient],
-          [ethers.utils.parseEther(amount.toString())],
-          [Array(0)],
-        )
-      } catch (e) {
-        console.error('error', e)
-      }
     } catch (e) {
       console.error(e)
       return
     }
 
-    console.log('docs', docs)
     if (docs) {
       try {
-        const tx = propose({
+        const tx = await propose({
           recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
         })
         console.log('tx', tx)
@@ -110,12 +100,12 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
         </ChainGuard>
-        <Text>
-          {isProposeSuccess
-            ? 'Proposal submitted on chain!'
-            : isProposeError && `Error submitting proposal: ${proposeError}`}
-        </Text>
       </Stack>
+      <Text>
+        {isProposeSuccess
+          ? 'Proposal submitted on chain!'
+          : isProposeError && `Error submitting proposal: ${proposeError}`}
+      </Text>
     </Stack>
   )
 }

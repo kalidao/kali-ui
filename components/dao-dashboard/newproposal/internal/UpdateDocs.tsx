@@ -6,7 +6,7 @@ import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { uploadFile } from '@utils/uploadFile'
+import { uploadFile } from '@utils/ipfs'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { resolveDocs } from '@utils/resolveDocs'
 
@@ -101,7 +101,7 @@ export default function UpdateDocs() {
       <FileUploader setFile={setNewDocFile} label="Upload Document" />
       {warning && <Warning warning={warning} />}
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button  center onClick={submit} loading={loading} disabled={warning ? true : false}>
+        <Button center onClick={submit} loading={loading} disabled={warning ? true : false}>
           Submit
         </Button>
       </ChainGuard>

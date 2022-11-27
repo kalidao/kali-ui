@@ -4,13 +4,16 @@ import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { addresses } from '@constants/addresses'
-import { tokens } from '@constants/tokens'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { Warning } from '@design/elements'
 import Back from '@design/proposal/Back'
 import { ProposalProps } from '../utils/types'
-import { FieldSet, Stack, Button, Text, Input, Field } from '@kalidao/reality'
+import { FieldSet, Stack, Button, Input } from '@kalidao/reality'
 import Switch from '@design/Switch'
+import { getRedemptionTokens } from '@utils/getRedemptionTokens'
+import { useQuery } from '@tanstack/react-query'
+import { createProposal } from '../utils'
+import { DateInput } from '@design/DateInput'
 
 export default function SetRedemption({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -18,6 +21,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
   const daoChainId = Number(router.query.chainId)
   const { data: signer } = useSigner()
   const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
+  const tokenArray = getRedemptionTokens(daoChainId)
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -26,43 +30,31 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
   })
 
   // form
-  const [redemptionStatus, setRedemptionStatus] = useState('fetching...')
   const [redemptionStart, setRedemptionStart] = useState<string>()
-  const [tokenArray, setTokenArray] = useState([])
   const [toggleRedemption, setToggleRedemption] = useState<boolean>()
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
-  const [warning, setWarning] = useState(null)
+  const [warning, setWarning] = useState<string>()
 
-  useEffect(() => {
-    const getRedemptionStatus = async () => {
+  const { data: redemptionStatus } = useQuery(
+    ['redemptionStatus'],
+    async () => {
       const status = await fetchExtensionStatus(Number(daoChainId), daoAddress, redemptionAddress)
-      status ? setRedemptionStatus('Active') : setRedemptionStatus('Inactive')
-    }
-
-    getRedemptionStatus()
-  }, [])
-
-  useEffect(() => {
-    const getRedemptionTokens = async () => {
-      let _tokenArray = []
-      for (const [k, v] of Object.entries(tokens[daoChainId])) {
-        _tokenArray.push(v.address)
-        setTokenArray([..._tokenArray])
-      }
-      console.log(_tokenArray)
-    }
-    getRedemptionTokens()
-  }, [])
+      return status ? 'Active' : 'Inactive'
+    },
+    {
+      enabled: !!daoAddress && !!daoChainId && !!redemptionAddress,
+    },
+  )
 
   // TODO: Popup to change network if on different network from DAO
-  const submit = async (e) => {
-    e.preventDefault()
-
+  const submit = async () => {
+    if (!redemptionStart) {
+      setWarning('Please enter a valid date')
+      return
+    }
     // Redemption time
-    redemptionStart = Date.parse(redemptionStart) / 1000
+    let starts = Number(new Date(redemptionStart).getTime() / 1000)
 
-    const _toggleRedemption = 0
+    let _toggleRedemption = 0
     // Activate / Deactivate Redemption
     if (toggleRedemption && redemptionStatus === 'Inactive') {
       _toggleRedemption = 1
@@ -75,7 +67,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
     let payload
     try {
       const abiCoder = ethers.utils.defaultAbiCoder
-      payload = abiCoder.encode(['address[]', 'uint256'], [tokenArray, redemptionStart])
+      payload = abiCoder.encode(['address[]', 'uint256'], [tokenArray, starts])
       console.log(payload)
     } catch (e) {
       setWarning('Please set a start time.')
@@ -123,14 +115,10 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
         value={toggleRedemption}
         onChange={() => setToggleRedemption(!toggleRedemption)}
       />
-      <Input
-        label="Redemption Stats On"
-        variant="calendar"
-        type="datetime-local"
-        onChange={(e) => setRedemptionStart(e.target.value)}
-        // defaultValue={state['crowdsale-end']}
-        // name="crowdsale-end"
-        // {...register('crowdsale-end')}
+      <DateInput
+        label="Redemption Starts On"
+        onChange={(e) => setRedemptionStart(e.currentTarget.value)}
+        defaultValue={redemptionStart}
       />
       {warning && <Warning warning={warning} />}
       <Stack align="center" justify={'space-between'} direction="horizontal">

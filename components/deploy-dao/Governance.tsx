@@ -28,6 +28,7 @@ export default function Governance({ setStep }: Props) {
   }
 
   const onNext = (data: GlobalState) => {
+    console.log('data', data)
     actions.updateAction(data)
 
     if (!hardMode) {
@@ -43,7 +44,7 @@ export default function Governance({ setStep }: Props) {
         <Input
           label="Voting Period"
           type="number"
-          id="quorum"
+          id="votingPeriod"
           placeholder="5"
           {...register('votingPeriod', { required: true })}
           defaultValue={state.votingPeriod}
@@ -51,13 +52,24 @@ export default function Governance({ setStep }: Props) {
         />
         <Select
           {...register('votingPeriodUnit')}
+          name="votingPeriodUnit"
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('votingPeriodUnit', e.currentTarget.value)}
           label={'Voting Period Unit'}
           options={[
-            { label: 'Minutes', value: 'minutes' },
-            { label: 'Hours', value: 'hours' },
-            { label: 'Days', value: 'days' },
+            {
+              label: 'Minutes',
+              value: 'min',
+            },
+            {
+              label: 'Hours',
+              value: 'hour',
+            },
+            {
+              label: 'Days',
+              value: 'day',
+            },
           ]}
-          defaultValue={'minutes'}
+          defaultValue={state.votingPeriodUnit}
         />
       </Stack>
       <Input
@@ -67,7 +79,7 @@ export default function Governance({ setStep }: Props) {
         id="quorum"
         placeholder="20"
         aria-invalid={errors.quorum ? 'true' : 'false'}
-        min="0"
+        min="1"
         max="100"
         {...register('quorum', {
           required: {
@@ -83,6 +95,7 @@ export default function Governance({ setStep }: Props) {
             message: 'Participation percentage must be below 100.',
           },
         })}
+        error={errors?.quorum?.message}
         defaultValue={state.quorum}
       />
       <Input
@@ -108,6 +121,7 @@ export default function Governance({ setStep }: Props) {
             message: 'Approval percentage must be below 100.',
           },
         })}
+        error={errors?.approval?.message}
         defaultValue={state.approval}
       />
       {/* !!!TODO */}

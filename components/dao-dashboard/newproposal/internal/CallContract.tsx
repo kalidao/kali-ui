@@ -9,14 +9,9 @@ import { addresses } from '@constants/addresses'
 import { ethers } from 'ethers'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
+import { ProposalProps } from '../utils/types'
 
-type Props = {
-  setProposal: React.Dispatch<React.SetStateAction<number>>
-  title: string
-  content: any
-}
-
-export default function CallContract({ setProposal, title, content }: Props) {
+export default function CallContract({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { chainId: daoChainId, dao: daoAddress } = router.query
   const { data: signer } = useSigner()

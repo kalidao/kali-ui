@@ -11,14 +11,14 @@ declare module 'little-state-machine' {
     approval: number
     transferability: boolean
     redemption: boolean
-    redemptionStart: Date
+    redemptionStart: string
     crowdsale: boolean
     purchaseToken: string
     customTokenAddress: string
     purchaseLimit: number
     personalLimit: number
     purchaseMultiplier: number
-    crowdsaleEnd: Date
+    crowdsaleEnd: string
     legal: boolean
     docType: string
     email: string

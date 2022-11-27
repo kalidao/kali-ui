@@ -7,6 +7,7 @@ import { truncateAddress } from '@utils/truncateAddress'
 import { formatEther } from 'ethers/lib/utils'
 import { useMemo } from 'react'
 import { fetcher } from '@utils/fetcher'
+import { User } from '@components/tools/User'
 
 const Members = () => {
   const router = useRouter()
@@ -70,8 +71,7 @@ const Member = ({ address, shares }: { address: string; shares: string }) => {
 
   return (
     <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-      <Avatar src={profile?.picture} address={address} label={`${address} picture`} />
-      <Text>{profile?.handle ? profile?.handle : ensName ? ensName : truncateAddress(address)}</Text>
+      <User address={address} />
       <Text>{formatEther(shares)}</Text>
     </Stack>
   )

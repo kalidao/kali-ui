@@ -6,17 +6,16 @@ import { Stack, Box, Text, Button, Input, FieldSet, Textarea } from '@kalidao/re
 import FileUploader from '../../../tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
-import { ipfsCrowdsaleData, ipfsCrowdsaleTerms } from '@components/tools/ipfsHelpers'
 import { addresses } from '@constants/addresses'
-import { Warning } from '@design/elements'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
-import Editor from '@components/editor'
 import { Select } from '@design/Select'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { ProposalProps } from '../utils/types'
+import { uploadFile, uploadJSON } from '@utils/ipfs'
+import { DateInput } from '@design/DateInput'
 
 export default function SetCrowdsale({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -45,7 +44,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
   })
 
   // form
-  const [background, setBackground] = useState()
+  const [loading, setLoading] = useState(false)
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customToken, setCustomToken] = useState<string>()
   const [purchaseAccess, setPurchaseAccess] = useState('select')
@@ -53,9 +52,9 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
   const [purchaseMultiplier, setPurchaseMultiplier] = useState<number>()
   const [totalLimit, setTotalLimit] = useState(0)
   const [personalLimit, setPersonalLimit] = useState(0)
-  const [terms, setTerms] = useState(null)
+  const [terms, setTerms] = useState<File>()
   const [crowdsaleEnd, setCrowdsaleEnd] = useState<string>()
-  const [warning, setWarning] = useState<string>()
+  const [message, setMessage] = useState<string>()
   const [isRecorded, setIsRecorded] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
 
@@ -66,14 +65,14 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     let customAccessArray = customAccess.split(', ')
 
     if (!customAccess) {
-      setWarning('Please input custom access list.')
+      setMessage('Please input custom access list.')
     }
 
     for (let i = 0; i < customAccess.length; i++) {
       const address = await fetchEnsAddress(customAccessArray[i])
 
       if (address && address.slice(0, 7) === 'Invalid') {
-        setWarning(`${address}.`)
+        setMessage(`${address}.`)
         setIsRecorded(false)
         return
       }
@@ -85,9 +84,9 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       const tx = await kaliAccess.createList(list, ethers.utils.formatBytes32String('0x0'), '')
       console.log('tx ', tx)
       setIsRecorded(true)
-      setWarning('')
+      setMessage('')
     } catch (e) {
-      setWarning('Error recording access list.')
+      setMessage('Error recording access list.')
       console.log(e)
     }
   }
@@ -96,10 +95,10 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     e.preventDefault()
     const _totalLimit = Number(e.target.value)
     if (_totalLimit > personalLimit) {
-      setWarning('')
+      setMessage('')
       setTotalLimit(_totalLimit)
     } else {
-      setWarning('Personal swap limit may not be greater than the total swap limit')
+      setMessage('Personal swap limit may not be greater than the total swap limit')
     }
   }
 
@@ -107,9 +106,9 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     e.preventDefault()
     const _personalLimit = Number(e.target.value)
     if (_personalLimit > totalLimit) {
-      setWarning('Personal swap limit may not be greater than the total swap limit')
+      setMessage('Personal swap limit may not be greater than the total swap limit')
     } else {
-      setWarning('')
+      setMessage('')
       setPersonalLimit(_personalLimit)
     }
   }
@@ -119,16 +118,20 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     let _deadline = e.target.value
 
     if (Date.parse(_deadline) < Date.now()) {
-      setWarning('Swap cannot end before current time. Please pick another Swap end date.')
+      setMessage('Swap cannot end before current time. Please pick another Swap end date.')
     } else {
+      setMessage('')
       _deadline = (Date.parse(_deadline) / 1000).toString()
       setCrowdsaleEnd(_deadline)
     }
   }
 
   const submit = async () => {
+    setLoading(true)
     if (!purchaseMultiplier || !signer) return
     // Crowdsale access list id
+
+    setMessage('Resolving Access List...')
     let _purchaseAccess
     if (purchaseAccess === 'public') {
       _purchaseAccess = 0
@@ -144,6 +147,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       }
     }
 
+    setMessage('Resolving Assets')
     // Crowdsale asset
     let _tokenToSwap
     let _swapMultiplier
@@ -164,42 +168,51 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       _swapMultiplier = purchaseMultiplier
     }
 
+    setMessage('Uploading Terms')
     // Crowdsale terms
     let termsHash
     if (terms) {
-      termsHash = await ipfsCrowdsaleTerms(daoAddress, terms)
+      termsHash = await uploadFile(terms)
+
+      if (!termsHash) {
+        setMessage('Error uploading terms.')
+        setLoading(false)
+        return
+      }
     } else {
       termsHash = 'none'
     }
 
-    // Upload background to IPFS
-    try {
-      await ipfsCrowdsaleData(daoAddress, chainId, background, termsHash)
-    } catch (e) {
-      console.error(e)
-    }
-
+    setMessage('Verifying limits...')
     // Crowdsale purchase limits
     let _totalLimit
     let _personalLimit
-    console.log(totalLimit, personalLimit)
+
     if (personalLimit > totalLimit) {
-      setWarning('Personal swap limit may not be greater than the total swap limit')
+      setMessage('Personal swap limit may not be greater than the total swap limit')
+      setLoading(false)
       return
     } else {
       _totalLimit = ethers.utils.parseEther(totalLimit.toString())
       _personalLimit = ethers.utils.parseEther(personalLimit.toString())
-      setWarning('')
+      setMessage('')
     }
 
+    setMessage('Creating proposal...')
     let docs
     try {
       docs = await createProposal(daoAddress, chainId, 9, title, content)
+      if (!docs) {
+        setMessage('Error creating proposal.')
+        setLoading(false)
+        return
+      }
     } catch (e) {
       console.error(e)
       return
     }
 
+    setMessage('Preparing Swap Details...')
     // Prop payload
     console.log(
       'Swap Extensions Params - ',
@@ -221,15 +234,14 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       )
       // console.log(payload)
     } catch (e) {
-      setWarning('Error setting the crowdsale proposal.')
+      setMessage('Error setting the crowdsale proposal.')
       console.log(e)
       return
     }
 
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [0], [payload])
-
     try {
-      setWarning('')
+      setMessage('Sending Proposal...')
       const tx = await kalidao.propose(
         9, // EXTENSION prop
         docs,
@@ -237,7 +249,12 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
         [1],
         [payload],
       )
-      console.log('tx', tx)
+
+      tx.wait(1).then(() => {
+        setLoading(false)
+        setMessage('Proposal submitted.')
+        router.push(`/daos/${chainId}/${daoAddress}/`)
+      })
     } catch (e) {
       console.log('error', e)
     }
@@ -277,9 +294,6 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
           To update the Swap exntension, fill out and submit a new Swap proposal below. Please note, this will overwrite
           existing Swap parameters as soon as this Swap proposal is passed.
         </Text>
-
-        <Editor setContent={setBackground} />
-
         <Select
           label={'Token to Swap'}
           description={`Specify a token, e.g., DAI, to swap for this KaliDAO's token, ${kalidaoToken}`}
@@ -367,22 +381,16 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
           type="number"
           onChange={handleIndividualLimit}
         />
-        <Input
+        <DateInput
           label="Swap Ends On"
           description="Specify a time to which this Swap ends"
-          variant="calendar"
-          type="datetime-local"
           onChange={handleDeadline}
         />
-
-        <Stack>
-          <Text>
-            Swap terms You may attach a file (.pdf, .jpeg) with Swap, and Kali will present as a clickwrap for Swap
-            users to accept or decline before swapping.
-          </Text>
-          <FileUploader setFile={setTerms} />
-        </Stack>
-        {warning && <Warning warning={warning} />}
+        <FileUploader
+          label="Terms"
+          description="You may attach a file here for terms of this Swap. This will be presented as a clickwrap."
+          setFile={setTerms}
+        />
         {purchaseAccess === 'custom' && (
           <Button onClick={handleValidation} disabled={isRecorded}>
             {isRecorded ? `Success !` : 'Record access list onchain'}
@@ -391,11 +399,12 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
         <Back onClick={() => setProposal?.('appsMenu')} />
         <Box>
           <ChainGuard fallback={<Button width="full">Submit</Button>}>
-            <Button width={'full'} disabled={!isEnabled} onClick={submit}>
+            <Button width={'full'} disabled={!isEnabled} onClick={submit} loading={loading}>
               Submit
             </Button>
           </ChainGuard>
         </Box>
+        {message && <Text>{message}</Text>}
       </Stack>
     </FieldSet>
   )

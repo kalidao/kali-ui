@@ -19,7 +19,7 @@ export default function Meta({ symbol, totalSupply, address, chainId }: Props) {
     },
     {
       label: 'Total Supply',
-      value: totalSupply,
+      value: ethers.utils.formatEther(totalSupply),
     },
     {
       label: 'Address',

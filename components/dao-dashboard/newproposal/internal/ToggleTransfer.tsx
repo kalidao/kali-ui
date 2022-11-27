@@ -94,7 +94,7 @@ export default function ToggleTransfer() {
         description="Why should the token transferability be flipped?"
       />
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button  center onClick={submit} disabled={isSuccess} loading={loading}>
+        <Button center onClick={submit} disabled={isSuccess} loading={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </Button>
       </ChainGuard>

@@ -99,9 +99,7 @@ export default function Redeem({ content, title }: ProposalProps) {
       </Text>
       <Text>
         Redemption Starts:
-        <Skeleton>
-          {isStartLoading && starts && prettyDate(new Date(ethers.BigNumber.from(Number(starts) * 1000).toNumber()))}
-        </Skeleton>
+        <Skeleton>{isStartLoading && starts && prettyDate(starts.toDateString())}</Skeleton>
       </Text>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         <Input

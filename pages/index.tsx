@@ -5,10 +5,12 @@ import Layout from '@components/layout'
 import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
 import * as styles from '@design/landing.css'
+import { useAccount } from 'wagmi'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const { address, isConnected } = useAccount()
 
   useEffect(() => {
     router.prefetch('/')
@@ -48,7 +50,7 @@ const HomePage: NextPage = () => {
           </Box>
         </Stack>
       </Box>
-      <UserDAOs />
+      {isConnected && <UserDAOs address={address && (address as string)} />}
     </Layout>
   )
 }

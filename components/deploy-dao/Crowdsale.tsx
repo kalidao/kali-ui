@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
 import { Stack, Input, FieldSet, Button, Text } from '@kalidao/reality'
 import { Switch } from '@design/Switch'
+import { DateInput } from '@design/DateInput'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -134,17 +135,10 @@ export default function Crowdsale({ setStep }: Props) {
             })}
             error={errors?.purchaseMultiplier?.message}
           />
-          <Input
+          <DateInput
             label="End Date"
-            variant="calendar"
-            type="datetime-local"
             defaultValue={state['crowdsaleEnd']}
-            {...register('crowdsaleEnd', {
-              required: {
-                value: true,
-                message: 'End date is required.',
-              },
-            })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue('crowdsaleEnd', e.target.value)}
             error={errors.crowdsaleEnd?.message}
           />
         </>

@@ -1,22 +1,23 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
-import { useAccount, useContractWrite, useNetwork } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork, useTransaction } from 'wagmi'
 
 import validateDocs from './validateDocs'
-import { votingPeriodToSeconds, fetchTokens } from '../../../utils'
+import { votingPeriodToSeconds } from '@utils/index'
+import { getRedemptionTokens } from '@utils/getRedemptionTokens'
 import { validateFounders } from './validateFounders'
 
-import { Warning } from '../../../styles/elements'
-import { Stack, Button } from '@kalidao/reality'
+import { Warning } from '@design/elements'
+import { Stack, Button, Text } from '@kalidao/reality'
 import Confirmation from './Confirmation'
-import Success from './Success'
 
 import { addresses } from '@constants/addresses'
 import FACTORY_ABI from '@abi/KaliDAOfactory.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import SALE_ABI from '@abi/KaliDAOcrowdsale.json'
+import { templates, handleEmail } from '@utils/handleEmail'
 import { useRouter } from 'next/router'
 
 type Props = {
@@ -24,10 +25,16 @@ type Props = {
 }
 
 export default function Checkout({ setStep }: Props) {
+  const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
   const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
+  const [txHash, setTxHash] = useState<string>()
+  const { data: txDetails } = useTransaction({
+    hash: txHash as `0x${string}`,
+    enabled: !!txHash,
+  })
   const {
     data,
     writeAsync,
@@ -41,7 +48,18 @@ export default function Checkout({ setStep }: Props) {
     contractInterface: FACTORY_ABI,
     functionName: 'deployKaliDAO',
     onSuccess(data) {
-      console.log('success!', data)
+      setTxHash(data.hash)
+      data.wait(1).then(async () => {
+        if (!txDetails) return
+        const params = {
+          dao: txDetails?.to as string,
+          network: activeChain?.id as number,
+          email: state.email,
+          entity_type: state.docType,
+        }
+        await handleEmail(templates['deployment'], params)
+        router.push(`/daos/${activeChain?.id}/${txDetails?.to}`)
+      })
     },
   })
 
@@ -110,12 +128,11 @@ export default function Checkout({ setStep }: Props) {
     // redemption
     if (state.redemption === true) {
       let { redemptionStart } = state
-      redemptionStart = parseInt(new Date(redemptionStart).getTime() / 1000)
-      console.log('redemptionStarts', new Date(redemptionStart))
-      const tokenArray = fetchTokens(activeChain?.id)
+      const starts = Number(new Date(redemptionStart).getTime() / 1000)
+      const tokenArray = getRedemptionTokens(activeChain?.id)
 
       const iface = new ethers.utils.Interface(REDEMPTION_ABI)
-      const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, redemptionStart])
+      const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, starts])
       const payload = iface.encodeFunctionData('setExtension', [encodedParams])
 
       extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
@@ -124,14 +141,15 @@ export default function Checkout({ setStep }: Props) {
     // crowdsale
     if (state.crowdsale === true) {
       const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
+      let token
       if (purchaseToken === 'eth') {
-        purchaseToken = '0x000000000000000000000000000000000000dead'
+        token = '0x000000000000000000000000000000000000dead'
       }
       if (purchaseToken === 'custom') {
-        purchaseToken = state.customTokenAddress
+        token = state.customTokenAddress
       }
 
-      crowdsaleEnd = parseInt(new Date(crowdsaleEnd).getTime() / 1000)
+      let ends = Number(new Date(crowdsaleEnd).getTime() / 1000)
 
       const iface = new ethers.utils.Interface(SALE_ABI)
       const encodedData = new ethers.utils.AbiCoder().encode(
@@ -139,10 +157,10 @@ export default function Checkout({ setStep }: Props) {
         [
           0,
           purchaseMultiplier,
-          purchaseToken,
-          crowdsaleEnd,
-          ethers.utils.parseEther(purchaseLimit),
-          ethers.utils.parseEther(personalLimit),
+          token,
+          ends,
+          ethers.utils.parseEther(purchaseLimit.toString()),
+          ethers.utils.parseEther(personalLimit.toString()),
           'documentation',
         ],
       )
@@ -194,8 +212,8 @@ export default function Checkout({ setStep }: Props) {
 
   return (
     <Stack>
-      {isError && <Text>{error.message}</Text>}
-      {data ? <Success /> : <Confirmation />}
+      {isError && <Text>{error?.message}</Text>}
+      <Confirmation />
       <Button variant="transparent" onClick={prev}>
         Previous
       </Button>

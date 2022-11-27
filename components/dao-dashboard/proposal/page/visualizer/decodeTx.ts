@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { erc20ABI, erc721ABI } from 'wagmi'
 
-const decodeTx = (payload, value) => {
+const decodeTx = (payload: string, value: string) => {
   console.log('payload {} value {}', payload, value)
   if (payload) {
     if (payload == '0x' || payload == ethers.constants.HashZero) {

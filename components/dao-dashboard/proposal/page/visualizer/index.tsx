@@ -2,20 +2,19 @@ import React from 'react'
 import Member from './Member'
 import Extension from './Extension'
 import Escape from './Escape'
-import Docs from './Docs'
 import Call from './Call'
 
 import {
   Box,
   Stack,
   Text,
+  Divider,
   IconUserGroupSolid,
   IconCode,
   IconHand,
   IconFlag,
   IconUsersSolid,
   IconTokens,
-  IconGrid,
   IconLightningBolt,
   IconExclamationCircleSolid,
   IconDocumentAdd,
@@ -132,6 +131,7 @@ export default function Visualizer({ proposal }: { proposal: any }) {
           {heading}
         </Text>
       </Stack>
+      <Divider />
       {component}
     </Box>
   )

@@ -59,21 +59,14 @@ export const root = style({
 
 export const item = style({
   overflow: 'hidden',
-  padding: vars.space[1],
   borderColor: vars.colors.foregroundSecondary,
   borderWidth: vars.borderWidths['0.5'],
   borderStyle: vars.borderStyles.solid,
+  borderRadius: vars.radii['2xLarge'],
 
   selectors: {
     '&:first-child': {
       marginTop: 0,
-      borderTopLeftRadius: 4,
-      borderTopRightRadius: 4,
-    },
-
-    '&:last-child': {
-      borderBottomLeftRadius: 4,
-      borderBottomRightRadius: 4,
     },
     '&:focus-within': {
       position: 'relative',
@@ -88,6 +81,7 @@ export const content = style({
   fontSize: 15,
   color: '$gray12',
   backgroundColor: '$mauve2',
+  borderRadius: vars.radii['2xLarge'],
 
   selectors: {
     '&[data-state="open"]': {

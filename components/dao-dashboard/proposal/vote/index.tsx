@@ -34,7 +34,7 @@ export default function Vote({ proposal }: VoteProps) {
       if (!vote || !proposal || !isConnected) return
       console.log(2)
       try {
-        const data = vote({
+        const data = await vote({
           recklesslySetUnpreparedArgs: [proposal['serial'], approval],
         })
       } catch (e) {
@@ -42,7 +42,7 @@ export default function Vote({ proposal }: VoteProps) {
       }
       console.log(3)
     },
-    [isConnected, proposal],
+    [isConnected, proposal, vote],
   )
 
   return (

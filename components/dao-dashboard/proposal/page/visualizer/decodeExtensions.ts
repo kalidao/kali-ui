@@ -1,9 +1,11 @@
 import { ethers } from 'ethers'
-import { addresses } from '../../../../../constants/addresses'
-import { unixToDate } from '../../../../../utils/time'
+import { addresses } from '@constants/addresses'
+import { unixToDate } from '@utils/time'
+import { fetchSymbol } from '@utils/fetchSymbol'
 
-const decodeExtensions = (address, payload, chainId) => {
+const decodeExtensions = async (dao: string, address: string, payload: string, chainId: number) => {
   const extensions = addresses[chainId]['extensions']
+
   for (const key in extensions) {
     if (address.toLowerCase() == extensions[key].toLowerCase()) {
       try {
@@ -19,20 +21,27 @@ const decodeExtensions = (address, payload, chainId) => {
             if (extensionsHelper[key]['display'][i] === 'date') {
               value = unixToDate(value)
             }
+            if (extensionsHelper[key]['display'][i] === 'swapRatio') {
+              console.log('decoded[i]', decoded[i])
+              let multiplier = decoded[i].toString()
+              const symbol = await fetchSymbol(chainId, dao)
+              value = `1 ETH for ${multiplier} ${symbol.toUpperCase()}`
+            }
             if (extensionsHelper[key]['display'][i] === 'BigNumber') {
               value = ethers.utils.formatEther(value)
-
-              if (extensionsHelper[key]['labels'][i] === 'Purchase Multiplier') {
-                value = (value + '').split('.')
-                console.log(value)
-                value = Number(value[1])
-              }
+            }
+            if (extensionsHelper[key]['display'][i] === 'id') {
+              value = Number(ethers.utils.formatEther(value)).toFixed(0).toString()
             }
             if (extensionsHelper[key]['display'][i] === 'token') {
               if (value == ethers.constants.AddressZero) {
                 value = 'ETH'
               }
             }
+            if (extensionsHelper[key]['display'][i] === 'json' && extensionsHelper[key]['types'][i] === 'string') {
+              value = JSON.parse(value)
+            }
+
             values.push({
               label: extensionsHelper[key]['labels'][i],
               value: value,
@@ -48,11 +57,19 @@ const decodeExtensions = (address, payload, chainId) => {
   }
 }
 
-const extensionsHelper = {
+interface Extension {
+  label: string
+  labels: string[]
+  types: string[]
+  display: string[]
+}
+
+const extensionsHelper: { [key: string]: Extension } = {
   crowdsale2: {
+    label: 'Swap',
     labels: [
       'Sale Type',
-      'Purchase Multiplier',
+      'Purchase Ratio',
       'Purchase Asset',
       'Sale Ends',
       'Purchase Limit',
@@ -60,13 +77,24 @@ const extensionsHelper = {
       'Details',
     ],
     types: ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-    display: ['saleType', 'BigNumber', 'token', 'date', 'BigNumber', 'BigNumber', 'string'],
+    display: ['saleType', 'swapRatio', 'token', 'date', 'BigNumber', 'BigNumber', 'link'],
   },
   redemption: {
+    label: 'Redemption',
     labels: ['Redeemable Tokens', 'Starts From'],
     types: ['address[]', 'uint256'],
     display: ['array', 'date'],
   },
+  projectManagement: {
+    label: 'Project Management',
+    labels: ['ID', 'Manager', 'Budget', 'Deadline', 'Goals'],
+    types: ['uint256', 'address', 'uint256', 'uint256', 'string'],
+    display: ['id', 'address', 'BigNumber', 'date', 'json'],
+  },
+}
+
+export const getExtensionLabel = (type: string): string => {
+  return extensionsHelper[type].label
 }
 
 export default decodeExtensions

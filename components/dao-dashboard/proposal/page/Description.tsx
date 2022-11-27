@@ -32,7 +32,7 @@ export default function Description({ type, description, isSchema, short }: Prop
       )
     }
     return (
-      <Box width="full" height={'20'}>
+      <Box width="full" maxHeight={'20'} overflow="hidden">
         {isSchema ? (
           output && (
             <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>

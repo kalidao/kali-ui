@@ -54,7 +54,15 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Box width="full" display="flex" flexDirection={'column'} gap="10">
+    <Box
+      width="full"
+      display="flex"
+      flexDirection={'column'}
+      gap="10"
+      borderWidth="px"
+      borderRadius="2xLarge"
+      padding="6"
+    >
       <Stack direction="horizontal" align="center">
         <Heading responsive>
           {`#${proposalId} `}
@@ -64,10 +72,14 @@ export default function ProposalView({ proposal }: Props) {
         <Tag>{proposal['proposalType']}</Tag>
       </Stack>
       <InfoBar proposalId={Number(proposalId)} proposer={proposal['proposer']} />
-      <Stack
-        direction={{
-          xs: 'vertical',
-          md: 'horizontal',
+      <Box
+        position="relative"
+        display="flex"
+        alignItems={'flex-start'}
+        justifyContent="center"
+        flexDirection={{
+          xs: 'column',
+          md: 'row',
         }}
       >
         <Box width="full" display={'flex'} flexDirection="column" justifyContent={'space-between'}>
@@ -80,13 +92,13 @@ export default function ProposalView({ proposal }: Props) {
           )}
           <Visualizer proposal={proposal} />
         </Box>
-        <Stack>
+        <Box display="flex" gap="2" flexDirection="column">
           {proposal && (
             <InfoCard start={Number(proposal['votingStarts'])} votingPeriod={Number(proposal['dao']['votingPeriod'])} />
           )}
           {proposal && <Results votes={proposal['votes']} />}
-        </Stack>
-      </Stack>
+        </Box>
+      </Box>
       <Stack direction="horizontal">
         <Vote proposal={proposal} />
         {proposal['sponsored'] == false &&

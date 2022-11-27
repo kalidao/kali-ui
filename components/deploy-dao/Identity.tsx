@@ -82,6 +82,7 @@ export default function Identity({ setStep }: Props) {
               message: 'Name is required.',
             },
           })}
+          error={errors?.name?.message}
         />
         <Input
           label="Symbol"
@@ -99,16 +100,15 @@ export default function Identity({ setStep }: Props) {
               message: 'Max symbol length exceeded',
             },
           })}
+          error={errors?.symbol?.message}
         />
-        {errors.name && <span>{errors?.name?.message}</span>}
-        {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
+        <Stack direction={'horizontal'} justify="space-between">
+          <Tutorial />
+          <Button variant="primary" type="submit">
+            Next
+          </Button>
+        </Stack>
       </FieldSet>
-      <Stack direction={'horizontal'} justify="space-between">
-        <Tutorial />
-        <Button variant="primary" type="submit">
-          Next
-        </Button>
-      </Stack>
     </Box>
   )
 }

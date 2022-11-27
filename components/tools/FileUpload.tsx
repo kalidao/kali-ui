@@ -5,11 +5,12 @@ import * as styles from './styles.css'
 type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>
   label: string
+  description?: string
 }
 
-const FileUploader = ({ setFile, label }: Props) => {
+const FileUploader = ({ setFile, label, description }: Props) => {
   return (
-    <Field label={label}>
+    <Field label={label} description={description}>
       <FileInput onChange={(file) => setFile(file)} accept="application/pdf">
         {(context) =>
           context.name ? (
