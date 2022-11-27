@@ -40,7 +40,12 @@ export default function Legal({ setStep }: Props) {
     setStep(6)
   }
 
-  let selectArray = []
+  let selectArray = [
+    {
+      label: 'Select',
+      value: 'none',
+    },
+  ]
   for (let key in legalEntities) {
     selectArray.push({
       label: legalEntities[key].text,
@@ -65,19 +70,18 @@ export default function Legal({ setStep }: Props) {
         <>
           <Select
             label="Choose Entity"
-            {...register('docType')}
+            // {...register('docType')}
             defaultValue={state.docType}
             options={selectArray}
-            // onChange={(value) => setValue('docType', value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('docType', e.currentTarget.value)}
           />
           <Text>
-            Resources to help with entity selection:
-            <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/"> a16z</a>
-            or
+            Resources to help with entity selection:{' '}
+            <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/">a16z</a> or{' '}
             <a href="https://daos.paradigm.xyz/"> Paradigm</a>
           </Text>
 
-          {watchDocs && legalEntities[watchDocs]['email'] === true && (
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['email'] === true && (
             <Input
               label="Email"
               type="email"
@@ -98,7 +102,7 @@ export default function Legal({ setStep }: Props) {
               error={errors?.email?.message}
             />
           )}
-          {watchDocs && legalEntities[watchDocs]['mission'] === true && (
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['mission'] === true && (
             <Input
               label="Mission"
               type="text"
@@ -127,8 +131,8 @@ export default function Legal({ setStep }: Props) {
               defaultValue={state.existingDocs}
             />
           )}
-          {watchDocs && <Text>{legalEntities[watchDocs]['message']}</Text>}
-          {watchDocs && legalEntities[watchDocs]['template'] !== null && (
+          {watchDocs && watchDocs !== 'none' && <Text>{legalEntities[watchDocs]['message']}</Text>}
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['template'] !== null && (
             <Button as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
               Review Template
             </Button>

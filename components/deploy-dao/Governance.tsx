@@ -51,7 +51,6 @@ export default function Governance({ setStep }: Props) {
           min="1"
         />
         <Select
-          {...register('votingPeriodUnit')}
           name="votingPeriodUnit"
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('votingPeriodUnit', e.currentTarget.value)}
           label={'Voting Period Unit'}
@@ -114,7 +113,7 @@ export default function Governance({ setStep }: Props) {
           },
           min: {
             value: 51,
-            message: 'Approval percentage must be more than 51.',
+            message: 'Approval percentage must be more than 52.',
           },
           max: {
             value: 100,

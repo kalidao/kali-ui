@@ -62,7 +62,7 @@ export default function Crowdsale({ setStep }: Props) {
         <>
           <Select
             label="Contribution Token"
-            {...register('purchaseToken')}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('purchaseToken', e.currentTarget.value)}
             defaultValue={state['purchaseToken']}
             options={[
               {

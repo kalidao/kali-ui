@@ -7,12 +7,13 @@ import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import { ethers } from 'ethers'
 import { formatVotingPeriod, votingPeriodToSeconds } from '@utils/index'
+import { User } from '@components/tools/User'
 
-const Row = ({ name, value }: { name: string; value: React.ReactNode }) => {
+const Row = ({ name, value }: { name: string | React.ReactNode; value: React.ReactNode }) => {
   return (
     <Box width="full" padding="3">
       <Stack direction="horizontal" align="center" justify={'space-between'}>
-        <Text>{name}</Text>
+        {typeof name == 'string' ? <Text>{name}</Text> : name}
         <Text weight="bold">{value}</Text>
       </Stack>
     </Box>
@@ -25,13 +26,7 @@ type FounderProps = {
 }
 
 const Founder = ({ member, shares }: FounderProps) => {
-  const { data: ensName, isSuccess } = useEnsName({
-    address: member,
-  })
-
-  const name = ensName ? ensName?.toString() : truncateAddress(member)
-  console.log('name', member, name, truncateAddress(member))
-  return <Row name={name} value={ethers.utils.formatEther(ethers.utils.parseEther(shares))} />
+  return <Row name={<User address={member} />} value={ethers.utils.formatEther(ethers.utils.parseEther(shares))} />
 }
 
 export default function Confirmation() {
@@ -76,7 +71,11 @@ export default function Confirmation() {
             value={
               state.hardMode ? (
                 state.legal ? (
-                  legalEntities[state.docType]['text']
+                  state.docType == 'none' ? (
+                    <IconClose color="red" />
+                  ) : (
+                    legalEntities[state.docType]['text']
+                  )
                 ) : (
                   <IconClose color="red" />
                 )
