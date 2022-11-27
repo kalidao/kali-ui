@@ -37,9 +37,9 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
       alignItems="center"
       justifyContent="center"
       gap="3"
-      padding="6"
+      padding="3"
     >
-      {display && display?.length != 0 && (
+      {display && (
         <Box
           width="full"
           padding="6"

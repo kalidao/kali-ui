@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { ethers } from 'ethers'
+import { errors, ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork, useTransaction } from 'wagmi'
@@ -8,8 +8,6 @@ import validateDocs from './validateDocs'
 import { votingPeriodToSeconds } from '@utils/index'
 import { getRedemptionTokens } from '@utils/getRedemptionTokens'
 import { validateFounders } from './validateFounders'
-
-import { Warning } from '@design/elements'
 import { Stack, Button, Text } from '@kalidao/reality'
 import Confirmation from './Confirmation'
 
@@ -19,6 +17,7 @@ import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import SALE_ABI from '@abi/KaliDAOcrowdsale.json'
 import { templates, handleEmail } from '@utils/handleEmail'
 import { useRouter } from 'next/router'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -30,13 +29,7 @@ export default function Checkout({ setStep }: Props) {
   const { hardMode } = state
   const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
-  const [txHash, setTxHash] = useState<string>()
-  const { data: txDetails } = useTransaction({
-    hash: txHash as `0x${string}`,
-    enabled: !!txHash,
-  })
   const {
-    data,
     writeAsync,
     isLoading: isWritePending,
     isSuccess: isWriteSuccess,
@@ -47,24 +40,14 @@ export default function Checkout({ setStep }: Props) {
     addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
     contractInterface: FACTORY_ABI,
     functionName: 'deployKaliDAO',
-    onSuccess(data) {
-      setTxHash(data.hash)
-      data.wait(1).then(async () => {
-        if (!txDetails) return
-        const params = {
-          dao: txDetails?.to as string,
-          network: activeChain?.id as number,
-          email: state.email,
-          entity_type: state.docType,
-        }
-        await handleEmail(templates['deployment'], params)
-        router.push(`/daos/${activeChain?.id}/${txDetails?.to}`)
-      })
-    },
   })
+  const [loading, setLoading] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>()
 
   // remove ricardian as default
   const deployKaliDao = useCallback(async () => {
+    setLoading(true)
+    setMessage('Preparing transaction...')
     if (!isConnected || !activeChain) return
 
     const {
@@ -170,36 +153,48 @@ export default function Checkout({ setStep }: Props) {
       extensionsData.push(payload)
     }
 
-    console.log(
-      'deploy params',
-      name,
-      symbol,
-      docs_,
-      Number(!transferability),
-      extensionsArray,
-      extensionsData,
-      voters,
-      shares,
-      govSettings,
-    )
-    const tx = await writeAsync({
-      recklesslySetUnpreparedArgs: [
-        name,
-        symbol,
-        docs_,
-        Number(!transferability),
-        extensionsArray,
-        extensionsData,
-        voters,
-        shares,
-        govSettings,
-      ],
-      recklesslySetUnpreparedOverrides: {
-        gasLimit: 1600000,
-      },
-    }).catch((e) => {
-      console.log('error', e.code, e.reason)
-    })
+    try {
+      setMessage(`Please confirm in your wallet.`)
+      const tx = await writeAsync({
+        recklesslySetUnpreparedArgs: [
+          name,
+          symbol,
+          docs_,
+          Number(!transferability),
+          extensionsArray,
+          extensionsData,
+          voters,
+          shares,
+          govSettings,
+        ],
+      })
+      setMessage(`Transaction sent!`)
+      const receipt = await tx.wait(1)
+      receipt.logs.forEach(async (log: any) => {
+        setMessage(`Transaction confirmed!`)
+        if (log.topics[0] === '0x0712ea2ebe8ee974f78171c5f86c898cc0e2858fb69ed676083f8c60ee84ab12') {
+          const daoAddress = '0x' + log.topics[1].slice(-40)
+          try {
+            const params = {
+              dao: daoAddress,
+              network: activeChain?.id as number,
+              email: state.email,
+              entity_type: state.docType,
+            }
+            await handleEmail(templates['deployment'], params)
+            router.push(`/daos/${activeChain?.id}/${daoAddress}`)
+          } catch (e: any) {
+            console.log('error', e.code, e.reason)
+            setMessage(`${state.name} has been succesfully deployed. You will find it on homepage.`)
+            setLoading(false)
+          }
+        }
+      })
+    } catch (e) {
+      console.log(e)
+      setLoading(false)
+      setMessage('Transaction failed.')
+    }
   }, [isConnected, activeChain, state, writeAsync])
 
   const prev = () => {
@@ -209,7 +204,7 @@ export default function Checkout({ setStep }: Props) {
       setStep(5)
     }
   }
-
+  console.log(error?.message)
   return (
     <Stack>
       {isError && <Text>{error?.message}</Text>}
@@ -217,10 +212,17 @@ export default function Checkout({ setStep }: Props) {
       <Button variant="transparent" onClick={prev}>
         Previous
       </Button>
+      <Text>{message}</Text>
       {!isConnected ? (
-        <Warning warning="Your wallet is not connected. Please connect." />
+        <ConnectButton label="Connect Wallet to Deploy!" />
       ) : (
-        <Button variant="primary" width="full" onClick={deployKaliDao} disabled={isWritePending || isWriteSuccess}>
+        <Button
+          variant="primary"
+          width="full"
+          onClick={deployKaliDao}
+          loading={loading}
+          disabled={isWritePending || isWriteSuccess || loading}
+        >
           {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
         </Button>
       )}
