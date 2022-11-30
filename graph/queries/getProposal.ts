@@ -1,6 +1,6 @@
 import { GRAPH_URL } from '../url'
 
-export const getProposal = async (chainId, address, serial) => {
+export const getProposal = async (chainId: number, address: string, serial: string) => {
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',

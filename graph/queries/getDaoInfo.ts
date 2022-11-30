@@ -1,7 +1,7 @@
 import React from 'react'
 import { GRAPH_URL } from '../url'
 
-export const getDaoInfo = async (chainId, address) => {
+export const getDaoInfo = async (chainId: number, address: string) => {
   console.log('infoParms', chainId, address)
   try {
     const res = await fetch(GRAPH_URL[chainId], {

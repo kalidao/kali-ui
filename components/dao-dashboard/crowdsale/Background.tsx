@@ -6,7 +6,7 @@ import { Text, Box, Stack, Heading } from '@kalidao/reality'
 export default function Background() {
   const router = useRouter()
   const { dao } = router.query
-  const [background, setBackground] = useState(null)
+  const [background, setBackground] = useState<string>()
 
   useEffect(() => {
     const getCrowdsaleData = async () => {
@@ -25,6 +25,8 @@ export default function Background() {
 
     getCrowdsaleData()
   }, [])
+
+  if (background === undefined || background === '') return null
 
   return (
     <Stack>

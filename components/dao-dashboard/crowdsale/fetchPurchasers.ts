@@ -4,7 +4,7 @@ import { addresses } from '../../../constants/addresses'
 import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
 import { getProvider } from '../../../utils/getProvider'
 
-export async function fetchPurchasers(dao, chainId) {
+export async function fetchPurchasers(dao: string, chainId: number) {
   const provider = getProvider(chainId)
   const instance = new ethers.Contract(addresses[chainId]['extensions']['crowdsale2'], CROWDSALE_ABI, provider)
 
@@ -25,5 +25,5 @@ export async function fetchPurchasers(dao, chainId) {
     })
   }
 
-  return { _purchasers, _totalDistributed }
+  return { purchasers: _purchasers, totalDistributed: _totalDistributed }
 }

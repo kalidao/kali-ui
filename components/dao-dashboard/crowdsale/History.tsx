@@ -1,39 +1,52 @@
 import { ethers } from 'ethers'
-import { truncateAddress } from '../../../utils'
 import { Text, Heading, Stack, Box } from '@kalidao/reality'
+import { useContractRead } from 'wagmi'
+import { User } from '@components/tools/User'
+import { useQuery } from '@tanstack/react-query'
+import { getSwapSales } from './getSwapSales'
 
-export default function History({ info, crowdsale, decimals, purchasers, symbol }) {
-  let multiplier
+type Props = {
+  chainId: number
+  daoAddress: string,
+  purchaseMultiplier: string,
+  tokenDecimals: number,
+  daoSymbol: string,
+}
+export default function History({ daoAddress, chainId, purchaseMultiplier, tokenDecimals, daoSymbol }: Props) {
+  const { data: purchases, error } = useQuery(["swapPurchases", daoAddress, chainId], async () => {
+    await getSwapSales(daoAddress, chainId)
+  }, {
+    enabled: !!daoAddress && !!chainId,
+  })
 
-  if (decimals < 18) {
-    multiplier = Number(ethers.utils.formatUnits(crowdsale.purchaseMultiplier, 18 - decimals))
+  let multiplier = 1
+  if (tokenDecimals < 18) {
+    multiplier = Number(ethers.utils.formatUnits(purchaseMultiplier, 18 - tokenDecimals))
   } else {
-    multiplier = crowdsale.purchaseMultiplier
+    multiplier = Number(purchaseMultiplier)
   }
 
-  // console.log(purchasers, crowdsale.purchaseMultiplier)
+  console.log('purchases', error, purchases, purchaseMultiplier)
   return (
     <Stack>
       <Heading>Past Swaps:</Heading>
 
       <Box width={'3/4'}>
         <Stack>
-          {purchasers &&
-            purchasers.map((purchaser, index) => (
-              <Stack key={index} direction={'horiztontal'} justify={'space-between'}>
-                <Box width={'5'}>
-                  <Text>{index + 1}.</Text>
-                </Box>
-                <Box width={'1/3'}>
-                  <Text align={'center'}>{truncateAddress(purchaser.purchaser)}</Text>
-                </Box>
-                <Box width={'1/3'}>
-                  <Text align={'right'}>
-                    {(Number(purchaser.purchased) / multiplier).toFixed(2)} {symbol}
+          {/* {purchases && !isError &&
+            purchases.map((purchase: any, index: number) => (
+              <Stack key={index} direction={'horizontal'} justify={'space-between'}>
+                <User address={purchase?.purchaser} />
+               
+               
+  
+               
+                  <Text>
+                    {(Number(purchase.purchased) / multiplier).toFixed(2)} {daoSymbol}
                   </Text>
-                </Box>
+              
               </Stack>
-            ))}
+            ))} */}
         </Stack>
       </Box>
     </Stack>

@@ -2,35 +2,29 @@ import { useRouter } from 'next/router'
 import { erc20ABI, useContractRead, useContract, useSigner, useAccount, useBalance } from 'wagmi'
 import Swap from './Swap'
 import Approve from './Approve'
-import CROWDSALE_ABI from '../../../abi/KaliDAOcrowdsaleV2.json'
-import ACCESS_ABI from '../../../abi/KaliAccessManagerV2.json'
+import CROWDSALE_ABI from '@abi/KaliDAOcrowdsaleV2.json'
+import ACCESS_ABI from '@abi/KaliAccessManagerV2.json'
 import { useEffect, useState } from 'react'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
-import { addresses } from '../../../constants/addresses'
-import Info from './Info'
-import Background from './Background'
-import History from './History'
-import { fetchPurchasers } from './fetchPurchasers'
+import { addresses } from '@constants/addresses'
 import { Stack, Text, Box, Input, Heading, IconArrowDown } from '@kalidao/reality'
 
-export default function Crowdsale({ info }) {
+export default function Crowdsale({
+  crowdsale,
+  daoAddress,
+  chainId,
+}: {
+  crowdsale: any
+  daoAddress: string
+  chainId: number
+}) {
   const router = useRouter()
-  const { dao, chainId } = router.query
   const { address } = useAccount()
   const { data: signer } = useSigner()
 
   const { data: ethBalance } = useBalance({
     addressOrName: address,
-  })
-
-  // Contract interaction
-  const { data: crowdsale } = useContractRead({
-    addressOrName: addresses[chainId].extensions.crowdsale2,
-    contractInterface: CROWDSALE_ABI,
-    functionName: 'crowdsales',
-    args: [dao],
-    chainId: Number(chainId),
   })
 
   const { data: purchaseTokenSymbol } = useContractRead({
@@ -71,7 +65,7 @@ export default function Crowdsale({ info }) {
     addressOrName: addresses[chainId].extensions.crowdsale2,
     contractInterface: CROWDSALE_ABI,
     functionName: 'checkPersonalPurchased',
-    args: [address, dao],
+    args: [address, daoAddress],
     chainId: Number(chainId),
   })
 
@@ -88,14 +82,6 @@ export default function Crowdsale({ info }) {
   // Temp states
   const [tempSymbol, setTempSymbol] = useState(null)
   const [tempListId, setTempListId] = useState(null)
-  const [tempPurchaseAsset, setTempPurchaseAsset] = useState(null)
-  const [tempMultiplier, setTempMultiplier] = useState(0)
-  const [tempPersonalLimit, setTempPersonalLimit] = useState(0)
-  const [tempPurchaseLimit, setTempPurchaseLimit] = useState(0)
-  const [tempPurchaseTotal, setTempPurchaseTotal] = useState(0)
-  const [tempPurchaseDeadline, setTempPurchaseDeadline] = useState(null)
-  const [tempPurchasers, setTempPurchasers] = useState([])
-  const [tempInProgress, setTempInProgress] = useState(false)
   const [tempTerms, setTempTerms] = useState('')
   const [maxInput, setMaxInput] = useState(null)
   const [maxOutput, setMaxOutput] = useState(null)
@@ -219,20 +205,6 @@ export default function Crowdsale({ info }) {
     getEligibilty()
   }, [tempListId])
 
-  // Check total purchase limit
-  useEffect(() => {
-    const checkExpiry = () => {
-      if (!tempInProgress) {
-        setWarning(
-          'Swap enables KaliDAOs to atomically swap KaliDAO tokens with ETH or ERC20s and to diversify their treasury holding. Add the  extension and get started!',
-        )
-      } else {
-        setWarning('')
-      }
-    }
-
-    checkExpiry()
-  }, [tempInProgress])
 
   // Temp helper function to get crowdsale until subgraph is updated
   useEffect(() => {
@@ -282,20 +254,6 @@ export default function Crowdsale({ info }) {
     }
   }, [crowdsale])
 
-  useEffect(() => {
-    const getPurchasers = async () => {
-      const data = await fetchPurchasers(dao, chainId)
-      const purchasers = [...new Map(data._purchasers.map((p) => [p.purchaser, p])).values()]
-      purchasers.sort((a, b) => b.purchased - a.purchased)
-      // console.log(data._purchasers, purchasers)
-
-      setTempPurchasers(purchasers)
-      // setTotalDistributed(data._totalDistributed)
-    }
-
-    getPurchasers()
-  }, [])
-
   // console.log(tempInProgress, isEligible)
   return (
     <>
@@ -304,11 +262,11 @@ export default function Crowdsale({ info }) {
           <Stack direction={'horizontal'} justify={'space-between'}>
             <Box width="1/2">
               <Stack>
-                <Heading level="2">Swap for {info?.token?.symbol}</Heading>
+                <Heading level="2">Swap for {daoName}(daoSymbol.toUpperCase())</Heading>
                 <Box width={'fit'} alignSelf={'center'} marginRight="20">
                   <Text>Swap allows anyone to swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens.</Text>
                 </Box>
-                <Text>Enter an amount to swap for {info?.token?.symbol.toUpperCase()}:</Text>
+                <Text>Enter an amount to swap for {daoSymbol.toUpperCase()}:</Text>
                 <Stack>
                   <Stack align="center">
                     <Input
@@ -336,7 +294,7 @@ export default function Crowdsale({ info }) {
                       width={'2/3'}
                     />
                   </Stack>
-                  <Stack></Stack>
+
                   {tempTerms && tempTerms != 'none' && (
                     <Stack direction={'horizontal'} justify="center">
                       <input
@@ -354,7 +312,7 @@ export default function Crowdsale({ info }) {
                       </Text>
                     </Stack>
                   )}
-                  <Stack></Stack>
+
                   <Box width={'full'}>
                     <Stack>
                       {shouldApprove && (
@@ -415,25 +373,12 @@ export default function Crowdsale({ info }) {
                 )}
               </Stack>
             </Box>
-            <Box width="1/2">
-              <Stack space={'10'}>
-                <Info info={info} decimals={decimals} crowdsale={crowdsale} symbol={tempSymbol} />
-                <Background />
-                <History
-                  info={info}
-                  crowdsale={crowdsale}
-                  decimals={decimals}
-                  purchasers={tempPurchasers}
-                  symbol={tempSymbol}
-                />
-              </Stack>
-            </Box>
           </Stack>
         </Box>
       ) : (
         <Stack>
-          {warning && <Text variant="warning">{warning}</Text>}
-          <Text variant="warning">Hop into the KALI Discord to learn more about this Extension ✌️</Text>
+          {warning && <Text>{warning}</Text>}
+          <Text>Hop into the KALI Discord to learn more about this Extension ✌️</Text>
         </Stack>
       )}
     </>
