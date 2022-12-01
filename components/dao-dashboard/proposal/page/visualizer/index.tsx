@@ -1,9 +1,8 @@
 import React from 'react'
 import Member from './Member'
 import Extension from './Extension'
-import Escape from './Escape'
 import Call from './Call'
-
+import Internal from './Internal'
 import {
   Box,
   Stack,
@@ -20,7 +19,6 @@ import {
   IconDocumentAdd,
 } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import Internal from './Internal'
 import { formatVotingPeriod } from '@utils/votingPeriod'
 
 export default function Visualizer({ proposal }: { proposal: any }) {
@@ -59,22 +57,22 @@ export default function Visualizer({ proposal }: { proposal: any }) {
     case 'GPERIOD':
       heading = 'Update Grace Period'
       icon = <IconHand />
-      component = <Internal message="This proposal will update the grace period." />
+      component = <Internal type={proposal?.proposalType} message="This proposal will update the grace period." />
       break
     case 'QUORUM':
       heading = 'Update Participation Required'
       icon = <IconFlag />
-      component = <Internal message={`This proposal will update quorum to ${proposal?.amounts?.[0]}%`} />
+      component = <Internal    type={proposal?.proposalType} message={`This proposal will update quorum to ${proposal?.amounts?.[0]}%`} />
       break
     case 'SUPERMAJORITY':
       heading = 'Update Approval Required'
       icon = <IconUsersSolid />
-      component = <Internal message={`This proposal will update supermajority to ${proposal?.amounts?.[0]}%`} />
+      component = <Internal    type={proposal?.proposalType} message={`This proposal will update supermajority to ${proposal?.amounts?.[0]}%`} />
       break
     case 'TYPE':
       heading = 'Update Voting Types'
       icon = <IconFlag />
-      component = <Internal message={`This proposal will update the voting type.`} />
+      component = <Internal    type={proposal?.proposalType}  message={`This proposal will update the voting type.`} />
       break
     case 'PAUSE':
       heading = 'Update Token Transferability'
@@ -94,9 +92,9 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       component = <Extension accounts={proposal?.accounts} amounts={proposal?.amounts} payloads={proposal?.payloads} />
       break
     case 'ESCAPE':
-      heading = 'Escaping'
+      heading = 'Delete'
       icon = <IconExclamationCircleSolid />
-      component = <Escape killing={proposal?.amounts?.[0]} />
+      component = <Internal    type={proposal?.proposalType} chainId={Number(chainId)} dao={dao?.toString()} amount={proposal?.amounts?.[0]} message={`This will remove the proposal ${proposal?.amounts?.[0]} from the queue.`} />
       break
     case 'DOCS':
       heading = 'Update Docs'
@@ -110,6 +108,7 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       )
       break
   }
+
 
   return (
     <Box

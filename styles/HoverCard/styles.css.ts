@@ -1,29 +1,6 @@
 import { vars } from '@kalidao/reality'
 import { keyframes, style } from '@vanilla-extract/css'
 
-// .HoverCardContent {
-//     border-radius: 6px;
-//     padding: 20px;
-//     width: 300px;
-//     background-color: white;
-//     box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-//     animation-duration: 400ms;
-//     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-//     will-change: transform, opacity;
-//   }
-//   .HoverCardContent[data-side='top'] {
-//     animation-name: slideDownAndFade;
-//   }
-//   .HoverCardContent[data-side='right'] {
-//     animation-name: slideLeftAndFade;
-//   }
-//   .HoverCardContent[data-side='bottom'] {
-//     animation-name: slideUpAndFade;
-//   }
-//   .HoverCardContent[data-side='left'] {
-//     animation-name: slideRightAndFade;
-//   }
-
 const slideDownAndFade = keyframes({
   '0%': { opacity: 0, transform: 'translateY(2px)' },
   '100%': { opacity: 1, transform: 'translateY(0)' },
@@ -47,9 +24,9 @@ const slideRightAndFade = keyframes({
 export const content = style({
   borderRadius: vars.radii['2xLarge'],
   padding: vars.space[3],
-  width: '300px',
+  width: vars.space[36],
   backgroundColor: vars.colors.backgroundSecondary,
-  boxShadow: vars.shadows['2xLarge'],
+  boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundTertiary}`,
   animationDuration: '400ms',
   animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
   willChange: 'transform, opacity',

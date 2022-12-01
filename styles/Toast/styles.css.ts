@@ -17,10 +17,10 @@ const swipeOut = keyframes({
 })
 
 export const root = style({
-  backgroundColor: 'white',
+  backgroundColor: vars.colors.backgroundTertiary,
   borderRadius: 6,
-  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
-  padding: 15,
+  boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundSecondary}`,
+  padding: vars.space["3"],
   display: 'grid',
   gridTemplateAreas: '"title action" "description action"',
   gridTemplateColumns: 'auto max-content',
@@ -50,7 +50,7 @@ export const root = style({
 export const title = style({
   gridArea: 'title',
   marginBottom: 5,
-  fontWeight: 500,
+  fontWeight: 800,
   color: vars.colors.foreground,
   fontSize: 15,
 })
@@ -59,12 +59,13 @@ export const description = style({
   gridArea: 'description',
   margin: 0,
   color: vars.colors.foreground,
-  fontSize: 13,
-  lineHeight: 1.3,
+  fontSize: vars.fontSizes["2xLarge"],
+  lineHeight: vars.lineHeights.normal,
 })
 
 export const action = style({
   gridArea: 'action',
+  justifySelf: 'end',
 })
 
 export const viewport = style({

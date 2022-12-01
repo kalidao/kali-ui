@@ -15,9 +15,10 @@ type Info = {
 }
 
 export default function Info({ swap, tokenDecimals, tokenSymbol, daoSymbol }: Info) {
-  if (!swap) return null
   const router = useRouter()
   const chainId = Number(router.query.chainId)
+  
+  if (!swap) return null
 
   let type = ''
   switch (swap?.listId?.toString()) {

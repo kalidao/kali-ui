@@ -8,10 +8,9 @@ import Toast from '@design/Toast'
 
 type InfoBarProps = {
   proposer: string
-  proposalId: number
 }
 
-export default function InfoBar({ proposer, proposalId }: InfoBarProps) {
+export default function InfoBar({ proposer }: InfoBarProps) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const {

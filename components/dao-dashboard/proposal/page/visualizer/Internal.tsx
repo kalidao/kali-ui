@@ -3,6 +3,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { formatVotingPeriod } from '@utils/votingPeriod'
+import Link from 'next/link'
 
 export default function Internal({
   type,
@@ -11,7 +12,7 @@ export default function Internal({
   dao,
   chainId,
 }: {
-  type?: string
+  type: string
   amount?: string
   message: string
   dao?: string
@@ -31,6 +32,8 @@ export default function Internal({
     chainId: chainId,
     enabled: type === 'VPERIOD',
   })
+
+  console.log('amount', amount)
 
   let render
   switch (type) {
@@ -53,6 +56,18 @@ export default function Internal({
         </Stack>
       )
       break
+    case 'ESCAPE':
+        render = (
+          <Stack>
+             <Link href={`/daos/${chainId}/${dao}/proposals/${amount}`} passHref>
+          <Text>
+            {message}
+            
+          </Text>
+          </Link>
+        </Stack>
+        )
+        break
     case 'DOCS':
       render = (
         <Stack direction={'vertical'}>

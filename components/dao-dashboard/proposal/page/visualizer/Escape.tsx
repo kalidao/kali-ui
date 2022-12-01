@@ -11,7 +11,7 @@ export default function Escape({ killing }: { killing: string }) {
       <Text>
         This will kill proposal{' '}
         <Link href={`/daos/${chainId}/${dao}/proposals/${killing}`} passHref>
-          #{killing}
+          {`#${killing}`}
         </Link>
       </Text>
     </Stack>
