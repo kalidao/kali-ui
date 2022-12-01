@@ -23,7 +23,9 @@ export default function Success() {
     chainId: Number(activeChain?.id),
     listener: (event) => {
       handleEmail(event)
-      setTimeout(router.push(`/daos/${encodeURIComponent(activeChain?.id)}/${encodeURIComponent(event[0])}/`), 120000)
+      setTimeout(() => {
+        router.push(`/daos/${encodeURIComponent(activeChain?.id)}/${encodeURIComponent(event[0])}/`)
+      }, 30000)
     },
     once: true,
   })
