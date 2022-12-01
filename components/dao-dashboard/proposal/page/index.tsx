@@ -58,20 +58,20 @@ export default function ProposalView({ proposal }: Props) {
       width="full"
       display="flex"
       flexDirection={'column'}
-      gap="10"
+      gap="1"
       borderWidth="px"
       borderRadius="2xLarge"
       padding="6"
     >
-      <Stack direction="horizontal" align="center">
-        <Heading responsive>
+      <Box display="flex" flexDirection={"row"} gap="1" justifyContent={"flex-start"} alignItems="center">
+        <Text>
           {`#${proposalId} `}
           {details && details?.title}
           {proposal?.['proposalType'] === 'DOCS' && 'Update Docs'}
-        </Heading>
-        <Tag>{proposal['proposalType']}</Tag>
-      </Stack>
-      <InfoBar proposalId={Number(proposalId)} proposer={proposal['proposer']} />
+        </Text>
+        <Tag>{proposal?.['proposalType']}</Tag>
+      </Box>
+      <InfoBar proposer={proposal?.['proposer']} />
       <Box
         position="relative"
         display="flex"
@@ -82,7 +82,7 @@ export default function ProposalView({ proposal }: Props) {
           md: 'row',
         }}
       >
-        <Box width="full" display={'flex'} flexDirection="column" justifyContent={'space-between'}>
+        <Box width="full" display={'flex'} gap="5" flexDirection="column" justifyContent={'space-between'}>
           {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
               type={proposal?.['proposalType']}
@@ -94,15 +94,15 @@ export default function ProposalView({ proposal }: Props) {
         </Box>
         <Box display="flex" gap="2" flexDirection="column">
           {proposal && (
-            <InfoCard start={Number(proposal['votingStarts'])} votingPeriod={Number(proposal['dao']['votingPeriod'])} />
+            <InfoCard start={Number(proposal?.['votingStarts'])} votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])} />
           )}
           {proposal && <Results votes={proposal['votes']} />}
         </Box>
       </Box>
       <Stack direction="horizontal">
         <Vote proposal={proposal} />
-        {proposal['sponsored'] == false &&
-          (address?.toLowerCase() === proposal['proposer'] ? (
+        {proposal?.['sponsored'] == false &&
+          (address?.toLowerCase() === proposal?.['proposer'] ? (
             <Cancel proposalId={Number(proposal?.serial)} />
           ) : (
             <Sponsor proposalId={Number(proposal?.serial)} />

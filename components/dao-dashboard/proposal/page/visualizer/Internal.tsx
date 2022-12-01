@@ -58,13 +58,11 @@ export default function Internal({
       break
     case 'ESCAPE':
         render = (
-          <Stack>
-             <Link href={`/daos/${chainId}/${dao}/proposals/${amount}`} passHref>
+          <Stack>  
           <Text>
             {message}
-            
           </Text>
-          </Link>
+          <Button size="small" as="a" href={`/daos/${chainId}/${dao}/proposals/${amount}`}>View Proposal</Button>
         </Stack>
         )
         break
