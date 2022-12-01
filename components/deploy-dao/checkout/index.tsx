@@ -27,7 +27,7 @@ export default function Checkout({ setStep }: Props) {
   const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { isConnected } = useAccount()
+  const { address, isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
   const {
     writeAsync,
@@ -155,6 +155,22 @@ export default function Checkout({ setStep }: Props) {
 
     try {
       setMessage(`Please confirm in your wallet.`)
+      // const iface = new ethers.utils.Interface(FACTORY_ABI)
+      // const data = iface.encodeFunctionData('deployKaliDAO', [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings])
+      // const relayTx = await fetch(`${process.env.NEXT_PUBLIC_RELAYER}/send`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     to: addresses[activeChain?.id]['factory'],
+      //     from: address,
+      //     data: data,
+      //     value: '0',
+      //     chainId: Number(activeChain?.id),
+      //   }),
+      // }).then((res) => res.json())
+
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: [
           name,
@@ -190,6 +206,7 @@ export default function Checkout({ setStep }: Props) {
           }
         }
       })
+      // console.log('relayed', relayTx)
     } catch (e) {
       console.log(e)
       setLoading(false)

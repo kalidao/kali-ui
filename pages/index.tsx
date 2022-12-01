@@ -5,13 +5,17 @@ import Layout from '@components/layout'
 import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
 import * as styles from '@design/landing.css'
-import { useAccount } from 'wagmi'
+import { useAccount, useEnsName } from 'wagmi'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const { address, isConnected } = useAccount()
-
+  const { data: ensName } = useEnsName({
+    address,
+    enabled: isConnected,
+    chainId: 1,
+  })
   useEffect(() => {
     router.prefetch('/')
   })
@@ -36,9 +40,9 @@ const HomePage: NextPage = () => {
       <Box className={styles.container}>
         <Stack space="12">
           <Box>
-            <h1 className={styles.heading}>Form.</h1>
-            <h1 className={styles.heading}>Govern.</h1>
-            <h1 className={styles.heading}>Organize.</h1>
+            <h1 className={styles.heading}>Form a DAO. Enjoy true ownership.</h1>
+            {/* <h1 className={styles.heading2}>Create organizations that are forever and always yours 🪄</h1> */}
+            {/* <h1 className={styles.heading2}>forever & always yours ❤️</h1> */}
           </Box>
           <Box display="flex" gap="2">
             <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
