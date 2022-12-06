@@ -14,7 +14,7 @@ const Members = () => {
   const { chainId, dao } = router.query
   const { data, isLoading, isError, error } = useQuery(
     ['daoProfileMembers', chainId, dao],
-    () => getMembers(chainId, dao),
+    () => getMembers(Number(chainId), dao as string),
     {
       enabled: !!chainId && !!dao,
     },

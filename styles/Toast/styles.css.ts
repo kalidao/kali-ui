@@ -59,7 +59,7 @@ export const description = style({
   gridArea: 'description',
   margin: 0,
   color: vars.colors.foreground,
-  fontSize: vars.fontSizes["2xLarge"],
+  fontSize: vars.fontSizes.large,
   lineHeight: vars.lineHeights.normal,
 })
 

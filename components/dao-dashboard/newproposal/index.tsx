@@ -4,9 +4,7 @@ import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
-import { AppsMenu, SetCrowdsale, SetRedemption } from './apps'
-import UpdateCrowdsale from './apps/UpdateCrowdsale'
-import RemoveCrowdsale from './apps/RemoveCrowdsale'
+import { AppsMenu, SetRedemption } from './apps'
 
 type Props = {
   proposalProp: string
@@ -86,18 +84,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     call: {
       title: 'Interact with External Contracts',
       component: <CallContract setProposal={setView} content={content} title={title} />,
-    },
-    crowdsale_add: {
-      title: 'Set Crowdsale Rules',
-      component: <SetCrowdsale setProposal={setView} title={title} content={content} />,
-    },
-    crowdsale_update: {
-      title: 'Update Crowdsale Rules',
-      component: <UpdateCrowdsale setProposal={setView} title={title} content={content} />,
-    },
-    crowdsale_remove: {
-      title: 'Remove Crowdsale Rules',
-      component: <RemoveCrowdsale setProposal={setView} title={title} content={content} />,
     },
     redemption: {
       // TODO: need to add token approval/allowance logic at submission (added by proposal)

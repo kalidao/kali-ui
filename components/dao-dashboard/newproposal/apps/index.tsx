@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 // menu items
-import SetCrowdsale from './SetCrowdsale'
 import SetRedemption from './SetRedemption'
 import Back from '@design/proposal/Back'
 import { useRouter } from 'next/router'
@@ -54,4 +53,4 @@ function AppsMenu({ setProposal }: Props) {
   )
 }
 
-export { AppsMenu, SetCrowdsale, SetRedemption }
+export { AppsMenu, SetRedemption }

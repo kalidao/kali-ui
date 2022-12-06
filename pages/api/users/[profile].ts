@@ -4,7 +4,7 @@ import axios from 'axios'
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   try {
     const { profile } = _req.query
-    console.log('user: ', profile)
+
     const data = await axios({
       url: 'https://api.lens.dev/',
       method: 'post',

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { useContract, useSigner } from 'wagmi'
 import { Warning } from '@design/elements'
-import { Button, Text, Stack, Input, Textarea, FieldSet } from '@kalidao/reality'
+import { Box, Button, Text, Stack, Input, Textarea } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
-import { addresses } from '@constants/addresses'
 import { ethers } from 'ethers'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
@@ -13,37 +12,32 @@ import { ProposalProps } from '../utils/types'
 
 export default function CallContract({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
-  const { chainId: daoChainId, dao: daoAddress } = router.query
+  const daoChainId = Number(router.query.chainId)
+  const daoAddress = router.query.dao as string
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
+    addressOrName: daoAddress as string,
     contractInterface: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
   // form
-  const [contractAddress, setContractAddress] = useState(null)
-  const [contractAbi, setContractAbi] = useState(null)
-  const [writeFuncs, setWriteFuncs] = useState(null)
-  const [readFuncs, setReadFuncs] = useState(null)
-  const [warning, setWarning] = useState(null)
+  const [contractAddress, setContractAddress] = useState<string>()
+  const [contractAbi, setContractAbi] = useState<string>()
+  const [writeFuncs, setWriteFuncs] = useState<any[]>()
+  const [writeOptions, setWriteOptions] = useState<any[]>()
+  const [warning, setWarning] = useState<string>()
 
-  const [etherscanLink, setEtherscanLink] = useState(null)
-  const [functionName, setFunctionName] = useState(null)
-  const [inputs, setInputs] = useState(null)
-  const [inputParams, setInputParams] = useState([])
+  const [functionName, setFunctionName] = useState<string>()
+  const [inputs, setInputs] = useState<any[]>()
+  const [inputParams, setInputParams] = useState<any[]>()
 
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
-
-  const handleParse = async (e) => {
-    e.preventDefault()
-
+  const handleParse = async () => {
+    if (!contractAbi) return
     try {
       let array = JSON.parse(contractAbi)
       const writeFuncs_ = []
-      const readFuncs_ = []
 
       for (var i = 0; i < array.length; i++) {
         let item = array[i]
@@ -51,52 +45,48 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
         if (funcType == 'nonpayable' || funcType == 'payable') {
           if (item['type'] != 'constructor' && item['type'] != 'fallback') {
             writeFuncs_.push(item)
-            writeFuncs_.sort((a, b) => a.name > b.name)
-            // console.log(writeFuncs_)
           }
-        } else if (funcType == 'view') {
-          readFuncs_.push(item)
-          readFuncs_.sort((a, b) => a.name > b.name)
-          setEtherscanLink(getExplorerLink(contractAddress))
-          console.log(getExplorerLink(contractAddress))
         }
       }
-
-      console.log(writeFuncs_)
+      const options = [{ label: 'Select a function', value: 999 }] 
+      for (var i = 0; i < writeFuncs_.length; i++) {
+        options.push({ value: i, label: writeFuncs_[i]['name'] })
+      }
       setWriteFuncs(writeFuncs_)
-      setReadFuncs(readFuncs_)
-      setInputs(null)
+      setWriteOptions(options)
+      setInputs([])
     } catch (e) {
       console.log(e)
     }
   }
 
-  const onWriteFunctionSelect = (e) => {
-    if (e.target.value == 999) {
-      setInputs(null)
-      setFunctionName(null)
+  const onWriteFunctionSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault()
+    if (!writeFuncs) return
+    if (e.currentTarget.value == "999") {
+      setInputs([])
+      setFunctionName('')
     } else {
-      let id = e.target.value
+      let id = Number(e.target.value)
       let inputs_ = writeFuncs[id]['inputs']
       let name_ = writeFuncs[id]['name']
-      // console.log(inputs_)
+  
       setInputs(inputs_)
+      setInputParams([])
       setFunctionName(name_)
     }
   }
 
-  const getExplorerLink = (address) => {
-    const blockExplorerUrls = addresses[daoChainId]['blockExplorer']
-    return blockExplorerUrls + '/address/' + address + '#readContract'
-  }
-
-  const onInputChange = (e) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     let element = document.getElementById('inputFields')
+    if (!element) return
     let children = element.children
-    console.log(children)
+    console.log('elements', children)
     let array = []
     for (var i = 0; i < children.length; i++) {
-      let item = children[i].children[1].value
+       // @ts-expect-error
+      let item =  children[i].children[1].children[0].children[0].value as any || ''
       if (item != undefined) {
         array.push(item)
       }
@@ -105,9 +95,8 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
   }
 
   // TODO: Popup to change network if on different network from DAO
-  const submit = async (e) => {
-    e.preventDefault()
-
+  const submit = async () => {
+    if (!functionName) return
     let docs
     try {
       docs = await createProposal(daoAddress, daoChainId, 2, title, content)
@@ -117,7 +106,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     }
 
     try {
-      let iface = new ethers.utils.Interface(contractAbi)
+      let iface = new ethers.utils.Interface(contractAbi as string)
       let payload = iface.encodeFunctionData(functionName, inputParams)
       console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
 
@@ -137,31 +126,15 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       console.log('error', e)
       setWarning('Supplied inputs do not match the required input type.')
     }
-  }
-
-  const writeOptions =
-    writeFuncs &&
-    writeFuncs.map((item, index) => {
-      return { value: index, label: item.name }
-    })
+  }  
 
   return (
     <Stack>
-      <Text
-        variant="instruction"
-        css={{
-          fontFamily: 'Regular',
-        }}
-      >
+      <Text>
         Supply a contract address and its corresponding ABI. Click "Parse ABI," pick the function you wish to interact
         with, and supply the appropriate inputs.{' '}
       </Text>
-      <Text
-        variant="instruction"
-        css={{
-          fontFamily: 'Regular',
-        }}
-      >
+      <Text>
         External calls involve programmatically calling a smart contract without a dedicated user interface. It can be
         confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
         help you out.
@@ -177,38 +150,24 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       <Textarea
         label="Contract ABI"
         description="Supply the contract ABI here."
-        as="textarea"
         name="description"
-        type="text"
         defaultValue={contractAbi}
         onChange={(e) => setContractAbi(e.target.value)}
-        css={{ padding: '0.5rem', width: '97%', height: '10vh' }}
       />
       <Button variant="secondary" onClick={handleParse}>
         Parse ABI
       </Button>
-      {writeFuncs && (
-        <FieldSet label="Write Functions">
-          <Select onChange={onWriteFunctionSelect} options={[]}>
-            <option>Select a function</option>
-            {writeFuncs.map((f, index) => (
-              <option key={index} value={index}>
-                {f['name']}
-              </option>
-            ))}
-          </Select>{' '}
-        </FieldSet>
-      )}
+      {writeFuncs && <Select label="Write Functions" onChange={onWriteFunctionSelect} options={writeOptions ? writeOptions : []} />}
       {inputs == null ? null : (
-        <Stack id="inputFields">
+        <Box id="inputFields" >
           {inputs.map((input, index) => (
-            <Input label={input['name']} key={index} onChange={onInputChange} />
+            <Input label={input['name']} id={`input-${index}`} key={index} onChange={onInputChange} />
           ))}
-        </Stack>
+        </Box>
       )}
       {warning && <Warning warning={warning} />}
-      <Stack align="center" justify="space-between" direction={'horizontal'}>
-        <Back onClick={() => setProposal('menu')} />
+      <Stack align="center" justify="space-between" direction={"horizontal"}>
+        <Back onClick={() => setProposal?.('menu')} />
         <Button onClick={submit}>Submit</Button>
       </Stack>
     </Stack>

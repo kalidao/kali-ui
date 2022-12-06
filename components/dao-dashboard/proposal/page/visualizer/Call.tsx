@@ -1,11 +1,11 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { Stack, Button, Text, IconLink, IconDuplicate } from '@kalidao/reality'
+import { Box, Stack, Button, Text, IconLink, IconDuplicate } from '@kalidao/reality'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'
 
-export default function Call({
+export default function CallShell({
   accounts,
   amounts,
   payloads,
@@ -15,27 +15,61 @@ export default function Call({
   payloads: string[]
 }) {
   const router = useRouter()
+  const dao = router.query.dao as string
   const chainId = Number(router.query.chainId)
+
+  let calls = []
   for (let i = 0; i < accounts.length; i++) {
-    const link = getExplorerLink(Number(router.query.chainId), ExplorerType.ADDRESS, accounts[i])
-    const decoded = decodeTx(payloads?.[i], amounts?.[i])
-    console.log('decoded', decoded)
+    calls.push({
+      account: accounts[i],
+      amount: amounts[i],
+      payload: payloads[i],
+    })
+  }
 
-    const params = createParams(accounts[i], chainId, decoded)
-    console.log('params', params)
-    return (
-      <Stack>
-        <Stack>
-          <Text>Calling</Text>
-          <Button as="a" href={link} target="_blank" prefix={<IconLink />}>
-            {accounts[i]}
-          </Button>
-        </Stack>
-        <Stack>
+  return <Stack>
+    {calls.map((call, i) => (
+      <CallCard
+        key={call.account}
+        account={call.account}
+        amount={call.amount}
+        payload={call.payload}
+        chainId={chainId}
+        dao={dao}
+        />
+    ))}
+  </Stack>
+}
+
+const CallCard = ({
+  account,
+  amount,
+  payload,
+  dao,
+  chainId,
+}: {
+  account: string
+  amount: string
+  payload: string
+  dao: string
+  chainId: number
+}) => {
+  const decoded = decodeTx(payload, amount)
+  const params = createParams(account, chainId, decoded)
+
+  return <Stack>
+      <Text>
+          This will interact with an external contract.
+          You can review the contract{" "}
+          <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}>
+            here
+          </a>
+          .
+        </Text>
+       <Stack direction={"horizontal"} align="center" justify={"space-between"}>
           <Text>Value</Text>
-          <Text>{ethers.utils.formatEther(amounts[i])}</Text>
+          <Text>{ethers.utils.formatEther(amount)}</Text>
         </Stack>
-
         <Stack>
           {decoded && decoded != 'none' && (
             <Stack>
@@ -55,21 +89,19 @@ export default function Call({
               </Stack>
             </Stack>
           )}
-          {payloads[i] != '0x' && (
-            <>
-              <Stack>
-                Payload
-                <Button onClick={() => navigator.clipboard.writeText(payloads[i])}>
+          {payload != '0x' && (
+            <Stack>
+              <Stack direction={"horizontal"} align="center" justify={"space-between"}>
+                <Text>Payload</Text>
+                <Button size="small" variant="transparent" onClick={() => navigator.clipboard.writeText(payload)}>
                   <IconDuplicate />
                 </Button>
               </Stack>
-              <Text>{payloads[i]}</Text>
-            </>
+              <Box backgroundColor="backgroundTertiary" color="text" padding="2" wordBreak="break-word">{payload}</Box>
+            </Stack>
           )}
         </Stack>
-      </Stack>
-    )
-  }
+  </Stack>
 }
 
 const createParams = (to: string, chain: number, decoded?: any) => {

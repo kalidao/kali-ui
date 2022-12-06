@@ -1,5 +1,5 @@
 import merge from 'lodash.merge'
-import { lightTheme, darkTheme, Theme } from '@rainbow-me/rainbowkit'
+import { darkTheme, Theme } from '@rainbow-me/rainbowkit'
 
 export const getRainbowTheme = (mode: string) => {
   const accentColor = mode === 'dark' ? 'black' : 'white'
@@ -20,7 +20,7 @@ export const getRainbowTheme = (mode: string) => {
       selectedOptionBorder: '',
     },
     fonts: {
-      body: `"Alegreya Sans", sans-serif`,
+      body: `"InterVar", sans-serif`,
     },
     shadows: {
       connectButton: '1px 2px 6px rgba(1,50,50, 0.2)',

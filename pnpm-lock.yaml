@@ -27,6 +27,7 @@ specifiers:
   '@tiptap/react': 2.0.0-beta.197
   '@tiptap/starter-kit': 2.0.0-beta.196
   '@types/formidable': ^2.0.5
+  '@types/lodash.merge': ^4.6.7
   '@types/node': ^18.11.9
   '@types/react': ^18.0.25
   '@vanilla-extract/css': ^1.9.2
@@ -100,6 +101,7 @@ dependencies:
 
 devDependencies:
   '@types/formidable': 2.0.5
+  '@types/lodash.merge': 4.6.7
   '@types/node': 18.11.9
   '@types/react': 18.0.25
   '@vanilla-extract/css': 1.9.2
@@ -4063,6 +4065,16 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash.merge/4.6.7:
+    resolution: {integrity: sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/mdast/3.0.10:

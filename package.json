@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@types/formidable": "^2.0.5",
+    "@types/lodash.merge": "^4.6.7",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@vanilla-extract/css": "^1.9.2",
