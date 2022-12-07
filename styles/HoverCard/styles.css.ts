@@ -24,7 +24,7 @@ const slideRightAndFade = keyframes({
 export const content = style({
   borderRadius: vars.radii['2xLarge'],
   padding: vars.space[3],
-  width: vars.space[36],
+  minWidth: vars.space[36],
   backgroundColor: vars.colors.backgroundSecondary,
   boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundTertiary}`,
   animationDuration: '400ms',

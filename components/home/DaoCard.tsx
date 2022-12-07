@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Text, Stack, Box, Tag, Avatar } from '@kalidao/reality'
 import * as styles from './styles.css'
 import ALL_CHAINS from '@constants/chains.json'
+import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 
 type Props = {
   dao: any
@@ -13,8 +14,8 @@ type Props = {
 export default function DaoCard({ dao, chain }: Props) {
   const router = useRouter()
   const chainObj = ALL_CHAINS.find((c) => c.chainId == chain)
- 
-
+  const { data: meta } = useGetDaoMeta(chain, dao['id'])
+  console.log('dao card', chain, dao)
   const gotoDAO = async () => {
     if (!dao || !chain) return
 
@@ -24,7 +25,7 @@ export default function DaoCard({ dao, chain }: Props) {
   return (
     <Box as="button" padding="6" width="96" onClick={gotoDAO} className={styles.card}>
       <Stack align="center" justify={'center'}>
-        <Avatar label="DAO Avatar" address={dao?.['id']} placeholder />
+        <Avatar label="DAO Avatar" src={meta?.image} address={dao?.['id']} />
         <Text ellipsis>{dao?.['token']?.['name']}</Text>
         <Tag>{chainObj?.name}</Tag>
       </Stack>

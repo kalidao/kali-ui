@@ -1,9 +1,8 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Avatar, Text, Button, Card, Heading, Stack, IconArrowRight } from '@kalidao/reality'
+import { Avatar, Text, Box } from '@kalidao/reality'
 import { useGetWrappr } from '@graph/queries/getWrappr'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
+import { navItem } from './layout.css'
 
 const Wrappr = ({ address, chainId }: DashboardElementProps) => {
   const { data, error, isSuccess, isLoading } = useGetWrappr(Number(chainId), address)
@@ -34,21 +33,19 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
       : `https://www.wrappr.wtf/`
 
   return (
-    <Card padding="6" shadow hover>
-      <a
-        target="_blank"
-        rel="noopenner noreferrer"
-        href={wrapprLink}
-        style={{
-          textDecoration: 'none',
-        }}
-      >
-        <Stack direction={'vertical'} align={'center'} justify={'center'} space="3">
-          <Heading>{uri ? uri?.name : data?.wrappr?.name}</Heading>
-          <Avatar as="img" size="40" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
-        </Stack>
-      </a>
-    </Card>
+    <a
+    target="_blank"
+    rel="noopenner noreferrer"
+    href={wrapprLink}
+    style={{
+      textDecoration: 'none',
+    }}
+  >
+    <Box className={navItem} gap="2">
+          <Avatar as="img" size="12" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
+          <Text>{uri ? uri?.name : data?.wrappr?.name}</Text>
+    </Box>
+    </a>
   )
 }
 

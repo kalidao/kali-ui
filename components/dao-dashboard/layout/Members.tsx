@@ -64,15 +64,10 @@ const Members = () => {
 }
 
 const Member = ({ address, shares }: { address: string; shares: string }) => {
-  const { data: ensName } = useEnsName({
-    address: address,
-  })
-  const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
-
   return (
     <Stack direction={'horizontal'} align="center" justify={'space-between'}>
       <User address={address} />
-      <Text>{formatEther(shares)}</Text>
+      <Text>{Number(formatEther(shares)).toFixed(2)}</Text>
     </Stack>
   )
 }

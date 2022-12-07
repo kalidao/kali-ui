@@ -1,30 +1,20 @@
 import {
-  Avatar,
+  Text,
   Card,
-  Heading,
-  Skeleton,
   Box,
-  Spinner,
-  Stack,
-  Stat,
-  Button,
-  IconArrowRight,
-  IconTokens,
-  IconLightningBolt,
   IconCog,
   IconBookOpen,
+  IconTokens,
 } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import { chain, useContractRead, useQuery } from 'wagmi'
-import { getDaoInfo } from '@graph/queries'
-import { ethers } from 'ethers'
-import { formatVotingPeriod } from '@utils/votingPeriod'
+import {useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { addresses } from '@constants/addresses'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import { AddressZero } from '@ethersproject/constants'
 import { navItem, navMenu } from './layout.css'
+import Wrappr from './Wrappr'
 
 const Nav = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
@@ -41,7 +31,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     args: [address],
   })
 
-  const itemSize = '16'
+  const itemSize = '12'
   const itemColor = 'foreground'
   const items = [
     {
@@ -58,26 +48,17 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       href: `/daos/${chainId}/${address}/settings`,
       active: router.asPath === `/daos/${chainId}/${address}/settings` ? true : false,
     },
-    // {
-    //     id: 2,
-    //     title: 'Tribute',
-    //     icon: <IconLightningBolt size={itemSize} color={itemColor} />,
-    //     href: `/daos/${chainId}/${address}/tribute`
-    // }
   ]
 
-  // TODO
-  // if (!isSwapLoading && !isSwapError && swap) {
-  //   if (swap?.saleEnds < Date.now()) {
-  //     items.push({
-  //       id: items.length + 1,
-  //       title: 'Swap',
-  //       icon: <IconTokens size={itemSize} color={itemColor} />,
-  //       href: `/daos/${chainId}/${address}/swap`,
-  //       active: router.asPath === `/daos/${chainId}/${address}/swap` ? true : false,
-  //     })
-  //   }
-  // }
+  if (swap && (swap?.saleEnds * 1000) > Date.now()) {
+    items.push({
+      id: 2,
+      title: 'Swap',
+      icon: <IconTokens size={itemSize} color={itemColor} />,
+      href: `/daos/${chainId}/${address}/swap`,
+      active: router.asPath === `/daos/${chainId}/${address}/swap` ? true : false,
+    })
+  }
 
   return (
     <Card padding="6" width="full">
@@ -85,6 +66,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
         {items.map((item) => (
           <NavCard title={item.title} href={item.href} icon={item.icon} active={item.active} key={item.id} />
         ))}
+      <Wrappr address={address} chainId={chainId} />
       </Box>
     </Card>
   )
@@ -95,14 +77,15 @@ type NavCardProps = {
   href: string
   icon: React.ReactNode
   active: Boolean
+  isExternal?: Boolean
 }
 
-const NavCard = ({ title, href, icon, active }: NavCardProps) => {
+const NavCard = ({ title, href, icon, active, isExternal }: NavCardProps) => {
   return (
     <Link href={href} passHref>
       <Box as="a" className={navItem} backgroundColor={active ? 'accentSecondary' : 'background'}>
-        {icon}
-        <Heading>{title}</Heading>
+        <Box>{icon}</Box>
+        <Text>{title}</Text>
       </Box>
     </Link>
   )

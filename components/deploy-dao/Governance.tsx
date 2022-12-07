@@ -28,7 +28,6 @@ export default function Governance({ setStep }: Props) {
   }
 
   const onNext = (data: GlobalState) => {
-    console.log('data', data)
     actions.updateAction(data)
 
     if (!hardMode) {

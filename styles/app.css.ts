@@ -1,4 +1,4 @@
-import { globalStyle } from '@vanilla-extract/css'
+import { globalStyle, globalFontFace } from '@vanilla-extract/css'
 import { vars } from '@kalidao/reality'
 
 globalStyle('html, body', {
@@ -13,3 +13,9 @@ globalStyle('a', {
   fontFamily: vars.fonts.sans,
   textDecoration: 'none',
 })
+
+export const pxGroteskScreen = 'Px Grotesk Screen';
+
+globalFontFace(pxGroteskScreen, {
+  src: 'local("Px Grotesk Screen"), url("/fonts/Px-Grotesk-Screen.woff2") format("woff2")',
+});

@@ -5,11 +5,9 @@ import { layout, container } from './layout.css'
 import Footer from '@components/dao-dashboard/layout/Footer'
 import Members from '@components/dao-dashboard/layout/Members'
 import Profile from '@components/dao-dashboard/layout/Profile'
-import Wrappr from '@components/dao-dashboard/layout/Wrappr'
 import Treasury from '@components/dao-dashboard/layout/Treasury'
 import Header from '@components/layout/Header'
 import Nav from '@components/dao-dashboard/layout/Nav'
-import Swap from '@components/dao-dashboard/layout/Swap'
 
 type Props = {
   title: string
@@ -42,8 +40,6 @@ const DashboardLayout = ({ title, content, children }: Props) => {
             <Profile address={dao as string} chainId={Number(chainId)} />
             <Nav address={dao as string} chainId={Number(chainId)} />
             <Treasury address={dao as string} chainId={Number(chainId)} />
-            <Swap address={dao as string} chainId={Number(chainId)} />
-            <Wrappr address={dao as string} chainId={Number(chainId)} />
             <Members />
           </Stack>
           {children}

@@ -28,7 +28,6 @@ export const getAllDaos = async () => {
 
     let daos = []
     for (let i = 0; i < data.length; i++) {
-      console.log('data', data)
       for (let j = 0; j < data[i]?.data?.daos.length; j++) {
         daos.push({
           chainId: chains[i],

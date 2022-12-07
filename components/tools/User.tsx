@@ -12,6 +12,7 @@ export const User = ({ address }: { address: string }) => {
   })
   const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
+  console.log('profile', profile)
   return (
     <HoverCard
       link={`/users/${address}`}
