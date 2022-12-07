@@ -20,7 +20,7 @@ export const root = style({
   backgroundColor: vars.colors.backgroundTertiary,
   borderRadius: 6,
   boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundSecondary}`,
-  padding: vars.space["3"],
+  padding: vars.space['3'],
   display: 'grid',
   gridTemplateAreas: '"title action" "description action"',
   gridTemplateColumns: 'auto max-content',

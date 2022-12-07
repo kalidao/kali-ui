@@ -50,10 +50,14 @@ export const getProposal = async (chainId: number, address: string, serial: stri
 }
 
 export function useGetProposal(chainId: number, daoAddress: string, serial: string) {
-  return useQuery(['getProposal', chainId, daoAddress, serial], async () => {
-    const data = await getProposal(chainId, daoAddress, serial)
-    return data
-  }, {
-    enabled: !!serial || !!chainId || !!daoAddress
-  })
+  return useQuery(
+    ['getProposal', chainId, daoAddress, serial],
+    async () => {
+      const data = await getProposal(chainId, daoAddress, serial)
+      return data
+    },
+    {
+      enabled: !!serial || !!chainId || !!daoAddress,
+    },
+  )
 }

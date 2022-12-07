@@ -34,9 +34,15 @@ const Vote = ({ address, weight, vote }: VoteProps) => {
   return (
     <Card padding="3">
       <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-       <Box width="20"><User address={address} /></Box>
-        <Box width="10" display="flex" alignItems={"center"} justifyContent="center">{Number(weight).toFixed(2)}</Box>
-        <Box width="10" color={vote === true ? 'green' : 'red'}>{vote == true ? <IconCheck /> : <IconClose />}</Box>
+        <Box width="20">
+          <User address={address} />
+        </Box>
+        <Box width="10" display="flex" alignItems={'center'} justifyContent="center">
+          {Number(weight).toFixed(2)}
+        </Box>
+        <Box width="10" color={vote === true ? 'green' : 'red'}>
+          {vote == true ? <IconCheck /> : <IconClose />}
+        </Box>
       </Stack>
     </Card>
   )

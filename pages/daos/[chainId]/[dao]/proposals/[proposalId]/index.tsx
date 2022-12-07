@@ -31,20 +31,24 @@ const ProposalPage: NextPage = () => {
           lg: '6',
         }}
       >
-        {isLoading ? <Spinner /> : <Stack space="10">
-          <Stack
-            direction={{
-              xs: 'vertical',
-              lg: 'horizontal',
-            }}
-          >
-            <Button variant="transparent" shape="circle" onClick={goBack}>
-              <IconArrowLeft />
-            </Button>
-            <ProposalView proposal={proposal} />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Stack space="10">
+            <Stack
+              direction={{
+                xs: 'vertical',
+                lg: 'horizontal',
+              }}
+            >
+              <Button variant="transparent" shape="circle" onClick={goBack}>
+                <IconArrowLeft />
+              </Button>
+              <ProposalView proposal={proposal} />
+            </Stack>
+            <VotesView votes={proposal?.votes} />
           </Stack>
-          <VotesView votes={proposal?.votes} />
-        </Stack>}
+        )}
       </Box>
     </Layout>
   )

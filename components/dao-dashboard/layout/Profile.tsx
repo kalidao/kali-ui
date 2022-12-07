@@ -1,4 +1,20 @@
-import { Avatar, Box, Card, Heading, Skeleton, Spinner, Stack, Text, Button, IconArrowRight, IconTwitter, IconDiscord, IconLink, Divider, IconGitHub } from '@kalidao/reality'
+import {
+  Avatar,
+  Box,
+  Card,
+  Heading,
+  Skeleton,
+  Spinner,
+  Stack,
+  Text,
+  Button,
+  IconArrowRight,
+  IconTwitter,
+  IconDiscord,
+  IconLink,
+  Divider,
+  IconGitHub,
+} from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { chain, useQuery } from 'wagmi'
 import { getDaoInfo } from '@graph/queries'
@@ -24,8 +40,8 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
         <Card padding="6" shadow hover></Card>
       </Skeleton>
     )
-  
-    console.log('meta', meta)
+
+  console.log('meta', meta)
   return (
     <Card padding="6" width="full">
       <Stack
@@ -39,18 +55,32 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
           ) : (
             <Stack align="center" justify={'center'}>
               <Avatar src={meta?.image} label="dao profile pic" address={address as string} size="32" />
-              <Heading >
+              <Heading>
                 {info?.token?.name} ({info?.token?.symbol})
               </Heading>
-              <Text>
-                {meta?.description}
-              </Text>
+              <Text>{meta?.description}</Text>
               <Divider />
               <Stack direction={'horizontal'}>
-               {meta?.socials?.twitter && <a href={`${meta?.socials?.twitter}`} target="_blank" rel="noreferrer"><IconTwitter size="5" color="foreground" /></a>}
-               {meta?.socials?.discord && <a href={`${meta?.socials?.discord}`} target="_blank" rel="noreferrer"><IconDiscord size="5" color="foreground" /></a>}
-               {meta?.socials?.github && <a href={`${meta?.socials?.github}`} target="_blank" rel="noreferrer"><IconGitHub size="5" color="foreground" /></a>}
-               {meta?.socials?.website && <a href={`${meta?.socials?.website}`} target="_blank" rel="noreferrer"><IconLink size="5" color="foreground" /></a>}
+                {meta?.socials?.twitter && (
+                  <a href={`${meta?.socials?.twitter}`} target="_blank" rel="noreferrer">
+                    <IconTwitter size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.discord && (
+                  <a href={`${meta?.socials?.discord}`} target="_blank" rel="noreferrer">
+                    <IconDiscord size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.github && (
+                  <a href={`${meta?.socials?.github}`} target="_blank" rel="noreferrer">
+                    <IconGitHub size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.website && (
+                  <a href={`${meta?.socials?.website}`} target="_blank" rel="noreferrer">
+                    <IconLink size="5" color="foreground" />
+                  </a>
+                )}
               </Stack>
             </Stack>
           )}

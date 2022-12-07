@@ -70,4 +70,3 @@ export const select = style({
     borderColor: vars.colors.accent,
   },
 })
-

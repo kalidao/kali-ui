@@ -9,11 +9,13 @@ export default function Header() {
   return (
     <Box className={header}>
       <Link href="/" passHref>
-      <Box as="a" className={logo}>KALI</Box>
+        <Box as="a" className={logo}>
+          KALI
+        </Box>
       </Link>
-      <Box display={"flex"} gap="2"> 
-      <ConnectButton />
-      <Menu />
+      <Box display={'flex'} gap="2">
+        <ConnectButton />
+        <Menu />
       </Box>
     </Box>
   )

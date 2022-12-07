@@ -62,17 +62,27 @@ export default function Visualizer({ proposal }: { proposal: any }) {
     case 'QUORUM':
       heading = 'Update Participation Required'
       icon = <IconFlag />
-      component = <Internal    type={proposal?.proposalType} message={`This proposal will update quorum to ${proposal?.amounts?.[0]}%`} />
+      component = (
+        <Internal
+          type={proposal?.proposalType}
+          message={`This proposal will update quorum to ${proposal?.amounts?.[0]}%`}
+        />
+      )
       break
     case 'SUPERMAJORITY':
       heading = 'Update Approval Required'
       icon = <IconUsersSolid />
-      component = <Internal    type={proposal?.proposalType} message={`This proposal will update supermajority to ${proposal?.amounts?.[0]}%`} />
+      component = (
+        <Internal
+          type={proposal?.proposalType}
+          message={`This proposal will update supermajority to ${proposal?.amounts?.[0]}%`}
+        />
+      )
       break
     case 'TYPE':
       heading = 'Update Voting Types'
       icon = <IconFlag />
-      component = <Internal    type={proposal?.proposalType}  message={`This proposal will update the voting type.`} />
+      component = <Internal type={proposal?.proposalType} message={`This proposal will update the voting type.`} />
       break
     case 'PAUSE':
       heading = 'Update Token Transferability'
@@ -94,7 +104,15 @@ export default function Visualizer({ proposal }: { proposal: any }) {
     case 'ESCAPE':
       heading = 'Delete'
       icon = <IconExclamationCircleSolid />
-      component = <Internal    type={proposal?.proposalType} chainId={Number(chainId)} dao={dao?.toString()} amount={proposal?.amounts?.[0]} message={`This will remove the proposal ${proposal?.amounts?.[0]} from the queue.`} />
+      component = (
+        <Internal
+          type={proposal?.proposalType}
+          chainId={Number(chainId)}
+          dao={dao?.toString()}
+          amount={proposal?.amounts?.[0]}
+          message={`This will remove the proposal ${proposal?.amounts?.[0]} from the queue.`}
+        />
+      )
       break
     case 'DOCS':
       heading = 'Update Docs'
@@ -108,7 +126,6 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       )
       break
   }
-
 
   return (
     <Box

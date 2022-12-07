@@ -57,15 +57,15 @@ export default function Internal({
       )
       break
     case 'ESCAPE':
-        render = (
-          <Stack>  
-          <Text>
-            {message}
-          </Text>
-          <Button size="small" as="a" href={`/daos/${chainId}/${dao}/proposals/${amount}`}>View Proposal</Button>
+      render = (
+        <Stack>
+          <Text>{message}</Text>
+          <Button size="small" as="a" href={`/daos/${chainId}/${dao}/proposals/${amount}`}>
+            View Proposal
+          </Button>
         </Stack>
-        )
-        break
+      )
+      break
     case 'DOCS':
       render = (
         <Stack direction={'vertical'}>

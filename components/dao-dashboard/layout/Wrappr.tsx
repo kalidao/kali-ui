@@ -34,17 +34,17 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
 
   return (
     <a
-    target="_blank"
-    rel="noopenner noreferrer"
-    href={wrapprLink}
-    style={{
-      textDecoration: 'none',
-    }}
-  >
-    <Box className={navItem} gap="2">
-          <Avatar as="img" size="12" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
-          <Text>{uri ? uri?.name : data?.wrappr?.name}</Text>
-    </Box>
+      target="_blank"
+      rel="noopenner noreferrer"
+      href={wrapprLink}
+      style={{
+        textDecoration: 'none',
+      }}
+    >
+      <Box className={navItem} gap="2">
+        <Avatar as="img" size="12" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
+        <Text>{uri ? uri?.name : data?.wrappr?.name}</Text>
+      </Box>
     </a>
   )
 }

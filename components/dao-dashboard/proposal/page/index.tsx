@@ -63,7 +63,7 @@ export default function ProposalView({ proposal }: Props) {
       borderRadius="2xLarge"
       padding="6"
     >
-      <Box display="flex" flexDirection={"row"} gap="1" justifyContent={"flex-start"} alignItems="center">
+      <Box display="flex" flexDirection={'row'} gap="1" justifyContent={'flex-start'} alignItems="center">
         <Text>
           {`#${proposalId} `}
           {details && details?.title}
@@ -94,7 +94,10 @@ export default function ProposalView({ proposal }: Props) {
         </Box>
         <Box display="flex" gap="2" flexDirection="column">
           {proposal && (
-            <InfoCard start={Number(proposal?.['votingStarts'])} votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])} />
+            <InfoCard
+              start={Number(proposal?.['votingStarts'])}
+              votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])}
+            />
           )}
           {proposal && <Results votes={proposal['votes']} />}
         </Box>

@@ -7,7 +7,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 export const heading = style([
   style({

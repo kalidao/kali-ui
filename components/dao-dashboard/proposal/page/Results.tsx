@@ -32,8 +32,7 @@ export default function Results({ votes }: { votes: any }) {
   )
   const { data: approval } = useQuery(
     ['approval', dao, chainId, votes],
-    async () =>
-      await calculateApproval(dao as string, Number(chainId), Number(proposalId)),
+    async () => await calculateApproval(dao as string, Number(chainId), Number(proposalId)),
   )
 
   console.log('approval', quorum?.toString(), approval?.toString(), proposalId)

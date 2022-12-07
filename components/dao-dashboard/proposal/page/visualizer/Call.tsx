@@ -27,18 +27,20 @@ export default function CallShell({
     })
   }
 
-  return <Stack>
-    {calls.map((call, i) => (
-      <CallCard
-        key={call.account}
-        account={call.account}
-        amount={call.amount}
-        payload={call.payload}
-        chainId={chainId}
-        dao={dao}
+  return (
+    <Stack>
+      {calls.map((call, i) => (
+        <CallCard
+          key={call.account}
+          account={call.account}
+          amount={call.amount}
+          payload={call.payload}
+          chainId={chainId}
+          dao={dao}
         />
-    ))}
-  </Stack>
+      ))}
+    </Stack>
+  )
 }
 
 const CallCard = ({
@@ -57,51 +59,54 @@ const CallCard = ({
   const decoded = decodeTx(payload, amount)
   const params = createParams(account, chainId, decoded)
 
-  return <Stack>
+  return (
+    <Stack>
       <Text>
-          This will interact with an external contract.
-          You can review the contract{" "}
-          <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}>
-            here
-          </a>
-          .
-        </Text>
-       <Stack direction={"horizontal"} align="center" justify={"space-between"}>
-          <Text>Value</Text>
-          <Text>{ethers.utils.formatEther(amount)}</Text>
-        </Stack>
-        <Stack>
-          {decoded && decoded != 'none' && (
+        This will interact with an external contract. You can review the contract{' '}
+        <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}>
+          here
+        </a>
+        .
+      </Text>
+      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+        <Text>Value</Text>
+        <Text>{ethers.utils.formatEther(amount)}</Text>
+      </Stack>
+      <Stack>
+        {decoded && decoded != 'none' && (
+          <Stack>
+            <Text>{decoded['type']}</Text>
             <Stack>
-              <Text>{decoded['type']}</Text>
               <Stack>
-                <Stack>
-                  <Text>Function</Text>
-                  <Text>{decoded['tx']['name']}</Text>
-                </Stack>
-                {params &&
-                  params.map((param, index) => (
-                    <Stack key={index}>
-                      <Text>{param['name']}</Text>
-                      <Text>{param['value']}</Text>
-                    </Stack>
-                  ))}
+                <Text>Function</Text>
+                <Text>{decoded['tx']['name']}</Text>
               </Stack>
+              {params &&
+                params.map((param, index) => (
+                  <Stack key={index}>
+                    <Text>{param['name']}</Text>
+                    <Text>{param['value']}</Text>
+                  </Stack>
+                ))}
             </Stack>
-          )}
-          {payload != '0x' && (
-            <Stack>
-              <Stack direction={"horizontal"} align="center" justify={"space-between"}>
-                <Text>Payload</Text>
-                <Button size="small" variant="transparent" onClick={() => navigator.clipboard.writeText(payload)}>
-                  <IconDuplicate />
-                </Button>
-              </Stack>
-              <Box backgroundColor="backgroundTertiary" color="text" padding="2" wordBreak="break-word">{payload}</Box>
+          </Stack>
+        )}
+        {payload != '0x' && (
+          <Stack>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Text>Payload</Text>
+              <Button size="small" variant="transparent" onClick={() => navigator.clipboard.writeText(payload)}>
+                <IconDuplicate />
+              </Button>
             </Stack>
-          )}
-        </Stack>
-  </Stack>
+            <Box backgroundColor="backgroundTertiary" color="text" padding="2" wordBreak="break-word">
+              {payload}
+            </Box>
+          </Stack>
+        )}
+      </Stack>
+    </Stack>
+  )
 }
 
 const createParams = (to: string, chain: number, decoded?: any) => {

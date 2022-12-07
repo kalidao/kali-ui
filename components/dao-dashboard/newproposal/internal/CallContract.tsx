@@ -48,7 +48,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
           }
         }
       }
-      const options = [{ label: 'Select a function', value: 999 }] 
+      const options = [{ label: 'Select a function', value: 999 }]
       for (var i = 0; i < writeFuncs_.length; i++) {
         options.push({ value: i, label: writeFuncs_[i]['name'] })
       }
@@ -63,14 +63,14 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
   const onWriteFunctionSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault()
     if (!writeFuncs) return
-    if (e.currentTarget.value == "999") {
+    if (e.currentTarget.value == '999') {
       setInputs([])
       setFunctionName('')
     } else {
       let id = Number(e.target.value)
       let inputs_ = writeFuncs[id]['inputs']
       let name_ = writeFuncs[id]['name']
-  
+
       setInputs(inputs_)
       setInputParams([])
       setFunctionName(name_)
@@ -85,8 +85,8 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     console.log('elements', children)
     let array = []
     for (var i = 0; i < children.length; i++) {
-       // @ts-expect-error
-      let item =  children[i].children[1].children[0].children[0].value as any || ''
+      // @ts-expect-error
+      let item = (children[i].children[1].children[0].children[0].value as any) || ''
       if (item != undefined) {
         array.push(item)
       }
@@ -126,7 +126,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       console.log('error', e)
       setWarning('Supplied inputs do not match the required input type.')
     }
-  }  
+  }
 
   return (
     <Stack>
@@ -157,16 +157,18 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       <Button variant="secondary" onClick={handleParse}>
         Parse ABI
       </Button>
-      {writeFuncs && <Select label="Write Functions" onChange={onWriteFunctionSelect} options={writeOptions ? writeOptions : []} />}
+      {writeFuncs && (
+        <Select label="Write Functions" onChange={onWriteFunctionSelect} options={writeOptions ? writeOptions : []} />
+      )}
       {inputs == null ? null : (
-        <Box id="inputFields" >
+        <Box id="inputFields">
           {inputs.map((input, index) => (
             <Input label={input['name']} id={`input-${index}`} key={index} onChange={onInputChange} />
           ))}
         </Box>
       )}
       {warning && <Warning warning={warning} />}
-      <Stack align="center" justify="space-between" direction={"horizontal"}>
+      <Stack align="center" justify="space-between" direction={'horizontal'}>
         <Back onClick={() => setProposal?.('menu')} />
         <Button onClick={submit}>Submit</Button>
       </Stack>

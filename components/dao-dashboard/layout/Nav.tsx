@@ -1,13 +1,6 @@
-import {
-  Text,
-  Card,
-  Box,
-  IconCog,
-  IconBookOpen,
-  IconTokens,
-} from '@kalidao/reality'
+import { Text, Card, Box, IconCog, IconBookOpen, IconTokens } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import {useContractRead } from 'wagmi'
+import { useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { addresses } from '@constants/addresses'
@@ -50,7 +43,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     },
   ]
 
-  if (swap && (swap?.saleEnds * 1000) > Date.now()) {
+  if (swap && swap?.saleEnds * 1000 > Date.now()) {
     items.push({
       id: 2,
       title: 'Swap',
@@ -66,7 +59,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
         {items.map((item) => (
           <NavCard title={item.title} href={item.href} icon={item.icon} active={item.active} key={item.id} />
         ))}
-      <Wrappr address={address} chainId={chainId} />
+        <Wrappr address={address} chainId={chainId} />
       </Box>
     </Card>
   )
