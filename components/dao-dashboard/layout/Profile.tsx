@@ -86,8 +86,8 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
           )}
         </Box>
         {router.asPath === `/daos/${chainId}/${address}` ? null : (
-          <Link href={`/daos/${chainId}/${address}/`}>
-            <Button size="small" variant="transparent">
+          <Link href={`/daos/${chainId}/${address}/`} passHref>
+            <Button size="small" as="a" variant="transparent">
               <IconArrowRight />
             </Button>
           </Link>

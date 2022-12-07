@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { getProposals } from '../../../graph/queries'
 import { getMembers } from '../../../graph/queries'
@@ -19,7 +19,7 @@ export default function Engagement() {
   const [passed, setPassed] = useState(0)
   const [failed, setFailed] = useState(0)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const proposals = await getProposals(daoChain, daoAddress)
     const members = await getMembers(daoChain, daoAddress)
 
@@ -65,11 +65,11 @@ export default function Engagement() {
     }
     setVoted(voted)
     setDidNotVote(didNotVote)
-  }
+  }, [daoAddress, daoChain])
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [fetchData])
 
   console.log(pending, passed, failed, voted, didNotVote)
   const analytics = [

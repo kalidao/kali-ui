@@ -212,7 +212,7 @@ export default function Checkout({ setStep }: Props) {
       setLoading(false)
       setMessage('Transaction failed.')
     }
-  }, [isConnected, activeChain, state, writeAsync])
+  }, [isConnected, activeChain, state, writeAsync, router])
 
   const prev = () => {
     if (!hardMode) {

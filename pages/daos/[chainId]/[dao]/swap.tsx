@@ -25,37 +25,37 @@ export default function CrowdsalePage() {
     if (swap && chainId) {
       setToken(swap.purchaseAsset, chainId)
     }
-  }, [swap, chainId])
+  }, [swap, chainId, setToken])
 
   useEffect(() => {
     if (daoAddress && chainId) {
       setSwap(daoAddress, chainId)
     }
-  }, [daoAddress, chainId])
+  }, [daoAddress, chainId, setSwap])
 
   useEffect(() => {
     if (daoAddress && chainId) {
       setDAO(daoAddress, chainId)
     }
-  }, [daoAddress, chainId])
+  }, [daoAddress, chainId, setDAO])
 
   useEffect(() => {
     if (daoAddress && chainId) {
       setSwap(daoAddress, chainId)
     }
-  }, [daoAddress, chainId])
+  }, [daoAddress, chainId, setSwap])
 
   useEffect(() => {
     if (chainId) {
       setChainId(chainId)
     }
-  }, [chainId])
+  }, [chainId, setChainId])
 
   useEffect(() => {
     if (isConnected && address && token.address != '' && chainId) {
       setUser(token.address, address as string, chainId)
     }
-  }, [isConnected, address])
+  }, [isConnected, address, chainId, setUser, token.address])
 
   console.log('swap', stateChain, dao, swap, token)
   return (

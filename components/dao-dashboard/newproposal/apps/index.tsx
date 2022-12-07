@@ -17,6 +17,7 @@ function AppsMenu({ setProposal }: Props) {
   const { dao, chainId } = router.query
 
   const [isCrowdsale, setIsCrowdsale] = useState(false)
+
   useEffect(() => {
     const getCrowdsaleStatus = async () => {
       const status = await fetchExtensionStatus(
@@ -29,7 +30,7 @@ function AppsMenu({ setProposal }: Props) {
     }
 
     getCrowdsaleStatus()
-  }, [])
+  }, [chainId, dao])
 
   return (
     <Stack>
