@@ -58,10 +58,11 @@ export default function ProposalView({ proposal }: Props) {
       width="full"
       display="flex"
       flexDirection={'column'}
-      gap="1"
+      
       borderWidth="px"
       borderRadius="2xLarge"
       padding="6"
+      gap="4"
     >
       <Box display="flex" flexDirection={'row'} gap="1" justifyContent={'flex-start'} alignItems="center">
         <Text>

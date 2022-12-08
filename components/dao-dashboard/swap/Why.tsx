@@ -22,10 +22,11 @@ export default function Why() {
   }, [background])
 
   useEffect(() => {
-    if (!dao) return
+    if (!dao?.address) return
     setBackground(dao.address)
   })
 
+  console.log('background', background)
   return (
     <Card padding="6">
       <Stack>
@@ -33,7 +34,12 @@ export default function Why() {
         <Divider />
         {output && output != null && (
           <Text color="text">
-            <div dangerouslySetInnerHTML={{ __html: output }}></div>
+            <div
+              dangerouslySetInnerHTML={{ __html: output }}
+              style={{
+                wordBreak: 'break-word',
+              }}
+            ></div>
           </Text>
         )}
       </Stack>

@@ -6,6 +6,8 @@ import * as styles from './styles.css'
 import { useState } from 'react'
 import { BigNumber, ethers } from 'ethers'
 import { Warning } from '@design/elements'
+import Approve from './Approve'
+import Swap from './Swap'
 
 export default function Swapper() {
   const token = useSwapStore((state) => state.token)
@@ -13,6 +15,7 @@ export default function Swapper() {
   const consent = useSwapStore((state) => state.consent)
   const multiplier = useSwapStore((state) => state.swap.purchaseMultiplier)
   const userBalance = useSwapStore((state) => state.user.tokenBalance)
+  const approved = useSwapStore((state) => state.approved)
   const [amountIn, setAmountIn] = useState(0)
   const [amountOut, setAmountOut] = useState(0)
   const [warning, setWarning] = useState('')
@@ -33,7 +36,11 @@ export default function Swapper() {
     }
   }
 
-  const handleSwap = () => {}
+  const handleSwap = () => {
+    
+  }
+
+  console.log('consent', consent)
 
   return (
     <Box className={styles.container}>
@@ -50,9 +57,7 @@ export default function Swapper() {
         <IconArrowDown />
         <Input placeholder="0" min="0" value={amountOut} disabled label={dao.name} suffix={dao.symbol} />
         <Terms />
-        <Button width="full" disabled={!consent || warning != ''} onClick={handleSwap}>
-          Swap
-        </Button>
+        {consent === false ? null : !approved ? <Approve /> : <Swap amount={amountIn.toString()} />}
         <Warning warning={warning} />
       </Stack>
     </Box>

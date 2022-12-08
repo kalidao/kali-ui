@@ -34,8 +34,6 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   })
   const { data: profile, isLoading } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
-  console.log('profile', profile, isLoading)
-
   return (
     <Stack direction={'horizontal'} space={'1'} wrap>
       {member && profile && (

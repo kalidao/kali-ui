@@ -5,6 +5,7 @@ import { MembersMenu, AddMember, RemoveMember, Redeem } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
+import SetSwap from './apps/SetSwap'
 
 type Props = {
   proposalProp: string
@@ -89,6 +90,10 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       // TODO: need to add token approval/allowance logic at submission (added by proposal)
       title: 'Set Redemption Rules',
       component: <SetRedemption setProposal={setView} title={title} content={content} />,
+    },
+    swap_add: {
+      title: 'Add Swap',
+      component: <SetSwap setProposal={setView} title={title} content={content} />,
     },
     // TODO: add tribute back
     // tribute: {

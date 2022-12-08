@@ -5,6 +5,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { Guide, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
+import Confetti from '@components/tools/Confetti'
 
 export default function CrowdsalePage() {
   const router = useRouter()
@@ -18,8 +19,10 @@ export default function CrowdsalePage() {
   const dao = useSwapStore((state) => state.dao)
   const swap = useSwapStore((state) => state.swap)
   const token = useSwapStore((state) => state.token)
+  const user = useSwapStore((state) => state.user)
   const { address, isConnected } = useAccount()
   const setUser = useSwapStore((state) => state.setUser)
+  const success = useSwapStore((state) => state.success)
 
   useEffect(() => {
     if (swap && chainId) {
@@ -57,16 +60,17 @@ export default function CrowdsalePage() {
     }
   }, [isConnected, address, chainId, setUser, token.address])
 
-  console.log('swap', stateChain, dao, swap, token)
+  console.log('swap', stateChain, dao, swap, token, user)
   return (
     <Layout title="Swap" content="Swap Eth or tokens">
       <Box position="relative" display={'flex'}>
-        <Stack>
+        <Box position={'relative'} width="112" gap="5">
           <Why />
           <Guide />
-        </Stack>
+        </Box>
         <Swapper />
       </Box>
+      {success == true && <Confetti />}
     </Layout>
   )
 }

@@ -18,7 +18,6 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   let status = 200,
     resultBody = { status: 'ok', message: 'Files were uploaded successfully' }
 
-  console.log('Uploading files...', _req)
   const files = await new Promise<ProcessedFiles | undefined>((resolve, reject) => {
     const form = new formidable.IncomingForm()
     const files: ProcessedFiles = []

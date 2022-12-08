@@ -3,8 +3,10 @@ import create from 'zustand'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { erc20ABI } from 'wagmi'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { addresses } from '@constants/addresses'
+import { AddressZero } from '@ethersproject/constants'
+import { convertIpfsHash } from '@utils/convertIpfsHash'
 
 interface SwapState {
   chainId: number
@@ -32,6 +34,8 @@ interface SwapState {
     decimals: number
   }
   setToken: (address: string, chainId: number) => void
+  approved: boolean,
+  setApproved: (userAddress: string, tokenAddress: string, swapAddress: string, chainId: number) => void
   swap: {
     address: string
     listId: number
@@ -44,6 +48,8 @@ interface SwapState {
     type?: 'PUBLIC' | 'PRIVATE'
   }
   setSwap: (address: string, chainId: number) => void
+  success: boolean,
+  setSuccess: (success: boolean) => void
 }
 
 export const useSwapStore = create<SwapState>((set) => ({
@@ -53,6 +59,7 @@ export const useSwapStore = create<SwapState>((set) => ({
   setConsent: () => set((state) => ({ consent: !state.consent })),
   background: null,
   setBackground: async (address) => {
+    if (!address) return
     const data = await fetch(`https://imxoahmacbkavjzdzzoz.supabase.co/rest/v1/DAO?address=eq.${address}&select=*`, {
       headers: {
         apiKey: process.env.NEXT_PUBLIC_DAO_API_KEY as string,
@@ -60,17 +67,31 @@ export const useSwapStore = create<SwapState>((set) => ({
         Range: '0-9',
       },
     }).then((res) => res.json())
-    if (!data?.[0]?.background) return null
     const sale = await fetch(data?.[0]?.crowdsale).then((res) => res.json())
-    return sale.background
+
+    set({ background: sale.background })
   },
   user: {
     tokenBalance: 0,
   },
   setUser: async (tokenAddress, address, chainId) => {
+    console.log('setUser', tokenAddress, address, chainId)
+    if (tokenAddress == AddressZero || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+      try {
+        const provider = getProvider(chainId)
+        const balance = await provider.getBalance(address)
+        set({ user: { address: address, tokenBalance: balance } })
+        return
+      } catch (e) {
+        console.log('setUser eth error', e)
+        return
+      }
+    }
+    console.log('setUser token', tokenAddress, address, chainId)
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
     const balance = await contract.balanceOf(address)
+    console.log('balance', balance)
     set({ user: { address: address, tokenBalance: balance } })
   },
   dao: {
@@ -92,15 +113,33 @@ export const useSwapStore = create<SwapState>((set) => ({
     name: '',
     symbol: '',
     decimals: 0,
+    approved: false
   },
   setToken: async (address, chainId) => {
+    if (address == AddressZero || address.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+      set({ token: { address, name: 'Ether', symbol: 'ETH', decimals: 18 } })
+      return
+    }
+  
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(address, erc20ABI, provider)
-
     const name = await contract.name()
     const symbol = await contract.symbol()
     const decimals = await contract.decimals()
+
     set({ token: { address, name, symbol, decimals } })
+  },
+  approved: false,
+  setApproved: async (userAddress, tokenAddress, swapAddress, chainId) => {
+    if (tokenAddress == AddressZero || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+      set({ approved: true })
+      return
+    }
+
+    const provider = getProvider(chainId)
+    const contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
+    const allowance = await contract.allowance(userAddress, swapAddress)
+    set({ approved: allowance > BigNumber.from(0) })
   },
   swap: {
     address: '',
@@ -116,6 +155,8 @@ export const useSwapStore = create<SwapState>((set) => ({
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(addresses[chainId].extensions.crowdsale2, SWAP_ABI, provider)
     const swap = await contract.crowdsales(address)
+    let details = swap.details.slice(0, 3) === 'http' ? swap.details : convertIpfsHash(swap.details)
+
     set({
       swap: {
         address: addresses[chainId].extensions.crowdsale2,
@@ -125,9 +166,11 @@ export const useSwapStore = create<SwapState>((set) => ({
         purchaseAsset: swap.purchaseAsset,
         purchaseLimit: swap.purchaseLimit,
         personalLimit: swap.personalLimit,
-        details: swap.details,
+        details: details,
         type: Number(swap.listId) === 0 ? 'PUBLIC' : 'PRIVATE',
       },
     })
   },
+  success: false,
+  setSuccess: (yasss) => set({ success: yasss }),
 }))

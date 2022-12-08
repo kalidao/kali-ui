@@ -26,7 +26,7 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
               console.log('decoded[i]', decoded[i])
               let multiplier = decoded[i].toString()
               const symbol = await fetchSymbol(chainId, dao)
-              value = `1 ETH for ${multiplier} ${symbol.toUpperCase()}`
+              value = `${multiplier}`
             }
             if (extensionsHelper[key]['display'][i] === 'BigNumber') {
               value = ethers.utils.formatEther(value)
@@ -37,6 +37,8 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
             if (extensionsHelper[key]['display'][i] === 'token') {
               if (value == ethers.constants.AddressZero) {
                 value = 'ETH'
+              } else {
+                value = await fetchSymbol(chainId, value)
               }
             }
             if (extensionsHelper[key]['display'][i] === 'json' && extensionsHelper[key]['types'][i] === 'string') {

@@ -11,7 +11,7 @@
   "dependencies": {
     "@ethersproject/constants": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@kalidao/reality": "latest",
+    "@kalidao/reality": "0.0.11-patch",
     "@pinata/sdk": "^1.2.1",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-accordion": "^0.1.6",
@@ -46,6 +46,8 @@
     "nookies": "^2.5.2",
     "react-hook-form": "^7.39.5",
     "react-markdown": "^8.0.3",
+    "react-tsparticles": "^2.6.0",
+    "tsparticles": "^2.6.0",
     "wagmi": "^0.6.8",
     "zustand": "^4.1.4"
   },
