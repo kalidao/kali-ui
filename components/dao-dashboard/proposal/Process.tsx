@@ -3,6 +3,7 @@ import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { Button } from '@kalidao/reality'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { IconCheck } from '@kalidao/reality'
+import ChainGuard from '../ChainGuard'
 
 type ProcessProps = {
   chainId: number
@@ -21,8 +22,10 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   const { write } = useContractWrite(config)
 
   return (
-    <Button size="small" prefix={<IconCheck />} tone="accent" onClick={() => write?.()} disabled={!write}>
-      Process
-    </Button>
+    <ChainGuard fallback={<Button disabled={!write}>Process</Button>}>
+      <Button size="small" prefix={<IconCheck />} tone="accent" onClick={() => write?.()} disabled={!write}>
+        Process
+      </Button>
+    </ChainGuard>
   )
 }
