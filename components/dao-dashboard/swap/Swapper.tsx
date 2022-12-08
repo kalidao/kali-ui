@@ -16,15 +16,15 @@ export default function Swapper() {
   const multiplier = useSwapStore((state) => state.swap.purchaseMultiplier)
   const userBalance = useSwapStore((state) => state.user.tokenBalance)
   const approved = useSwapStore((state) => state.approved)
-  const [amountIn, setAmountIn] = useState(0)
+  const [amountIn, setAmountIn] = useState('0')
   const [amountOut, setAmountOut] = useState(0)
   const [warning, setWarning] = useState('')
 
   const handleAmountIn = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const amountIn = Number(e.target.value)
-    setAmountIn(amountIn)
+    const amount = e.target.value
+    setAmountIn(amount)
     const amountOut = ethers.utils.formatUnits(
-      ethers.utils.parseUnits(amountIn.toString(), token.decimals).mul(BigNumber.from(multiplier)),
+      ethers.utils.parseUnits(amount ? amount : '0', token.decimals).mul(BigNumber.from(multiplier)),
       dao.decimals,
     )
     setAmountOut(Number(amountOut))
@@ -35,10 +35,6 @@ export default function Swapper() {
       setWarning('')
     }
   }
-
-  const handleSwap = () => {}
-
-  console.log('consent', consent)
 
   return (
     <Box className={styles.container}>
