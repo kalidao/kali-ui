@@ -1,24 +1,20 @@
 import React, { useState } from 'react'
 import { useContractRead, useContractWrite } from 'wagmi'
-import { Warning } from '../../../../styles/elements'
-import { Label } from '../../../../styles/form-elements'
-import DAO_ABI from '../../../../abi/KaliDAO.json'
+import { Warning } from '@design/elements'
+import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import Back from '../../../../styles/proposal/Back'
-import { useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import styles from '../../../editor'
-import Editor from '../../../editor'
+import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack, Box } from '@kalidao/reality'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateQuorum() {
   const router = useRouter()
   const { dao, chainId } = router.query
 
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
 
   const { data: currentQuorum } = useContractRead({
@@ -100,7 +96,7 @@ export default function UpdateQuorum() {
 
       <Input
         label="Participation"
-        description={`Current participation percentage: ${currentQuorum ? currentQuorum : 'fething...'}%`}
+        description={`Current participation percentage: ${currentQuorum ? currentQuorum : 'Fetching...'}%`}
         name="amount"
         type="number"
         inputMode="decimal"
@@ -112,7 +108,7 @@ export default function UpdateQuorum() {
       />
       {warning && <Warning warning={warning} />}
       <Stack direction={'horizontal'} justify={'space-between'}>
-        <ChainGuard>
+        <ChainGuard fallback={<Button>Submit</Button>}>
           <Button
             center
             variant="primary"

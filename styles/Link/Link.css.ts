@@ -3,7 +3,7 @@ import { vars } from '@kalidao/reality'
 
 export const link = style({
   all: 'unset',
-  color: vars.colors.foregroundSecondary,
+  color: vars.colors.foreground,
 
   ':hover': {
     cursor: 'pointer',

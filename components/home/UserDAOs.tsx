@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAccount, useNetwork } from 'wagmi'
 import DaoCard from './DaoCard'
-import { Heading, Box, Stack, Skeleton } from '@kalidao/reality'
+import { Heading, Box, Stack, Card, Button, Skeleton, IconRefresh } from '@kalidao/reality'
 import { ethers } from 'ethers'
-import { useGetUserDaos } from '@graph/queries/getUserDaos'
+import { useGetAllUserDaos } from '@graph/queries/getAllUserDaos'
+import Search from './Search'
 
-export default function UserDAOs() {
-  const { address, isConnected } = useAccount()
-  const { chain } = useNetwork()
-  const { data, error, isLoading } = useGetUserDaos(
-    address ? (address as string) : ethers.constants.AddressZero,
-    chain ? Number(chain.id) : 1,
-  )
+export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: string; label?: string }) {
+  const [display, setDisplay] = useState<any[]>([])
+  const {
+    data: daos,
+    isSuccess,
+    refetch,
+  } = useGetAllUserDaos(address ? (address as string) : ethers.constants.AddressZero)
 
-  console.log('deta', address, data, error)
+  useEffect(() => {
+    if (isSuccess) {
+      if (daos) {
+        setDisplay(daos as any[])
+      }
+    }
+  }, [daos, isSuccess])
+
+  const reset = () => {
+    refetch()
+    setDisplay(daos as any[])
+  }
+
+  if (!address) return null
 
   return (
     <Box
@@ -23,26 +37,32 @@ export default function UserDAOs() {
       alignItems="center"
       justifyContent="center"
       gap="3"
-      paddingBottom="3"
+      padding="3"
     >
-      <Skeleton>
-        {isConnected && data?.length != 0 && (
-          <Stack direction={'horizontal'}>
-            <Heading>Yours ~ </Heading>
-            <Heading color="foregroundSecondary">{chain?.name}</Heading>
+      {display && (
+        <Box
+          width="full"
+          padding="6"
+          paddingX={'12'}
+          display={'flex'}
+          flexDirection={'row'}
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Heading>{label}</Heading>
+          <Stack direction={'horizontal'} align="center">
+            <Search daos={daos as any[]} setDisplay={setDisplay} />
+            <Button shape="circle" size="small" variant="secondary" onClick={reset}>
+              <IconRefresh />
+            </Button>
           </Stack>
-        )}
-      </Skeleton>
-      <Skeleton>
-        <Stack direction="horizontal" wrap>
-          {data &&
-            isConnected &&
-            !error &&
-            data?.map((dao: { [x: string]: any }) => (
-              <DaoCard key={dao?.['dao']['id']} dao={dao?.['dao']} chain={chain ? chain.id : 1} />
-            ))}
-        </Stack>
-      </Skeleton>
+        </Box>
+      )}
+      <Stack direction="horizontal" align="center" justify={'center'} wrap>
+        {display &&
+          display?.length != 0 &&
+          display?.map((dao: { [x: string]: any }) => <DaoCard key={dao?.['id']} dao={dao} chain={dao?.chainId} />)}
+      </Stack>
     </Box>
   )
 }

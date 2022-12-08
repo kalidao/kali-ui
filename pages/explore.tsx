@@ -6,29 +6,20 @@ import { useNetwork } from 'wagmi'
 import { Box, Button, IconArrowLeft, Skeleton, IconRefresh, Stack } from '@kalidao/reality'
 import DaoCard from '@components/home/DaoCard'
 import Search from '@components/home/Search'
-import { useGetDaos } from '@graph/queries/getDaos'
+import { useGetAllDaos } from '@graph/queries/getAllDaos'
 
 const ExplorePage: NextPage = () => {
   const router = useRouter()
-  const { chain: activeChain } = useNetwork()
-  const [chain, setChain] = useState(activeChain ? activeChain.id : 1)
-  const { data: daos, isLoading, isSuccess, refetch } = useGetDaos(chain)
-  const [display, setDisplay] = useState([])
+  const { data: daos, isLoading, isSuccess, refetch } = useGetAllDaos()
+  const [display, setDisplay] = useState<any[]>([])
 
   useEffect(() => {
     if (isSuccess) {
-      setDisplay(daos?.daos)
-    }
-  }, [daos, isSuccess])
-
-  useEffect(() => {
-    if (activeChain) {
-      if (activeChain.id != chain) {
-        setChain(activeChain.id)
-        refetch()
+      if (daos) {
+        setDisplay(daos as any[])
       }
     }
-  }, [activeChain])
+  }, [daos, isSuccess])
 
   useEffect(() => {
     router.prefetch('/')
@@ -40,7 +31,7 @@ const ExplorePage: NextPage = () => {
 
   const reset = () => {
     refetch()
-    setDisplay(daos?.daos)
+    setDisplay(daos as any[])
   }
 
   return (
@@ -65,7 +56,7 @@ const ExplorePage: NextPage = () => {
             <IconArrowLeft />
           </Button>
           <Stack direction={'horizontal'} align="center">
-            <Search daos={daos} setDisplay={setDisplay} />
+            <Search daos={daos as any[]} setDisplay={setDisplay} />
             <Button shape="circle" size="small" variant="secondary" onClick={reset}>
               <IconRefresh />
             </Button>
@@ -74,7 +65,8 @@ const ExplorePage: NextPage = () => {
 
         <Skeleton loading={isLoading}>
           <Stack direction="horizontal" align="center" justify={'space-between'} wrap>
-            {display && display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={chain} />)}
+            {display &&
+              display.map((dao: { [x: string]: any }) => <DaoCard key={dao['id']} dao={dao} chain={dao.chainId} />)}
           </Stack>
         </Skeleton>
       </Box>

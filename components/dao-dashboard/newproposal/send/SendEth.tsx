@@ -110,12 +110,12 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
           >
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
-          <Text>
-            {isProposeSuccess
-              ? 'Proposal submitted on chain!'
-              : isProposeError && `Error submitting proposal: ${proposeError}`}
-          </Text>
         </ChainGuard>
+        <Text>
+          {isProposeSuccess
+            ? 'Proposal submitted on chain!'
+            : isProposeError && `Error submitting proposal: ${proposeError}`}
+        </Text>
       </Stack>
     </Stack>
   )

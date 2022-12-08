@@ -70,26 +70,3 @@ export const select = style({
     borderColor: vars.colors.accent,
   },
 })
-
-const container = atoms({
-  alignItems: 'center',
-  display: 'flex',
-  height: 'full',
-  lineHeight: 'none',
-})
-
-const text = atoms({
-  color: 'inherit',
-  fontFamily: 'sans',
-  fontSize: 'small',
-})
-
-export const suffix = style([
-  container,
-  text,
-  style({
-    paddingRight: '4',
-    paddingLeft: '2',
-    lineHeight: 'normal',
-  }),
-])

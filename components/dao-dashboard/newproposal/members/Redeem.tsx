@@ -7,12 +7,11 @@ import { prettyDate } from '@utils/prettyDate'
 
 import { Warning } from '@design/elements'
 import { AddressZero } from '@ethersproject/constants'
-import { Skeleton, Stack, Text, Input, Field, Button } from '@kalidao/reality'
+import { Skeleton, Stack, Text, Input, Box, Button } from '@kalidao/reality'
 
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import { addresses } from '@constants/addresses'
-import { Form } from '@design/form-elements'
 import { ProposalProps } from '../utils/types'
 
 type FormType = {
@@ -100,11 +99,9 @@ export default function Redeem({ content, title }: ProposalProps) {
       </Text>
       <Text>
         Redemption Starts:
-        <Skeleton>
-          {isStartLoading && starts && prettyDate(new Date(ethers.BigNumber.from(Number(starts) * 1000).toNumber()))}
-        </Skeleton>
+        <Skeleton>{isStartLoading && starts && prettyDate(starts.toDateString())}</Skeleton>
       </Text>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Amount"
           description="The amount of tokens to redeem from treasury."
@@ -131,7 +128,7 @@ export default function Redeem({ content, title }: ProposalProps) {
         <Button variant="primary" type="submit" center loading={isWritePending}>
           Submit
         </Button>
-      </Form>
+      </Box>
     </Stack>
   )
 }

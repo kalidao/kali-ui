@@ -6,7 +6,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const address = context?.params?.dao as string
-  const chainId = context?.params?.chainId
+  const chainId = Number(context?.params?.chainId)
 
   const result = await getDaoInfo(chainId, address)
 

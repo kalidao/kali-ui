@@ -25,7 +25,11 @@ export const getWrappr = async (chainId: number, address: string) => {
     })
 
     const data = await res.json()
-    return data?.data?.collections?.[0]
+
+    if (data?.data?.collections?.[0]) {
+      return data.data.collections[0]
+    }
+    return null
   } catch (e) {
     return e
   }

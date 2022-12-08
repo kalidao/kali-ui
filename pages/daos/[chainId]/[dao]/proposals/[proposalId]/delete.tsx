@@ -6,12 +6,13 @@ import { useRouter } from 'next/router'
 import Editor from '@components/editor'
 import { NextPage } from 'next'
 import Back from '@design/proposal/Back'
+import { JSONContent } from '@tiptap/react'
 
 const DeleteProposalPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao, proposalId } = router.query
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}/${proposalId}`)

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useContract, useSigner, useContractWrite } from 'wagmi'
+import { useContractWrite } from 'wagmi'
 import { FieldSet, Input, Text, Button, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Back from '@design/proposal/Back'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { ProposalProps } from '../utils/types'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 export default function RemoveMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
@@ -22,14 +23,12 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
     addressOrName: dao as string,
     contractInterface: KALIDAO_ABI,
     functionName: 'propose',
-  })
-
-  const { data: signer } = useSigner()
-
-  const kalidao = useContract({
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
+    chainId: Number(chainId),
+    onSuccess: async () => {
+      await setTimeout(() => {
+        router.push(`/daos/${chainId}/${dao}/`)
+      }, 35000)
+    },
   })
 
   // form
@@ -38,7 +37,7 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
-    if (!kalidao || !dao || !chainId) return // wallet not ready to submit on chain
+    if (!dao || !chainId) return // wallet not ready to submit on chain
 
     let docs
     try {
@@ -52,7 +51,7 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
 
     if (docs) {
       try {
-        const tx = propose({
+        const tx = await propose({
           recklesslySetUnpreparedArgs: [1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
         })
 
@@ -86,8 +85,21 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
-        <Button onClick={submit}>Submit</Button>
+        <ChainGuard fallback={<Button>Submit</Button>}>
+          <Button
+            onClick={submit}
+            loading={isProposePending}
+            disabled={isProposeSuccess || isProposePending || isProposeError}
+          >
+            Submit
+          </Button>
+        </ChainGuard>
       </Stack>
+      <Text>
+        {isProposeSuccess
+          ? 'Proposal submitted on chain!'
+          : isProposeError && `Error submitting proposal: ${proposeError}`}
+      </Text>
     </Stack>
   )
 }

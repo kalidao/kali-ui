@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
-import { Heading, Text, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
+import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
+import * as styles from '@design/landing.css'
+import { useAccount, useEnsName } from 'wagmi'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-
+  const { address, isConnected } = useAccount()
+  const { data: ensName } = useEnsName({
+    address,
+    enabled: isConnected,
+    chainId: 1,
+  })
   useEffect(() => {
     router.prefetch('/')
   })
@@ -30,35 +37,24 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="viewHeight"
-        gap="3"
-        width="viewWidth"
-      >
-        <Heading>Form a DAO. Enjoy true ownership.</Heading>
-        <Text
-          size={{
-            xs: 'small',
-            sm: 'small',
-          }}
-        >
-          DAOs are a new operating system for organizing online.
-        </Text>
-        <Text>Commit with code and reduce legal spend.</Text>
-        <Box display="flex" gap="2">
-          <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
-            Create
-          </Button>
-          <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
-            Explore
-          </Button>
-        </Box>
+      <Box className={styles.container}>
+        <Stack space="12">
+          <Box>
+            <h1 className={styles.heading}>Form a DAO. Enjoy true ownership.</h1>
+            {/* <h1 className={styles.heading2}>Create organizations that are forever and always yours 🪄</h1> */}
+            {/* <h1 className={styles.heading2}>forever & always yours ❤️</h1> */}
+          </Box>
+          <Box display="flex" gap="2">
+            <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
+              Create
+            </Button>
+            <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
+              Explore
+            </Button>
+          </Box>
+        </Stack>
       </Box>
-      <UserDAOs />
+      {isConnected && <UserDAOs address={address && (address as string)} />}
     </Layout>
   )
 }

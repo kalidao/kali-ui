@@ -7,37 +7,84 @@ export const arrow = style({
 
 export const content = style({
   minWidth: 220,
-  backgroundColor: vars.colors.backgroundSecondary,
-  borderRadius: 6,
-  padding: 5,
-  boxShadow: '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
+  background: vars.colors.background,
+  borderRadius: vars.radii['2xLarge'],
+  padding: vars.space[2],
+  boxShadow: `${vars.shadows[1]} ${vars.colors.foregroundTertiary}`,
 })
 
 export const item = style({
   all: 'unset',
-  fontSize: 13,
-  lineHeight: 1,
+  fontFamily: vars.fonts.sans,
+  fontSize: vars.fontSizes.base,
+  lineHeight: vars.lineHeights.normal,
   color: vars.colors.foreground,
-  borderRadius: 3,
+  borderRadius: vars.radii.large,
   display: 'flex',
   alignItems: 'center',
-  height: 25,
-  padding: '0 5px',
+  height: vars.space[10],
+  padding: vars.space[1],
   position: 'relative',
-  paddingLeft: 25,
+  paddingLeft: vars.space[6],
   userSelect: 'none',
 
   ':hover': {
-    background: vars.colors.foregroundTertiary,
+    color: vars.colors.foreground,
+    background: vars.colors.backgroundTertiary,
   },
 
   ':focus': {
-    background: vars.colors.foregroundSecondary,
+    color: vars.colors.foreground,
+    background: vars.colors.backgroundSecondary,
   },
 })
 
 export const separator = style({
-  backgroundColor: vars.colors.accent,
+  backgroundColor: vars.colors.foregroundTertiary,
   height: 1,
   margin: 5,
+})
+
+export const icon = style({
+  position: 'relative',
+  color: vars.colors.foreground,
+  top: 1,
+
+  selectors: {
+    '&[data-state=open]': {
+      transform: 'rotate(-90deg)',
+      transition: 'transform 250ms ease',
+    },
+  },
+})
+
+export const trigger = style({
+  all: 'unset',
+  fontFamily: vars.fonts.sans,
+  lineHeight: vars.lineHeights.normal,
+  padding: vars.space[3],
+  borderRadius: vars.radii.full,
+
+  ':hover': {
+    backgroundColor: vars.colors.accentSecondaryHover,
+  },
+  transition: 'transform 250ms ease',
+  selectors: {
+    '&[data-state=open]': {
+      backgroundColor: vars.colors.accentSecondary,
+      transform: 'rotate(-90deg)',
+    },
+  },
+})
+export const label = style({
+  paddingLeft: vars.space[6],
+  fontSize: vars.fontSizes.base,
+  fontFamily: vars.fonts.sans,
+  lineHeight: vars.lineHeights[2],
+  color: vars.colors.accent,
+  width: vars.space.full,
+})
+
+export const itemLink = style({
+  all: 'unset',
 })

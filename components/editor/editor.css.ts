@@ -16,9 +16,9 @@ export const editor = style({
   paddingLeft: vars.space[3],
 
   display: 'flex',
+  minHeight: vars.space[24],
 
   ':hover': {
-    color: vars.colors.foreground,
     outlineColor: vars.colors.accent,
     backgroundColor: vars.colors.backgroundSecondary,
   },

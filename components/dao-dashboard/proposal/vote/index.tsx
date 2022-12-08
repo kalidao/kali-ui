@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { Box } from '../../../../styles/elements'
-import { BsFillHandThumbsUpFill, BsFillHandThumbsDownFill } from 'react-icons/bs'
 import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 import { Button, IconCheck, IconClose, Stack } from '@kalidao/reality'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 // TODO: add actual types
 type VoteProps = {
@@ -35,7 +34,7 @@ export default function Vote({ proposal }: VoteProps) {
       if (!vote || !proposal || !isConnected) return
       console.log(2)
       try {
-        const data = vote({
+        const data = await vote({
           recklesslySetUnpreparedArgs: [proposal['serial'], approval],
         })
       } catch (e) {
@@ -43,17 +42,33 @@ export default function Vote({ proposal }: VoteProps) {
       }
       console.log(3)
     },
-    [isConnected, proposal],
+    [isConnected, proposal, vote],
   )
 
   return (
     <Stack direction={'horizontal'}>
-      <Button shape="circle" tone="green" size="small" disabled={disabled} onClick={() => submitVote(true)}>
-        <IconCheck />
-      </Button>
-      <Button shape="circle" tone="red" size="small" disabled={disabled} onClick={() => submitVote(false)}>
-        <IconClose />
-      </Button>
+      <ChainGuard
+        fallback={
+          <Button shape="circle" tone="green" size="small" disabled={disabled}>
+            <IconCheck />
+          </Button>
+        }
+      >
+        <Button shape="circle" tone="green" size="small" disabled={disabled} onClick={() => submitVote(true)}>
+          <IconCheck />
+        </Button>
+      </ChainGuard>
+      <ChainGuard
+        fallback={
+          <Button shape="circle" tone="red" size="small" disabled={disabled}>
+            <IconClose />
+          </Button>
+        }
+      >
+        <Button shape="circle" tone="red" size="small" disabled={disabled} onClick={() => submitVote(false)}>
+          <IconClose />
+        </Button>
+      </ChainGuard>
     </Stack>
   )
 }

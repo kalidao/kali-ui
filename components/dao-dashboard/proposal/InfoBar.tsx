@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import { Stack, Tag, Button } from '@kalidao/reality'
+import { Stack, Tag, Button, IconLink } from '@kalidao/reality'
 import { copy, truncateAddress } from '../../../utils'
 import { useEnsName } from 'wagmi'
 import Link from 'next/link'
-import { Share2Icon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/router'
-import Toast from '../../../styles/Toast'
+import Toast from '@design/Toast'
 
 type InfoBarProps = {
   proposer: string
-  proposalId: number
 }
 
-export default function InfoBar({ proposer, proposalId }: InfoBarProps) {
+export default function InfoBar({ proposer }: InfoBarProps) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const {
@@ -42,9 +40,19 @@ export default function InfoBar({ proposer, proposalId }: InfoBarProps) {
         </Tag>
       </Link>
       <Button shape="circle" variant="transparent" onClick={share} size="small">
-        <Share2Icon />
+        <IconLink />
       </Button>
-      <Toast open={open} setOpen={setOpen} title={'Copied!'} description={'Share the proposal with DAO members.'} />
+      <Toast
+        open={open}
+        setOpen={setOpen}
+        title={'Copied!'}
+        description={'Share the proposal with DAO members.'}
+        action={
+          <Button tone="red" size="small">
+            Close
+          </Button>
+        }
+      />
     </Stack>
   )
 }

@@ -1,18 +1,20 @@
-import { Avatar, Text, Card, Heading, Spinner, Stack, Button, IconArrowRight, IconBookOpen } from '@kalidao/reality'
+import { Avatar, Text, Box, Card, Heading, Spinner, Stack, Button, Tag, IconBookOpen } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useEnsAvatar, useEnsName, useQuery } from 'wagmi'
+import { useEnsName, useQuery } from 'wagmi'
 import { getMembers } from '@graph/queries'
 import { truncateAddress } from '@utils/truncateAddress'
 import { formatEther } from 'ethers/lib/utils'
 import { useMemo } from 'react'
+import { fetcher } from '@utils/fetcher'
+import { User } from '@components/tools/User'
 
 const Members = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data, isLoading, isError, error } = useQuery(
     ['daoProfileMembers', chainId, dao],
-    () => getMembers(chainId, dao),
+    () => getMembers(Number(chainId), dao as string),
     {
       enabled: !!chainId && !!dao,
     },
@@ -27,21 +29,23 @@ const Members = () => {
     [info],
   )
 
-  console.log('list', list)
-
   if (isLoading) return <Spinner />
 
-  console.log('members', info)
   return (
     <Card padding="6">
       {isLoading ? (
         <Spinner />
       ) : (
-        <Stack>
-          <Heading>Members ({list?.length})</Heading>
-          {list?.slice(0, 3)?.map((member: any) => (
-            <Member key={member?.address} address={member?.address} shares={member?.shares} />
-          ))}
+        <Box display="flex" flexDirection={'column'} justifyContent={'space-between'} height="full">
+          <Stack>
+            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+              <Heading>Members</Heading>
+              <Tag size="medium">{list?.length}</Tag>
+            </Stack>
+            {list?.slice(0, 3)?.map((member: any) => (
+              <Member key={member?.address} address={member?.address} shares={member?.shares} />
+            ))}
+          </Stack>
           <Link
             href={{
               pathname: `/daos/[chainId]/[dao]/members`,
@@ -53,30 +57,17 @@ const Members = () => {
               View All
             </Button>
           </Link>
-        </Stack>
+        </Box>
       )}
     </Card>
   )
 }
 
 const Member = ({ address, shares }: { address: string; shares: string }) => {
-  const { data: ensName } = useEnsName({
-    address: address,
-  })
-  const { data: ensAvatar } = useEnsAvatar({
-    addressOrName: address,
-  })
-
   return (
-    <Stack direction={'horizontal'} align="center">
-      <Avatar
-        src={ensAvatar ? ensAvatar : ''}
-        placeholder={ensAvatar ? false : true}
-        address={address}
-        label={`${address} picture`}
-      />
-      <Text>{ensName ? ensName : truncateAddress(address)}</Text>
-      <Text>{formatEther(shares)}</Text>
+    <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+      <User address={address} />
+      <Text>{Number(formatEther(shares)).toFixed(2)}</Text>
     </Stack>
   )
 }

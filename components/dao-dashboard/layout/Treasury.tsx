@@ -1,16 +1,4 @@
-import {
-  Avatar,
-  Text,
-  Card,
-  Heading,
-  Spinner,
-  Stack,
-  Button,
-  IconArrowRight,
-  IconBookOpen,
-  Stat,
-} from '@kalidao/reality'
-import { useRouter } from 'next/router'
+import { Avatar, Text, Card, Heading, Spinner, Stack, Button, IconArrowRight } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
@@ -32,14 +20,13 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
     },
   )
 
-  console.log('data treasury', data?.data?.items)
   return (
     <Card padding="6">
       <Stack>
         <Stack direction={'horizontal'} align="center" justify={'space-between'}>
           <Heading responsive>Treasury</Heading>
-          <Link href={`/daos/${chainId}/${address}/treasury`}>
-            <Button size="small" variant="transparent">
+          <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
+            <Button size="small" as="a" variant="transparent">
               <IconArrowRight />
             </Button>
           </Link>
@@ -50,7 +37,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
         {data &&
           data?.data?.items?.length > 0 &&
           data?.data?.items?.slice(0, 3).map((item: any) => (
-            <Card key={item?.contract_address} level="2" padding="3">
+            <Card key={item?.contract_address} padding="3">
               <Stack direction={'horizontal'} align="center" justify={'space-between'}>
                 <Stack direction={'horizontal'} align="center">
                   <Avatar src={item?.logo_url} label={`${item?.contract_name} logo`} />

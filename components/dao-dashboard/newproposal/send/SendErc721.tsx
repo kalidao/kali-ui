@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
 import { Stack, Text, Input } from '@kalidao/reality'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import { ethers } from 'ethers'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
@@ -23,7 +23,11 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
   const { data: signer } = useSigner()
   const { chain: activeChain } = useNetwork()
 
-  const { write: propose } = useContractWrite({
+  const {
+    write: propose,
+    isLoading: isProposalLoading,
+    isSuccess: isProposalSuccess,
+  } = useContractWrite({
     mode: 'recklesslyUnprepared',
     addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
     contractInterface: KALIDAO_ABI,
@@ -105,7 +109,13 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
       />
 
       {warning && <Warning warning={warning} />}
-      <ProposalFooter setProposal={setProposal} proposal={'sendMenu'} submitProposal={submit} />
+      <ProposalFooter
+        setProposal={setProposal}
+        proposal={'sendMenu'}
+        submitProposal={submit}
+        disabled={isProposalSuccess}
+        loading={isProposalLoading}
+      />
     </Stack>
   )
 }

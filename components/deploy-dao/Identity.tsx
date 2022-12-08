@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Stack, Button } from '@kalidao/reality'
-import { Form } from '../../styles/form-elements'
+import { Stack, Box, Button } from '@kalidao/reality'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
-import { getNames } from '../../graph/queries'
+import { getNames } from '@graph/queries'
 import { FieldSet, Input } from '@kalidao/reality'
 import Tutorial from './tutorial'
 
@@ -68,7 +67,7 @@ export default function Identity({ setStep }: Props) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <FieldSet
         legend="Token"
         description="Your token is the identity of your organization. The token created will be ERC20 compliant."
@@ -83,6 +82,7 @@ export default function Identity({ setStep }: Props) {
               message: 'Name is required.',
             },
           })}
+          error={errors?.name?.message}
         />
         <Input
           label="Symbol"
@@ -100,16 +100,15 @@ export default function Identity({ setStep }: Props) {
               message: 'Max symbol length exceeded',
             },
           })}
+          error={errors?.symbol?.message}
         />
-        {errors.name && <span>{errors?.name?.message}</span>}
-        {errors.symbol && <span role="alert">{errors?.symbol?.message}</span>}
+        <Stack direction={'horizontal'} justify="space-between">
+          <Tutorial />
+          <Button variant="primary" type="submit">
+            Next
+          </Button>
+        </Stack>
       </FieldSet>
-      <Stack direction={'horizontal'} justify="space-between">
-        <Tutorial />
-        <Button variant="primary" type="submit">
-          Next
-        </Button>
-      </Stack>
-    </Form>
+    </Box>
   )
 }

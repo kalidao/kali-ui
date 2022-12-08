@@ -1,69 +1,76 @@
 import Layout from '@components/dao-dashboard/layout'
-import Crowdsale from '@components/dao-dashboard/crowdsale'
-import { GRAPH_URL } from '@graph/url'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { Box, Stack } from '@kalidao/reality'
+import { useRouter } from 'next/router'
+import { AddressZero } from '@ethersproject/constants'
+import { Guide, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
+import { useEffect } from 'react'
+import { useAccount } from 'wagmi'
+import Confetti from '@components/tools/Confetti'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao as string
-  const chainId = context?.params?.chainId
+export default function CrowdsalePage() {
+  const router = useRouter()
+  const daoAddress = router.query.dao ? (router.query.dao as string) : AddressZero
+  const chainId = Number(router.query.chainId)
+  const setChainId = useSwapStore((state) => state.setChainId)
+  const stateChain = useSwapStore((state) => state.chainId)
+  const setToken = useSwapStore((state) => state.setToken)
+  const setSwap = useSwapStore((state) => state.setSwap)
+  const setDAO = useSwapStore((state) => state.setDAO)
+  const dao = useSwapStore((state) => state.dao)
+  const swap = useSwapStore((state) => state.swap)
+  const token = useSwapStore((state) => state.token)
+  const user = useSwapStore((state) => state.user)
+  const { address, isConnected } = useAccount()
+  const setUser = useSwapStore((state) => state.setUser)
+  const success = useSwapStore((state) => state.success)
 
-  try {
-    const res = await fetch(GRAPH_URL[Number(chainId)], {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query {
-          daos(where: {
-            id: "${address}"
-          }) {
-            id
-            token {
-              name
-              symbol
-            }
-            crowdsale {
-              active
-              version
-              listId
-              purchaseToken
-              purchaseMultiplier
-              purchaseLimit
-              personalLimit
-              saleEnds
-              details
-              amountPurchased
-              purchase {
-                purchaser
-                purchased
-              }
-            }
-          }
-        }`,
-      }),
-    })
-    const info = await res.json()
-
-    return {
-      props: {
-        info: info?.data?.daos[0],
-      },
+  useEffect(() => {
+    if (swap && chainId) {
+      setToken(swap.purchaseAsset, chainId)
     }
-  } catch (e) {
-    console.log(e)
-    return {
-      props: {
-        info: null,
-      },
-    }
-  }
-}
+  }, [swap, chainId, setToken])
 
-export default function CrowdsalePage({ info }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  useEffect(() => {
+    if (daoAddress && chainId) {
+      setSwap(daoAddress, chainId)
+    }
+  }, [daoAddress, chainId, setSwap])
+
+  useEffect(() => {
+    if (daoAddress && chainId) {
+      setDAO(daoAddress, chainId)
+    }
+  }, [daoAddress, chainId, setDAO])
+
+  useEffect(() => {
+    if (daoAddress && chainId) {
+      setSwap(daoAddress, chainId)
+    }
+  }, [daoAddress, chainId, setSwap])
+
+  useEffect(() => {
+    if (chainId) {
+      setChainId(chainId)
+    }
+  }, [chainId, setChainId])
+
+  useEffect(() => {
+    if (isConnected && address && token.address != '' && chainId) {
+      setUser(token.address, address as string, chainId)
+    }
+  }, [isConnected, address, chainId, setUser, token.address])
+
+  console.log('swap', stateChain, dao, swap, token, user)
   return (
     <Layout title="Swap" content="Swap Eth or tokens">
-      <Crowdsale info={info} />
+      <Box position="relative" display={'flex'}>
+        <Box position={'relative'} width="112" gap="5">
+          <Why />
+          <Guide />
+        </Box>
+        <Swapper />
+      </Box>
+      {success == true && <Confetti />}
     </Layout>
   )
 }

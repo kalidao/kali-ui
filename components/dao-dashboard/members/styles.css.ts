@@ -7,13 +7,13 @@ export const memberButton = style({
   alignItems: 'center',
   justifyContent: 'center',
 
-  background: vars.colors.black,
+  background: vars.colors.background,
   border: `1px solid ${vars.colors.accentSecondary}`,
   padding: vars.space[6],
   borderRadius: vars.radii['2xLarge'],
 
   ':hover': {
-    background: vars.colors.black,
+    background: vars.colors.accentSecondary,
     border: `1px solid ${vars.colors.accentSecondaryHover}`,
   },
 })

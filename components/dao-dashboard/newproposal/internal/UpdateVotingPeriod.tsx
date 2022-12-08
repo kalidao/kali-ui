@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractRead, useContractWrite } from 'wagmi'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import { Stack, Text, Button, Input, Spinner, FieldSet } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
@@ -10,13 +10,15 @@ import { votingPeriodToSeconds, formatVotingPeriod } from '@utils/index'
 import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import { ethers } from 'ethers'
+import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateVotingPeriod() {
   const router = useRouter()
 
   const { dao, chainId } = router.query
   const [title, setTitle] = useState<string>()
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
 
   // form
   const [unit, setUnit] = useState('min')
@@ -32,7 +34,8 @@ export default function UpdateVotingPeriod() {
     onSuccess: () => {
       setTimeout(() => {
         router.push(`/daos/${chainId}/${dao}/`)
-      }, 12000)
+        setLoading(false)
+      }, 30000)
     },
   })
 
@@ -69,21 +72,21 @@ export default function UpdateVotingPeriod() {
             [Array(0)],
           ],
         })
+        setWarning('')
       } catch (e) {
         console.error(e)
       }
     } else {
       setWarning('Please set a duration.')
     }
-    setLoading(false)
   }
-
-  console.log('unit', unit)
 
   return (
     <FieldSet
       legend="Update Voting Period"
-      description={'This will create a proposal to update the voting period for your DAO.'}
+      description={`This will create a proposal to update the voting period for your DAO. The voting period is the amount of time that members have to vote on a proposal. The current voting period is ${
+        votingPeriod && formatVotingPeriod(Number(votingPeriod))
+      }`}
     >
       <Input
         label="Title"
@@ -93,13 +96,13 @@ export default function UpdateVotingPeriod() {
         placeholder={'Proposal for...'}
         onChange={(e) => setTitle(e.currentTarget.value)}
       />
-      <Stack>
-        <Editor setContent={setContent} />
-      </Stack>
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text variant="label">Current Voting Period</Text>
-        <Text>{isWaitingVotingPeriod ? <Spinner /> : formatVotingPeriod(votingPeriod)}</Text>
-      </Stack>
+
+      <Editor
+        setContent={setContent}
+        placeholder="Hello"
+        label="Description"
+        description="Why should we change the voting period?"
+      />
       <Stack direction={'horizontal'}>
         <Input
           label="Duration"
@@ -137,9 +140,11 @@ export default function UpdateVotingPeriod() {
         </Stack>
       ) : null}
       {warning && <Warning warning={warning} />}
-      <Button onClick={submit} disabled={isSuccess} loading={loading}>
-        Submit
-      </Button>
+      <ChainGuard fallback={<Button>Submit</Button>}>
+        <Button center onClick={submit} disabled={isSuccess} loading={loading}>
+          Submit
+        </Button>
+      </ChainGuard>
     </FieldSet>
   )
 }

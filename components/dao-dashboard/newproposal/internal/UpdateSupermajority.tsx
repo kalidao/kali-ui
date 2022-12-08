@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractRead, useContractWrite } from 'wagmi'
-import { Warning } from '../../../../styles/elements'
+import { Warning } from '@design/elements'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
@@ -8,11 +8,12 @@ import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateSupermajority() {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
   const [warning, setWarning] = useState<string>()
 
@@ -33,6 +34,12 @@ export default function UpdateSupermajority() {
     addressOrName: dao ? (dao as string) : AddressZero,
     contractInterface: DAO_ABI,
     functionName: 'propose',
+    chainId: Number(chainId),
+    onSuccess: () => {
+      setTimeout(() => {
+        router.push(`/daos/${chainId}/${dao}/`)
+      }, 30000)
+    },
   })
 
   // form
@@ -93,20 +100,20 @@ export default function UpdateSupermajority() {
       <Editor setContent={setContent} />
       <Input
         label="Approval"
-        description={`Current approval percentage: ${currentSupermajority ? currentSupermajority : 'fething...'}%`}
+        description={`Current approval percentage: ${currentSupermajority ? currentSupermajority : 'Fetching...'}%`}
         name="amount"
         type="number"
         inputMode="decimal"
-        placeholder="51"
+        placeholder="52"
         suffix="%"
-        min={51}
+        min={52}
         max={100}
         value={supermajority}
         onChange={(e) => setSupermajority(Number(e.target.value))}
       />
       {warning && <Warning warning={warning} />}
       <Stack direction={'horizontal'} justify={'space-between'}>
-        <ChainGuard>
+        <ChainGuard fallback={<Button>Submit</Button>}>
           <Button
             center
             variant="primary"
@@ -116,10 +123,8 @@ export default function UpdateSupermajority() {
           >
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
-          <Text>
-            {isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}
-          </Text>
         </ChainGuard>
+        <Text>{isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}</Text>
       </Stack>
     </FieldSet>
   )

@@ -2,11 +2,12 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { Card, Box, FieldSet, Input, Stack, Text } from '@kalidao/reality'
+import { Card, Box, FieldSet, Input, Stack } from '@kalidao/reality'
+import { JSONContent } from '@tiptap/react'
 
 export default function ProposePage() {
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState()
+  const [content, setContent] = useState<JSONContent>()
 
   return (
     <Layout title={'Propose'} content="Create a proposal.">
@@ -23,10 +24,11 @@ export default function ProposePage() {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-            <Box color="foreground" fontWeight="bold" marginLeft="1.5">
-              Description
-            </Box>
-            <Editor setContent={setContent} />
+            <Editor
+              setContent={setContent}
+              label="Details"
+              description="You can provide context for this proposal here."
+            />
             <NewProposalModal proposalProp="menu" content={content} title={title} />
           </FieldSet>
         </Stack>

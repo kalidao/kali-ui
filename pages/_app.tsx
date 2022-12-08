@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import '@design/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultWallets, RainbowKitProvider, darkTheme, DisclaimerComponent } from '@rainbow-me/rainbowkit'
+import { getDefaultWallets, RainbowKitProvider, DisclaimerComponent, Theme } from '@rainbow-me/rainbowkit'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
@@ -11,6 +12,9 @@ import NextNProgress from 'nextjs-progressbar'
 import { xdai } from '@constants/chains'
 import { ThemeProvider } from '@kalidao/reality'
 import '@kalidao/reality/styles'
+import { useThemeStore } from '@components/hooks/useThemeStore'
+import { getRainbowTheme } from '@utils/getRainbowTheme'
+import '@design/app.css'
 
 const queryClient = new QueryClient()
 
@@ -56,26 +60,24 @@ const appInfo = {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const mode = useThemeStore((state) => state.mode)
+  const [theme, setTheme] = useState<Theme>()
+
+  useEffect(() => {
+    setTheme(getRainbowTheme(mode))
+  }, [mode])
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          coolMode
-          chains={chains}
-          theme={darkTheme({
-            accentColor: 'hsl(250, 51.8%, 51.2%)',
-            accentColorForeground: '#ededed',
-          })}
-          appInfo={appInfo}
-          modalSize="compact"
-        >
-          <ThemeProvider defaultAccent="violet" defaultMode="dark">
+    <ThemeProvider defaultAccent="violet" defaultMode={mode}>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider coolMode chains={chains} theme={theme} appInfo={appInfo} modalSize="compact">
             <NextNProgress color="#5842c3" />
             <Component {...pageProps} />
-          </ThemeProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </QueryClientProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 

@@ -1,11 +1,26 @@
-import { Avatar, Box, Card, Heading, Skeleton, Spinner, Stack, Stat, Button, IconArrowRight } from '@kalidao/reality'
+import {
+  Avatar,
+  Box,
+  Card,
+  Heading,
+  Skeleton,
+  Spinner,
+  Stack,
+  Text,
+  Button,
+  IconArrowRight,
+  IconTwitter,
+  IconDiscord,
+  IconLink,
+  Divider,
+  IconGitHub,
+} from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { chain, useQuery } from 'wagmi'
 import { getDaoInfo } from '@graph/queries'
-import { ethers } from 'ethers'
-import { formatVotingPeriod } from '@utils/votingPeriod'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
+import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
@@ -16,6 +31,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       enabled: !!chainId && !!address,
     },
   )
+  const { data: meta } = useGetDaoMeta(chainId, address)
   const info = data?.data?.daos?.[0]
 
   if (isLoading)
@@ -25,6 +41,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       </Skeleton>
     )
 
+  console.log('meta', meta)
   return (
     <Card padding="6" width="full">
       <Stack
@@ -37,23 +54,40 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
             <Spinner />
           ) : (
             <Stack align="center" justify={'center'}>
-              <Avatar src="" label="dao profile pic" address={address as string} size="32" />
+              <Avatar src={meta?.image} label="dao profile pic" address={address as string} size="32" />
               <Heading>
                 {info?.token?.name} ({info?.token?.symbol})
               </Heading>
+              <Text>{meta?.description}</Text>
+              <Divider />
               <Stack direction={'horizontal'}>
-                <Stat
-                  label="Total Supply"
-                  value={info ? parseFloat(ethers.utils.formatUnits(info?.token?.totalSupply, 18)).toFixed(0) : null}
-                />
-                <Stat label="Voting Period" value={formatVotingPeriod(info?.votingPeriod)} />
+                {meta?.socials?.twitter && (
+                  <a href={`${meta?.socials?.twitter}`} target="_blank" rel="noreferrer">
+                    <IconTwitter size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.discord && (
+                  <a href={`${meta?.socials?.discord}`} target="_blank" rel="noreferrer">
+                    <IconDiscord size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.github && (
+                  <a href={`${meta?.socials?.github}`} target="_blank" rel="noreferrer">
+                    <IconGitHub size="5" color="foreground" />
+                  </a>
+                )}
+                {meta?.socials?.website && (
+                  <a href={`${meta?.socials?.website}`} target="_blank" rel="noreferrer">
+                    <IconLink size="5" color="foreground" />
+                  </a>
+                )}
               </Stack>
             </Stack>
           )}
         </Box>
         {router.asPath === `/daos/${chainId}/${address}` ? null : (
-          <Link href={`/daos/${chainId}/${address}/`}>
-            <Button size="small" variant="transparent">
+          <Link href={`/daos/${chainId}/${address}/`} passHref>
+            <Button size="small" as="a" variant="transparent">
               <IconArrowRight />
             </Button>
           </Link>

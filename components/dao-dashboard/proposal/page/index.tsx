@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Button, Heading, Stack, Text, Tag, IconClose } from '@kalidao/reality'
 import InfoCard from './InfoCard'
 import Results from './Results'
-import Votes from './Votes'
 import Description from './Description'
 import Vote from '../vote'
 import InfoBar from '../InfoBar'
@@ -12,7 +11,8 @@ import Cancel from '../Cancel'
 import Process from '../Process'
 import { useRouter } from 'next/router'
 import Visualizer from './visualizer'
-import { useFetch } from '../../../hooks/useFetch'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '@utils/fetcher'
 
 type Props = {
   proposal: any
@@ -25,13 +25,18 @@ export default function ProposalView({ proposal }: Props) {
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
   // const url = isURL(proposal?.description)
   const url = `https://content.wrappr.wtf/ipfs/${proposal?.description}`
-
   const {
     data: details,
     isLoading,
     error,
-  } = useFetch(
-    url ? proposal?.description : isSchema ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}` : null,
+  } = useQuery(['proposalDetails', url, proposal], async () =>
+    fetcher(
+      url
+        ? proposal?.description
+        : isSchema
+        ? `https://content.wrappr.wtf/ipfs/${proposal?.description.slice(7)}`
+        : null,
+    ),
   )
 
   const canProcess = () => {
@@ -49,44 +54,62 @@ export default function ProposalView({ proposal }: Props) {
   }
 
   return (
-    <Stack>
-      <Stack direction="horizontal" align="center">
-        <Heading responsive>
+    <Box
+      width="full"
+      display="flex"
+      flexDirection={'column'}
+      
+      borderWidth="px"
+      borderRadius="2xLarge"
+      padding="6"
+      gap="4"
+    >
+      <Box display="flex" flexDirection={'row'} gap="1" justifyContent={'flex-start'} alignItems="center">
+        <Text>
           {`#${proposalId} `}
           {details && details?.title}
-        </Heading>
-        <Tag>{proposal['proposalType']}</Tag>
-      </Stack>
-      <InfoBar proposalId={Number(proposalId)} proposer={proposal['proposer']} />
-      <Stack
-        direction={{
-          xs: 'vertical',
-          md: 'horizontal',
+          {proposal?.['proposalType'] === 'DOCS' && 'Update Docs'}
+        </Text>
+        <Tag>{proposal?.['proposalType']}</Tag>
+      </Box>
+      <InfoBar proposer={proposal?.['proposer']} />
+      <Box
+        position="relative"
+        display="flex"
+        alignItems={'flex-start'}
+        justifyContent="center"
+        flexDirection={{
+          xs: 'column',
+          md: 'row',
         }}
       >
-        <Stack>
-          {proposal && (
+        <Box width="full" display={'flex'} gap="5" flexDirection="column" justifyContent={'space-between'}>
+          {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
+              type={proposal?.['proposalType']}
               description={details ? details?.description : proposal?.description}
               isSchema={details ? true : false}
             />
           )}
           <Visualizer proposal={proposal} />
-        </Stack>
-        <Stack>
+        </Box>
+        <Box display="flex" gap="2" flexDirection="column">
           {proposal && (
-            <InfoCard start={Number(proposal['votingStarts'])} votingPeriod={Number(proposal['dao']['votingPeriod'])} />
+            <InfoCard
+              start={Number(proposal?.['votingStarts'])}
+              votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])}
+            />
           )}
           {proposal && <Results votes={proposal['votes']} />}
-        </Stack>
-      </Stack>
+        </Box>
+      </Box>
       <Stack direction="horizontal">
         <Vote proposal={proposal} />
-        {proposal['sponsored'] == false &&
-          (address?.toLowerCase() === proposal['proposer'] ? (
-            <Cancel proposal={proposal} />
+        {proposal?.['sponsored'] == false &&
+          (address?.toLowerCase() === proposal?.['proposer'] ? (
+            <Cancel proposalId={Number(proposal?.serial)} />
           ) : (
-            <Sponsor proposal={proposal} />
+            <Sponsor proposalId={Number(proposal?.serial)} />
           ))}
         {canProcess() && (
           <>
@@ -94,6 +117,7 @@ export default function ProposalView({ proposal }: Props) {
             <Button
               variant="secondary"
               tone="red"
+              size="small"
               prefix={<IconClose />}
               onClick={() =>
                 router.push(
@@ -108,6 +132,6 @@ export default function ProposalView({ proposal }: Props) {
           </>
         )}
       </Stack>
-    </Stack>
+    </Box>
   )
 }

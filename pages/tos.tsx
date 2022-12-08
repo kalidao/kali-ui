@@ -9,14 +9,14 @@ export default function ToS() {
       heading="KaliCo Terms of Service"
       content="The terms contained here define our relationship with each other."
     >
-      <Box paddingX={'10'} paddingY="2">
+      <Box padding="6" backgroundColor="backgroundSecondary">
         <ReactMarkdown
           components={{
             h2: ({ node, ...props }) => <h2 style={{ color: 'white' }} {...props} />,
             p: ({ node, ...props }) => <p style={{ color: '#F9F6EE' }} {...props} />,
-            li: ({ node, ...props }) => <li style={{ color: '#F9F6EE ' }} {...props} />,
+            li: ({ node, ...props }) => <li style={{ color: '#F9F6EE' }} {...props} />,
             // Rewrite `em`s (`*like so*`) to `i` with a red foreground color.
-            em: ({ node, ...props }) => <i style={{ color: 'blue' }} {...props} />,
+            em: ({ node, ...props }) => <i style={{ color: '#F9F6EE' }} {...props} />,
           }}
         >
           {tos}

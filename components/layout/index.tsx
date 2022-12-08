@@ -1,6 +1,9 @@
 import Header from './Header'
 import Head from 'next/head'
 import { Box } from '@kalidao/reality'
+import { layout } from '@components/dao-dashboard/layout/layout.css'
+import { container } from '@components/dao-dashboard/info/styles.css'
+import Footer from '@components/dao-dashboard/layout/Footer'
 
 type LayoutProps = {
   heading?: string
@@ -12,7 +15,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
   const title = 'KALI - ' + heading
 
   return (
-    <div>
+    <Box className={layout}>
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />
@@ -23,10 +26,9 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
-      <Box width="viewWidth">
-        <Header heading={heading} />
-        {children}
-      </Box>
-    </div>
+      <Header />
+      <Box className={container}>{children}</Box>
+      <Footer />
+    </Box>
   )
 }

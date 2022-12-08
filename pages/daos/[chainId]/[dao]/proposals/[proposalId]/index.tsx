@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
-import { Card, IconArrowLeft, Button, Stack } from '@kalidao/reality'
+import { Box, IconArrowLeft, Button, Stack, Spinner } from '@kalidao/reality'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
 import { getProposal } from '@graph/queries'
+import { useGetProposal } from '@graph/queries/getProposal'
 
-const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ProposalPage: NextPage = () => {
   const router = useRouter()
-  const { dao, chainId } = router.query
+  const { dao, chainId, proposalId } = router.query
+  const { data: proposal, isLoading } = useGetProposal(Number(chainId), dao as string, proposalId as string)
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}`)
@@ -23,22 +25,31 @@ const ProposalPage: NextPage = ({ proposal }: InferGetServerSidePropsType<typeof
 
   return (
     <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
-      <Card padding="6">
-        <Stack>
-          <Stack
-            direction={{
-              xs: 'vertical',
-              lg: 'horizontal',
-            }}
-          >
-            <Button variant="transparent" shape="circle" onClick={goBack}>
-              <IconArrowLeft />
-            </Button>
-            <ProposalView proposal={proposal} />
+      <Box
+        padding={{
+          xs: '2',
+          lg: '6',
+        }}
+      >
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Stack space="10">
+            <Stack
+              direction={{
+                xs: 'vertical',
+                lg: 'horizontal',
+              }}
+            >
+              <Button variant="transparent" shape="circle" onClick={goBack}>
+                <IconArrowLeft />
+              </Button>
+              <ProposalView proposal={proposal} />
+            </Stack>
+            <VotesView votes={proposal?.votes} />
           </Stack>
-          <VotesView votes={proposal?.votes} />
-        </Stack>
-      </Card>
+        )}
+      </Box>
     </Layout>
   )
 }
@@ -48,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const proposalId = context?.params?.proposalId
   const chainId = context?.params?.chainId
 
-  const result = await getProposal(chainId, address, proposalId)
+  const result = await getProposal(Number(chainId), address as string, proposalId as string)
 
   if (!result) {
     return {
@@ -58,7 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      proposal: result?.data?.proposals[0],
+      proposal: result,
     },
   }
 }
