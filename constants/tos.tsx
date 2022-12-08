@@ -1,11 +1,11 @@
 export const tos = `
 ## **Introduction**
 
-Please read these terms of service (“**_Terms_**”) carefully. These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [kalidao.xyz](http://kalidao.xyz/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site.  
+Please read these terms of service (“**_Terms_**”) carefully. These Terms are between you and KaliCo LLC (“**_KaliCo_**,” “**_we_**,” “**_us_**,” or “**_our_**”) concerning your use of KaliCo’s site, currently located at [kali.gg](https://www.kali.gg/) (the “**_Site_**”) which acts as a front-end to the decentralized KaliCo protocol. These Terms apply to you (“**_You,_**” or “**_User_**”) as a user of the Site and KaliCo front-end, including all the products, services, tools and information made available on the Site, such as [Wrappr](https://www.wrappr.wtf/) and [Keep](https://keep.kali.gg/). 
 
 By using the Site, you agree to these Terms.
 
-Certain features on the site may be offered while still in “beta” form (“**_Beta Services_**”).  By accepting these Terms or using the Beta Services, You understand and acknowledge that the Beta Services are being provided as a “Beta” version and made available on an “As Is” or “As Available” basis. The Beta Services may contain bugs, errors, and other problems. YOU ASSUME ALL RISKS AND ALL COSTS ASSOCIATED WITH YOUR USE OF THE BETA SERVICES.
+Certain features on the site may be offered while still in experimental or “beta” form (“**_Beta Services_**”). By accepting these Terms or using the Beta Services, You understand and acknowledge that the Beta Services are being provided as a “Beta” version and made available on an “As Is” or “As Available” basis. The Beta Services may contain bugs, errors, and other problems. YOU ASSUME ALL RISKS AND ALL COSTS ASSOCIATED WITH YOUR USE OF THE BETA SERVICES.
 
 You must be able to form a legally binding contract online either as an individual or on behalf of a legal entity. You represent that as a User, you have the legal authority to bind the company or other legal entity to these Terms and you are at least 18 years old or the age of majority where you reside, whichever is older, can form a legally binding contract online, and have the full, right, power and authority to enter into and to comply with the obligations under these Terms.
 
@@ -13,7 +13,7 @@ You are advised to check these Terms periodically to familiarize yourself with a
 
 ## **Site**
 
-KaliCo provides access to a decentralized finance application (“**_Application_**”) on the Ethereum blockchain, that allows individuals to pool Ethereum assets (“**_Cryptocurrency assets_**”) and transact using smart contracts (“**_Smart Contracts_**”).  These pooled Cryptocurrency assets are created and managed by specific Users (“**_Managers_**”).
+KaliCo provides access to a decentralized organizational application (“**_Application_**”) on the Ethereum blockchain and other compatible networks ("**_Ethereum_**"), that allows individuals to pool and manage Ethereum assets (“**_Cryptocurrency assets_**”) and transact using smart contracts (“**_Smart Contracts_**”). These pooled Cryptocurrency assets are created and managed by specific Users who organize using the Application (“**_Managers_**”).
 
 Using the KaliCo protocol may require that you pay a fee, such as gas charges on the Ethereum network to perform a transaction. You acknowledge and agree that KaliCo has no control over any transactions over KaliCo protocol, the method of payment of any transactions or any actual payments of transactions. Accordingly, you must ensure that you have a sufficient balance of the applicable cryptocurrency tokens stored at your KaliCo protocol-compatible wallet address (“**_Cryptocurrency Wallet_**”) to complete any transaction on the KaliCo protocol or the Ethereum network before initiating such transaction.
 
@@ -62,21 +62,26 @@ Accordingly, you expressly agree that:
 
 - You assume all risk in connection with your access and use of the Site, the Application and the Smart Contracts; and
 - You expressly waive and release KaliCo from any and all liability, claims, causes of action, or damages arising from or in any way related to your use of the Site, the Application or the Smart Contracts.
+
 ## **Manager Obligations**
 Due to the nature of a Manager’s activities on the Site, there is the potential that Managers will need to comply with the Investment Advisers Act of 1940 (“***Advisers Act***”).  It is the obligation of the Manager to make this determination and take appropriate actions to comply with the Advisers Act if necessary.
 
 The creation of a pool of Cryptographic Assets may subject the Manager and the pool to registration under the Securities Act of 1933 (“***Securities Act***”) and the Investment Company Act of 1940 (“***Investment Company Act***”) . It is the obligation of the Manager to make this determination and take appropriate actions to comply with the Securities Act and Investment Company Act if necessary.
+
 ## **OFAC Compliance**
 The U.S. Department of the Treasury, through the Office of Foreign Assets Control (**“*OFAC*”**), prohibits U.S. companies from engaging in all or certain commercial activities with certain sanctioned countries (each a **“*Sanctioned Country*”**) and certain individuals, organizations or entities, including without limitation, certain “Specially Designated Nationals” (**“*SDN*”**) listed by OFAC. If you use the Site, you expressly represent that you are not located in a Sanctioned Country or is listed as an SDN. If KaliCo determines that the Site is being used by prohibited persons, it will take any and all actions to terminate that User’s access to the Site.
+
 ## **Third Party Links**
 The Site may contain hyperlinks or references to third party websites. Any such hyperlinks or references are provided for your information and convenience only. We have no control over third party websites and accept no legal responsibility for any content, material or information contained in them. The display of any hyperlink and reference to any third-party website does not mean that we endorse that third party's website, products or services. Your use of a third-party site may be governed by the terms and conditions of that third-party site.
+
 ## **Privacy Policy**
-When you use the Site, the only information we collect from you is your blockchain wallet address. We do not collect any personal information from you unless otherwise specifically requested. We do not take responsibility for any information you make public on the Ethereum blockchain by taking actions through the Site.
+When you use the Site, the only information we collect from you is your blockchain wallet address. We do not collect any personal information from you unless otherwise specifically requested. We do not take responsibility for any information you make public on the Ethereum blockchain by taking actions through the Site. For additional information as to how we protect your privacy, review our [Privacy Policy](https://app.kali.gg/privacy).
 
 ## **Intellectual Property**
 We are the owner of all intellectual property rights in the Site and the material published on them. These works are protected by copyright laws and all such rights are reserved. [http://kalidao.xyz/](http://kalidao.xyz/) is the uniform resource locator (“***URL***”) of KaliCo. You will not make use of this URL on another website or digital platform without our prior written consent.  You agree not to monitor, use or copy our web pages without our prior consent. Any unauthorized use or reproduction may be prosecuted.
 
 You will retain ownership of all copyright in data you upload or submit to the Site. You grant us a worldwide, royalty-free, irrevocable license to use, copy, distribute or publish and send this data in any manner.
+
 ## **Disclaimers**
 To the fullest extent permitted by law, in no event will KaliCo be responsible to you for any: (1) financial losses; (2) loss of use, data, business or profits; or (3) indirect, special consequential, exemplary, or punitive damages. This will be whether or not the KaliCo warned of the possibility of such damages. Notwithstanding anything to the contrary in these terms, nothing in these terms excludes or limits liability for fraud, fraudulent misrepresentation, or for death or personal injury caused by gross negligence.
 
@@ -115,5 +120,5 @@ With respect to all persons and entities, regardless of whether they have obtain
 
 ## **Contacting Us**
 
-Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at *kalidao@protonmail.xyz*.
+Should you have any question about these Terms, or wish to contact us for any reason whatsoever, please do so by sending us an email at *contact@kali.gg*.
 `
