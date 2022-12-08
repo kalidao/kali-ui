@@ -21,6 +21,7 @@ import { getDaoInfo } from '@graph/queries'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
+import Tribute from '../newproposal/apps/Tribute'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
@@ -41,7 +42,6 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       </Skeleton>
     )
 
-  console.log('meta', meta)
   return (
     <Card padding="6" width="full">
       <Stack
@@ -60,7 +60,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
               </Heading>
               <Text>{meta?.description}</Text>
               <Divider />
-              <Stack direction={'horizontal'}>
+              <Stack direction={'horizontal'} align="center">
                 {meta?.socials?.twitter && (
                   <a href={`${meta?.socials?.twitter}`} target="_blank" rel="noreferrer">
                     <IconTwitter size="5" color="foreground" />
@@ -81,6 +81,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
                     <IconLink size="5" color="foreground" />
                   </a>
                 )}
+                <Tribute />
               </Stack>
             </Stack>
           )}

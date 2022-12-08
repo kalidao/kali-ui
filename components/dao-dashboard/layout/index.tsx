@@ -8,6 +8,8 @@ import Profile from '@components/dao-dashboard/layout/Profile'
 import Treasury from '@components/dao-dashboard/layout/Treasury'
 import Header from '@components/layout/Header'
 import Nav from '@components/dao-dashboard/layout/Nav'
+import { useEffect } from 'react'
+import { useDaoStore } from '../useDaoStore'
 
 type Props = {
   title: string
@@ -19,6 +21,13 @@ const DashboardLayout = ({ title, content, children }: Props) => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const heading = `Kali | ${title}`
+  const setDAO = useDaoStore((state) => state.setDao)
+
+  useEffect(() => {
+    if (chainId && dao) {
+      setDAO(dao as string, Number(chainId))
+    }
+  }, [chainId, dao, setDAO])
 
   return (
     <Box className={layout}>

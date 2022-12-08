@@ -15,24 +15,18 @@ import Card from './Card'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
-import { useContractRead } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { useDaoStore } from '../useDaoStore'
 
 export default function Timeline() {
   const router = useRouter()
-  const { dao, chainId } = router.query
-  const { data: name } = useContractRead({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: DAO_ABI,
-    functionName: 'name',
-    chainId: Number(chainId),
-  })
+  const dao = useDaoStore((state) => state.address)
+  const chainId = useDaoStore((state) => state.chainId)
+  const name = useDaoStore((state) => state.name)
+
   const { data, isLoading, error } = useGetProposals(
     chainId ? Number(chainId) : 1,
     dao ? (dao as string) : ethers.constants.AddressZero,
   )
-
-  console.log('proposals', data)
 
   const [show, setShow] = useState(2)
 
@@ -64,7 +58,7 @@ export default function Timeline() {
             pathname: '/daos/[chainId]/[dao]/propose',
             query: {
               dao: dao as string,
-              chainId: chainId as string,
+              chainId: chainId.toString(),
             },
           }}
           passHref

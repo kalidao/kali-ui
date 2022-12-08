@@ -79,13 +79,15 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
               </Card>
             ))}
         </Stack>
-        <Stack direction={"horizontal"} align="center">
-        <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
-          <Button shape="circle" size="small" as="a" variant="transparent">
-            <IconBookOpen />
-          </Button>
-        </Link>
-        <Text size="label" color="foregroundSecondary">{lastUpdated}</Text>
+        <Stack direction={'horizontal'} align="center">
+          <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
+            <Button shape="circle" size="small" as="a" variant="transparent">
+              <IconBookOpen />
+            </Button>
+          </Link>
+          <Text size="label" color="foregroundSecondary">
+            {lastUpdated}
+          </Text>
         </Stack>
       </Box>
     </Card>
