@@ -18,7 +18,7 @@ import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
 import { fetcher } from '@utils/fetcher'
 import { ethers } from 'ethers'
-import { prettyDate, timePassed } from '@utils/prettyDate'
+import { prettyDate } from '@utils/prettyDate'
 
 const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const { data, isLoading, isError } = useQuery(
@@ -38,6 +38,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const totalBalance = useMemo(
     () =>
       data?.data?.items?.reduce((acc: number, item: any) => {
+        console.log('acc total balance')
         return (
           acc +
           parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)) * parseFloat(item?.quote_rate)
@@ -58,7 +59,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
             <Heading responsive>Treasury</Heading>
             {data && data?.error !== true && (
               <Tag size="medium" tone="green" label="$">
-                {totalBalance.toFixed(2)}
+                {chainId === 5 ? '🤪' : totalBalance.toFixed(2)}
               </Tag>
             )}
           </Stack>
