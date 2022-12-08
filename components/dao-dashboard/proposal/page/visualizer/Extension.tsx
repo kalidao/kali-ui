@@ -8,6 +8,8 @@ import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useQuery } from '@tanstack/react-query'
 import { prettyDate } from '@utils/prettyDate'
 import { User } from '@components/tools/User'
+import ReactMarkdown from 'react-markdown'
+import { useThemeStore } from '@components/hooks/useThemeStore'
 
 export default function ExtensionShell({
   accounts,
@@ -47,7 +49,7 @@ export default function ExtensionShell({
   )
 }
 
-const resolveValueRender = (value: any, display: string, chainId: number): React.ReactNode => {
+const resolveValueRender = (value: any, display: string, chainId: number, mode: string): React.ReactNode => {
   switch (display) {
     case 'string':
       return <Text>{value}</Text>
@@ -91,7 +93,17 @@ const resolveValueRender = (value: any, display: string, chainId: number): React
           {render?.map((item, index) => (
             <Stack key={index}>
               <Text weight="semiBold">{item.key}</Text>
-              <Text>{item.value}</Text>
+              {item.key == 'goalDescription' ?  <ReactMarkdown
+          components={{
+            h1: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+            h2: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+            p: ({ node, ...props }) => <p style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+            li: ({ node, ...props }) => <li style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+            em: ({ node, ...props }) => <i style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+          }}
+        >
+          {item.value}
+        </ReactMarkdown> : <Text>{item.value}</Text>}
             </Stack>
           ))}
         </Stack>
@@ -124,6 +136,7 @@ const Extension = ({
     async () => await decodeExtensions(dao, extension, payload, chainId),
     { enabled: !!payload },
   )
+  const mode = useThemeStore((state) => state.mode)
   
   return (
     <Stack>
@@ -147,7 +160,7 @@ const Extension = ({
             key={index}
             label={item.label}
             display={item.display}
-            value={resolveValueRender(item.value, item.display, chainId)}
+            value={resolveValueRender(item.value, item.display, chainId, mode)}
           />
         ))}
     </Stack>
