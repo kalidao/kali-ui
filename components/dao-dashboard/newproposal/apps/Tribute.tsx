@@ -43,14 +43,14 @@ export default function Tribute() {
       0,
       description,
       [address],
-      [ethers.utils.parseEther(amount)],
+      [amount ? ethers.utils.parseEther(amount) : ethers.utils.parseEther('0')],
       [ethers.constants.HashZero],
       false, // nft
       ethers.constants.AddressZero,
       ethers.utils.parseEther('0'),
     ],
     overrides: {
-      value: ethers.utils.parseEther(value),
+      value: value ? ethers.utils.parseEther(value) : ethers.utils.parseEther('0'),
     },
   })
   const { write, isSuccess } = useContractWrite(config)
