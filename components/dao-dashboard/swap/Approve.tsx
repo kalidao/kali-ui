@@ -26,7 +26,7 @@ export default function Guide() {
     if (isConnected && address && token.address && swap.address && chainId) {
        setApproved(address, token.address, swap.address, chainId)
     }
-  }, [isConnected, address, token.address, swap.address, chainId])
+  }, [isConnected, address, token.address, swap.address, chainId, setApproved])
 
   const approve = useCallback(async () => {
     if (!writeAsync || !isConnected || !address) return
@@ -38,7 +38,7 @@ export default function Guide() {
     } catch (e) {
         console.error(e)
     }
-  }, [writeAsync, setApproved])
+  }, [writeAsync, setApproved, address, chainId, isConnected, token.address, swap.address])
 
   return <ChainGuard fallback={<Button width="full">Swap</Button>}>
       <Button width="full" prefix={<IconCheck />} onClick={approve} disabled={!writeAsync || !isConnected || isSuccess}>Approve Kali to use your {token.symbol}</Button>
