@@ -22,8 +22,8 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   const { write } = useContractWrite(config)
 
   return (
-    <ChainGuard fallback={<Button disabled={!write}>Process</Button>}>
-      <Button size="small" prefix={<IconCheck />} tone="accent" onClick={() => write?.()} disabled={!write}>
+    <ChainGuard fallback={<Button size="small" prefix={<IconCheck />} tone="accent" variant="secondary" disabled={!write}>Process</Button>}>
+      <Button size="small" prefix={<IconCheck />} tone="accent" variant="secondary" onClick={() => write?.()} disabled={!write}>
         Process
       </Button>
     </ChainGuard>
