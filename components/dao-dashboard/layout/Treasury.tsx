@@ -18,7 +18,7 @@ import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
 import { fetcher } from '@utils/fetcher'
 import { ethers } from 'ethers'
-import { timePassed } from '@utils/prettyDate'
+import { prettyDate, timePassed } from '@utils/prettyDate'
 
 const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const { data, isLoading, isError } = useQuery(
@@ -47,6 +47,8 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
   )
 
   console.log('totalBalance', data)
+
+  const lastUpdated = data?.data?.updated_at ? `Last updated ${prettyDate(new Date(data?.data?.updated_at))}` : null
 
   return (
     <Card padding="6">
@@ -83,7 +85,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
             <IconBookOpen />
           </Button>
         </Link>
-        <Text size="label" color="foregroundSecondary">Last updated {timePassed(data?.data?.updated_at)}</Text>
+        <Text size="label" color="foregroundSecondary">{lastUpdated}</Text>
         </Stack>
       </Box>
     </Card>
