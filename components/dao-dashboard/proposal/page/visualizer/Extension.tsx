@@ -33,9 +33,6 @@ export default function ExtensionShell({
   }
   return (
     <Stack>
-      {/* TODO: Removing till I add activation to subgraph  */}
-      {/* <Text>{extension}</Text>
-        <Text>{amounts[i] != 0 ? (status == true ? 'Deactivating' : 'Activating') : 'Activating'}</Text> */}
       {extensions.map((extension, i) => (
         <Extension
           key={extension.account}
@@ -93,7 +90,7 @@ const resolveValueRender = (value: any, display: string, chainId: number): React
         <Stack>
           {render?.map((item, index) => (
             <Stack key={index}>
-              <Text>{item.key}</Text>
+              <Text weight="semiBold">{item.key}</Text>
               <Text>{item.value}</Text>
             </Stack>
           ))}
@@ -122,25 +119,17 @@ const Extension = ({
   dao: string
   chainId: number
 }) => {
-  const { data: status, error } = useContractRead({
-    addressOrName: dao,
-    contractInterface: KALIDAO_ABI,
-    functionName: 'extensions',
-    args: extension,
-    chainId: Number(chainId),
-  })
-
   const { data: decoded } = useQuery(
     ['extension', extension, payload, chainId],
     async () => await decodeExtensions(dao, extension, payload, chainId),
     { enabled: !!payload },
   )
-  console.log('decoded', decoded)
+  
   return (
     <Stack>
       {decoded && (
         <Text>
-          This will {Boolean(status) == true ? 'deactivate' : 'activate'} the {getExtensionLabel(decoded?.type)} app.
+          This interacts with the {getExtensionLabel(decoded?.type)} app.
           You can review the contract{' '}
           <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, extension)}>
             here

@@ -11,17 +11,17 @@ type ProcessProps = {
 }
 
 export default function Process({ chainId, dao, proposalId }: ProcessProps) {
-  const { config } = usePrepareContractWrite({
+  const { write } = useContractWrite({
+    mode: 'recklesslyUnprepared',
     addressOrName: dao,
     contractInterface: DAO_ABI,
     functionName: 'processProposal',
     chainId: chainId,
     args: [proposalId],
   })
-  const { write } = useContractWrite(config)
 
   return (
-    <Button size="small" prefix={<IconCheck />} tone="green" onClick={() => write?.()} disabled={!write}>
+    <Button size="small" prefix={<IconCheck />} tone="accent" onClick={() => write?.()} disabled={!write}>
       Process
     </Button>
   )
