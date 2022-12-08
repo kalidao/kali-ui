@@ -29,7 +29,7 @@ export default function InfoCard({ start, votingPeriod }: Props) {
       <Stack>
         <Stat label="Start" value={startDate} size="small" />
         <Stat label="End" value={endDate} size="small" />
-        <Stat label="Progress" value={<Progress value={progress} />} size="medium" />
+        {/* <Stat label="Progress" value={<Progress value={progress} />} size="medium" /> */}
       </Stack>
     </Card>
   )

@@ -43,10 +43,10 @@ export default function Results({ votes }: { votes: any }) {
           <Stat label="Yes" value={yesVotes.length} meta={<IconCheck color="green" />} />
           <Stat label="No" value={votes.length - yesVotes.length} meta={<IconClose color="red" />} />
         </Stack>
-        <Stat label="Participation" value={<Progress value={quorum ? quorum : 0} />} size="medium" />
-        <Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" />
+        {/* <Stat label="Participation" value={<Progress value={quorum ? quorum : 0} />} size="medium" />
+        <Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" /> */}
 
-        <Text color="red">This is failing.</Text>
+        {/* <Text color="red">This is failing.</Text> */}
       </Stack>
     </Card>
   )
