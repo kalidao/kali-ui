@@ -1,4 +1,17 @@
-import { Avatar, Text, Card, Heading, Spinner, Stack, Button, IconArrowRight } from '@kalidao/reality'
+import { useMemo } from 'react'
+import {
+  Avatar,
+  Box,
+  Tag,
+  Text,
+  Card,
+  Heading,
+  Spinner,
+  Stack,
+  Button,
+  IconArrowRight,
+  IconTokens,
+} from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
@@ -20,34 +33,53 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
     },
   )
 
+  const totalBalance = useMemo(
+    () =>
+      data?.data?.items?.reduce((acc: number, item: any) => {
+        console.log('totalBalance', acc, item)
+        return (
+          acc +
+          parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)) * parseFloat(item?.quote_rate)
+        )
+      }, 0),
+    [data],
+  )
+
   return (
     <Card padding="6">
-      <Stack>
-        <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-          <Heading responsive>Treasury</Heading>
-          <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
-            <Button size="small" as="a" variant="transparent">
-              <IconArrowRight />
-            </Button>
-          </Link>
-        </Stack>
-        {isLoading && <Spinner />}
-        {isError && <Text>Something went wrong</Text>}
-        {data && data?.error === true && <Text>Something went wrong</Text>}
-        {data &&
-          data?.data?.items?.length > 0 &&
-          data?.data?.items?.slice(0, 3).map((item: any) => (
-            <Card key={item?.contract_address} padding="3">
-              <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-                <Stack direction={'horizontal'} align="center">
-                  <Avatar src={item?.logo_url} label={`${item?.contract_name} logo`} />
-                  <Text size="small">{item?.contract_ticker_symbol}</Text>
+      <Box display="flex" flexDirection={'column'} justifyContent={'space-between'} height="full">
+        <Stack>
+          <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+            <Heading responsive>Treasury</Heading>
+            {data && data?.error !== true && (
+              <Tag size="medium" tone="green" label="$">
+                {totalBalance.toFixed(2)}
+              </Tag>
+            )}
+          </Stack>
+          {isLoading && <Spinner />}
+          {isError && <Text>Something went wrong</Text>}
+          {data && data?.error === true && <Text>Something went wrong</Text>}
+          {data &&
+            data?.data?.items?.length > 0 &&
+            data?.data?.items?.slice(0, 3).map((item: any) => (
+              <Card key={item?.contract_address} padding="2">
+                <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+                  <Stack direction={'horizontal'} align="center">
+                    <Avatar size="8" src={item?.logo_url} label={`${item?.contract_name} logo`} />
+                    <Text size="small">{item?.contract_ticker_symbol}</Text>
+                  </Stack>
+                  <Text>{parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)).toFixed(2)}</Text>
                 </Stack>
-                <Text>{parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)).toFixed(2)}</Text>
-              </Stack>
-            </Card>
-          ))}
-      </Stack>
+              </Card>
+            ))}
+        </Stack>
+        <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
+          <Button width="full" size="small" as="a" prefix={<IconTokens />} variant="transparent">
+            Explore
+          </Button>
+        </Link>
+      </Box>
     </Card>
   )
 }

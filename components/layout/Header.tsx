@@ -13,7 +13,7 @@ export default function Header() {
           KALI
         </Box>
       </Link>
-      <Box display={'flex'} gap="2" alignItems={"center"}>
+      <Box display={'flex'} gap="2" alignItems={'center'}>
         <ConnectButton label="Login" />
         <Menu />
       </Box>

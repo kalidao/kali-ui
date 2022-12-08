@@ -33,7 +33,7 @@ export default function Member({ accounts, amounts }: { accounts: string[]; amou
   )
 }
 
-const Row = ({ account, amount }: { account: string; amount: any; }) => {
+const Row = ({ account, amount }: { account: string; amount: any }) => {
   return (
     <Stack direction="horizontal" justify={'space-between'} align="center">
       <User address={account} />

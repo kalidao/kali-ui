@@ -11,11 +11,7 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
 
   const render = () => {
     if (show === 'tokens') {
-      if (tokenBalance?.notSupported) {
-        return <Text>We are working on bringing Treasury support for your chain.</Text>
-      } else {
-        return <Tokens tokens={tokenBalance} />
-      }
+      return <Tokens />
     }
 
     if (show === 'nft') {

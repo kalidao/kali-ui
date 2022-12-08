@@ -36,9 +36,7 @@ export default function Swapper() {
     }
   }
 
-  const handleSwap = () => {
-    
-  }
+  const handleSwap = () => {}
 
   console.log('consent', consent)
 

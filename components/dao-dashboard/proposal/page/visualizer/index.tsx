@@ -135,7 +135,7 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       padding="6"
       maxWidth={{
         xs: 'full',
-        md:  '256',
+        md: '256',
       }}
       display={'flex'}
       flexDirection="column"

@@ -93,17 +93,27 @@ const resolveValueRender = (value: any, display: string, chainId: number, mode: 
           {render?.map((item, index) => (
             <Stack key={index}>
               <Text weight="semiBold">{item.key}</Text>
-              {item.key == 'goalDescription' ?  <ReactMarkdown
-          components={{
-            h1: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-            h2: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-            p: ({ node, ...props }) => <p style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-            li: ({ node, ...props }) => <li style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-            em: ({ node, ...props }) => <i style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-          }}
-        >
-          {item.value}
-        </ReactMarkdown> : <Text>{item.value}</Text>}
+              {item.key == 'goalDescription' ? (
+                <ReactMarkdown
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
+                    ),
+                    p: ({ node, ...props }) => <p style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+                    li: ({ node, ...props }) => (
+                      <li style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
+                    ),
+                    em: ({ node, ...props }) => <i style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+                  }}
+                >
+                  {item.value}
+                </ReactMarkdown>
+              ) : (
+                <Text>{item.value}</Text>
+              )}
             </Stack>
           ))}
         </Stack>
@@ -137,13 +147,12 @@ const Extension = ({
     { enabled: !!payload },
   )
   const mode = useThemeStore((state) => state.mode)
-  
+
   return (
     <Stack>
       {decoded && (
         <Text>
-          This interacts with the {getExtensionLabel(decoded?.type)} app.
-          You can review the contract{' '}
+          This interacts with the {getExtensionLabel(decoded?.type)} app. You can review the contract{' '}
           <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, extension)}>
             here
           </a>

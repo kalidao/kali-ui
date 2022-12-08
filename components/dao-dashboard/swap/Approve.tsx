@@ -24,23 +24,27 @@ export default function Guide() {
 
   useEffect(() => {
     if (isConnected && address && token.address && swap.address && chainId) {
-       setApproved(address, token.address, swap.address, chainId)
+      setApproved(address, token.address, swap.address, chainId)
     }
   }, [isConnected, address, token.address, swap.address, chainId, setApproved])
 
   const approve = useCallback(async () => {
     if (!writeAsync || !isConnected || !address) return
     try {
-        const tx = await writeAsync()
-        tx.wait(1).then(() => {
-            setApproved(address, token.address, swap.address, chainId)
-        })
+      const tx = await writeAsync()
+      tx.wait(1).then(() => {
+        setApproved(address, token.address, swap.address, chainId)
+      })
     } catch (e) {
-        console.error(e)
+      console.error(e)
     }
   }, [writeAsync, setApproved, address, chainId, isConnected, token.address, swap.address])
 
-  return <ChainGuard fallback={<Button width="full">Swap</Button>}>
-      <Button width="full" prefix={<IconCheck />} onClick={approve} disabled={!writeAsync || !isConnected || isSuccess}>Approve Kali to use your {token.symbol}</Button>
-  </ChainGuard>
+  return (
+    <ChainGuard fallback={<Button width="full">Swap</Button>}>
+      <Button width="full" prefix={<IconCheck />} onClick={approve} disabled={!writeAsync || !isConnected || isSuccess}>
+        Approve Kali to use your {token.symbol}
+      </Button>
+    </ChainGuard>
+  )
 }

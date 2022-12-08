@@ -33,6 +33,6 @@ export const getRainbowTheme = (mode: string) => {
       menuButton: vars.radii['2xLarge'],
       modal: vars.radii['2xLarge'],
       modalMobile: vars.radii['2xLarge'],
-    }
+    },
   } as Theme)
 }

@@ -121,15 +121,15 @@ export default function Confetti() {
                   },
                 },
                 {
-                    src: '/icons/K-logo.svg',
-                    width: 32,
-                    height: 32,
-                    particles: {
-                      size: {
-                        value: 16,
-                      },
+                  src: '/icons/K-logo.svg',
+                  width: 32,
+                  height: 32,
+                  particles: {
+                    size: {
+                      value: 16,
                     },
                   },
+                },
               ],
               character: [
                 {

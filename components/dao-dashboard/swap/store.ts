@@ -34,7 +34,7 @@ interface SwapState {
     decimals: number
   }
   setToken: (address: string, chainId: number) => void
-  approved: boolean,
+  approved: boolean
   setApproved: (userAddress: string, tokenAddress: string, swapAddress: string, chainId: number) => void
   swap: {
     address: string
@@ -48,7 +48,7 @@ interface SwapState {
     type?: 'PUBLIC' | 'PRIVATE'
   }
   setSwap: (address: string, chainId: number) => void
-  success: boolean,
+  success: boolean
   setSuccess: (success: boolean) => void
 }
 
@@ -113,14 +113,14 @@ export const useSwapStore = create<SwapState>((set) => ({
     name: '',
     symbol: '',
     decimals: 0,
-    approved: false
+    approved: false,
   },
   setToken: async (address, chainId) => {
     if (address == AddressZero || address.toLowerCase() == '0x000000000000000000000000000000000000dead') {
       set({ token: { address, name: 'Ether', symbol: 'ETH', decimals: 18 } })
       return
     }
-  
+
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(address, erc20ABI, provider)
     const name = await contract.name()

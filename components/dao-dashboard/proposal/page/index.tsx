@@ -58,7 +58,6 @@ export default function ProposalView({ proposal }: Props) {
       width="full"
       display="flex"
       flexDirection={'column'}
-      
       borderWidth="px"
       borderRadius="2xLarge"
       padding="6"
