@@ -231,7 +231,7 @@ export default function Checkout({ setStep }: Props) {
       </Button>
       <Text>{message}</Text>
       {!isConnected ? (
-        <ConnectButton label="Connect Wallet to Deploy!" />
+        <ConnectButton label="Login" />
       ) : (
         <Button
           variant="primary"
