@@ -16,6 +16,7 @@ const UserDAOsPage: NextPage = () => {
   const user = router.query.user ? router.query.user.toString() : AddressZero
   const { data: ensName } = useEnsName({
     address: user,
+    chainId: 1,
   })
   const { data: profile, isLoading } = useQuery(['userProfile', user], () => fetcher(`/api/users/${user}`))
 
@@ -31,7 +32,7 @@ const UserDAOsPage: NextPage = () => {
             <Stack direction="horizontal" align="center" justify={'center'}>
               <Avatar size="24" src={profile?.picture} label="Profile"></Avatar>
               <Stack>
-                <Text size="extraLarge">{profile?.name ? profile?.name : truncateAddress(user)}</Text>
+                <Text size="extraLarge"> {profile?.handle ? profile?.handle : ensName ? ensName : truncateAddress(user)}</Text>
                 <Text>{profile?.bio}</Text>
                 <Stack align="center" direction={'horizontal'}>
                   {profile?.handle && <Tag>{profile?.handle}</Tag>}

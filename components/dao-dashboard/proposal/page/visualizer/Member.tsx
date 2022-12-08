@@ -27,19 +27,13 @@ export default function Member({ accounts, amounts }: { accounts: string[]; amou
         <Text variant="label">Amount</Text>
       </Stack>
       {rows.map((row) => (
-        <Row key={row.id} account={row.account} amount={row.amount} chainId={chainId} />
+        <Row key={row.id} account={row.account} amount={row.amount} />
       ))}
     </Stack>
   )
 }
 
-const Row = ({ account, amount, chainId }: { account: string; amount: any; chainId: number }) => {
-  const { data: profile, isLoading } = useQuery(['userProfile', account], () => fetcher(`/api/users/${account}`))
-  const { data: ensName } = useEnsName({
-    address: account,
-    chainId: chainId,
-  })
-
+const Row = ({ account, amount }: { account: string; amount: any; }) => {
   return (
     <Stack direction="horizontal" justify={'space-between'} align="center">
       <User address={account} />
