@@ -11,12 +11,14 @@ import {
   Button,
   IconArrowRight,
   IconTokens,
+  IconBookOpen,
 } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
 import { fetcher } from '@utils/fetcher'
 import { ethers } from 'ethers'
+import { timePassed } from '@utils/prettyDate'
 
 const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const { data, isLoading, isError } = useQuery(
@@ -36,7 +38,6 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const totalBalance = useMemo(
     () =>
       data?.data?.items?.reduce((acc: number, item: any) => {
-        console.log('totalBalance', acc, item)
         return (
           acc +
           parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)) * parseFloat(item?.quote_rate)
@@ -44,6 +45,8 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
       }, 0),
     [data],
   )
+
+  console.log('totalBalance', data)
 
   return (
     <Card padding="6">
@@ -74,11 +77,14 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
               </Card>
             ))}
         </Stack>
+        <Stack direction={"horizontal"} align="center">
         <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
-          <Button width="full" size="small" as="a" prefix={<IconTokens />} variant="transparent">
-            Explore
+          <Button shape="circle" size="small" as="a" variant="transparent">
+            <IconBookOpen />
           </Button>
         </Link>
+        <Text size="label" color="foregroundSecondary">Last updated {timePassed(data?.data?.updated_at)}</Text>
+        </Stack>
       </Box>
     </Card>
   )
