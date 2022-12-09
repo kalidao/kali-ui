@@ -28,15 +28,17 @@ export const DialogClose = () => {
 }
 
 type Props = {
+  open?: boolean 
+  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
   title: string
   description?: string
   trigger: React.ReactNode
   children: React.ReactNode
 }
 
-export const Dialog = ({ title, description, trigger, children }: Props) => {
+export const Dialog = ({ open, onOpenChange, title, description, trigger, children }: Props) => {
   return (
-    <DialogPrimitive.Root>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Trigger className={styles.trigger}>{trigger}</DialogPrimitive.Trigger>
       <DialogContent>
         <Stack direction={'horizontal'} align="center" justify="space-between">

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Box, IconArrowLeft, Button, Stack, Spinner } from '@kalidao/reality'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
-import { getProposal } from '@graph/queries'
 import { useGetProposal } from '@graph/queries/getProposal'
 
 const ProposalPage: NextPage = () => {
@@ -22,6 +21,8 @@ const ProposalPage: NextPage = () => {
 
     router.push(`/daos/${chainId}/${dao}`)
   }
+  
+  console.log('proposal', proposal)
 
   return (
     <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
@@ -52,26 +53,6 @@ const ProposalPage: NextPage = () => {
       </Box>
     </Layout>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao
-  const proposalId = context?.params?.proposalId
-  const chainId = context?.params?.chainId
-
-  const result = await getProposal(Number(chainId), address as string, proposalId as string)
-
-  if (!result) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-    props: {
-      proposal: result,
-    },
-  }
 }
 
 export default ProposalPage

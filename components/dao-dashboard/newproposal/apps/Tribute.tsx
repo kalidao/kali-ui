@@ -9,6 +9,7 @@ import { JSONContent } from '@tiptap/react'
 import { ethers } from 'ethers'
 import Editor from '@components/editor'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { createProposal } from '../utils'
 
 export default function Tribute() {
   const name = useDaoStore((state) => state.name)
@@ -29,36 +30,62 @@ export default function Tribute() {
     args: [tributeAddress],
   })
   const { address, isConnected } = useAccount()
+  const [title, setTitle] = useState('')
   const [description, setDescription] = useState<JSONContent>()
   const [amount, setAmount] = useState<string>('0')
   const [value, setValue] = useState<string>('0')
-
-  const { config } = usePrepareContractWrite({
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { writeAsync, isSuccess } = useContractWrite({
+    mode: 'recklesslyUnprepared',
     addressOrName: tributeAddress,
     contractInterface: TRIBUTE_ABI,
     functionName: 'submitTributeProposal',
     chainId: chainId,
-    args: [
-      daoAddress,
-      0,
-      description,
-      [address],
-      [amount ? ethers.utils.parseEther(amount) : ethers.utils.parseEther('0')],
-      [ethers.constants.HashZero],
-      false, // nft
-      ethers.constants.AddressZero,
-      ethers.utils.parseEther('0'),
-    ],
-    overrides: {
-      value: value ? ethers.utils.parseEther(value) : ethers.utils.parseEther('0'),
-    },
   })
-  const { write, isSuccess } = useContractWrite(config)
 
   if (isLoadingStatus || isStatusError || Boolean(status) === false) return null
 
+  const tribute = async () => {
+    if (!isConnected) return
+    setLoading(true)
+    let docs
+    try {
+      docs = await createProposal(daoAddress as string, Number(chainId), 2, title, description)
+    } catch (e) {
+      console.error(e)
+      return
+    }
+
+    if (docs) {
+      const tx = await writeAsync({
+        recklesslySetUnpreparedArgs: [
+          daoAddress,
+          0,
+          description,
+          [address],
+          [amount ? ethers.utils.parseEther(amount) : ethers.utils.parseEther('0')],
+          [ethers.constants.HashZero],
+          false, // nft
+          ethers.constants.AddressZero,
+          ethers.utils.parseEther('0'),
+        ],
+        recklesslySetUnpreparedOverrides: {
+          value: value ? ethers.utils.parseEther(value) : ethers.utils.parseEther('0'),
+        },
+      })
+      tx.wait(1).then(() => {
+        setLoading(false)
+        setOpen(false)
+      })
+    }
+    setLoading(false)
+  }
+
   return (
     <Dialog
+      open={open}
+      onOpenChange={setOpen}
       title="✨ Tribute"
       description={`Give a tribute to ${name}.`}
       trigger={
@@ -68,6 +95,7 @@ export default function Tribute() {
       }
     >
       <Stack>
+        <Input placeholder="Tribute for..." label='Title' value={title} onChange={(e) => setTitle(e.target.value)} />
         <Editor label="Description" description="Why should we accept your tribute?" setContent={setDescription} />
         <Input min="0" label="Tribute (ETH)" type="number" value={value} onChange={(e) => setValue(e.target.value)} />
         <Input
@@ -84,8 +112,8 @@ export default function Tribute() {
             </Button>
           }
         >
-          <Button prefix={<IconSparkles />} disabled={!write} width="full" onClick={() => write?.()}>
-            {isSuccess ? 'Success' : 'Give'}
+          <Button prefix={<IconSparkles />} loading={loading} disabled={loading || isSuccess} width="full" onClick={tribute}>
+            {'Give'}
           </Button>
         </ChainGuard>
       </Stack>
