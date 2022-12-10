@@ -75,12 +75,13 @@ export default function UpdateDocs() {
     setLoading(false)
   }
 
+  console.log('docs rwa', data, isFetchingDocs, prevDocs)
   return (
     <FieldSet legend="Update Docs" description={'New documentation will be uploaded to IPFS'}>
       {/* FIXME: Is not fetching  */}
       <Text>{prevDocs?.message}</Text>
       {data && prevDocs?.isLink && (
-        <Button as="a" href={data.toString()}>
+        <Button as="a" href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
           Review
         </Button>
       )}

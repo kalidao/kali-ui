@@ -1,8 +1,19 @@
+import { convertIpfsHash } from "./convertIpfsHash"
+
 export const resolveDocs = (docs: string | undefined) => {
   if (docs === undefined)
     return {
       message: 'Fetching...',
     }
+
+  console.log('docs', docs.slice(0, 4))
+  if (docs.slice(0, 4) === 'http') {
+    return {
+      docs: docs,
+      message: '',
+      isLink: true,
+    }
+  }
 
   switch (docs) {
     // TODO
@@ -18,6 +29,7 @@ export const resolveDocs = (docs: string | undefined) => {
     }
     default: {
       return {
+        docs: convertIpfsHash(docs),
         message: '',
         isLink: true,
       }
