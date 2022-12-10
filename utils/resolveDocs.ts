@@ -6,11 +6,11 @@ export const resolveDocs = (docs: string | undefined) => {
       message: 'Fetching...',
     }
 
-  console.log('docs', docs.slice(0, 4))
   if (docs.slice(0, 4) === 'http') {
     return {
       docs: docs,
-      message: '',
+      message: 'You may review the document here -',
+      isRicardian: false,
       isLink: true,
     }
   }
@@ -19,19 +19,57 @@ export const resolveDocs = (docs: string | undefined) => {
     // TODO
     case '':
       return {
-        isRicardian: true,
-        message: 'You have a Ricardian LLC. Updating your docs will not affect its status.',
-      }
+      docs: docs, 
+      message: 'You have a Ricardian Series LLC.',
+      isRicardian: true,
+      isLink: false,
+    }
     case 'none': {
       return {
+        docs: docs, 
         message: 'We could not find any documents for this DAO.',
+        isRicardian: false,
+        isLink: false,
+      }
+    }
+    case 'TODO': {
+      return {
+        docs: docs, 
+        message: 'We could not find any documents for this DAO.',
+        isRicardian: false,
+        isLink: false,
+      }
+    }
+    case 'na': {
+      return {
+        docs: docs, 
+        message: 'We could not find any documents for this DAO.',
+        isRicardian: false,
+        isLink: false,
+      }
+    }
+    case 'reserved': {
+      return {
+        docs: docs, 
+        message: 'We could not find any documents for this DAO.',
+        isRicardian: false,
+        isLink: false,
+      }
+    }
+    case 'test': {
+      return {
+        docs: docs, 
+        message: 'We could not find any documents for this DAO.',
+        isRicardian: false,
+        isLink: false,
       }
     }
     default: {
       return {
         docs: convertIpfsHash(docs),
-        message: '',
+        message: 'You may review the document here -',
         isLink: true,
+        isRicardian: false,
       }
     }
   }

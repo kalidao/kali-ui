@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Warning } from '@design/elements'
-import { Stack, Text, Button, FieldSet, Divider, Input, IconLink } from '@kalidao/reality'
+import { Stack, Text, Button, FieldSet, Divider, Input, IconLink, Spinner } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
@@ -75,17 +75,13 @@ export default function UpdateDocs() {
     setLoading(false)
   }
 
-  console.log('docs rwa', data, isFetchingDocs, prevDocs)
   return (
     <FieldSet legend="Update Docs" description={'New documentation will be uploaded to IPFS'}>
-      {/* FIXME: Is not fetching  */}
-      <Text>{prevDocs?.message}</Text>
-      {data && prevDocs?.isLink && (
-        <Button as="a" href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
-          Review
-        </Button>
-      )}
-
+      {isFetchingDocs ? <Spinner /> : <Text>{prevDocs?.message}{' '}{data && prevDocs?.isLink && (
+        <a href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
+          Link
+        </a>
+      )}</Text>}
       <Input
         label="Link to new document."
         name="recipient"
