@@ -5,6 +5,8 @@ import { BubbleMenu } from '@tiptap/react'
 import { FontBoldIcon, FontItalicIcon, StrikethroughIcon } from '@radix-ui/react-icons'
 import * as styles from './editor.css'
 import { Field, Button, Box } from '@kalidao/reality'
+import LexyComplete from './LexyComplete'
+import suggestion from './suggestions'
 
 type Props = {
   setContent: React.Dispatch<React.SetStateAction<JSONContent>>
@@ -15,12 +17,17 @@ type Props = {
 
 export default function Editor({ placeholder, label = 'Description (Optional)', description, setContent }: Props) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, LexyComplete.configure({
+      suggestion,
+    })],
     content: ``,
     onUpdate({ editor }) {
       setContent(editor.getJSON())
     },
   })
+
+  // autocomplete with gpt
+
 
   return (
     <Box>

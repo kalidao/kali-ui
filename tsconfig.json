@@ -46,7 +46,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx", "components/editor/CommandsList.jsx",
     ],
   "exclude": [
     "node_modules"
