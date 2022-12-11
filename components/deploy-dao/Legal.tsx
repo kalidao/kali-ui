@@ -122,7 +122,7 @@ export default function Legal({ setStep }: Props) {
           )}
           {watchDocs && watchDocs !== 'none' && <Text>{legalEntities[watchDocs]['message']}</Text>}
           {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['template'] !== null && (
-            <Button size="small" variant="secondary" as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
+            <Button size="small" variant="secondary" as="a" href={legalEntities[watchDocs]['template'][state.jurisdiction] as string} target="_blank" prefix={<IconLink />}>
               Review Template
             </Button>
           )}

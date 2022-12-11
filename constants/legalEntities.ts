@@ -3,15 +3,11 @@ interface Option {
   value: string
 }
 
-interface Template {
-  jurisdiction: string
-  link: string 
-}
 
 interface Entity {
   text: string
   jurisdiction: Option[]
-  template: Template[]
+  template: { [key: string]: string }
   docs: string
   email: boolean
   mission: boolean
@@ -31,13 +27,10 @@ export const legalEntities: { [key: string]: Entity } = {
       label: 'Wyoming',
       value: 'wyo',
     }],
-    template: [{
-      jurisdiction: 'del',
-      link: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
-    }, {
-      jurisdiction: 'wyo',
-      link: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
-    }],
+    template: {
+      'del': 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
+      'wyo' : 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt'
+    },
     docs: '',
     email: true,
     mission: false,
@@ -54,13 +47,10 @@ export const legalEntities: { [key: string]: Entity } = {
       label: 'Wyoming',
       value: 'wyo',
     }],
-    template: [{
-      jurisdiction: 'del',
-      link: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
-    }, {
-      jurisdiction: 'wyo',
-      link: 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
-    }],
+    template: {
+      'del': 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt',
+      'wyo' : 'https://gateway.pinata.cloud/ipfs/QmUDZw3ALFXcbHvUseyjLeq8AbXDrQwfrwCdgL6XngiNnt'
+    },
     docs: 'UNA',
     email: false,
     mission: true,
