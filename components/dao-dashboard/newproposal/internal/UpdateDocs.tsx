@@ -77,11 +77,18 @@ export default function UpdateDocs() {
 
   return (
     <FieldSet legend="Update Docs" description={'New documentation will be uploaded to IPFS'}>
-      {isFetchingDocs ? <Spinner /> : <Text>{prevDocs?.message}{' '}{data && prevDocs?.isLink && (
-        <a href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
-          Link
-        </a>
-      )}</Text>}
+      {isFetchingDocs ? (
+        <Spinner />
+      ) : (
+        <Text>
+          {prevDocs?.message}{' '}
+          {data && prevDocs?.isLink && (
+            <a href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
+              Link
+            </a>
+          )}
+        </Text>
+      )}
       <Input
         label="Link to new document."
         name="recipient"

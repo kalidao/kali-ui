@@ -1,4 +1,4 @@
-import { convertIpfsHash } from "./convertIpfsHash"
+import { convertIpfsHash } from './convertIpfsHash'
 
 export const resolveDocs = (docs: string | undefined) => {
   if (docs === undefined)
@@ -19,14 +19,14 @@ export const resolveDocs = (docs: string | undefined) => {
     // TODO
     case '':
       return {
-      docs: docs, 
-      message: 'You have a Ricardian Series LLC.',
-      isRicardian: true,
-      isLink: false,
-    }
+        docs: docs,
+        message: 'You have a Ricardian Series LLC.',
+        isRicardian: true,
+        isLink: false,
+      }
     case 'none': {
       return {
-        docs: docs, 
+        docs: docs,
         message: 'We could not find any documents for this DAO.',
         isRicardian: false,
         isLink: false,
@@ -34,7 +34,7 @@ export const resolveDocs = (docs: string | undefined) => {
     }
     case 'TODO': {
       return {
-        docs: docs, 
+        docs: docs,
         message: 'We could not find any documents for this DAO.',
         isRicardian: false,
         isLink: false,
@@ -42,7 +42,7 @@ export const resolveDocs = (docs: string | undefined) => {
     }
     case 'na': {
       return {
-        docs: docs, 
+        docs: docs,
         message: 'We could not find any documents for this DAO.',
         isRicardian: false,
         isLink: false,
@@ -50,7 +50,7 @@ export const resolveDocs = (docs: string | undefined) => {
     }
     case 'reserved': {
       return {
-        docs: docs, 
+        docs: docs,
         message: 'We could not find any documents for this DAO.',
         isRicardian: false,
         isLink: false,
@@ -58,7 +58,7 @@ export const resolveDocs = (docs: string | undefined) => {
     }
     case 'test': {
       return {
-        docs: docs, 
+        docs: docs,
         message: 'We could not find any documents for this DAO.',
         isRicardian: false,
         isLink: false,
