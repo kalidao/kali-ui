@@ -8,7 +8,7 @@ import Back from '@design/proposal/Back'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { ethers } from 'ethers'
 import { AddressZero } from '@ethersproject/constants'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import { ProposalProps } from '../utils/types'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 

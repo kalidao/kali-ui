@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { Button } from '@kalidao/reality'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import { ethers } from 'ethers'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import { getProvider } from '@utils/getProvider'
 
 export async function fetchProposal(chainId: number, dao: string, id: number) {

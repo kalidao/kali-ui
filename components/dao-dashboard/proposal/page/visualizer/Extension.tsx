@@ -2,7 +2,7 @@ import { Button, Box, Stack, IconLink, Text, IconTokens } from '@kalidao/reality
 import { useRouter } from 'next/router'
 import decodeExtensions from './decodeExtensions'
 import { getExtensionLabel } from '@constants/extensions'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import { useContractRead } from 'wagmi'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import { useQuery } from '@tanstack/react-query'

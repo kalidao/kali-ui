@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
 import { Select } from '@design/Select'
-import { Stack, Input, Box, Text, Button, FieldSet, FileInput, Textarea } from '@kalidao/reality'
+import { Stack, Input, Button, FieldSet, Textarea } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
+import { DAO_ABI, ACCESS_ABI } from '@abi/index'
 import { addresses } from '@constants/addresses'
 import { Warning } from '@design/elements'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
@@ -19,29 +18,37 @@ import { DateInput } from '@design/DateInput'
 import { JSONContent } from '@tiptap/react'
 import { createSwapDetails } from './createSwapDetails'
 
+class List {
+  readonly list: `0x${string}[]`
+
+  constructor(list: `0x${string}[]`) {
+    this.list = list
+  }
+}
+
 export default function SetCrowdsale({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
-  const daoAddress = router.query.dao as string
+  const daoAddress = router.query.dao as `0x${string}`
   const chainId = Number(router.query.chainId)
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
   const { data: kalidaoToken } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: DAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: DAO_ABI,
     signerOrProvider: signer,
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[chainId]['access2'],
-    contractInterface: KALIACCESS_ABI,
+    address: addresses[chainId]['access2'],
+    abi: ACCESS_ABI,
     signerOrProvider: signer,
   })
 
@@ -67,9 +74,8 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       return
     }
 
-    let list = []
+    let list: `0x${string}`[] = []
     let _customAccess = customAccess.split(', ')
-
     for (let i = 0; i < _customAccess.length; i++) {
       const address = await fetchEnsAddress(_customAccess[i])
 
@@ -79,11 +85,13 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
         return
       }
 
-      list.push(address)
+      if (address) {
+        list.push(address as `0x${string}`)
+      }
     }
 
     try {
-      const tx = await kaliAccess.createList(list, ethers.utils.formatBytes32String('0x0'), '')
+      const tx = await kaliAccess?.createList(list, ethers.constants.HashZero, '')
       console.log('tx ', tx)
       setIsRecorded(true)
       setWarning('')
@@ -142,9 +150,10 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       _purchaseAccess = 1
     } else {
       try {
-        let id = await kaliAccess.listCount()
-        id = ethers.utils.formatUnits(id, 'wei')
-        _purchaseAccess = parseInt(id)
+        const id = await kaliAccess?.listCount()
+        if (!id) return
+        const idWei = ethers.utils.formatUnits(id, 'wei')
+        _purchaseAccess = parseInt(idWei)
       } catch (e) {
         console.log(e)
       }
@@ -227,7 +236,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       payload = abiCoder.encode(
         ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
         [_purchaseAccess, _swapMultiplier, _tokenToSwap, crowdsaleEnd, _totalLimit, _personalLimit, detailsHash],
-      )
+      ) as `0x${string}`
       // console.log(payload)
     } catch (e) {
       setWarning('Error setting the crowdsale proposal.')
@@ -240,11 +249,11 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [crowdsaleAddress],
-        [1],
+        [BigNumber.from(1)],
         [payload],
       )
       console.log('tx', tx)

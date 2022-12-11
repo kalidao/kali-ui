@@ -9,7 +9,7 @@ import { Warning } from '@design/elements'
 import { AddressZero } from '@ethersproject/constants'
 import { Skeleton, Stack, Text, Input, Box, Button } from '@kalidao/reality'
 
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import { addresses } from '@constants/addresses'
 import { ProposalProps } from '../utils/types'

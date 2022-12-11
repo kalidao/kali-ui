@@ -1,5 +1,5 @@
 import { getProvider } from './getProvider'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import { ethers, BigNumber } from 'ethers'
 
 export const isURL = (url: string) => {

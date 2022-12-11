@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
 import { Box, Stack } from '@kalidao/reality'
 import { useContractRead } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import Proposals from '@components/dao-dashboard/proposals/'
 
 const ProposalsPage: NextPage = () => {

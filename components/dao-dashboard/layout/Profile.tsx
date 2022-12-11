@@ -16,7 +16,7 @@ import {
   IconGitHub,
 } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import { chain, useQuery } from 'wagmi'
+import { useQuery } from 'wagmi'
 import { getDaoInfo } from '@graph/queries'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'

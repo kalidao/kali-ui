@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React, { useCallback } from 'react'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { Button } from '@kalidao/reality'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import ChainGuard from '../ChainGuard'
 
 export default function Cancel({ proposalId }: { proposalId: number }) {

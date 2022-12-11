@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Back from '@design/proposal/Back'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { ProposalProps } from '../utils/types'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 export default function RemoveMember({ setProposal, content, title }: ProposalProps) {

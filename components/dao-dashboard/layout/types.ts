@@ -1,4 +1,4 @@
 export type DashboardElementProps = {
-  address: string
+  address: `0x${string}`
   chainId: number
 }

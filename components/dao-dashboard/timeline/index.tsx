@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
 import { useContractRead } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 
 export default function Timeline() {
   const router = useRouter()

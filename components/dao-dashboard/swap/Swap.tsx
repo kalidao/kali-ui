@@ -1,7 +1,7 @@
 import { Box, Button } from '@kalidao/reality'
 import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { useSwapStore } from './store'
-import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
+import SWAP_ABI from '@abi/SWAP'
 import { ethers } from 'ethers'
 import { isError } from '@tanstack/react-query'
 import { Warning } from '@design/elements'
