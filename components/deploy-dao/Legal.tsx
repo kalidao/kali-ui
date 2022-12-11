@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, FieldSet, Input, Text, Button, IconLink } from '@kalidao/reality'
+import { Stack, FieldSet, Input, Text, Button, IconLink, Textarea } from '@kalidao/reality'
 import { Select } from '@design/Select'
 import { Switch } from '@design/Switch'
 import { useForm } from 'react-hook-form'
@@ -75,12 +75,7 @@ export default function Legal({ setStep }: Props) {
             options={selectArray}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('docType', e.currentTarget.value)}
           />
-          <Text>
-            Resources to help with entity selection:{' '}
-            <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/">a16z</a> or{' '}
-            <a href="https://daos.paradigm.xyz/"> Paradigm</a>
-          </Text>
-
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['isJurisdiction'] === true && <Select label="Choose Jurisdiction" defaultValue={state.jurisdiction} options={legalEntities[watchDocs]['jurisdiction']} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('jurisdiction', e.currentTarget.value)} />}
           {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['email'] === true && (
             <Input
               label="Email"
@@ -103,20 +98,14 @@ export default function Legal({ setStep }: Props) {
             />
           )}
           {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['mission'] === true && (
-            <Input
+            <Textarea
               label="Mission"
-              type="text"
-              placeholder="http://"
+              placeholder="This DAO seeks to..."
               defaultValue={state.mission}
               {...register('mission', {
                 required: {
                   value: true,
                   message: `Mission is required for ${legalEntities[watchDocs]['text']}.`,
-                },
-                pattern: {
-                  value:
-                    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
-                  message: 'Please enter a valid URL.',
                 },
               })}
               error={errors?.mission?.message}
@@ -133,13 +122,17 @@ export default function Legal({ setStep }: Props) {
           )}
           {watchDocs && watchDocs !== 'none' && <Text>{legalEntities[watchDocs]['message']}</Text>}
           {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['template'] !== null && (
-            <Button as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
+            <Button size="small" variant="secondary" as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
               Review Template
             </Button>
           )}
         </>
       )}
-
+       <Text>
+            Resources to help with entity selection:{' '}
+            <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/">a16z</a> or{' '}
+            <a href="https://daos.paradigm.xyz/"> Paradigm</a>
+      </Text>
       <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
         <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
           Previous

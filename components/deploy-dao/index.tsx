@@ -35,6 +35,7 @@ createStore({
   email: '',
   mission: '',
   existingDocs: '',
+  jurisdiction: 'del',
   founders: [
     {
       member: '',

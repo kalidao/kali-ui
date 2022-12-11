@@ -24,6 +24,7 @@ declare module 'little-state-machine' {
     email: string
     mission: string
     existingDocs: string
+    jurisdiction: string
     founders: {
       member: string
       share: string
