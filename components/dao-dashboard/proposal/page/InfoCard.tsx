@@ -12,9 +12,7 @@ export default function InfoCard({ start, votingPeriod }: Props) {
   const startDate = prettyDate(new Date(start * 1000))
   const end = start * 1000 + votingPeriod * 1000
   const endDate = prettyDate(new Date(end))
-  const endTimestamp = new Date(end).getSeconds()
-  const now = new Date().getSeconds()
-  const progress = endTimestamp - now / 100
+  const progress = Math.min((Date.now() - start * 1000) / (votingPeriod * 1000) * 100, 100)
 
   if (start == 0) {
     return (
@@ -29,7 +27,7 @@ export default function InfoCard({ start, votingPeriod }: Props) {
       <Stack>
         <Stat label="Start" value={startDate} size="small" />
         <Stat label="End" value={endDate} size="small" />
-        {/* <Stat label="Progress" value={<Progress value={progress} />} size="medium" /> */}
+        <Stat label="Progress" value={<Progress value={progress} />} size="medium" />
       </Stack>
     </Card>
   )

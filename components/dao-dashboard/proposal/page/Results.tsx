@@ -1,15 +1,10 @@
 import React from 'react'
 import { Card, Text, Stack, Stat, IconCheck, IconClose } from '@kalidao/reality'
 import { Progress } from '@design/Progress'
-import { useQuery } from 'wagmi'
-import { useRouter } from 'next/router'
 import { BigNumber } from 'ethers'
-import { calculateParticipation, calculateApproval } from '@utils/proposals'
+import { ethers } from 'ethers'
 
-export default function Results({ votes }: { votes: any }) {
-  const router = useRouter()
-  const { dao, chainId, proposalId } = router.query
-
+export default function Results({ votes, totalSupply, quorum }: { votes: any, totalSupply: string, quorum: number }) {
   const yesVotes = votes.filter((vote: any) => Boolean(vote['vote']) === true)
   const noVotes = votes.filter((vote: any) => Boolean(vote['vote']) === false)
 
@@ -25,17 +20,14 @@ export default function Results({ votes }: { votes: any }) {
   for (let i = 0; i < noVotes.length; i++) {
     noVotesWeight = noVotesWeight.add(BigNumber.from(noVotes[i].weight))
   }
-
-  const { data: quorum } = useQuery(
-    ['quorum', dao, chainId, votes],
-    async () => await calculateParticipation(dao as string, Number(chainId), weight),
-  )
-  const { data: approval } = useQuery(
-    ['approval', dao, chainId, votes],
-    async () => await calculateApproval(dao as string, Number(chainId), Number(proposalId)),
-  )
-
-  console.log('approval', quorum?.toString(), approval?.toString(), proposalId)
+  const totalWeight = totalSupply ? BigNumber.from(totalSupply) : BigNumber.from(0)
+  const quorumReached = (yesVotesWeight.add(noVotesWeight)).mul(100).div(totalWeight)
+  const quorumRequired = BigNumber.from(quorum)
+  const quorumMet = quorumReached.gte(quorumRequired) ? true : false
+  const quorumProgress = quorumMet ? 100 : quorumReached.mul(100).div(quorumRequired)
+  const quorumVotes = ethers.utils.formatEther(totalWeight.mul(quorumRequired).div(100))
+  console.log('weight', yesVotesWeight.toString(), noVotesWeight.toString(), totalWeight.toString(), quorum, quorumReached.toString(), quorumRequired.toString(), quorumReached.mul(100).div(quorumRequired).toString(), quorumMet)
+ 
   return (
     <Card padding="6">
       <Stack>
@@ -43,9 +35,10 @@ export default function Results({ votes }: { votes: any }) {
           <Stat label="Yes" value={yesVotes.length} meta={<IconCheck color="green" />} />
           <Stat label="No" value={votes.length - yesVotes.length} meta={<IconClose color="red" />} />
         </Stack>
-        {/* <Stat label="Participation" value={<Progress value={quorum ? quorum : 0} />} size="medium" />
-        <Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" /> */}
-
+        <Stat label="Participation" meta={quorumMet ? '' : `Needs ${
+          quorumVotes
+        } more votes`} value={<Progress value={Number(quorumProgress.toString())} />} size="medium" />
+        {/*<Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" /> */}
         {/* <Text color="red">This is failing.</Text> */}
       </Stack>
     </Card>

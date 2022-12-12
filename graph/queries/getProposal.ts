@@ -14,8 +14,10 @@ export const getProposal = async (chainId: number, address: string, serial: stri
                 id
                 dao {
                     votingPeriod
+                    quorum
                     token {
                       symbol
+                      totalSupply
                     }
                 }
                 serial
@@ -58,6 +60,7 @@ export function useGetProposal(chainId: number, daoAddress: string, serial: stri
     },
     {
       enabled: !!serial || !!chainId || !!daoAddress,
+      refetchInterval: 10000,
     },
   )
 }

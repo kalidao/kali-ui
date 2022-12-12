@@ -23,7 +23,7 @@ export default function ProposalView({ proposal }: Props) {
   const { chainId, dao, proposalId } = router.query
   const { address } = useAccount()
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
-  // const url = isURL(proposal?.description)
+
   const url = `https://content.wrappr.wtf/ipfs/${proposal?.description}`
   const {
     data: details,
@@ -53,6 +53,7 @@ export default function ProposalView({ proposal }: Props) {
     return false
   }
 
+  console.log('proposal', proposal)
   return (
     <Box
       width="full"
@@ -99,7 +100,7 @@ export default function ProposalView({ proposal }: Props) {
               votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])}
             />
           )}
-          {proposal && <Results votes={proposal['votes']} />}
+          {proposal && <Results votes={proposal['votes']} totalSupply={proposal?.['dao']?.['token']?.['totalSupply']} quorum={Number(proposal?.['dao']?.['quorum'])} />}
         </Box>
       </Box>
       <Stack direction="horizontal">

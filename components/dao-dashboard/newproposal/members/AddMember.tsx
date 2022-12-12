@@ -89,7 +89,9 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
-        <ChainGuard>
+        <ChainGuard fallback={<Button center>
+          Submit
+        </Button>}>
           <Button
             center
             variant="primary"
