@@ -6,6 +6,7 @@ import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
+import SetRecord from './apps/SetRecord'
 
 type Props = {
   proposalProp: string
@@ -94,6 +95,10 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     swap_add: {
       title: 'Add Swap',
       component: <SetSwap setProposal={setView} title={title} content={content} />,
+    },
+    record: {
+      title: 'Record Off-Chain Activities',
+      component: <SetRecord setProposal={setView} title={title} content={content} />,
     },
     // TODO: add tribute back
     // tribute: {

@@ -100,8 +100,8 @@ export const addresses: { [key: number]: any } =
       extensions: {
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
         crowdsale2: '0xB682e773768e68C02B8b3892CF32eA090600b4b4',
-        // crowdsale2: '0x2350C968C7B323Ad255E3942fcb9d578638792EC',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
+        dataRoom: '0x2dEB113Ea7851b25cBeA647C63349203aDe02e5d',
         projectManagement: '0x9f0ad778385a2c688533958c6ada56f201ffc246',
       },
       blockExplorer: 'https://goerli.etherscan.io/',

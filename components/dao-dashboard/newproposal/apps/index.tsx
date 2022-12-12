@@ -32,13 +32,14 @@ function AppsMenu({ setProposal }: Props) {
     getCrowdsaleStatus()
   }, [chainId, dao])
 
-  console.log('isCrowdsale', isCrowdsale)
   return (
     <Stack>
       <Text>(1) Swap :</Text>
       <Text>KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
       <Text>(2) Redemption :</Text>
       <Text>KaliDAO members may redeem a portion of KaliDAO treasury by burning their KaliDAO tokens.</Text>
+      <Text>(3) Data Room :</Text>
+      <Text>KaliDAOs may record off-chain activities or ratify documents on-chain.</Text>
       <Stack>
         {isCrowdsale ? (
           <>
@@ -48,7 +49,8 @@ function AppsMenu({ setProposal }: Props) {
         ) : (
           <Item onClick={() => setProposal('swap_add')} label="Add Swap" icon={<IconSparkles />} />
         )}
-        <Item onClick={() => setProposal('redemption')} label="Redemption" icon={<IconSparkles />} />
+        <Item onClick={() => setProposal('redemption')} label="Add Redemption" icon={<IconSparkles />} />
+        <Item onClick={() => setProposal('record')} label="Record Off-Chain Activities" icon={<IconSparkles />} />
       </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>
