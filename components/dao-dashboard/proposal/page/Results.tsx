@@ -32,8 +32,8 @@ export default function Results({ votes, totalSupply, quorum }: { votes: any, to
     <Card padding="6">
       <Stack>
         <Stack direction="horizontal" align="stretch" justify={'center'}>
-          <Stat label="Yes" value={ethers.utils.formatEther(yesVotesWeight)} meta={<IconCheck color="green" />} />
-          <Stat label="No" value={ethers.utils.formatEther(noVotesWeight)} meta={<IconClose color="red" />} />
+          <Stat label="Yes" value={Number(ethers.utils.formatEther(yesVotesWeight)).toFixed(2)} meta={<IconCheck color="green" />} />
+          <Stat label="No" value={Number(ethers.utils.formatEther(noVotesWeight)).toFixed(2)} meta={<IconClose color="red" />} />
         </Stack>
         <Stat label="Participation" meta={quorumMet ? '' : `Needs ${
           quorumVotes
