@@ -5,18 +5,59 @@ import { useRouter } from 'next/router'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { AddressZero } from '@ethersproject/constants'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
-import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
+import { FieldSet, Text, Input, Button, Stack, IconClose, IconUserSolid } from '@kalidao/reality'
 import { ethers } from 'ethers'
 import Back from '@design/proposal/Back'
 import { ProposalProps } from '../utils/types'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { fetchEnsAddress } from '@utils/fetchEnsAddress'
+
+interface FormData {
+  members: { address: string; share: string }[]
+}
 
 export default function AddMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-
+  const [loading, setLoading] = useState(false)
   // form
-  const [recipient, setRecipient] = useState(ethers.constants.AddressZero)
-  const [amount, setAmount] = useState(0)
+  const {
+    register,
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      members: [{ address: ethers.constants.AddressZero, share: '1000' }],
+    },
+  })
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'members',
+  })
+
+  const validateData = async (data: FormData) => {
+    if (!data) return
+    const founders = data?.members
+
+    for (let i = 0; i < founders.length; i++) {
+      if (!ethers.utils.isAddress(founders[i].address)) {
+        try {
+          const res = await fetchEnsAddress(founders[i].address)
+          if (res && ethers.utils.isAddress(res)) {
+            founders[i].address = res as string
+          } else {
+            return false
+          }
+        } catch (e) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
 
   const {
     isSuccess: isProposeSuccess,
@@ -36,8 +77,15 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     },
   })
 
-  const submit = async () => {
+  const submit = async (data: FormData) => {
     if (!propose || !dao || !chainId) return // wallet not ready to submit on chain
+    setLoading(true)
+    const validated = await validateData(data)
+
+    if (!validated) {
+      setLoading(false)
+      return
+    }
 
     let docs
     try {
@@ -47,16 +95,21 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
       return
     }
 
+    const recipients = data.members.map((member) => member.address)
+    const shares = data.members.map((member) => ethers.utils.parseEther(member.share.toString())) 
+    const payloads = data.members.map((member) => AddressZero)
+    console.log('minting', recipients, shares)
     if (docs) {
       try {
         const tx = await propose({
-          recklesslySetUnpreparedArgs: [0, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
+          recklesslySetUnpreparedArgs: [0, docs, recipients, shares, payloads],
         })
         console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }
     }
+    setLoading(false)
   }
 
   return (
@@ -65,27 +118,61 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
         legend="Mint Tokens"
         description="This will create a proposal to create and give tokens to the recipient."
       >
-        <Input
-          label="Recipient"
-          description="The user that will receive tokens."
-          name="recipient"
-          type="text"
-          inputMode="text"
-          placeholder={AddressZero}
-          value={recipient}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
-        />
-        <Input
-          label="Amount"
-          description="The amount of tokens to mint."
-          name="amount"
-          type="number"
-          inputMode="decimal"
-          placeholder="1000"
-          min={0}
-          value={amount}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value))}
-        />
+             <Stack justify="flex-start">
+        {fields.map((item, index) => {
+          return (
+            <Stack key={item.id} direction="horizontal" align="center" justify="center">
+              <Input
+                label={`Member`}
+                hideLabel={index !== 0}
+                id="member"
+                {...register(`members.${index}.address` as const, {
+                  required: true,
+                })}
+                defaultValue={item.address}
+                type="text"
+              />
+              <Input
+                label="Tokens"
+                hideLabel={index !== 0}
+                id="share"
+                type="number"
+                {...register(`members.${index}.share` as const, {
+                  required: true,
+                  min: 1,
+                })}
+                defaultValue={item.share}
+              />
+              <Button
+                tone="red"
+                variant="secondary"
+                size="small"
+                shape="circle"
+                onClick={(e) => {
+                  e.preventDefault()
+                  remove(index)
+                }}
+              >
+                <IconClose />
+              </Button>
+            </Stack>
+          )
+        })}
+        <Button
+          suffix={<IconUserSolid />}
+          variant="secondary"
+          tone="green"
+          onClick={(e) => {
+            e.preventDefault()
+            append({
+              address: '',
+              share: '1000',
+            })
+          }}
+        >
+          Add
+        </Button>
+      </Stack>
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
@@ -95,8 +182,8 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
           <Button
             center
             variant="primary"
-            onClick={submit}
-            loading={isProposePending}
+            onClick={handleSubmit(submit)}
+            loading={loading || isProposePending}
             disabled={!propose || isProposePending || isProposeSuccess}
           >
             {isProposePending ? 'Submitting...' : 'Submit'}

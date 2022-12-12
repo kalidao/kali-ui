@@ -4,10 +4,11 @@ import { getProvider } from './getProvider'
 // fetch from mainnet
 export async function fetchEnsAddress(ensName: string) {
   if (!ensName) return
-  let address
   try {
     const provider = getProvider(1)
-    address = await provider.resolveName(String(ensName))
+    console.log('minting ensName', ensName)
+    const address = await provider.resolveName(ensName)
+    console.log('minting address', address)
     if (address && ethers.utils.isAddress(address)) return address
     else return `Invalid address - ${ensName}`
   } catch (e) {
