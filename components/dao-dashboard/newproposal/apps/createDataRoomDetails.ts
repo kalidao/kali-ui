@@ -4,14 +4,14 @@ import { convertIpfsHash } from '@utils/convertIpfsHash'
 export const createDataRoomDetails = async (dao: string, chainId: number, tags: string[], docs: any) => {
   // upload file to ipfs
   try {
-    const termsHash = await uploadFile(docs)
-    console.log('termsHash', termsHash)
-    if (typeof termsHash == 'string') {
+    const docsHash = await uploadFile(docs)
+    console.log('docsHash', docsHash)
+    if (typeof docsHash == 'string') {
       const details = await uploadJSON({
         dao: dao,
         chainId: chainId,
         tags: tags,
-        terms: termsHash,
+        docs: docsHash,
       })
 
       return details
