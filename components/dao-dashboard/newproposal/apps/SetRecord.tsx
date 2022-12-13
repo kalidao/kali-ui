@@ -11,11 +11,8 @@ import { Warning } from '@design/elements'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
 import { ProposalProps } from '../utils/types'
-import { JSONContent } from '@tiptap/react'
 import { createDataRoomDetails } from './createDataRoomDetails'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
-import { useForm, useFieldArray } from 'react-hook-form'
-
 
 export default function SetRecord({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -39,23 +36,6 @@ export default function SetRecord({ setProposal, title, content }: ProposalProps
   const [shareStatus, setShareStatus] = useState<string>()
   const [tags, setTags] = useState<string[]>([])
   const [users, setUsers] = useState<string[]>([])
-
-  // form
-  const {
-    register,
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<FormData>({
-    defaultValues: {
-      permissions: [{ account: ethers.constants.AddressZero, permission: true }],
-    },
-  })
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'permissions',
-  })
 
   const handleTags = (e: React.ChangeEvent<HTMLInputElement>) => {
     let raw = e.target.value
