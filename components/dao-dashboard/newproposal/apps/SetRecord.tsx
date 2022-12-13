@@ -227,34 +227,29 @@ export default function SetRecord({ setProposal, title, content }: ProposalProps
       </Button>
       )}
       
-      {
-        toExpand && 
+      {toExpand && 
         <Stack direction={'horizontal'} align='center'>
-
-        <Input
-        label="Addresses"
-        description="Invite and share access with otheres. Separate ENS/address by single comma, e.g., 'abc.eth, def.eth' "
-        name="tags"
-        type="text"
-        onChange={handleAddresses}
-        
-        />
-      <Button 
-        width={'min'}  
-        onClick={submitPermissionUpdate} 
-        >
-        {shareStatus ? shareStatus : 'Grant Access'}
-      </Button>
-      <Button 
-        width={'min'}  
-        onClick={handleExpand} 
-        tone={'red'}
-        onClick={() => setToExpand(!toExpand)}
-        >
-        Cancel
-      </Button>
+          <Input
+          label="Addresses"
+          description="Invite and share access with otheres. Separate ENS/address by single comma, e.g., 'abc.eth, def.eth' "
+          name="tags"
+          type="text"
+          onChange={handleAddresses}
+          />
+          <Button 
+            width={'min'}  
+            onClick={submitPermissionUpdate} 
+            >
+            {shareStatus ? shareStatus : 'Grant Access'}
+          </Button>
+          <Button 
+            width={'min'}  
+            tone={'red'}
+            onClick={() => setToExpand(!toExpand)}
+            >
+            Cancel
+          </Button>
         </Stack>
-        
         }
       
 
