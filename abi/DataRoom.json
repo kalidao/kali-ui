@@ -73,6 +73,47 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "address[]",
+				"name": "users",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bool[]",
+				"name": "authorize",
+				"type": "bool[]"
+			}
+		],
+		"name": "setPermission",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "string[]",
+				"name": "data",
+				"type": "string[]"
+			}
+		],
+		"name": "setRecord",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			},
@@ -134,47 +175,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			},
-			{
-				"internalType": "address[]",
-				"name": "users",
-				"type": "address[]"
-			},
-			{
-				"internalType": "bool[]",
-				"name": "authorize",
-				"type": "bool[]"
-			}
-		],
-		"name": "setPermission",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			},
-			{
-				"internalType": "string[]",
-				"name": "data",
-				"type": "string[]"
-			}
-		],
-		"name": "setRecord",
-		"outputs": [],
-		"stateMutability": "payable",
 		"type": "function"
 	}
 ]

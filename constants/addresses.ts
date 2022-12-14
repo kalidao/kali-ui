@@ -101,7 +101,7 @@ export const addresses: { [key: number]: any } =
         tribute: '0xc64F31b76FDc6B45d703B95A95a3A7F8A0B509aE',
         crowdsale2: '0xB682e773768e68C02B8b3892CF32eA090600b4b4',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
-        dataRoom: '0xd1f734DB5f64a1Ea69b6daC27fCC7F247519c660',
+        dataRoom: '0x516869aC493e0f943730374769cE9C3C31a90469',
         projectManagement: '0x9f0ad778385a2c688533958c6ada56f201ffc246',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
