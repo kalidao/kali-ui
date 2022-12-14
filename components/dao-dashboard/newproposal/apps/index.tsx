@@ -35,11 +35,11 @@ function AppsMenu({ setProposal }: Props) {
   return (
     <Stack>
       <Text>(1) Swap :</Text>
-      <Text>KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
+      <Text>Swap allows KaliDAOs to swap KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
       <Text>(2) Redemption :</Text>
-      <Text>KaliDAO members may redeem a portion of KaliDAO treasury by burning their KaliDAO tokens.</Text>
+      <Text>Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.</Text>
       <Text>(3) Data Room :</Text>
-      <Text>KaliDAOs may record off-chain activities or ratify documents on-chain.</Text>
+      <Text>Data Room is on-chain storage for recording off-chain activities or ratifying documents.</Text>
       <Stack>
         {isCrowdsale ? (
           <>

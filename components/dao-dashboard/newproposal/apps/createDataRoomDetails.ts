@@ -1,7 +1,7 @@
 import { uploadFile, uploadJSON } from '@utils/ipfs'
 import { convertIpfsHash } from '@utils/convertIpfsHash'
 
-export const createDataRoomDetails = async (dao: string, chainId: number, tags: string[], docs: any) => {
+export const createDataRoomDetails = async (dao: string, chainId: number, name: string, tags: string[], docs: any) => {
   // upload file to ipfs
   try {
     const docsHash = await uploadFile(docs)
@@ -10,6 +10,7 @@ export const createDataRoomDetails = async (dao: string, chainId: number, tags: 
       const details = await uploadJSON({
         dao: dao,
         chainId: chainId,
+        name: name,
         tags: tags,
         docs: docsHash,
       })

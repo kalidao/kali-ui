@@ -6,7 +6,7 @@ import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
-import SetRecord from './apps/SetRecord'
+import SetDataRoom from './apps/SetDataRoom'
 
 type Props = {
   proposalProp: string
@@ -98,7 +98,7 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     },
     record: {
       title: 'Record Off-Chain Activities',
-      component: <SetRecord setProposal={setView} title={title} content={content} />,
+      component: <SetDataRoom setProposal={setView} title={title} content={content} />,
     },
     // TODO: add tribute back
     // tribute: {
