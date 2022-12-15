@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { Stack, Text, Box, Tag, Button, IconPencil } from '@kalidao/reality'
+import { Stack, Text, Box, Tag, Button, IconPlus } from '@kalidao/reality'
 import { useContractRead } from 'wagmi'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
@@ -17,9 +17,7 @@ const DataRoom: NextPage = () => {
 
   const [file, setFile] = useState<{}[]>()
 
-  const {
-    data: room,
-  } = useContractRead({
+  const { data: room } = useContractRead({
     addressOrName: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
     contractInterface: DATAROOM_ABI,
     chainId: chainId,
@@ -30,15 +28,15 @@ const DataRoom: NextPage = () => {
   useEffect(() => {
     const getRoomData = async () => {
       let data_room: {}[] = []
-      
+
       if (room && room.length > 0) {
         for (let i = 0; i < room.length; i++) {
           const response = await fetch(room[i])
-          const responseJson = await response.json();
+          const responseJson = await response.json()
           data_room.push({
             tags: responseJson.tags,
             docs: responseJson.docs,
-            name: responseJson.name
+            name: responseJson.name,
           })
           setFile(data_room)
 
@@ -52,48 +50,60 @@ const DataRoom: NextPage = () => {
 
   return (
     <Layout title={`Data Room`} content="View and add DAO ratified activities.">
-      <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/propose',
-            query: {
-              dao: daoAddress as string,
-              chainId: chainId as string,
-            },
-          }}
-          passHref
+      <Stack>
+        <Box
+          width="viewWidth"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap="3"
+          padding="3"
+          backgroundColor="red"
         >
-          <Button as="a" shape="circle">
-            <IconPencil />
-          </Button>
-        </Link>
-      <Box
-        width="viewWidth"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        gap="3"
-        padding="3"
-      >
-        <Stack direction={'horizontal'} justify={'flex-start'} wrap>
-          {file?.map((item, index) => {
-            return (
-              <Box key={index} color={"red"} as="button" padding="6" width="96" onClick={() => router.push(item.docs)} backgroundColor="red" className={styles.card}>
-                <Stack align="center" justify={'center'}>
-                  <Text>{item.name}</Text>
-                  <Stack direction={'horizontal'}>
-                    {item.tags?.map((i, index) => {
-                      return (
-                        <Tag key={index}>{i}</Tag>
-                      )
-                    })}
+          <Stack direction={'horizontal'} justify="flex-end">
+            <Link
+              href={{
+                pathname: '/daos/[chainId]/[dao]/propose',
+                query: {
+                  dao: daoAddress as string,
+                  chainId: chainId,
+                },
+              }}
+              passHref
+            >
+              <Button as="a" shape="circle">
+                <IconPlus />
+              </Button>
+            </Link>
+          </Stack>
+          <Stack direction={'horizontal'} justify={'flex-start'} wrap>
+            {file?.map((item, index) => {
+              return (
+                <Box
+                  key={index}
+                  color={'red'}
+                  as="button"
+                  padding="6"
+                  width="96"
+                  onClick={() => router.push(item.docs)}
+                  backgroundColor="red"
+                  className={styles.card}
+                >
+                  <Stack align="center" justify={'center'}>
+                    <Text>{item.name}</Text>
+                    <Stack direction={'horizontal'}>
+                      {item.tags?.map((i, index) => {
+                        return <Tag key={index}>{i}</Tag>
+                      })}
+                    </Stack>
                   </Stack>
-                </Stack>
-              </Box>
-            )
-          })}
-        </Stack>
-      </Box>
+                </Box>
+              )
+            })}
+          </Stack>
+        </Box>
+      </Stack>
     </Layout>
   )
 }
