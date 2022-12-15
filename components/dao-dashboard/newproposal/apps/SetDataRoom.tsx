@@ -2,7 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import { Stack, Input, Box, Text, Button, FieldSet, FileInput, Textarea, IconClose, Checkbox, IconUserSolid } from '@kalidao/reality'
+import {
+  Stack,
+  Input,
+  Box,
+  Text,
+  Button,
+  FieldSet,
+  FileInput,
+  Textarea,
+  IconClose,
+  Checkbox,
+  IconUserSolid,
+} from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import DATAROOM_ABI from '@abi/DataRoom.json'
@@ -34,14 +46,14 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
   const [toExpand, setToExpand] = useState(false)
   const [status, setStatus] = useState<string>()
   const [shareStatus, setShareStatus] = useState<string>()
-  const [name, setName] = useState<string>("")
+  const [name, setName] = useState<string>('')
   const [tags, setTags] = useState<string[]>([])
   const [users, setUsers] = useState<string[]>([])
 
   const handleTags = (e: React.ChangeEvent<HTMLInputElement>) => {
     let raw = e.target.value
     let _tags: Array<string> = []
-    _tags = raw.split(", ")
+    _tags = raw.split(', ')
     setTags(_tags)
   }
 
@@ -52,7 +64,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
   const handleAddresses = (e: React.ChangeEvent<HTMLInputElement>) => {
     let raw = e.target.value
     let _addresses: Array<string> = []
-    _addresses = raw.split(", ")
+    _addresses = raw.split(', ')
     setUsers(_addresses)
   }
 
@@ -77,23 +89,21 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     return data
   }
 
-
   const submitPermissionUpdate = async () => {
-    setShareStatus("Validating addresses...")
+    setShareStatus('Validating addresses...')
     const _users = await validateData(users)
     let auths: boolean[] = []
 
     if (!_users) {
-      setWarning("Validation failed.")
-      setShareStatus("Try Again")    
-      return  
+      setWarning('Validation failed.')
+      setShareStatus('Try Again')
+      return
     } else {
       for (let i: number = 0; i < _users.length; i++) {
         auths.push(true)
       }
-      setWarning("")
+      setWarning('')
     }
-
 
     setShareStatus('Creating proposal metadata...')
     let docs
@@ -103,7 +113,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
       console.error(e)
       return
     }
-  
+
     let iface = new ethers.utils.Interface(DATAROOM_ABI)
     let payload = iface.encodeFunctionData('setPermission', [daoAddress, _users, auths])
     console.log('Proposal Params - ', 2, docs, [dataRoomAddress], [0], [payload])
@@ -133,7 +143,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     }
 
     setStatus('Uploading document to IPFS...')
-    let recordHash  
+    let recordHash
     recordHash = await createDataRoomDetails(daoAddress, chainId, name, tags, record)
     console.log(name, tags, record)
 
@@ -183,47 +193,36 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     }
 
     toggleButton()
-
   }, [record, tags])
 
   return (
     <FieldSet
       legend="Data Room"
-      description="The Data Room extension allows DAOs to ratify off-chain activities and documents on-chain. You may describe them in Details above or upload a document (i.e., .pdf) below for members to vote on."
-    >      
-      {!toExpand &&
-        <Button 
-          width={'min'}  
-          onClick={handleExpand} 
-        >
+      description="The Data Room extension allows DAOs to ratify off-chain activities and documents on-chain. DAOs may also designate others, such as a DAO operator, to ratify off-chain activities without having to go through the proposal mechanism. Note, however, that a vote is required to share access to such DAO operator."
+    >
+      {!toExpand && (
+        <Button width={'min'} onClick={handleExpand}>
           Share Access
         </Button>
-      }
-      
-      {toExpand && 
-        <Stack direction={'horizontal'} align='center'>
+      )}
+
+      {toExpand && (
+        <Stack direction={'horizontal'} align="center">
           <Input
-          label="Addresses"
-          description="Invite and share access with otheres. Separate ENS/address by single comma, e.g., 'abc.eth, def.eth'. "
-          name="tags"
-          type="text"
-          onChange={handleAddresses}
+            label="Addresses"
+            description="Invite and share access with otheres. Separate ENS/address by single comma, e.g., 'abc.eth, def.eth'. "
+            name="tags"
+            type="text"
+            onChange={handleAddresses}
           />
-          <Button 
-            width={'min'}  
-            onClick={submitPermissionUpdate} 
-            >
+          <Button width={'min'} onClick={submitPermissionUpdate}>
             {shareStatus ? shareStatus : 'Grant Access'}
           </Button>
-          <Button 
-            width={'min'}  
-            tone={'red'}
-            onClick={() => setToExpand(!toExpand)}
-            >
+          <Button width={'min'} tone={'red'} onClick={() => setToExpand(!toExpand)}>
             Cancel
           </Button>
         </Stack>
-      }
+      )}
       <Input
         label="Name"
         description="Add a name for this off-chain activity."
