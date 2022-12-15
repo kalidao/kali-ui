@@ -16,6 +16,11 @@ const HomePage: NextPage = () => {
     enabled: isConnected,
     chainId: 1,
   })
+  
+  useEffect(() => {
+    router.prefetch('/create')
+  })
+
   useEffect(() => {
     router.prefetch('/')
   })
