@@ -10,12 +10,18 @@ import { addresses } from '@constants/addresses'
 import * as styles from '../../../../components/home/styles.css'
 import Link from 'next/link'
 
+interface Data {
+  tags: []
+  docs: string
+  name: string
+}
+
 const DataRoom: NextPage = () => {
   const router = useRouter()
   const daoAddress = router.query.dao ? (router.query.dao as string) : AddressZero
   const chainId = Number(router.query.chainId)
 
-  const [file, setFile] = useState<{}[]>()
+  const [file, setFile] = useState<Data[]>()
 
   const { data: room } = useContractRead({
     addressOrName: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
@@ -27,7 +33,7 @@ const DataRoom: NextPage = () => {
 
   useEffect(() => {
     const getRoomData = async () => {
-      let data_room: {}[] = []
+      let data_room: Array<Data> = []
 
       if (room && room.length > 0) {
         for (let i = 0; i < room.length; i++) {
