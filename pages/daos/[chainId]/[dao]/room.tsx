@@ -65,7 +65,6 @@ const DataRoom: NextPage = () => {
           justifyContent="center"
           gap="3"
           padding="3"
-          backgroundColor="red"
         >
           <Stack direction={'horizontal'} justify="flex-end">
             <Link
