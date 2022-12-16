@@ -5,7 +5,7 @@ import Back from '@design/proposal/Back'
 import { useRouter } from 'next/router'
 import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
-import { IconSparkles, IconTrash, Stack, Text } from '@kalidao/reality'
+import { IconSparkles, IconTrash, IconUserSolid, Stack, Text } from '@kalidao/reality'
 import { Item } from '../Item'
 
 type Props = {
@@ -36,9 +36,18 @@ function AppsMenu({ setProposal }: Props) {
   return (
     <Stack>
       <Text>(1) Swap :</Text>
-      <Text>KaliDAOs may swap their KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
+      <Text>Swap allows KaliDAOs to swap KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
       <Text>(2) Redemption :</Text>
-      <Text>KaliDAO members may redeem a portion of KaliDAO treasury by burning their KaliDAO tokens.</Text>
+      <Text>
+        Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.
+      </Text>
+      <Text>(3) Data Room :</Text>
+      <Text>Data Room is on-chain storage for recording off-chain activities or ratifying documents.</Text>
+      <Text>(4) Manager :</Text>
+      <Text>
+        KaliDAOs can add a project with a budget and assign a manager to distribute ETH and ERC20 tokens without going
+        through the proposal process.
+      </Text>
       <Stack>
         {isCrowdsale ? (
           <>
@@ -49,6 +58,8 @@ function AppsMenu({ setProposal }: Props) {
           <Item onClick={() => setProposal('swap_add')} label="Add Swap" icon={<IconSparkles />} />
         )}
         <Item onClick={() => setProposal('redemption')} label="Redemption" icon={<IconSparkles />} />
+        <Item onClick={() => setProposal('project_add')} label="Add a Project" icon={<IconUserSolid />} />
+        <Item onClick={() => setProposal('project_update')} label="Update a Project" icon={<IconUserSolid />} />
       </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>
