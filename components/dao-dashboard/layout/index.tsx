@@ -37,9 +37,9 @@ const DashboardLayout = ({ title, content, children }: Props) => {
             }}
             justify="space-between"
           >
-            <Profile address={dao as string} chainId={Number(chainId)} />
-            <Nav address={dao as string} chainId={Number(chainId)} />
-            <Treasury address={dao as string} chainId={Number(chainId)} />
+            <Profile address={dao as `0x${string}`} chainId={Number(chainId)} />
+            <Nav address={dao as `0x${string}`} chainId={Number(chainId)} />
+            <Treasury address={dao as `0x${string}`} chainId={Number(chainId)} />
             <Members />
           </Stack>
           {children}

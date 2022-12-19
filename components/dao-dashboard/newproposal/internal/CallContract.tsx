@@ -3,9 +3,9 @@ import { useContract, useSigner } from 'wagmi'
 import { Warning } from '@design/elements'
 import { Box, Button, Text, Stack, Input, Textarea } from '@kalidao/reality'
 import { Select } from '@design/Select'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { DAO_ABI } from '@abi/index'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import Back from '@design/proposal/Back'
 import { createProposal } from '../utils'
 import { ProposalProps } from '../utils/types'
@@ -13,17 +13,17 @@ import { ProposalProps } from '../utils/types'
 export default function CallContract({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const daoChainId = Number(router.query.chainId)
-  const daoAddress = router.query.dao as string
+  const daoAddress = router.query.dao as `0x${string}`
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: daoAddress as string,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: DAO_ABI,
     signerOrProvider: signer,
   })
 
   // form
-  const [contractAddress, setContractAddress] = useState<string>()
+  const [contractAddress, setContractAddress] = useState<`0x${string}`>()
   const [contractAbi, setContractAbi] = useState<string>()
   const [writeFuncs, setWriteFuncs] = useState<any[]>()
   const [writeOptions, setWriteOptions] = useState<any[]>()
@@ -96,7 +96,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
-    if (!functionName) return
+    if (!functionName || !contractAddress) return
     let docs
     try {
       docs = await createProposal(daoAddress, daoChainId, 2, title, content)
@@ -107,15 +107,15 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
 
     try {
       let iface = new ethers.utils.Interface(contractAbi as string)
-      let payload = iface.encodeFunctionData(functionName, inputParams)
+      let payload = iface.encodeFunctionData(functionName, inputParams) as `0x${string}`
       console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
 
       try {
-        const tx = await kalidao.propose(
+        const tx = await kalidao?.propose(
           2, // CALL prop
           docs,
           [contractAddress],
-          [0],
+          [BigNumber.from(0)],
           [payload],
         )
         console.log('tx', tx)
@@ -125,6 +125,13 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     } catch (e) {
       console.log('error', e)
       setWarning('Supplied inputs do not match the required input type.')
+    }
+  }
+
+  const handleContractAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    if (e.currentTarget.value.slice(0, 2) == '0x' && ethers.utils.isAddress(e.currentTarget.value)) {
+      setContractAddress(e.currentTarget.value as `0x${string}`)
     }
   }
 
@@ -145,7 +152,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
         name="contractAddress"
         type="text"
         defaultValue={contractAddress}
-        onChange={(e) => setContractAddress(e.target.value)}
+        onChange={handleContractAddress}
       />
       <Textarea
         label="Contract ABI"

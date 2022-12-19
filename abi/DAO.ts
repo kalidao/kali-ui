@@ -1,4 +1,4 @@
-[
+export const DAO_ABI = [
 	{
 		"inputs": [],
 		"name": "AlreadyVoted",
@@ -1523,4 +1523,4 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+] as const;

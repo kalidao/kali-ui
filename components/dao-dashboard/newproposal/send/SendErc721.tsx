@@ -3,7 +3,7 @@ import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721
 import { Stack, Text, Input } from '@kalidao/reality'
 import { Warning } from '@design/elements'
 import { ethers } from 'ethers'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import { useRouter } from 'next/router'
 import { isHolder } from '@utils/isHolder'
 import { createProposal } from '../utils/'

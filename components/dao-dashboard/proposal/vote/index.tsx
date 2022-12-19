@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useAccount, useContractWrite } from 'wagmi'
-import DAO_ABI from '../../../../abi/KaliDAO.json'
+import DAO_ABI from '../../../../abi/DAO'
 import { AddressZero } from '@ethersproject/constants'
 import { Button, IconCheck, IconClose, Stack } from '@kalidao/reality'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'

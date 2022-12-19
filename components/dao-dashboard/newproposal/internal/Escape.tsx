@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
 import { Warning } from '@design/elements'
 import { Stack, Text, Button, Input } from '@kalidao/reality'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import { AddressZero } from '@ethersproject/constants'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 

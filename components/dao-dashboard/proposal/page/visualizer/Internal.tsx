@@ -1,7 +1,7 @@
 import { Stack, Box, Button, Text, Spinner, IconLink, IconDocumentAdd, IconDocumentsSolid } from '@kalidao/reality'
 import { AddressZero } from '@ethersproject/constants'
 import { useContractRead } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import DAO_ABI from '@abi/DAO'
 import { formatVotingPeriod } from '@utils/votingPeriod'
 import Link from 'next/link'
 

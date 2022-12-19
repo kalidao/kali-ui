@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractWrite, useContractRead } from 'wagmi'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import KALIDAO_ABI from '@abi/DAO'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'

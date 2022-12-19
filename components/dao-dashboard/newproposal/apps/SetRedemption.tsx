@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { DAO_ABI } from '@abi/index'
 import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { Warning } from '@design/elements'
@@ -17,15 +17,15 @@ import { DateInput } from '@design/DateInput'
 
 export default function SetRedemption({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
-  const daoAddress = router.query.dao as string
+  const daoAddress = router.query.dao as `0x${string}`
   const daoChainId = Number(router.query.chainId)
   const { data: signer } = useSigner()
   const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
   const tokenArray = getRedemptionTokens(daoChainId)
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: DAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -92,12 +92,12 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
     )
 
     try {
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [addresses[daoChainId]['extensions']['redemption']],
-        [_toggleRedemption],
-        [payload],
+        [BigNumber.from(_toggleRedemption)],
+        [payload as `0x${string}`],
       )
       console.log('tx', tx)
     } catch (e) {

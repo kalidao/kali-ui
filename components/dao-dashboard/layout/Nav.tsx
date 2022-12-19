@@ -4,7 +4,7 @@ import { useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { addresses } from '@constants/addresses'
-import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
+import { SWAP_ABI } from '@abi/index'
 import { AddressZero } from '@ethersproject/constants'
 import { navItem, navMenu } from './layout.css'
 import Wrappr from './Wrappr'
@@ -17,8 +17,8 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     error: swapError,
     isError: isSwapError,
   } = useContractRead({
-    addressOrName: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
-    contractInterface: SWAP_ABI,
+    address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
+    abi: SWAP_ABI,
     chainId: chainId,
     functionName: 'crowdsales',
     args: [address],
@@ -43,7 +43,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     },
   ]
 
-  if (swap && swap?.saleEnds * 1000 > Date.now()) {
+  if (swap && swap.saleEnds * 1000 > Date.now()) {
     items.push({
       id: 2,
       title: 'Swap',

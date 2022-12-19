@@ -1,5 +1,5 @@
 export interface Member {
-  address: string
+  address: `0x${string}`
   proposals: any[]
   shares: string
 }
