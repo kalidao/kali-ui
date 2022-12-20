@@ -49,12 +49,22 @@
   },
   {
     "inputs": [],
+    "name": "OnlyAccount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "Reentrancy",
     "type": "error"
   },
   {
     "inputs": [],
     "name": "SetupFailed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TransferFailed",
     "type": "error"
   },
   {
