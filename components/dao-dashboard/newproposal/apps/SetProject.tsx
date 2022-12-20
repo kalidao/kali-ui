@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { useContract, useSigner, useContractRead, erc20ABI } from 'wagmi'
 import {
   Stack,
@@ -30,6 +30,7 @@ import { Select } from '@design/Select'
 import { DateInput } from '@design/DateInput'
 import { getProvider } from '@utils/getProvider'
 import { AddressZero } from '@ethersproject/constants'
+import { createProjectDetails } from './createProjectDetails'
 
 export default function SetProject({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -38,7 +39,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   const provider = getProvider(chainId)
 
   const { data: signer } = useSigner()
-  const dataRoomAddress = addresses[chainId]['extensions']['dataRoom']
+  const projectManagementAddress = addresses[chainId]['extensions']['project']
 
   const { data: kalidaoToken } = useContractRead({
     addressOrName: daoAddress,
@@ -54,28 +55,19 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   })
 
   // form
-  const [record, setRecords] = useState<File>()
+  const [file, setFile] = useState<File>()
   const [warning, setWarning] = useState<string>()
   const [isEnabled, setIsEnabled] = useState(false)
   const [reward, setReward] = useState('select')
   const [customToken, setCustomToken] = useState<string>('')
   const [customTokenSymbol, setCustomTokenSymbol] = useState<string>('')
   const [customTokenDecimals, setCustomTokenDecimals] = useState(0)
-  const [customTokenDaoBalance, setCustomTokenDaoBalance] = useState(0.0)
-  const [budget, setBudget] = useState(0)
-  const [maxBudget, setMaxBudget] = useState(0)
+  const [daoTokenBalance, setDaoTokenBalance] = useState<string>()
+  const [budget, setBudget] = useState<BigNumber>()
   const [deadline, setDeadline] = useState<string>()
   const [status, setStatus] = useState<string>()
-  const [name, setName] = useState<string>('')
-  const [tags, setTags] = useState<string[]>([])
-  const [users, setUsers] = useState<string[]>([])
-
-  const handleTags = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let raw = e.target.value
-    let _tags: Array<string> = []
-    _tags = raw.split(', ')
-    setTags(_tags)
-  }
+  const [name, setName] = useState<string>()
+  const [manager, setManager] = useState<string>()
 
   const validateData = async (data: string[]) => {
     if (!data) return
@@ -110,6 +102,37 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     }
   }
 
+  const handleReward = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selection = e.target.value
+    let daoBalanceRaw
+    let daoBalance
+
+    if (selection == 'eth') {
+      daoBalanceRaw = await provider.getBalance(daoAddress)
+      daoBalance = ethers.utils.formatEther(daoBalanceRaw)
+
+      setWarning('')
+      setDaoTokenBalance(daoBalance)
+      setCustomTokenSymbol('Ξ')
+    }
+
+    if (selection == 'dao') {
+      const daoToken = kalidaoToken ? kalidaoToken?.toString() : ''
+
+      setWarning('')
+      setDaoTokenBalance('Uncapped')
+      setCustomTokenSymbol(' ')
+    }
+
+    if (selection == 'custom') {
+      setWarning('')
+      setDaoTokenBalance('')
+      setCustomTokenSymbol('')
+    }
+
+    setReward(selection)
+  }
+
   const handleCustomToken = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const contract = new ethers.Contract(e.target.value, erc20ABI, provider)
     const decimals = await contract.decimals()
@@ -117,8 +140,8 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     const daoBalanceRaw = await contract.balanceOf(daoAddress)
     let daoBalance
 
-    if (customTokenDecimals < 18) {
-      daoBalance = ethers.utils.formatUnits(daoBalanceRaw, customTokenDecimals)
+    if (decimals < 18) {
+      daoBalance = ethers.utils.formatUnits(daoBalanceRaw, decimals)
     } else {
       daoBalance = ethers.utils.formatEther(daoBalanceRaw)
     }
@@ -127,49 +150,112 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     setCustomToken(e.target.value)
     setCustomTokenSymbol(symbol)
     setCustomTokenDecimals(decimals)
-    setCustomTokenDaoBalance(parseFloat(daoBalance))
+    setDaoTokenBalance(daoBalance)
   }
 
   const handleBudget = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const _budget = Number(e.target.value)
-
+    let _budget = e.target.value
+    console.log(_budget, reward)
     let daoBalanceRaw
     let daoBalance
+
+    if (Number(_budget) == 0) {
+      setWarning('Budget is required.')
+    }
 
     // Check if DAO has enough Ether to cover budget
     // Custom token balance is checked in handleCustomToken()
     if (reward == 'eth') {
       daoBalanceRaw = await provider.getBalance(daoAddress)
       daoBalance = ethers.utils.formatEther(daoBalanceRaw)
-      setMaxBudget(Number(daoBalance))
+      // setDaoTokenBalance(daoBalance)
+
+      console.log(_budget)
+      if (Number(_budget) > Number(daoBalance)) {
+        setWarning('Budget exceeds existing DAO balance.')
+      } else {
+        setWarning('')
+        const __budget = ethers.utils.parseEther(_budget)
+        setBudget(__budget)
+      }
     }
 
-    console.log(daoBalance)
-    if (_budget > Number(daoBalance) || _budget > customTokenDaoBalance) {
-      setWarning('Budget exceeds existing DAO balance.')
-    } else {
-      setWarning('')
+    if (reward == 'dao') {
+      const __budget = ethers.utils.parseEther(_budget)
+      setBudget(__budget)
+    }
+
+    if (reward == 'custom') {
+      if (Number(_budget) > Number(daoBalance) || Number(_budget) > Number(daoTokenBalance)) {
+        setWarning('Budget exceeds existing DAO balance.')
+      } else {
+        setWarning('')
+        const __budget = ethers.utils.parseUnits(_budget, customTokenDecimals)
+        console.log(__budget, _budget, customTokenDecimals)
+        setBudget(__budget)
+      }
     }
   }
 
   const submit = async () => {
+    // Validate form inputs
     setStatus('Creating proposal...')
     if (!signer) {
       setWarning('Please connect your wallet.')
       return
     }
 
-    setStatus('Uploading document to IPFS...')
-    let recordHash
-    // recordHash = await createDataRoomDetails(daoAddress, chainId, name, tags, record)
-    console.log(name, tags, record)
+    if (!name || !manager || reward === 'select' || !budget || !deadline || !file) {
+      setWarning('All fields are required.')
+      return
+    }
 
-    if (recordHash == '') {
-      setWarning('Error uploading record.')
+    if (reward === 'custom' && customToken == '') {
+      setWarning('Custom token address is required.')
+      return
+    }
+
+    let _reward
+    let _token
+    let _budget
+
+    if (reward === 'eth') {
+      _reward = 0
+      _token = AddressZero
+      _budget = ethers.utils.formatEther(budget)
+    } else if (reward === 'dao') {
+      _reward = 1
+      _token = daoAddress
+      _budget = ethers.utils.formatEther(budget)
+    } else if (reward === 'custom') {
+      _reward = 2
+      _token = customToken
+      _budget = ethers.utils.formatUnits(budget, customTokenDecimals)
+    } else {
+      setWarning('Invalid reward.')
+    }
+
+    // Upload docs to IFPS
+    setStatus('Uploading documents to IPFS...')
+    let detailsHash
+    detailsHash = await createProjectDetails(
+      daoAddress,
+      chainId,
+      name,
+      manager,
+      reward,
+      Number(_budget),
+      deadline,
+      file,
+    )
+
+    if (detailsHash == '') {
+      setWarning('Error uploading documents.')
       setStatus('')
       return
     }
 
+    // Upload proposal metadata
     setStatus('Creating proposal metadata...')
     let docs
     try {
@@ -179,18 +265,31 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       return
     }
 
-    let iface = new ethers.utils.Interface(MANAGER_ABI)
-    let payload = iface.encodeFunctionData('setRecord', [daoAddress, [recordHash]])
-    console.log('Proposal Params - ', 2, docs, [dataRoomAddress], [0], [payload])
+    setStatus('Encoding project management details...')
+    let payload
+    try {
+      const abiCoder = ethers.utils.defaultAbiCoder
+      payload = abiCoder.encode(
+        ['uint256', 'uint8', 'address', 'uint8', 'address', 'uint256', 'uint40', 'string'],
+        [0, 1, manager, _reward, _token, budget, deadline, detailsHash],
+      )
+      console.log(0, 1, manager, _reward, _token, budget, deadline, detailsHash)
+    } catch (e) {
+      setWarning('Error setting the project management proposal.')
+      console.log(e)
+      return
+    }
+
+    console.log('Proposal Params - ', 2, docs, [projectManagementAddress], [0], [payload])
 
     setStatus('Creating proposal...')
     try {
       setWarning('')
       const tx = await kalidao.propose(
-        2, // CALL prop
+        9, // EXTENSION prop
         docs,
-        [dataRoomAddress],
-        [0],
+        [projectManagementAddress],
+        [1],
         [payload],
       )
       console.log('tx', tx)
@@ -201,36 +300,35 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   }
 
   useEffect(() => {
-    const toggleButton = async () => {
-      if (record && tags.length > 0) {
-        setIsEnabled(true)
-      } else {
-        setIsEnabled(false)
-      }
+    const checkDaoEthBalance = async () => {
+      const balance = await provider.getBalance(daoAddress)
+      let daoBalance = ethers.utils.formatEther(balance)
+      console.log(daoBalance, daoTokenBalance)
+      setDaoTokenBalance(daoBalance)
     }
 
-    toggleButton()
-  }, [record, tags])
+    checkDaoEthBalance()
+  }, [])
 
   return (
     <FieldSet
       legend="Add a Project"
       description="Add a project, set a budget, and assign a manager to distribute ETH and ERC20 tokens, including your KaliDAO tokens."
     >
-      <Input label="Project Name" description="" name="tags" type="text" onChange={(e) => setName(e.target.value)} />
+      <Input label="Project Name" description="" name="name" type="text" onChange={(e) => setName(e.target.value)} />
       <Input
         label="Manager"
         description="Assign a manager to distribute rewards directly to contributors."
-        name="tags"
+        name="manager"
         type="text"
         placeholder={AddressZero}
-        onChange={handleTags}
+        onChange={(e) => setManager(e.target.value)}
       />
       <Select
         label="Reward"
         description="Pick a reward type."
         name="type"
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setReward(e.target.value)}
+        onChange={handleReward}
         options={[
           { value: 'select', label: 'Select' },
           { value: 'eth', label: 'Ether' },
@@ -245,7 +343,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         label="Budget"
         labelSecondary={
           <Tag>
-            Current DAO Balance: {customTokenDaoBalance ? customTokenDaoBalance : maxBudget} {customTokenSymbol}
+            Current DAO Balance: {daoTokenBalance ? daoTokenBalance : ' '} {customTokenSymbol ? customTokenSymbol : 'Ξ'}
           </Tag>
         }
         description="Specify a budget for this project."
@@ -263,13 +361,13 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       <FileUploader
         label="Document"
         description="Upload a document describing this new project. Any document uploaded will live on IPFS."
-        setFile={setRecords}
+        setFile={setFile}
       />
       {warning && <Warning warning={warning} />}
       <Stack align="center" justify={'space-between'} direction="horizontal">
         <Back onClick={() => setProposal?.('appsMenu')} />
-        <Button width={'full'} disabled={!isEnabled} onClick={submit}>
-          {status ? status : 'Ratify Off-Chain Activity'}
+        <Button width={'full'} onClick={submit}>
+          {status ? status : 'Propose Project'}
         </Button>
       </Stack>
     </FieldSet>
