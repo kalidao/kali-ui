@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Layout from '@components/layout'
 import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
+import FAQ from '@components/home/FAQ'
 import * as styles from '@design/landing.css'
 import { useAccount, useEnsName } from 'wagmi'
 import Balancer from 'react-wrap-balancer'
@@ -61,6 +62,7 @@ const HomePage: NextPage = () => {
         </Stack>
       </Box>
       {isConnected && <UserDAOs address={address && (address as string)} />}
+      <FAQ />
     </Layout>
   )
 }
