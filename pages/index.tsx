@@ -6,6 +6,7 @@ import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
 import * as styles from '@design/landing.css'
 import { useAccount, useEnsName } from 'wagmi'
+import Balancer from 'react-wrap-balancer'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
@@ -16,7 +17,7 @@ const HomePage: NextPage = () => {
     enabled: isConnected,
     chainId: 1,
   })
-  
+
   useEffect(() => {
     router.prefetch('/create')
   })
@@ -45,9 +46,9 @@ const HomePage: NextPage = () => {
       <Box className={styles.container}>
         <Stack space="12">
           <Box>
-            <h1 className={styles.heading}>Form a DAO. Enjoy true ownership.</h1>
-            {/* <h1 className={styles.heading2}>Create organizations that are forever and always yours 🪄</h1> */}
-            {/* <h1 className={styles.heading2}>forever & always yours ❤️</h1> */}
+            <h1 className={styles.heading}>
+              <Balancer>Form a tokenized community.</Balancer>
+            </h1>
           </Box>
           <Box display="flex" gap="2">
             <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
