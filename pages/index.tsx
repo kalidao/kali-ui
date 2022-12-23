@@ -48,7 +48,7 @@ const HomePage: NextPage = () => {
         <Stack space="12">
           <Box>
             <h1 className={styles.heading}>
-              <Balancer>Form a tokenized community.</Balancer>
+              <Balancer>Better organizations start here.</Balancer>
             </h1>
           </Box>
           <Box display="flex" gap="2">
