@@ -4,8 +4,10 @@ import { useRouter } from 'next/router'
 import Layout from '@components/layout'
 import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
 import UserDAOs from '@components/home/UserDAOs'
+import FAQ from '@components/home/FAQ'
 import * as styles from '@design/landing.css'
 import { useAccount, useEnsName } from 'wagmi'
+import Balancer from 'react-wrap-balancer'
 
 const HomePage: NextPage = () => {
   const router = useRouter()
@@ -16,7 +18,7 @@ const HomePage: NextPage = () => {
     enabled: isConnected,
     chainId: 1,
   })
-  
+
   useEffect(() => {
     router.prefetch('/create')
   })
@@ -45,9 +47,9 @@ const HomePage: NextPage = () => {
       <Box className={styles.container}>
         <Stack space="12">
           <Box>
-            <h1 className={styles.heading}>Form a DAO. Enjoy true ownership.</h1>
-            {/* <h1 className={styles.heading2}>Create organizations that are forever and always yours 🪄</h1> */}
-            {/* <h1 className={styles.heading2}>forever & always yours ❤️</h1> */}
+            <h1 className={styles.heading}>
+              <Balancer>Better organizations start here.</Balancer>
+            </h1>
           </Box>
           <Box display="flex" gap="2">
             <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
@@ -60,6 +62,7 @@ const HomePage: NextPage = () => {
         </Stack>
       </Box>
       {isConnected && <UserDAOs address={address && (address as string)} />}
+      <FAQ />
     </Layout>
   )
 }
