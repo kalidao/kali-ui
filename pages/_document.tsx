@@ -1,8 +1,28 @@
 import React from 'react'
-import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
+import Document, { DocumentContext, DocumentInitialProps, Html, Head, Main, NextScript } from 'next/document'
 
-export default class Document extends NextDocument {
+interface MyDocumentProps extends DocumentInitialProps {
+  theme: string
+}
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
+    const initialProps = await Document.getInitialProps(ctx)
+
+    let theme = 'dark'
+    if (ctx.req && ctx.req.headers.cookie) {
+      console.log('cookie values: ', ctx.req.headers.cookie)
+      const cookies = ctx.req.headers.cookie.split(';')
+      const mode = cookies.find((cookie) => cookie.includes('mode'))?.split('=')[1]
+      console.log('mode: ', mode)
+      theme = mode === 'dark' ? 'dark' : 'light'
+    }
+
+    return { ...initialProps, theme } as MyDocumentProps
+  }
+
   render() {
+    console.log('theme: ', this.props)
     return (
       <Html lang="en">
         <Head>
