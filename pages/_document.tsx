@@ -16,14 +16,12 @@ export default class MyDocument extends Document<Props> {
       if (themeCookie) {
         theme = themeCookie.split('=')[1]
       }
-      console.log('cookies: ', cookies)
     }
 
     return { ...initialProps, theme }
   }
 
   render() {
-    console.log('theme: ', this.props.theme)
     return (
       <Html
         lang="en"
