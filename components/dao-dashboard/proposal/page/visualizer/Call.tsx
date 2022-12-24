@@ -73,21 +73,21 @@ const CallCard = ({
           <Stack>
             <Text weight="bold">{decoded['type']}</Text>
             <Stack>
-              <Stack  direction="horizontal" align="center" justify={"space-between"}>
+              <Stack direction="horizontal" align="center" justify={'space-between'}>
                 <Text>Function</Text>
                 <Text weight="semiBold">{decoded['tx']['name']}</Text>
               </Stack>
               {params &&
                 params.map((param, index) => (
-                  <Stack key={index} direction="horizontal" align="center" justify={"space-between"}>
+                  <Stack key={index} direction="horizontal" align="center" justify={'space-between'}>
                     <Text>{param['name']}</Text>
                     <Text weight="semiBold">{param['value']}</Text>
                   </Stack>
                 ))}
-                  <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text>value (native)</Text>
-        <Text>{ethers.utils.formatEther(amount)}</Text>
-      </Stack>
+              <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+                <Text>value (native)</Text>
+                <Text>{ethers.utils.formatEther(amount)}</Text>
+              </Stack>
             </Stack>
           </Stack>
         )}
@@ -99,7 +99,13 @@ const CallCard = ({
                 <IconDuplicate />
               </Button>
             </Stack>
-            <Box borderRadius={"medium"} backgroundColor="backgroundTertiary" color="text" padding="2" wordBreak="break-word">
+            <Box
+              borderRadius={'medium'}
+              backgroundColor="backgroundTertiary"
+              color="text"
+              padding="2"
+              wordBreak="break-word"
+            >
               {payload}
             </Box>
           </Stack>

@@ -28,7 +28,6 @@ export const isProp = (prop: string) => {
   return !!pattern.test(prop)
 }
 
-
 export const getProposalStatus = (dao: string, chainId: number, proposalId: number) => {
   try {
     const provider = getProvider(chainId)

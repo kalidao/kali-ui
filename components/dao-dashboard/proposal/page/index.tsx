@@ -100,7 +100,13 @@ export default function ProposalView({ proposal }: Props) {
               votingPeriod={Number(proposal?.['dao']?.['votingPeriod'])}
             />
           )}
-          {proposal && <Results votes={proposal['votes']} totalSupply={proposal?.['dao']?.['token']?.['totalSupply']} quorum={Number(proposal?.['dao']?.['quorum'])} />}
+          {proposal && (
+            <Results
+              votes={proposal['votes']}
+              totalSupply={proposal?.['dao']?.['token']?.['totalSupply']}
+              quorum={Number(proposal?.['dao']?.['quorum'])}
+            />
+          )}
         </Box>
       </Box>
       <Stack direction="horizontal">

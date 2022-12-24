@@ -4,7 +4,7 @@ import { Progress } from '@design/Progress'
 import { BigNumber } from 'ethers'
 import { ethers } from 'ethers'
 
-export default function Results({ votes, totalSupply, quorum }: { votes: any, totalSupply: string, quorum: number }) {
+export default function Results({ votes, totalSupply, quorum }: { votes: any; totalSupply: string; quorum: number }) {
   const yesVotes = votes.filter((vote: any) => Boolean(vote['vote']) === true)
   const noVotes = votes.filter((vote: any) => Boolean(vote['vote']) === false)
 
@@ -21,23 +21,44 @@ export default function Results({ votes, totalSupply, quorum }: { votes: any, to
     noVotesWeight = noVotesWeight.add(BigNumber.from(noVotes[i].weight))
   }
   const totalWeight = totalSupply ? BigNumber.from(totalSupply) : BigNumber.from(0)
-  const quorumReached = (yesVotesWeight.add(noVotesWeight)).mul(100).div(totalWeight)
+  const quorumReached = yesVotesWeight.add(noVotesWeight).mul(100).div(totalWeight)
   const quorumRequired = BigNumber.from(quorum)
   const quorumMet = quorumReached.gte(quorumRequired) ? true : false
   const quorumProgress = quorumMet ? 100 : quorumReached.mul(100).div(quorumRequired)
   const quorumVotes = ethers.utils.formatEther(totalWeight.mul(quorumRequired).div(100))
-  console.log('weight', yesVotesWeight.toString(), noVotesWeight.toString(), totalWeight.toString(), quorum, quorumReached.toString(), quorumRequired.toString(), quorumReached.mul(100).div(quorumRequired).toString(), quorumMet)
- 
+  console.log(
+    'weight',
+    yesVotesWeight.toString(),
+    noVotesWeight.toString(),
+    totalWeight.toString(),
+    quorum,
+    quorumReached.toString(),
+    quorumRequired.toString(),
+    quorumReached.mul(100).div(quorumRequired).toString(),
+    quorumMet,
+  )
+
   return (
     <Card padding="6">
       <Stack>
         <Stack direction="horizontal" align="stretch" justify={'center'}>
-          <Stat label="Yes" value={Number(ethers.utils.formatEther(yesVotesWeight)).toFixed(2)} meta={<IconCheck color="green" />} />
-          <Stat label="No" value={Number(ethers.utils.formatEther(noVotesWeight)).toFixed(2)} meta={<IconClose color="red" />} />
+          <Stat
+            label="Yes"
+            value={Number(ethers.utils.formatEther(yesVotesWeight)).toFixed(2)}
+            meta={<IconCheck color="green" />}
+          />
+          <Stat
+            label="No"
+            value={Number(ethers.utils.formatEther(noVotesWeight)).toFixed(2)}
+            meta={<IconClose color="red" />}
+          />
         </Stack>
-        <Stat label="Participation" meta={quorumMet ? '' : `Needs ${
-          quorumVotes
-        } more votes`} value={<Progress value={Number(quorumProgress.toString())} />} size="medium" />
+        <Stat
+          label="Participation"
+          meta={quorumMet ? '' : `Needs ${quorumVotes} more votes`}
+          value={<Progress value={Number(quorumProgress.toString())} />}
+          size="medium"
+        />
         {/*<Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" /> */}
         {/* <Text color="red">This is failing.</Text> */}
       </Stack>

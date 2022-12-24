@@ -96,7 +96,7 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     }
 
     const recipients = data.members.map((member) => member.address)
-    const shares = data.members.map((member) => ethers.utils.parseEther(member.share.toString())) 
+    const shares = data.members.map((member) => ethers.utils.parseEther(member.share.toString()))
     const payloads = data.members.map((member) => AddressZero)
     console.log('minting', recipients, shares)
     if (docs) {
@@ -118,67 +118,65 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
         legend="Mint Tokens"
         description="This will create a proposal to create and give tokens to the recipient."
       >
-             <Stack justify="flex-start">
-        {fields.map((item, index) => {
-          return (
-            <Stack key={item.id} direction="horizontal" align="center" justify="center">
-              <Input
-                label={`Member`}
-                hideLabel={index !== 0}
-                id="member"
-                {...register(`members.${index}.address` as const, {
-                  required: true,
-                })}
-                defaultValue={item.address}
-                type="text"
-              />
-              <Input
-                label="Tokens"
-                hideLabel={index !== 0}
-                id="share"
-                type="number"
-                {...register(`members.${index}.share` as const, {
-                  required: true,
-                  min: 1,
-                })}
-                defaultValue={item.share}
-              />
-              <Button
-                tone="red"
-                variant="secondary"
-                size="small"
-                shape="circle"
-                onClick={(e) => {
-                  e.preventDefault()
-                  remove(index)
-                }}
-              >
-                <IconClose />
-              </Button>
-            </Stack>
-          )
-        })}
-        <Button
-          suffix={<IconUserSolid />}
-          variant="secondary"
-          tone="green"
-          onClick={(e) => {
-            e.preventDefault()
-            append({
-              address: '',
-              share: '1000',
-            })
-          }}
-        >
-          Add
-        </Button>
-      </Stack>
+        <Stack justify="flex-start">
+          {fields.map((item, index) => {
+            return (
+              <Stack key={item.id} direction="horizontal" align="center" justify="center">
+                <Input
+                  label={`Member`}
+                  hideLabel={index !== 0}
+                  id="member"
+                  {...register(`members.${index}.address` as const, {
+                    required: true,
+                  })}
+                  defaultValue={item.address}
+                  type="text"
+                />
+                <Input
+                  label="Tokens"
+                  hideLabel={index !== 0}
+                  id="share"
+                  type="number"
+                  {...register(`members.${index}.share` as const, {
+                    required: true,
+                    min: 1,
+                  })}
+                  defaultValue={item.share}
+                />
+                <Button
+                  tone="red"
+                  variant="secondary"
+                  size="small"
+                  shape="circle"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    remove(index)
+                  }}
+                >
+                  <IconClose />
+                </Button>
+              </Stack>
+            )
+          })}
+          <Button
+            suffix={<IconUserSolid />}
+            variant="secondary"
+            tone="green"
+            onClick={(e) => {
+              e.preventDefault()
+              append({
+                address: '',
+                share: '1000',
+              })
+            }}
+          >
+            Add
+          </Button>
+        </Stack>
       </FieldSet>
       <Stack direction={'horizontal'} justify="space-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
-        <ChainGuard fallback={<Button center>
-          Submit
-        </Button>}>
+        <ChainGuard fallback={<Button center>Submit</Button>}>
           <Button
             center
             variant="primary"

@@ -48,7 +48,7 @@ const HomePage: NextPage = () => {
         <Stack space="12">
           <Box>
             <h1 className={styles.heading}>
-              <Balancer>Fully automated governance.</Balancer>
+              <Balancer>A fully-formed governance stack for your community.</Balancer>
             </h1>
           </Box>
           <Box display="flex" gap="2">

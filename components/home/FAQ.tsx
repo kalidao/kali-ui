@@ -16,41 +16,40 @@ const Row = ({ name, value }: { name: string | React.ReactNode; value: React.Rea
 export default function Confirmation() {
   const faq = [
     {
-      key: 'what',
+      key: 'what-is-dao',
+      question: 'What is a DAO?',
+      answer:
+        'DAOs are code-based organizations. Members of DAOs use tokens to represent their voting weight and ownership. Blockchains guarantee voting outcomes will be executed automatically. This makes it easier to trust other DAO members and rules without needing to know their identity. These features make DAOs better for online communities where traditional organizing and paperwork would only slow things down.',
+    },
+    {
+      key: 'what-is-kali',
       question: 'What is Kali?',
       answer:
-        'Kali is a no-code, no-lawyer platform to create orgs with full custody of their assets (DAOs) that can work with the real world through legal agreements.',
+        'Kali is a no-code, no-lawyer platform to create DAOs that can work with the real world through legal agreements and limited liability. While optional, these unique features allow Kali DAOs to move better between internet and IRL ownership and have more complete governance without relying on legal intermediaries.',
     },
     {
-      key: 'why',
-      question: 'Why Kali?',
+      key: 'how-does-kali-compare',
+      question: 'How does Kali compare to other DAO tools?',
       answer:
-        'Kali is a complete governance stack. The ability to weave real world assets and agreements into smart contracts gives your team and community new powers: Send and receive funds to anyone; make limited liability businesses; bootstrap a more engaged community with tokens. All decisions are executed automatically with code.',
+        'Kali is an optimized fork of Moloch V3 that combines a token (ERC20), treasury and voting system into a single contract. This saves gas (as much as 10x!) and reduces complexity as compared to other DAO deployers, such as Aragon, Daohaus (Moloch V2), Tally (Governor Bravo) and Colony.',
     },
     {
-      key: 'where',
-      question: 'Where is this going?',
+      key: 'is-code-audited',
+      question: 'Is the code audited?',
       answer:
-        'Blockchains are no longer a fringe technology but an important infrastructural change to how money is being handled online. Kali is designed to make your next project fluent with new kinds of assets, such as cryptocurrencies and NFTs, while allowing you to root ownership into law. Automation is at the core of the product — legal paperwork and code deployment is taken care of and fully transparent.',
+        'Yes, two rounds of security audits were completed by BlockApex. Even better, Kali DAOs have been in production for a year without any issues.',
     },
     {
-      key: 'how',
-      question: 'How does it work?',
-      answer: `Blockchains are no longer a fringe technology but an important infrastructural change to how money is
-        being handled online. Kali is designed to make your next project fluent with new kinds of assets, such as
-        cryptocurrencies and NFTs, while allowing you to root ownership into law. Automation is at the core of the
-        product — legal paperwork and code deployment is taken care of and fully transparent.`,
+      key: 'how-kali-legal',
+      question: 'How does the legal stuff work?',
+      answer:
+        'Kali provides DAOs with vetted legal templates to form and register LLCs, non-profits and "bring your own" legal entities. If users select a Kali entity, they will install an NFT into their DAO that represents their legal structure, which makes it easier to understand for other applications.',
     },
     {
-      key: 'codeslaw',
-      question: 'Codeslaw?',
-      answer: `Kali radically reduces the complexity and costs of code and law. Designed by lawyers who implemented the
-      first DAO LLC and non-profit structure (UNA) in collaboration with LexDAO, Metacartel and SeedClub, Kali
-      legal structures help limit the liability of DAO members and enable more control of off-chain assets that
-      “defer” to code through customized legal agreements. While Kali supports the creation of LLCs and other
-      legal structures, including “bring your own”, it is an internet-first and code-centric platform. Members
-      of a Kali DAO at all times own their assets through smart contracts. Legal extensions are optional, but
-      should you decide to include them, Kali will make sure the paperwork is a breeze.`,
+      key: 'who-kali',
+      question: 'Who built Kali?',
+      answer:
+        'The Kali DAO contracts and legal framework were developed by LexDAO.',
     },
   ]
   return (
