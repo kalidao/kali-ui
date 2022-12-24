@@ -1,4 +1,4 @@
-import { Box, Stack, Text, IconCheck, IconClose } from '@kalidao/reality'
+import { Box, Stack, Text, IconCheck, IconClose, Heading } from '@kalidao/reality'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@design/Accordion'
 import Balancer from 'react-wrap-balancer'
 
@@ -48,21 +48,30 @@ export default function Confirmation() {
     {
       key: 'who-kali',
       question: 'Who built Kali?',
-      answer:
-        'The Kali DAO contracts and legal framework were developed by LexDAO.',
+      answer: 'The Kali DAO contracts and legal framework were developed by LexDAO.',
     },
   ]
   return (
-    <Stack align="center">
-      <h2>
-        <Balancer>FAQs</Balancer>
-      </h2>
-      <Accordion type="multiple" defaultValue="token" collapsible={true}>
-        {faq.map((item) => (
-          <Item key={item.key} value={item.key} title={item.question} content={item.answer} />
-        ))}
-      </Accordion>
-    </Stack>
+    <Box display="flex" justifyContent="center">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="4"
+        width={{
+          lg: '3/4',
+        }}
+      >
+        <Heading as="h2" level="2">
+          <Balancer>FAQs</Balancer>
+        </Heading>
+        <Accordion type="multiple" collapsible={true}>
+          {faq.map((item) => (
+            <Item key={item.key} value={item.key} title={item.question} content={item.answer} />
+          ))}
+        </Accordion>
+      </Box>
+    </Box>
   )
 }
 
