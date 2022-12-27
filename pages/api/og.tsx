@@ -1,5 +1,5 @@
 import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
+import type { NextApiRequest } from 'next'
 
 // enable experimental edage
 
@@ -7,8 +7,14 @@ export const config = {
   runtime: 'experimental-edge',
 }
 
-export default function handler(req: NextRequest) {
+export default function handler(req: NextApiRequest) {
   try {
+    if (!req.url) {
+      return new Response(`Failed to generate the image`, {
+        status: 500,
+      })
+    }
+
     //  get searchParams
     const { searchParams } = new URL(req.url)
 
