@@ -12,7 +12,7 @@ type LayoutProps = {
 }
 
 export default function Layout({ heading, content, children }: LayoutProps) {
-  const title = 'KALI - ' + heading
+  const title = `Kali | ${heading}`
 
   return (
     <Box className={layout}>
@@ -20,7 +20,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />
         <meta property="og:description" name="description" content={content} key="description" />
-        <meta property="og:image" content={`https://app.kali.gg/api/og?title=${heading}`}></meta>
+        <meta property="og:image" content={`https://app.kali.gg/api/og?title=${title}`}></meta>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" key="icon-apple" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" key="icon-32" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" key="icon-16" />
