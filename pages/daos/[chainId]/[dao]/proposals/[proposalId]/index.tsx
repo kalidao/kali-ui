@@ -24,7 +24,7 @@ const ProposalPage: NextPage = () => {
   }
 
   return (
-    <Layout title={`Proposal #${proposal?.serial}`} content="Discuss and vote on the proposal.">
+    <Layout title={`Proposal #${proposalId}`} content="Discuss and vote on the proposal.">
       <Box
         padding={{
           xs: '2',

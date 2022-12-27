@@ -25,6 +25,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
       <Head>
         <title>{heading}</title>
         <meta name="description" content={content} />
+        <meta property="og:image" content={`https://app.kali.gg/api/og?title=${heading}`}></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
