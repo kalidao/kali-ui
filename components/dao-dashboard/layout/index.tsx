@@ -24,9 +24,15 @@ const DashboardLayout = ({ title, content, children }: Props) => {
     <Box className={layout}>
       <Head>
         <title>{heading}</title>
-        <meta name="description" content={content} />
+        <meta property="og:title" content={title} key="title" />
+        <meta property="og:description" name="description" content={content} key="description" />
         <meta property="og:image" content={`https://app.kali.gg/api/og?title=${heading}`}></meta>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" key="icon-apple" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" key="icon-32" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" key="icon-16" />
+        <link rel="manifest" href="/site.webmanifest" key="webmanifest" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
       <Header />
       <Box className={container}>
