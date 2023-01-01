@@ -41,7 +41,7 @@
     "little-state-machine": "^4.8.0",
     "lodash.merge": "^4.6.2",
     "moralis": "^2.10.4",
-    "next": "^12.3.4",
+    "next": "^13.1.1",
     "nextjs-progressbar": "^0.0.14",
     "node": "^17.9.1",
     "nookies": "^2.5.2",
