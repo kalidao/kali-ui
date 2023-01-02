@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { Box, Stack, Button, Text, IconLink, IconDuplicate } from '@kalidao/reality'
+import { Box, Stack, Button, Text, IconDuplicate } from '@kalidao/reality'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'

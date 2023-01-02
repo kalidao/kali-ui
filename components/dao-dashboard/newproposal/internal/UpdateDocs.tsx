@@ -18,13 +18,13 @@ export default function UpdateDocs() {
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
   const { data, isLoading: isFetchingDocs } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'docs',
     chainId: daoChain,
   })
@@ -59,7 +59,7 @@ export default function UpdateDocs() {
 
     if (docs) {
       try {
-        const tx = await kalidao.propose(
+        const tx = await kalidao?.propose(
           11, // DOCS prop
           docs,
           [AddressZero],
@@ -81,12 +81,14 @@ export default function UpdateDocs() {
         <Spinner />
       ) : (
         <Text>
-          {prevDocs?.message}{' '}
-          {data && prevDocs?.isLink && (
-            <a href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
-              Link
-            </a>
-          )}
+          <>
+            {prevDocs?.message}{' '}
+            {data && prevDocs?.isLink && (
+              <a href={prevDocs.docs} target="_blank" rel="noopenner noreferrer">
+                Link
+              </a>
+            )}
+          </>
         </Text>
       )}
       <Input

@@ -20,8 +20,8 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
     onSuccess: async () => {
@@ -51,7 +51,7 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
 
     if (docs) {
       try {
-        const tx = await propose({
+        const tx = await propose?.({
           recklesslySetUnpreparedArgs: [1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
         })
 

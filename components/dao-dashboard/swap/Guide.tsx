@@ -1,5 +1,5 @@
 import { Progress } from '@design/Progress'
-import { Card, Stack, Text, Heading, Divider, Field } from '@kalidao/reality'
+import { Card, Stack, Text, Heading, Divider } from '@kalidao/reality'
 import { prettyDate } from '@utils/prettyDate'
 import { ethers } from 'ethers'
 import { useSwapStore } from './store'

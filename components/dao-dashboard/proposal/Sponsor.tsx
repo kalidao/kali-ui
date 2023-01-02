@@ -9,8 +9,8 @@ export default function Sponsor({ proposalId }: { proposalId: number }) {
   const router = useRouter()
   const { dao, chainId } = router.query
   const { config } = usePrepareContractWrite({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: DAO_ABI,
     functionName: 'sponsorProposal',
     chainId: Number(chainId),
     args: [proposalId],

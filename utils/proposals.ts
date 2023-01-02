@@ -1,6 +1,6 @@
 import { getProvider } from './getProvider'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { ethers, BigNumber } from 'ethers'
+import { ethers } from 'ethers'
 
 export const isURL = (url: string) => {
   let pattern = new RegExp(

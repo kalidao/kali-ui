@@ -17,8 +17,8 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
   const { data: signer } = useSigner()
 
   const kalidao = useContract({
-    addressOrName: daoAddress as string,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress as string,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -111,7 +111,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
 
       try {
-        const tx = await kalidao.propose(
+        const tx = await kalidao?.propose(
           2, // CALL prop
           docs,
           [contractAddress],

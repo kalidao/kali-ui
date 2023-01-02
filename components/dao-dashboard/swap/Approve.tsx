@@ -1,6 +1,4 @@
-import { Progress } from '@design/Progress'
-import { Card, Stack, Text, Heading, Divider, Field, Button, IconTokens, IconCheck } from '@kalidao/reality'
-import { prettyDate } from '@utils/prettyDate'
+import { Button, IconCheck } from '@kalidao/reality'
 import { ethers } from 'ethers'
 import { useCallback, useEffect } from 'react'
 import { erc20ABI, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
@@ -13,11 +11,11 @@ export default function Guide() {
   const chainId = useSwapStore((state) => state.chainId)
   const setApproved = useSwapStore((state) => state.setApproved)
   const { config } = usePrepareContractWrite({
-    addressOrName: token.address,
-    contractInterface: erc20ABI,
+    address: token.address as `0xstring`,
+    abi: erc20ABI,
     functionName: 'approve',
     chainId: chainId,
-    args: [swap.address, ethers.constants.MaxUint256],
+    args: [swap.address as `0xstring`, ethers.constants.MaxUint256],
   })
   const { writeAsync, isSuccess } = useContractWrite(config)
   const { address, isConnected } = useAccount()

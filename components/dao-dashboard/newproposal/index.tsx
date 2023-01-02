@@ -50,10 +50,10 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} content={content} title={title} />,
     },
-    quit: {
+    /*quit: {
       title: 'Redeem and Quit',
       component: <Redeem content={content} title={title} />,
-    },
+    },*/
     eth: {
       title: 'Send ETH',
       component: <SendEth setProposal={setView} content={content} title={title} />,

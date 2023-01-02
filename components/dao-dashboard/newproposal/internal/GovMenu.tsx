@@ -1,4 +1,4 @@
-import { Box, IconCheck, IconHand, IconTokens, IconUserGroupSolid, Stack, Text, vars } from '@kalidao/reality'
+import { Box, IconCheck, IconHand, IconTokens, IconUserGroupSolid, Stack, Text } from '@kalidao/reality'
 import { govItem, govItemLabel, icon } from './styles.css'
 
 type Props = {
@@ -7,9 +7,6 @@ type Props = {
 }
 
 export default function GovMenu({ view, setView }: Props) {
-  const iconSize = '24'
-  const iconColor = vars.colors.foreground
-
   const items = [
     {
       title: 'Voting Period',

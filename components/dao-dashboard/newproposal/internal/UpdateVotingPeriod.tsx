@@ -27,8 +27,8 @@ export default function UpdateVotingPeriod() {
   const [loading, setLoading] = useState(false)
   const { writeAsync, isSuccess } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
     onSuccess: () => {
@@ -39,9 +39,9 @@ export default function UpdateVotingPeriod() {
     },
   })
 
-  const { data: votingPeriod, isLoading: isWaitingVotingPeriod } = useContractRead({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+  const { data: votingPeriod } = useContractRead({
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'votingPeriod',
     chainId: Number(chainId),
   })
@@ -63,7 +63,7 @@ export default function UpdateVotingPeriod() {
     console.log('Proposal Params - ', 2, docs, [AddressZero], [seconds], [Array(0)])
     if (seconds) {
       try {
-        const tx = await writeAsync({
+        const tx = await writeAsync?.({
           recklesslySetUnpreparedArgs: [
             3, // UPDATE_VOTING_PERIOD prop
             docs,

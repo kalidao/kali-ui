@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Heading, Stack, Text, Tag, IconClose } from '@kalidao/reality'
+import { Box, Button, Stack, Text, Tag, IconClose } from '@kalidao/reality'
 import InfoCard from './InfoCard'
 import Results from './Results'
 import Description from './Description'
@@ -25,11 +25,7 @@ export default function ProposalView({ proposal }: Props) {
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
 
   const url = `https://content.wrappr.wtf/ipfs/${proposal?.description}`
-  const {
-    data: details,
-    isLoading,
-    error,
-  } = useQuery(['proposalDetails', url, proposal], async () =>
+  const { data: details } = useQuery(['proposalDetails', url, proposal], async () =>
     fetcher(
       url
         ? proposal?.description

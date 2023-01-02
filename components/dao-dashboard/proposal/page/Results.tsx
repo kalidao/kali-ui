@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Text, Stack, Stat, IconCheck, IconClose } from '@kalidao/reality'
+import { Card, Stack, Stat, IconCheck, IconClose } from '@kalidao/reality'
 import { Progress } from '@design/Progress'
 import { BigNumber } from 'ethers'
 import { ethers } from 'ethers'

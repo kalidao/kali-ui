@@ -13,8 +13,8 @@ type ProcessProps = {
 
 export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   const { config } = usePrepareContractWrite({
-    addressOrName: dao,
-    contractInterface: DAO_ABI,
+    address: dao as `0xstring`,
+    abi: DAO_ABI,
     functionName: 'processProposal',
     chainId: chainId,
     args: [proposalId],

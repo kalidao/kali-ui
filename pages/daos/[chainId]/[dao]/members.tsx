@@ -3,7 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { MembersList, MemberProfile } from '@components/dao-dashboard/members'
 import { GRAPH_URL } from '@graph/url'
-import { Card, Box, Stack } from '@kalidao/reality'
+import { Box, Stack } from '@kalidao/reality'
 
 const MembersPage: NextPage = ({
   members,

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
 import { Select } from '@design/Select'
-import { Stack, Input, Box, Text, Button, FieldSet, FileInput, Textarea } from '@kalidao/reality'
+import { Stack, Input, Button, FieldSet, Textarea } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
@@ -27,21 +27,21 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
   const { data: kalidaoToken } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress as `0xstring`,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
   const kaliAccess = useContract({
-    addressOrName: addresses[chainId]['access2'],
-    contractInterface: KALIACCESS_ABI,
+    address: addresses[chainId]['access2'] as `0xstring`,
+    abi: KALIACCESS_ABI,
     signerOrProvider: signer,
   })
 
@@ -83,7 +83,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     }
 
     try {
-      const tx = await kaliAccess.createList(list, ethers.utils.formatBytes32String('0x0'), '')
+      const tx = await kaliAccess?.createList(list, ethers.utils.formatBytes32String('0x0'), '')
       console.log('tx ', tx)
       setIsRecorded(true)
       setWarning('')
@@ -142,7 +142,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
       _purchaseAccess = 1
     } else {
       try {
-        let id = await kaliAccess.listCount()
+        let id = await kaliAccess?.listCount()
         id = ethers.utils.formatUnits(id, 'wei')
         _purchaseAccess = parseInt(id)
       } catch (e) {
@@ -240,7 +240,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [crowdsaleAddress],

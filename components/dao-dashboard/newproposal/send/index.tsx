@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import { IconNFT, Box, Stack, IconEth, IconTokens } from '@kalidao/reality'
 // menu items
 import SendErc20 from './SendErc20'

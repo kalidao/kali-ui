@@ -53,15 +53,15 @@ export default function DeployDaoWrapper() {
       component: <Identity setStep={setStep} />,
       title: 'Summon',
       description: `You are about to summon a KaliDAO, an on-chain organization 
-      with a native token, voting mechanism, and legal structure. To get 
-      started, pick a name and symbol for your DAO and Token`,
+      with a native token and voting mechanism. To get 
+      started, pick a name and symbol for your DAO and Token.`,
     },
     {
       component: <Governance setStep={setStep} />,
       title: 'Voting',
-      description: `Update voting parameters according to your workflow. if 
+      description: `Update voting parameters according to your workflow. If 
       decision-making is generally consistent and frequent, we recommend shorter 
-      voting period and lower participation.`,
+      voting period and lower participation requirements.`,
     },
     {
       component: <Redemption setStep={setStep} />,

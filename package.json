@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs,graphql}\""
+    "format": "prettier --write \"**/*.{tsx,ts,jsx,md,js,mjs,graphql}\"",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ethersproject/constants": "^5.7.0",
@@ -27,7 +28,7 @@
     "@radix-ui/react-select": "^0.1.1",
     "@radix-ui/react-switch": "^0.1.5",
     "@radix-ui/react-toast": "^1.1.2",
-    "@rainbow-me/rainbowkit": "^0.5.3",
+    "@rainbow-me/rainbowkit": "^0.8.1",
     "@react-pdf/renderer": "^2.3.0",
     "@tanstack/react-query": "^4.20.4",
     "@tiptap/react": "2.0.0-beta.205",
@@ -38,6 +39,7 @@
     "emailjs-com": "^3.2.0",
     "ethers": "^5.7.2",
     "graphql": "16.6.0",
+    "husky": "^8.0.2",
     "little-state-machine": "^4.8.0",
     "lodash.merge": "^4.6.2",
     "moralis": "^2.10.4",
@@ -50,7 +52,7 @@
     "react-tsparticles": "^2.7.1",
     "react-wrap-balancer": "^0.2.4",
     "tsparticles": "^2.7.1",
-    "wagmi": "^0.6.8",
+    "wagmi": "^0.10.2",
     "zustand": "^4.2.0"
   },
   "devDependencies": {

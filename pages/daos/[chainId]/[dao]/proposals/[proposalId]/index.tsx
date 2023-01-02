@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { Box, IconArrowLeft, Button, Stack, Spinner } from '@kalidao/reality'
 import Layout from '@components/dao-dashboard/layout'

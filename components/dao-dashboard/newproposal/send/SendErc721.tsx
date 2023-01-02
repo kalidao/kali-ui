@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAccount, useNetwork, useContract, useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
+import { useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
 import { Stack, Text, Input } from '@kalidao/reality'
 import { Warning } from '@design/elements'
 import { ethers } from 'ethers'
@@ -13,15 +13,13 @@ import { ProposalFooter } from '../utils/ProposalFooter'
 export default function SendErc721({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: daoName, isLoading } = useContractRead({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+  const { data: daoName } = useContractRead({
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
-  const { isConnected, address } = useAccount()
   const { data: signer } = useSigner()
-  const { chain: activeChain } = useNetwork()
 
   const {
     write: propose,
@@ -29,8 +27,8 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
     isSuccess: isProposalSuccess,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
   })
@@ -68,7 +66,7 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
     try {
       console.log(signer)
-      const tx = await propose({
+      const tx = await propose?.({
         recklesslySetUnpreparedArgs: [
           2, // CALL prop
           docs,
@@ -85,7 +83,9 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
   return (
     <Stack>
-      <Text>Send an ERC721 from {daoName} treasury</Text>
+      <Text>
+        <> Send an ERC721 from {daoName} treasury </>
+      </Text>
 
       <Input
         label="ERC721 Contract Address"

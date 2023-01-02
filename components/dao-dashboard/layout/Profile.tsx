@@ -16,7 +16,7 @@ import {
   IconGitHub,
 } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import { chain, useQuery } from 'wagmi'
+import { useQuery } from 'wagmi'
 import { getDaoInfo } from '@graph/queries'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
@@ -24,13 +24,9 @@ import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
-  const { data, isLoading, isError, error } = useQuery(
-    ['daoProfileInfo', chainId, address],
-    () => getDaoInfo(chainId, address),
-    {
-      enabled: !!chainId && !!address,
-    },
-  )
+  const { data, isLoading } = useQuery(['daoProfileInfo', chainId, address], () => getDaoInfo(chainId, address), {
+    enabled: !!chainId && !!address,
+  })
   const { data: meta } = useGetDaoMeta(chainId, address)
   const info = data?.data?.daos?.[0]
 

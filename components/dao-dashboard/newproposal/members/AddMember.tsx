@@ -21,13 +21,7 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
   const { dao, chainId } = router.query
   const [loading, setLoading] = useState(false)
   // form
-  const {
-    register,
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register, control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       members: [{ address: ethers.constants.AddressZero, share: '1000' }],
     },
@@ -67,8 +61,8 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     onSuccess: async () => {
       await setTimeout(() => {

@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import { vars, responsiveStyle, breakpoints } from '@kalidao/reality'
+import { vars } from '@kalidao/reality'
 import { pxGroteskScreen } from '@design/app.css'
 
 export const layout = style({

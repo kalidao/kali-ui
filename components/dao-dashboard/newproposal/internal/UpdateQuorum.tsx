@@ -7,7 +7,7 @@ import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
 import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
-import { FieldSet, Text, Input, Button, Stack, Box } from '@kalidao/reality'
+import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { JSONContent } from '@tiptap/react'
 
 export default function UpdateQuorum() {
@@ -18,8 +18,8 @@ export default function UpdateQuorum() {
   const [title, setTitle] = useState<string>()
 
   const { data: currentQuorum } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'quorum',
     chainId: Number(chainId),
   })
@@ -30,8 +30,8 @@ export default function UpdateQuorum() {
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'propose',
   })
 

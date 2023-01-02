@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { Escape } from '@components/dao-dashboard/newproposal/internal'
-import { Button, Input, Text, Stack, Card } from '@kalidao/reality'
+import { Input, Text, Stack, Card } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Editor from '@components/editor'
 import { NextPage } from 'next'

@@ -1,10 +1,12 @@
-import { Chain } from 'wagmi'
+import { gnosis } from 'wagmi/chains'
 import ALL_CHAINS from './chains.json'
 
 interface Icon {
   iconUrl: string
 }
 
+export const xdai = gnosis
+/*
 export const xdai: Chain & Icon = {
   id: 100,
   name: 'Gnosis Chain',
@@ -15,7 +17,7 @@ export const xdai: Chain & Icon = {
     symbol: 'xDai',
   },
   rpcUrls: {
-    default: 'https://rpc.gnosischain.com',
+    default: 'https://rpc.gnosischain.com'
   },
   blockExplorers: {
     default: { name: 'Blockscout', url: 'https://blockscout.com/xdai/mainnet' },
@@ -23,7 +25,7 @@ export const xdai: Chain & Icon = {
   testnet: false,
   iconUrl: '/chains/xdai.png',
 }
-
+*/
 interface ChainType {
   name: string
   chain: string

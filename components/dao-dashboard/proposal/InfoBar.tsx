@@ -19,7 +19,7 @@ export default function InfoBar({ proposer }: InfoBarProps) {
     isFetched,
     isError,
   } = useEnsName({
-    address: proposer,
+    address: proposer as `0xstring`,
     chainId: 1,
   })
 
