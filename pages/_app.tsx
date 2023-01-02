@@ -7,10 +7,9 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, optimism, polygon, arbitrum, goerli } from 'wagmi/chains'
+import { mainnet, optimism, polygon, arbitrum, gnosis, goerli } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
-import { xdai } from '@constants/chains'
 import { ThemeProvider } from '@kalidao/reality'
 import '@kalidao/reality/styles'
 import { useThemeStore } from '@components/hooks/useThemeStore'
@@ -20,12 +19,12 @@ import '@design/app.css'
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, polygon, arbitrum, optimism, xdai, goerli],
+  [mainnet, polygon, arbitrum, optimism, gnosis, goerli],
   [
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID ?? '' }),
     jsonRpcProvider({
       rpc: (c) => {
-        if (c.id === xdai.id) return { http: process.env.NEXT_PUBLIC_QUICKNODE_GNOSIS! }
+        if (c.id === gnosis.id) return { http: process.env.NEXT_PUBLIC_QUICKNODE_GNOSIS! }
         if (c.id === arbitrum.id || c.id === goerli.id)
           return { http: process.env.NEXT_PUBLIC_QUICNODE_HTTP!, webSocket: process.env.NEXT_PUBLIC_QUICKNODE }
         return null
