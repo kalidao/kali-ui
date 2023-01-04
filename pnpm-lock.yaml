@@ -93,7 +93,7 @@ dependencies:
   little-state-machine: 4.8.0_react@18.2.0
   lodash.merge: 4.6.2
   moralis: 2.11.0
-  next: 13.1.1_7xlrwlvvs7cv2obrs6a5y6oxxq
+  next: 13.1.1_pjwopsidmaokadturxaafygjp4
   nextjs-progressbar: 0.0.16_next@13.1.1+react@18.2.0
   node: 19.3.0
   nookies: 2.5.2
@@ -102,7 +102,7 @@ dependencies:
   react-tsparticles: 2.7.1_react@18.2.0
   react-wrap-balancer: 0.2.4_react@18.2.0
   tsparticles: 2.7.1
-  wagmi: 0.10.4_wweobo2sc25ap44y2tvtsnwgjm
+  wagmi: 0.10.4_f3jn3xbs4uawab6fh4rpppqdgi
   zustand: 4.2.0_react@18.2.0
 
 devDependencies:
@@ -139,19 +139,19 @@ packages:
     resolution: {integrity: sha512-sEnuDPpOJR/fcafHMjpcpGN5M2jbUGUHwmuWKM/YdPzeEDJg8bgmbcWQFUfE32MQjti1koACvoPVsDe8Uq+idg==}
     engines: {node: '>=6.9.0'}
 
-  /@babel/core/7.20.7:
-    resolution: {integrity: sha512-t1ZjCluspe5DW24bn2Rr1CDb2v9rn/hROtg9a2tmd0+QYf4bsloYfLQzjG4qHPNMhWtKdGC33R5AxGR2Af2cBw==}
+  /@babel/core/7.20.12:
+    resolution: {integrity: sha512-XsMfHovsUYHFMdrIHkZphTN/2Hzzi78R08NuHfDBehym2VsPDL6Zn/JAD/JQdnRvbSsbQc4mVaU1m6JgtTEElg==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@ampproject/remapping': 2.2.0
       '@babel/code-frame': 7.18.6
       '@babel/generator': 7.20.7
-      '@babel/helper-compilation-targets': 7.20.7_@babel+core@7.20.7
+      '@babel/helper-compilation-targets': 7.20.7_@babel+core@7.20.12
       '@babel/helper-module-transforms': 7.20.11
       '@babel/helpers': 7.20.7
       '@babel/parser': 7.20.7
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.20.10
+      '@babel/traverse': 7.20.12
       '@babel/types': 7.20.7
       convert-source-map: 1.9.0
       debug: 4.3.4
@@ -169,26 +169,26 @@ packages:
       '@jridgewell/gen-mapping': 0.3.2
       jsesc: 2.5.2
 
-  /@babel/helper-compilation-targets/7.20.7_@babel+core@7.20.7:
+  /@babel/helper-compilation-targets/7.20.7_@babel+core@7.20.12:
     resolution: {integrity: sha512-4tGORmfQcrc+bvrjb5y3dG9Mx1IOZjsHqQVUz7XCNHO+iTmqxWnVg3KRygjGmpRLJGdQSKuvFinbIb0CnZwHAQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/compat-data': 7.20.10
-      '@babel/core': 7.20.7
+      '@babel/core': 7.20.12
       '@babel/helper-validator-option': 7.18.6
       browserslist: 4.21.4
       lru-cache: 5.1.1
       semver: 6.3.0
 
-  /@babel/helper-define-polyfill-provider/0.3.3_@babel+core@7.20.7:
+  /@babel/helper-define-polyfill-provider/0.3.3_@babel+core@7.20.12:
     resolution: {integrity: sha512-z5aQKU4IzbqCC1XH0nAqfsFLMVSo22SBKUc0BxGrLkolTdPTructy0ToNnlO2zA4j9Q/7pjMZf0DSY+DSTYzww==}
     peerDependencies:
       '@babel/core': ^7.4.0-0
     dependencies:
-      '@babel/core': 7.20.7
-      '@babel/helper-compilation-targets': 7.20.7_@babel+core@7.20.7
+      '@babel/core': 7.20.12
+      '@babel/helper-compilation-targets': 7.20.7_@babel+core@7.20.12
       '@babel/helper-plugin-utils': 7.20.2
       debug: 4.3.4
       lodash.debounce: 4.0.8
@@ -231,7 +231,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/helper-validator-identifier': 7.19.1
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.20.10
+      '@babel/traverse': 7.20.12
       '@babel/types': 7.20.7
     transitivePeerDependencies:
       - supports-color
@@ -269,7 +269,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.20.10
+      '@babel/traverse': 7.20.12
       '@babel/types': 7.20.7
     transitivePeerDependencies:
       - supports-color
@@ -289,28 +289,28 @@ packages:
     dependencies:
       '@babel/types': 7.20.7
 
-  /@babel/plugin-syntax-typescript/7.20.0_@babel+core@7.20.7:
+  /@babel/plugin-syntax-typescript/7.20.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-rd9TkG+u1CExzS4SM1BlMEhMXwFLKVjOAFFCDx9PbX5ycJWDoWMcwdJH9RhkPu1dOgn5TrxLot/Gx6lWFuAUNQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.20.7
+      '@babel/core': 7.20.12
       '@babel/helper-plugin-utils': 7.20.2
     dev: true
 
-  /@babel/plugin-transform-runtime/7.19.6_@babel+core@7.20.7:
+  /@babel/plugin-transform-runtime/7.19.6_@babel+core@7.20.12:
     resolution: {integrity: sha512-PRH37lz4JU156lYFW1p8OxE5i7d6Sl/zV58ooyr+q1J1lnQPyg5tIiXlIwNVhJaY4W3TmOtdc8jqdXQcB1v5Yw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.20.7
+      '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.18.6
       '@babel/helper-plugin-utils': 7.20.2
-      babel-plugin-polyfill-corejs2: 0.3.3_@babel+core@7.20.7
-      babel-plugin-polyfill-corejs3: 0.6.0_@babel+core@7.20.7
-      babel-plugin-polyfill-regenerator: 0.4.1_@babel+core@7.20.7
+      babel-plugin-polyfill-corejs2: 0.3.3_@babel+core@7.20.12
+      babel-plugin-polyfill-corejs3: 0.6.0_@babel+core@7.20.12
+      babel-plugin-polyfill-regenerator: 0.4.1_@babel+core@7.20.12
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -338,8 +338,8 @@ packages:
       '@babel/parser': 7.20.7
       '@babel/types': 7.20.7
 
-  /@babel/traverse/7.20.10:
-    resolution: {integrity: sha512-oSf1juCgymrSez8NI4A2sr4+uB/mFd9MXplYGPEBnfAuWmmyeVcHa6xLPiaRBcXkcb/28bgxmQLTVwFKE1yfsg==}
+  /@babel/traverse/7.20.12:
+    resolution: {integrity: sha512-MsIbFN0u+raeja38qboyF8TIT7K0BFzz/Yd/77ta4MsUsmP2RAnidIlwq7d5HFQrH/OZJecGV6B71C4zAgpoSQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.18.6
@@ -363,7 +363,7 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
 
-  /@coinbase/wallet-sdk/3.6.3_@babel+core@7.20.7:
+  /@coinbase/wallet-sdk/3.6.3_@babel+core@7.20.12:
     resolution: {integrity: sha512-XUR4poOJE+dKzwBTdlM693CdLFitr046oZOVY3iDnbFcRrrQswhbDji7q4CmUcD4HxbfViX7PFoIwl79YQcukg==}
     engines: {node: '>= 10.0.0'}
     dependencies:
@@ -373,7 +373,7 @@ packages:
       bn.js: 5.2.1
       buffer: 6.0.3
       clsx: 1.2.1
-      eth-block-tracker: 4.4.3_@babel+core@7.20.7
+      eth-block-tracker: 4.4.3_@babel+core@7.20.12
       eth-json-rpc-filters: 4.2.2
       eth-rpc-errors: 4.0.2
       json-rpc-engine: 6.1.0
@@ -1814,7 +1814,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-remove-scroll: 2.5.4_kzbn2opkn2327fwg5yzwzya5o4
-      wagmi: 0.10.4_wweobo2sc25ap44y2tvtsnwgjm
+      wagmi: 0.10.4_f3jn3xbs4uawab6fh4rpppqdgi
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -2627,7 +2627,7 @@ packages:
   /@vanilla-extract/babel-plugin-debug-ids/1.0.0:
     resolution: {integrity: sha512-Q2Nh/0FEAENfcphAv+fvcMoKfl3bhPWO/2x3MPviNAhsTsvuvYPuRtLjcXwoe4aJ8MxxI46JLY33j8NBEzpTIg==}
     dependencies:
-      '@babel/core': 7.20.7
+      '@babel/core': 7.20.12
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2682,8 +2682,8 @@ packages:
   /@vanilla-extract/integration/6.0.1:
     resolution: {integrity: sha512-8D2JdBTH6UEao5Tm50m1qtY63JP4hDxiv/sNvgj2+ix/9M5RML9sa0diS80u0hW/r26+/ZsdzoA5YIbg6ghOMw==}
     dependencies:
-      '@babel/core': 7.20.7
-      '@babel/plugin-syntax-typescript': 7.20.0_@babel+core@7.20.7
+      '@babel/core': 7.20.12
+      '@babel/plugin-syntax-typescript': 7.20.0_@babel+core@7.20.12
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.0
       '@vanilla-extract/css': 1.9.2
       esbuild: 0.11.23
@@ -2703,7 +2703,7 @@ packages:
     dependencies:
       '@vanilla-extract/webpack-plugin': 2.2.0_webpack@5.75.0
       browserslist: 4.21.4
-      next: 13.1.1_7xlrwlvvs7cv2obrs6a5y6oxxq
+      next: 13.1.1_pjwopsidmaokadturxaafygjp4
     transitivePeerDependencies:
       - supports-color
       - webpack
@@ -2763,7 +2763,7 @@ packages:
     resolution: {integrity: sha512-t9qm4FyzwzJhAcLtnh9HUeOmueSEOXwXlR0RCcS/vhtLSUnzaUfEkjAeu4+7AIujYWjrtdS/Zvlc+PwTjuwTUQ==}
     dev: false
 
-  /@wagmi/connectors/0.1.3_iciztgf277ndtprq7lp7xxd3p4:
+  /@wagmi/connectors/0.1.3_2lzjiwuiybm4wtuoorhgh47dai:
     resolution: {integrity: sha512-rNRDJsDdgb4R7n3AP6qbIu5L+3QYJU0raRFkFZLqBpA2dlX4d5RATALiDK6XdWw69iCb/q3BEsyj3Y+uNN/ODA==}
     peerDependencies:
       '@wagmi/core': 0.8.x
@@ -2772,9 +2772,9 @@ packages:
       '@wagmi/core':
         optional: true
     dependencies:
-      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.7
+      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.12
       '@ledgerhq/connect-kit-loader': 1.0.2
-      '@wagmi/core': 0.8.10_3qvw3l7xkin2zuhxpgvxtpcwni
+      '@wagmi/core': 0.8.10_vhv6xxlfpwiqyzkguvjk4mknfm
       '@walletconnect/ethereum-provider': 1.8.0
       '@walletconnect/qrcode-modal': 1.8.0
       '@walletconnect/universal-provider': 2.1.5
@@ -2793,7 +2793,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@wagmi/core/0.8.10_3qvw3l7xkin2zuhxpgvxtpcwni:
+  /@wagmi/core/0.8.10_vhv6xxlfpwiqyzkguvjk4mknfm:
     resolution: {integrity: sha512-TbXaKfZX0GD3LkhGoIWPWaitmwucNPxm0riRYStRncoe9JqSYJ82P3vwLn7zO9f1mwqwnf0EOnmotycH/adTwQ==}
     peerDependencies:
       '@coinbase/wallet-sdk': '>=3.6.0'
@@ -2805,9 +2805,9 @@ packages:
       '@walletconnect/ethereum-provider':
         optional: true
     dependencies:
-      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.7
+      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.12
       '@wagmi/chains': 0.1.7
-      '@wagmi/connectors': 0.1.3_iciztgf277ndtprq7lp7xxd3p4
+      '@wagmi/connectors': 0.1.3_2lzjiwuiybm4wtuoorhgh47dai
       '@walletconnect/ethereum-provider': 1.8.0
       abitype: 0.2.5_typescript@4.9.4
       ethers: 5.7.2
@@ -3584,38 +3584,38 @@ packages:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
 
-  /babel-plugin-polyfill-corejs2/0.3.3_@babel+core@7.20.7:
+  /babel-plugin-polyfill-corejs2/0.3.3_@babel+core@7.20.12:
     resolution: {integrity: sha512-8hOdmFYFSZhqg2C/JgLUQ+t52o5nirNwaWM2B9LWteozwIvM14VSwdsCAUET10qT+kmySAlseadmfeeSWFCy+Q==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/compat-data': 7.20.10
-      '@babel/core': 7.20.7
-      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.7
+      '@babel/core': 7.20.12
+      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.12
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /babel-plugin-polyfill-corejs3/0.6.0_@babel+core@7.20.7:
+  /babel-plugin-polyfill-corejs3/0.6.0_@babel+core@7.20.12:
     resolution: {integrity: sha512-+eHqR6OPcBhJOGgsIar7xoAB1GcSwVUA3XjAd7HJNzOXT4wv6/H7KIdA/Nc60cvUlDbKApmqNvD1B1bzOt4nyA==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.20.7
-      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.7
+      '@babel/core': 7.20.12
+      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.12
       core-js-compat: 3.27.1
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /babel-plugin-polyfill-regenerator/0.4.1_@babel+core@7.20.7:
+  /babel-plugin-polyfill-regenerator/0.4.1_@babel+core@7.20.12:
     resolution: {integrity: sha512-NtQGmyQDXjQqQ+IzRkBVwEOz9lQ4zxAQZgoAYEtU9dJjnl1Oc98qnN7jcp+bE7O7aYzVpavXE3/VKXNzUbh7aw==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.20.7
-      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.7
+      '@babel/core': 7.20.12
+      '@babel/helper-define-polyfill-provider': 0.3.3_@babel+core@7.20.12
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4669,10 +4669,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /eth-block-tracker/4.4.3_@babel+core@7.20.7:
+  /eth-block-tracker/4.4.3_@babel+core@7.20.12:
     resolution: {integrity: sha512-A8tG4Z4iNg4mw5tP1Vung9N9IjgMNqpiMoJ/FouSFwNCGHv2X0mmOYwtQOJzki6XN7r7Tyo01S29p7b224I4jw==}
     dependencies:
-      '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.7
+      '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.12
       '@babel/runtime': 7.20.7
       eth-query: 2.1.2
       json-rpc-random-id: 1.0.1
@@ -6213,7 +6213,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next/13.1.1_7xlrwlvvs7cv2obrs6a5y6oxxq:
+  /next/13.1.1_pjwopsidmaokadturxaafygjp4:
     resolution: {integrity: sha512-R5eBAaIa3X7LJeYvv1bMdGnAVF4fVToEjim7MkflceFPuANY3YyvFxXee/A+acrSYwYPvOvf7f6v/BM/48ea5w==}
     engines: {node: '>=14.6.0'}
     hasBin: true
@@ -6237,7 +6237,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      styled-jsx: 5.1.1_dojr2aquw55jwdpbannhlirjf4
+      styled-jsx: 5.1.1_2exiyaescjxorpwwmy4ejghgte
     optionalDependencies:
       '@next/swc-android-arm-eabi': 13.1.1
       '@next/swc-android-arm64': 13.1.1
@@ -6263,7 +6263,7 @@ packages:
       react: '>= 16.0.0'
     dependencies:
       '@types/nprogress': 0.2.0
-      next: 13.1.1_7xlrwlvvs7cv2obrs6a5y6oxxq
+      next: 13.1.1_pjwopsidmaokadturxaafygjp4
       nprogress: 0.2.0
       prop-types: 15.8.1
       react: 18.2.0
@@ -7402,7 +7402,7 @@ packages:
       inline-style-parser: 0.1.1
     dev: false
 
-  /styled-jsx/5.1.1_dojr2aquw55jwdpbannhlirjf4:
+  /styled-jsx/5.1.1_2exiyaescjxorpwwmy4ejghgte:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
@@ -7415,7 +7415,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      '@babel/core': 7.20.7
+      '@babel/core': 7.20.12
       client-only: 0.0.1
       react: 18.2.0
 
@@ -8136,17 +8136,17 @@ packages:
     resolution: {integrity: sha512-f+fciywl1SJEniZHD6H+kUO8gOnwIr7f4ijKA6+ZvJFjeGi1r4PDLl53Ayud9O/rk64RqgoQine0feoeOU0kXg==}
     dev: false
 
-  /wagmi/0.10.4_wweobo2sc25ap44y2tvtsnwgjm:
+  /wagmi/0.10.4_f3jn3xbs4uawab6fh4rpppqdgi:
     resolution: {integrity: sha512-ifJSnmkG+5S+MgelY5gKiZmDJdYe4/ObtzpnfngLTKxmmH+bdevfDD+dqJCgZKTUx9KFytSVpOAHSibctf1I3g==}
     peerDependencies:
       ethers: '>=5.5.1'
       react: '>=17.0.0'
     dependencies:
-      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.7
+      '@coinbase/wallet-sdk': 3.6.3_@babel+core@7.20.12
       '@tanstack/query-sync-storage-persister': 4.20.9_wk7fpynjpvb4hxuiukdy2vekrm
       '@tanstack/react-query': 4.20.9_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-query-persist-client': 4.20.9_pzelq4zc3svuizkvynp4e636ei
-      '@wagmi/core': 0.8.10_3qvw3l7xkin2zuhxpgvxtpcwni
+      '@wagmi/core': 0.8.10_vhv6xxlfpwiqyzkguvjk4mknfm
       '@walletconnect/ethereum-provider': 1.8.0
       abitype: 0.2.5_typescript@4.9.4
       ethers: 5.7.2
