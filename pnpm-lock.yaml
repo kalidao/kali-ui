@@ -53,7 +53,7 @@ specifiers:
   react-hook-form: ^7.41.5
   react-markdown: ^8.0.4
   react-tsparticles: ^2.7.1
-  react-wrap-balancer: ^0.2.4
+  react-wrap-balancer: ^0.3.0
   tsparticles: ^2.7.1
   typescript: ^4.9.4
   wagmi: ^0.10.4
@@ -100,7 +100,7 @@ dependencies:
   react-hook-form: 7.41.5_react@18.2.0
   react-markdown: 8.0.4_kzbn2opkn2327fwg5yzwzya5o4
   react-tsparticles: 2.7.1_react@18.2.0
-  react-wrap-balancer: 0.2.4_react@18.2.0
+  react-wrap-balancer: 0.3.0_react@18.2.0
   tsparticles: 2.7.1
   wagmi: 0.10.4_f3jn3xbs4uawab6fh4rpppqdgi
   zustand: 4.2.0_react@18.2.0
@@ -2777,7 +2777,7 @@ packages:
       '@wagmi/core': 0.8.10_vhv6xxlfpwiqyzkguvjk4mknfm
       '@walletconnect/ethereum-provider': 1.8.0
       '@walletconnect/qrcode-modal': 1.8.0
-      '@walletconnect/universal-provider': 2.1.5
+      '@walletconnect/universal-provider': 2.2.0
       abitype: 0.1.8_typescript@4.9.4
       ethers: 5.7.2
       eventemitter3: 4.0.7
@@ -2861,8 +2861,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/core/2.1.5:
-    resolution: {integrity: sha512-UjQRIVNTJfUDwR0NATgJf2qQEjyX053JdG0PAZs1YxhpNevGuhAzAlOvWHf4hq9zV8uj9mUPkkkWXSY331uQig==}
+  /@walletconnect/core/2.2.0:
+    resolution: {integrity: sha512-oucu/Ro1bYL9DQIRqB4Y5HUfOFRhl/sOMyQ3SVLtq9J6jrFs5uePiw13dvhz7+p1BzWVWV5Jw2+elmJllNiB/A==}
     dependencies:
       '@walletconnect/heartbeat': 1.0.1
       '@walletconnect/jsonrpc-provider': 1.0.6
@@ -2874,8 +2874,8 @@ packages:
       '@walletconnect/relay-auth': 1.0.4
       '@walletconnect/safe-json': 1.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.1.5
-      '@walletconnect/utils': 2.1.5
+      '@walletconnect/types': 2.2.0
+      '@walletconnect/utils': 2.2.0
       events: 3.3.0
       lodash.isequal: 4.5.0
       pino: 7.11.0
@@ -3075,18 +3075,18 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/sign-client/2.1.5:
-    resolution: {integrity: sha512-lEcP9Kk+2aKswWcJPBnTpZ+2V8r7mTLitA9F9cteFD0606k9xVGHoWEIt19YlVrB7sTKfXCdF/FWjmVTbHOBEw==}
+  /@walletconnect/sign-client/2.2.0:
+    resolution: {integrity: sha512-7oEYp/t/uuR85/meMqJvaJBxVY/R9CR6xJOxL4sobOioL2Dy58m1HkxpODqxSpdZvJ1sCm6x7zYlqOWYbY1kdA==}
     dependencies:
-      '@walletconnect/core': 2.1.5
+      '@walletconnect/core': 2.2.0
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.0.1
       '@walletconnect/jsonrpc-provider': 1.0.6
       '@walletconnect/jsonrpc-utils': 1.0.4
       '@walletconnect/logger': 2.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.1.5
-      '@walletconnect/utils': 2.1.5
+      '@walletconnect/types': 2.2.0
+      '@walletconnect/utils': 2.2.0
       events: 3.3.0
       pino: 7.11.0
     transitivePeerDependencies:
@@ -3131,8 +3131,8 @@ packages:
     resolution: {integrity: sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==}
     dev: false
 
-  /@walletconnect/types/2.1.5:
-    resolution: {integrity: sha512-KhJ+/Och+0W2i6gfSBLjn7yqu2496MXGPOHm9yosQ1t1X6i9j3FjA4yiyLCbmIdVOXvtU1JOdn15ATOhSUxc3Q==}
+  /@walletconnect/types/2.2.0:
+    resolution: {integrity: sha512-mxxXcHTtRaa3FiLWWEYEOA3wyGzOc9Fdv2Objms/COcPAropAY/8A0kceqCDB0si1UFOl6KpEzvm5WHJpJi9tQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.0.1
@@ -3145,17 +3145,17 @@ packages:
       - lokijs
     dev: false
 
-  /@walletconnect/universal-provider/2.1.5:
-    resolution: {integrity: sha512-mjFexQrPk3xL8tIdFrDq0b4LfghKt5j9Fhd5wVwZWhcCf1i8tiRpOhuchY0v8B4r6rLla525dbdi3f2PKFE+EQ==}
+  /@walletconnect/universal-provider/2.2.0:
+    resolution: {integrity: sha512-FJhk8YRbvLWRbVlwmI5LDzdPRZNpNfZ52BeCV8jcQYkxlZzZ/QtToxp3oYaYXECI2isQ3mvEwadC6qzzua7B1A==}
     dependencies:
       '@walletconnect/jsonrpc-http-connection': 1.0.4
       '@walletconnect/jsonrpc-provider': 1.0.6
       '@walletconnect/jsonrpc-types': 1.0.2
       '@walletconnect/jsonrpc-utils': 1.0.4
       '@walletconnect/logger': 2.0.1
-      '@walletconnect/sign-client': 2.1.5
-      '@walletconnect/types': 2.1.5
-      '@walletconnect/utils': 2.1.5
+      '@walletconnect/sign-client': 2.2.0
+      '@walletconnect/types': 2.2.0
+      '@walletconnect/utils': 2.2.0
       eip1193-provider: 1.0.1
       events: 3.3.0
       pino: 7.11.0
@@ -3180,8 +3180,8 @@ packages:
       query-string: 6.13.5
     dev: false
 
-  /@walletconnect/utils/2.1.5:
-    resolution: {integrity: sha512-ZJNS/3oXjyDxjQXfXCl4GtnNnnVKaLRYwbhSw6ECDaZHo3WdAGWKrg14eB0XYw9RxTM4bCgb5z21NtaeP3ck4A==}
+  /@walletconnect/utils/2.2.0:
+    resolution: {integrity: sha512-nQqJHK3KMOKXSn277QhEVGQF5+LuP2PRZDDipl63Qz0ixz2okSpK7SGl1cfDm3728DVW1RxMi2qhmIiQwAU2tg==}
     dependencies:
       '@stablelib/chacha20poly1305': 1.0.1
       '@stablelib/hkdf': 1.0.1
@@ -3192,7 +3192,7 @@ packages:
       '@walletconnect/relay-api': 1.0.7
       '@walletconnect/safe-json': 1.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.1.5
+      '@walletconnect/types': 2.2.0
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       detect-browser: 5.3.0
@@ -3489,7 +3489,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       get-intrinsic: 1.1.3
       is-string: 1.0.7
     dev: true
@@ -3505,7 +3505,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       es-shim-unscopables: 1.0.0
     dev: true
 
@@ -3515,7 +3515,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       es-shim-unscopables: 1.0.0
     dev: true
 
@@ -3524,7 +3524,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       es-shim-unscopables: 1.0.0
       get-intrinsic: 1.1.3
     dev: true
@@ -3555,10 +3555,9 @@ packages:
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
-    dev: false
 
-  /axe-core/4.6.1:
-    resolution: {integrity: sha512-lCZN5XRuOnpG4bpMq8v0khrWtUOn+i8lZSb6wHZH56ZfbIEv6XwJV84AAueh9/zi7qPVJ/E4yz6fmsiyOmXR4w==}
+  /axe-core/4.6.2:
+    resolution: {integrity: sha512-b1WlTV8+XKLj9gZy2DZXgQiyDp9xkkoe2a6U6UbYccScq2wgH/YwCeI2/Jq2mgo0HzQxqJOjWZBLeA/mqsk5Mg==}
     engines: {node: '>=4'}
     dev: true
 
@@ -3738,7 +3737,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001441
+      caniuse-lite: 1.0.30001442
       electron-to-chromium: 1.4.284
       node-releases: 2.0.8
       update-browserslist-db: 1.0.10_browserslist@4.21.4
@@ -3811,7 +3810,7 @@ packages:
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
-      node-gyp-build: 4.5.0
+      node-gyp-build: 4.6.0
     dev: false
 
   /call-bind/1.0.2:
@@ -3834,8 +3833,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: false
 
-  /caniuse-lite/1.0.30001441:
-    resolution: {integrity: sha512-OyxRR4Vof59I3yGWXws6i908EtGbMzVUi3ganaZQHmydk1iwDhRnvaPG2WaR0KcqrDFKrxVZHULT396LEPhXfg==}
+  /caniuse-lite/1.0.30001442:
+    resolution: {integrity: sha512-239m03Pqy0hwxYPYR5JwOIxRJfLTWtle9FV8zosfV5pHg+/51uD4nxcUlM8+mWWGfwKtt8lJNHnD3cWw9VZ6ow==}
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -4301,26 +4300,31 @@ packages:
       tapable: 2.2.1
     dev: true
 
-  /es-abstract/1.20.5:
-    resolution: {integrity: sha512-7h8MM2EQhsCA7pU/Nv78qOXFpD8Rhqd12gYiSJVkrH9+e8VuA8JlPJK/hQjjlLv6pJvx/z1iRFKzYb0XT/RuAQ==}
+  /es-abstract/1.21.0:
+    resolution: {integrity: sha512-GUGtW7eXQay0c+PRq0sGIKSdaBorfVqsCMhGHo4elP7YVqZu9nCZS4UkK4gv71gOWNMra/PaSKD3ao1oWExO0g==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
+      es-set-tostringtag: 2.0.1
       es-to-primitive: 1.2.1
       function-bind: 1.1.1
       function.prototype.name: 1.1.5
       get-intrinsic: 1.1.3
       get-symbol-description: 1.0.0
+      globalthis: 1.0.3
       gopd: 1.0.1
       has: 1.0.3
       has-property-descriptors: 1.0.0
+      has-proto: 1.0.1
       has-symbols: 1.0.3
       internal-slot: 1.0.4
+      is-array-buffer: 3.0.1
       is-callable: 1.2.7
       is-negative-zero: 2.0.2
       is-regex: 1.1.4
       is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
+      is-typed-array: 1.1.10
       is-weakref: 1.0.2
       object-inspect: 1.12.2
       object-keys: 1.1.1
@@ -4329,11 +4333,22 @@ packages:
       safe-regex-test: 1.0.0
       string.prototype.trimend: 1.0.6
       string.prototype.trimstart: 1.0.6
+      typed-array-length: 1.0.4
       unbox-primitive: 1.0.2
+      which-typed-array: 1.1.9
     dev: true
 
   /es-module-lexer/0.9.3:
     resolution: {integrity: sha512-1HQ2M2sPtxwnvOvT1ZClHyQDiggdNjURWpY2we6aMKCQiUVxTmVs2UYPLIrD84sS+kMdUwfBSylbJPwNnBrnHQ==}
+    dev: true
+
+  /es-set-tostringtag/2.0.1:
+    resolution: {integrity: sha512-g3OMbtlwY3QewlqAiMLI47KywjWZoEytKr8pf6iTC8uJq5bIAH52Z9pnQ8pVL6whrCto53JZDuUIsifGeLorTg==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      get-intrinsic: 1.1.3
+      has: 1.0.3
+      has-tostringtag: 1.0.0
     dev: true
 
   /es-shim-unscopables/1.0.0:
@@ -4502,7 +4517,7 @@ packages:
       aria-query: 4.2.2
       array-includes: 3.1.6
       ast-types-flow: 0.0.7
-      axe-core: 4.6.1
+      axe-core: 4.6.2
       axobject-query: 2.2.0
       damerau-levenshtein: 1.0.8
       emoji-regex: 9.2.2
@@ -5022,7 +5037,6 @@ packages:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
       is-callable: 1.2.7
-    dev: false
 
   /form-data/2.5.1:
     resolution: {integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==}
@@ -5064,7 +5078,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       functions-have-names: 1.2.3
     dev: true
 
@@ -5156,6 +5170,13 @@ packages:
       type-fest: 0.20.2
     dev: true
 
+  /globalthis/1.0.3:
+    resolution: {integrity: sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      define-properties: 1.1.4
+    dev: true
+
   /globalyzer/0.1.0:
     resolution: {integrity: sha512-40oNTM9UfG6aBmuKxk/giHn5nQ8RVz/SS4Ir6zgzOv9/qC3kKZ9v4etGTcJbEl/NyVQH7FGU7d+X1egr57Md2Q==}
     dev: true
@@ -5221,6 +5242,11 @@ packages:
     resolution: {integrity: sha512-62DVLZGoiEBDHQyqG4w9xCuZ7eJEwNmJRWw2VY84Oedb7WFcA27fiEVe8oUQx9hAUJ4ekurquucTGwsyO1XGdQ==}
     dependencies:
       get-intrinsic: 1.1.3
+    dev: true
+
+  /has-proto/1.0.1:
+    resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==}
+    engines: {node: '>= 0.4'}
     dev: true
 
   /has-symbols/1.0.3:
@@ -5365,6 +5391,14 @@ packages:
       call-bind: 1.0.2
       has-tostringtag: 1.0.0
     dev: false
+
+  /is-array-buffer/3.0.1:
+    resolution: {integrity: sha512-ASfLknmY8Xa2XtB4wmbz13Wu202baeA18cJBCeCy0wXUHZF0IPyVEXqKEcd+t2fNSLLL1vC6k7lxZEojNbISXQ==}
+    dependencies:
+      call-bind: 1.0.2
+      get-intrinsic: 1.1.3
+      is-typed-array: 1.1.10
+    dev: true
 
   /is-arrayish/0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
@@ -5527,7 +5561,6 @@ packages:
       for-each: 0.3.3
       gopd: 1.0.1
       has-tostringtag: 1.0.0
-    dev: false
 
   /is-typedarray/1.0.0:
     resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
@@ -5701,7 +5734,7 @@ packages:
     requiresBuild: true
     dependencies:
       node-addon-api: 2.0.2
-      node-gyp-build: 4.5.0
+      node-gyp-build: 4.6.0
       readable-stream: 3.6.0
     dev: false
 
@@ -6233,7 +6266,7 @@ packages:
     dependencies:
       '@next/env': 13.1.1
       '@swc/helpers': 0.4.14
-      caniuse-lite: 1.0.30001441
+      caniuse-lite: 1.0.30001442
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -6289,8 +6322,8 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
-  /node-gyp-build/4.5.0:
-    resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
+  /node-gyp-build/4.6.0:
+    resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==}
     hasBin: true
     dev: false
 
@@ -6359,7 +6392,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /object.fromentries/2.0.6:
@@ -6368,14 +6401,14 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /object.hasown/1.1.2:
     resolution: {integrity: sha512-B5UIT3J1W+WuWIU55h0mjlwaqxiE5vYENJXIXZ4VFe05pNYrkKuK0U/6aFcb0pKywYJh7IhfoqUfKVmrJJHZHw==}
     dependencies:
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /object.values/1.1.6:
@@ -6384,7 +6417,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /on-exit-leak-free/0.2.0:
@@ -6936,8 +6969,8 @@ packages:
       tsparticles-engine: 2.7.1
     dev: false
 
-  /react-wrap-balancer/0.2.4_react@18.2.0:
-    resolution: {integrity: sha512-MVL9/Tw1X72t0i5Y/2j3YmSx1vkJJ22b5Vb+vZ/IOEdq7r9JPNzTfnfkB8wrl98Jwx+F6VCwJXmU7a1lT5PtCA==}
+  /react-wrap-balancer/0.3.0_react@18.2.0:
+    resolution: {integrity: sha512-UlnQvCvSRW0jh8uILic2LJs4tV0KjOO+P70ookE5qRpfZvsKmY8KLcV8s7TBPB6cuVYkoH7+fbqankFrFata8w==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
@@ -7181,7 +7214,7 @@ packages:
     dependencies:
       elliptic: 6.5.4
       node-addon-api: 2.0.2
-      node-gyp-build: 4.5.0
+      node-gyp-build: 4.6.0
     dev: false
 
   /semver/6.3.0:
@@ -7336,7 +7369,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
       get-intrinsic: 1.1.3
       has-symbols: 1.0.3
       internal-slot: 1.0.4
@@ -7349,7 +7382,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /string.prototype.trimstart/1.0.6:
@@ -7357,7 +7390,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.5
+      es-abstract: 1.21.0
     dev: true
 
   /string_decoder/1.3.0:
@@ -7888,6 +7921,14 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /typed-array-length/1.0.4:
+    resolution: {integrity: sha512-KjZypGq+I/H7HI5HlOoGHkWUUGq+Q0TPhQurLbyrVrvnKTBgzLhIJ7j6J/XTQOi0d1RjyZ0wdas8bKs2p0x3Ng==}
+    dependencies:
+      call-bind: 1.0.2
+      for-each: 0.3.3
+      is-typed-array: 1.1.10
+    dev: true
+
   /typed-emitter/2.1.0:
     resolution: {integrity: sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==}
     optionalDependencies:
@@ -8060,7 +8101,7 @@ packages:
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
-      node-gyp-build: 4.5.0
+      node-gyp-build: 4.6.0
     dev: false
 
   /utf8/3.0.0:
@@ -8278,7 +8319,6 @@ packages:
       gopd: 1.0.1
       has-tostringtag: 1.0.0
       is-typed-array: 1.1.10
-    dev: false
 
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}

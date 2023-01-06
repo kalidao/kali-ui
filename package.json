@@ -50,7 +50,7 @@
     "react-hook-form": "^7.41.5",
     "react-markdown": "^8.0.4",
     "react-tsparticles": "^2.7.1",
-    "react-wrap-balancer": "^0.2.4",
+    "react-wrap-balancer": "^0.3.0",
     "tsparticles": "^2.7.1",
     "wagmi": "^0.10.4",
     "zustand": "^4.2.0"
