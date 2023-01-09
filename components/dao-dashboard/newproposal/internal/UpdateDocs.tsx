@@ -102,7 +102,7 @@ export default function UpdateDocs() {
         <Text weight={'semiBold'}>OR</Text>
         <Divider />
       </Stack>
-      <FileUploader setFile={setNewDocFile} label="Upload Document" />
+      <FileUploader setFile={setNewDocFile} label="Upload Document" labelSecondary="" />
       {warning && <Warning warning={warning} />}
       <ChainGuard fallback={<Button>Submit</Button>}>
         <Button center onClick={submit} loading={loading} disabled={warning ? true : false}>

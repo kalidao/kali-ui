@@ -6,7 +6,7 @@ type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>
   label: string
   description?: string
-  labelSecondary: React.ReactNode
+  labelSecondary?: React.ReactNode
 }
 
 const FileUploader = ({ setFile, label, description, labelSecondary }: Props) => {

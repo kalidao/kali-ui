@@ -355,6 +355,7 @@ export default function SetCrowdsale({ setProposal, title, content }: ProposalPr
 
       <FileUploader
         label="Swap Terms"
+        labelSecondary=""
         description="You may attach a file (.pdf) with Swap, and Kali will present as a clickwrap for Swap users to accept or decline before swapping."
         setFile={setTerms}
       />
