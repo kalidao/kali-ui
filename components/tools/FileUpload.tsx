@@ -6,11 +6,12 @@ type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>
   label: string
   description?: string
+  labelSecondary: React.ReactNode
 }
 
-const FileUploader = ({ setFile, label, description }: Props) => {
+const FileUploader = ({ setFile, label, description, labelSecondary }: Props) => {
   return (
-    <Field label={label} description={description}>
+    <Field label={label} description={description} labelSecondary={labelSecondary}>
       <FileInput onChange={(file) => setFile(file)} accept="application/pdf">
         {(context) =>
           context.name ? (
