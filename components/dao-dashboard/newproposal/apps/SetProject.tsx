@@ -57,7 +57,6 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   // form
   const [file, setFile] = useState<File>()
   const [warning, setWarning] = useState<string>()
-  const [isEnabled, setIsEnabled] = useState(false)
   const [reward, setReward] = useState('select')
   const [customToken, setCustomToken] = useState<string>('')
   const [customTokenSymbol, setCustomTokenSymbol] = useState<string>('')
@@ -68,27 +67,6 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   const [status, setStatus] = useState<string>()
   const [name, setName] = useState<string>()
   const [manager, setManager] = useState<string>()
-
-  const validateData = async (data: string[]) => {
-    if (!data) return
-
-    for (let i = 0; i < data.length; i++) {
-      if (!ethers.utils.isAddress(data[i])) {
-        try {
-          const res = await fetchEnsAddress(data[i])
-          if (res && ethers.utils.isAddress(res)) {
-            data[i] = res as string
-          } else {
-            return false
-          }
-        } catch (e) {
-          return false
-        }
-      }
-    }
-
-    return data
-  }
 
   const handleDeadline = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -165,23 +143,22 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
 
     // Check if DAO has enough Ether to cover budget
     // Custom token balance is checked in handleCustomToken()
-    if (reward == 'eth') {
-      daoBalanceRaw = await provider.getBalance(daoAddress)
-      daoBalance = ethers.utils.formatEther(daoBalanceRaw)
-      // setDaoTokenBalance(daoBalance)
+    // if (reward == 'eth') {
+    //   daoBalanceRaw = await provider.getBalance(daoAddress)
+    //   daoBalance = ethers.utils.formatEther(daoBalanceRaw)
 
-      console.log(_budget)
-      if (Number(_budget) > Number(daoBalance)) {
-        setWarning('Budget exceeds existing DAO balance.')
-      } else {
-        setWarning('')
-        const __budget = ethers.utils.parseEther(_budget)
-        setBudget(__budget)
-      }
-    }
+    //   console.log(_budget)
+    //   if (Number(_budget) > Number(daoBalance)) {
+    //     setWarning('Budget exceeds existing DAO balance.')
+    //   } else {
+    //     setWarning('')
+    //     const __budget = _budget ? ethers.utils.parseEther(_budget) : ethers.utils.parseEther('0.0')
+    //     setBudget(__budget)
+    //   }
+    // }
 
     if (reward == 'dao') {
-      const __budget = ethers.utils.parseEther(_budget)
+      const __budget = _budget ? ethers.utils.parseEther(_budget) : ethers.utils.parseEther('0.0')
       setBudget(__budget)
     }
 
@@ -219,16 +196,12 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     let _token
     let _budget
 
-    if (reward === 'eth') {
+    if (reward === 'dao') {
       _reward = 0
-      _token = AddressZero
-      _budget = ethers.utils.formatEther(budget)
-    } else if (reward === 'dao') {
-      _reward = 1
       _token = daoAddress
       _budget = ethers.utils.formatEther(budget)
     } else if (reward === 'custom') {
-      _reward = 2
+      _reward = 1
       _token = customToken
       _budget = ethers.utils.formatUnits(budget, customTokenDecimals)
     } else {
@@ -239,6 +212,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     setStatus('Uploading documents to IPFS...')
     let detailsHash
     detailsHash = await createProjectDetails(
+      0,
       daoAddress,
       chainId,
       name,
@@ -280,7 +254,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [projectManagementAddress], [0], [payload])
+    console.log('Proposal Params - ', 9, docs, [projectManagementAddress], [0], [payload])
 
     setStatus('Creating proposal...')
     try {
@@ -331,7 +305,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         onChange={handleReward}
         options={[
           { value: 'select', label: 'Select' },
-          { value: 'eth', label: 'Ether' },
+          // { value: 'eth', label: 'Ether' },
           { value: 'dao', label: `DAO token ($${kalidaoToken})` },
           { value: 'custom', label: 'ERC20' },
         ]}
@@ -360,6 +334,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
 
       <FileUploader
         label="Document"
+        labelSecondary=""
         description="Upload a document describing this new project. Any document uploaded will live on IPFS."
         setFile={setFile}
       />
