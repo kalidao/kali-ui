@@ -1,7 +1,7 @@
 import { uploadFile, uploadJSON } from '@utils/ipfs'
-import { convertIpfsHash } from '@utils/convertIpfsHash'
 
 export const createProjectDetails = async (
+  id: number,
   dao: string,
   chainId: number,
   name: string,
@@ -11,12 +11,12 @@ export const createProjectDetails = async (
   deadline: string,
   file: any,
 ) => {
-  // upload file to ipfs
   try {
     const hash = await uploadFile(file)
-    console.log('hash', hash)
+
     if (typeof hash == 'string') {
       const details = await uploadJSON({
+        id: id,
         dao: dao,
         chainId: chainId,
         name: name,
@@ -26,7 +26,6 @@ export const createProjectDetails = async (
         deadline: deadline,
         file: hash,
       })
-
       return details
     } else {
       return ''
