@@ -102,7 +102,7 @@ export const addresses: { [key: number]: any } =
         crowdsale2: '0xB682e773768e68C02B8b3892CF32eA090600b4b4',
         // crowdsale2: '0x2350C968C7B323Ad255E3942fcb9d578638792EC',
         redemption: '0x2b8f116e4D9E73A3A9E7CAF1655B9FC01588Db8d',
-        project: '0x9BDE417544bc2A281150972A58C9a56F59cbaFa5',
+        project: '0xb56922b50e8FFD308e3be8634C939E6b0BaB20Fe',
       },
       blockExplorer: 'https://goerli.etherscan.io/',
     },

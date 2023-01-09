@@ -29,11 +29,6 @@
   },
   {
     "inputs": [],
-    "name": "InvalidEthReward",
-    "type": "error"
-  },
-  {
-    "inputs": [],
     "name": "InvalidInput",
     "type": "error"
   },
@@ -49,7 +44,7 @@
   },
   {
     "inputs": [],
-    "name": "OnlyAccount",
+    "name": "OnlyAccountCanUpdateBudget",
     "type": "error"
   },
   {
@@ -60,11 +55,6 @@
   {
     "inputs": [],
     "name": "SetupFailed",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "TransferFailed",
     "type": "error"
   },
   {
@@ -241,6 +231,10 @@
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   },
   {
     "inputs": [],
