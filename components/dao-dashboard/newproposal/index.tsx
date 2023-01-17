@@ -6,6 +6,8 @@ import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
+import UpdateSwap from './apps/UpdateSwap'
+import RemoveSwap from './apps/RemoveSwap'
 
 type Props = {
   proposalProp: string
@@ -94,6 +96,14 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     swap_add: {
       title: 'Add Swap',
       component: <SetSwap setProposal={setView} title={title} content={content} />,
+    },
+    swap_update: {
+      title: 'Update Swap',
+      component: <UpdateSwap setProposal={setView} title={title} content={content} />,
+    },
+    swap_remove: {
+      title: 'Remove Swap',
+      component: <RemoveSwap setProposal={setView} title={title} content={content} />,
     },
     // TODO: add tribute back
     // tribute: {
