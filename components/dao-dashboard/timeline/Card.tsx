@@ -106,7 +106,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
         }}
         passHref
       >
-        <a className={linkStyle}>
+        {/* <a className={linkStyle}> */}
           <Stack
             direction={{
               xs: 'horizontal',
@@ -132,7 +132,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
             isSchema={details ? true : false}
             short
           />
-        </a>
+        {/* </a> */}
       </Link>
       <Box display="flex">
         <Vote proposal={proposal} />
