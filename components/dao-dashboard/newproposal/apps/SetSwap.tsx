@@ -19,7 +19,7 @@ import { DateInput } from '@design/DateInput'
 import { JSONContent } from '@tiptap/react'
 import { createSwapDetails } from './createSwapDetails'
 
-export default function SetCrowdsale({ setProposal, title, content }: ProposalProps) {
+export default function SetSwap({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const daoAddress = router.query.dao as string
   const chainId = Number(router.query.chainId)
