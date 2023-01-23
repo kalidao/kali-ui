@@ -1,16 +1,6 @@
 import { uploadFile, uploadJSON } from '@utils/ipfs'
 
-export const createProjectDetails = async (
-  id: number,
-  dao: string,
-  chainId: number,
-  name: string,
-  manager: string,
-  reward: string,
-  budget: number,
-  deadline: string,
-  file: any,
-) => {
+export const createProjectDetails = async (id: number, dao: string, chainId: number, name: string, file: any) => {
   try {
     const hash = await uploadFile(file)
 
@@ -20,10 +10,6 @@ export const createProjectDetails = async (
         dao: dao,
         chainId: chainId,
         name: name,
-        manager: manager,
-        reward: reward,
-        budget: budget,
-        deadline: deadline,
         file: hash,
       })
       return details
