@@ -16,7 +16,7 @@ import { getProvider } from '@utils/getProvider'
 import { AddressZero } from '@ethersproject/constants'
 import { fetchProject } from './utils/fetchProject'
 import { prettyDate } from '@utils/prettyDate'
-import { updateProjectDetails } from './updateProjectDetails'
+// import { updateProjectDetails } from './updateProjectDetails'
 
 export default function SetProject({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -27,12 +27,12 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   const { data: signer } = useSigner()
   const projectManagementAddress = addresses[chainId]['extensions']['project']
 
-  const { data: kalidaoToken } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
-    functionName: 'symbol',
-    chainId: Number(chainId),
-  })
+  // const { data: kalidaoToken } = useContractRead({
+  //   addressOrName: daoAddress,
+  //   contractInterface: KALIDAO_ABI,
+  //   functionName: 'symbol',
+  //   chainId: Number(chainId),
+  // })
 
   const kalidao = useContract({
     addressOrName: daoAddress,
@@ -40,25 +40,23 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     signerOrProvider: signer,
   })
 
-  const kaliPm = useContract({
-    addressOrName: projectManagementAddress,
-    contractInterface: PM_ABI,
-    signerOrProvider: signer,
-  })
+  // const kaliPm = useContract({
+  //   addressOrName: projectManagementAddress,
+  //   contractInterface: PM_ABI,
+  //   signerOrProvider: signer,
+  // })
 
   // form
-  const [file, setFile] = useState<File>()
   const [warning, setWarning] = useState<string>()
   const [reward, setReward] = useState('select')
   const [customToken, setCustomToken] = useState<string>('')
   const [customTokenSymbol, setCustomTokenSymbol] = useState<string>('')
   const [customTokenDecimals, setCustomTokenDecimals] = useState(0)
-  const [daoTokenBalance, setDaoTokenBalance] = useState<string>()
   const [newBudget, setNewBudget] = useState<BigNumber>()
   const [oldBudget, setOldBudget] = useState<string>()
   const [oldDeadline, setOldDeadline] = useState<number>(0)
   const [newDeadline, setNewDeadline] = useState<number>()
-  const [oldDocs, setOldDocs] = useState<string>()
+  const [details, setDetails] = useState<string>()
   const [status, setStatus] = useState<string>()
   const [projectId, setProjectId] = useState<number>(0)
   const [newManager, setNewManager] = useState<string>()
@@ -73,7 +71,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
 
     try {
       const project = await fetchProject(daoAddress, chainId, Number(id))
-
+      console.log(project)
       // Handle project account
       if (project.account == AddressZero) {
         setIsEnabled(false)
@@ -105,9 +103,9 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       setOldBudget(budget)
 
       // Handle project docs
-      const res = await fetch(project.docs)
-      const data = await res.json()
-      setOldDocs(data.file)
+      // const res = await fetch(project.docs)
+      // const data = await res.json()
+      setDetails(project.docs)
     } catch (e) {
       console.log(e)
     }
@@ -121,6 +119,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       setWarning('Invalid deadline. Please pick another date and time.')
     } else {
       setNewDeadline(Date.parse(_deadline) / 1000)
+      setWarning('')
     }
   }
 
@@ -130,6 +129,8 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
 
     if (Number(_budget) == 0) {
       setWarning('Budget is required.')
+    } else {
+      setWarning('')
     }
 
     if (reward == 'dao') {
@@ -138,7 +139,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     }
 
     if (reward == 'custom') {
-      if (Number(_budget) > Number(daoBalance) || Number(_budget) > Number(daoTokenBalance)) {
+      if (Number(_budget) > Number(daoBalance)) {
         setWarning('Budget exceeds existing DAO balance.')
       } else {
         setWarning('')
@@ -156,7 +157,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       return
     }
 
-    console.log(projectId, newManager, newBudget, newDeadline, file)
+    console.log(projectId, newManager, newBudget, newDeadline)
     if (!newManager || !newBudget || !newDeadline) {
       setWarning('All fields are required.')
       return
@@ -178,21 +179,20 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       setWarning('Invalid reward.')
     }
 
-    setStatus('Uploading documents to IPFS...')
-    let detailsHash
-    detailsHash = await updateProjectDetails(
-      projectId,
-      newManager ? newManager : '',
-      Number(_budget),
-      newDeadline ? newDeadline.toString() : '',
-      file,
-    )
+    // setStatus('Uploading documents to IPFS...')
+    // let detailsHash
+    // detailsHash = await updateProjectDetails(
+    //   projectId,
+    //   newManager ? newManager : '',
+    //   Number(_budget),
+    //   newDeadline ? newDeadline.toString() : '',
+    // )
 
-    if (detailsHash == '') {
-      setWarning('Error uploading documents.')
-      setStatus('')
-      return
-    }
+    // if (detailsHash == '') {
+    //   setWarning('Error uploading documents.')
+    //   setStatus('')
+    //   return
+    // }
 
     // Upload proposal metadata
     setStatus('Creating proposal metadata...')
@@ -205,14 +205,15 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     }
 
     setStatus('Encoding project management details...')
+    console.log(projectId, 1, newManager, _reward, _token, newBudget, newDeadline, details)
     let payload
     try {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(
         ['uint256', 'uint8', 'address', 'uint8', 'address', 'uint256', 'uint40', 'string'],
-        [projectId, 1, newManager, _reward, _token, newBudget, newDeadline, detailsHash],
+        [projectId, 1, newManager, _reward, _token, newBudget, newDeadline, details],
       )
-      console.log(projectId, 1, newManager, _reward, _token, newBudget, newDeadline, detailsHash)
+      console.log(projectId, 1, newManager, _reward, _token, newBudget, newDeadline, details)
     } catch (e) {
       setWarning('Error setting the project management proposal.')
       console.log(e)
@@ -228,7 +229,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         9, // EXTENSION prop
         docs,
         [projectManagementAddress],
-        [1],
+        [0],
         [payload],
       )
       console.log('tx', tx)
@@ -237,17 +238,6 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     }
     setStatus('Proposed.')
   }
-
-  useEffect(() => {
-    const checkDaoEthBalance = async () => {
-      const balance = await provider.getBalance(daoAddress)
-      let daoBalance = ethers.utils.formatEther(balance)
-      console.log(daoBalance, daoTokenBalance)
-      setDaoTokenBalance(daoBalance)
-    }
-
-    checkDaoEthBalance()
-  }, [])
 
   return (
     <FieldSet
@@ -273,7 +263,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         name="manager"
         type="text"
         placeholder={AddressZero}
-        onChange={(e) => setNewManager(e.target.value)}
+        onChange={(e) => setNewManager(e.target.value as string)}
       />
       <Input
         label="Reward"
@@ -304,7 +294,13 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         labelSecondary={<Tag>Current Deadline: {prettyDate(new Date(oldDeadline * 1000))}</Tag>}
       />
 
-      <FileUploader
+      {/* <Tag>
+        Current Document:{' '}
+        <a href={file} target="_blank" rel="noopener noreferrer">
+          {file ? 'Link' : 'N/A'}
+        </a>
+      </Tag> */}
+      {/* <FileUploader
         label="Document"
         description=""
         setFile={setFile}
@@ -320,7 +316,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
             <Tag>Current Document: N/A</Tag>
           )
         }
-      />
+      /> */}
       {warning && <Warning warning={warning} />}
       <Stack align="center" justify={'space-between'} direction="horizontal">
         <Back onClick={() => setProposal?.('appsMenu')} />

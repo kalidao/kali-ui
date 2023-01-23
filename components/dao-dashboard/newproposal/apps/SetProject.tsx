@@ -2,23 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { BigNumber, ethers } from 'ethers'
 import { useContract, useSigner, useContractRead, erc20ABI } from 'wagmi'
-import {
-  Stack,
-  Input,
-  Box,
-  Text,
-  Button,
-  FieldSet,
-  FileInput,
-  Textarea,
-  IconClose,
-  Checkbox,
-  IconUserSolid,
-  Tag,
-} from '@kalidao/reality'
+import { Stack, Input, Button, FieldSet, Tag } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
-import MANAGER_ABI from '@abi/KaliProjectManager.json'
 import { addresses } from '@constants/addresses'
 import { Warning } from '@design/elements'
 import Back from '@design/proposal/Back'
@@ -46,6 +32,14 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     contractInterface: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
+  })
+
+  const { data: isExtension } = useContractRead({
+    addressOrName: daoAddress,
+    contractInterface: KALIDAO_ABI,
+    functionName: 'extensions',
+    chainId: Number(chainId),
+    args: [projectManagementAddress],
   })
 
   const kalidao = useContract({
@@ -98,7 +92,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       const daoToken = kalidaoToken ? kalidaoToken?.toString() : ''
 
       setWarning('')
-      setDaoTokenBalance('Uncapped')
+      setDaoTokenBalance('Unrestricted')
       setCustomTokenSymbol(' ')
     }
 
@@ -141,22 +135,6 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       setWarning('Budget is required.')
     }
 
-    // Check if DAO has enough Ether to cover budget
-    // Custom token balance is checked in handleCustomToken()
-    // if (reward == 'eth') {
-    //   daoBalanceRaw = await provider.getBalance(daoAddress)
-    //   daoBalance = ethers.utils.formatEther(daoBalanceRaw)
-
-    //   console.log(_budget)
-    //   if (Number(_budget) > Number(daoBalance)) {
-    //     setWarning('Budget exceeds existing DAO balance.')
-    //   } else {
-    //     setWarning('')
-    //     const __budget = _budget ? ethers.utils.parseEther(_budget) : ethers.utils.parseEther('0.0')
-    //     setBudget(__budget)
-    //   }
-    // }
-
     if (reward == 'dao') {
       const __budget = _budget ? ethers.utils.parseEther(_budget) : ethers.utils.parseEther('0.0')
       setBudget(__budget)
@@ -165,6 +143,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     if (reward == 'custom') {
       if (Number(_budget) > Number(daoBalance) || Number(_budget) > Number(daoTokenBalance)) {
         setWarning('Budget exceeds existing DAO balance.')
+        return
       } else {
         setWarning('')
         const __budget = ethers.utils.parseUnits(_budget, customTokenDecimals)
@@ -182,6 +161,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       return
     }
 
+    console.log(name, manager, reward, budget, deadline, file)
     if (!name || !manager || reward === 'select' || !budget || !deadline || !file) {
       setWarning('All fields are required.')
       return
@@ -211,17 +191,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     // Upload docs to IFPS
     setStatus('Uploading documents to IPFS...')
     let detailsHash
-    detailsHash = await createProjectDetails(
-      0,
-      daoAddress,
-      chainId,
-      name,
-      manager,
-      reward,
-      Number(_budget),
-      deadline,
-      file,
-    )
+    detailsHash = await createProjectDetails(0, daoAddress, chainId, name, file)
 
     if (detailsHash == '') {
       setWarning('Error uploading documents.')
@@ -254,7 +224,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
       return
     }
 
-    console.log('Proposal Params - ', 9, docs, [projectManagementAddress], [0], [payload])
+    console.log('Proposal Params - ', 9, docs, [projectManagementAddress], [isExtension ? 0 : 1], [payload])
 
     setStatus('Creating proposal...')
     try {
@@ -263,7 +233,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         9, // EXTENSION prop
         docs,
         [projectManagementAddress],
-        [1],
+        [isExtension ? 0 : 1],
         [payload],
       )
       console.log('tx', tx)
