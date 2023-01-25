@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'
 import Editor from '@components/editor'
-import { Card, Box, FieldSet, Input, Stack } from '@kalidao/reality'
+import { Card, FieldSet, Input, Stack } from '@kalidao/reality'
 import { JSONContent } from '@tiptap/react'
 
 export default function ProposePage() {

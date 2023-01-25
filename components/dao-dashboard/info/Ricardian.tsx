@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 
 export default function Ricardian() {
-  const { data, isLoading, error } = useQuery(['ricardianLLC'], async () =>
+  const { data, isLoading } = useQuery(['ricardianLLC'], async () =>
     fetcher('https://gateway.pinata.cloud/ipfs/QmW9asQXxL1zozwZsPNPFWh7x8qsL5SgM5i8dhh7wqbL4Q'),
   )
 

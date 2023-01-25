@@ -1,5 +1,5 @@
 import Layout from '../components/layout'
-import { Box, Button } from '@kalidao/reality'
+import { Box } from '@kalidao/reality'
 import Services from '../components/services'
 import { NextPage } from 'next'
 import Back from '@design/proposal/Back'

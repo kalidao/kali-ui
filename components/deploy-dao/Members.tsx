@@ -19,13 +19,7 @@ export default function Members({ setStep }: Props) {
     chainId: 1,
   })
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<GlobalState>({
+  const { register, control, handleSubmit } = useForm<GlobalState>({
     defaultValues: {
       founders: state.founders ?? [{ member: ensName ? ensName : account, share: '1000' }],
     },

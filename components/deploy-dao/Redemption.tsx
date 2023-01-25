@@ -2,7 +2,7 @@ import React from 'react'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useForm } from 'react-hook-form'
-import { Stack, Button, Input, FieldSet } from '@kalidao/reality'
+import { Stack, Button, FieldSet } from '@kalidao/reality'
 import Switch from '@design/Switch'
 import { DateInput } from '@design/DateInput'
 
@@ -14,14 +14,7 @@ type Props = {
 export default function Redemption({ setStep }: Props) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
-  const {
-    register,
-    control,
-    watch,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<GlobalState>()
+  const { control, watch, handleSubmit, setValue } = useForm<GlobalState>()
   const watchRedemption = watch('redemption', state.redemption)
 
   const onPrevious = (data: GlobalState) => {

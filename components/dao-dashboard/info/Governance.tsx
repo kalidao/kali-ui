@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Stack, Text, Spinner } from '@kalidao/reality'
+import { Card, Stack, Text } from '@kalidao/reality'
 import { formatVotingPeriod } from '@utils/index'
 
 type Props = {

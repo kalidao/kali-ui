@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Box,
   Stack,
   Button,
   Skeleton,
@@ -22,19 +21,16 @@ export default function Timeline() {
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: name } = useContractRead({
-    addressOrName: dao ? (dao as string) : ethers.constants.AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    abi: DAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
-  const { data, isLoading, error } = useGetProposals(
-    chainId ? Number(chainId) : 1,
-    dao ? (dao as string) : ethers.constants.AddressZero,
-  )
+  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
 
   console.log('proposals', data)
 
-  const [show, setShow] = useState(2)
+  const [show] = useState(2)
 
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(() => data?.filter((p: any) => !(p.cancelled == true)), [data])
@@ -85,7 +81,9 @@ export default function Timeline() {
           ) : (
             <CardComponent padding="6">
               <Stack>
-                <Heading level="2">We could not find any proposals for {name}.</Heading>
+                <Heading level="2">
+                  <>We could not find any proposals for {name}.</>
+                </Heading>
                 <Text wordBreak="break-word">
                   You can create proposals to add and remove members, interact with external contracts and install apps
                   like Swap and Redemption.

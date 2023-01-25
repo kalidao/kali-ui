@@ -1,10 +1,8 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Box, Stack, Button, Skeleton, IconPencil, IconBookOpen } from '@kalidao/reality'
-import { useQuery } from '@tanstack/react-query'
+import { Box, Stack, Button, Skeleton, IconPencil } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Card from '@components/dao-dashboard/timeline/Card'
-import { getName } from '@graph/getName'
 import { ethers } from 'ethers'
 import { container, timeline } from './proposals.css'
 import { useGetProposals } from '@graph/queries/getProposals'
@@ -12,10 +10,7 @@ import { useGetProposals } from '@graph/queries/getProposals'
 const Proposals = () => {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data, isLoading, error } = useGetProposals(
-    chainId ? Number(chainId) : 1,
-    dao ? (dao as string) : ethers.constants.AddressZero,
-  )
+  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
 
   // console.log('proposals', proposals)
   const [show, setShow] = useState(5)

@@ -10,8 +10,6 @@ type Props = {
   chainId: number
 }
 export default function Meta({ symbol, totalSupply, address, chainId }: Props) {
-  const router = useRouter()
-
   const info = [
     {
       label: 'Symbol',

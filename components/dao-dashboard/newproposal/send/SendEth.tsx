@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useContract, useContractRead, useContractWrite, useSigner } from 'wagmi'
+import { useContractRead, useContractWrite } from 'wagmi'
 import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
 import { useRouter } from 'next/router'
@@ -14,17 +14,10 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: daoName } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
-  })
-  const { data: signer } = useSigner()
-
-  const kalidao = useContract({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
-    signerOrProvider: signer,
   })
 
   const {
@@ -35,8 +28,8 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
   })
 
@@ -60,7 +53,7 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
 
     try {
-      const tx = propose({
+      const tx = propose?.({
         recklesslySetUnpreparedArgs: [
           2, // CALL prop
           docs,

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
-import { Box, Stack } from '@kalidao/reality'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import Proposals from '@components/dao-dashboard/proposals/'
@@ -11,8 +10,8 @@ const ProposalsPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data } = useContractRead({
-    addressOrName: dao as string,
-    contractInterface: DAO_ABI,
+    address: dao as `0xstring`,
+    abi: DAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })

@@ -3,10 +3,7 @@ import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { useSwapStore } from './store'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
-import { isError } from '@tanstack/react-query'
 import { Warning } from '@design/elements'
-import Confetti from '@components/tools/Confetti'
-import ChainGuard from '../ChainGuard'
 
 const Swap = ({ amount }: { amount: string }) => {
   const swap = useSwapStore((state) => state.swap)
@@ -16,9 +13,9 @@ const Swap = ({ amount }: { amount: string }) => {
   const consent = useSwapStore((state) => state.consent)
   const setSuccess = useSwapStore((state) => state.setSuccess)
 
-  const { config, isError, error } = usePrepareContractWrite({
-    addressOrName: swap.address,
-    contractInterface: SWAP_ABI,
+  const { config, isError } = usePrepareContractWrite({
+    address: swap.address as `0xstring`,
+    abi: SWAP_ABI,
     chainId: chainId,
     functionName: 'callExtension',
     args: [dao.address, ethers.utils.parseUnits(amount, token.decimals)],

@@ -67,7 +67,7 @@ type TokenProps = {
   price: string
 }
 
-function TokenCard({ name, symbol, logo_url, balance, decimals, price }: TokenProps) {
+function TokenCard({ name, symbol, logo_url, balance, decimals }: TokenProps) {
   return (
     <Stack direction="horizontal" align="center" justify="space-between">
       <Stack direction="horizontal" align="center">

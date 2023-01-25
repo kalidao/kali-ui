@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
 import { Warning } from '@design/elements'
-import { Stack, Text, Button, Input } from '@kalidao/reality'
+import { Stack, Text, Button } from '@kalidao/reality'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
@@ -19,8 +19,8 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
   // Contract functions
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao,
-    contractInterface: KALIDAO_ABI,
+    address: dao as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: chainId,
   })
@@ -53,8 +53,9 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
     }
 
     console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
+
     try {
-      const tx = await writeAsync({
+      const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
           10, // ESCAPE prop
           docs,

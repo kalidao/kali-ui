@@ -1,18 +1,5 @@
 import { useMemo } from 'react'
-import {
-  Avatar,
-  Box,
-  Tag,
-  Text,
-  Card,
-  Heading,
-  Spinner,
-  Stack,
-  Button,
-  IconArrowRight,
-  IconTokens,
-  IconBookOpen,
-} from '@kalidao/reality'
+import { Avatar, Box, Tag, Text, Card, Heading, Spinner, Stack, Button, IconBookOpen } from '@kalidao/reality'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'

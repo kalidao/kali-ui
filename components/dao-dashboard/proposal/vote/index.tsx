@@ -13,13 +13,13 @@ type VoteProps = {
 
 export default function Vote({ proposal }: VoteProps) {
   const router = useRouter()
-  const { chainId, dao } = router.query
+  const { dao } = router.query
   const { isConnected } = useAccount()
 
   const { write: vote } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'vote',
   })
 

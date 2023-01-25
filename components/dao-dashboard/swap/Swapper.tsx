@@ -1,5 +1,4 @@
-import { Progress } from '@design/Progress'
-import { Box, Stack, Input, IconArrowDown, Button, Checkbox } from '@kalidao/reality'
+import { Box, Stack, Input, IconArrowDown } from '@kalidao/reality'
 import Terms from './Terms'
 import { useSwapStore } from './store'
 import * as styles from './styles.css'

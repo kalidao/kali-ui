@@ -19,7 +19,7 @@ export const heading = style([
       fontSize: '3rem',
     },
     md: {
-      fontSize: '10rem',
+      fontSize: '6rem',
     },
   }),
 ])

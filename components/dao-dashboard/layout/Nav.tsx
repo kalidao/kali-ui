@@ -12,14 +12,9 @@ import Wrappr from './Wrappr'
 
 const Nav = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
-  const {
-    data: swap,
-    isLoading: isSwapLoading,
-    error: swapError,
-    isError: isSwapError,
-  } = useContractRead({
-    addressOrName: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
-    contractInterface: SWAP_ABI,
+  const { data: swap } = useContractRead({
+    address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
+    abi: SWAP_ABI,
     chainId: chainId,
     functionName: 'crowdsales',
     args: [address],
@@ -54,6 +49,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     },
   ]
 
+  // @ts-ignore
   if (swap && swap?.saleEnds * 1000 > Date.now()) {
     items.push({
       id: 2,
@@ -94,7 +90,7 @@ type NavCardProps = {
   isExternal?: Boolean
 }
 
-const NavCard = ({ title, href, icon, active, isExternal }: NavCardProps) => {
+const NavCard = ({ title, href, icon, active }: NavCardProps) => {
   return (
     <Link href={href} passHref>
       <Box as="a" className={navItem} backgroundColor={active ? 'accentSecondary' : 'background'}>

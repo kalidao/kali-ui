@@ -10,8 +10,8 @@ const DashboardPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
   const { data } = useContractRead({
-    addressOrName: dao as string,
-    contractInterface: DAO_ABI,
+    address: dao as `0xstring`,
+    abi: DAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })

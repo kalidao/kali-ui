@@ -15,10 +15,10 @@ const UserDAOsPage: NextPage = () => {
   const router = useRouter()
   const user = router.query.user ? router.query.user.toString() : AddressZero
   const { data: ensName } = useEnsName({
-    address: user,
+    address: user as `0xstring`,
     chainId: 1,
   })
-  const { data: profile, isLoading } = useQuery(['userProfile', user], () => fetcher(`/api/users/${user}`))
+  const { data: profile } = useQuery(['userProfile', user], () => fetcher(`/api/users/${user}`))
 
   return (
     <Layout heading={'User'} content={`Learn more about user activity on Kali platform.`}>

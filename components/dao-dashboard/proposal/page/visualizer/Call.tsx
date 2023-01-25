@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { Box, Stack, Button, Text, IconLink, IconDuplicate } from '@kalidao/reality'
+import { Box, Stack, Button, Text, IconDuplicate } from '@kalidao/reality'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'
@@ -68,26 +68,26 @@ const CallCard = ({
         </a>
         .
       </Text>
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text>Value</Text>
-        <Text>{ethers.utils.formatEther(amount)}</Text>
-      </Stack>
       <Stack>
         {decoded && decoded != 'none' && (
           <Stack>
-            <Text>{decoded['type']}</Text>
+            <Text weight="bold">{decoded['type']}</Text>
             <Stack>
-              <Stack>
+              <Stack direction="horizontal" align="center" justify={'space-between'}>
                 <Text>Function</Text>
-                <Text>{decoded['tx']['name']}</Text>
+                <Text weight="semiBold">{decoded['tx']['name']}</Text>
               </Stack>
               {params &&
                 params.map((param, index) => (
-                  <Stack key={index}>
+                  <Stack key={index} direction="horizontal" align="center" justify={'space-between'}>
                     <Text>{param['name']}</Text>
-                    <Text>{param['value']}</Text>
+                    <Text weight="semiBold">{param['value']}</Text>
                   </Stack>
                 ))}
+              <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+                <Text>value (native)</Text>
+                <Text>{ethers.utils.formatEther(amount)}</Text>
+              </Stack>
             </Stack>
           </Stack>
         )}
@@ -99,7 +99,13 @@ const CallCard = ({
                 <IconDuplicate />
               </Button>
             </Stack>
-            <Box backgroundColor="backgroundTertiary" color="text" padding="2" wordBreak="break-word">
+            <Box
+              borderRadius={'medium'}
+              backgroundColor="backgroundTertiary"
+              color="text"
+              padding="2"
+              wordBreak="break-word"
+            >
               {payload}
             </Box>
           </Stack>

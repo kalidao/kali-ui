@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Select } from '@design/Select'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
 import { Stack, FieldSet, Input, Button } from '@kalidao/reality'
 import { GlobalState, useStateMachine } from 'little-state-machine'

@@ -7,6 +7,8 @@ import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateD
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
 import SetDataRoom from './apps/SetDataRoom'
+import UpdateSwap from './apps/UpdateSwap'
+import RemoveSwap from './apps/RemoveSwap'
 
 type Props = {
   proposalProp: string
@@ -51,10 +53,10 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} content={content} title={title} />,
     },
-    quit: {
+    /*quit: {
       title: 'Redeem and Quit',
       component: <Redeem content={content} title={title} />,
-    },
+    },*/
     eth: {
       title: 'Send ETH',
       component: <SendEth setProposal={setView} content={content} title={title} />,
@@ -99,6 +101,13 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     record: {
       title: 'Record Off-Chain Activities',
       component: <SetDataRoom setProposal={setView} title={title} content={content} />,
+    swap_update: {
+      title: 'Update Swap',
+      component: <UpdateSwap setProposal={setView} title={title} content={content} />,
+    },
+    swap_remove: {
+      title: 'Remove Swap',
+      component: <RemoveSwap setProposal={setView} title={title} content={content} />,
     },
     // TODO: add tribute back
     // tribute: {

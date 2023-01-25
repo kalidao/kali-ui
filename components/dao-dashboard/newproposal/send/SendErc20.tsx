@@ -16,12 +16,12 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const router = useRouter()
   const { dao, chainId } = router.query
   const { data: daoName } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
-  const { isConnected, address } = useAccount()
+  const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
 
   const {
@@ -32,8 +32,8 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao as string,
-    contractInterface: KALIDAO_ABI,
+    address: dao as `0xstring`,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
   })
 
@@ -44,8 +44,8 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const [tokenAddress, setTokenAddress] = useState(AddressZero)
 
   const { data: tokenDecimals } = useContractRead({
-    addressOrName: tokenAddress,
-    contractInterface: erc20ABI,
+    address: tokenAddress as `0xstring`,
+    abi: erc20ABI,
     functionName: 'decimals',
     chainId: Number(chainId),
     watch: true,
@@ -95,7 +95,7 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     console.log('Proposal Params - ', 2, docs, [asset], [0], [payload])
 
     try {
-      const tx = propose({
+      const tx = propose?.({
         recklesslySetUnpreparedArgs: [
           2, // CALL prop
           docs,

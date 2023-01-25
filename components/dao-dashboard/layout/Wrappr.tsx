@@ -5,13 +5,9 @@ import { DashboardElementProps } from './types'
 import { navItem } from './layout.css'
 
 const Wrappr = ({ address, chainId }: DashboardElementProps) => {
-  const { data, error, isSuccess, isLoading } = useGetWrappr(Number(chainId), address)
+  const { data, isSuccess } = useGetWrappr(Number(chainId), address)
   const tokenURI = data?.uri ? data?.uri : data?.wrappr?.baseURI
-  const {
-    data: uri,
-    error: uriError,
-    isLoading: isLoadingURI,
-  } = useQuery(
+  const { data: uri } = useQuery(
     ['uri', data],
     async () => {
       const res = await fetch(tokenURI)

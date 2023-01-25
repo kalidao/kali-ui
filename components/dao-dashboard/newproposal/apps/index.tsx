@@ -43,8 +43,8 @@ function AppsMenu({ setProposal }: Props) {
       <Stack>
         {isCrowdsale ? (
           <>
-            <Item onClick={() => setProposal('crowdsale_update')} label="Update Swap" icon={<IconSparkles />} />
-            <Item onClick={() => setProposal('crowdsale_remove')} label="Remove Swap" icon={<IconTrash />} />
+            <Item onClick={() => setProposal('swap_update')} label="Update Swap" icon={<IconSparkles />} />
+            <Item onClick={() => setProposal('swap_remove')} label="Remove Swap" icon={<IconTrash />} />
           </>
         ) : (
           <Item onClick={() => setProposal('swap_add')} label="Add Swap" icon={<IconSparkles />} />

@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from '@kalidao/reality'
+import { Box, Text } from '@kalidao/reality'
 import * as styles from './styles.css'
 
 type ItemProps = {

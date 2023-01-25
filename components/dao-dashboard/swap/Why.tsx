@@ -1,7 +1,4 @@
-import { Progress } from '@design/Progress'
-import { Card, Stack, Text, Heading, Divider, Field } from '@kalidao/reality'
-import { prettyDate } from '@utils/prettyDate'
-import { ethers } from 'ethers'
+import { Card, Stack, Text, Heading, Divider } from '@kalidao/reality'
 import { useEffect } from 'react'
 import { useSwapStore } from './store'
 import StarterKit from '@tiptap/starter-kit'
