@@ -101,6 +101,7 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     record: {
       title: 'Record Off-Chain Activities',
       component: <SetDataRoom setProposal={setView} title={title} content={content} />,
+    },
     swap_update: {
       title: 'Update Swap',
       component: <UpdateSwap setProposal={setView} title={title} content={content} />,
