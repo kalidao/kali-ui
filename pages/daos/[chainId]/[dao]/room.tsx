@@ -24,8 +24,8 @@ const DataRoom: NextPage = () => {
   const [file, setFile] = useState<Data[]>()
 
   const { data: room } = useContractRead({
-    addressOrName: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
-    contractInterface: DATAROOM_ABI,
+    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
+    abi: DATAROOM_ABI,
     chainId: chainId,
     functionName: 'getRoom',
     args: [daoAddress],
@@ -34,10 +34,13 @@ const DataRoom: NextPage = () => {
   useEffect(() => {
     const getRoomData = async () => {
       let data_room: Array<Data> = []
+      const _room: Array<string> = Array.isArray(room) ? room : [room]
 
-      if (room && room.length > 0) {
-        for (let i = 0; i < room.length; i++) {
-          const response = await fetch(room[i])
+      // console.log(_room)
+      if (room && _room.length > 0) {
+        for (let i = 0; i < _room.length; i++) {
+          const url = new URL(_room[i])
+          const response = await fetch(url)
           const responseJson = await response.json()
           data_room.push({
             tags: responseJson.tags,
