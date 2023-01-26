@@ -18,8 +18,8 @@ export default function UpdateSupermajority() {
   const [warning, setWarning] = useState<string>()
 
   const { data: currentSupermajority } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'supermajority',
     chainId: Number(chainId),
   })
@@ -31,8 +31,8 @@ export default function UpdateSupermajority() {
     write: propose,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
     onSuccess: () => {

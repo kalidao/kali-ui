@@ -1,5 +1,4 @@
-import { ethers } from 'ethers'
-import { Box, Stack } from '@kalidao/reality'
+import { Stack } from '@kalidao/reality'
 import MemberCard from './MemberCard'
 import { Member } from './types'
 

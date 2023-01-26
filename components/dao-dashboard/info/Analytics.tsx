@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getProposals } from '../../../graph/queries'
 import { getMembers } from '../../../graph/queries'
 import { useEffect, useState } from 'react'
-import { Card, Stack, Text, Spinner } from '@kalidao/reality'
+import { Card, Stack, Text } from '@kalidao/reality'
 
 export default function Engagement() {
   const router = useRouter()

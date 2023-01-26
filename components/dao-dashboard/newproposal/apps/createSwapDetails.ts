@@ -1,5 +1,4 @@
 import { uploadFile, uploadJSON } from '@utils/ipfs'
-import { convertIpfsHash } from '@utils/convertIpfsHash'
 
 export const createSwapDetails = async (dao: string, chainId: number, background: any, terms: any) => {
   // upload file to ipfs

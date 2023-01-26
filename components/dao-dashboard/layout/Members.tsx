@@ -1,18 +1,16 @@
-import { Avatar, Text, Box, Card, Heading, Spinner, Stack, Button, Tag, IconBookOpen } from '@kalidao/reality'
+import { Text, Box, Card, Heading, Spinner, Stack, Button, Tag, IconBookOpen } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useEnsName, useQuery } from 'wagmi'
+import { useQuery } from 'wagmi'
 import { getMembers } from '@graph/queries'
-import { truncateAddress } from '@utils/truncateAddress'
 import { formatEther } from 'ethers/lib/utils'
 import { useMemo } from 'react'
-import { fetcher } from '@utils/fetcher'
 import { User } from '@components/tools/User'
 
 const Members = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
-  const { data, isLoading, isError, error } = useQuery(
+  const { data, isLoading } = useQuery(
     ['daoProfileMembers', chainId, dao],
     () => getMembers(Number(chainId), dao as string),
     {

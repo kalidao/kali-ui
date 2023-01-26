@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
@@ -8,7 +8,7 @@ import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { Warning } from '@design/elements'
 import Back from '@design/proposal/Back'
 import { ProposalProps } from '../utils/types'
-import { FieldSet, Stack, Button, Input } from '@kalidao/reality'
+import { FieldSet, Stack, Button } from '@kalidao/reality'
 import Switch from '@design/Switch'
 import { getRedemptionTokens } from '@utils/getRedemptionTokens'
 import { useQuery } from '@tanstack/react-query'
@@ -24,8 +24,8 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
   const tokenArray = getRedemptionTokens(daoChainId)
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -92,7 +92,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
     )
 
     try {
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [addresses[daoChainId]['extensions']['redemption']],

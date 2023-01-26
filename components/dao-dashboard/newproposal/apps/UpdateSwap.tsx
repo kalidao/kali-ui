@@ -19,7 +19,7 @@ import { DateInput } from '@design/DateInput'
 import { JSONContent } from '@tiptap/react'
 import { createSwapDetails } from './createSwapDetails'
 
-export default function SetSwap({ setProposal, title, content }: ProposalProps) {
+export default function UpdateSwap({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const daoAddress = router.query.dao as string
   const chainId = Number(router.query.chainId)
@@ -244,7 +244,7 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
         9, // EXTENSION prop
         docs,
         [crowdsaleAddress],
-        [1],
+        [0],
         [payload],
       )
       console.log('tx', tx)
@@ -355,7 +355,6 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
 
       <FileUploader
         label="Swap Terms"
-        labelSecondary=""
         description="You may attach a file (.pdf) with Swap, and Kali will present as a clickwrap for Swap users to accept or decline before swapping."
         setFile={setTerms}
       />

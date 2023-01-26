@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
-import { errors, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
-import { useAccount, useContractWrite, useNetwork, useTransaction } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork } from 'wagmi'
 
 import validateDocs from './validateDocs'
 import { votingPeriodToSeconds } from '@utils/index'
@@ -27,7 +27,7 @@ export default function Checkout({ setStep }: Props) {
   const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { address, isConnected } = useAccount()
+  const { isConnected } = useAccount()
   const { chain: activeChain } = useNetwork()
   const {
     writeAsync,
@@ -37,8 +37,8 @@ export default function Checkout({ setStep }: Props) {
     error,
   } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: activeChain?.id ? addresses[activeChain.id]['factory'] : AddressZero,
-    contractInterface: FACTORY_ABI,
+    address: activeChain?.id ? (addresses[activeChain.id]['factory'] as `0xstring`) : AddressZero,
+    abi: FACTORY_ABI,
     functionName: 'deployKaliDAO',
   })
   const [loading, setLoading] = useState<boolean>(false)
@@ -61,7 +61,6 @@ export default function Checkout({ setStep }: Props) {
       founders,
       legal,
       docType,
-      email,
     } = state
 
     let docs_
@@ -171,7 +170,7 @@ export default function Checkout({ setStep }: Props) {
       //   }),
       // }).then((res) => res.json())
 
-      const tx = await writeAsync({
+      const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
           name,
           symbol,
@@ -184,28 +183,30 @@ export default function Checkout({ setStep }: Props) {
           govSettings,
         ],
       })
-      setMessage(`Transaction sent!`)
-      const receipt = await tx.wait(1)
-      receipt.logs.forEach(async (log: any) => {
-        setMessage(`Transaction confirmed!`)
-        if (log.topics[0] === '0x0712ea2ebe8ee974f78171c5f86c898cc0e2858fb69ed676083f8c60ee84ab12') {
-          const daoAddress = '0x' + log.topics[1].slice(-40)
-          try {
-            const params = {
-              dao: daoAddress,
-              network: activeChain?.id as number,
-              email: state.email,
-              entity_type: state.docType,
+      if (tx) {
+        setMessage(`Transaction sent!`)
+        const receipt = await tx.wait(1)
+        receipt.logs.forEach(async (log: any) => {
+          setMessage(`Transaction confirmed!`)
+          if (log.topics[0] === '0x0712ea2ebe8ee974f78171c5f86c898cc0e2858fb69ed676083f8c60ee84ab12') {
+            const daoAddress = '0x' + log.topics[1].slice(-40)
+            try {
+              const params = {
+                dao: daoAddress,
+                network: activeChain?.id as number,
+                email: state.email,
+                entity_type: state.docType,
+              }
+              await handleEmail(templates['deployment'], params)
+              router.push(`/daos/${activeChain?.id}/${daoAddress}`)
+            } catch (e: any) {
+              console.log('error', e.code, e.reason)
+              setMessage(`${state.name} has been succesfully deployed. You will find it on homepage.`)
+              setLoading(false)
             }
-            await handleEmail(templates['deployment'], params)
-            router.push(`/daos/${activeChain?.id}/${daoAddress}`)
-          } catch (e: any) {
-            console.log('error', e.code, e.reason)
-            setMessage(`${state.name} has been succesfully deployed. You will find it on homepage.`)
-            setLoading(false)
           }
-        }
-      })
+        })
+      }
       // console.log('relayed', relayTx)
     } catch (e) {
       console.log(e)

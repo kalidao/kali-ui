@@ -1,9 +1,5 @@
 import { ethers } from 'ethers'
-import { Avatar, IconEth, Stack, Text } from '@kalidao/reality'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '@utils/fetcher'
-import { useEnsName } from 'wagmi'
-import { useRouter } from 'next/router'
+import { Stack, Text } from '@kalidao/reality'
 import { User } from '@components/tools/User'
 
 interface MemberProps {
@@ -17,8 +13,6 @@ export default function Member({ accounts, amounts }: { accounts: string[]; amou
   for (let i = 0; i < accounts.length; i++) {
     rows.push({ id: i, account: accounts[i], amount: amounts[i] })
   }
-  const router = useRouter()
-  const chainId = Number(router.query.chainId)
 
   return (
     <Stack>

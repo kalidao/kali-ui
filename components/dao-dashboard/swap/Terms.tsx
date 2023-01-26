@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Box, Checkbox } from '@kalidao/reality'
 import { useSwapStore } from './store'
 

@@ -12,48 +12,38 @@ import { Skeleton, Stack, Text, Input, Box, Button } from '@kalidao/reality'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import { addresses } from '@constants/addresses'
-import { ProposalProps } from '../utils/types'
 
 type FormType = {
   amount: number
 }
 
 // TODO: Add error handling
-export default function Redeem({ content, title }: ProposalProps) {
+export default function Redeem() {
   const router = useRouter()
   const { dao, chainId } = router.query
   const { isConnected, address } = useAccount()
-  const {
-    data,
-    isError: isWriteError,
-    isLoading: isWritePending,
-    writeAsync,
-  } = useContractWrite({
+  const { isLoading: isWritePending, writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'callExtension',
   })
   const { data: symbol, isLoading: isSymbolLoading } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
   const { data: starts, isLoading: isStartLoading } = useContractRead({
-    addressOrName: chainId ? addresses[Number(chainId)]['extensions']['redemption'] : AddressZero,
-    contractInterface: REDEMPTION_ABI,
+    address: chainId ? (addresses[Number(chainId)]['extensions']['redemption'] as `0xstring`) : AddressZero,
+    abi: REDEMPTION_ABI,
     functionName: 'redemptionStarts',
     args: [dao ? (dao as string) : AddressZero],
     chainId: Number(chainId),
   })
-  const {
-    data: balance,
-    isError: isBalanceError,
-    isLoading: isBalanceLoading,
-  } = useBalance({
-    addressOrName: isConnected ? (address as string) : AddressZero,
-    token: dao ? (dao as string) : AddressZero,
+  const { data: balance, isLoading: isBalanceLoading } = useBalance({
+    address: isConnected ? (address as `0xstring`) : AddressZero,
+    token: dao ? (dao as `0xstring`) : AddressZero,
     chainId: Number(chainId),
     watch: true,
   })
@@ -69,14 +59,14 @@ export default function Redeem({ content, title }: ProposalProps) {
     async (redeemAmount: BigNumber) => {
       if (!isConnected) return
 
-      const tx = await writeAsync({
+      const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
           addresses[Number(chainId)]['extensions']['redemption'],
           redeemAmount,
           ethers.constants.HashZero,
         ],
         recklesslySetUnpreparedOverrides: {
-          gasLimit: 1500000,
+          gasLimit: ethers.BigNumber.from(1500000),
         },
       })
     },
@@ -90,16 +80,17 @@ export default function Redeem({ content, title }: ProposalProps) {
     await redeem(ethers.utils.parseEther(amount.toString()))
   }
 
+  /*
   return (
     <Stack>
       <Text>Redeem assets from DAO treasury by burning select amount of DAO tokens</Text>
       <Text>
         Current Balance: <Skeleton>{isBalanceLoading && balance?.formatted}</Skeleton>{' '}
-        <Skeleton>{isSymbolLoading && symbol}</Skeleton>
+        <Skeleton>{isSymbolLoading && symbol as string}</Skeleton>
       </Text>
       <Text>
         Redemption Starts:
-        <Skeleton>{isStartLoading && starts && prettyDate(starts.toDateString())}</Skeleton>
+        <Skeleton>{isStartLoading && starts ? starts as string && prettyDate(starts.toDateString()) : null}</Skeleton>
       </Text>
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -130,5 +121,5 @@ export default function Redeem({ content, title }: ProposalProps) {
         </Button>
       </Box>
     </Stack>
-  )
+  )*/
 }

@@ -25,7 +25,6 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
             if (extensionsHelper[key]['display'][i] === 'swapRatio') {
               console.log('decoded[i]', decoded[i])
               let multiplier = decoded[i].toString()
-              const symbol = await fetchSymbol(chainId, dao)
               value = `${multiplier}`
             }
             if (extensionsHelper[key]['display'][i] === 'BigNumber') {

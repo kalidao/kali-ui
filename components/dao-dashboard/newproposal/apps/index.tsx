@@ -32,15 +32,12 @@ function AppsMenu({ setProposal }: Props) {
     getCrowdsaleStatus()
   }, [chainId, dao])
 
-  console.log('isCrowdsale', isCrowdsale)
   return (
     <Stack>
       <Text>(1) Swap :</Text>
       <Text>Swap allows KaliDAOs to swap KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
       <Text>(2) Redemption :</Text>
-      <Text>
-        Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.
-      </Text>
+      <Text>Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.</Text>
       <Text>(3) Data Room :</Text>
       <Text>Data Room is on-chain storage for recording off-chain activities or ratifying documents.</Text>
       <Text>(4) Manager :</Text>
@@ -48,18 +45,23 @@ function AppsMenu({ setProposal }: Props) {
         KaliDAOs can add a project with a budget and assign a manager to distribute ETH and ERC20 tokens without going
         through the proposal process.
       </Text>
+      <Text>Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.</Text>
+      <Text>(3) Data Room :</Text>
+      <Text>Data Room is on-chain storage for recording off-chain activities or ratifying documents.</Text>
       <Stack>
         {isCrowdsale ? (
           <>
-            <Item onClick={() => setProposal('crowdsale_update')} label="Update Swap" icon={<IconSparkles />} />
-            <Item onClick={() => setProposal('crowdsale_remove')} label="Remove Swap" icon={<IconTrash />} />
+            <Item onClick={() => setProposal('swap_update')} label="Update Swap" icon={<IconSparkles />} />
+            <Item onClick={() => setProposal('swap_remove')} label="Remove Swap" icon={<IconTrash />} />
           </>
         ) : (
           <Item onClick={() => setProposal('swap_add')} label="Add Swap" icon={<IconSparkles />} />
         )}
         <Item onClick={() => setProposal('redemption')} label="Redemption" icon={<IconSparkles />} />
+        <Item onClick={() => setProposal('record')} label="Record Off-Chain Activities" icon={<IconSparkles />} />
         <Item onClick={() => setProposal('project_add')} label="Add a Project" icon={<IconUserSolid />} />
         <Item onClick={() => setProposal('project_update')} label="Update a Project" icon={<IconUserSolid />} />
+        <Item onClick={() => setProposal('redemption')} label="Add Redemption" icon={<IconSparkles />} />
       </Stack>
       <Back onClick={() => setProposal('menu')} />
     </Stack>

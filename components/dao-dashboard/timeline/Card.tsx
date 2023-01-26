@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
-import { Heading, Box, Text, Tag, Card, Stack } from '@kalidao/reality'
+import { Box, Text, Tag, Stack } from '@kalidao/reality'
 import { linkStyle, proposalCard } from './ProposalCard.css'
 import Description from '../proposal/page/Description'
 import { useQuery } from '@tanstack/react-query'
@@ -106,7 +106,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
         }}
         passHref
       >
-        <a className={linkStyle}>
+        {/* <a className={linkStyle}> */}
           <Stack
             direction={{
               xs: 'horizontal',
@@ -132,7 +132,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
             isSchema={details ? true : false}
             short
           />
-        </a>
+        {/* </a> */}
       </Link>
       <Box display="flex">
         <Vote proposal={proposal} />

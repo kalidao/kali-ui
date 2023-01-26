@@ -7,10 +7,10 @@ import { fetcher } from '@utils/fetcher'
 
 export const User = ({ address }: { address: string }) => {
   const { data: ensName } = useEnsName({
-    address: address,
+    address: address as `0xstring`,
     chainId: 1,
   })
-  const { data: profile, isLoading } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
+  const { data: profile } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
   return (
     <HoverCard

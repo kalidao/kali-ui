@@ -21,8 +21,8 @@ export default function ToggleTransfer() {
   // Contract functions
   const { writeAsync, isSuccess } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'propose',
     chainId: Number(chainId),
     onSuccess: () => {
@@ -38,8 +38,8 @@ export default function ToggleTransfer() {
     },
   })
   const { data: paused } = useContractRead({
-    addressOrName: dao ? (dao as string) : AddressZero,
-    contractInterface: KALIDAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: KALIDAO_ABI,
     functionName: 'paused',
     chainId: Number(chainId),
   })
@@ -59,7 +59,7 @@ export default function ToggleTransfer() {
 
     // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
     try {
-      const tx = await writeAsync({
+      const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
           8, // PAUSE prop
           docs,

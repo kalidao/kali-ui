@@ -12,7 +12,7 @@ export default function InfoCard({ start, votingPeriod }: Props) {
   const startDate = prettyDate(new Date(start * 1000))
   const end = start * 1000 + votingPeriod * 1000
   const endDate = prettyDate(new Date(end))
-  const progress = Math.min((Date.now() - start * 1000) / (votingPeriod * 1000) * 100, 100)
+  const progress = Math.min(((Date.now() - start * 1000) / (votingPeriod * 1000)) * 100, 100)
 
   if (start == 0) {
     return (

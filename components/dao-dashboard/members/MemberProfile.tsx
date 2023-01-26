@@ -1,16 +1,4 @@
-import {
-  Card,
-  Stack,
-  Box,
-  Text,
-  Tag,
-  Heading,
-  Avatar,
-  IconEth,
-  IconTokens,
-  IconDocumentsSolid,
-  IconSparkles,
-} from '@kalidao/reality'
+import { Stack, Box, Text, Tag, Avatar, IconEth, IconTokens, IconDocumentsSolid, IconSparkles } from '@kalidao/reality'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
 import { useQuery } from '@tanstack/react-query'
@@ -30,9 +18,9 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   const router = useRouter()
   const { chainId } = router.query
   const { data: ensName } = useEnsName({
-    address: member?.address,
+    address: member?.address as `0xstring`,
   })
-  const { data: profile, isLoading } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
+  const { data: profile } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
   return (
     <Stack direction={'horizontal'} space={'1'} wrap>

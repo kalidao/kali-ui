@@ -1,9 +1,8 @@
-import { Stack, Box, Button, Text, Spinner, IconLink, IconDocumentAdd, IconDocumentsSolid } from '@kalidao/reality'
+import { Stack, Box, Button, Text, Spinner, IconDocumentsSolid } from '@kalidao/reality'
 import { AddressZero } from '@ethersproject/constants'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { formatVotingPeriod } from '@utils/votingPeriod'
-import Link from 'next/link'
 
 export default function Internal({
   type,
@@ -19,15 +18,15 @@ export default function Internal({
   chainId?: number
 }) {
   const { data: pause } = useContractRead({
-    addressOrName: dao ? dao : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'paused',
     chainId: chainId,
     enabled: type === 'PAUSE',
   })
   const { data: votingPeriod } = useContractRead({
-    addressOrName: dao ? dao.toString() : AddressZero,
-    contractInterface: DAO_ABI,
+    address: dao ? (dao.toString() as `0xstring`) : AddressZero,
+    abi: DAO_ABI,
     functionName: 'votingPeriod',
     chainId: chainId,
     enabled: type === 'VPERIOD',

@@ -6,7 +6,7 @@ import { fetcher } from '@utils/fetcher'
 
 export default function NftCard({ nft }: { nft: any }) {
   const url = wrapprUrl(nft.tokenUri)
-  const { data, isLoading, isError, error } = useQuery(['nftMetadata', nft], () => fetcher(url), {
+  const { data, isError } = useQuery(['nftMetadata', nft], () => fetcher(url), {
     enabled: !!nft.tokenUri,
   })
 
