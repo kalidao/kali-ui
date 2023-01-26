@@ -34,8 +34,8 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
   const dataRoomAddress = addresses[chainId]['extensions']['dataRoom']
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -121,7 +121,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setShareStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         2, // CALL prop
         docs,
         [dataRoomAddress],
@@ -169,7 +169,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         2, // CALL prop
         docs,
         [dataRoomAddress],
