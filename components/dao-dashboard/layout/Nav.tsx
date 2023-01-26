@@ -20,11 +20,9 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     args: [address],
   })
 
-  const {
-    data: haveRoom,
-  } = useContractRead({
-    addressOrName: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
-    contractInterface: DATAROOM_ABI,
+  const { data: haveRoom } = useContractRead({
+    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
+    abi: DATAROOM_ABI,
     chainId: chainId,
     functionName: 'authorized',
     args: [address, address],
