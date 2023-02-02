@@ -49,6 +49,11 @@
   },
   {
     "inputs": [],
+    "name": "OnlyAccountCanUpdateManager",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "Reentrancy",
     "type": "error"
   },
