@@ -28,23 +28,23 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   const projectManagementAddress = addresses[chainId]['extensions']['project']
 
   const { data: kalidaoToken } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: `0x${daoAddress.substring(2)}`,
+    abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
 
   const { data: isExtension } = useContractRead({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: `0x${daoAddress.substring(2)}`,
+    abi: KALIDAO_ABI,
     functionName: 'extensions',
     chainId: Number(chainId),
     args: [projectManagementAddress],
   })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -229,7 +229,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [projectManagementAddress],
@@ -298,7 +298,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
 
       <DateInput
         label="Project Deadline"
-        description="Specify a time to which this Swap ends"
+        description="Specify a time to which this Project ends"
         onChange={handleDeadline}
       />
 

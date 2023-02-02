@@ -5,7 +5,7 @@ import { useContract, useSigner, useContractRead, erc20ABI } from 'wagmi'
 import { Stack, Input, Button, FieldSet, Tag } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
-import PM_ABI from '@abi/KaliProjectManager.json'
+import PM_ABI from '@abi/KaliProjectManagement.json'
 import { addresses } from '@constants/addresses'
 import { Warning } from '@design/elements'
 import Back from '@design/proposal/Back'
@@ -35,8 +35,8 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   // })
 
   const kalidao = useContract({
-    addressOrName: daoAddress,
-    contractInterface: KALIDAO_ABI,
+    address: daoAddress,
+    abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
 
@@ -70,7 +70,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     setProjectId(Number(id))
 
     try {
-      const project = await fetchProject(daoAddress, chainId, Number(id))
+      const project = await fetchProject(chainId, Number(id))
       console.log(project)
       // Handle project account
       if (project.account == AddressZero) {
@@ -225,7 +225,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao.propose(
+      const tx = await kalidao?.propose(
         9, // EXTENSION prop
         docs,
         [projectManagementAddress],
@@ -242,7 +242,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
   return (
     <FieldSet
       legend="Update a Project"
-      description="Add a project, set a budget, and assign a manager to distribute ETH and ERC20 tokens, including your KaliDAO tokens."
+      description="Update an existing project. Manager may modify project deadline without a vote by the DAO, but assigning a new manager or updating budget will require a vote."
     >
       <Input
         label="Project ID"
@@ -253,9 +253,6 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         error={inactiveProject}
         onChange={handleProjectId}
       />
-      {/* <Stack align="center" justify={'center'}>
-        <ProjectOverview dao={daoAddress} chaindId={chainId} projectId={projectId} />
-      </Stack> */}
       <Input
         label="Manager"
         labelSecondary={<Tag>Current Manager: {oldManager ? oldManager : 'N/A'} </Tag>}
@@ -276,7 +273,7 @@ export default function SetProject({ setProposal, title, content }: ProposalProp
         label="Budget"
         labelSecondary={
           <Tag>
-            Current Project Budget: {oldBudget ? oldBudget : ' '} ${customTokenSymbol ? customTokenSymbol : 'Ξ'}
+            Current Project Budget: {oldBudget ? oldBudget : ' '} {customTokenSymbol ? customTokenSymbol : '0.0 Ξ'}
           </Tag>
         }
         description="Specify a budget for this project."

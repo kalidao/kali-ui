@@ -105,7 +105,7 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       component: <SetProject setProposal={setView} title={title} content={content} />,
     },
     project_update: {
-      title: 'Add a Project',
+      title: 'Update a Project',
       component: <UpdateProject setProposal={setView} title={title} content={content} />,
     },
     record: {

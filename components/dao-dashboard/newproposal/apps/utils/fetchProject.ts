@@ -1,9 +1,9 @@
 import { ethers } from 'ethers'
 import { addresses } from '@constants/addresses'
-import PM_ABI from '@abi/KaliProjectManager.json'
+import PM_ABI from '@abi/KaliProjectManagement.json'
 import { getProvider } from '@utils/getProvider'
 
-export const fetchProject = async (dao: string, chainId: number, projectId: number) => {
+export const fetchProject = async (chainId: number, projectId: number) => {
   const provider = getProvider(chainId)
   const projectManagementAddress = addresses[chainId]['extensions']['project']
 
