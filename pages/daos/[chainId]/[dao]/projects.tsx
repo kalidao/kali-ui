@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { Stack, Text, Box, Button, Input, IconLink } from '@kalidao/reality'
-import { useContract, useSigner } from 'wagmi'
+import { useAccount, useContract, useSigner } from 'wagmi'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import { addresses } from '@constants/addresses'
@@ -21,6 +21,7 @@ interface Project {
   deadline: Date
   distributed: string
   manager: string
+  managerAddress: string
   reward: string
   status: string
   token: string
@@ -36,6 +37,7 @@ const Projects: NextPage = () => {
   const pmAddress = chainId ? addresses[chainId]['extensions']['project'] : AddressZero
 
   const [projects, setProjects] = useState<Project[]>([])
+  const [isManagers, setIsManagers] = useState<Boolean>()
   const [id, setId] = useState<number>(0)
   const [tokenDecimals, setTokenDecimals] = useState(0)
   const [contributor, setContributor] = useState<string>()
@@ -44,6 +46,7 @@ const Projects: NextPage = () => {
   const [status, setStatus] = useState<string>()
 
   const { data: signer } = useSigner()
+  const { address } = useAccount()
 
   const kaliPm = useContract({
     address: pmAddress,
@@ -66,9 +69,15 @@ const Projects: NextPage = () => {
 
   const submit = async () => {
     setStatus('Processing...')
-    console.log(id, contributor, amount)
     if (!contributor || !amount) {
       setWarning('All fields are required.')
+      setStatus('Submit')
+      return
+    }
+
+    if (ethers.utils.getAddress(projects[id - 1].managerAddress) != ethers.utils.getAddress(address as string)) {
+      setWarning('Not a manager for this project.')
+      setStatus('Submit')
       return
     }
 
@@ -81,7 +90,6 @@ const Projects: NextPage = () => {
     try {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(['uint256', 'address', 'uint256'], [id, contributor, _amount])
-      console.log(id, contributor, amount, payload)
     } catch (e) {
       setWarning('Error gathering project data.')
       console.log(e)
@@ -95,14 +103,18 @@ const Projects: NextPage = () => {
       setStatus('Contributor Rewarded.')
     } catch (e) {
       console.log('error', e)
+      setStatus('Submit')
     }
   }
 
   useEffect(() => {
     const getProjects = async () => {
-      const _projects = await fetchDaoProject(daoAddress, chainId)
-
-      setProjects(_projects)
+      const p = await fetchDaoProject(daoAddress, chainId)
+      setProjects(p.projects)
+      const managers = Array.from(new Set(p.managers))
+      if (managers.includes(ethers.utils.getAddress(address as string))) {
+        setIsManagers(true)
+      }
     }
 
     getProjects()
@@ -110,7 +122,7 @@ const Projects: NextPage = () => {
 
   return (
     <Layout title={`Projects`} content="Manage DAO projects.">
-      <Stack>
+      <Stack direction={'horizontal'}>
         <Box
           width="viewWidth"
           display="flex"
@@ -120,32 +132,33 @@ const Projects: NextPage = () => {
           gap="3"
           padding="3"
         >
-          <Box width={'1/3'}>
-            <Stack align="center">
-              <Text variant="extraLarge">Drop</Text>
-              <Input label="Project ID" name="id" type="number" placeholder={'0'} onChange={handleId} />
-              <Input
-                label="Contributor"
-                name="contributor"
-                type="text"
-                onChange={(e) => setContributor(e.target.value)}
-              />
-              <Input label="Reward Amount" name="amount" type="text" onChange={(e) => setAmount(e.target.value)} />
-              {warning && <Warning warning={warning} />}
-              <Button onClick={submit}>{status ? status : 'Submit'}</Button>
-            </Stack>
-          </Box>
+          {isManagers && (
+            <Box width={'1/3'}>
+              <Stack align="center">
+                <Text variant="extraLarge">Drop</Text>
+                <Input label="Project ID" name="id" type="number" placeholder={'0'} onChange={handleId} />
+                <Input
+                  label="Contributor"
+                  name="contributor"
+                  type="text"
+                  onChange={(e) => setContributor(e.target.value)}
+                />
+                <Input label="Reward Amount" name="amount" type="text" onChange={(e) => setAmount(e.target.value)} />
+                {warning && <Warning warning={warning} />}
+                <Button onClick={submit}>{status ? status : 'Submit'}</Button>
+              </Stack>
+            </Box>
+          )}
           <Stack direction={'horizontal'} justify={'flex-start'} wrap>
             {projects?.map((project, index) => {
               return (
                 <Box
                   key={index}
-                  color={'red'}
-                  as="button"
+                  borderWidth={'0.375'}
+                  borderRadius={'large'}
+                  borderColor={'foregroundSecondary'}
                   padding="6"
                   width="96"
-                  backgroundColor="red"
-                  className={styles.card}
                 >
                   <Stack>
                     <Text>{project.name}</Text>

@@ -84,9 +84,8 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
 
   useEffect(() => {
     const getProjects = async () => {
-      const projects = await fetchDaoProject(address, chainId)
-      console.log(projects)
-      if (projects.length > 0) {
+      const p = await fetchDaoProject(address, chainId)
+      if (p.projects.length > 0) {
         setHaveProject(true)
       }
     }

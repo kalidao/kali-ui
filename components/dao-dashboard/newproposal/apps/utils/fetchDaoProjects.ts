@@ -12,6 +12,7 @@ interface Project {
   deadline: Date
   distributed: string
   manager: string
+  managerAddress: string
   reward: string
   status: string
   token: string
@@ -25,6 +26,7 @@ export const fetchDaoProject = async (dao: string, chainId: number) => {
 
   const projectManagementAddress = addresses[chainId]['extensions']['project']
   let projects: Array<Project> = []
+  let managers: Array<string> = []
 
   const kaliPm = new ethers.Contract(projectManagementAddress, PM_ABI, provider)
   const _projectId: BigNumber = await kaliPm.projectId()
@@ -44,7 +46,6 @@ export const fetchDaoProject = async (dao: string, chainId: number) => {
         const response = await fetch(p.docs)
         const responseJson = await response.json()
 
-        console.log(decimals)
         projects.push({
           id: i,
           account: p.account,
@@ -53,6 +54,7 @@ export const fetchDaoProject = async (dao: string, chainId: number) => {
           distributed:
             decimals < 18 ? ethers.utils.formatUnits(p.distributed, decimals) : ethers.utils.formatEther(p.distributed),
           manager: managerEns,
+          managerAddress: p.manager,
           reward: p.reward == 0 ? 'DAO Tokens' : symbol,
           status: p.status == 0 ? 'Inactive' : 'Active',
           token: p.token,
@@ -60,6 +62,8 @@ export const fetchDaoProject = async (dao: string, chainId: number) => {
           name: responseJson.name,
           file: responseJson.file,
         })
+
+        managers.push(p.manager)
       } catch (e) {
         console.log(e, p.docs)
       }
@@ -67,5 +71,5 @@ export const fetchDaoProject = async (dao: string, chainId: number) => {
   }
   console.log(projects)
 
-  return projects
+  return { projects, managers }
 }
