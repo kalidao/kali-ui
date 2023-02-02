@@ -1,4 +1,5 @@
-import { Text, Card, Box, IconCog, IconBookOpen, IconTokens, IconCollection } from '@kalidao/reality'
+import { useState, useEffect } from 'react'
+import { Text, Card, Box, IconCog, IconBookOpen, IconTokens, IconCollection, IconBriefcase } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
@@ -9,6 +10,7 @@ import DATAROOM_ABI from '@abi/DataRoom.json'
 import { AddressZero } from '@ethersproject/constants'
 import { navItem, navMenu } from './layout.css'
 import Wrappr from './Wrappr'
+import { fetchDaoProject } from '../newproposal/apps/utils/fetchDaoProjects'
 
 const Nav = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
@@ -27,6 +29,8 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     functionName: 'authorized',
     args: [address, address],
   })
+
+  const [haveProject, setHaveProject] = useState(false)
 
   const itemSize = '12'
   const itemColor = 'foreground'
@@ -67,6 +71,28 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       active: router.asPath === `/daos/${chainId}/${address}/room` ? true : false,
     })
   }
+
+  if (haveProject) {
+    items.push({
+      id: 3,
+      title: 'Projects',
+      icon: <IconBriefcase size={itemSize} color={itemColor} />,
+      href: `/daos/${chainId}/${address}/projects`,
+      active: router.asPath === `/daos/${chainId}/${address}/projects` ? true : false,
+    })
+  }
+
+  useEffect(() => {
+    const getProjects = async () => {
+      const projects = await fetchDaoProject(address, chainId)
+      console.log(projects)
+      if (projects.length > 0) {
+        setHaveProject(true)
+      }
+    }
+
+    getProjects()
+  }, [address, chainId])
 
   return (
     <Card padding="6" width="full">
