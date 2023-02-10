@@ -362,7 +362,9 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
       {warning && <Warning warning={warning} />}
       {purchaseAccess === 'custom' && (
         <Button onClick={handleValidation} disabled={isRecorded}>
-          {isRecorded ? `Success !` : 'Record access list onchain'}
+          {isRecorded
+            ? `Submitted! Please make sure transaction is recorded onchain before submitting proposal. `
+            : 'Record access list onchain'}
         </Button>
       )}
 
