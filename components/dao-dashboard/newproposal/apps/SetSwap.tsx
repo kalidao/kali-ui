@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
 import { Select } from '@design/Select'
-import { Stack, Input, Button, FieldSet, Textarea } from '@kalidao/reality'
+import { Stack, Input, Button, FieldSet, Textarea, Text } from '@kalidao/reality'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
@@ -362,7 +362,9 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
       {warning && <Warning warning={warning} />}
       {purchaseAccess === 'custom' && (
         <Button onClick={handleValidation} disabled={isRecorded}>
-          {isRecorded ? `Success !` : 'Record access list onchain'}
+          {isRecorded
+            ? `Submitted! Please make sure transaction is recorded onchain before submitting proposal. `
+            : 'Record access list onchain'}
         </Button>
       )}
 
