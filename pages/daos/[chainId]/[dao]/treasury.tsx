@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
+import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { Stack, Button, Box, Text, Card } from '@kalidao/reality'
 import { Tokens, NFTs } from '@components/dao-dashboard/treasury'
-import Moralis from 'moralis'
 
-const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Treasury: NextPage = () => {
   const [show, setShow] = useState('tokens')
-  console.log('tokenBalance', tokenBalance)
 
   const render = () => {
     if (show === 'tokens') {
@@ -15,11 +13,7 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
     }
 
     if (show === 'nft') {
-      if (nftBalance?.notSupported) {
-        return <Text>We are working on bringing Treasury support for your chain.</Text>
-      } else {
-        return <NFTs nftBalance={nftBalance} />
-      }
+      return <NFTs />
     }
   }
 
@@ -40,43 +34,6 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
       </Card>
     </Layout>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao as string
-  const chainId = context?.params?.chainId
-
-  if (chainId == '137' || chainId == '1') {
-    await Moralis.start({ apiKey: process.env.MORALIS_API_KEY })
-    const [tokenBalance, nftBalance] = await Promise.all([
-      Moralis.EvmApi.token.getWalletTokenBalances({
-        address,
-        chain: Number(chainId),
-      }),
-      Moralis.EvmApi.nft.getWalletNFTs({
-        address,
-        chain: Number(chainId),
-      }),
-    ])
-
-    return {
-      props: {
-        tokenBalance: tokenBalance.result.map((token) => JSON.parse(JSON.stringify(token))),
-        nftBalance: JSON.parse(JSON.stringify(nftBalance)),
-      },
-    }
-  }
-
-  const notSupported = {
-    notSupported: true,
-  }
-
-  return {
-    props: {
-      tokenBalance: notSupported,
-      nftBalance: notSupported,
-    },
-  }
 }
 
 export default Treasury

@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@ankr.com/ankr.js": "^0.3.0",
     "@ethersproject/constants": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@kalidao/reality": "latest",
