@@ -13,6 +13,6 @@ export async function fetchEnsAddress(ensName: string) {
     else return `Invalid address - ${ensName}`
   } catch (e) {
     console.log(`fetchEnsAddress ${ensName}`, e)
-    return 'Error'
+    return `Invalid address - ${ensName}`
   }
 }

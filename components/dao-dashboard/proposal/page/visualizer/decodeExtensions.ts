@@ -3,6 +3,7 @@ import { addresses } from '@constants/addresses'
 import { unixToDate } from '@utils/time'
 import { fetchSymbol } from '@utils/fetchSymbol'
 import { extensionsHelper } from '@constants/extensions'
+import { fetchTokenDecimals } from '@utils/fetchTokenDecimals'
 
 const decodeExtensions = async (dao: string, address: string, payload: string, chainId: number) => {
   const extensions = addresses[chainId]['extensions']
@@ -11,10 +12,14 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
     if (address.toLowerCase() == extensions[key].toLowerCase()) {
       try {
         const decoded = ethers.utils.defaultAbiCoder.decode(extensionsHelper[key]['types'], payload)
+        let tokenAddress = decoded.length > 3 ? decoded[2] : decoded
         if (decoded) {
           let values = []
+          let multiplier
+          let decimals
           for (let i = 0; i < extensionsHelper[key]['types'].length; i++) {
             let value = decoded[i]
+
             if (extensionsHelper[key]['display'][i] === 'saleType') {
               if (decoded[i].toString() == '0') value = 'Public'
               else value = 'Private'
@@ -23,12 +28,15 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
               value = unixToDate(value)
             }
             if (extensionsHelper[key]['display'][i] === 'swapRatio') {
-              console.log('decoded[i]', decoded[i])
-              let multiplier = decoded[i].toString()
-              value = `${multiplier}`
+              console.log(extensionsHelper[key]['display'][i], decoded[i])
+              multiplier = decoded[i].toString()
+              decimals = await fetchTokenDecimals(chainId, tokenAddress)
+              console.log(decimals)
+              value = ethers.utils.formatUnits(multiplier, 18 - decimals)
             }
             if (extensionsHelper[key]['display'][i] === 'BigNumber') {
               value = ethers.utils.formatEther(value)
+              // console.log(extensionsHelper[key]['display'][i], value)
             }
             if (extensionsHelper[key]['display'][i] === 'id') {
               value = Number(ethers.utils.formatEther(value)).toFixed(0).toString()
@@ -37,7 +45,8 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
               if (value == ethers.constants.AddressZero) {
                 value = 'ETH'
               } else {
-                value = await fetchSymbol(chainId, value)
+                console.log('hello', value)
+                // value = await fetchSymbol(chainId, value)
               }
             }
             if (extensionsHelper[key]['display'][i] === 'json' && extensionsHelper[key]['types'][i] === 'string') {
