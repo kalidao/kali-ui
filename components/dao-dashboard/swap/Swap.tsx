@@ -1,4 +1,4 @@
-import { Box, Button } from '@kalidao/reality'
+import { Box, Button, Stack } from '@kalidao/reality'
 import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { useSwapStore } from './store'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
@@ -34,10 +34,12 @@ const Swap = ({ amount }: { amount: string }) => {
 
   return (
     <Box width="full" gap="2">
-      <Button width="full" loading={isLoading} disabled={!write || !consent || isSuccess} onClick={() => write?.()}>
-        {isSuccess ? 'Success!' : 'Swap'}
-      </Button>
-      {isError && <Warning warning={'Invalid.'} />}
+      <Stack align={'center'}>
+        <Button width="full" loading={isLoading} disabled={!write || !consent || isSuccess} onClick={() => write?.()}>
+          {isSuccess ? 'Success!' : 'Swap'}
+        </Button>
+        <Box>{isError && <Warning warning={'Account is not eligible to swap'} />}</Box>
+      </Stack>
     </Box>
   )
 }
