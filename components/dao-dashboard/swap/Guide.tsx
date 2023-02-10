@@ -17,7 +17,9 @@ export default function Guide() {
     },
     {
       label: 'Swap Rate',
-      value: `${getSwapRate(token.decimals, swap.purchaseMultiplier)} ${token.symbol} for 1 ${dao.symbol}`,
+      value: `${Number(getSwapRate(token.decimals, swap.purchaseMultiplier)).toFixed(2)} ${token.symbol} for 1 ${
+        dao.symbol
+      }`,
     },
     {
       label: 'Personal Limit',
