@@ -23,46 +23,48 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   const { data: profile } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
   return (
-    <Stack direction={'horizontal'} space={'1'} wrap>
-      {member && profile && (
+    <Stack>
+      <Stack direction={'horizontal'} space={'1'} wrap>
+        {member && profile && (
+          <MemberCard
+            title={
+              profile?.handle ? (
+                <Stack direction={'vertical'} align="center" justify={'center'} space="1">
+                  <Text weight="bold" size="large">
+                    {profile?.name}
+                  </Text>
+                  <Tag size="small">{profile?.handle}</Tag>
+                </Stack>
+              ) : (
+                <Text>{ensName ? ensName : truncateAddress(member?.address)}</Text>
+              )
+            }
+            icon={<Avatar src={profile?.picture} size="16" label="profile" />}
+            info={
+              <Stack>
+                <Text size="base">{profile?.bio}</Text>
+                <Stack direction={'horizontal'}>
+                  <a
+                    href={getExplorerLink(Number(chainId), ExplorerType.ADDRESS, member?.address)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconEth />
+                  </a>
+                </Stack>
+              </Stack>
+            }
+          />
+        )}
+        <MemberCard title="Proposals" icon={<IconDocumentsSolid />} info={proposals?.length} />
+        <MemberCard title="Votes" icon={<IconSparkles />} info={votes?.length} />
         <MemberCard
-          title={
-            profile?.handle ? (
-              <Stack direction={'vertical'} align="center" justify={'center'} space="1">
-                <Text weight="bold" size="large">
-                  {profile?.name}
-                </Text>
-                <Tag size="small">{profile?.handle}</Tag>
-              </Stack>
-            ) : (
-              <Text>{ensName ? ensName : truncateAddress(member?.address)}</Text>
-            )
-          }
-          icon={<Avatar src={profile?.picture} size="16" label="profile" />}
-          info={
-            <Stack>
-              <Text size="base">{profile?.bio}</Text>
-              <Stack direction={'horizontal'}>
-                <a
-                  href={getExplorerLink(Number(chainId), ExplorerType.ADDRESS, member?.address)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <IconEth />
-                </a>
-              </Stack>
-            </Stack>
-          }
+          title="Owns"
+          icon={<IconTokens />}
+          info={`${((Number(member?.shares) / totalSupply) * 100).toFixed(2)}%`}
         />
-      )}
-      <MemberCard title="Proposals" icon={<IconDocumentsSolid />} info={proposals?.length} />
-      <MemberCard title="Votes" icon={<IconSparkles />} info={votes?.length} />
-      <MemberCard
-        title="Owns"
-        icon={<IconTokens />}
-        info={`${((Number(member?.shares) / totalSupply) * 100).toFixed(2)}%`}
-      />
-      {/* <Pie totalSupply={totalSupply} member={member} /> */}
+        {/* <Pie totalSupply={totalSupply} member={member} /> */}
+      </Stack>
     </Stack>
   )
 }
@@ -80,6 +82,7 @@ const MemberCard = ({ title, icon, info }: CardProps) => {
       minWidth="44"
       padding="6"
       backgroundColor={'backgroundSecondary'}
+      // backgroundColor={'yellow'}
       display="flex"
       alignItems={'center'}
       justifyContent="center"
