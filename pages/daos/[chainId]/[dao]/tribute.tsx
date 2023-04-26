@@ -210,10 +210,10 @@ export default function Tribute({}: ProposalProps) {
             {warning && <Warning warning={warning} />}
 
             <Button width={'full'} disabled={!approve} onClick={approveTribute}>
-              {approveStatus ? approveStatus : 'Approve Tribute to Use NFT'}
+              {approveStatus ? approveStatus : 'Approve Tribute Contract to use NFT'}
             </Button>
             <Button width={'full'} disabled={!isEnabled} onClick={submit}>
-              {status ? status : 'Submit Swap Proposal'}
+              {status ? status : 'Submit Tribute Proposal'}
             </Button>
           </FieldSet>
         </Box>
