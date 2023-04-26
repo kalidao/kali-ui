@@ -1,4 +1,4 @@
-import { Text, Card, Box, IconCog, IconBookOpen, IconTokens, IconCollection } from '@kalidao/reality'
+import { Text, Card, Box, IconCog, IconBookOpen, IconTokens, IconCollection, IconBell } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
@@ -44,6 +44,13 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       icon: <IconCog size={itemSize} color={itemColor} />,
       href: `/daos/${chainId}/${address}/settings`,
       active: router.asPath === `/daos/${chainId}/${address}/settings` ? true : false,
+    },
+    {
+      id: 4,
+      title: 'Tribute',
+      icon: <IconBell size={itemSize} color={itemColor} />,
+      href: `/daos/${chainId}/${address}/tribute`,
+      active: router.asPath === `/daos/${chainId}/${address}/info` ? true : false,
     },
   ]
 
