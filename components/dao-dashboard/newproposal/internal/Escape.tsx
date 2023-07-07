@@ -52,8 +52,6 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
       return
     }
 
-    console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
-
     try {
       const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
@@ -64,7 +62,6 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
           [Array(0)],
         ],
       })
-      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }

@@ -92,8 +92,6 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [asset], [0], [payload])
-
     try {
       const tx = propose?.({
         recklesslySetUnpreparedArgs: [
@@ -104,7 +102,6 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
           [payload],
         ],
       })
-      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }

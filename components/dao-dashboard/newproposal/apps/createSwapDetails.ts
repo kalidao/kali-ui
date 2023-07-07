@@ -4,7 +4,7 @@ export const createSwapDetails = async (dao: string, chainId: number, background
   // upload file to ipfs
   try {
     const termsHash = await uploadFile(terms)
-    console.log('termsHash', termsHash)
+    
     if (typeof termsHash == 'string') {
       const details = await uploadJSON({
         dao: dao,

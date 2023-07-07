@@ -116,7 +116,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
 
     let iface = new ethers.utils.Interface(DATAROOM_ABI)
     let payload = iface.encodeFunctionData('setPermission', [daoAddress, _users, auths])
-    console.log('Proposal Params - ', 2, docs, [dataRoomAddress], [0], [payload])
+    
 
     setShareStatus('Creating proposal...')
     try {
@@ -128,9 +128,9 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
         [0],
         [payload],
       )
-      console.log('tx', tx)
+      
     } catch (e) {
-      console.log('error', e)
+      
     }
     setShareStatus('Proposed.')
   }
@@ -145,7 +145,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setStatus('Uploading document to IPFS...')
     let recordHash
     recordHash = await createDataRoomDetails(daoAddress, chainId, name, tags, record)
-    console.log(name, tags, record)
+    
 
     if (recordHash == '') {
       setWarning('Error uploading record.')
@@ -164,7 +164,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
 
     let iface = new ethers.utils.Interface(DATAROOM_ABI)
     let payload = iface.encodeFunctionData('setRecord', [daoAddress, [recordHash]])
-    console.log('Proposal Params - ', 2, docs, [dataRoomAddress], [0], [payload])
+    
 
     setStatus('Creating proposal...')
     try {
@@ -176,7 +176,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
         [0],
         [payload],
       )
-      console.log('tx', tx)
+      
     } catch (e) {
       console.log('error', e)
     }

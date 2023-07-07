@@ -56,14 +56,12 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
         ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
         [0, 1, AddressZero, 946702800, 0, 0, 'none'],
       )
-      console.log(payload)
+      
     } catch (e) {
       setWarning('Error formatting crowdsale setExtension() parameters.')
-      console.log(e)
+      
       return
     }
-
-    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [1], [payload])
 
     setStatus('Creating proposal...')
     try {
@@ -75,7 +73,6 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
          [1],
          [payload],
        )
-       console.log('tx', tx)
       } else {
         console.log('kalidao is undefined')
       }

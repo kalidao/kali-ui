@@ -62,8 +62,6 @@ export default function UpdateSupermajority() {
       return
     }
 
-    console.log('Proposal Params - ', 6, docs, [AddressZero], [supermajority], [Array(0)])
-
     if (supermajority) {
       try {
         const tx = propose({
@@ -75,7 +73,6 @@ export default function UpdateSupermajority() {
             [Array(0)],
           ],
         })
-        console.log('tx', tx)
       } catch (e) {
         setWarning('Something went wrong')
         console.log('error', e)

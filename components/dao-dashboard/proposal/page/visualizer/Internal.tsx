@@ -32,8 +32,6 @@ export default function Internal({
     enabled: type === 'VPERIOD',
   })
 
-  console.log('amount', amount)
-
   let render
   switch (type) {
     case 'PAUSE':

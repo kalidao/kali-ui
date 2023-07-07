@@ -57,9 +57,8 @@ export default function ToggleTransfer() {
       return
     }
 
-    // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
     try {
-      const tx = await writeAsync?.({
+      await writeAsync?.({
         recklesslySetUnpreparedArgs: [
           8, // PAUSE prop
           docs,

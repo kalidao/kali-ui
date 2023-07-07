@@ -37,7 +37,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
       </Skeleton>
     )
 
-  console.log('meta', meta)
+  
   return (
     <Card padding="6" width="full">
       <Stack

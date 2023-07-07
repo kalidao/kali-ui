@@ -82,7 +82,6 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     let element = document.getElementById('inputFields')
     if (!element) return
     let children = element.children
-    console.log('elements', children)
     let array = []
     for (var i = 0; i < children.length; i++) {
       // @ts-expect-error
@@ -108,8 +107,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     try {
       let iface = new ethers.utils.Interface(contractAbi as string)
       let payload = iface.encodeFunctionData(functionName, inputParams)
-      console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
-
+      
       try {
         const tx = await kalidao?.propose(
           2, // CALL prop
@@ -118,7 +116,6 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
           [0],
           [payload],
         )
-        console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }

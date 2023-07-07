@@ -59,7 +59,6 @@ type ItemProps = {
 }
 
 const GovItem = ({ title, icon, active, onClick }: ItemProps) => {
-  console.log('active', title, active)
   return (
     <Box as="button" className={govItem} onClick={onClick} backgroundColor={active ? 'accentSecondary' : 'transparent'}>
       {icon}

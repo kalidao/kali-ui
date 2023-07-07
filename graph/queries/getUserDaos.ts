@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 export const getUserDaos = async (address: string, chainId: number) => {
   const query = address.toLowerCase()
-  console.log('graph', GRAPH_URL[chainId])
+  
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',

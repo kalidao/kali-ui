@@ -35,7 +35,7 @@ export const getAllDaos = async () => {
         })
       }
     }
-    console.log('daos', daos)
+    
     return daos
   } catch (e) {
     console.error('Error fetching user daos.')

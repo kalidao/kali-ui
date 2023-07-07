@@ -68,7 +68,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
     try {
       const abiCoder = ethers.utils.defaultAbiCoder
       payload = abiCoder.encode(['address[]', 'uint256'], [tokenArray, starts])
-      console.log(payload)
+      
     } catch (e) {
       setWarning('Please set a start time.')
       return
@@ -99,7 +99,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
         [_toggleRedemption],
         [payload],
       )
-      console.log('tx', tx)
+      
     } catch (e) {
       console.log('error', e)
     }

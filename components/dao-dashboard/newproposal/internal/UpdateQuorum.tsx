@@ -56,8 +56,6 @@ export default function UpdateQuorum() {
       return
     }
 
-    console.log('Proposal Params - ', 5, docs, [AddressZero], [quorum], [Array(0)])
-
     if (quorum) {
       try {
         const tx = propose({
@@ -69,7 +67,6 @@ export default function UpdateQuorum() {
             [Array(0)],
           ],
         })
-        console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }

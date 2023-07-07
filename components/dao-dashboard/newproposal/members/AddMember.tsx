@@ -92,13 +92,11 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     const recipients = data.members.map((member) => member.address)
     const shares = data.members.map((member) => ethers.utils.parseEther(member.share.toString()))
     const payloads = data.members.map((member) => AddressZero)
-    console.log('minting', recipients, shares)
     if (docs) {
       try {
         const tx = await propose({
           recklesslySetUnpreparedArgs: [0, docs, recipients, shares, payloads],
         })
-        console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }

@@ -47,15 +47,11 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
       return
     }
 
-    console.log('Proposal Params - ', 1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)])
-
     if (docs) {
       try {
         const tx = await propose?.({
           recklesslySetUnpreparedArgs: [1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
         })
-
-        console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
       }
