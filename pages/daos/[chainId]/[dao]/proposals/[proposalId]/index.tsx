@@ -54,24 +54,4 @@ const ProposalPage: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao
-  const proposalId = context?.params?.proposalId
-  const chainId = context?.params?.chainId
-
-  const result = await getProposal(Number(chainId), address as string, proposalId as string)
-
-  if (!result) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-    props: {
-      proposal: result,
-    },
-  }
-}
-
 export default ProposalPage

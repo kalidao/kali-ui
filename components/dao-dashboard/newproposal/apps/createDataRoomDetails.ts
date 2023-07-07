@@ -5,7 +5,7 @@ export const createDataRoomDetails = async (dao: string, chainId: number, name: 
   // upload file to ipfs
   try {
     const docsHash = await uploadFile(docs)
-    console.log('docsHash', docsHash)
+    
     if (typeof docsHash == 'string') {
       const details = await uploadJSON({
         dao: dao,

@@ -75,7 +75,6 @@ export const useSwapStore = create<SwapState>((set) => ({
     tokenBalance: 0,
   },
   setUser: async (tokenAddress, address, chainId) => {
-    console.log('setUser', tokenAddress, address, chainId)
     if (tokenAddress == AddressZero || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
       try {
         const provider = getProvider(chainId)
@@ -87,11 +86,9 @@ export const useSwapStore = create<SwapState>((set) => ({
         return
       }
     }
-    console.log('setUser token', tokenAddress, address, chainId)
     const provider = getProvider(chainId)
     const contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
     const balance = await contract.balanceOf(address)
-    console.log('balance', balance)
     set({ user: { address: address, tokenBalance: balance } })
   },
   dao: {

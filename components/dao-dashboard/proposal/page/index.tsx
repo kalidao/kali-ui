@@ -49,7 +49,6 @@ export default function ProposalView({ proposal }: Props) {
     return false
   }
 
-  console.log('proposal', proposal)
   return (
     <Box
       width="full"

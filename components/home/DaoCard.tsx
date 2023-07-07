@@ -15,7 +15,6 @@ export default function DaoCard({ dao, chain }: Props) {
   const router = useRouter()
   const chainObj = ALL_CHAINS.find((c) => c.chainId == chain)
   const { data: meta } = useGetDaoMeta(chain, dao['id'])
-  console.log('dao card', chain, dao)
   const gotoDAO = async () => {
     if (!dao || !chain) return
 

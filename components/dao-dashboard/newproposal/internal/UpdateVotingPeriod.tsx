@@ -60,7 +60,6 @@ export default function UpdateVotingPeriod() {
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [AddressZero], [seconds], [Array(0)])
     if (seconds) {
       try {
         const tx = await writeAsync?.({

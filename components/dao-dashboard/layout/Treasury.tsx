@@ -25,7 +25,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const totalBalance = useMemo(
     () =>
       data?.data?.items?.reduce((acc: number, item: any) => {
-        console.log('acc total balance')
+        
         return (
           acc +
           parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)) * parseFloat(item?.quote_rate)
@@ -34,7 +34,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
     [data],
   )
 
-  console.log('totalBalance', data)
+  
 
   const lastUpdated = data?.data?.updated_at ? `Last updated ${prettyDate(new Date(data?.data?.updated_at))}` : null
 

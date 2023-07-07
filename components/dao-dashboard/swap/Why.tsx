@@ -23,7 +23,6 @@ export default function Why() {
     setBackground(dao.address)
   })
 
-  console.log('background', background)
   return (
     <Card padding="6">
       <Stack>

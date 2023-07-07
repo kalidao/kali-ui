@@ -25,7 +25,7 @@ function AppsMenu({ setProposal }: Props) {
         dao as string,
         addresses[Number(chainId)]['extensions']['crowdsale2'],
       )
-      console.log(status)
+      
       status ? setIsCrowdsale(true) : setIsCrowdsale(false)
     }
 

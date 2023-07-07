@@ -12,7 +12,6 @@ const Proposals = () => {
   const { dao, chainId } = router.query
   const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
 
-  // console.log('proposals', proposals)
   const [show, setShow] = useState(5)
   // filtering out cancelled proposals
   const memoizedProposals = useMemo(

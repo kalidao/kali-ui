@@ -42,9 +42,7 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
     const isHolding = await isHolder(Number(chainId), tokenAddress as string, Number(tokenId), dao as string)
-    if (isHolding) {
-      console.log('DAO is holder')
-    } else {
+    if (!isHolding) {
       setWarning(
         `${
           daoName ? (daoName as unknown as string) : 'DAO'
@@ -62,11 +60,8 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [tokenAddress], [0], [payload])
-
     try {
-      console.log(signer)
-      const tx = await propose?.({
+      await propose?.({
         recklesslySetUnpreparedArgs: [
           2, // CALL prop
           docs,
@@ -75,7 +70,6 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
           [payload],
         ],
       })
-      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }

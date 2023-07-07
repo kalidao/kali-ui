@@ -50,8 +50,6 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
-
     try {
       const tx = propose?.({
         recklesslySetUnpreparedArgs: [
@@ -62,7 +60,6 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
           [Array(0)],
         ],
       })
-      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }

@@ -17,7 +17,6 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
     .pinJSONToIPFS(_req.body, options)
     .then((result: any) => {
       //handle results here
-      console.log(result)
       return res.status(200).json(result)
     })
     .catch((e: any) => {

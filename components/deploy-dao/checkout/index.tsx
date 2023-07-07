@@ -207,7 +207,6 @@ export default function Checkout({ setStep }: Props) {
           }
         })
       }
-      // console.log('relayed', relayTx)
     } catch (e) {
       console.log(e)
       setLoading(false)
@@ -222,7 +221,7 @@ export default function Checkout({ setStep }: Props) {
       setStep(5)
     }
   }
-  console.log(error?.message)
+  
   return (
     <Stack>
       {isError && <Text>{error?.message}</Text>}

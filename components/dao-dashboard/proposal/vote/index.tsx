@@ -30,17 +30,14 @@ export default function Vote({ proposal }: VoteProps) {
 
   const submitVote = useCallback(
     async (approval: Boolean) => {
-      console.log(1)
       if (!vote || !proposal || !isConnected) return
-      console.log(2)
       try {
-        const data = await vote({
+        await vote({
           recklesslySetUnpreparedArgs: [proposal['serial'], approval],
         })
       } catch (e) {
         console.log('error', e)
       }
-      console.log(3)
     },
     [isConnected, proposal, vote],
   )

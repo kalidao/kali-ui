@@ -12,7 +12,7 @@ export const useGetDaoMeta = (chainId: number, address: string) => {
         },
       }).then((res) => res.json())
       const meta = await fetch(data?.[0]?.uri).then((res) => res.json())
-      console.log('meta data', data?.[0]?.uri, meta)
+      
       return meta
     },
     {

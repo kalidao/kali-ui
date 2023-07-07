@@ -49,13 +49,10 @@ export default function UpdateDocs() {
 
     let docs
     if (newDocFile) {
-      console.log('uploading file', newDocFile)
       docs = await uploadFile(newDocFile)
     } else {
       docs = newDocLink
     }
-
-    console.log('Proposal Params - ', 11, docs, [AddressZero], [0], [Array(0)])
 
     if (docs) {
       try {

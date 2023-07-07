@@ -22,7 +22,6 @@ export default function Tokens() {
     },
   )
 
-  console.log('token', data)
   return (
     <Stack>
       {data && data.error === true ? (

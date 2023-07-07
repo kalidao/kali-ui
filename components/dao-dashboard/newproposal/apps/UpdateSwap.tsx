@@ -84,7 +84,6 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
 
     try {
       const tx = await kaliAccess?.createList(list, ethers.utils.formatBytes32String('0x0'), '')
-      console.log('tx ', tx)
       setIsRecorded(true)
       setWarning('')
     } catch (e) {
@@ -189,7 +188,6 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     // Crowdsale purchase limits
     let _totalLimit
     let _personalLimit
-    console.log(totalLimit, personalLimit)
     if (personalLimit > totalLimit) {
       setWarning('Personal swap limit may not be greater than the total swap limit')
       return
@@ -228,14 +226,11 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         ['uint256', 'uint256', 'address', 'uint32', 'uint96', 'uint96', 'string'],
         [_purchaseAccess, _swapMultiplier, _tokenToSwap, crowdsaleEnd, _totalLimit, _personalLimit, detailsHash],
       )
-      // console.log(payload)
     } catch (e) {
       setWarning('Error setting the crowdsale proposal.')
       console.log(e)
       return
     }
-
-    console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [0], [payload])
 
     setStatus('Creating proposal...')
     try {
@@ -247,7 +242,6 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         [0],
         [payload],
       )
-      console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
     }

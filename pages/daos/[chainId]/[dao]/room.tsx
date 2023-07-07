@@ -36,7 +36,6 @@ const DataRoom: NextPage = () => {
       let data_room: Array<Data> = []
       const _room: Array<string> = Array.isArray(room) ? room : [room]
 
-      // console.log(_room)
       if (room && _room.length > 0) {
         for (let i = 0; i < _room.length; i++) {
           const url = new URL(_room[i])
@@ -48,8 +47,6 @@ const DataRoom: NextPage = () => {
             name: responseJson.name,
           })
           setFile(data_room)
-
-          console.log(data_room)
         }
       }
     }

@@ -47,12 +47,9 @@ export default function Engagement() {
       for (const proposal of proposals.data.daos[0].proposals) {
         if (proposal.status !== null) {
           let found = false
-          // console.log('debug (miss +1) - ', member.address, proposal)
           for (const vote of proposal.votes) {
             if (vote.voter === member.address.toLowerCase()) {
               found = true
-
-              // console.log('debug (counted +1) - ', vote.voter, member.address, proposal)
             }
           }
           if (!found) {
@@ -71,7 +68,6 @@ export default function Engagement() {
     fetchData()
   }, [fetchData])
 
-  console.log(pending, passed, failed, voted, didNotVote)
   const analytics = [
     {
       title: '# of Proposals',
