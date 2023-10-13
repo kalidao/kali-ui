@@ -110,13 +110,11 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       
       let parsedInput;
 
-      if (typeof inputParams === 'string') {
-          try {
-              parsedInput = JSON.parse(inputParams);
-          } catch (error) {
-              parsedInput = inputParams;
-          }
-      } else {
+      try {
+          // Attempt to parse the input as JSON
+          parsedInput = JSON.parse(String(inputParams));
+      } catch (error) {
+          // If parsing fails, just pass the original input
           parsedInput = inputParams;
       }
 
