@@ -6,6 +6,8 @@ import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
 import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
+import SetProject from './apps/SetProject'
+import UpdateProject from './apps/UpdateProject'
 import SetDataRoom from './apps/SetDataRoom'
 import UpdateSwap from './apps/UpdateSwap'
 import RemoveSwap from './apps/RemoveSwap'
@@ -97,6 +99,14 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
     swap_add: {
       title: 'Add Swap',
       component: <SetSwap setProposal={setView} title={title} content={content} />,
+    },
+    project_add: {
+      title: 'Add a Project',
+      component: <SetProject setProposal={setView} title={title} content={content} />,
+    },
+    project_update: {
+      title: 'Update a Project',
+      component: <UpdateProject setProposal={setView} title={title} content={content} />,
     },
     record: {
       title: 'Record Off-Chain Activities',

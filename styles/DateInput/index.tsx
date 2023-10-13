@@ -4,6 +4,7 @@ import { Field, Box } from '@kalidao/reality'
 type Props = {
   name?: string
   label: string
+  labelSecondary?: React.ReactNode
   description?: string
   error?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -11,11 +12,20 @@ type Props = {
   defaultValue?: string
 }
 
-export function DateInput({ name, label, disabled, error, onChange, defaultValue }: Props) {
+export function DateInput({
+  name,
+  label,
+  description,
+  labelSecondary,
+  disabled,
+  error,
+  onChange,
+  defaultValue,
+}: Props) {
   const hasError = error ? true : undefined
 
   return (
-    <Field label={label}>
+    <Field label={label} description={description} labelSecondary={labelSecondary}>
       <Box
         as="input"
         name={name}
