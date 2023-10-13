@@ -108,9 +108,17 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     try {
       let iface = new ethers.utils.Interface(contractAbi as string)
       
-      let parsedInput = typeof inputParams === 'string' 
-        ? (try { JSON.parse(inputParams) } catch (error) { inputParams })
-        : inputParams;
+      let parsedInput;
+
+      if (typeof inputParams === 'string') {
+          try {
+              parsedInput = JSON.parse(inputParams);
+          } catch (error) {
+              parsedInput = inputParams;
+          }
+      } else {
+          parsedInput = inputParams;
+      }
 
       let payload = iface.encodeFunctionData(functionName, parsedInput)
       console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
