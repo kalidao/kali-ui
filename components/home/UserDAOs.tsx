@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useAccount, useNetwork } from 'wagmi'
-import DaoCard from './DaoCard'
-import { Heading, Box, Stack, Card, Button, Skeleton, IconRefresh } from '@kalidao/reality'
 import { ethers } from 'ethers'
 import { useGetAllUserDaos } from '@graph/queries/getAllUserDaos'
+import { Button } from '@components/ui/button'
+import { RefreshCw } from 'lucide-react'
+import DaoCard from './DaoCard'
 import Search from './Search'
 
 export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: string; label?: string }) {
@@ -15,10 +15,8 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
   } = useGetAllUserDaos(address ? (address as string) : ethers.constants.AddressZero)
 
   useEffect(() => {
-    if (isSuccess) {
-      if (daos) {
-        setDisplay(daos as any[])
-      }
+    if (isSuccess && daos) {
+      setDisplay(daos as any[])
     }
   }, [daos, isSuccess])
 
@@ -30,39 +28,23 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
   if (!address) return null
 
   return (
-    <Box
-      width="viewWidth"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      gap="3"
-      padding="3"
-    >
+    <div className="w-full flex flex-col items-center justify-center gap-3 p-3 bg-white">
       {display && (
-        <Box
-          width="full"
-          padding="6"
-          paddingX={'12'}
-          display={'flex'}
-          flexDirection={'row'}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Heading>{label}</Heading>
-          <Stack direction={'horizontal'} align="center">
+        <div className="w-full px-12 py-6 flex flex-row items-center justify-between">
+          <h2 className="text-2xl font-bold">{label}</h2>
+          <div className="flex items-center space-x-2">
             <Search daos={daos as any[]} setDisplay={setDisplay} />
-            <Button shape="circle" size="small" variant="secondary" onClick={reset}>
-              <IconRefresh />
+            <Button variant="outline" size="icon" onClick={reset} className="rounded-full">
+              <RefreshCw className="h-4 w-4" />
             </Button>
-          </Stack>
-        </Box>
+          </div>
+        </div>
       )}
-      <Stack direction="horizontal" align="center" justify={'center'} wrap>
+      <div className="flex flex-wrap items-center justify-center">
         {display &&
-          display?.length != 0 &&
-          display?.map((dao: { [x: string]: any }) => <DaoCard key={dao?.['id']} dao={dao} chain={dao?.chainId} />)}
-      </Stack>
-    </Box>
+          display.length !== 0 &&
+          display.map((dao: { [x: string]: any }) => <DaoCard key={dao?.['id']} dao={dao} chain={dao?.chainId} />)}
+      </div>
+    </div>
   )
 }

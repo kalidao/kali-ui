@@ -1,19 +1,30 @@
-import { Box, Stack, Text, IconCheck, IconClose, Heading } from '@kalidao/reality'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@design/Accordion'
+import React from 'react'
 import Balancer from 'react-wrap-balancer'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion'
 
 const Row = ({ name, value }: { name: string | React.ReactNode; value: React.ReactNode }) => {
   return (
-    <Box width="full" padding="3">
-      <Stack direction="horizontal" align="center" justify={'space-between'}>
-        {typeof name == 'string' ? <Text>{name}</Text> : name}
-        <Text weight="bold">{value}</Text>
-      </Stack>
-    </Box>
+    <div className="w-full p-3">
+      <div className="flex items-center justify-between">
+        {typeof name === 'string' ? <p>{name}</p> : name}
+        <p className="font-bold">{value}</p>
+      </div>
+    </div>
   )
 }
 
-export default function Confirmation() {
+const Item = ({ value, title, content }: { value: string; title: string; content: string }) => {
+  return (
+    <AccordionItem value={value}>
+      <AccordionTrigger>{title}</AccordionTrigger>
+      <AccordionContent>
+        <div className="p-3 text-foreground">{content}</div>
+      </AccordionContent>
+    </AccordionItem>
+  )
+}
+
+export default function FAQ() {
   const faq = [
     {
       key: 'what-is-dao',
@@ -51,39 +62,19 @@ export default function Confirmation() {
       answer: 'The Kali DAO contracts and legal framework were developed by LexDAO.',
     },
   ]
+
   return (
-    <Box display="flex" justifyContent="center">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap="4"
-        width={{
-          lg: '3/4',
-        }}
-      >
-        <Heading as="h2" level="2">
+    <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-4 lg:w-3/4">
+        <h2 className="text-2xl font-bold">
           <Balancer>FAQs</Balancer>
-        </Heading>
-        <Accordion type="multiple" collapsible={true}>
+        </h2>
+        <Accordion type="multiple" className="w-full">
           {faq.map((item) => (
             <Item key={item.key} value={item.key} title={item.question} content={item.answer} />
           ))}
         </Accordion>
-      </Box>
-    </Box>
-  )
-}
-
-const Item = ({ value, title, content }: { value: string; title: string; content: string }) => {
-  return (
-    <AccordionItem value={value}>
-      <AccordionTrigger>{title}</AccordionTrigger>
-      <AccordionContent>
-        <Box padding="3" color="foreground">
-          {content}
-        </Box>
-      </AccordionContent>
-    </AccordionItem>
+      </div>
+    </div>
   )
 }

@@ -1,26 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .ProseMirror {
-    all: 'unset';
-    min-width: 39vw;
-    min-height: 5rem;
-    /* background: #1c1c1c;
+  all: 'unset';
+  min-width: 39vw;
+  min-height: 5rem;
+  /* background: #1c1c1c;
     outline: 1px solid #232323;
     color: #ededed;
     padding: 8px;
     border-radius: 10px;
-    font-family: 'Regular'; */ 
+    font-family: 'Regular'; */
 }
 
 .ProseMirror:hover {
-    all: 'unset';
-  
+  all: 'unset';
 }
 
 .ProseMirror:focus-visible {
-    outline: none;
+  outline: none;
 }
 
-
-/* 
+/*
 const grayDark = {
     gray1: '#161616',
     gray2: '#1c1c1c',

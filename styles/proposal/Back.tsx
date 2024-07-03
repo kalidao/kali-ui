@@ -1,13 +1,14 @@
 import React from 'react'
-import { Button, IconArrowLeft } from '@kalidao/reality'
-
+import { Button } from '@components/ui/button'
+import { ArrowLeftIcon } from 'lucide-react'
 type Props = {
   onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export default function Back({ onClick }: Props) {
   return (
-    <Button prefix={<IconArrowLeft />} variant="transparent" onClick={onClick} size="small">
+    <Button variant="ghost" onClick={onClick} size="sm">
+      <ArrowLeftIcon />
       Back
     </Button>
   )

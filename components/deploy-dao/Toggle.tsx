@@ -1,7 +1,8 @@
 import React from 'react'
-import updateAction from './updateAction'
 import { useStateMachine } from 'little-state-machine'
-import { Button, IconLightningBolt, IconMinus, IconPlus } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Plus, Minus } from 'lucide-react'
+import updateAction from './updateAction'
 
 export default function Toggle() {
   const { actions, state } = useStateMachine({ updateAction })
@@ -9,16 +10,17 @@ export default function Toggle() {
 
   return (
     <Button
-      size="small"
-      suffix={hardMode === false ? <IconPlus /> : <IconMinus />}
-      variant="transparent"
+      variant="ghost"
+      size="sm"
       onClick={() =>
         actions.updateAction({
           hardMode: !hardMode,
         })
       }
+      className="flex items-center space-x-1"
     >
-      {hardMode === false ? 'Easy' : 'Hard'}
+      <span>{hardMode ? 'Hard' : 'Easy'}</span>
+      {hardMode ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
     </Button>
   )
 }

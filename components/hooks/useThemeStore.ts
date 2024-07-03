@@ -1,4 +1,5 @@
-import create from 'zustand'
+import { create } from 'zustand'
+
 import { getThemeMode } from '@utils/cookies'
 import { Mode } from '@kalidao/reality/dist/types/tokens'
 

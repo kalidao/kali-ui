@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Stack, Box, Button } from '@kalidao/reality'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
-import updateAction from './updateAction'
 import { useNetwork } from 'wagmi'
 import { getNames } from '@graph/queries'
-import { FieldSet, Input } from '@kalidao/reality'
+import updateAction from './updateAction'
 import Tutorial from './tutorial'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/form'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
 }
 
 export default function Identity({ setStep }: Props) {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<GlobalState>()
+  const form = useForm<GlobalState>()
   const { chain: activeChain } = useNetwork()
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
@@ -29,13 +25,9 @@ export default function Identity({ setStep }: Props) {
     let mounted = true
     const fetchNames = async () => {
       const result = await getNames(activeChain?.id)
-      const names = []
-      for (let i = 0; i < result?.data?.daos.length; i++) {
-        names.push(result?.data?.daos?.[i]?.token?.name)
-      }
-      setNames(names)
+      const names = result?.data?.daos.map((dao) => dao?.token?.name) || []
+      if (mounted) setNames(names)
     }
-
     fetchNames()
     return () => {
       mounted = false
@@ -43,72 +35,75 @@ export default function Identity({ setStep }: Props) {
   }, [activeChain])
 
   const onSubmit = (data: GlobalState) => {
-    // name check
     if (names.includes(data?.name)) {
-      setError(
-        'name',
-        {
-          type: 'custom',
-          message: 'Name is not unique. Please choose another!',
-        },
-        {
-          shouldFocus: true,
-        },
-      )
+      form.setError('name', {
+        type: 'custom',
+        message: 'Name is not unique. Please choose another!',
+      })
       return
     }
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(4)
-    } else {
-      setStep(1)
-    }
+    setStep(hardMode ? 1 : 4)
   }
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-      <FieldSet
-        legend="Token"
-        description="Your token is the identity of your organization. The token created will be ERC20 compliant."
-      >
-        <Input
-          label="Name"
-          placeholder="KaliCo"
-          defaultValue={state.name === '' ? undefined : state.name}
-          {...register('name', {
-            required: {
-              value: true,
-              message: 'Name is required.',
-            },
-          })}
-          error={errors?.name?.message}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="text-lg font-semibold">Token</h2>
+          <p className="text-sm text-gray-500">
+            Your token is the identity of your organization. The token created will be ERC20 compliant.
+          </p>
+        </div>
+
+        <FormField
+          control={form.control}
+          name="name"
+          rules={{
+            required: 'Name is required.',
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="KaliCo" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <Input
-          label="Symbol"
-          placeholder="KCO"
-          prefix="$"
-          textTransform="uppercase"
-          defaultValue={state.symbol === '' ? undefined : state.symbol}
-          {...register('symbol', {
-            required: {
-              value: true,
-              message: 'Symbol is required.',
-            },
+
+        <FormField
+          control={form.control}
+          name="symbol"
+          rules={{
+            required: 'Symbol is required.',
             maxLength: {
               value: 11,
               message: 'Max symbol length exceeded',
             },
-          })}
-          error={errors?.symbol?.message}
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Symbol</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="KCO"
+                  {...field}
+                  className="uppercase"
+                  onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <Stack direction={'horizontal'} justify="space-between">
+
+        <div className="flex justify-between items-center">
           <Tutorial />
-          <Button variant="primary" type="submit">
-            Next
-          </Button>
-        </Stack>
-      </FieldSet>
-    </Box>
+          <Button type="submit">Next</Button>
+        </div>
+      </form>
+    </Form>
   )
 }
