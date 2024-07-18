@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Stack, Box } from '@kalidao/reality'
 import { UpdateVotingPeriod, UpdateQuorum, GovMenu, ToggleTransfer } from '../newproposal/internal'
 import UpdateSupermajority from '../newproposal/internal/UpdateSupermajority'
 
@@ -30,16 +29,9 @@ export default function GovSettings() {
   ]
 
   return (
-    <Stack
-      direction={{
-        xs: 'vertical',
-        md: 'horizontal',
-      }}
-      align="flex-start"
-      justify={'space-between'}
-    >
+    <div className="flex flex-col md:flex-row items-start justify-between">
       {views[0]['component']}
-      <Box width="full">{views[view]['component']}</Box>
-    </Stack>
+      <div className="w-full">{views[view]['component']}</div>
+    </div>
   )
 }

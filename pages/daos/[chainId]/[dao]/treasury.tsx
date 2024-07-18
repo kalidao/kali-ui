@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { Stack, Button, Box, Text, Card } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Card, CardContent } from '@components/ui/card'
 import { Tokens, NFTs } from '@components/dao-dashboard/treasury'
 import Moralis from 'moralis'
+import { Coins, ImageIcon } from 'lucide-react'
 
 const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [show, setShow] = useState('tokens')
@@ -16,7 +18,7 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
 
     if (show === 'nft') {
       if (nftBalance?.notSupported) {
-        return <Text>We are working on bringing Treasury support for your chain.</Text>
+        return <p className="text-sm text-gray-500">We are working on bringing Treasury support for your chain.</p>
       } else {
         return <NFTs nftBalance={nftBalance} />
       }
@@ -25,18 +27,30 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
 
   return (
     <Layout title={`Treasury`} content="Look at the treasury analytics for the DAO.">
-      <Card padding="6">
-        <Stack>
-          <Stack direction="horizontal">
-            <Button variant={show === 'tokens' ? 'secondary' : 'transparent'} onClick={() => setShow('tokens')}>
-              Tokens
-            </Button>
-            <Button variant={show === 'nft' ? 'secondary' : 'transparent'} onClick={() => setShow('nft')}>
-              NFTs
-            </Button>
-          </Stack>
-          <Box>{render()}</Box>
-        </Stack>
+      <Card className="p-6">
+        <CardContent className="p-0">
+          <div className="flex flex-col space-y-4">
+            <div className="flex space-x-2">
+              <Button
+                variant={show === 'tokens' ? 'secondary' : 'ghost'}
+                onClick={() => setShow('tokens')}
+                className="flex items-center"
+              >
+                <Coins className="mr-2 h-4 w-4" />
+                Tokens
+              </Button>
+              <Button
+                variant={show === 'nft' ? 'secondary' : 'ghost'}
+                onClick={() => setShow('nft')}
+                className="flex items-center"
+              >
+                <ImageIcon className="mr-2 h-4 w-4" />
+                NFTs
+              </Button>
+            </div>
+            <div>{render()}</div>
+          </div>
+        </CardContent>
       </Card>
     </Layout>
   )

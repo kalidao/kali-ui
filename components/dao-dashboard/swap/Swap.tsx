@@ -1,9 +1,10 @@
-import { Box, Button, Stack } from '@kalidao/reality'
-import { usePrepareContractWrite, useContractWrite } from 'wagmi'
+import { Button } from '@components/ui/button'
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { useSwapStore } from './store'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import { ethers } from 'ethers'
-import { Warning } from '@design/elements'
+import { AlertCircle } from 'lucide-react'
+import { Alert, AlertDescription } from '@components/ui/alert'
 
 const Swap = ({ amount }: { amount: string }) => {
   const swap = useSwapStore((state) => state.swap)
@@ -14,7 +15,7 @@ const Swap = ({ amount }: { amount: string }) => {
   const setSuccess = useSwapStore((state) => state.setSuccess)
 
   const { config, isError } = usePrepareContractWrite({
-    address: swap.address as `0xstring`,
+    address: swap.address as `0x${string}`,
     abi: SWAP_ABI,
     chainId: chainId,
     functionName: 'callExtension',
@@ -33,14 +34,20 @@ const Swap = ({ amount }: { amount: string }) => {
   })
 
   return (
-    <Box width="full" gap="2">
-      <Stack align={'center'}>
-        <Button width="full" loading={isLoading} disabled={!write || !consent || isSuccess} onClick={() => write?.()}>
+    <div className="w-full space-y-2">
+      <div className="flex flex-col items-center">
+        <Button className="w-full" disabled={!write || !consent || isSuccess} onClick={() => write?.()}>
+          {isLoading && <span className="loading loading-spinner"></span>}
           {isSuccess ? 'Success!' : 'Swap'}
         </Button>
-        <Box>{isError && <Warning warning={'Account is not eligible to swap'} />}</Box>
-      </Stack>
-    </Box>
+        {isError && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>Account is not eligible to swap</AlertDescription>
+          </Alert>
+        )}
+      </div>
+    </div>
   )
 }
 

@@ -5,12 +5,15 @@ import { useRouter } from 'next/router'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { AddressZero } from '@ethersproject/constants'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
-import { FieldSet, Text, Input, Button, Stack, IconClose, IconUserSolid } from '@kalidao/reality'
 import { ethers } from 'ethers'
-import Back from '@design/proposal/Back'
+import { Back } from '@components/ui/back'
 import { ProposalProps } from '../utils/types'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
+import { X, UserPlus } from 'lucide-react'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 
 interface FormData {
   members: { address: string; share: string }[]
@@ -107,29 +110,25 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
   }
 
   return (
-    <Stack>
-      <FieldSet
-        legend="Mint Tokens"
-        description="This will create a proposal to create and give tokens to the recipient."
-      >
-        <Stack justify="flex-start">
-          {fields.map((item, index) => {
-            return (
-              <Stack key={item.id} direction="horizontal" align="center" justify="center">
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Mint Tokens</CardTitle>
+          <CardDescription>This will create a proposal to create and give tokens to the recipient.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {fields.map((item, index) => (
+              <div key={item.id} className="flex items-center space-x-2">
                 <Input
-                  label={`Member`}
-                  hideLabel={index !== 0}
-                  id="member"
+                  placeholder="Member address"
                   {...register(`members.${index}.address` as const, {
                     required: true,
                   })}
                   defaultValue={item.address}
-                  type="text"
                 />
                 <Input
-                  label="Tokens"
-                  hideLabel={index !== 0}
-                  id="share"
+                  placeholder="Tokens"
                   type="number"
                   {...register(`members.${index}.share` as const, {
                     required: true,
@@ -138,55 +137,46 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
                   defaultValue={item.share}
                 />
                 <Button
-                  tone="red"
-                  variant="secondary"
-                  size="small"
-                  shape="circle"
+                  variant="destructive"
+                  size="icon"
                   onClick={(e) => {
                     e.preventDefault()
                     remove(index)
                   }}
                 >
-                  <IconClose />
+                  <X className="h-4 w-4" />
                 </Button>
-              </Stack>
-            )
-          })}
-          <Button
-            suffix={<IconUserSolid />}
-            variant="secondary"
-            tone="green"
-            onClick={(e) => {
-              e.preventDefault()
-              append({
-                address: '',
-                share: '1000',
-              })
-            }}
-          >
-            Add
-          </Button>
-        </Stack>
-      </FieldSet>
-      <Stack direction={'horizontal'} justify="space-between">
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault()
+                append({
+                  address: '',
+                  share: '1000',
+                })
+              }}
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              Add
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      <div className="flex justify-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
-        <ChainGuard fallback={<Button center>Submit</Button>}>
-          <Button
-            center
-            variant="primary"
-            onClick={handleSubmit(submit)}
-            loading={loading || isProposePending}
-            disabled={!propose || isProposePending || isProposeSuccess}
-          >
+        <ChainGuard fallback={<Button>Submit</Button>}>
+          <Button onClick={handleSubmit(submit)} disabled={!propose || isProposePending || isProposeSuccess}>
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
         </ChainGuard>
-      </Stack>
-      <Text>
+      </div>
+      <p className="text-sm text-gray-500">
         {isProposeSuccess
           ? 'Proposal submitted on chain!'
           : isProposeError && `Error submitting proposal: ${proposeError}`}
-      </Text>
-    </Stack>
+      </p>
+    </div>
   )
 }

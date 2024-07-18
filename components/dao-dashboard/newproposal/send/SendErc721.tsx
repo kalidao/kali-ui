@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
-import { Stack, Text, Input } from '@kalidao/reality'
-import { Warning } from '@design/elements'
 import { ethers } from 'ethers'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
@@ -9,6 +7,10 @@ import { isHolder } from '@utils/isHolder'
 import { createProposal } from '../utils/'
 import { ProposalProps } from '../utils/types'
 import { ProposalFooter } from '../utils/ProposalFooter'
+import { Input } from '@components/ui/input'
+import { Label } from '@components/ui/label'
+import { Alert, AlertDescription } from '@components/ui/alert'
+import { AlertTriangle } from 'lucide-react'
 
 export default function SendErc721({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -82,33 +84,43 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
   }
 
   return (
-    <Stack>
-      <Text>
-        <> Send an ERC721 from {daoName} treasury </>
-      </Text>
+    <div className="space-y-4">
+      <p className="text-lg font-semibold">Send an ERC721 from {daoName} treasury</p>
 
-      <Input
-        label="ERC721 Contract Address"
-        name="contractAddress"
-        type="text"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="contractAddress">ERC721 Contract Address</Label>
+        <Input
+          id="contractAddress"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
+        />
+      </div>
 
-      <Input
-        label="Token ID"
-        name="tokenId"
-        type="number"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenId(e.target.value)}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="tokenId">Token ID</Label>
+        <Input
+          id="tokenId"
+          type="number"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenId(e.target.value)}
+        />
+      </div>
 
-      <Input
-        label="Recipient Address"
-        name="recipient"
-        type="text"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="recipient">Recipient Address</Label>
+        <Input
+          id="recipient"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
+        />
+      </div>
 
-      {warning && <Warning warning={warning} />}
+      {warning && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>{warning}</AlertDescription>
+        </Alert>
+      )}
+
       <ProposalFooter
         setProposal={setProposal}
         proposal={'sendMenu'}
@@ -116,6 +128,6 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
         disabled={isProposalSuccess}
         loading={isProposalLoading}
       />
-    </Stack>
+    </div>
   )
 }

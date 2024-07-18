@@ -1,6 +1,5 @@
 import ReactMarkdown from 'react-markdown'
 import Layout from '../components/layout'
-import { Box } from '@kalidao/reality'
 import { privacy } from '../constants/privacy'
 import { useThemeStore } from '@components/hooks/useThemeStore'
 
@@ -8,7 +7,7 @@ export default function Privacy() {
   const mode = useThemeStore((state) => state.mode)
   return (
     <Layout heading="KaliCo Privacy Policy" content="The terms contained here define our relationship with each other.">
-      <Box padding="6" backgroundColor="backgroundSecondary">
+      <div>
         <ReactMarkdown
           components={{
             h1: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
@@ -20,7 +19,7 @@ export default function Privacy() {
         >
           {privacy}
         </ReactMarkdown>
-      </Box>
+      </div>
     </Layout>
   )
 }

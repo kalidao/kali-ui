@@ -1,6 +1,7 @@
 import React from 'react'
-import { Card, Stack, Text } from '@kalidao/reality'
+import { Card, CardContent } from '@components/ui/card'
 import { formatVotingPeriod } from '@utils/index'
+import { Check, X } from 'lucide-react'
 
 type Props = {
   votingPeriod: number
@@ -27,24 +28,29 @@ export default function Governance({ votingPeriod, quorum, supermajority, paused
     {
       title: 'Token Transferability',
       value: paused ? 'Disabled' : 'Enabled',
+      icon: paused ? X : Check,
     },
     {
       title: 'Grace Period',
       value: gracePeriod,
     },
   ]
+
   return (
-    <Card padding="6">
-      <Stack>
-        {gov?.map((item, index) => {
-          return (
-            <Stack key={index} direction="horizontal" justify="space-between" align="center">
-              <Text>{item.title}</Text>
-              <Text weight="bold">{item.value}</Text>
-            </Stack>
-          )
-        })}
-      </Stack>
+    <Card className="w-full">
+      <CardContent className="p-6">
+        <div className="space-y-4">
+          {gov?.map((item, index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span className="text-sm text-gray-500">{item.title}</span>
+              <div className="flex items-center">
+                {item.icon && <item.icon className="w-4 h-4 mr-2" />}
+                <span className="font-bold">{item.value}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
     </Card>
   )
 }

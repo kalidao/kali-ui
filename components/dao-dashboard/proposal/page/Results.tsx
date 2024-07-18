@@ -1,6 +1,7 @@
 import React from 'react'
-import { Card, Stack, Stat, IconCheck, IconClose } from '@kalidao/reality'
-import { Progress } from '@design/Progress'
+import { Card, CardContent } from '@components/ui/card'
+import { Progress } from '@components/ui/progress'
+import { CheckCircle, XCircle } from 'lucide-react'
 import { BigNumber } from 'ethers'
 import { ethers } from 'ethers'
 
@@ -39,29 +40,28 @@ export default function Results({ votes, totalSupply, quorum }: { votes: any; to
   )
 
   return (
-    <Card padding="6">
-      <Stack>
-        <Stack direction="horizontal" align="stretch" justify={'center'}>
-          <Stat
-            label="Yes"
-            value={Number(ethers.utils.formatEther(yesVotesWeight)).toFixed(2)}
-            meta={<IconCheck color="green" />}
-          />
-          <Stat
-            label="No"
-            value={Number(ethers.utils.formatEther(noVotesWeight)).toFixed(2)}
-            meta={<IconClose color="red" />}
-          />
-        </Stack>
-        <Stat
-          label="Participation"
-          meta={quorumMet ? '' : `Needs ${quorumVotes} more votes`}
-          value={<Progress value={Number(quorumProgress.toString())} />}
-          size="medium"
-        />
-        {/*<Stat label="Approval" value={<Progress value={quorum ? quorum : 0} />} size="medium" /> */}
-        {/* <Text color="red">This is failing.</Text> */}
-      </Stack>
+    <Card className="p-6">
+      <CardContent>
+        <div className="flex flex-col space-y-4">
+          <div className="flex justify-center items-stretch space-x-4">
+            <div className="flex flex-col items-center">
+              <span className="text-sm font-medium">Yes</span>
+              <span className="text-2xl font-bold">{Number(ethers.utils.formatEther(yesVotesWeight)).toFixed(2)}</span>
+              <CheckCircle className="text-green-500 mt-1" />
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-sm font-medium">No</span>
+              <span className="text-2xl font-bold">{Number(ethers.utils.formatEther(noVotesWeight)).toFixed(2)}</span>
+              <XCircle className="text-red-500 mt-1" />
+            </div>
+          </div>
+          <div>
+            <span className="text-sm font-medium">Participation</span>
+            {!quorumMet && <span className="text-xs text-gray-500">Needs {quorumVotes} more votes</span>}
+            <Progress value={Number(quorumProgress.toString())} className="mt-2" />
+          </div>
+        </div>
+      </CardContent>
     </Card>
   )
 }

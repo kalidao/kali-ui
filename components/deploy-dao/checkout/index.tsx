@@ -3,12 +3,16 @@ import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
 import { AddressZero } from '@ethersproject/constants'
 import { useAccount, useContractWrite, useNetwork } from 'wagmi'
+import { useRouter } from 'next/router'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Button } from '@components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
+import { Loader2 } from 'lucide-react'
 
 import validateDocs from './validateDocs'
 import { votingPeriodToSeconds } from '@utils/index'
 import { getRedemptionTokens } from '@utils/getRedemptionTokens'
 import { validateFounders } from './validateFounders'
-import { Stack, Button, Text } from '@kalidao/reality'
 import Confirmation from './Confirmation'
 
 import { addresses } from '@constants/addresses'
@@ -16,8 +20,6 @@ import FACTORY_ABI from '@abi/KaliDAOfactory.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import SALE_ABI from '@abi/KaliDAOcrowdsale.json'
 import { templates, handleEmail } from '@utils/handleEmail'
-import { useRouter } from 'next/router'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -44,7 +46,6 @@ export default function Checkout({ setStep }: Props) {
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>()
 
-  // remove ricardian as default
   const deployKaliDao = useCallback(async () => {
     setLoading(true)
     setMessage('Preparing transaction...')
@@ -72,27 +73,8 @@ export default function Checkout({ setStep }: Props) {
 
     const voteTime = votingPeriodToSeconds(votingPeriod, votingPeriodUnit)
 
-    // get voters and shares array
     const { voters, shares } = validateFounders(founders)
 
-    /* govSettings
-    0 : votingPeriod
-    1: gracePeriod
-    2: quorum
-    3: supermajority
-    4: proposalVoteTypes[ProposalType.MINT]
-    5: proposalVoteTypes[ProposalType.BURN]
-    6: proposalVoteTypes[ProposalType.CALL]
-    7: proposalVoteTypes[ProposalType.VPERIOD]
-    8: proposalVoteTypes[ProposalType.GPERIOD]
-    9: proposalVoteTypes[ProposalType.QUORUM]
-    10: proposalVoteTypes[ProposalType.SUPERMAJORITY]
-    11: proposalVoteTypes[ProposalType.TYPE]
-    12: proposalVoteTypes[ProposalType.PAUSE]
-    13: proposalVoteTypes[ProposalType.EXTENSION]
-    14: proposalVoteTypes[ProposalType.ESCAPE]
-    15: proposalVoteTypes[ProposalType.DOCS]
-    */
     let govSettings
     if (approval > 51) {
       govSettings = new Array(voteTime, 0, quorum, approval, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)
@@ -103,11 +85,9 @@ export default function Checkout({ setStep }: Props) {
     const extensionsArray = new Array()
     const extensionsData = new Array()
 
-    // tribute
     extensionsArray.push(addresses[activeChain?.id]['extensions']['tribute'])
     extensionsData.push('0x')
 
-    // redemption
     if (state.redemption === true) {
       let { redemptionStart } = state
       const starts = Number(new Date(redemptionStart).getTime() / 1000)
@@ -120,7 +100,7 @@ export default function Checkout({ setStep }: Props) {
       extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
       extensionsData.push(payload)
     }
-    // crowdsale
+
     if (state.crowdsale === true) {
       const { purchaseMultiplier, purchaseLimit, purchaseToken, personalLimit, crowdsaleEnd } = state
       let token
@@ -154,21 +134,6 @@ export default function Checkout({ setStep }: Props) {
 
     try {
       setMessage(`Please confirm in your wallet.`)
-      // const iface = new ethers.utils.Interface(FACTORY_ABI)
-      // const data = iface.encodeFunctionData('deployKaliDAO', [name, symbol, docs_, Number(!transferability), extensionsArray, extensionsData, voters, shares, govSettings])
-      // const relayTx = await fetch(`${process.env.NEXT_PUBLIC_RELAYER}/send`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     to: addresses[activeChain?.id]['factory'],
-      //     from: address,
-      //     data: data,
-      //     value: '0',
-      //     chainId: Number(activeChain?.id),
-      //   }),
-      // }).then((res) => res.json())
 
       const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
@@ -207,7 +172,6 @@ export default function Checkout({ setStep }: Props) {
           }
         })
       }
-      // console.log('relayed', relayTx)
     } catch (e) {
       console.log(e)
       setLoading(false)
@@ -222,28 +186,34 @@ export default function Checkout({ setStep }: Props) {
       setStep(5)
     }
   }
-  console.log(error?.message)
+
   return (
-    <Stack>
-      {isError && <Text>{error?.message}</Text>}
+    <div className="space-y-4">
+      {isError && (
+        <Alert variant="destructive">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error?.message}</AlertDescription>
+        </Alert>
+      )}
       <Confirmation />
-      <Button variant="transparent" onClick={prev}>
+      <Button variant="outline" onClick={prev}>
         Previous
       </Button>
-      <Text>{message}</Text>
+      {message && <p className="text-sm text-gray-500">{message}</p>}
       {!isConnected ? (
         <ConnectButton label="Login" />
       ) : (
-        <Button
-          variant="primary"
-          width="full"
-          onClick={deployKaliDao}
-          loading={loading}
-          disabled={isWritePending || isWriteSuccess || loading}
-        >
-          {isWritePending ? <div>Confirm Deployment</div> : <div>Deploy</div>}
+        <Button className="w-full" onClick={deployKaliDao} disabled={isWritePending || isWriteSuccess || loading}>
+          {isWritePending || loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Confirm Deployment
+            </>
+          ) : (
+            'Deploy'
+          )}
         </Button>
       )}
-    </Stack>
+    </div>
   )
 }

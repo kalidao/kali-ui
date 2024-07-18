@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
 import DeployDaoWrapper from '@components/deploy-dao'
-import Back from '@design/proposal/Back'
+import { Back } from '@components/ui/back'
 
 const CreatePage: NextPage = () => {
   const router = useRouter()

@@ -1,6 +1,5 @@
 import merge from 'lodash.merge'
 import { darkTheme, Theme } from '@rainbow-me/rainbowkit'
-import { vars } from '@kalidao/reality'
 
 export const getRainbowTheme = (mode: string) => {
   const accentColor = mode === 'dark' ? 'black' : 'white'
@@ -27,12 +26,12 @@ export const getRainbowTheme = (mode: string) => {
     shadows: {
       connectButton: `1px 1px 8px 1px ${shadowColor}`,
     },
-    radii: {
-      actionButton: vars.radii['2xLarge'],
-      connectButton: vars.radii['2xLarge'],
-      menuButton: vars.radii['2xLarge'],
-      modal: vars.radii['2xLarge'],
-      modalMobile: vars.radii['2xLarge'],
-    },
+    // radii: {
+    //   actionButton: vars.radii['2xLarge'],
+    //   connectButton: vars.radii['2xLarge'],
+    //   menuButton: vars.radii['2xLarge'],
+    //   modal: vars.radii['2xLarge'],
+    //   modalMobile: vars.radii['2xLarge'],
+    // },
   } as Theme)
 }

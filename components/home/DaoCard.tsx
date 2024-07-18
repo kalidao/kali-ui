@@ -1,21 +1,21 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { Text, Stack, Box, Tag, Avatar } from '@kalidao/reality'
-import * as styles from './styles.css'
 import ALL_CHAINS from '@constants/chains.json'
 import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
+import { Card } from '@components/ui/card'
+import { Badge } from '@components/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { Users } from 'lucide-react'
 
 type Props = {
   dao: any
   chain: number
 }
 
-// disable when not active chain
 export default function DaoCard({ dao, chain }: Props) {
   const router = useRouter()
   const chainObj = ALL_CHAINS.find((c) => c.chainId == chain)
   const { data: meta } = useGetDaoMeta(chain, dao['id'])
-  console.log('dao card', chain, dao)
+
   const gotoDAO = async () => {
     if (!dao || !chain) return
 
@@ -23,12 +23,24 @@ export default function DaoCard({ dao, chain }: Props) {
   }
 
   return (
-    <Box as="button" padding="6" width="96" onClick={gotoDAO} className={styles.card}>
-      <Stack align="center" justify={'center'}>
-        <Avatar label="DAO Avatar" src={meta?.image} address={dao?.['id']} />
-        <Text ellipsis>{dao?.['token']?.['name']}</Text>
-        <Tag>{chainObj?.name}</Tag>
-      </Stack>
-    </Box>
+    <Card
+      className="p-6 w-96 bg-white dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      onClick={gotoDAO}
+    >
+      <div className="w-full flex items-center justify-between">
+        <span className="flex items-center space-x-3">
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={meta?.image} alt="DAO Avatar" />
+            <AvatarFallback>
+              <Users className="h-6 w-6 text-gray-400" />
+            </AvatarFallback>
+          </Avatar>
+          <p className="text-gray-900 dark:text-white font-bold text-xl">{dao?.['token']?.['name']}</p>
+        </span>
+        <Badge variant="secondary" className="text-sm">
+          {chainObj?.name}
+        </Badge>
+      </div>
+    </Card>
   )
 }

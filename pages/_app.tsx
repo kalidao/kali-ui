@@ -10,11 +10,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet, optimism, polygon, arbitrum, gnosis, goerli } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextNProgress from 'nextjs-progressbar'
-import { ThemeProvider } from '@kalidao/reality'
-import '@kalidao/reality/styles'
-import { useThemeStore } from '@components/hooks/useThemeStore'
 import { getRainbowTheme } from '@utils/getRainbowTheme'
-import '@design/app.css'
+import { ThemeProvider } from '@components/theme-provider'
 
 const queryClient = new QueryClient()
 
@@ -60,18 +57,11 @@ const appInfo = {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const mode = useThemeStore((state) => state.mode)
-  const [theme, setTheme] = useState<Theme>()
-
-  useEffect(() => {
-    setTheme(getRainbowTheme(mode))
-  }, [mode])
-
   return (
-    <ThemeProvider defaultAccent="violet" defaultMode={mode}>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <QueryClientProvider client={queryClient}>
         <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider coolMode chains={chains} theme={theme} appInfo={appInfo} modalSize="compact">
+          <RainbowKitProvider coolMode chains={chains} appInfo={appInfo} modalSize="compact">
             <NextNProgress color="#5842c3" />
             <Component {...pageProps} />
           </RainbowKitProvider>

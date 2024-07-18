@@ -1,20 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { getProposals } from '../../../graph/queries'
-import { getMembers } from '../../../graph/queries'
-import { useEffect, useState } from 'react'
-import { Card, Stack, Text } from '@kalidao/reality'
+import { Card } from '@components/ui/card'
+import { getProposals, getMembers } from '../../../graph/queries'
 
 export default function Engagement() {
   const router = useRouter()
   const daoChain = Number(router.query.chainId)
   const daoAddress = router.query.dao as string
 
-  //this is the number of votes that each of the current members have cast
   const [voted, setVoted] = useState(0)
-  //this is the number of proposals that members have skipped
   const [didNotVote, setDidNotVote] = useState(0)
-  //this is the number of proposals that members have voted on
   const [pending, setPending] = useState(0)
   const [passed, setPassed] = useState(0)
   const [failed, setFailed] = useState(0)
@@ -23,55 +18,48 @@ export default function Engagement() {
     const proposals = await getProposals(daoChain, daoAddress)
     const members = await getMembers(daoChain, daoAddress)
 
-    let passed = 0
-    let failed = 0
-    let pending = 0
+    let passedCount = 0
+    let failedCount = 0
+    let pendingCount = 0
+
     for (const proposal of proposals.data.daos[0].proposals) {
       if (proposal.status === null) {
-        pending++
+        pendingCount++
       } else if (proposal.status) {
-        passed++
+        passedCount++
       } else {
-        failed++
+        failedCount++
       }
-
-      setPassed(passed)
-      setFailed(failed)
-      setPending(pending)
     }
 
-    let voted = 0
-    let didNotVote = 0
+    setPassed(passedCount)
+    setFailed(failedCount)
+    setPending(pendingCount)
+
+    let votedCount = 0
+    let didNotVoteCount = 0
 
     for (const member of members.data.daos[0].members) {
       for (const proposal of proposals.data.daos[0].proposals) {
         if (proposal.status !== null) {
-          let found = false
-          // console.log('debug (miss +1) - ', member.address, proposal)
-          for (const vote of proposal.votes) {
-            if (vote.voter === member.address.toLowerCase()) {
-              found = true
-
-              // console.log('debug (counted +1) - ', vote.voter, member.address, proposal)
-            }
-          }
-          if (!found) {
-            didNotVote++
+          const found = proposal.votes.some((vote) => vote.voter === member.address.toLowerCase())
+          if (found) {
+            votedCount++
           } else {
-            voted++
+            didNotVoteCount++
           }
         }
       }
     }
-    setVoted(voted)
-    setDidNotVote(didNotVote)
+
+    setVoted(votedCount)
+    setDidNotVote(didNotVoteCount)
   }, [daoAddress, daoChain])
 
   useEffect(() => {
     fetchData()
   }, [fetchData])
 
-  console.log(pending, passed, failed, voted, didNotVote)
   const analytics = [
     {
       title: '# of Proposals',
@@ -95,22 +83,20 @@ export default function Engagement() {
     },
     {
       title: 'DAO Total HP',
-      value: `${voted + didNotVote}`,
+      value: voted + didNotVote,
     },
   ]
 
   return (
-    <Card padding="6">
-      <Stack>
-        {analytics?.map((item, index) => {
-          return (
-            <Stack key={index} direction="horizontal" justify="space-between" align="center">
-              <Text>{item.title}</Text>
-              <Text weight="bold">{item.value}</Text>
-            </Stack>
-          )
-        })}
-      </Stack>
+    <Card className="p-6">
+      <div className="space-y-4">
+        {analytics?.map((item, index) => (
+          <div key={index} className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">{item.title}</span>
+            <span className="font-bold">{item.value}</span>
+          </div>
+        ))}
+      </div>
     </Card>
   )
 }

@@ -1,11 +1,14 @@
 import { useMemo } from 'react'
-import { Avatar, Box, Tag, Text, Card, Heading, Spinner, Stack, Button, IconBookOpen } from '@kalidao/reality'
+import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
+import { Button } from '@components/ui/button'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
 import { fetcher } from '@utils/fetcher'
 import { ethers } from 'ethers'
 import { prettyDate } from '@utils/prettyDate'
+import { BookOpen } from 'lucide-react'
 
 const Treasury = ({ address, chainId }: DashboardElementProps) => {
   const { data, isLoading, isError } = useQuery(
@@ -34,50 +37,50 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
     [data],
   )
 
-  console.log('totalBalance', data)
-
   const lastUpdated = data?.data?.updated_at ? `Last updated ${prettyDate(new Date(data?.data?.updated_at))}` : null
 
   return (
-    <Card padding="6">
-      <Box display="flex" flexDirection={'column'} justifyContent={'space-between'} height="full">
-        <Stack>
-          <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-            <Heading responsive>Treasury</Heading>
-            {data && data?.error !== true && (
-              <Tag size="medium" tone="green" label="$">
-                {chainId === 5 ? '🤪' : totalBalance.toFixed(2)}
-              </Tag>
-            )}
-          </Stack>
-          {isLoading && <Spinner />}
-          {isError && <Text>Something went wrong</Text>}
-          {data && data?.error === true && <Text>Something went wrong</Text>}
-          {data &&
-            data?.data?.items?.length > 0 &&
-            data?.data?.items?.slice(0, 3).map((item: any) => (
-              <Card key={item?.contract_address} padding="2">
-                <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-                  <Stack direction={'horizontal'} align="center">
-                    <Avatar size="8" src={item?.logo_url} label={`${item?.contract_name} logo`} />
-                    <Text size="small">{item?.contract_ticker_symbol}</Text>
-                  </Stack>
-                  <Text>{parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)).toFixed(2)}</Text>
-                </Stack>
-              </Card>
-            ))}
-        </Stack>
-        <Stack direction={'horizontal'} align="center">
-          <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
-            <Button shape="circle" size="small" as="a" variant="transparent">
-              <IconBookOpen />
-            </Button>
-          </Link>
-          <Text size="label" color="foregroundSecondary">
-            {lastUpdated}
-          </Text>
-        </Stack>
-      </Box>
+    <Card className="h-full flex flex-col justify-between">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <CardTitle>Treasury</CardTitle>
+          {data && data?.error !== true && (
+            <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+              {chainId === 5 ? '🤪' : `$${totalBalance.toFixed(2)}`}
+            </span>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        {isLoading && <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>}
+        {isError && <p className="text-red-500">Something went wrong</p>}
+        {data && data?.error === true && <p className="text-red-500">Something went wrong</p>}
+        {data &&
+          data?.data?.items?.length > 0 &&
+          data?.data?.items?.slice(0, 3).map((item: any) => (
+            <div key={item?.contract_address} className="bg-gray-100 p-2 rounded-md mb-2">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <Avatar className="h-8 w-8 mr-2">
+                    <AvatarImage src={item?.logo_url} alt={`${item?.contract_name} logo`} />
+                    <AvatarFallback>{item?.contract_ticker_symbol}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm">{item?.contract_ticker_symbol}</span>
+                </div>
+                <span>{parseFloat(ethers.utils.formatUnits(item?.balance, item?.contract_decimals)).toFixed(2)}</span>
+              </div>
+            </div>
+          ))}
+      </CardContent>
+      <div className="flex items-center justify-between p-4">
+        <Link href={`/daos/${chainId}/${address}/treasury`} passHref>
+          <Button variant="outline" size="sm">
+            <BookOpen className="h-4 w-4 mr-2" />
+            View All
+          </Button>
+        </Link>
+        <span className="text-sm text-gray-500">{lastUpdated}</span>
+      </div>
     </Card>
   )
 }

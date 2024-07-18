@@ -1,21 +1,23 @@
 import React from 'react'
-import { Box, Spinner } from '@kalidao/reality'
+import { Loader } from 'lucide-react'
 import Extensions from './Extensions'
 import Governance from './Governance'
 import Meta from './Meta'
 import Docs from './Docs'
-import { container, infoGrid } from './styles.css'
 import { useRouter } from 'next/router'
 
 export default function InfoComponent({ info }: { info: any }) {
   const router = useRouter()
   const { chainId } = router.query
+
   return (
-    <Box className={container}>
+    <div className="container mx-auto px-4">
       {info === undefined ? (
-        <Spinner />
+        <div className="flex justify-center items-center h-screen">
+          <Loader className="animate-spin h-8 w-8 text-gray-500" />
+        </div>
       ) : (
-        <Box className={infoGrid}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Meta
             symbol={info?.['token']?.['symbol']}
             totalSupply={info?.['token']?.['totalSupply']}
@@ -33,8 +35,8 @@ export default function InfoComponent({ info }: { info: any }) {
           <Docs docs={info?.docs} />
           {/* TODO */}
           {/* <Analytics /> */}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }

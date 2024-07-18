@@ -1,12 +1,10 @@
 import React from 'react'
-import { Stack } from '@kalidao/reality'
-import { IconUserSolid } from '@kalidao/reality'
-// menu items
+import { UserPlus, UserMinus } from 'lucide-react'
+import { Button } from '@components/ui/button'
 import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
 import Redeem from './Redeem'
-import Back from '@design/proposal/Back'
-import { Item } from '../Item'
+import { Back } from '@components/ui/back'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
@@ -14,13 +12,27 @@ type Props = {
 
 function MembersMenu({ setProposal }: Props) {
   return (
-    <Stack>
-      <Stack>
-        <Item onClick={() => setProposal('addMember')} icon={<IconUserSolid />} label="Add Member" />
-        <Item onClick={() => setProposal('removeMember')} icon={<IconUserSolid />} label="Remove Member" />
-      </Stack>
+    <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-2">
+        <Button
+          variant="outline"
+          className="flex items-center justify-start space-x-2"
+          onClick={() => setProposal('addMember')}
+        >
+          <UserPlus className="h-4 w-4" />
+          <span>Add Member</span>
+        </Button>
+        <Button
+          variant="outline"
+          className="flex items-center justify-start space-x-2"
+          onClick={() => setProposal('removeMember')}
+        >
+          <UserMinus className="h-4 w-4" />
+          <span>Remove Member</span>
+        </Button>
+      </div>
       <Back onClick={() => setProposal('menu')} />
-    </Stack>
+    </div>
   )
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { Button } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
 import DAO_ABI from '@abi/KaliDAO.json'
-import { IconCheck } from '@kalidao/reality'
+import { Check } from 'lucide-react'
 import ChainGuard from '../ChainGuard'
 
 type ProcessProps = {
@@ -24,19 +24,20 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
   return (
     <ChainGuard
       fallback={
-        <Button size="small" prefix={<IconCheck />} tone="accent" variant="secondary" disabled={!write}>
+        <Button size="sm" variant="secondary" className="bg-accent text-accent-foreground" disabled={!write}>
+          <Check className="w-4 h-4 mr-2" />
           Process
         </Button>
       }
     >
       <Button
-        size="small"
-        prefix={<IconCheck />}
-        tone="accent"
+        size="sm"
         variant="secondary"
+        className="bg-accent text-accent-foreground"
         onClick={() => write?.()}
         disabled={!write}
       >
+        <Check className="w-4 h-4 mr-2" />
         Process
       </Button>
     </ChainGuard>

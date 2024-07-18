@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { Button } from '@kalidao/reality'
 import DAO_ABI from '@abi/KaliDAO.json'
 import ChainGuard from '../ChainGuard'
+import { Button } from '@components/ui/button'
 
 export default function Cancel({ proposalId }: { proposalId: number }) {
   const router = useRouter()
@@ -18,8 +18,8 @@ export default function Cancel({ proposalId }: { proposalId: number }) {
   const { write } = useContractWrite(config)
 
   return (
-    <ChainGuard fallback={<Button tone="red">Cancel</Button>}>
-      <Button size="small" tone="red" onClick={() => write?.()} disabled={!write}>
+    <ChainGuard fallback={<Button variant="destructive">Cancel</Button>}>
+      <Button variant="destructive" onClick={() => write?.()} disabled={!write}>
         Cancel
       </Button>
     </ChainGuard>

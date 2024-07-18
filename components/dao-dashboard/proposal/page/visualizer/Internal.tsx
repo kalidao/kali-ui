@@ -1,8 +1,9 @@
-import { Stack, Box, Button, Text, Spinner, IconDocumentsSolid } from '@kalidao/reality'
 import { AddressZero } from '@ethersproject/constants'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { formatVotingPeriod } from '@utils/votingPeriod'
+import { Button } from '@components/ui/button'
+import { Loader2, FileText } from 'lucide-react'
 
 export default function Internal({
   type,
@@ -32,61 +33,54 @@ export default function Internal({
     enabled: type === 'VPERIOD',
   })
 
-  console.log('amount', amount)
-
   let render
   switch (type) {
     case 'PAUSE':
       render = (
-        <Text>
+        <p className="text-sm">
           {message} The token is currently {Boolean(pause) === true ? '' : 'not'} paused.
-        </Text>
+        </p>
       )
       break
     case 'VPERIOD':
       render = (
-        <Stack>
+        <div className="space-y-2">
           {votingPeriod ? (
-            <Text>The current voting period is {formatVotingPeriod(Number(votingPeriod))}.</Text>
+            <p className="text-sm">The current voting period is {formatVotingPeriod(Number(votingPeriod))}.</p>
           ) : (
-            <Spinner />
+            <Loader2 className="h-4 w-4 animate-spin" />
           )}
-          <Text>{message}</Text>
-        </Stack>
+          <p className="text-sm">{message}</p>
+        </div>
       )
       break
     case 'ESCAPE':
       render = (
-        <Stack>
-          <Text>{message}</Text>
-          <Button size="small" as="a" href={`/daos/${chainId}/${dao}/proposals/${amount}`}>
-            View Proposal
+        <div className="space-y-2">
+          <p className="text-sm">{message}</p>
+          <Button size="sm" asChild>
+            <a href={`/daos/${chainId}/${dao}/proposals/${amount}`}>View Proposal</a>
           </Button>
-        </Stack>
+        </div>
       )
       break
     case 'DOCS':
       render = (
-        <Stack direction={'vertical'}>
-          <Text>{message}</Text>
-          <Button
-            as="a"
-            variant="secondary"
-            target="_blank"
-            rel="noopenner noreferrer"
-            href={amount}
-            tone="accent"
-            prefix={<IconDocumentsSolid />}
-          >
-            Review
+        <div className="space-y-2">
+          <p className="text-sm">{message}</p>
+          <Button variant="outline" size="sm" asChild>
+            <a href={amount} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              <FileText className="mr-2 h-4 w-4" />
+              Review
+            </a>
           </Button>
-        </Stack>
+        </div>
       )
       break
     default:
-      render = <Text>{message}</Text>
+      render = <p className="text-sm">{message}</p>
       break
   }
 
-  return <Box>{render}</Box>
+  return <div className="p-4 bg-white rounded-lg shadow">{render}</div>
 }

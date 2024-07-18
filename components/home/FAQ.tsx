@@ -2,17 +2,6 @@ import React from 'react'
 import Balancer from 'react-wrap-balancer'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion'
 
-const Row = ({ name, value }: { name: string | React.ReactNode; value: React.ReactNode }) => {
-  return (
-    <div className="w-full p-3">
-      <div className="flex items-center justify-between">
-        {typeof name === 'string' ? <p>{name}</p> : name}
-        <p className="font-bold">{value}</p>
-      </div>
-    </div>
-  )
-}
-
 const Item = ({ value, title, content }: { value: string; title: string; content: string }) => {
   return (
     <AccordionItem value={value}>

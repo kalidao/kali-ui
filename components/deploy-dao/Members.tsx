@@ -1,10 +1,12 @@
-import { Input, Button, Stack, IconUserSolid, IconClose } from '@kalidao/reality'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useAccount, useEnsName } from 'wagmi'
 import { ethers } from 'ethers'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
+import { UserPlus, X } from 'lucide-react'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -83,52 +85,40 @@ export default function Members({ setStep }: Props) {
   }
 
   return (
-    <form>
-      {/* TODO: Copy last share value in next field */}
-      <Stack justify="flex-start">
-        {fields.map((item, index) => {
-          return (
-            <Stack key={item.id} direction="horizontal" align="center" justify="center">
-              <Input
-                label={`Member`}
-                hideLabel={index !== 0}
-                id="member"
-                {...register(`founders.${index}.member` as const, {
-                  required: true,
-                })}
-                defaultValue={item.member}
-                type="text"
-              />
-              <Input
-                label="Tokens"
-                hideLabel={index !== 0}
-                id="share"
-                type="number"
-                {...register(`founders.${index}.share` as const, {
-                  required: true,
-                  min: 1,
-                })}
-                defaultValue={item.share}
-              />
-              <Button
-                tone="red"
-                variant="secondary"
-                size="small"
-                shape="circle"
-                onClick={(e) => {
-                  e.preventDefault()
-                  remove(index)
-                }}
-              >
-                <IconClose />
-              </Button>
-            </Stack>
-          )
-        })}
+    <form className="space-y-4">
+      <div className="space-y-4">
+        {fields.map((item, index) => (
+          <div key={item.id} className="flex items-center space-x-2">
+            <Input
+              placeholder="Member"
+              {...register(`founders.${index}.member` as const, {
+                required: true,
+              })}
+              defaultValue={item.member}
+            />
+            <Input
+              placeholder="Tokens"
+              type="number"
+              {...register(`founders.${index}.share` as const, {
+                required: true,
+                min: 1,
+              })}
+              defaultValue={item.share}
+            />
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={(e) => {
+                e.preventDefault()
+                remove(index)
+              }}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
         <Button
-          suffix={<IconUserSolid />}
-          variant="secondary"
-          tone="green"
+          variant="outline"
           onClick={(e) => {
             e.preventDefault()
             append({
@@ -137,17 +127,16 @@ export default function Members({ setStep }: Props) {
             })
           }}
         >
+          <UserPlus className="mr-2 h-4 w-4" />
           Add
         </Button>
-      </Stack>
-      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
+      </div>
+      <div className="flex justify-end space-x-2">
+        <Button variant="outline" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="primary" onClick={handleSubmit(onNext)}>
-          Next
-        </Button>
-      </Stack>
+        <Button onClick={handleSubmit(onNext)}>Next</Button>
+      </div>
     </form>
   )
 }

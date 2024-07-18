@@ -1,4 +1,4 @@
-import { Text, Card, Box, IconCog, IconBookOpen, IconTokens, IconCollection } from '@kalidao/reality'
+import { Coins, FileStack, Cog, BookOpen } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useContractRead } from 'wagmi'
 import { DashboardElementProps } from './types'
@@ -7,8 +7,9 @@ import { addresses } from '@constants/addresses'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import DATAROOM_ABI from '@abi/DataRoom.json'
 import { AddressZero } from '@ethersproject/constants'
-import { navItem, navMenu } from './layout.css'
 import Wrappr from './Wrappr'
+import { cn } from '@utils/util'
+import { Card } from '@components/ui/card'
 
 const Nav = ({ address, chainId }: DashboardElementProps) => {
   const router = useRouter()
@@ -28,22 +29,20 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     args: [address, address],
   })
 
-  const itemSize = '12'
-  const itemColor = 'foreground'
   const items = [
     {
       id: 0,
       title: 'Learn',
-      icon: <IconBookOpen size={itemSize} color={itemColor} />,
+      icon: <BookOpen className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/info`,
-      active: router.asPath === `/daos/${chainId}/${address}/info` ? true : false,
+      active: router.asPath === `/daos/${chainId}/${address}/info`,
     },
     {
       id: 1,
       title: 'Settings',
-      icon: <IconCog size={itemSize} color={itemColor} />,
+      icon: <Cog className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/settings`,
-      active: router.asPath === `/daos/${chainId}/${address}/settings` ? true : false,
+      active: router.asPath === `/daos/${chainId}/${address}/settings`,
     },
   ]
 
@@ -52,9 +51,9 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     items.push({
       id: 2,
       title: 'Swap',
-      icon: <IconTokens size={itemSize} color={itemColor} />,
+      icon: <Coins className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/swap`,
-      active: router.asPath === `/daos/${chainId}/${address}/swap` ? true : false,
+      active: router.asPath === `/daos/${chainId}/${address}/swap`,
     })
   }
 
@@ -62,20 +61,20 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
     items.push({
       id: 3,
       title: 'Data Room',
-      icon: <IconCollection size={itemSize} color={itemColor} />,
+      icon: <FileStack className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/room`,
-      active: router.asPath === `/daos/${chainId}/${address}/room` ? true : false,
+      active: router.asPath === `/daos/${chainId}/${address}/room`,
     })
   }
 
   return (
-    <Card padding="6" width="full">
-      <Box className={navMenu}>
+    <Card className="w-full p-6">
+      <div className="grid grid-cols-2 gap-4">
         {items.map((item) => (
           <NavCard title={item.title} href={item.href} icon={item.icon} active={item.active} key={item.id} />
         ))}
         <Wrappr address={address} chainId={chainId} />
-      </Box>
+      </div>
     </Card>
   )
 }
@@ -84,17 +83,21 @@ type NavCardProps = {
   title: string
   href: string
   icon: React.ReactNode
-  active: Boolean
-  isExternal?: Boolean
+  active: boolean
+  isExternal?: boolean
 }
 
 const NavCard = ({ title, href, icon, active }: NavCardProps) => {
   return (
-    <Link href={href} passHref>
-      <Box as="a" className={navItem} backgroundColor={active ? 'accentSecondary' : 'background'}>
-        <Box>{icon}</Box>
-        <Text>{title}</Text>
-      </Box>
+    <Link
+      href={href}
+      className={cn(
+        'flex flex-col items-center justify-center p-4 rounded-lg transition-colors',
+        active ? 'bg-accent text-accent-foreground' : 'bg-background hover:bg-accent/10',
+      )}
+    >
+      <span className="mb-2">{icon}</span>
+      <p className="text-sm font-medium">{title}</p>
     </Link>
   )
 }

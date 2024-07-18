@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { useAccount, useNetwork, useContractWrite, erc20ABI, useContractRead } from 'wagmi'
-import { Select } from '@design/Select'
-import { FieldSet, Text, Input, Button, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
-import { tokens } from '@constants/tokens'
-import Back from '@design/proposal/Back'
-import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { ethers } from 'ethers'
 import { AddressZero } from '@ethersproject/constants'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { tokens } from '@constants/tokens'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
 import { ProposalProps } from '../utils/types'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { ArrowLeft } from 'lucide-react'
 
 export default function SendErc20({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -51,7 +53,6 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     watch: true,
   })
 
-  // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
     if (!isConnected && !tokenDecimals) return
     let asset
@@ -111,70 +112,43 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   }
 
   return (
-    <Stack>
-      <FieldSet legend="Send ERC20 tokens" description={`Send ERC20 tokens from ${daoName} treasury`}>
-        <Select
-          name="type"
-          label="Asset"
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
-          defaultValue={type}
-          options={[
-            { value: 'dai', label: 'DAI' },
-            { value: 'usdc', label: 'USDC' },
-            { value: 'weth', label: 'WETH' },
-            { value: 'custom', label: 'Custom' },
-          ]}
-        />
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Send ERC20 tokens</h2>
+        <p className="text-gray-500">Send ERC20 tokens from {daoName} treasury</p>
+        <Select onValueChange={(value) => setType(value)} defaultValue={type}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select asset" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="dai">DAI</SelectItem>
+            <SelectItem value="usdc">USDC</SelectItem>
+            <SelectItem value="weth">WETH</SelectItem>
+            <SelectItem value="custom">Custom</SelectItem>
+          </SelectContent>
+        </Select>
         {type === 'custom' && (
           <Input
-            label="ERC20 Contract Address"
-            name="tokenAddress"
-            type="text"
-            inputMode="text"
-            placeholder={AddressZero}
+            placeholder="ERC20 Contract Address"
             value={tokenAddress}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTokenAddress(e.target.value)}
+            onChange={(e) => setTokenAddress(e.target.value)}
           />
         )}
-        <Input
-          label="Recipient"
-          name="recipient"
-          type="text"
-          inputMode="text"
-          placeholder={AddressZero}
-          value={recipient}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
-        />
-        <Input
-          label="Amount"
-          name="amount"
-          type="number"
-          inputMode="decimal"
-          placeholder="0"
-          min={0}
-          value={amount}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
-        />
-      </FieldSet>
-      <Stack direction={'horizontal'} justify="space-between">
-        <Back onClick={() => setProposal?.('sendMenu')} />
+        <Input placeholder="Recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
+        <Input type="number" placeholder="Amount" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} />
+      </div>
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={() => setProposal?.('sendMenu')}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        </Button>
         <ChainGuard>
-          <Button
-            center
-            variant="primary"
-            onClick={submit}
-            loading={isProposePending}
-            disabled={!propose || isProposePending || isProposeSuccess}
-          >
+          <Button onClick={submit} disabled={!propose || isProposePending || isProposeSuccess}>
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
         </ChainGuard>
-        <Text>
-          {isProposeSuccess
-            ? 'Proposal submitted on chain!'
-            : isProposeError && `Error submitting proposal: ${proposeError}`}
-        </Text>
-      </Stack>
-    </Stack>
+      </div>
+      {isProposeSuccess && <p className="text-green-500">Proposal submitted on chain!</p>}
+      {isProposeError && <p className="text-red-500">Error submitting proposal: {proposeError?.message}</p>}
+    </div>
   )
 }

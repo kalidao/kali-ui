@@ -5,9 +5,12 @@ import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
 import { createProposal } from '../utils'
-import { FieldSet, Button, Input } from '@kalidao/reality'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { JSONContent } from '@tiptap/react'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@components/ui/card'
+import { Loader2 } from 'lucide-react'
 
 export default function ToggleTransfer() {
   // Router
@@ -57,7 +60,6 @@ export default function ToggleTransfer() {
       return
     }
 
-    // console.log('Proposal Params - ', 8, docs, [AddressZero], [0], [Array(0)])
     try {
       const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
@@ -74,30 +76,48 @@ export default function ToggleTransfer() {
   }
 
   return (
-    <FieldSet
-      legend="Toggle Transfer"
-      description={`Submit proposal to pause or unpause DAO token transferability. ${
-        paused ? 'The token is currently not transferable' : 'The token is currently transferable'
-      }`}
-    >
-      <Input
-        name="id"
-        label="Title"
-        maxLength={30}
-        placeholder={'Proposal for...'}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <Editor
-        setContent={setContent}
-        placeholder="You can describe your proposal here."
-        label="Details"
-        description="Why should the token transferability be flipped?"
-      />
-      <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button center onClick={submit} disabled={isSuccess} loading={loading}>
-          {loading ? 'Submitting...' : 'Submit'}
-        </Button>
-      </ChainGuard>
-    </FieldSet>
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader>
+        <CardTitle>Toggle Transfer</CardTitle>
+        <CardDescription>
+          Submit proposal to pause or unpause DAO token transferability.
+          {paused ? 'The token is currently not transferable' : 'The token is currently transferable'}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="title" className="text-sm font-medium">
+            Title
+          </label>
+          <Input id="title" placeholder="Proposal for..." maxLength={30} onChange={(e) => setTitle(e.target.value)} />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="details" className="text-sm font-medium">
+            Details
+          </label>
+          <Editor
+            setContent={setContent}
+            placeholder="You can describe your proposal here."
+            label="Details"
+            description="Why should the token transferability be flipped?"
+          />
+        </div>
+        {warning && <p className="text-red-500 text-sm">{warning}</p>}
+      </CardContent>
+      <CardFooter>
+        <ChainGuard fallback={<Button className="w-full">Submit</Button>}>
+          <Button className="w-full" onClick={submit} disabled={isSuccess || loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              'Submit'
+            )}
+          </Button>
+        </ChainGuard>
+      </CardFooter>
+    </Card>
   )
 }

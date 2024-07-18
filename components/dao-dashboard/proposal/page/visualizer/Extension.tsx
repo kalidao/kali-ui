@@ -1,4 +1,4 @@
-import { Button, Box, Stack, IconLink, Text, IconTokens } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
 import { useRouter } from 'next/router'
 import decodeExtensions from './decodeExtensions'
 import { getExtensionLabel } from '@constants/extensions'
@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { prettyDate } from '@utils/prettyDate'
 import { User } from '@components/tools/User'
 import ReactMarkdown from 'react-markdown'
-import { useThemeStore } from '@components/hooks/useThemeStore'
+import { Coins, Link } from 'lucide-react'
 
 export default function ExtensionShell({
   accounts,
@@ -32,7 +32,7 @@ export default function ExtensionShell({
     })
   }
   return (
-    <Stack>
+    <div className="space-y-4">
       {extensions.map((extension, i) => (
         <Extension
           key={extension.account}
@@ -43,40 +43,34 @@ export default function ExtensionShell({
           dao={dao}
         />
       ))}
-    </Stack>
+    </div>
   )
 }
 
-const resolveValueRender = (value: any, display: string, chainId: number, mode: string): React.ReactNode => {
+const resolveValueRender = (value: any, display: string, chainId: number): React.ReactNode => {
   switch (display) {
     case 'string':
-      return <Text>{value}</Text>
+      return <p className="text-sm">{value}</p>
     case 'token':
       return (
-        <Button
-          shape="circle"
-          as="a"
-          href={getExplorerLink(chainId, ExplorerType.ADDRESS, value)}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="transparent"
-          size="small"
-        >
-          <IconTokens />
+        <Button variant="ghost" size="icon" asChild>
+          <a href={getExplorerLink(chainId, ExplorerType.ADDRESS, value)} target="_blank" rel="noopener noreferrer">
+            <Coins className="h-4 w-4" />
+          </a>
         </Button>
       )
     case 'id':
-      return <Text>{value}</Text>
+      return <p className="text-sm">{value}</p>
     case 'address':
       return <User address={value} />
     case 'date':
-      return <Text>{prettyDate(new Date(value))}</Text>
+      return <p className="text-sm">{prettyDate(new Date(value))}</p>
     case 'saleType':
-      return <Text>{value}</Text>
+      return <p className="text-sm">{value}</p>
     case 'swapRatio':
-      return <Text>{value}</Text>
+      return <p className="text-sm">{value}</p>
     case 'BigNumber':
-      return <Text>{value.toString()}</Text>
+      return <p className="text-sm">{value.toString()}</p>
     case 'json':
       let json = value[0]
       let render = []
@@ -87,40 +81,34 @@ const resolveValueRender = (value: any, display: string, chainId: number, mode: 
         })
       }
       return (
-        <Stack>
+        <div className="space-y-2">
           {render?.map((item, index) => (
-            <Stack key={index}>
-              <Text weight="semiBold">{item.key}</Text>
+            <div key={index} className="space-y-1">
+              <p className="font-semibold">{item.key}</p>
               {item.key == 'goalDescription' ? (
                 <ReactMarkdown
                   components={{
-                    h1: ({ node, ...props }) => (
-                      <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
-                    ),
-                    h2: ({ node, ...props }) => (
-                      <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
-                    ),
-                    p: ({ node, ...props }) => <p style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
-                    li: ({ node, ...props }) => (
-                      <li style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />
-                    ),
-                    em: ({ node, ...props }) => <i style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
+                    h1: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
+                    p: ({ node, ...props }) => <p className="text-black dark:text-white" {...props} />,
+                    li: ({ node, ...props }) => <li className="text-black dark:text-white" {...props} />,
+                    em: ({ node, ...props }) => <i className="text-black dark:text-white" {...props} />,
                   }}
                 >
                   {item.value}
                 </ReactMarkdown>
               ) : (
-                <Text>{item.value}</Text>
+                <p className="text-sm">{item.value}</p>
               )}
-            </Stack>
+            </div>
           ))}
-        </Stack>
+        </div>
       )
     case 'link':
-      if (value == '') return <Text>N/A</Text>
+      if (value == '') return <p className="text-sm">N/A</p>
       return (
         <a href={value} target="_blank" rel="noopenner noreferrer">
-          <IconLink />
+          <Link className="h-4 w-4" />
         </a>
       )
   }
@@ -144,33 +132,37 @@ const Extension = ({
     async () => await decodeExtensions(dao, extension, payload, chainId),
     { enabled: !!payload },
   )
-  const mode = useThemeStore((state) => state.mode)
 
   return (
-    <Stack>
+    <div className="space-y-4">
       {decoded && (
-        <Text>
+        <p className="text-sm">
           This interacts with the {getExtensionLabel(decoded?.type)} app. You can review the contract{' '}
-          <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, extension)}>
+          <a
+            className="text-blue-500 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={getExplorerLink(chainId, ExplorerType.ADDRESS, extension)}
+          >
             here
           </a>
           .
-        </Text>
+        </p>
       )}
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text variant="label">Type</Text>
-        <Text variant="label">Value</Text>
-      </Stack>
+      <div className="flex justify-between items-center">
+        <p className="text-xs font-medium uppercase">Type</p>
+        <p className="text-xs font-medium uppercase">Value</p>
+      </div>
       {decoded &&
         decoded?.values?.map((item, index) => (
           <ExtensionRow
             key={index}
             label={item.label}
             display={item.display}
-            value={resolveValueRender(item.value, item.display, chainId, mode)}
+            value={resolveValueRender(item.value, item.display, chainId)}
           />
         ))}
-    </Stack>
+    </div>
   )
 }
 
@@ -183,17 +175,17 @@ type RowProps = {
 const ExtensionRow = ({ label, display, value }: RowProps) => {
   if (display === 'json') {
     return (
-      <Stack>
-        <Text variant="label">{label}</Text>
-        <Box display="flex">{value}</Box>
-      </Stack>
+      <div className="space-y-2">
+        <p className="text-xs font-medium uppercase">{label}</p>
+        <div className="flex">{value}</div>
+      </div>
     )
   }
 
   return (
-    <Stack direction="horizontal" justify="space-between" align="center" key={label}>
-      <Text>{label}</Text>
-      <Box>{value}</Box>
-    </Stack>
+    <div className="flex justify-between items-center" key={label}>
+      <p className="text-sm">{label}</p>
+      <div>{value}</div>
+    </div>
   )
 }

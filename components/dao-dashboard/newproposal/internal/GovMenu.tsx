@@ -1,5 +1,6 @@
-import { Box, IconCheck, IconHand, IconTokens, IconUserGroupSolid, Stack, Text } from '@kalidao/reality'
-import { govItem, govItemLabel, icon } from './styles.css'
+import React from 'react'
+import { Button } from '@components/ui/button'
+import { Hand, Users, Check, Coins } from 'lucide-react'
 
 type Props = {
   view: number
@@ -10,44 +11,39 @@ export default function GovMenu({ view, setView }: Props) {
   const items = [
     {
       title: 'Voting Period',
-      icon: <IconHand className={icon} />,
+      icon: <Hand className="w-5 h-5" />,
       onClick: () => setView(1),
-      active: view === 1 ? true : false,
+      active: view === 1,
     },
     {
       title: 'Participation Needed',
-      icon: <IconUserGroupSolid className={icon} />,
+      icon: <Users className="w-5 h-5" />,
       onClick: () => setView(2),
-      active: view === 2 ? true : false,
+      active: view === 2,
     },
     {
       title: 'Approval Needed',
-      icon: <IconCheck className={icon} />,
+      icon: <Check className="w-5 h-5" />,
       onClick: () => setView(3),
-      active: view === 3 ? true : false,
+      active: view === 3,
     },
     {
       title: 'Token Transferability',
-      icon: <IconTokens className={icon} />,
+      icon: <Coins className="w-5 h-5" />,
       onClick: () => setView(4),
-      active: view === 4 ? true : false,
+      active: view === 4,
     },
   ]
 
   return (
-    <Stack direction="vertical" align={'flex-start'} space="2.5">
-      <Text>Review setting and make proposal to change them.</Text>
-      <Stack
-        direction={{
-          xs: 'horizontal',
-          lg: 'vertical',
-        }}
-      >
+    <div className="flex flex-col space-y-2.5 items-start">
+      <p className="text-sm">Review setting and make proposal to change them.</p>
+      <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2">
         {items.map((item) => (
-          <GovItem key={item.title} active={item.active} title={item.title} icon={item.icon} onClick={item.onClick} />
+          <GovItem key={item.title} {...item} />
         ))}
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   )
 }
 
@@ -59,13 +55,14 @@ type ItemProps = {
 }
 
 const GovItem = ({ title, icon, active, onClick }: ItemProps) => {
-  console.log('active', title, active)
   return (
-    <Box as="button" className={govItem} onClick={onClick} backgroundColor={active ? 'accentSecondary' : 'transparent'}>
+    <Button
+      variant={active ? 'secondary' : 'ghost'}
+      className="flex items-center space-x-2 w-full lg:w-auto"
+      onClick={onClick}
+    >
       {icon}
-      <Box className={govItemLabel} color="textPrimary">
-        {title}
-      </Box>
-    </Box>
+      <span>{title}</span>
+    </Button>
   )
 }

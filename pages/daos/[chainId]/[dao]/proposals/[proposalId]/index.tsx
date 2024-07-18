@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { Box, IconArrowLeft, Button, Stack, Spinner } from '@kalidao/reality'
+import { ArrowLeft } from 'lucide-react'
+import { Button } from '@components/ui/button'
+import { Spinner } from '@components/ui/spinner'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
@@ -19,37 +21,26 @@ const ProposalPage: NextPage = () => {
 
   const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
     router.push(`/daos/${chainId}/${dao}`)
   }
 
   return (
     <Layout title={`Proposal #${proposalId}`} content="Discuss and vote on the proposal.">
-      <Box
-        padding={{
-          xs: '2',
-          lg: '6',
-        }}
-      >
+      <div className="p-2 lg:p-6">
         {isLoading ? (
           <Spinner />
         ) : (
-          <Stack space="10">
-            <Stack
-              direction={{
-                xs: 'vertical',
-                lg: 'horizontal',
-              }}
-            >
-              <Button variant="transparent" shape="circle" onClick={goBack}>
-                <IconArrowLeft />
+          <div className="space-y-10">
+            <div className="flex flex-col lg:flex-row gap-4">
+              <Button variant="ghost" size="icon" onClick={goBack}>
+                <ArrowLeft className="h-4 w-4" />
               </Button>
               <ProposalView proposal={proposal} />
-            </Stack>
+            </div>
             <VotesView votes={proposal?.votes} />
-          </Stack>
+          </div>
         )}
-      </Box>
+      </div>
     </Layout>
   )
 }

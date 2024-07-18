@@ -3,7 +3,6 @@ import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { MembersList, MemberProfile } from '@components/dao-dashboard/members'
 import { GRAPH_URL } from '@graph/url'
-import { Box, Stack } from '@kalidao/reality'
 
 const MembersPage: NextPage = ({
   members,
@@ -33,17 +32,17 @@ const MembersPage: NextPage = ({
 
   return (
     <Layout title={`Members`} content="Look at the members and their analytics for the DAO.">
-      <Stack direction="horizontal">
+      <div className="flex flex-row">
         <MembersList members={list} active={member} setActive={setMember} />
-        <Box minHeight={'32'}>
+        <div className="min-h-32">
           <MemberProfile
             member={member}
             proposals={memberProposals}
             votes={memberVotes}
             totalSupply={members?.token?.totalSupply}
           />
-        </Box>
-      </Stack>
+        </div>
+      </div>
     </Layout>
   )
 }

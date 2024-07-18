@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useContract, useSigner } from 'wagmi'
-import { Warning } from '@design/elements'
-import { Box, Button, Text, Stack, Input, Textarea } from '@kalidao/reality'
-import { Select } from '@design/Select'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import Back from '@design/proposal/Back'
+import { AlertCircle, ArrowLeft } from 'lucide-react'
+import { Button } from '@components/ui/button'
+import { Input } from '@components/ui/input'
+import { Textarea } from '@components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
+import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { createProposal } from '../utils'
 import { ProposalProps } from '../utils/types'
 
@@ -22,13 +24,11 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     signerOrProvider: signer,
   })
 
-  // form
   const [contractAddress, setContractAddress] = useState<string>()
   const [contractAbi, setContractAbi] = useState<string>()
   const [writeFuncs, setWriteFuncs] = useState<any[]>()
   const [writeOptions, setWriteOptions] = useState<any[]>()
   const [warning, setWarning] = useState<string>()
-
   const [functionName, setFunctionName] = useState<string>()
   const [inputs, setInputs] = useState<any[]>()
   const [inputParams, setInputParams] = useState<any[]>()
@@ -48,9 +48,9 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
           }
         }
       }
-      const options = [{ label: 'Select a function', value: 999 }]
+      const options = [{ label: 'Select a function', value: '999' }]
       for (var i = 0; i < writeFuncs_.length; i++) {
-        options.push({ value: i, label: writeFuncs_[i]['name'] })
+        options.push({ value: i.toString(), label: writeFuncs_[i]['name'] })
       }
       setWriteFuncs(writeFuncs_)
       setWriteOptions(options)
@@ -60,14 +60,13 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     }
   }
 
-  const onWriteFunctionSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault()
+  const onWriteFunctionSelect = (value: string) => {
     if (!writeFuncs) return
-    if (e.currentTarget.value == '999') {
+    if (value === '999') {
       setInputs([])
       setFunctionName('')
     } else {
-      let id = Number(e.target.value)
+      let id = Number(value)
       let inputs_ = writeFuncs[id]['inputs']
       let name_ = writeFuncs[id]['name']
 
@@ -86,7 +85,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     let array = []
     for (var i = 0; i < children.length; i++) {
       // @ts-expect-error
-      let item = (children[i].children[1].children[0].children[0].value as any) || ''
+      let item = (children[i].children[1].value as any) || ''
       if (item != undefined) {
         array.push(item)
       }
@@ -94,7 +93,6 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
     setInputParams(array)
   }
 
-  // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
     if (!functionName) return
     let docs
@@ -129,49 +127,59 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
   }
 
   return (
-    <Stack>
-      <Text>
+    <div className="space-y-4">
+      <p className="text-sm text-gray-500">
         Supply a contract address and its corresponding ABI. Click "Parse ABI," pick the function you wish to interact
-        with, and supply the appropriate inputs.{' '}
-      </Text>
-      <Text>
+        with, and supply the appropriate inputs.
+      </p>
+      <p className="text-sm text-gray-500">
         External calls involve programmatically calling a smart contract without a dedicated user interface. It can be
         confusing if you're trying it out for the first time. But when in doubt, hop into the KALI Discord and we'll
         help you out.
-      </Text>
+      </p>
       <Input
-        label="Contract Address"
-        description="The address of the contract you wish to interact with."
-        name="contractAddress"
-        type="text"
-        defaultValue={contractAddress}
+        placeholder="Contract Address"
+        value={contractAddress}
         onChange={(e) => setContractAddress(e.target.value)}
       />
-      <Textarea
-        label="Contract ABI"
-        description="Supply the contract ABI here."
-        name="description"
-        defaultValue={contractAbi}
-        onChange={(e) => setContractAbi(e.target.value)}
-      />
-      <Button variant="secondary" onClick={handleParse}>
+      <Textarea placeholder="Contract ABI" value={contractAbi} onChange={(e) => setContractAbi(e.target.value)} />
+      <Button variant="outline" onClick={handleParse}>
         Parse ABI
       </Button>
       {writeFuncs && (
-        <Select label="Write Functions" onChange={onWriteFunctionSelect} options={writeOptions ? writeOptions : []} />
+        <Select onValueChange={onWriteFunctionSelect}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a function" />
+          </SelectTrigger>
+          <SelectContent>
+            {writeOptions?.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       )}
-      {inputs == null ? null : (
-        <Box id="inputFields">
+      {inputs && (
+        <div id="inputFields" className="space-y-2">
           {inputs.map((input, index) => (
-            <Input label={input['name']} id={`input-${index}`} key={index} onChange={onInputChange} />
+            <Input key={index} placeholder={input['name']} onChange={onInputChange} />
           ))}
-        </Box>
+        </div>
       )}
-      {warning && <Warning warning={warning} />}
-      <Stack align="center" justify="space-between" direction={'horizontal'}>
-        <Back onClick={() => setProposal?.('menu')} />
+      {warning && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Warning</AlertTitle>
+          <AlertDescription>{warning}</AlertDescription>
+        </Alert>
+      )}
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={() => setProposal?.('menu')}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        </Button>
         <Button onClick={submit}>Submit</Button>
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   )
 }

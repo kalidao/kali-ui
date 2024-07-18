@@ -1,4 +1,7 @@
-import { Stack, Box, Text, Tag, Avatar, IconEth, IconTokens, IconDocumentsSolid, IconSparkles } from '@kalidao/reality'
+import { Card, CardContent } from '@components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { Badge } from '@components/ui/badge'
+import { FileText, Sparkles, Coins, Diamond } from 'lucide-react'
 import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
 import { useQuery } from '@tanstack/react-query'
@@ -23,47 +26,50 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   const { data: profile } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
   return (
-    <Stack direction={'horizontal'} space={'1'} wrap>
+    <div className="flex flex-wrap gap-4">
       {member && profile && (
         <MemberCard
           title={
             profile?.handle ? (
-              <Stack direction={'vertical'} align="center" justify={'center'} space="1">
-                <Text weight="bold" size="large">
-                  {profile?.name}
-                </Text>
-                <Tag size="small">{profile?.handle}</Tag>
-              </Stack>
+              <div className="flex flex-col items-center justify-center space-y-1">
+                <h2 className="text-xl font-bold">{profile?.name}</h2>
+                <Badge variant="secondary">{profile?.handle}</Badge>
+              </div>
             ) : (
-              <Text>{ensName ? ensName : truncateAddress(member?.address)}</Text>
+              <p>{ensName ? ensName : truncateAddress(member?.address)}</p>
             )
           }
-          icon={<Avatar src={profile?.picture} size="16" label="profile" />}
+          icon={
+            <Avatar>
+              <AvatarImage src={profile?.picture} alt="Profile" />
+              <AvatarFallback>P</AvatarFallback>
+            </Avatar>
+          }
           info={
-            <Stack>
-              <Text size="base">{profile?.bio}</Text>
-              <Stack direction={'horizontal'}>
+            <div className="space-y-2">
+              <p>{profile?.bio}</p>
+              <div className="flex">
                 <a
                   href={getExplorerLink(Number(chainId), ExplorerType.ADDRESS, member?.address)}
                   target="_blank"
                   rel="noreferrer"
+                  className="text-blue-500 hover:text-blue-600"
                 >
-                  <IconEth />
+                  <Diamond className="w-5 h-5" />
                 </a>
-              </Stack>
-            </Stack>
+              </div>
+            </div>
           }
         />
       )}
-      <MemberCard title="Proposals" icon={<IconDocumentsSolid />} info={proposals?.length} />
-      <MemberCard title="Votes" icon={<IconSparkles />} info={votes?.length} />
+      <MemberCard title="Proposals" icon={<FileText className="w-6 h-6" />} info={proposals?.length} />
+      <MemberCard title="Votes" icon={<Sparkles className="w-6 h-6" />} info={votes?.length} />
       <MemberCard
         title="Owns"
-        icon={<IconTokens />}
+        icon={<Coins className="w-6 h-6" />}
         info={`${((Number(member?.shares) / totalSupply) * 100).toFixed(2)}%`}
       />
-      {/* <Pie totalSupply={totalSupply} member={member} /> */}
-    </Stack>
+    </div>
   )
 }
 
@@ -75,21 +81,12 @@ type CardProps = {
 
 const MemberCard = ({ title, icon, info }: CardProps) => {
   return (
-    <Box
-      minHeight="44"
-      minWidth="44"
-      padding="6"
-      backgroundColor={'backgroundSecondary'}
-      display="flex"
-      alignItems={'center'}
-      justifyContent="center"
-      borderRadius="2xLarge"
-    >
-      <Stack align="center" justify={'center'} space={'2'}>
-        <Box color="foreground">{icon}</Box>
-        <Text size="extraLarge"> {title} </Text>
-        <Text size="extraLarge">{info}</Text>
-      </Stack>
-    </Box>
+    <Card className="min-h-[11rem] min-w-[11rem] flex items-center justify-center">
+      <CardContent className="flex flex-col items-center justify-center space-y-2 p-6">
+        <div className="text-foreground">{icon}</div>
+        <h3 className="text-xl">{title}</h3>
+        <p className="text-xl">{info}</p>
+      </CardContent>
+    </Card>
   )
 }

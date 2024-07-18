@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 import { useAccount, useContractWrite } from 'wagmi'
 import DAO_ABI from '../../../../abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
-import { Button, IconCheck, IconClose, Stack } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Check, X } from 'lucide-react'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 // TODO: add actual types
@@ -46,29 +47,41 @@ export default function Vote({ proposal }: VoteProps) {
   )
 
   return (
-    <Stack direction={'horizontal'}>
+    <div className="flex space-x-2">
       <ChainGuard
         fallback={
-          <Button shape="circle" tone="green" size="small" disabled={disabled}>
-            <IconCheck />
+          <Button variant="outline" size="icon" className="bg-green-500 text-white" disabled={disabled}>
+            <Check className="h-4 w-4" />
           </Button>
         }
       >
-        <Button shape="circle" tone="green" size="small" disabled={disabled} onClick={() => submitVote(true)}>
-          <IconCheck />
+        <Button
+          variant="outline"
+          size="icon"
+          className="bg-green-500 text-white"
+          disabled={disabled}
+          onClick={() => submitVote(true)}
+        >
+          <Check className="h-4 w-4" />
         </Button>
       </ChainGuard>
       <ChainGuard
         fallback={
-          <Button shape="circle" tone="red" size="small" disabled={disabled}>
-            <IconClose />
+          <Button variant="outline" size="icon" className="bg-red-500 text-white" disabled={disabled}>
+            <X className="h-4 w-4" />
           </Button>
         }
       >
-        <Button shape="circle" tone="red" size="small" disabled={disabled} onClick={() => submitVote(false)}>
-          <IconClose />
+        <Button
+          variant="outline"
+          size="icon"
+          className="bg-red-500 text-white"
+          disabled={disabled}
+          onClick={() => submitVote(false)}
+        >
+          <X className="h-4 w-4" />
         </Button>
       </ChainGuard>
-    </Stack>
+    </div>
   )
 }

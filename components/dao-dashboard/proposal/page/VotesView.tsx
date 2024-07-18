@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Card, Stack, IconClose, IconCheck } from '@kalidao/reality'
 import { ethers } from 'ethers'
 import { User } from '@components/tools/User'
+import { Card } from '@components/ui/card'
+import { Check, X } from 'lucide-react'
 
 type Props = {
   votes: any
@@ -9,18 +10,16 @@ type Props = {
 
 export default function VotesView({ votes }: Props) {
   return (
-    <Stack>
-      {votes?.map((vote: any) => {
-        return (
-          <Vote
-            key={vote?.voter}
-            address={vote?.voter}
-            weight={ethers.utils.formatEther(vote?.weight)}
-            vote={vote?.vote}
-          />
-        )
-      })}
-    </Stack>
+    <div className="space-y-4">
+      {votes?.map((vote: any) => (
+        <Vote
+          key={vote?.voter}
+          address={vote?.voter}
+          weight={ethers.utils.formatEther(vote?.weight)}
+          vote={vote?.vote}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -32,18 +31,16 @@ type VoteProps = {
 
 const Vote = ({ address, weight, vote }: VoteProps) => {
   return (
-    <Card padding="3">
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Box width="20">
+    <Card className="p-3">
+      <div className="flex items-center justify-between">
+        <div className="w-20">
           <User address={address} />
-        </Box>
-        <Box width="10" display="flex" alignItems={'center'} justifyContent="center">
-          {Number(weight).toFixed(2)}
-        </Box>
-        <Box width="10" color={vote === true ? 'green' : 'red'}>
-          {vote == true ? <IconCheck /> : <IconClose />}
-        </Box>
-      </Stack>
+        </div>
+        <div className="w-10 flex items-center justify-center">{Number(weight).toFixed(2)}</div>
+        <div className={`w-10 ${vote ? 'text-green-500' : 'text-red-500'}`}>
+          {vote ? <Check size={20} /> : <X size={20} />}
+        </div>
+      </div>
     </Card>
   )
 }

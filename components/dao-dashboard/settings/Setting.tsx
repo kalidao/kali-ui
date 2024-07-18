@@ -1,15 +1,15 @@
-import { Box } from '@kalidao/reality'
+import { Card } from '@components/ui/card'
 import GovSettings from './GovSettings'
 import LegalSettings from './LegalSettings'
 
 export default function Setting({ setting }: { setting: string }) {
   let render
-  if (setting == 'gov') {
+  if (setting === 'gov') {
     render = <GovSettings />
   }
-  if (setting == 'legal') {
+  if (setting === 'legal') {
     render = <LegalSettings />
   }
 
-  return <Box>{render}</Box>
+  return <Card className="p-6">{render}</Card>
 }

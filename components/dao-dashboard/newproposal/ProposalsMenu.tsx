@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconCode, IconGridSolid, IconTokens, IconUserSolid, Stack } from '@kalidao/reality'
+import { User, Coins, Code, Grid } from 'lucide-react'
 import { Item } from './Item'
 
 type Props = {
@@ -8,11 +8,11 @@ type Props = {
 
 export default function ProposalsMenu({ setProposal }: Props) {
   return (
-    <Stack wrap>
-      <Item onClick={() => setProposal('membersMenu')} label="Member" icon={<IconUserSolid />} />
-      <Item onClick={() => setProposal('sendMenu')} label="Payments" icon={<IconTokens />} />
-      <Item onClick={() => setProposal('call')} label="External Call" icon={<IconCode />} />
-      <Item onClick={() => setProposal('appsMenu')} label="Apps" icon={<IconGridSolid />} />
-    </Stack>
+    <div className="flex flex-wrap gap-4">
+      <Item onClick={() => setProposal('membersMenu')} label="Member" icon={<User className="w-6 h-6" />} />
+      <Item onClick={() => setProposal('sendMenu')} label="Payments" icon={<Coins className="w-6 h-6" />} />
+      <Item onClick={() => setProposal('call')} label="External Call" icon={<Code className="w-6 h-6" />} />
+      <Item onClick={() => setProposal('appsMenu')} label="Apps" icon={<Grid className="w-6 h-6" />} />
+    </div>
   )
 }
