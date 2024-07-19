@@ -32,7 +32,7 @@ const Treasury = ({ address, chainId }: DashboardElementProps) => {
           data &&
           data.assets &&
           data.assets.slice(0, 3).map((item) => (
-            <div key={item.contractAddress ?? 'native'} className="bg-gray-100 p-2 rounded-md mb-2">
+            <div key={item.contractAddress ?? 'native'} className="bg-secondary p-2 rounded-md mb-1">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <Avatar className="h-8 w-8 mr-2">

@@ -22,9 +22,7 @@ const CreatePage: NextPage = () => {
         <div className="mb-4">
           <Back onClick={goto} />
         </div>
-        <div className="bg-background shadow-md rounded-lg p-6">
-          <DeployDaoWrapper />
-        </div>
+        <DeployDaoWrapper />
       </div>
     </Layout>
   )

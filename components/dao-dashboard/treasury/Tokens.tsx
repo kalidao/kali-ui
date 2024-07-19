@@ -1,16 +1,18 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { Card, CardContent } from '@components/ui/card'
 import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
 import { Coins } from 'lucide-react'
+import { Address } from 'viem'
 
-export default function Tokens() {
-  const router = useRouter()
-  const address = router.query.dao
-  const chainId = router.query.chainId
+interface TokensProps {
+  address: Address
+  chainId: number
+}
+
+export default function Tokens({ address, chainId }: TokensProps) {
   const { data, isLoading, isError, isFetched } = useQuery(
     ['daoTreasuryDashboard', address, chainId],
     () =>
@@ -25,7 +27,6 @@ export default function Tokens() {
     },
   )
 
-  console.log('token', data)
   return (
     <div className="space-y-4">
       {data && data.error === true ? (

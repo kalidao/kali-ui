@@ -28,7 +28,7 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
   if (!address) return null
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-3 p-3 bg-background">
+    <div className="w-full grid grid-cols-1 gap-3 p-3 bg-background">
       {display && (
         <div className="w-full px-12 py-6 flex flex-row items-center justify-between">
           <h2 className="text-2xl font-bold">{label}</h2>
@@ -40,7 +40,7 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
           </div>
         </div>
       )}
-      <div className="flex flex-wrap items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {display &&
           display.length !== 0 &&
           display.map((dao: { [x: string]: any }) => <DaoCard key={dao?.['id']} dao={dao} chain={dao?.chainId} />)}

@@ -5,7 +5,7 @@ import { Menu } from './Menu'
 
 export default function Header() {
   return (
-    <header className="bg-background flex justify-between items-center p-4 shadow-md">
+    <header className="bg-background flex justify-between items-center p-4">
       <Link href="/" className="text-2xl font-bold text-foreground hover:underline transition-colors" passHref>
         KALI
       </Link>

@@ -94,7 +94,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <div>
+    <div className="border-2 border-border rounded-lg mx-1 mb-2 bg-secondary">
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
@@ -106,23 +106,23 @@ export default function ProposalCard({ proposal }: PropCardProp) {
         }}
         passHref
       >
-        <div className="flex xs:flex-col md:flex-row w-full justify-between items-start md:items-center">
-          <div className="flex flex-col md:flex-row items-start md:items-center">
+        <div className="flex flex-col w-full rounded-lg hover:bg-blue-50 border-4  hover:border-4 hover:border-blue-500 hover:dark:bg-blue-950 p-1">
+          <div className="flex flex-row items-center space-between w-full">
             <p className="text-2xl text-foreground">{`#${proposal?.serial} ${details ? details?.title : ''}`}</p>
-            <Badge variant="secondary">{proposer}</Badge>
+            <div>
+              <Badge variant="secondary">{proposer}</Badge>
+              <Badge>{text}</Badge>
+            </div>
           </div>
-          <Badge>{text}</Badge>
+          <Description
+            type={proposal['proposalType']}
+            description={details ? details?.description : proposal?.description}
+            isSchema={details ? true : false}
+            short
+          />
         </div>
-        <Description
-          type={proposal['proposalType']}
-          description={details ? details?.description : proposal?.description}
-          isSchema={details ? true : false}
-          short
-        />
       </Link>
-      <div className="flex">
-        <Vote proposal={proposal} />
-      </div>
+      <Vote proposal={proposal} />
     </div>
   )
 }

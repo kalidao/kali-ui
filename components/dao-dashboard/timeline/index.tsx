@@ -35,35 +35,26 @@ export default function Timeline() {
     router.push(`/daos/${chainId}/${dao}/proposals`)
   }
 
+  const gotoPropose = () => {
+    router.push(`/daos/${chainId}/${dao}/propose`)
+  }
+
   return (
     <div
       className={cn(
-        'flex flex-col space-y-4',
-        memoizedProposals && memoizedProposals.length != 0
-          ? 'md:flex-row md:justify-between'
-          : 'md:flex-col md:justify-end',
+        'flex flex-col space-y-4 md:flex-col p-1',
+        memoizedProposals && memoizedProposals.length != 0 ? 'md:justify-between' : 'md:justify-end',
       )}
     >
-      <div>
+      <div className="mt-2 flex flex-row items-center justify-start space-x-2">
         {memoizedProposals && memoizedProposals.length != 0 ? (
-          <Button variant="ghost" onClick={gotoProposals}>
-            <BookOpenIcon className="mr-2" />
-            <span>View All</span>
+          <Button variant="link" onClick={gotoProposals}>
+            View All
           </Button>
         ) : null}
-        <Link
-          href={{
-            pathname: '/daos/[chainId]/[dao]/propose',
-            query: {
-              dao: dao as string,
-              chainId: chainId as string,
-            },
-          }}
-          className="p-2 text-blue-500 hover:underline rounded-lg flex items-center space-x-1 cursor-pointer w-fit"
-        >
-          <PencilIcon className="h-5 w-5" />
-          <p className="font-bold text-lg">Propose</p>
-        </Link>
+        <Button variant="link" onClick={gotoPropose}>
+          Propose
+        </Button>
       </div>
 
       <div>

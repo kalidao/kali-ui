@@ -1,26 +1,30 @@
 import React, { useState } from 'react'
-import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
+import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
 import { Tokens, NFTs } from '@components/dao-dashboard/treasury'
-import Moralis from 'moralis'
 import { Coins, ImageIcon } from 'lucide-react'
+import { zeroAddress } from 'viem'
+import { useRouter } from 'next/router'
 
-const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Treasury: NextPage = () => {
+  const router = useRouter()
+  const daoAddress = router.query.dao ? (router.query.dao as string) : zeroAddress
+  const chainId = Number(router.query.chainId)
+
   const [show, setShow] = useState('tokens')
-  console.log('tokenBalance', tokenBalance)
 
   const render = () => {
     if (show === 'tokens') {
-      return <Tokens />
+      return <Tokens address={daoAddress} chainId={chainId} />
     }
 
     if (show === 'nft') {
-      if (nftBalance?.notSupported) {
+      if (chainId in [1, 4, 137, 80001]) {
         return <p className="text-sm text-gray-500">We are working on bringing Treasury support for your chain.</p>
       } else {
-        return <NFTs nftBalance={nftBalance} />
+        return <NFTs address={daoAddress} chainId={chainId} />
       }
     }
   }
@@ -54,43 +58,6 @@ const Treasury: NextPage = ({ tokenBalance, nftBalance }: InferGetServerSideProp
       </Card>
     </Layout>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao as string
-  const chainId = context?.params?.chainId
-
-  if (chainId == '137' || chainId == '1') {
-    await Moralis.start({ apiKey: process.env.MORALIS_API_KEY })
-    const [tokenBalance, nftBalance] = await Promise.all([
-      Moralis.EvmApi.token.getWalletTokenBalances({
-        address,
-        chain: Number(chainId),
-      }),
-      Moralis.EvmApi.nft.getWalletNFTs({
-        address,
-        chain: Number(chainId),
-      }),
-    ])
-
-    return {
-      props: {
-        tokenBalance: tokenBalance.result.map((token) => JSON.parse(JSON.stringify(token))),
-        nftBalance: JSON.parse(JSON.stringify(nftBalance)),
-      },
-    }
-  }
-
-  const notSupported = {
-    notSupported: true,
-  }
-
-  return {
-    props: {
-      tokenBalance: notSupported,
-      nftBalance: notSupported,
-    },
-  }
 }
 
 export default Treasury

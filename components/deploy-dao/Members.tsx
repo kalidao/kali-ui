@@ -95,6 +95,7 @@ export default function Members({ setStep }: Props) {
                 required: true,
               })}
               defaultValue={item.member}
+              className="max-w-lg"
             />
             <Input
               placeholder="Tokens"
@@ -104,6 +105,7 @@ export default function Members({ setStep }: Props) {
                 min: 1,
               })}
               defaultValue={item.share}
+              className="max-w-sm"
             />
             <Button
               variant="destructive"
@@ -112,6 +114,7 @@ export default function Members({ setStep }: Props) {
                 e.preventDefault()
                 remove(index)
               }}
+              className="rounded-full h-8 w-8"
             >
               <X className="h-4 w-4" />
             </Button>

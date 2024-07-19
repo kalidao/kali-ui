@@ -64,6 +64,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "tsparticles": "^2.7.1",
+    "viem": "^2.17.5",
     "wagmi": "^0.10.4",
     "zod": "^3.23.8",
     "zustand": "^4.2.0"

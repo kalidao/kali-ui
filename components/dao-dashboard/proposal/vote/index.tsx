@@ -47,7 +47,7 @@ export default function Vote({ proposal }: VoteProps) {
   )
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex">
       <ChainGuard
         fallback={
           <Button variant="outline" size="icon" className="bg-green-500 text-white" disabled={disabled}>

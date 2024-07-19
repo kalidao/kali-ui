@@ -36,7 +36,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
         <Header />
         <div>
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-1">
               <Profile address={dao as string} chainId={Number(chainId)} />
               <Nav address={dao as string} chainId={Number(chainId)} />
               <Treasury address={dao as string} chainId={Number(chainId)} />

@@ -2,7 +2,12 @@ import React from 'react'
 import NftCard from './NftCard'
 import { Spinner } from '@components/ui/spinner'
 
-export default function NFTs({ nftBalance }: { nftBalance: any[] }) {
+interface NFTsProps {
+  address: Address
+  chainId: number
+}
+
+export default function NFTs({ address, chainId }: NFTsProps) {
   return (
     <div className="flex flex-wrap gap-4">
       {nftBalance === undefined && <Spinner />}
