@@ -1,5 +1,5 @@
 import { UpdateDocs } from '../newproposal/internal'
 
-export default function LegalSettings() {
+export function LegalSettings() {
   return <UpdateDocs />
 }

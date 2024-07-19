@@ -82,5 +82,5 @@ export default function Internal({
       break
   }
 
-  return <div className="p-4 bg-white rounded-lg shadow">{render}</div>
+  return <div className="p-4 bg-background rounded-lg shadow">{render}</div>
 }

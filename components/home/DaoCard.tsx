@@ -24,7 +24,7 @@ export default function DaoCard({ dao, chain }: Props) {
 
   return (
     <Card
-      className="p-6 w-96 bg-white dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      className="p-6 w-96 bg-background dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow duration-300"
       onClick={gotoDAO}
     >
       <div className="w-full flex items-center justify-between">

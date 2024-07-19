@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="bg-background absolute b-0 w-full flex items-center justify-between z-10 p-2">
-      <p className="text-gray-600">Built by KaliCo.</p>
+    <footer className="bg-background w-full flex items-center justify-between z-10 p-2">
+      <p className="text-secondary-foreground">Built by KaliCo.</p>
       <div className="flex items-center space-x-2">
         <Link href="/privacy" className="text-blue-600 hover:text-blue-800">
           Privacy Policy

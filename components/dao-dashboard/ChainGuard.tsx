@@ -15,8 +15,13 @@ export default function ChainGuard({ fallback, children }: Props) {
   const daoChainId = Number(router.query.chainId)
   const { chain: userChain } = useNetwork()
   const { chains, switchNetwork } = useSwitchNetwork()
+
   const daoChainName = chains?.find((chain) => chain.id == daoChainId)?.name
   const isWrongChain = userChain?.id != daoChainId
+
+  if (!userChain) {
+    return null
+  }
 
   if (isWrongChain) {
     if (daoChainId === 4) {

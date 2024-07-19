@@ -4,7 +4,7 @@ import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
-import { createProposal } from '../utils'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
@@ -12,8 +12,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@comp
 import { Alert, AlertDescription } from '@components/ui/alert'
 import { AlertCircle } from 'lucide-react'
 import { JSONContent } from '@tiptap/react'
+import { Label } from '@components/ui/label'
 
-export default function UpdateQuorum() {
+export function UpdateQuorum() {
   const router = useRouter()
   const { dao, chainId } = router.query
 
@@ -89,14 +90,17 @@ export default function UpdateQuorum() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <Input
-            label="Title"
-            name="id"
-            required
-            maxLength={30}
-            placeholder={'Proposal for...'}
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              label="Title"
+              name="id"
+              required
+              maxLength={30}
+              placeholder={'Proposal for...'}
+              onChange={(e) => setTitle(e.currentTarget.value)}
+            />
+          </div>
 
           <Editor setContent={setContent} />
 

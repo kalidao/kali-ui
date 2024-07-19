@@ -1,5 +1,5 @@
 import React from 'react'
-import Document, { DocumentContext, DocumentInitialProps, Html, Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 interface Props {
   theme: string

@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { AddressZero } from '@ethersproject/constants'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { tokens } from '@constants/tokens'
-import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 

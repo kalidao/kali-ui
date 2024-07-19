@@ -20,7 +20,7 @@ const DashboardLayout = ({ title, content, children }: Props) => {
 
   return (
     <>
-      <div className="p-0 min-h-screen">
+      <div className="bg-background p-0 min-h-screen">
         <Head>
           <title>{heading}</title>
           <meta property="og:title" content={title} key="title" />
@@ -36,13 +36,13 @@ const DashboardLayout = ({ title, content, children }: Props) => {
         <Header />
         <div>
           <div>
-            <div className="flex flex-row space-x-2 rounded-lg shadow-lg p-4 mb-4 xs:mb-8 lg:mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
               <Profile address={dao as string} chainId={Number(chainId)} />
               <Nav address={dao as string} chainId={Number(chainId)} />
               <Treasury address={dao as string} chainId={Number(chainId)} />
               <Members />
             </div>
-            {children}
+            <div>{children}</div>
           </div>
         </div>
       </div>

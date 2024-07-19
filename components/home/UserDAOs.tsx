@@ -28,7 +28,7 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
   if (!address) return null
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-3 p-3 bg-white">
+    <div className="w-full flex flex-col items-center justify-center gap-3 p-3 bg-background">
       {display && (
         <div className="w-full px-12 py-6 flex flex-row items-center justify-between">
           <h2 className="text-2xl font-bold">{label}</h2>

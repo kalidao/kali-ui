@@ -1,8 +1,8 @@
 import { Card } from '@components/ui/card'
-import GovSettings from './GovSettings'
-import LegalSettings from './LegalSettings'
+import { GovSettings } from './GovSettings'
+import { LegalSettings } from './LegalSettings'
 
-export default function Setting({ setting }: { setting: string }) {
+export function Setting({ setting }: { setting: string }) {
   let render
   if (setting === 'gov') {
     render = <GovSettings />
@@ -11,5 +11,5 @@ export default function Setting({ setting }: { setting: string }) {
     render = <LegalSettings />
   }
 
-  return <Card className="p-6">{render}</Card>
+  return <div className="p-1">{render}</div>
 }

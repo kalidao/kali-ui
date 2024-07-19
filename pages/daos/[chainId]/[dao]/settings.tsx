@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { Setting, SettingsMenu } from '@components/dao-dashboard/settings'
-import { Card } from '@components/ui/card'
+import { Setting } from '@components/dao-dashboard/settings/Setting'
+import { SettingsMenu } from '@components/dao-dashboard/settings/SettingsMenu'
 
-const Settings: NextPage = () => {
-  const [setting, setSetting] = useState('gov')
+const SettingsPage: NextPage = () => {
+  const [s, setS] = useState('gov')
 
   return (
     <Layout title={`Settings`} content="View and edit DAO configurations.">
-      <Card className="flex flex-col p-6">
-        <SettingsMenu setSetting={setSetting} setting={setting} />
-        <Setting setting={setting} />
-      </Card>
+      <div className="p-1">
+        <SettingsMenu setSetting={setS} setting={s} />
+        <Setting setting={s} />
+      </div>
     </Layout>
   )
 }
 
-export default Settings
+export default SettingsPage

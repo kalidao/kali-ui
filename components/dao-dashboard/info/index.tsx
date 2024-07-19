@@ -11,13 +11,13 @@ export default function InfoComponent({ info }: { info: any }) {
   const { chainId } = router.query
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="w-full mt-1">
       {info === undefined ? (
         <div className="flex justify-center items-center h-screen">
           <Loader className="animate-spin h-8 w-8 text-gray-500" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
           <Meta
             symbol={info?.['token']?.['symbol']}
             totalSupply={info?.['token']?.['totalSupply']}

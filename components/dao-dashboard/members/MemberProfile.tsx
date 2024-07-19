@@ -26,7 +26,7 @@ export default function MemberProfile({ member, proposals, votes, totalSupply }:
   const { data: profile } = useQuery(['userProfile', member], () => fetcher(`/api/users/${member?.address}`))
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex w-full flex-wrap gap-1">
       {member && profile && (
         <MemberCard
           title={
@@ -81,7 +81,7 @@ type CardProps = {
 
 const MemberCard = ({ title, icon, info }: CardProps) => {
   return (
-    <Card className="min-h-[11rem] min-w-[11rem] flex items-center justify-center">
+    <Card className="min-h-[11rem] min-w-[11rem]  flex items-center justify-center">
       <CardContent className="flex flex-col items-center justify-center space-y-2 p-6">
         <div className="text-foreground">{icon}</div>
         <h3 className="text-xl">{title}</h3>

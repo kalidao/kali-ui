@@ -44,7 +44,7 @@ const FileUploader = ({ setFile, label, description }: Props) => {
         ) : (
           <label
             htmlFor="file-upload"
-            className="flex items-center justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+            className="flex items-center justify-center w-full h-32 px-4 transition bg-background border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
           >
             <span className="flex items-center space-x-2">
               <Upload className="w-6 h-6 text-gray-600" />

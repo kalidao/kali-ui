@@ -5,6 +5,7 @@ import { Member } from './types'
 import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
 import { Loader2 } from 'lucide-react'
+import { cn } from '@utils/util'
 
 type Props = {
   member: Member
@@ -12,7 +13,7 @@ type Props = {
   setActive: React.Dispatch<React.SetStateAction<Member>>
 }
 
-export default function MemberCard({ member, setActive }: Props) {
+export default function MemberCard({ member, active, setActive }: Props) {
   const { data: ensName, isLoading } = useEnsName({
     address: member.address as `0x${string}`,
     chainId: Number(1),
@@ -22,9 +23,9 @@ export default function MemberCard({ member, setActive }: Props) {
   //  - Add profile image
 
   return (
-    <Button variant="outline" className="w-full" key={member.address} onClick={() => setActive(member)}>
+    <button className="w-full" key={member.address} onClick={() => setActive(member)}>
       {member ? (
-        <Card className="w-full">
+        <Card className={cn('w-full', active ? 'bg-accent text-accent-foreground' : '')}>
           <CardContent className="p-4">
             <div className="flex flex-col space-y-2">
               <p className="text-sm font-medium">
@@ -39,6 +40,6 @@ export default function MemberCard({ member, setActive }: Props) {
       ) : (
         <Loader2 className="h-4 w-4 animate-spin" />
       )}
-    </Button>
+    </button>
   )
 }

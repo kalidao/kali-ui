@@ -1,4 +1,5 @@
 import { Button } from '@components/ui/button'
+import { cn } from '@utils/util'
 import { Settings, FileText } from 'lucide-react'
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
   setSetting: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function SettingsMenu({ setting, setSetting }: Props) {
+export function SettingsMenu({ setting, setSetting }: Props) {
   const items = [
     {
       title: 'Governance',
@@ -23,14 +24,16 @@ export default function SettingsMenu({ setting, setSetting }: Props) {
   ]
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 py-1">
       {items.map((item) => (
         <Button
           key={item.value}
           size="sm"
           onClick={() => setSetting(item.value)}
-          variant={item.active ? 'secondary' : 'ghost'}
-          className="flex items-center"
+          className={cn(
+            'flex items-center',
+            item.active ? 'border-2 bg-violet-100 dark:bg-violet-800 border-violet-500' : '',
+          )}
         >
           {item.icon}
           {item.title}

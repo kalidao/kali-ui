@@ -9,7 +9,7 @@ import { Textarea } from '@components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
-import { createProposal } from '../utils'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
 
 export default function CallContract({ setProposal, title, content }: ProposalProps) {

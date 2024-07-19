@@ -94,7 +94,7 @@ export default function DeployDaoWrapper() {
 
   return (
     <StateMachineProvider>
-      <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="container mx-auto p-6 bg-background rounded-lg shadow-md">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">{steps[step].title}</h2>
           <Toggle />

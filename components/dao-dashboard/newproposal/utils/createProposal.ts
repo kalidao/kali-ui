@@ -1,7 +1,7 @@
 import { convertIpfsHash } from '@utils/convertIpfsHash'
 
 // createProposal and upload
-const createProposal = async (
+export const createProposal = async (
   dao: string,
   chainId: number,
   type: number,
@@ -34,5 +34,3 @@ const createProposal = async (
     return ''
   }
 }
-
-export default createProposal

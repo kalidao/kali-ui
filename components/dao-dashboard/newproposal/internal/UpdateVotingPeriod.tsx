@@ -6,18 +6,18 @@ import { ethers } from 'ethers'
 import { AlertCircle, Loader2 } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
-import { votingPeriodToSeconds, formatVotingPeriod } from '@utils/index'
+import { votingPeriodToSeconds, formatVotingPeriod } from '@utils/votingPeriod'
 import Editor from '@components/editor'
-import { createProposal } from '../utils'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { JSONContent } from '@tiptap/react'
 import { Label } from '@components/ui/label'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 
-export default function UpdateVotingPeriod() {
+export function UpdateVotingPeriod() {
   const router = useRouter()
 
   const { dao, chainId } = router.query
@@ -78,7 +78,7 @@ export default function UpdateVotingPeriod() {
   }
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Update Voting Period</CardTitle>
         <CardDescription>
@@ -105,7 +105,7 @@ export default function UpdateVotingPeriod() {
             description="Why should we change the voting period?"
           />
 
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-4">
             <Label>Duration</Label>
             <Input
               type="number"

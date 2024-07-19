@@ -9,7 +9,7 @@ import { ArrowLeft } from 'lucide-react'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { addresses } from '@constants/addresses'
 import { AddressZero } from '@ethersproject/constants'
-import { createProposal } from '../utils/'
+import { createProposal } from '../utils/createProposal'
 import { ProposalProps } from '../utils/types'
 
 export default function RemoveSwap({ setProposal, title, content }: ProposalProps) {

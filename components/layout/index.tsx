@@ -11,7 +11,7 @@ type LayoutProps = {
 export default function Layout({ heading, content, children }: LayoutProps) {
   const title = `Kali | ${heading}`
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col">
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />
@@ -24,7 +24,7 @@ export default function Layout({ heading, content, children }: LayoutProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
       </Head>
       <Header />
-      <main className="flex-grow container mx-auto bg-white px-4 py-8">{children}</main>
+      <main className="flex-grow min-h-screen container mx-auto bg-background px-4 py-8">{children}</main>
       <Footer />
     </div>
   )

@@ -27,7 +27,7 @@ export default function Editor({ placeholder, label = 'Description (Optional)', 
         <BubbleMenu
           editor={editor}
           tippyOptions={{ duration: 100 }}
-          className="flex bg-white border rounded-md shadow-sm"
+          className="flex bg-background border rounded-md shadow-sm"
         >
           <Button variant="ghost" size="sm" className="p-1" onClick={() => editor.chain().focus().toggleBold().run()}>
             <Bold className="h-4 w-4" />

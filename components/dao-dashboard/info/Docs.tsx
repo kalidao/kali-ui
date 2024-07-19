@@ -9,7 +9,7 @@ type Props = {
 
 export default function Docs({ docs }: Props) {
   return (
-    <Card className="p-6">
+    <Card className="w-full p-6">
       {docs === '' ? (
         <Ricardian />
       ) : (

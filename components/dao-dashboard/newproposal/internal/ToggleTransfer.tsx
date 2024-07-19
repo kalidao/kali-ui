@@ -4,7 +4,7 @@ import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
-import { createProposal } from '../utils'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { JSONContent } from '@tiptap/react'
 import { Button } from '@components/ui/button'
@@ -12,7 +12,7 @@ import { Input } from '@components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@components/ui/card'
 import { Loader2 } from 'lucide-react'
 
-export default function ToggleTransfer() {
+export function ToggleTransfer() {
   // Router
   const router = useRouter()
   const { dao, chainId } = router.query
@@ -76,7 +76,7 @@ export default function ToggleTransfer() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full ">
       <CardHeader>
         <CardTitle>Toggle Transfer</CardTitle>
         <CardDescription>
@@ -92,9 +92,6 @@ export default function ToggleTransfer() {
           <Input id="title" placeholder="Proposal for..." maxLength={30} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className="space-y-2">
-          <label htmlFor="details" className="text-sm font-medium">
-            Details
-          </label>
           <Editor
             setContent={setContent}
             placeholder="You can describe your proposal here."

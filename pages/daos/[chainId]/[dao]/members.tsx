@@ -32,9 +32,9 @@ const MembersPage: NextPage = ({
 
   return (
     <Layout title={`Members`} content="Look at the members and their analytics for the DAO.">
-      <div className="flex flex-row">
+      <div className="flex flex-col md:flex-row space-y-2 md:space-x-2">
         <MembersList members={list} active={member} setActive={setMember} />
-        <div className="min-h-32">
+        <div className="max-w-screen">
           <MemberProfile
             member={member}
             proposals={memberProposals}

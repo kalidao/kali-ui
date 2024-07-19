@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import { Menu as MenuIcon, Sun, Moon, X } from 'lucide-react'
+import { Menu as MenuIcon, Sun, Moon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 
@@ -19,7 +19,7 @@ export const Menu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <MenuIcon className="h-4 w-4" />
+          <MenuIcon className="text-foreground h-4 w-4" />
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>

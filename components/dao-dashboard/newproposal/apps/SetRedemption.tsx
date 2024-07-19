@@ -18,7 +18,7 @@ import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { ProposalProps } from '../utils/types'
 import { getRedemptionTokens } from '@utils/getRedemptionTokens'
-import { createProposal } from '../utils'
+import { createProposal } from '../utils/createProposal'
 
 export default function SetRedemption({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()

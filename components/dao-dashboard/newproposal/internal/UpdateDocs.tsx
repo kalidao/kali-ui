@@ -15,7 +15,7 @@ import { uploadFile } from '@utils/ipfs'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { resolveDocs } from '@utils/resolveDocs'
 
-export default function UpdateDocs() {
+export function UpdateDocs() {
   const router = useRouter()
   const daoAddress = router.query.dao as string
   const daoChain = Number(router.query.chainId)
@@ -104,10 +104,10 @@ export default function UpdateDocs() {
               onChange={(e) => setNewDocLink(e.target.value)}
             />
           </div>
-          <div className="flex items-center space-x-4">
-            <Separator className="flex-grow" />
+          <div className="flex flex-row items-center space-x-4">
+            <span className="flex-grow bg-border h-1" />
             <span className="text-sm font-semibold">OR</span>
-            <Separator className="flex-grow" />
+            <span className="flex-grow bg-border h-1" />
           </div>
           <FileUploader setFile={setNewDocFile} label="Upload Document" />
           {warning && (
