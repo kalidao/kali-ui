@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { Stack, Text, Box, Tag, Button, IconPlus } from '@kalidao/reality'
 import { useContractRead } from 'wagmi'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import DATAROOM_ABI from '@abi/DataRoom.json'
 import { addresses } from '@constants/addresses'
-import * as styles from '../../../../components/home/styles.css'
 import Link from 'next/link'
+import { Button } from '@components/ui/button'
+import { Plus } from 'lucide-react'
+import { Badge } from '@components/ui/badge'
 
 interface Data {
-  tags: []
+  tags: string[]
   docs: string
   name: string
 }
@@ -36,7 +37,6 @@ const DataRoom: NextPage = () => {
       let data_room: Array<Data> = []
       const _room: Array<string> = Array.isArray(room) ? room : [room]
 
-      // console.log(_room)
       if (room && _room.length > 0) {
         for (let i = 0; i < _room.length; i++) {
           const url = new URL(_room[i])
@@ -59,59 +59,46 @@ const DataRoom: NextPage = () => {
 
   return (
     <Layout title={`Data Room`} content="View and add DAO ratified activities.">
-      <Stack>
-        <Box
-          width="viewWidth"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          gap="3"
-          padding="3"
-        >
-          <Stack direction={'horizontal'} justify="flex-end">
-            <Link
-              href={{
-                pathname: '/daos/[chainId]/[dao]/propose',
-                query: {
-                  dao: daoAddress as string,
-                  chainId: chainId,
-                },
-              }}
-              passHref
-            >
-              <Button as="a" shape="circle">
-                <IconPlus />
-              </Button>
-            </Link>
-          </Stack>
-          <Stack direction={'horizontal'} justify={'flex-start'} wrap>
-            {file?.map((item, index) => {
-              return (
-                <Box
-                  key={index}
-                  color={'red'}
-                  as="button"
-                  padding="6"
-                  width="96"
-                  onClick={() => router.push(item.docs)}
-                  backgroundColor="red"
-                  className={styles.card}
-                >
-                  <Stack align="center" justify={'center'}>
-                    <Text>{item.name}</Text>
-                    <Stack direction={'horizontal'}>
-                      {item.tags?.map((i, index) => {
-                        return <Tag key={index}>{i}</Tag>
-                      })}
-                    </Stack>
-                  </Stack>
-                </Box>
-              )
-            })}
-          </Stack>
-        </Box>
-      </Stack>
+      <div className="flex flex-col items-center justify-center gap-3 p-3 w-full">
+        <div className="flex justify-end w-full">
+          <Link
+            href={{
+              pathname: '/daos/[chainId]/[dao]/propose',
+              query: {
+                dao: daoAddress as string,
+                chainId: chainId,
+              },
+            }}
+            passHref
+          >
+            <Button size="icon">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+        <div className="flex flex-wrap justify-start">
+          {file?.map((item, index) => {
+            return (
+              <button
+                key={index}
+                className="p-6 w-96 bg-red-500 text-white m-2 rounded-lg hover:bg-red-600 transition-colors"
+                onClick={() => router.push(item.docs)}
+              >
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-lg font-semibold mb-2">{item.name}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags?.map((tag, index) => (
+                      <Badge key={index} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
     </Layout>
   )
 }

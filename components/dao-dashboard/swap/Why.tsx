@@ -1,9 +1,10 @@
-import { Card, Stack, Text, Heading, Divider } from '@kalidao/reality'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
+import { Separator } from '@components/ui/separator'
+import { Info } from 'lucide-react'
 import { useSwapStore } from './store'
 import StarterKit from '@tiptap/starter-kit'
 import { generateHTML } from '@tiptap/react'
-import { useMemo } from 'react'
 
 export default function Why() {
   const dao = useSwapStore((state) => state.dao)
@@ -21,25 +22,22 @@ export default function Why() {
   useEffect(() => {
     if (!dao?.address) return
     setBackground(dao.address)
-  })
+  }, [dao, setBackground])
 
-  console.log('background', background)
   return (
-    <Card padding="6">
-      <Stack>
-        <Heading>Why should I swap?</Heading>
-        <Divider />
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle className="flex items-center">
+          <Info className="mr-2" size={24} />
+          Why should I swap?
+        </CardTitle>
+      </CardHeader>
+      <Separator />
+      <CardContent className="pt-6">
         {output && output != null && (
-          <Text color="text">
-            <div
-              dangerouslySetInnerHTML={{ __html: output }}
-              style={{
-                wordBreak: 'break-word',
-              }}
-            ></div>
-          </Text>
+          <div className="text-sm text-gray-700 break-words" dangerouslySetInnerHTML={{ __html: output }} />
         )}
-      </Stack>
+      </CardContent>
     </Card>
   )
 }

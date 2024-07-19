@@ -3,11 +3,8 @@ import { useRouter } from 'next/router'
 import { BigNumber, ethers } from 'ethers'
 import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
 import { useForm } from 'react-hook-form'
-import { prettyDate } from '@utils/prettyDate'
 
-import { Warning } from '@design/elements'
 import { AddressZero } from '@ethersproject/constants'
-import { Skeleton, Stack, Text, Input, Box, Button } from '@kalidao/reality'
 
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
@@ -17,7 +14,7 @@ type FormType = {
   amount: number
 }
 
-// TODO: Add error handling
+// TODO: Implement, Add error handling
 export default function Redeem() {
   const router = useRouter()
   const { dao, chainId } = router.query

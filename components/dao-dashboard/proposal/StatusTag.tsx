@@ -1,8 +1,10 @@
-import { Tag } from '@kalidao/reality'
+import React from 'react'
+import { Badge } from '@components/ui/badge'
+import { Circle, CheckCircle, XCircle, HelpCircle } from 'lucide-react'
 
 type Status = {
   text: string
-  color: 'accent' | 'green' | 'red' | 'blue' | 'orange' | 'pink' | 'purple' | 'violet' | 'secondary' | undefined
+  color: 'default' | 'secondary' | 'destructive' | 'outline'
   icon: React.ReactNode
 }
 
@@ -20,7 +22,7 @@ const StatusTag = ({ sponsored, proposalType, votingPeriod, votingStarts, status
     if (!sponsored) {
       return {
         color: 'secondary',
-        icon: <></>,
+        icon: <HelpCircle className="w-4 h-4" />,
         text: 'Unsponsored',
       }
     }
@@ -30,21 +32,21 @@ const StatusTag = ({ sponsored, proposalType, votingPeriod, votingStarts, status
       if (timeLeft > 0) {
         if (status === null) {
           return {
-            color: 'accent',
-            icon: <></>,
+            color: 'default',
+            icon: <Circle className="w-4 h-4" />,
             text: 'Process',
           }
         } else {
           return {
-            color: status ? 'green' : 'red',
-            icon: <></>,
+            color: status ? 'outline' : 'destructive',
+            icon: status ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />,
             text: status ? 'Passed' : 'Failed',
           }
         }
       } else {
         return {
-          color: 'accent',
-          icon: <></>,
+          color: 'default',
+          icon: <Circle className="w-4 h-4" />,
           text: 'Voting',
         }
       }
@@ -52,18 +54,20 @@ const StatusTag = ({ sponsored, proposalType, votingPeriod, votingStarts, status
     // execute
 
     return {
-      color: undefined,
-      icon: <></>,
+      color: 'secondary',
+      icon: <HelpCircle className="w-4 h-4" />,
       text: '...',
     }
   }
 
-  const { color, text } = currentStatus()
+  const { color, text, icon } = currentStatus()
 
   return (
-    <Tag label={proposalType} tone={color!} size="medium">
-      {text}
-    </Tag>
+    <Badge variant={color} className="flex items-center gap-1">
+      {icon}
+      <span>{text}</span>
+      <span className="ml-1 text-xs opacity-70">{proposalType}</span>
+    </Badge>
   )
 }
 

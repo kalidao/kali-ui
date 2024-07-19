@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { Box } from '@kalidao/reality'
 import ProposalsMenu from './ProposalsMenu'
-import { MembersMenu, AddMember, RemoveMember, Redeem } from './members'
+import { MembersMenu, AddMember, RemoveMember } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
-import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
+import { CallContract, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
 import SetDataRoom from './apps/SetDataRoom'
 import UpdateSwap from './apps/UpdateSwap'
 import RemoveSwap from './apps/RemoveSwap'
+import { ToggleTransfer } from './internal/ToggleTransfer'
+import { UpdateQuorum } from './internal/UpdateQuorum'
 
 type Props = {
   proposalProp: string
@@ -53,10 +54,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Member',
       component: <RemoveMember setProposal={setView} content={content} title={title} />,
     },
-    /*quit: {
-      title: 'Redeem and Quit',
-      component: <Redeem content={content} title={title} />,
-    },*/
     eth: {
       title: 'Send ETH',
       component: <SendEth setProposal={setView} content={content} title={title} />,
@@ -90,7 +87,6 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       component: <CallContract setProposal={setView} content={content} title={title} />,
     },
     redemption: {
-      // TODO: need to add token approval/allowance logic at submission (added by proposal)
       title: 'Set Redemption Rules',
       component: <SetRedemption setProposal={setView} title={title} content={content} />,
     },
@@ -110,12 +106,7 @@ export function NewProposalModal({ proposalProp, content, title }: Props) {
       title: 'Remove Swap',
       component: <RemoveSwap setProposal={setView} title={title} content={content} />,
     },
-    // TODO: add tribute back
-    // tribute: {
-    //   title: 'Tribute',
-    //   component: <Tribute />,
-    // },
   }
 
-  return <>{view && <Box width="288">{proposals[view]['component']}</Box>}</>
+  return <>{view && <div className="w-72">{proposals[view]['component']}</div>}</>
 }

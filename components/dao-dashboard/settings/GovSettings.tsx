@@ -1,16 +1,14 @@
 import { useState } from 'react'
-import { Stack, Box } from '@kalidao/reality'
-import { UpdateVotingPeriod, UpdateQuorum, GovMenu, ToggleTransfer } from '../newproposal/internal'
-import UpdateSupermajority from '../newproposal/internal/UpdateSupermajority'
+import { UpdateSupermajority } from '../newproposal/internal/UpdateSupermajority'
+import { ToggleTransfer } from '../newproposal/internal/ToggleTransfer'
+import { GovMenu } from '../newproposal/internal/GovMenu'
+import { UpdateVotingPeriod } from '../newproposal/internal/UpdateVotingPeriod'
+import { UpdateQuorum } from '../newproposal/internal/UpdateQuorum'
 
-export default function GovSettings() {
-  const [view, setView] = useState(1)
+export function GovSettings() {
+  const [view, setView] = useState(0)
 
   const views = [
-    {
-      title: null,
-      component: <GovMenu view={view} setView={setView} />,
-    },
     {
       title: 'Voting Period',
       component: <UpdateVotingPeriod />,
@@ -30,16 +28,9 @@ export default function GovSettings() {
   ]
 
   return (
-    <Stack
-      direction={{
-        xs: 'vertical',
-        md: 'horizontal',
-      }}
-      align="flex-start"
-      justify={'space-between'}
-    >
-      {views[0]['component']}
-      <Box width="full">{views[view]['component']}</Box>
-    </Stack>
+    <div className="flex flex-col space-y-2 items-start justify-between">
+      <GovMenu view={view} setView={setView} />
+      <div className="w-full">{views[view]['component']}</div>
+    </div>
   )
 }

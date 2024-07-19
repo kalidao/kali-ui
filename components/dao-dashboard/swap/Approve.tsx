@@ -1,11 +1,12 @@
-import { Button, IconCheck } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Check } from 'lucide-react'
 import { ethers } from 'ethers'
 import { useCallback, useEffect } from 'react'
 import { erc20ABI, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import ChainGuard from '../ChainGuard'
 import { useSwapStore } from './store'
 
-export default function Guide() {
+export default function Approve() {
   const swap = useSwapStore((state) => state.swap)
   const token = useSwapStore((state) => state.token)
   const chainId = useSwapStore((state) => state.chainId)
@@ -39,8 +40,13 @@ export default function Guide() {
   }, [writeAsync, setApproved, address, chainId, isConnected, token.address, swap.address])
 
   return (
-    <ChainGuard fallback={<Button width="full">Swap</Button>}>
-      <Button width="full" prefix={<IconCheck />} onClick={approve} disabled={!writeAsync || !isConnected || isSuccess}>
+    <ChainGuard fallback={<Button className="w-full">Swap</Button>}>
+      <Button
+        className="w-full flex items-center justify-center"
+        onClick={approve}
+        disabled={!writeAsync || !isConnected || isSuccess}
+      >
+        <Check className="mr-2 h-4 w-4" />
         Approve Kali to use your {token.symbol}
       </Button>
     </ChainGuard>

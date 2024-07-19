@@ -1,8 +1,7 @@
-import { Avatar, Text, Box } from '@kalidao/reality'
 import { useGetWrappr } from '@graph/queries/getWrappr'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'
-import { navItem } from './layout.css'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 
 const Wrappr = ({ address, chainId }: DashboardElementProps) => {
   const { data, isSuccess } = useGetWrappr(Number(chainId), address)
@@ -37,10 +36,13 @@ const Wrappr = ({ address, chainId }: DashboardElementProps) => {
         textDecoration: 'none',
       }}
     >
-      <Box className={navItem} gap="2">
-        <Avatar as="img" size="12" shape="square" label={'Wrappr Logo'} src={uri ? uri.image : '/img/wrappr.svg'} />
-        <Text>{uri ? uri?.name : data?.wrappr?.name}</Text>
-      </Box>
+      <div className={'space-x-2'}>
+        <Avatar>
+          <AvatarImage src={uri ? uri.image : '/img/wrappr.svg'} />
+          <AvatarFallback>{data?.wrappr?.name}</AvatarFallback>
+        </Avatar>
+        <p>{uri ? uri?.name : data?.wrappr?.name}</p>
+      </div>
     </a>
   )
 }

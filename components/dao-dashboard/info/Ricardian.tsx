@@ -1,6 +1,8 @@
 import React from 'react'
-import { IconLink, Avatar, Spinner, Stack, Button, Text, Heading } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
+import { Loader2, ExternalLink } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { Button } from '@components/ui/button'
 import { fetcher } from '@utils/fetcher'
 
 export default function Ricardian() {
@@ -9,23 +11,41 @@ export default function Ricardian() {
   )
 
   return (
-    <>
-      {isLoading && <Spinner />}
-      {data && (
-        <Stack>
-          <Heading>{data?.['name']}</Heading>
-          <Text>{data['description']}</Text>
-          <Avatar shape="square" size="96" src={data?.image} label="Ricardian LLC NFT" />
-          <Stack direction={'horizontal'}>
-            <Button as="a" href={data['attributes'][1]['value']} target="_blank" prefix={<IconLink />}>
-              View Master Operating Agreement
-            </Button>
-            <Button variant="secondary" as="a" href={data['external_url']} target="_blank" prefix={<IconLink />}>
-              Learn more
-            </Button>
-          </Stack>
-        </Stack>
+    <div className="p-4">
+      {isLoading && (
+        <div className="flex justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
       )}
-    </>
+      {data && (
+        <div className="space-y-4">
+          <h1 className="text-2xl font-bold">{data?.['name']}</h1>
+          <p className="text-gray-600">{data['description']}</p>
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={data?.image} alt="Ricardian LLC NFT" />
+            <AvatarFallback>RLL</AvatarFallback>
+          </Avatar>
+          <div className="flex space-x-4">
+            <Button asChild>
+              <a
+                href={data['attributes'][1]['value']}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center"
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                View Master Operating Agreement
+              </a>
+            </Button>
+            <Button variant="outline" asChild>
+              <a href={data['external_url']} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Learn more
+              </a>
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

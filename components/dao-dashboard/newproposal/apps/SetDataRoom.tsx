@@ -2,26 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useContract, useSigner } from 'wagmi'
-import {
-  Stack,
-  Input,
-  Box,
-  Text,
-  Button,
-  FieldSet,
-  FileInput,
-  Textarea,
-  IconClose,
-  Checkbox,
-  IconUserSolid,
-} from '@kalidao/reality'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { X } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import DATAROOM_ABI from '@abi/DataRoom.json'
 import { addresses } from '@constants/addresses'
-import { Warning } from '@design/elements'
-import Back from '@design/proposal/Back'
-import { createProposal } from '../utils'
+import { Warning } from '@components/ui/warning'
+import { Back } from '@components/ui/back'
+import { createProposal } from '../utils/createProposal'
 import { ProposalProps } from '../utils/types'
 import { createDataRoomDetails } from './createDataRoomDetails'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
@@ -196,60 +186,46 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
   }, [record, tags])
 
   return (
-    <FieldSet
-      legend="Data Room"
-      description="The Data Room extension allows DAOs to ratify off-chain activities and documents on-chain. DAOs may also designate others, such as a DAO operator, to ratify off-chain activities without having to go through the proposal mechanism. Note, however, that a vote is required to share access to such DAO operator."
-    >
-      {!toExpand && (
-        <Button width={'min'} onClick={handleExpand}>
-          Share Access
-        </Button>
-      )}
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-lg font-semibold">Data Room</h2>
+        <p className="text-sm text-gray-500">
+          The Data Room extension allows DAOs to ratify off-chain activities and documents on-chain. DAOs may also
+          designate others, such as a DAO operator, to ratify off-chain activities without having to go through the
+          proposal mechanism. Note, however, that a vote is required to share access to such DAO operator.
+        </p>
+      </div>
+
+      {!toExpand && <Button onClick={handleExpand}>Share Access</Button>}
 
       {toExpand && (
-        <Stack direction={'horizontal'} align="center">
-          <Input
-            label="Addresses"
-            description="Invite and share access with otheres. Separate ENS/address by single comma, e.g., 'abc.eth, def.eth'. "
-            name="tags"
-            type="text"
-            onChange={handleAddresses}
-          />
-          <Button width={'min'} onClick={submitPermissionUpdate}>
-            {shareStatus ? shareStatus : 'Grant Access'}
+        <div className="flex items-center space-x-4">
+          <Input placeholder="Addresses" onChange={handleAddresses} />
+          <Button onClick={submitPermissionUpdate}>{shareStatus ? shareStatus : 'Grant Access'}</Button>
+          <Button variant="destructive" onClick={() => setToExpand(!toExpand)}>
+            <X className="h-4 w-4" />
           </Button>
-          <Button width={'min'} tone={'red'} onClick={() => setToExpand(!toExpand)}>
-            Cancel
-          </Button>
-        </Stack>
+        </div>
       )}
-      <Input
-        label="Name"
-        description="Add a name for this off-chain activity."
-        name="title"
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+
+      <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+
       <FileUploader
         label="Document"
         description="Upload a document describing the off-chain activities for ratification. Any document uploaded will live on IPFS."
         setFile={setRecords}
       />
-      <Input
-        label="Tags"
-        description="Add tags to better organize this off-chain activity. Separate tags with a space, e.g., 'internal, operations'."
-        name="tags"
-        type="text"
-        onChange={handleTags}
-      />
+
+      <Input placeholder="Tags" onChange={handleTags} />
+
       {warning && <Warning warning={warning} />}
-      <Stack align="center" justify={'space-between'} direction="horizontal">
+
+      <div className="flex justify-between items-center">
         <Back onClick={() => setProposal?.('appsMenu')} />
-        <Button width={'full'} disabled={!isEnabled} onClick={submit}>
+        <Button disabled={!isEnabled} onClick={submit}>
           {status ? status : 'Ratify Off-Chain Activity'}
         </Button>
-      </Stack>
-    </FieldSet>
+      </div>
+    </div>
   )
 }

@@ -3,23 +3,11 @@ import Member from './Member'
 import Extension from './Extension'
 import Call from './Call'
 import Internal from './Internal'
-import {
-  Box,
-  Stack,
-  Text,
-  Divider,
-  IconUserGroupSolid,
-  IconCode,
-  IconHand,
-  IconFlag,
-  IconUsersSolid,
-  IconTokens,
-  IconLightningBolt,
-  IconExclamationCircleSolid,
-  IconDocumentAdd,
-} from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { formatVotingPeriod } from '@utils/votingPeriod'
+import { Users, Code, Hand, Flag, Coins, Zap, AlertCircle, FilePlus } from 'lucide-react'
+import { Card, CardHeader, CardContent } from '@components/ui/card'
+import { Separator } from '@components/ui/separator'
 
 export default function Visualizer({ proposal }: { proposal: any }) {
   const router = useRouter()
@@ -29,22 +17,22 @@ export default function Visualizer({ proposal }: { proposal: any }) {
   switch (proposal?.proposalType) {
     case 'MINT':
       heading = 'Add Member'
-      icon = <IconUserGroupSolid />
+      icon = <Users className="h-5 w-5" />
       component = <Member accounts={proposal?.accounts} amounts={proposal?.amounts} />
       break
     case 'BURN':
       heading = 'Remove Member'
-      icon = <IconUserGroupSolid />
+      icon = <Users className="h-5 w-5" />
       component = <Member accounts={proposal?.accounts} amounts={proposal?.amounts} />
       break
     case 'CALL':
       heading = 'Contract Call'
-      icon = <IconCode />
+      icon = <Code className="h-5 w-5" />
       component = <Call accounts={proposal?.accounts} amounts={proposal?.amounts} payloads={proposal?.payloads} />
       break
     case 'VPERIOD':
       heading = 'Update Voting Period'
-      icon = <IconHand />
+      icon = <Hand className="h-5 w-5" />
       component = (
         <Internal
           message={`This proposal will update voting period to ${formatVotingPeriod(Number(proposal?.amounts?.[0]))}`}
@@ -56,12 +44,12 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       break
     case 'GPERIOD':
       heading = 'Update Grace Period'
-      icon = <IconHand />
+      icon = <Hand className="h-5 w-5" />
       component = <Internal type={proposal?.proposalType} message="This proposal will update the grace period." />
       break
     case 'QUORUM':
       heading = 'Update Participation Required'
-      icon = <IconFlag />
+      icon = <Flag className="h-5 w-5" />
       component = (
         <Internal
           type={proposal?.proposalType}
@@ -71,7 +59,7 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       break
     case 'SUPERMAJORITY':
       heading = 'Update Approval Required'
-      icon = <IconUsersSolid />
+      icon = <Users className="h-5 w-5" />
       component = (
         <Internal
           type={proposal?.proposalType}
@@ -81,12 +69,12 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       break
     case 'TYPE':
       heading = 'Update Voting Types'
-      icon = <IconFlag />
+      icon = <Flag className="h-5 w-5" />
       component = <Internal type={proposal?.proposalType} message={`This proposal will update the voting type.`} />
       break
     case 'PAUSE':
       heading = 'Update Token Transferability'
-      icon = <IconTokens />
+      icon = <Coins className="h-5 w-5" />
       component = (
         <Internal
           message={`This proposal will flip transferability.`}
@@ -98,12 +86,12 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       break
     case 'EXTENSION':
       heading = 'Update Extension'
-      icon = <IconLightningBolt />
+      icon = <Zap className="h-5 w-5" />
       component = <Extension accounts={proposal?.accounts} amounts={proposal?.amounts} payloads={proposal?.payloads} />
       break
     case 'ESCAPE':
       heading = 'Delete'
-      icon = <IconExclamationCircleSolid />
+      icon = <AlertCircle className="h-5 w-5" />
       component = (
         <Internal
           type={proposal?.proposalType}
@@ -116,7 +104,7 @@ export default function Visualizer({ proposal }: { proposal: any }) {
       break
     case 'DOCS':
       heading = 'Update Docs'
-      icon = <IconDocumentAdd />
+      icon = <FilePlus className="h-5 w-5" />
       component = (
         <Internal
           message={`This proposal will update the docs.`}
@@ -128,27 +116,15 @@ export default function Visualizer({ proposal }: { proposal: any }) {
   }
 
   return (
-    <Box
-      boxShadow={'1'}
-      boxShadowColor="foregroundSecondary"
-      borderRadius={'2xLarge'}
-      padding="6"
-      maxWidth={{
-        xs: 'full',
-        md: '256',
-      }}
-      display={'flex'}
-      flexDirection="column"
-      gap="6"
-    >
-      <Stack direction={'horizontal'} align="center">
-        <Box color="foreground">{icon}</Box>
-        <Text color="foreground" size="large">
-          {heading}
-        </Text>
-      </Stack>
-      <Divider />
-      {component}
-    </Box>
+    <Card className="max-w-full md:max-w-[256px]">
+      <CardHeader>
+        <div className="flex items-center space-x-2">
+          <span className="text-foreground">{icon}</span>
+          <h3 className="text-lg font-medium">{heading}</h3>
+        </div>
+      </CardHeader>
+      <Separator />
+      <CardContent className="pt-6">{component}</CardContent>
+    </Card>
   )
 }

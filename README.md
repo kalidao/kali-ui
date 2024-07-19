@@ -27,5 +27,6 @@ The fleek API API bucket, key and secret should be provided as environment varia
 NEXT_PUBLIC_FLEEK_STORAGE_BUCKET=
 NEXT_PUBLIC_FLEEK_API_KEY=
 NEXT_PUBLIC_FLEEK_API_SECRET=
-
 ```
+
+goldsky subgraph deploy kali-mainnet/1.0.0 --from-url https://api.thegraph.com/subgraphs/name/nerderlyne/kali-mainnet

@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    // "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -40,14 +40,15 @@
       ],
       "@design/*": [
         "styles/*"
-      ],
-    }
+      ]
+    },
+    "strict": false
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    ],
+    "**/*.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

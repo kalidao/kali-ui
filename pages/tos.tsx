@@ -1,17 +1,16 @@
 import ReactMarkdown from 'react-markdown'
 import Layout from '../components/layout'
-import { Box } from '@kalidao/reality'
 import { tos } from '../constants/tos'
-import { useThemeStore } from '@components/hooks/useThemeStore'
+import { useTheme } from 'next-themes'
 
 export default function ToS() {
-  const mode = useThemeStore((state) => state.mode)
+  const { theme: mode } = useTheme()
   return (
     <Layout
       heading="KaliCo Terms of Service"
       content="The terms contained here define our relationship with each other."
     >
-      <Box padding="6" backgroundColor="backgroundSecondary">
+      <div>
         <ReactMarkdown
           components={{
             h1: ({ node, ...props }) => <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} {...props} />,
@@ -23,7 +22,7 @@ export default function ToS() {
         >
           {tos}
         </ReactMarkdown>
-      </Box>
+      </div>
     </Layout>
   )
 }

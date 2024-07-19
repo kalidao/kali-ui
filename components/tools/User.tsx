@@ -1,36 +1,46 @@
 import { truncateAddress } from '@utils/truncateAddress'
-import { Avatar, Stack, Text } from '@kalidao/reality'
 import { useEnsName } from 'wagmi'
-import HoverCard from '@design/HoverCard'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@components/ui/hover-card'
+import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
+import { User as UserIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export const User = ({ address }: { address: string }) => {
   const { data: ensName } = useEnsName({
-    address: address as `0xstring`,
+    address: address as `0x${string}`,
     chainId: 1,
   })
   const { data: profile } = useQuery(['userProfile', address], () => fetcher(`/api/users/${address}`))
 
+  const displayName = profile?.handle || ensName || truncateAddress(address)
+
   return (
-    <HoverCard
-      link={`/users/${address}`}
-      trigger={
-        <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-          <Avatar size="9" src={profile?.picture} address={address} label={`${address} picture`} />
-          <Text>{profile?.handle ? profile?.handle : ensName ? ensName : truncateAddress(address)}</Text>
-        </Stack>
-      }
-    >
-      <Stack direction={'horizontal'}>
-        <Avatar src={profile?.picture} label="user profile picture"></Avatar>
-        <Stack>
-          <Text weight="semiBold">
-            {profile?.handle ? profile?.handle : ensName ? ensName : truncateAddress(address)}
-          </Text>
-          <Text>{profile?.bio}</Text>
-        </Stack>
-      </Stack>
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Link href={`/users/${address}`} className="flex items-center space-x-2">
+          <Avatar className="w-9 h-9">
+            <AvatarImage src={profile?.picture} alt={`${address} picture`} />
+            <AvatarFallback>{address.slice(2, 4)}</AvatarFallback>
+          </Avatar>
+          <span className="text-sm font-medium">{displayName}</span>
+        </Link>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <div className="flex space-x-4">
+          <Avatar className="w-12 h-12">
+            <AvatarImage src={profile?.picture} alt="User profile picture" />
+            <AvatarFallback>
+              <UserIcon className="w-6 h-6" />
+            </AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">{displayName}</h4>
+            {profile?.bio && <p className="text-sm text-muted-foreground">{profile.bio}</p>}
+          </div>
+        </div>
+      </HoverCardContent>
     </HoverCard>
   )
 }

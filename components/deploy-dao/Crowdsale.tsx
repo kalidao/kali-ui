@@ -1,19 +1,21 @@
 import React from 'react'
-import { Select } from '@design/Select'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
-import { Stack, Input, FieldSet, Button, Text } from '@kalidao/reality'
-import { Switch } from '@design/Switch'
-import { DateInput } from '@design/DateInput'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Switch } from '@components/ui/switch'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { Calendar } from '@components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@components/ui/popover'
+import { cn } from '@utils/util'
+import { format } from 'date-fns'
+import { Calendar as CalendarIcon } from 'lucide-react'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
 }
 
-// TODO:
-// Add purchase terms
-// Add Accredited List
 export default function Crowdsale({ setStep }: Props) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
@@ -26,12 +28,10 @@ export default function Crowdsale({ setStep }: Props) {
     formState: { errors },
   } = useForm<GlobalState>()
   const watchCrowdsale = watch('crowdsale', state.crowdsale)
-  // TODO: Add custom token
   const watchPurchaseToken = watch('purchaseToken', state.purchaseToken)
 
   const onPrevious = (data: GlobalState) => {
     actions.updateAction(data)
-
     if (!hardMode) {
       setStep(0)
     } else {
@@ -41,117 +41,105 @@ export default function Crowdsale({ setStep }: Props) {
 
   const onNext = (data: GlobalState) => {
     actions.updateAction(data)
-
     setStep(4)
   }
 
   return (
-    <FieldSet legend="Swap" description="">
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text>Add Swap</Text>
-        <Switch
-          label="Add Swap"
-          control={control}
-          name="crowdsale"
-          value="crowdsale"
-          defaultValue={state.crowdsale}
-          onValueChange={(value: boolean) => setValue('crowdsale', value)}
-        />
-      </Stack>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold">Swap</h2>
+        <p className="text-sm text-gray-500">Configure your swap settings</p>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <span className="font-medium">Add Swap</span>
+        <Switch checked={watchCrowdsale} onCheckedChange={(value) => setValue('crowdsale', value)} />
+      </div>
+
       {watchCrowdsale && (
-        <>
-          <Select
-            label="Contribution Token"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('purchaseToken', e.currentTarget.value)}
-            defaultValue={state['purchaseToken']}
-            options={[
-              {
-                label: 'ETH',
-                value: 'eth',
-              },
-              {
-                label: 'Custom',
-                value: 'custom',
-              },
-            ]}
-          />
+        <div className="space-y-4">
+          <Select onValueChange={(value) => setValue('purchaseToken', value)} defaultValue={state['purchaseToken']}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select contribution token" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="eth">ETH</SelectItem>
+              <SelectItem value="custom">Custom</SelectItem>
+            </SelectContent>
+          </Select>
+
           {watchPurchaseToken === 'custom' && (
             <Input
-              label="Custom Token Address"
+              placeholder="Custom Token Address"
               {...register('customTokenAddress')}
               defaultValue={state['customTokenAddress']}
             />
           )}
+
           <Input
-            label="Total Contribution Limit"
             type="number"
+            placeholder="Total Contribution Limit"
             defaultValue={state['purchaseLimit']}
-            placeholder="10000"
             {...register('purchaseLimit', {
-              required: {
-                value: true,
-                message: 'Purchase Limit is required.',
-              },
-              min: {
-                value: 0,
-                message: 'Purchase Limit must be more than 0.',
-              },
+              required: 'Purchase Limit is required.',
+              min: { value: 0, message: 'Purchase Limit must be more than 0.' },
             })}
-            error={errors.purchaseLimit?.message}
           />
+          {errors.purchaseLimit && <p className="text-sm text-red-500">{errors.purchaseLimit.message}</p>}
 
           <Input
-            label="Personal Contribution Limit"
             type="number"
+            placeholder="Personal Contribution Limit"
             defaultValue={state['personalLimit']}
-            placeholder="100"
             {...register('personalLimit', {
-              required: {
-                value: true,
-                message: 'Personal Purchase Limit is required.',
-              },
-              min: {
-                value: 0,
-                message: 'Personal purchase Limit must be more than 0.',
-              },
+              required: 'Personal Purchase Limit is required.',
+              min: { value: 0, message: 'Personal purchase Limit must be more than 0.' },
             })}
-            error={errors.personalLimit?.message}
           />
+          {errors.personalLimit && <p className="text-sm text-red-500">{errors.personalLimit.message}</p>}
 
           <Input
-            label="Contribution Multiplier"
             type="number"
+            placeholder="Contribution Multiplier"
             defaultValue={state['purchaseMultiplier']}
-            placeholder="10"
             {...register('purchaseMultiplier', {
-              required: {
-                value: true,
-                message: 'Purchase Multiplier is required.',
-              },
-              min: {
-                value: 0,
-                message: 'Purchase Multiplier must be more than 0.',
-              },
+              required: 'Purchase Multiplier is required.',
+              min: { value: 0, message: 'Purchase Multiplier must be more than 0.' },
             })}
-            error={errors?.purchaseMultiplier?.message}
           />
-          <DateInput
-            label="End Date"
-            defaultValue={state['crowdsaleEnd']}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue('crowdsaleEnd', e.target.value)}
-            error={errors.crowdsaleEnd?.message}
-          />
-        </>
+          {errors.purchaseMultiplier && <p className="text-sm text-red-500">{errors.purchaseMultiplier.message}</p>}
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={'outline'}
+                className={cn(
+                  'w-full justify-start text-left font-normal',
+                  !state.crowdsaleEnd && 'text-muted-foreground',
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {state.crowdsaleEnd ? format(state.crowdsaleEnd, 'PPP') : <span>Pick an end date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={state.crowdsaleEnd ? new Date(state.crowdsaleEnd) : undefined}
+                onSelect={(date) => setValue('crowdsaleEnd', date?.toString() || '')}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
       )}
 
-      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
+      <div className="flex justify-end space-x-2">
+        <Button variant="outline" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
-          Next
-        </Button>
-      </Stack>
-    </FieldSet>
+        <Button onClick={handleSubmit(onNext)}>Next</Button>
+      </div>
+    </div>
   )
 }

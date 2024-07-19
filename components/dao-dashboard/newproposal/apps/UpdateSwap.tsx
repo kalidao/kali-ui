@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
-import { Select } from '@design/Select'
-import { Stack, Input, Button, FieldSet, Textarea } from '@kalidao/reality'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Input } from '@components/ui/input'
+import { Button } from '@components/ui/button'
+import { Textarea } from '@components/ui/textarea'
 import FileUploader from '@components/tools/FileUpload'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
 import { addresses } from '@constants/addresses'
-import { Warning } from '@design/elements'
+import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
-import Back from '@design/proposal/Back'
-import { createProposal } from '../utils/'
+import { ArrowLeft } from 'lucide-react'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import Editor from '@components/editor'
 import { ProposalProps } from '../utils/types'
-import { DateInput } from '@design/DateInput'
-import { JSONContent } from '@tiptap/react'
 import { createSwapDetails } from './createSwapDetails'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateSwap({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -45,21 +46,21 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     signerOrProvider: signer,
   })
 
-  // form
+  // form states
   const [background, setBackground] = useState<JSONContent>()
   const [purchaseAsset, setPurchaseAsset] = useState('select')
-  const [customToken, setCustomToken] = useState<string>()
+  const [customToken, setCustomToken] = useState('')
   const [purchaseAccess, setPurchaseAccess] = useState('select')
-  const [customAccess, setCustomAccess] = useState<string>()
-  const [purchaseMultiplier, setPurchaseMultiplier] = useState<string>('1')
+  const [customAccess, setCustomAccess] = useState('')
+  const [purchaseMultiplier, setPurchaseMultiplier] = useState('1')
   const [totalLimit, setTotalLimit] = useState(0)
   const [personalLimit, setPersonalLimit] = useState(0)
   const [terms, setTerms] = useState<File>()
-  const [crowdsaleEnd, setCrowdsaleEnd] = useState<string>()
-  const [warning, setWarning] = useState<string>()
+  const [crowdsaleEnd, setCrowdsaleEnd] = useState('')
+  const [warning, setWarning] = useState('')
   const [isRecorded, setIsRecorded] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
-  const [status, setStatus] = useState<string>()
+  const [status, setStatus] = useState('')
 
   const handleValidation = async () => {
     if (!customAccess) {
@@ -279,79 +280,57 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
   ])
 
   return (
-    <FieldSet
-      legend="Swap"
-      description="The Swap extension allows anyone to atomically swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens. To update the Swap exntension, fill out and submit a new Swap proposal below. Please note, this will overwrite
-    existing Swap parameters as soon as this Swap proposal is passed."
-    >
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold">Swap</h2>
+        <p className="text-sm text-gray-500">
+          The Swap extension allows anyone to atomically swap Ether or ERC20 tokens, e.g., DAI, for KaliDAO tokens. To
+          update the Swap extension, fill out and submit a new Swap proposal below. Please note, this will overwrite
+          existing Swap parameters as soon as this Swap proposal is passed.
+        </p>
+      </div>
+
       <Editor label="Why should I swap?" description="Give users a reason to swap." setContent={setBackground} />
-      <Select
-        label="Token to swap"
-        description={`Specify a token, e.g., DAI, to swap for this KaliDAO's token, ${kalidaoToken}`}
-        name="type"
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPurchaseAsset(e.target.value)}
-        options={[
-          { value: 'select', label: 'Select' },
-          { value: 'eth', label: 'Ether' },
-          { value: 'custom', label: 'Custom' },
-        ]}
-      />
+
+      <Select onValueChange={(value: string) => setPurchaseAsset(value)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select token to swap" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="eth">Ether</SelectItem>
+          <SelectItem value="custom">Custom</SelectItem>
+        </SelectContent>
+      </Select>
 
       {purchaseAsset === 'custom' && (
-        <Input
-          label="Custom token contract address"
-          name="tokenAddress"
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomToken(e.target.value)}
-        />
+        <Input placeholder="Custom token contract address" onChange={(e) => setCustomToken(e.target.value)} />
       )}
-      <Select
-        label="Swap Access"
-        description="Is this Swap open to all or only to a select collective of addresses? Public swaps are available to anyone with an Eth address."
-        name="type"
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPurchaseAccess(e.target.value)}
-        options={[
-          { value: 'select', label: 'Select' },
-          { value: 'public', label: 'Public' },
-          { value: 'accredited', label: 'Accredited Investors' },
-          { value: 'custom', label: 'Custom' },
-        ]}
-      />
+
+      <Select onValueChange={(value) => setPurchaseAccess(value)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select swap access" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="public">Public</SelectItem>
+          <SelectItem value="accredited">Accredited Investors</SelectItem>
+          <SelectItem value="custom">Custom</SelectItem>
+        </SelectContent>
+      </Select>
+
       {purchaseAccess === 'custom' && (
         <Textarea
-          label="Custom access list"
-          name="customList"
-          description="Separate ENS/address by single comma, e.g., 'abc.eth, def.eth' "
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCustomAccess(e.currentTarget.value)}
+          placeholder="Custom access list (separate ENS/address by single comma, e.g., 'abc.eth, def.eth')"
+          onChange={(e) => setCustomAccess(e.target.value)}
         />
       )}
 
-      <Input
-        label="Swap Ratio"
-        description="Specify a rate for each swap. For example, a 5x swap multiplier will swap 5 KaliDAO tokens for 1 Ether or 1 ERC20 token."
-        name="purchaseMultiplier"
-        type="number"
-        min={1}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPurchaseMultiplier(e.target.value)}
-      />
+      <Input type="number" placeholder="Swap Ratio" min={1} onChange={(e) => setPurchaseMultiplier(e.target.value)} />
 
-      <Input
-        label="Total Swap Limit"
-        description="Specify a total number of KaliDAO tokens available to access"
-        name="purchaseLimit"
-        type="number"
-        onChange={handleTotalLimit}
-      />
+      <Input type="number" placeholder="Total Swap Limit" onChange={handleTotalLimit} />
 
-      <Input
-        label="Individual swap limit"
-        description="Specify a total number of KaliDAO tokens available to one address during this Swap"
-        name="personalLimit"
-        type="number"
-        onChange={handleIndividualLimit}
-      />
+      <Input type="number" placeholder="Individual swap limit" onChange={handleIndividualLimit} />
 
-      <DateInput label="Swap Ends On" description="Specify a time to which this Swap ends" onChange={handleDeadline} />
+      <Input type="datetime-local" placeholder="Swap Ends On" onChange={handleDeadline} />
 
       <FileUploader
         label="Swap Terms"
@@ -359,7 +338,13 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         setFile={setTerms}
       />
 
-      {warning && <Warning warning={warning} />}
+      {warning && (
+        <Alert variant="destructive">
+          <AlertTitle>Warning</AlertTitle>
+          <AlertDescription>{warning}</AlertDescription>
+        </Alert>
+      )}
+
       {purchaseAccess === 'custom' && (
         <Button onClick={handleValidation} disabled={isRecorded}>
           {isRecorded
@@ -368,12 +353,14 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         </Button>
       )}
 
-      <Stack align="center" justify={'space-between'} direction="horizontal">
-        <Back onClick={() => setProposal?.('appsMenu')} />
-        <Button width={'full'} disabled={!isEnabled} onClick={submit}>
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={() => setProposal?.('appsMenu')}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        </Button>
+        <Button disabled={!isEnabled} onClick={submit}>
           {status ? status : 'Submit Swap Proposal'}
         </Button>
-      </Stack>
-    </FieldSet>
+      </div>
+    </div>
   )
 }

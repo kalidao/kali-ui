@@ -1,18 +1,19 @@
-import { Box, Stack, Text } from '@kalidao/reality'
-import Link from '@design/Link/'
+import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <Box padding="6" as="footer" position="relative" zIndex="10">
-      <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-        <Text color={'foregroundSecondary'}>Built by KaliCo.</Text>
-        <Stack direction={'horizontal'}>
-          <Link href="/privacy">Privacy Policy</Link>
-          <Text color="foregroundSecondary">|</Text>
-          <Link href="/tos">Terms of Service</Link>
-        </Stack>
-      </Stack>
-    </Box>
+    <footer className="bg-background w-full flex items-center justify-between z-10 p-2">
+      <p className="text-secondary-foreground">Built by KaliCo.</p>
+      <div className="flex items-center space-x-2">
+        <Link href="/privacy" className="text-blue-600 hover:text-blue-800">
+          Privacy Policy
+        </Link>
+        <span className="text-gray-400">|</span>
+        <Link href="/tos" className="text-blue-600 hover:text-blue-800">
+          Terms of Service
+        </Link>
+      </div>
+    </footer>
   )
 }
 

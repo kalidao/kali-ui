@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import StarterKit from '@tiptap/starter-kit'
-import { Box, Text } from '@kalidao/reality'
 import { generateHTML } from '@tiptap/react'
+import { Card } from '@components/ui/card'
+import { ScrollArea } from '@components/ui/scroll-area'
+import { FileText } from 'lucide-react'
 
-// TODO: description types
 type Props = {
   type?: string
   description: any
@@ -20,59 +21,50 @@ export default function Description({ type, description, isSchema, short }: Prop
     }
   }, [description, isSchema])
 
-  // <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis></Text>
   if (short) {
     if (type === 'DOCS') {
       return (
-        <Box width="full" height={'20'} marginTop="5">
-          <Text as="p" wordBreak="break-word" whiteSpace="pre-line" ellipsis>
+        <Card className="w-full h-20 mt-5 p-4">
+          <p className="break-words whitespace-pre-line overflow-hidden text-ellipsis">
             This will update the docs for this DAO. Expand to review the details.
-          </Text>
-        </Box>
+          </p>
+        </Card>
       )
     }
     return (
-      <Box width="full" maxHeight={'20'} overflow="hidden">
+      <Card className="w-full h-20 overflow-hidden p-4">
         {isSchema ? (
           output && (
-            <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
-              <div
-                dangerouslySetInnerHTML={{ __html: output }}
-                style={{
-                  height: 60,
-                }}
-              ></div>
-            </Text>
+            <div
+              className="break-words text-foreground whitespace-pre-line overflow-hidden text-ellipsis h-[60px]"
+              dangerouslySetInnerHTML={{ __html: output }}
+            />
           )
         ) : description.length > 0 ? (
-          <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
-            {description}
-          </Text>
+          <p className="break-words text-foreground whitespace-pre-line overflow-hidden text-ellipsis">{description}</p>
         ) : (
-          <Text as="p" wordBreak="break-word" color="text" whiteSpace="pre-line" ellipsis>
+          <p className="break-words text-foreground whitespace-pre-line overflow-hidden text-ellipsis">
             No description.
-          </Text>
+          </p>
         )}
-      </Box>
+      </Card>
     )
   }
 
   return (
-    <Box width={{ xs: 'full', md: '128', lg: '224' }}>
-      {/* TODO: output could be anything, sanitize?  */}
-      {isSchema ? (
-        output && (
-          <Text color="text">
-            <div dangerouslySetInnerHTML={{ __html: output }}></div>
-          </Text>
-        )
-      ) : description.length > 0 ? (
-        <Text color="text" whiteSpace="pre-line">
-          {description}
-        </Text>
-      ) : (
-        <Text color="text">No description.</Text>
-      )}
-    </Box>
+    <Card className="w-full md:w-128 lg:w-224 p-4">
+      <ScrollArea className="h-[300px]">
+        {isSchema ? (
+          output && <div className="text-foreground" dangerouslySetInnerHTML={{ __html: output }} />
+        ) : description.length > 0 ? (
+          <p className="text-foreground whitespace-pre-line">{description}</p>
+        ) : (
+          <div className="flex items-center text-foreground">
+            <FileText className="mr-2" />
+            <span>No description.</span>
+          </div>
+        )}
+      </ScrollArea>
+    </Card>
   )
 }

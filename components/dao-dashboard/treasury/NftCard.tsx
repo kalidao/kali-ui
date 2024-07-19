@@ -1,8 +1,18 @@
 import React from 'react'
-import { Box, Spinner, Text, Stack, Avatar, Button, IconLink } from '@kalidao/reality'
-import { Dialog } from '@design/Dialog/index'
+import { Spinner } from '@components/ui/spinner'
+import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
+import { Button } from '@components/ui/button'
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@components/ui/dialog'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
+import { Link } from 'lucide-react'
 
 export default function NftCard({ nft }: { nft: any }) {
   const url = wrapprUrl(nft.tokenUri)
@@ -10,42 +20,44 @@ export default function NftCard({ nft }: { nft: any }) {
     enabled: !!nft.tokenUri,
   })
 
-  if (isError) return <Text>An error has occurred.</Text>
+  if (isError) return <p className="text-red-500">An error has occurred.</p>
   if (!data) return <Spinner />
   console.log('nft', data)
   return (
-    <Dialog
-      title={data?.['name'] || data?.['title']}
-      description={data?.description}
-      trigger={
-        <Box>
-          <Stack direction={'vertical'} align="center">
-            <Avatar
-              src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])}
-              size="64"
-              shape="square"
-              label="NFT Image"
-            />
-            <Text weight="bold">{data['name'] || data['title']}</Text>
-          </Stack>
-        </Box>
-      }
-    >
-      <Stack align="center">
-        <Avatar
-          src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])}
-          size="96"
-          shape="square"
-          label="NFT Image"
-        />
-        <Stack space="1" align="center">
-          {data['external_url'] && (
-            <Button as="a" href={data['external_url']} target="_blank" rel="noopener noreferrer" prefix={<IconLink />}>
-              External URL
-            </Button>
-          )}
-        </Stack>
-      </Stack>
+    <Dialog>
+      <DialogTrigger asChild>
+        <div className="cursor-pointer">
+          <div className="flex flex-col items-center">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])} alt="NFT Image" />
+              <AvatarFallback>NFT</AvatarFallback>
+            </Avatar>
+            <p className="font-bold mt-2">{data['name'] || data['title']}</p>
+          </div>
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{data?.['name'] || data?.['title']}</DialogTitle>
+          <DialogDescription>{data?.description}</DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col items-center">
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])} alt="NFT Image" />
+            <AvatarFallback>NFT</AvatarFallback>
+          </Avatar>
+          <div className="mt-4">
+            {data['external_url'] && (
+              <Button asChild>
+                <a href={data['external_url']} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                  <Link className="mr-2" size={16} />
+                  External URL
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </DialogContent>
     </Dialog>
   )
 }

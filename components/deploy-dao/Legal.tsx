@@ -1,9 +1,11 @@
 import React from 'react'
-import { Stack, FieldSet, Input, Text, Button, IconLink } from '@kalidao/reality'
-import { Select } from '@design/Select'
-import { Switch } from '@design/Switch'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
+import { Link2 } from 'lucide-react'
+import { Button } from '@components/ui/button'
+import { Switch } from '@components/ui/switch'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Input } from '@components/ui/input'
 import updateAction from './updateAction'
 import { legalEntities } from '../../constants/legalEntities'
 
@@ -27,127 +29,110 @@ export default function Legal({ setStep }: Props) {
 
   const onPrevious = (data: GlobalState) => {
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(0)
-    } else {
-      setStep(4)
-    }
+    setStep(hardMode ? 4 : 0)
   }
   const onNext = (data: GlobalState) => {
     actions.updateAction(data)
-
     setStep(6)
   }
 
-  let selectArray = [
-    {
-      label: 'Select',
-      value: 'none',
-    },
-  ]
-  for (let key in legalEntities) {
-    selectArray.push({
-      label: legalEntities[key].text,
+  const selectArray = [
+    { label: 'Select', value: 'none' },
+    ...Object.entries(legalEntities).map(([key, value]) => ({
+      label: value.text,
       value: key,
-    })
-  }
+    })),
+  ]
 
   return (
-    <FieldSet legend="Legal">
-      <Stack align="center" justify={'space-between'} direction="horizontal">
-        <Text>Add structure</Text>
-        <Switch
-          control={control}
-          label="Add structure"
-          name="legal"
-          value="legal"
-          defaultValue={state['legal']}
-          onValueChange={(value: boolean) => setValue('legal', value)}
-        />
-      </Stack>
+    <fieldset className="space-y-6">
+      <legend className="text-lg font-semibold">Legal</legend>
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">Add structure</span>
+        <Switch checked={watchLegal} onCheckedChange={(value) => setValue('legal', value)} />
+      </div>
       {watchLegal && (
         <>
-          <Select
-            label="Choose Entity"
-            // {...register('docType')}
-            defaultValue={state.docType}
-            options={selectArray}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue('docType', e.currentTarget.value)}
-          />
-          <Text>
+          <Select defaultValue={state.docType} onValueChange={(value) => setValue('docType', value)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {selectArray.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-sm">
             Resources to help with entity selection:{' '}
-            <a href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/">a16z</a> or{' '}
-            <a href="https://daos.paradigm.xyz/"> Paradigm</a>
-          </Text>
+            <a
+              href="https://a16z.com/2022/05/23/dao-legal-frameworks-entity-features-selection/"
+              className="text-blue-600 hover:underline"
+            >
+              a16z
+            </a>{' '}
+            or{' '}
+            <a href="https://daos.paradigm.xyz/" className="text-blue-600 hover:underline">
+              Paradigm
+            </a>
+          </p>
 
-          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['email'] === true && (
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['email'] && (
             <Input
-              label="Email"
               type="email"
               placeholder="abc@xyz.com"
               defaultValue={state.email}
               {...register('email', {
-                required: {
-                  value: true,
-                  message: `Email is required for ${legalEntities[watchDocs]['text']}.`,
-                },
-                // regex taken from https://www.w3resource.com/javascript/form/email-validation.php
+                required: `Email is required for ${legalEntities[watchDocs]['text']}.`,
                 pattern: {
-                  value:
-                    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: 'Please enter a valid email.',
                 },
               })}
-              error={errors?.email?.message}
             />
           )}
-          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['mission'] === true && (
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['mission'] && (
             <Input
-              label="Mission"
               type="text"
               placeholder="http://"
               defaultValue={state.mission}
               {...register('mission', {
-                required: {
-                  value: true,
-                  message: `Mission is required for ${legalEntities[watchDocs]['text']}.`,
-                },
+                required: `Mission is required for ${legalEntities[watchDocs]['text']}.`,
                 pattern: {
-                  value:
-                    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+                  value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
                   message: 'Please enter a valid URL.',
                 },
               })}
-              error={errors?.mission?.message}
             />
           )}
           {watchDocs === 'existing' && (
-            <Input
-              label="Existing Docs"
-              type="text"
-              placeholder="Any link"
-              {...register('existingDocs')}
-              defaultValue={state.existingDocs}
-            />
+            <Input type="text" placeholder="Any link" {...register('existingDocs')} defaultValue={state.existingDocs} />
           )}
-          {watchDocs && watchDocs !== 'none' && <Text>{legalEntities[watchDocs]['message']}</Text>}
-          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['template'] !== null && (
-            <Button as="a" href={legalEntities[watchDocs]['template'] as string} target="_blank" prefix={<IconLink />}>
-              Review Template
+          {watchDocs && watchDocs !== 'none' && <p className="text-sm">{legalEntities[watchDocs]['message']}</p>}
+          {watchDocs && watchDocs !== 'none' && legalEntities[watchDocs]['template'] && (
+            <Button asChild variant="outline">
+              <a
+                href={legalEntities[watchDocs]['template']}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center"
+              >
+                <Link2 className="mr-2 h-4 w-4" />
+                Review Template
+              </a>
             </Button>
           )}
         </>
       )}
 
-      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
+      <div className="flex justify-end space-x-4">
+        <Button variant="outline" onClick={handleSubmit(onPrevious)}>
           Previous
         </Button>
-        <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
-          Next
-        </Button>
-      </Stack>
-    </FieldSet>
+        <Button onClick={handleSubmit(onNext)}>Next</Button>
+      </div>
+    </fieldset>
   )
 }

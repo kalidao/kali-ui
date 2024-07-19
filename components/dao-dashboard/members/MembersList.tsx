@@ -1,4 +1,3 @@
-import { Stack } from '@kalidao/reality'
 import MemberCard from './MemberCard'
 import { Member } from './types'
 
@@ -11,7 +10,7 @@ type Props = {
 export default function MembersList({ members, active, setActive }: Props) {
   // TODO: Add search
   return (
-    <Stack>
+    <div className="flex flex-col mt-2 space-y-2 ">
       {members.map((member) => (
         <MemberCard
           key={member?.address}
@@ -20,6 +19,6 @@ export default function MembersList({ members, active, setActive }: Props) {
           setActive={setActive}
         />
       ))}
-    </Stack>
+    </div>
   )
 }

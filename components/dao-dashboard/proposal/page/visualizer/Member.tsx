@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
-import { Stack, Text } from '@kalidao/reality'
 import { User } from '@components/tools/User'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
 
 interface MemberProps {
   id: number
@@ -15,23 +15,31 @@ export default function Member({ accounts, amounts }: { accounts: string[]; amou
   }
 
   return (
-    <Stack>
-      <Stack direction="horizontal" justify={'space-between'} align="center">
-        <Text variant="label">User</Text>
-        <Text variant="label">Amount</Text>
-      </Stack>
-      {rows.map((row) => (
-        <Row key={row.id} account={row.account} amount={row.amount} />
-      ))}
-    </Stack>
+    <div className="w-full">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50%]">User</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row) => (
+            <Row key={row.id} account={row.account} amount={row.amount} />
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   )
 }
 
 const Row = ({ account, amount }: { account: string; amount: any }) => {
   return (
-    <Stack direction="horizontal" justify={'space-between'} align="center">
-      <User address={account} />
-      <Text>{ethers.utils.formatEther(amount)}</Text>
-    </Stack>
+    <TableRow>
+      <TableCell className="font-medium">
+        <User address={account} />
+      </TableCell>
+      <TableCell className="text-right">{ethers.utils.formatEther(amount)}</TableCell>
+    </TableRow>
   )
 }

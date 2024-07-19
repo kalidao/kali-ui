@@ -1,8 +1,7 @@
 import Layout from '@components/dao-dashboard/layout'
-import { Box, Stack } from '@kalidao/reality'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
-import { Guide, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
+import { Approve, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import Confetti from '@components/tools/Confetti'
@@ -63,13 +62,13 @@ export default function CrowdsalePage() {
   console.log('swap', stateChain, dao, swap, token, user)
   return (
     <Layout title="Swap" content="Swap Eth or tokens">
-      <Box position="relative" display={'flex'}>
-        <Box position={'relative'} width="112" gap="5">
+      <div>
+        <div className="relative w-full">
           <Why />
-          <Guide />
-        </Box>
+          <Approve />
+        </div>
         <Swapper />
-      </Box>
+      </div>
       {success == true && <Confetti />}
     </Layout>
   )

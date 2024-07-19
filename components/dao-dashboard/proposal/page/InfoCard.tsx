@@ -1,7 +1,8 @@
 import React from 'react'
-import { Stack, Text, Stat, Card } from '@kalidao/reality'
+import { Card, CardContent } from '@components/ui/card'
+import { Progress } from '@components/ui/progress'
+import { Calendar, Clock } from 'lucide-react'
 import { prettyDate } from '@utils/prettyDate'
-import { Progress } from '@design/Progress'
 
 type Props = {
   votingPeriod: number
@@ -16,19 +17,34 @@ export default function InfoCard({ start, votingPeriod }: Props) {
 
   if (start == 0) {
     return (
-      <Card padding="6">
-        <Text>Voting hasn't started yet. Sponsor the proposal to start voting!</Text>
+      <Card className="p-6">
+        <CardContent>
+          <p className="text-sm text-gray-600">Voting hasn't started yet. Sponsor the proposal to start voting!</p>
+        </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card padding="6">
-      <Stack>
-        <Stat label="Start" value={startDate} size="small" />
-        <Stat label="End" value={endDate} size="small" />
-        <Stat label="Progress" value={<Progress value={progress} />} size="medium" />
-      </Stack>
+    <Card className="p-6">
+      <CardContent>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Calendar className="h-4 w-4 text-gray-500" />
+            <span className="text-sm font-medium">Start:</span>
+            <span className="text-sm text-gray-600">{startDate}</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Clock className="h-4 w-4 text-gray-500" />
+            <span className="text-sm font-medium">End:</span>
+            <span className="text-sm text-gray-600">{endDate}</span>
+          </div>
+          <div>
+            <span className="text-sm font-medium">Progress:</span>
+            <Progress value={progress} className="mt-2" />
+          </div>
+        </div>
+      </CardContent>
     </Card>
   )
 }

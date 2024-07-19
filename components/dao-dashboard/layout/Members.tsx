@@ -1,4 +1,7 @@
-import { Text, Box, Card, Heading, Spinner, Stack, Button, Tag, IconBookOpen } from '@kalidao/reality'
+import { Card, CardContent, CardFooter } from '@components/ui/card'
+import { Button } from '@components/ui/button'
+import { Badge } from '@components/ui/badge'
+import { Loader2, BookOpen } from 'lucide-react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useQuery } from 'wagmi'
@@ -17,45 +20,49 @@ const Members = () => {
       enabled: !!chainId && !!dao,
     },
   )
-  const info = data?.data?.daos?.[0]
 
   const list = useMemo(
     () =>
-      info?.members
+      data?.members
         ?.sort((a: { shares: number }, b: { shares: number }) => b.shares - a.shares)
         .filter((p: { shares: number }) => p.shares > 0),
-    [info],
+    [data],
   )
 
-  if (isLoading) return <Spinner />
+  if (isLoading) return <Loader2 className="animate-spin" />
 
   return (
-    <Card padding="6">
+    <Card className="p-6">
       {isLoading ? (
-        <Spinner />
+        <Loader2 className="animate-spin" />
       ) : (
-        <Box display="flex" flexDirection={'column'} justifyContent={'space-between'} height="full">
-          <Stack>
-            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Heading>Members</Heading>
-              <Tag size="medium">{list?.length}</Tag>
-            </Stack>
-            {list?.slice(0, 3)?.map((member: any) => (
-              <Member key={member?.address} address={member?.address} shares={member?.shares} />
-            ))}
-          </Stack>
-          <Link
-            href={{
-              pathname: `/daos/[chainId]/[dao]/members`,
-              query: { chainId: chainId, dao: dao },
-            }}
-            passHref
-          >
-            <Button as="a" variant="transparent" width={'full'} size="small" prefix={<IconBookOpen />}>
-              View All
-            </Button>
-          </Link>
-        </Box>
+        <div className="flex flex-col justify-between h-full">
+          <CardContent>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Members</h2>
+              <Badge variant="secondary">{data?.members?.length}</Badge>
+            </div>
+            <div className="space-y-4">
+              {list?.slice(0, 3)?.map((member: any) => (
+                <Member key={member?.address} address={member?.address} shares={member?.shares} />
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Link
+              href={{
+                pathname: `/daos/[chainId]/[dao]/members`,
+                query: { chainId: chainId, dao: dao },
+              }}
+              passHref
+            >
+              <Button variant="outline" className="w-full" size="sm">
+                <BookOpen className="mr-2 h-4 w-4" />
+                View All
+              </Button>
+            </Link>
+          </CardFooter>
+        </div>
       )}
     </Card>
   )
@@ -63,10 +70,10 @@ const Members = () => {
 
 const Member = ({ address, shares }: { address: string; shares: string }) => {
   return (
-    <Stack direction={'horizontal'} align="center" justify={'space-between'}>
+    <div className="flex items-center justify-between">
       <User address={address} />
-      <Text>{Number(formatEther(shares)).toFixed(2)}</Text>
-    </Stack>
+      <span className="text-sm">{Number(formatEther(shares)).toFixed(2)}</span>
+    </div>
   )
 }
 

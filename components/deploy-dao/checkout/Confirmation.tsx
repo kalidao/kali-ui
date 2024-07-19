@@ -1,20 +1,20 @@
+import React from 'react'
 import { useStateMachine } from 'little-state-machine'
-
 import { legalEntities } from '@constants/legalEntities'
-import { Box, Stack, Text, IconCheck, IconClose } from '@kalidao/reality'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@design/Accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion'
+import { Check, X } from 'lucide-react'
 import { ethers } from 'ethers'
 import { formatVotingPeriod, votingPeriodToSeconds } from '@utils/index'
 import { User } from '@components/tools/User'
 
 const Row = ({ name, value }: { name: string | React.ReactNode; value: React.ReactNode }) => {
   return (
-    <Box width="full" padding="3">
-      <Stack direction="horizontal" align="center" justify={'space-between'}>
-        {typeof name == 'string' ? <Text>{name}</Text> : name}
-        <Text weight="bold">{value}</Text>
-      </Stack>
-    </Box>
+    <div className="w-full p-3">
+      <div className="flex items-center justify-between">
+        {typeof name === 'string' ? <span>{name}</span> : name}
+        <span className="font-bold">{value}</span>
+      </div>
+    </div>
   )
 }
 
@@ -46,19 +46,27 @@ export default function Confirmation() {
         <AccordionContent>
           <Row name="Participation Needed" value={`${state.quorum}%`} />
           <Row name="Approval Needed" value={`${state.approval}%`} />
-          <Row name="Voting Period" value={`${typeof voting == 'number' ? formatVotingPeriod(voting) : 'Invalid'}`} />
+          <Row name="Voting Period" value={`${typeof voting === 'number' ? formatVotingPeriod(voting) : 'Invalid'}`} />
           <Row
             name="Token Transferability"
-            value={state.transferability === true ? <IconCheck color="green" /> : <IconClose color="red" />}
+            value={
+              state.transferability === true ? <Check className="text-green-500" /> : <X className="text-red-500" />
+            }
           />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="apps">
         <AccordionTrigger>Apps</AccordionTrigger>
         <AccordionContent>
-          <Row name="Tribute" value={<IconCheck color="green" />} />
-          <Row name="Crowdsale" value={state.crowdsale ? <IconCheck color="green" /> : <IconClose color="red" />} />
-          <Row name="Redemption" value={state.redemption ? <IconCheck color="green" /> : <IconClose color="red" />} />
+          <Row name="Tribute" value={<Check className="text-green-500" />} />
+          <Row
+            name="Crowdsale"
+            value={state.crowdsale ? <Check className="text-green-500" /> : <X className="text-red-500" />}
+          />
+          <Row
+            name="Redemption"
+            value={state.redemption ? <Check className="text-green-500" /> : <X className="text-red-500" />}
+          />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="legal">
@@ -69,16 +77,16 @@ export default function Confirmation() {
             value={
               state.hardMode ? (
                 state.legal ? (
-                  state.docType == 'none' ? (
-                    <IconClose color="red" />
+                  state.docType === 'none' ? (
+                    <X className="text-red-500" />
                   ) : (
                     legalEntities[state.docType]['text']
                   )
                 ) : (
-                  <IconClose color="red" />
+                  <X className="text-red-500" />
                 )
               ) : (
-                <IconClose color="red" />
+                <X className="text-red-500" />
               )
             }
           />

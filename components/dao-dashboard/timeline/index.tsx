@@ -1,21 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
-import {
-  Stack,
-  Button,
-  Skeleton,
-  Heading,
-  Card as CardComponent,
-  IconPencil,
-  IconBookOpen,
-  Text,
-} from '@kalidao/reality'
-import Card from './Card'
+import { PencilIcon, BookOpenIcon } from 'lucide-react'
+import ProposalCard from './Card'
+import { Button } from '@components/ui/button'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
 import { useContractRead } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
+import { Card, CardHeader, CardTitle, CardContent } from '@components/ui/card'
+import { Skeleton } from '@components/ui/skeleton'
+import { cn } from '@utils/util'
 
 export default function Timeline() {
   const router = useRouter()
@@ -27,9 +22,6 @@ export default function Timeline() {
     chainId: Number(chainId),
   })
   const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
-
-  console.log('proposals', data)
-
   const [show] = useState(2)
 
   // filtering out cancelled proposals
@@ -44,15 +36,19 @@ export default function Timeline() {
   }
 
   return (
-    <Stack>
-      <Stack
-        direction="horizontal"
-        align="center"
-        justify={memoizedProposals && memoizedProposals.length != 0 ? 'space-between' : 'flex-end'}
-      >
+    <div
+      className={cn(
+        'flex flex-col space-y-4',
+        memoizedProposals && memoizedProposals.length != 0
+          ? 'md:flex-row md:justify-between'
+          : 'md:flex-col md:justify-end',
+      )}
+    >
+      <div>
         {memoizedProposals && memoizedProposals.length != 0 ? (
-          <Button prefix={<IconBookOpen />} variant="transparent" onClick={gotoProposals}>
-            View All
+          <Button variant="ghost" onClick={gotoProposals}>
+            <BookOpenIcon className="mr-2" />
+            <span>View All</span>
           </Button>
         ) : null}
         <Link
@@ -63,36 +59,34 @@ export default function Timeline() {
               chainId: chainId as string,
             },
           }}
-          passHref
+          className="p-2 text-blue-500 hover:underline rounded-lg flex items-center space-x-1 cursor-pointer w-fit"
         >
-          <Button as="a" shape="circle">
-            <IconPencil />
-          </Button>
+          <PencilIcon className="h-5 w-5" />
+          <p className="font-bold text-lg">Propose</p>
         </Link>
-      </Stack>
-      <Skeleton>
-        <Stack>
-          {memoizedProposals && memoizedProposals.length != 0 ? (
-            <>
-              {memoizedProposals.slice(0, show).map((proposal: { [x: string]: any }) => (
-                <Card key={proposal['id']} proposal={proposal} />
-              ))}
-            </>
-          ) : (
-            <CardComponent padding="6">
-              <Stack>
-                <Heading level="2">
-                  <>We could not find any proposals for {name}.</>
-                </Heading>
-                <Text wordBreak="break-word">
-                  You can create proposals to add and remove members, interact with external contracts and install apps
-                  like Swap and Redemption.
-                </Text>
-              </Stack>
-            </CardComponent>
-          )}
-        </Stack>
-      </Skeleton>
-    </Stack>
+      </div>
+
+      <div>
+        {memoizedProposals && memoizedProposals.length != 0 ? (
+          <>
+            {memoizedProposals.slice(0, show).map((proposal: { [x: string]: any }) => (
+              <ProposalCard key={proposal['id']} proposal={proposal} />
+            ))}
+          </>
+        ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>{`We could not find any proposals for ${name}.`}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="break-words">
+                You can create proposals to add and remove members, interact with external contracts and install apps
+                like Swap and Redemption.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
   )
 }

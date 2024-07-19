@@ -1,7 +1,38 @@
-import React from 'react'
 import { GRAPH_URL } from '../url'
 
-export const getMembers = async (chainId: number, address: string) => {
+interface Proposal {
+  id: string
+}
+
+interface Member {
+  address: string
+  shares: number
+  proposals: Proposal[]
+}
+
+interface Token {
+  totalSupply: number
+}
+
+interface DAO {
+  id: string
+  members: Member[]
+  token: Token
+}
+
+interface GetMembersResponse {
+  data: {
+    daos: DAO[]
+  }
+}
+
+export const getMembers = async (
+  chainId: number,
+  address: string,
+): Promise<{
+  members: Member[]
+  totalSupply: number
+}> => {
   try {
     const res = await fetch(GRAPH_URL[chainId], {
       method: 'POST',
@@ -26,9 +57,12 @@ export const getMembers = async (chainId: number, address: string) => {
       }),
     })
 
-    const data = await res.json()
-    return data
+    const data: GetMembersResponse = await res.json()
+    return {
+      members: data.data.daos[0].members,
+      totalSupply: data.data.daos[0].token.totalSupply,
+    }
   } catch (e) {
-    return e
+    throw e
   }
 }

@@ -1,17 +1,13 @@
 import React from 'react'
-import { IconTrash } from '@kalidao/reality'
 
 // menu items
 import CallContract from './CallContract'
 import Escape from './Escape'
-import ToggleTransfer from './ToggleTransfer'
-import UpdateDocs from './UpdateDocs'
-import UpdateQuorum from './UpdateQuorum'
-import UpdateVotingPeriod from './UpdateVotingPeriod'
-import GovMenu from './GovMenu'
-import Back from '@design/proposal/Back'
-import { Stack } from '@kalidao/reality'
+import { UpdateDocs } from './UpdateDocs'
+import { UpdateVotingPeriod } from './UpdateVotingPeriod'
+import { Back } from '@components/ui/back'
 import { Item } from '../Item'
+import { Trash } from 'lucide-react'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
@@ -19,13 +15,13 @@ type Props = {
 
 function InternalMenu({ setProposal }: Props) {
   return (
-    <Stack>
-      <Stack>
-        <Item onClick={() => setProposal('escape')} icon={<IconTrash />} label="Escape Proposal" />
-      </Stack>
+    <div>
+      <div>
+        <Item onClick={() => setProposal('escape')} icon={<Trash />} label="Escape Proposal" />
+      </div>
       <Back onClick={() => setProposal('menu')} />
-    </Stack>
+    </div>
   )
 }
 
-export { InternalMenu, CallContract, Escape, ToggleTransfer, UpdateDocs, UpdateQuorum, UpdateVotingPeriod, GovMenu }
+export { InternalMenu, CallContract, Escape, UpdateDocs, UpdateVotingPeriod }

@@ -1,6 +1,6 @@
 import { useSwapStore } from './store'
-import Guide from './Guide'
+import Approve from './Approve'
 import Swapper from './Swapper'
 import Why from './Why'
 
-export { useSwapStore, Swapper, Why, Guide }
+export { useSwapStore, Swapper, Why, Approve }

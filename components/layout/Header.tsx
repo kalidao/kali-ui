@@ -1,22 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
-import { Box } from '@kalidao/reality'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { Menu } from '@design/Menu'
-import { header, logo } from '@components/dao-dashboard/layout/layout.css'
+import { Menu } from './Menu'
 
 export default function Header() {
   return (
-    <Box className={header}>
-      <Link href="/" passHref>
-        <Box as="a" className={logo}>
-          KALI
-        </Box>
+    <header className="bg-background flex justify-between items-center p-4 shadow-md">
+      <Link href="/" className="text-2xl font-bold text-foreground hover:underline transition-colors" passHref>
+        KALI
       </Link>
-      <Box display={'flex'} gap="2" alignItems={'center'}>
+      <div className="flex items-center gap-4">
         <ConnectButton label="Login" />
         <Menu />
-      </Box>
-    </Box>
+      </div>
+    </header>
   )
 }

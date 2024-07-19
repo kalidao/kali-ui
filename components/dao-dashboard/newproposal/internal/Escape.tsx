@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
-import { Warning } from '@design/elements'
-import { Stack, Text, Button } from '@kalidao/reality'
+import { Warning } from '@components/ui/warning'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
 import { AddressZero } from '@ethersproject/constants'
-import { createProposal } from '@components/dao-dashboard/newproposal/utils/'
+import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
+import { Button } from '@components/ui/button'
 
 type EscapeProps = {
   dao: string
@@ -52,8 +52,6 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
       return
     }
 
-    console.log('Proposal Params - ', 10, docs, [AddressZero], [kill], [Array(0)])
-
     try {
       const tx = await writeAsync?.({
         recklesslySetUnpreparedArgs: [
@@ -71,16 +69,14 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
   }
 
   return (
-    <Stack>
-      <Stack direction={'horizontal'}>
-        <Text>This action will create a proposal to delete</Text>
-        <Text weight={'bold'} color="red">
-          proposal #{kill}
-        </Text>
-        <Text>and remove it from the queue.</Text>
-      </Stack>
+    <div>
+      <div className="flex flex-row">
+        <p>This action will create a proposal to delete</p>
+        <p className="font-bold text-red-500">proposal #{kill}</p>
+        <p>and remove it from the queue.</p>
+      </div>
       {warning !== '' && <Warning warning={warning} />}
       <Button onClick={submit}>Confirm</Button>
-    </Stack>
+    </div>
   )
 }

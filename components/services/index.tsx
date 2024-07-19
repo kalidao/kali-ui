@@ -1,57 +1,37 @@
 import React from 'react'
-import Link from 'next/link'
 import { serviceProviders } from '@constants/serviceProviders'
-import Image from 'next/image'
-import { Stack, Heading, Card, Avatar, Text, Button, IconArrowRight } from '@kalidao/reality'
+import { Card } from '@components/ui/card'
+import { Button } from '@components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
 export default function Services() {
   return (
-    <Stack align="center">
-      <Heading align="center" responsive transform="capitalize">
-        Partner Service Providers
-      </Heading>
-      <Stack direction={'horizontal'} align="center" justify={'center'} wrap>
+    <div className="flex flex-col items-center">
+      <h2 className="text-3xl font-bold text-center capitalize mb-8">Partner Service Providers</h2>
+      <div className="flex flex-wrap justify-center gap-6">
         {serviceProviders.map((provider) => (
-          <Card
-            key={provider.name}
-            borderRadius="2xLarge"
-            padding="10"
-            width={{
-              xs: '80',
-              md: '168',
-            }}
-            hover
-            shadow
-          >
-            <Stack>
-              <Stack direction={'horizontal'} align="center">
-                <Avatar
-                  size="16"
-                  shape="square"
-                  noBorder
-                  src={provider.icon ? provider.icon : ''}
-                  placeholder={provider.icon ? false : true}
-                  label={`${provider.name} + logo`}
-                />
-                <Heading level="2">{provider.name}</Heading>
-              </Stack>
-              <Stack direction="horizontal" align="center" justify={'space-between'}>
-                <Text color="foreground">{provider.text}</Text>
-                <Button
-                  as="a"
-                  href={provider.link}
-                  shape="circle"
-                  tone="violet"
-                  target="_blank"
-                  rel="noreferrer nooppenner"
-                >
-                  <IconArrowRight />
+          <Card key={provider.name} className="w-80 md:w-96 p-6 hover:shadow-lg transition-shadow">
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center space-x-4">
+                {provider.icon ? (
+                  <img src={provider.icon} alt={`${provider.name} logo`} className="w-16 h-16 rounded-lg" />
+                ) : (
+                  <div className="w-16 h-16 bg-gray-200 rounded-lg"></div>
+                )}
+                <h3 className="text-xl font-semibold">{provider.name}</h3>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-gray-600">{provider.text}</p>
+                <Button asChild size="icon" className="rounded-full">
+                  <a href={provider.link} target="_blank" rel="noreferrer noopener">
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
                 </Button>
-              </Stack>
-            </Stack>
+              </div>
+            </div>
           </Card>
         ))}
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   )
 }

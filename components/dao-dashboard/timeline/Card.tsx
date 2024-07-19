@@ -4,11 +4,10 @@ import { useRouter } from 'next/router'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
-import { Box, Text, Tag, Stack } from '@kalidao/reality'
-import { linkStyle, proposalCard } from './ProposalCard.css'
 import Description from '../proposal/page/Description'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
+import { Badge } from '@components/ui/badge'
 
 type Status = {
   text: string
@@ -20,6 +19,7 @@ type Status = {
 type PropCardProp = {
   proposal: any
 }
+
 export default function ProposalCard({ proposal }: PropCardProp) {
   const router = useRouter()
   const { chainId, dao } = router.query
@@ -94,7 +94,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <Box className={proposalCard}>
+    <div>
       <Link
         href={{
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
@@ -106,37 +106,23 @@ export default function ProposalCard({ proposal }: PropCardProp) {
         }}
         passHref
       >
-        {/* <a className={linkStyle}> */}
-          <Stack
-            direction={{
-              xs: 'horizontal',
-            }}
-            align={{ xs: 'flex-start', md: 'center' }}
-            justify={'space-between'}
-          >
-            <Stack direction={{ xs: 'vertical', md: 'horizontal' }} align={{ xs: 'flex-start', md: 'center' }}>
-              <Text size="extraLarge" color="foreground">{`#${proposal?.serial} ${
-                details ? details?.title : ''
-              }`}</Text>
-              <Tag tone="secondary" size="small">
-                {proposer}
-              </Tag>
-            </Stack>
-            <Tag label={proposal['proposalType']} tone={color!} size="medium">
-              {text}
-            </Tag>
-          </Stack>
-          <Description
-            type={proposal['proposalType']}
-            description={details ? details?.description : proposal?.description}
-            isSchema={details ? true : false}
-            short
-          />
-        {/* </a> */}
+        <div className="flex xs:flex-col md:flex-row w-full justify-between items-start md:items-center">
+          <div className="flex flex-col md:flex-row items-start md:items-center">
+            <p className="text-2xl text-foreground">{`#${proposal?.serial} ${details ? details?.title : ''}`}</p>
+            <Badge variant="secondary">{proposer}</Badge>
+          </div>
+          <Badge>{text}</Badge>
+        </div>
+        <Description
+          type={proposal['proposalType']}
+          description={details ? details?.description : proposal?.description}
+          isSchema={details ? true : false}
+          short
+        />
       </Link>
-      <Box display="flex">
+      <div className="flex">
         <Vote proposal={proposal} />
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }

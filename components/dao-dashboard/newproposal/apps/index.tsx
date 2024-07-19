@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-// menu items
 import SetRedemption from './SetRedemption'
-import Back from '@design/proposal/Back'
 import { useRouter } from 'next/router'
 import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
-import { IconSparkles, IconTrash, Stack, Text } from '@kalidao/reality'
-import { Item } from '../Item'
+import { Sparkles, Trash2, ArrowLeft } from 'lucide-react'
+import { Button } from '@components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
@@ -33,27 +32,65 @@ function AppsMenu({ setProposal }: Props) {
   }, [chainId, dao])
 
   return (
-    <Stack>
-      <Text>(1) Swap :</Text>
-      <Text>Swap allows KaliDAOs to swap KaliDAO tokens for ETH or ERC20 tokens publicly or privately.</Text>
-      <Text>(2) Redemption :</Text>
-      <Text>Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.</Text>
-      <Text>(3) Data Room :</Text>
-      <Text>Data Room is on-chain storage for recording off-chain activities or ratifying documents.</Text>
-      <Stack>
-        {isCrowdsale ? (
-          <>
-            <Item onClick={() => setProposal('swap_update')} label="Update Swap" icon={<IconSparkles />} />
-            <Item onClick={() => setProposal('swap_remove')} label="Remove Swap" icon={<IconTrash />} />
-          </>
-        ) : (
-          <Item onClick={() => setProposal('swap_add')} label="Add Swap" icon={<IconSparkles />} />
-        )}
-        <Item onClick={() => setProposal('redemption')} label="Add Redemption" icon={<IconSparkles />} />
-        <Item onClick={() => setProposal('record')} label="Record Off-Chain Activities" icon={<IconSparkles />} />
-      </Stack>
-      <Back onClick={() => setProposal('menu')} />
-    </Stack>
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Swap</CardTitle>
+          <CardDescription>
+            Swap allows KaliDAOs to swap KaliDAO tokens for ETH or ERC20 tokens publicly or privately.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Redemption</CardTitle>
+          <CardDescription>
+            Redemption allows KaliDAO members to redeem a portion of DAO treasury by burning their KaliDAO tokens.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Data Room</CardTitle>
+          <CardDescription>
+            Data Room is on-chain storage for recording off-chain activities or ratifying documents.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Card>
+        <CardContent className="space-y-2">
+          {isCrowdsale ? (
+            <>
+              <Button onClick={() => setProposal('swap_update')} className="w-full justify-start">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Update Swap
+              </Button>
+              <Button onClick={() => setProposal('swap_remove')} className="w-full justify-start">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Remove Swap
+              </Button>
+            </>
+          ) : (
+            <Button onClick={() => setProposal('swap_add')} className="w-full justify-start">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Add Swap
+            </Button>
+          )}
+          <Button onClick={() => setProposal('redemption')} className="w-full justify-start">
+            <Sparkles className="mr-2 h-4 w-4" />
+            Add Redemption
+          </Button>
+          <Button onClick={() => setProposal('record')} className="w-full justify-start">
+            <Sparkles className="mr-2 h-4 w-4" />
+            Record Off-Chain Activities
+          </Button>
+        </CardContent>
+      </Card>
+      <Button onClick={() => setProposal('menu')} variant="outline" className="w-full">
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
+    </div>
   )
 }
 

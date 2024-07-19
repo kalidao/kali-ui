@@ -1,5 +1,5 @@
-import { Stack, Button } from '@kalidao/reality'
-import Back from '@design/proposal/Back'
+import { Button } from '@components/ui/button'
+import { ArrowLeft } from 'lucide-react'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 
 type Props = {
@@ -12,13 +12,16 @@ type Props = {
 
 export const ProposalFooter = ({ setProposal, proposal, submitProposal, disabled, loading }: Props) => {
   return (
-    <Stack align="center" justify={'space-between'} direction="horizontal">
-      <Back onClick={() => setProposal?.(proposal)} />
+    <div className="flex items-center justify-between">
+      <Button variant="ghost" onClick={() => setProposal?.(proposal)} className="flex items-center">
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
       <ChainGuard fallback={<Button>Submit</Button>}>
-        <Button onClick={submitProposal} disabled={disabled} loading={loading}>
-          Submit
+        <Button onClick={submitProposal} disabled={disabled} className={loading ? 'cursor-not-allowed opacity-50' : ''}>
+          {loading ? 'Submitting...' : 'Submit'}
         </Button>
       </ChainGuard>
-    </Stack>
+    </div>
   )
 }

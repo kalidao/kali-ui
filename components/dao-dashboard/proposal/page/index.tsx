@@ -1,5 +1,8 @@
 import React from 'react'
-import { Box, Button, Stack, Text, Tag, IconClose } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Card } from '@components/ui/card'
+import { Badge } from '@components/ui/badge'
+import { X } from 'lucide-react'
 import InfoCard from './InfoCard'
 import Results from './Results'
 import Description from './Description'
@@ -49,37 +52,19 @@ export default function ProposalView({ proposal }: Props) {
     return false
   }
 
-  console.log('proposal', proposal)
   return (
-    <Box
-      width="full"
-      display="flex"
-      flexDirection={'column'}
-      borderWidth="px"
-      borderRadius="2xLarge"
-      padding="6"
-      gap="4"
-    >
-      <Box display="flex" flexDirection={'row'} gap="1" justifyContent={'flex-start'} alignItems="center">
-        <Text>
+    <Card className="w-full flex flex-col p-6 space-y-4">
+      <div className="flex flex-row gap-1 items-center">
+        <p className="text-lg">
           {`#${proposalId} `}
           {details && details?.title}
           {proposal?.['proposalType'] === 'DOCS' && 'Update Docs'}
-        </Text>
-        <Tag>{proposal?.['proposalType']}</Tag>
-      </Box>
+        </p>
+        <Badge>{proposal?.['proposalType']}</Badge>
+      </div>
       <InfoBar proposer={proposal?.['proposer']} />
-      <Box
-        position="relative"
-        display="flex"
-        alignItems={'flex-start'}
-        justifyContent="center"
-        flexDirection={{
-          xs: 'column',
-          md: 'row',
-        }}
-      >
-        <Box width="full" display={'flex'} gap="5" flexDirection="column" justifyContent={'space-between'}>
+      <div className="relative flex flex-col md:flex-row items-start justify-center">
+        <div className="w-full flex flex-col gap-5 justify-between">
           {proposal && proposal?.['proposalType'] !== 'DOCS' && (
             <Description
               type={proposal?.['proposalType']}
@@ -88,8 +73,8 @@ export default function ProposalView({ proposal }: Props) {
             />
           )}
           <Visualizer proposal={proposal} />
-        </Box>
-        <Box display="flex" gap="2" flexDirection="column">
+        </div>
+        <div className="flex flex-col gap-2">
           {proposal && (
             <InfoCard
               start={Number(proposal?.['votingStarts'])}
@@ -103,9 +88,9 @@ export default function ProposalView({ proposal }: Props) {
               quorum={Number(proposal?.['dao']?.['quorum'])}
             />
           )}
-        </Box>
-      </Box>
-      <Stack direction="horizontal">
+        </div>
+      </div>
+      <div className="flex flex-row gap-2">
         <Vote proposal={proposal} />
         {proposal?.['sponsored'] == false &&
           (address?.toLowerCase() === proposal?.['proposer'] ? (
@@ -117,10 +102,8 @@ export default function ProposalView({ proposal }: Props) {
           <>
             <Process chainId={Number(chainId)} dao={dao as string} proposalId={proposal?.serial} />
             <Button
-              variant="secondary"
-              tone="red"
-              size="small"
-              prefix={<IconClose />}
+              variant="outline"
+              size="sm"
               onClick={() =>
                 router.push(
                   `/daos/${encodeURIComponent(chainId as string)}/${encodeURIComponent(
@@ -129,11 +112,12 @@ export default function ProposalView({ proposal }: Props) {
                 )
               }
             >
+              <X className="w-4 h-4 mr-2" />
               Delete
             </Button>
           </>
         )}
-      </Stack>
-    </Box>
+      </div>
+    </Card>
   )
 }

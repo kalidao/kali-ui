@@ -1,6 +1,8 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { Box, Stack, Button, Text, IconDuplicate } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Card, CardContent } from '@components/ui/card'
+import { Copy } from 'lucide-react'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'
@@ -28,7 +30,7 @@ export default function CallShell({
   }
 
   return (
-    <Stack>
+    <div className="space-y-4">
       {calls.map((call, i) => (
         <CallCard
           key={call.account}
@@ -39,7 +41,7 @@ export default function CallShell({
           dao={dao}
         />
       ))}
-    </Stack>
+    </div>
   )
 }
 
@@ -60,58 +62,55 @@ const CallCard = ({
   const params = createParams(account, chainId, decoded)
 
   return (
-    <Stack>
-      <Text>
-        This will interact with an external contract. You can review the contract{' '}
-        <a target="_blank" rel="noopener noreferrer" href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}>
-          here
-        </a>
-        .
-      </Text>
-      <Stack>
+    <Card>
+      <CardContent className="p-4 space-y-4">
+        <p className="text-sm">
+          This will interact with an external contract. You can review the contract{' '}
+          <a
+            className="text-blue-500 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={getExplorerLink(chainId, ExplorerType.ADDRESS, account)}
+          >
+            here
+          </a>
+          .
+        </p>
         {decoded && decoded != 'none' && (
-          <Stack>
-            <Text weight="bold">{decoded['type']}</Text>
-            <Stack>
-              <Stack direction="horizontal" align="center" justify={'space-between'}>
-                <Text>Function</Text>
-                <Text weight="semiBold">{decoded['tx']['name']}</Text>
-              </Stack>
+          <div className="space-y-2">
+            <h3 className="font-bold">{decoded['type']}</h3>
+            <div className="space-y-1">
+              <div className="flex justify-between">
+                <span>Function</span>
+                <span className="font-semibold">{decoded['tx']['name']}</span>
+              </div>
               {params &&
                 params.map((param, index) => (
-                  <Stack key={index} direction="horizontal" align="center" justify={'space-between'}>
-                    <Text>{param['name']}</Text>
-                    <Text weight="semiBold">{param['value']}</Text>
-                  </Stack>
+                  <div key={index} className="flex justify-between">
+                    <span>{param['name']}</span>
+                    <span className="font-semibold">{param['value']}</span>
+                  </div>
                 ))}
-              <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-                <Text>value (native)</Text>
-                <Text>{ethers.utils.formatEther(amount)}</Text>
-              </Stack>
-            </Stack>
-          </Stack>
+              <div className="flex justify-between">
+                <span>value (native)</span>
+                <span>{ethers.utils.formatEther(amount)}</span>
+              </div>
+            </div>
+          </div>
         )}
         {payload != '0x' && (
-          <Stack>
-            <Stack direction={'horizontal'} align="center" justify={'space-between'}>
-              <Text>Payload</Text>
-              <Button size="small" variant="transparent" onClick={() => navigator.clipboard.writeText(payload)}>
-                <IconDuplicate />
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span>Payload</span>
+              <Button variant="ghost" size="sm" onClick={() => navigator.clipboard.writeText(payload)}>
+                <Copy className="h-4 w-4" />
               </Button>
-            </Stack>
-            <Box
-              borderRadius={'medium'}
-              backgroundColor="backgroundTertiary"
-              color="text"
-              padding="2"
-              wordBreak="break-word"
-            >
-              {payload}
-            </Box>
-          </Stack>
+            </div>
+            <div className="bg-gray-100 rounded p-2 break-words text-sm">{payload}</div>
+          </div>
         )}
-      </Stack>
-    </Stack>
+      </CardContent>
+    </Card>
   )
 }
 

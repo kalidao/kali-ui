@@ -1,5 +1,5 @@
 import { getProvider } from '@utils/getProvider'
-import create from 'zustand'
+import { create } from 'zustand'
 import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { erc20ABI } from 'wagmi'

@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Box, Stack, Button, Skeleton, IconPencil } from '@kalidao/reality'
 import { useRouter } from 'next/router'
+import { Button } from '@components/ui/button'
+import { Pencil } from 'lucide-react'
 import Card from '@components/dao-dashboard/timeline/Card'
 import { ethers } from 'ethers'
-import { container, timeline } from './proposals.css'
 import { useGetProposals } from '@graph/queries/getProposals'
 
 const Proposals = () => {
@@ -12,9 +12,8 @@ const Proposals = () => {
   const { dao, chainId } = router.query
   const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
 
-  // console.log('proposals', proposals)
   const [show, setShow] = useState(5)
-  // filtering out cancelled proposals
+
   const memoizedProposals = useMemo(
     () =>
       data
@@ -24,8 +23,8 @@ const Proposals = () => {
   )
 
   return (
-    <Box className={container}>
-      <Stack direction="horizontal" align="center" justify="flex-end">
+    <div className="container mx-auto p-4">
+      <div className="flex justify-end mb-4">
         <Link
           href={{
             pathname: '/daos/[chainId]/[dao]/propose',
@@ -36,26 +35,29 @@ const Proposals = () => {
           }}
           passHref
         >
-          <Button prefix={<IconPencil />} as="a">
-            New Proposal
+          <Button asChild>
+            <a className="flex items-center">
+              <Pencil className="mr-2 h-4 w-4" />
+              New Proposal
+            </a>
           </Button>
         </Link>
-      </Stack>
-      <Skeleton>
-        <Box className={timeline}>
-          {memoizedProposals && (
-            <>
-              {memoizedProposals.slice(0, show).map((proposal: { [x: string]: any }) => (
-                <Card key={proposal['id']} proposal={proposal} />
-              ))}
-            </>
-          )}
-        </Box>
-      </Skeleton>
-      <Button variant="transparent" onClick={() => setShow(show + 5)}>
-        View More
-      </Button>
-    </Box>
+      </div>
+      <div className="space-y-4">
+        {memoizedProposals && (
+          <>
+            {memoizedProposals.slice(0, show).map((proposal: { [x: string]: any }) => (
+              <Card key={proposal['id']} proposal={proposal} />
+            ))}
+          </>
+        )}
+      </div>
+      <div className="mt-4">
+        <Button variant="outline" onClick={() => setShow(show + 5)}>
+          View More
+        </Button>
+      </div>
+    </div>
   )
 }
 

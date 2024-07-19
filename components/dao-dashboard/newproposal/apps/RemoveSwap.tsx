@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
-import { Select } from '@design/Select'
-import { Stack, Input, Text, Button, FieldSet, Textarea, Checkbox } from '@kalidao/reality'
-import FileUploader from '@components/tools/FileUpload'
+import { useContract, useSigner } from 'wagmi'
+import { Checkbox } from '@components/ui/checkbox'
+import { Button } from '@components/ui/button'
+import { Alert, AlertDescription } from '@components/ui/alert'
+import { ArrowLeft } from 'lucide-react'
 import KALIDAO_ABI from '@abi/KaliDAO.json'
-import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
 import { addresses } from '@constants/addresses'
-import { Warning } from '@design/elements'
-import { fetchEnsAddress } from '@utils/fetchEnsAddress'
 import { AddressZero } from '@ethersproject/constants'
-import Back from '@design/proposal/Back'
-import { createProposal } from '../utils/'
-import Editor from '@components/editor'
+import { createProposal } from '../utils/createProposal'
 import { ProposalProps } from '../utils/types'
-import { DateInput } from '@design/DateInput'
-import { JSONContent } from '@tiptap/react'
 
 export default function RemoveSwap({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -24,13 +18,11 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
   const chainId = Number(router.query.chainId)
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
-
   const kalidao = useContract({
-    address: daoAddress as `0xstring`,
+    address: daoAddress as `0x${string}`,
     abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
-
   const [toggleConfirm, setToggleConfirm] = useState(false)
   const [warning, setWarning] = useState<string>()
   const [status, setStatus] = useState<string>()
@@ -38,7 +30,6 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
   const submit = async () => {
     setStatus('Creating proposal...')
     if (toggleConfirm === false) return
-
     setStatus('Creating proposal metadata...')
     let docs
     try {
@@ -47,7 +38,6 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
       console.error(e)
       return
     }
-
     setStatus('Encoding swap details...')
     let payload
     try {
@@ -62,20 +52,18 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
       console.log(e)
       return
     }
-
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [1], [payload])
-
     setStatus('Creating proposal...')
     try {
       if (kalidao) {
         const tx = await kalidao.propose(
-         9, // EXTENSION prop
-         docs,
-         [crowdsaleAddress],
-         [1],
-         [payload],
-       )
-       console.log('tx', tx)
+          9, // EXTENSION prop
+          docs,
+          [crowdsaleAddress],
+          [1],
+          [payload],
+        )
+        console.log('tx', tx)
       } else {
         console.log('kalidao is undefined')
       }
@@ -86,26 +74,31 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
   }
 
   return (
-    <FieldSet
-      legend="Swap"
-      description="Please confirm and submit this removal proposal to remove current Swap."
-    >
-
-      <Checkbox
-        size="small"
-        // checked={toggleConfirm}
-        onCheckedChange={() => setToggleConfirm(!toggleConfirm)}
-        label={
-          <Text>Confirm to submit this Swap removal proposal</Text>
-        }
-      />
-      {warning && <Warning warning={warning} />}
-      <Stack align="center" justify={'space-between'} direction="horizontal">
-        <Back onClick={() => setProposal?.('appsMenu')} />
-        <Button width={'full'} onClick={submit}>
-          {status ? status : 'Remove Swap'}
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <h2 className="text-lg font-semibold">Swap</h2>
+        <p className="text-sm text-gray-500">Please confirm and submit this removal proposal to remove current Swap.</p>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Checkbox id="confirm" checked={toggleConfirm} onCheckedChange={() => setToggleConfirm(!toggleConfirm)} />
+        <label
+          htmlFor="confirm"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Confirm to submit this Swap removal proposal
+        </label>
+      </div>
+      {warning && (
+        <Alert variant="destructive">
+          <AlertDescription>{warning}</AlertDescription>
+        </Alert>
+      )}
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={() => setProposal?.('appsMenu')}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
-      </Stack>
-    </FieldSet>
+        <Button onClick={submit}>{status ? status : 'Remove Swap'}</Button>
+      </div>
+    </div>
   )
 }

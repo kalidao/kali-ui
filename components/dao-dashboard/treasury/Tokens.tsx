@@ -1,9 +1,12 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { Skeleton, Text, Stack, Avatar } from '@kalidao/reality'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
+import { Card, CardContent } from '@components/ui/card'
+import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
+import { Coins } from 'lucide-react'
+
 export default function Tokens() {
   const router = useRouter()
   const address = router.query.dao
@@ -24,9 +27,9 @@ export default function Tokens() {
 
   console.log('token', data)
   return (
-    <Stack>
+    <div className="space-y-4">
       {data && data.error === true ? (
-        'There was an error fetching tokens.'
+        <p className="text-red-500">There was an error fetching tokens.</p>
       ) : data?.data?.items?.length > 0 ? (
         data?.data?.items?.map((token: any) => (
           <TokenCard
@@ -40,21 +43,9 @@ export default function Tokens() {
           />
         ))
       ) : (
-        <Text>here are no Tokens in this DAO ☹️</Text>
+        <p className="text-gray-500">There are no Tokens in this DAO ☹️</p>
       )}
-      {/* {isFetched &&
-        data.length > 0
-          ? data.map((token: any) => (
-              <TokenCard
-                key={token.contract_address}
-                name={token?.token?.name}
-                symbol={token?.token?.symbol}
-                logo_url={token?.token?.thumbnail}
-                balance={token?.value}
-              />
-            ))
-          : 'There are no Tokens in this DAO :('} */}
-    </Stack>
+    </div>
   )
 }
 
@@ -69,15 +60,28 @@ type TokenProps = {
 
 function TokenCard({ name, symbol, logo_url, balance, decimals }: TokenProps) {
   return (
-    <Stack direction="horizontal" align="center" justify="space-between">
-      <Stack direction="horizontal" align="center">
-        {logo_url != null && <Avatar src={logo_url} label="Token LOGO" />}
-        <Text>{name}</Text>
-      </Stack>
-      <Stack direction="horizontal">
-        <Text weight="bold">{Number(ethers.utils.formatUnits(balance, decimals)).toFixed(2)}</Text>
-        <Text>{symbol}</Text>
-      </Stack>
-    </Stack>
+    <Card>
+      <CardContent className="p-4 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          {logo_url ? (
+            <Avatar>
+              <AvatarImage src={logo_url} alt={`${name} logo`} />
+              <AvatarFallback>{symbol}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <Avatar>
+              <AvatarFallback>
+                <Coins className="h-4 w-4" />
+              </AvatarFallback>
+            </Avatar>
+          )}
+          <span className="font-medium">{name}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="font-bold">{Number(ethers.utils.formatUnits(balance, decimals)).toFixed(2)}</span>
+          <span>{symbol}</span>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

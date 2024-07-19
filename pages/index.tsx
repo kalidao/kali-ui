@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/layout'
-import { Stack, Box, Button, IconPencil, IconGrid } from '@kalidao/reality'
+import { Button } from '@components/ui/button'
+import { Pencil } from 'lucide-react'
 import UserDAOs from '@components/home/UserDAOs'
 import FAQ from '@components/home/FAQ'
-import * as styles from '@design/landing.css'
 import { useAccount, useEnsName } from 'wagmi'
 import Balancer from 'react-wrap-balancer'
 
@@ -21,15 +21,9 @@ const HomePage: NextPage = () => {
 
   useEffect(() => {
     router.prefetch('/create')
-  })
-
-  useEffect(() => {
     router.prefetch('/')
-  })
-
-  useEffect(() => {
     router.prefetch('/explore')
-  })
+  }, [router])
 
   const goTo = (to: string) => {
     setLoading(true)
@@ -44,25 +38,37 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout heading="Home" content="Create or join a Kali DAO.">
-      <Box className={styles.container}>
-        <Stack space="12">
-          <Box>
-            <h1 className={styles.heading}>
-              <Balancer>A fully-formed governance stack for your community.</Balancer>
-            </h1>
-          </Box>
-          <Box display="flex" gap="2">
-            <Button prefix={<IconPencil />} variant="primary" onClick={() => goTo('create')} loading={loading}>
-              Create
+      <div className="container mx-auto px-4 py-12 space-y-24">
+        <div className="text-center space-y-12">
+          <h1 className="text-primary-foreground text-5xl font-bold leading-tight">
+            <Balancer>A fully-formed governance stack for your community.</Balancer>
+          </h1>
+          <p className="text-xl text-secondary-foreground max-w-2xl mx-auto">
+            <Balancer>Empower your community with decentralized decision-making and transparent governance.</Balancer>
+          </p>
+          <div className="pt-8 w-full flex items-center justify-center">
+            <Button
+              onClick={() => goTo('create')}
+              disabled={loading}
+              size="lg"
+              className="flex items-center gap-2 text-lg px-8 py-4"
+            >
+              <Pencil className="h-5 w-5" />
+              Create Your DAO
             </Button>
-            <Button prefix={<IconGrid />} variant="secondary" onClick={() => goTo('explore')}>
-              Explore
-            </Button>
-          </Box>
-        </Stack>
-      </Box>
-      {isConnected && <UserDAOs address={address && (address as string)} />}
-      <FAQ />
+          </div>
+        </div>
+
+        {isConnected && (
+          <div className="py-8">
+            <UserDAOs address={address as string} />
+          </div>
+        )}
+
+        <div className="py-8">
+          <FAQ />
+        </div>
+      </div>
     </Layout>
   )
 }

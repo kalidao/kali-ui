@@ -2,66 +2,68 @@ import React from 'react'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import updateAction from './updateAction'
 import { useForm } from 'react-hook-form'
-import { Stack, Button, FieldSet } from '@kalidao/reality'
-import Switch from '@design/Switch'
-import { DateInput } from '@design/DateInput'
+import { Button } from '@components/ui/button'
+import { Switch } from '@components/ui/switch'
+import { DatePicker } from '@components/ui/date-picker'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
 }
 
-// TODO: Add grace period
 export default function Redemption({ setStep }: Props) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
-  const { control, watch, handleSubmit, setValue } = useForm<GlobalState>()
+  const { watch, handleSubmit, setValue } = useForm<GlobalState>()
   const watchRedemption = watch('redemption', state.redemption)
 
   const onPrevious = (data: GlobalState) => {
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(0)
-    } else {
-      setStep(1)
-    }
+    setStep(hardMode ? 1 : 0)
   }
 
   const onNext = (data: GlobalState) => {
     actions.updateAction(data)
-
-    if (!hardMode) {
-      setStep(4)
-    } else {
-      setStep(3)
-    }
+    setStep(hardMode ? 3 : 4)
   }
 
   return (
-    <FieldSet legend="Redemption">
-      <Switch
-        label="Add Redemption"
-        control={control}
-        name="redemption"
-        value="redemption"
-        defaultValue={state.redemption}
-        onValueChange={(value: boolean) => setValue('redemption', value)}
-      />
-      {watchRedemption && (
-        <DateInput
-          label="Start Date"
-          defaultValue={state['redemptionStart']}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue('redemptionStart', e.target.value)}
-        />
-      )}
-      <Stack direction={'horizontal'} align="center" justify={'flex-end'}>
-        <Button variant="transparent" onClick={handleSubmit(onPrevious)}>
-          Previous
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Redemption</h2>
+      <div className="space-y-4">
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="redemption"
+            checked={watchRedemption}
+            onCheckedChange={(checked) => setValue('redemption', checked)}
+          />
+          <label
+            htmlFor="redemption"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Add Redemption
+          </label>
+        </div>
+        {watchRedemption && (
+          <div className="space-y-2">
+            <label htmlFor="redemptionStart" className="text-sm font-medium leading-none">
+              Start Date
+            </label>
+            <DatePicker
+              date={state.redemptionStart ? new Date(state.redemptionStart) : undefined}
+              setDate={(date) => setValue('redemptionStart', date.toISOString())}
+            />
+          </div>
+        )}
+      </div>
+      <div className="flex justify-end space-x-2">
+        <Button variant="outline" onClick={handleSubmit(onPrevious)}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Previous
         </Button>
-        <Button variant="primary" type="submit" onClick={handleSubmit(onNext)}>
-          Next
+        <Button onClick={handleSubmit(onNext)}>
+          Next <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
-      </Stack>
-    </FieldSet>
+      </div>
+    </div>
   )
 }
