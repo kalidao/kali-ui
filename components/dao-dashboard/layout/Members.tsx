@@ -20,14 +20,13 @@ const Members = () => {
       enabled: !!chainId && !!dao,
     },
   )
-  const info = data?.data?.daos?.[0]
 
   const list = useMemo(
     () =>
-      info?.members
+      data?.members
         ?.sort((a: { shares: number }, b: { shares: number }) => b.shares - a.shares)
         .filter((p: { shares: number }) => p.shares > 0),
-    [info],
+    [data],
   )
 
   if (isLoading) return <Loader2 className="animate-spin" />
@@ -41,7 +40,7 @@ const Members = () => {
           <CardContent>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold">Members</h2>
-              <Badge variant="secondary">{list?.length}</Badge>
+              <Badge variant="secondary">{data?.members?.length}</Badge>
             </div>
             <div className="space-y-4">
               {list?.slice(0, 3)?.map((member: any) => (

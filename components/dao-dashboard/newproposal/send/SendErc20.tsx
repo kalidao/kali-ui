@@ -115,7 +115,7 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Send ERC20 tokens</h2>
-        <p className="text-gray-500">Send ERC20 tokens from {daoName} treasury</p>
+        <p className="text-gray-500">{`Send ERC20 tokens from ${daoName} treasury`}</p>
         <Select onValueChange={(value) => setType(value)} defaultValue={type}>
           <SelectTrigger>
             <SelectValue placeholder="Select asset" />

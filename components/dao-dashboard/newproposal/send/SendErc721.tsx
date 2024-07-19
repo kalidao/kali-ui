@@ -85,7 +85,7 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
 
   return (
     <div className="space-y-4">
-      <p className="text-lg font-semibold">Send an ERC721 from {daoName} treasury</p>
+      <p className="text-lg font-semibold">{`Send an ERC721 from ${daoName} treasury`}</p>
 
       <div className="space-y-2">
         <Label htmlFor="contractAddress">ERC721 Contract Address</Label>

@@ -16,13 +16,13 @@ export default function Engagement() {
 
   const fetchData = useCallback(async () => {
     const proposals = await getProposals(daoChain, daoAddress)
-    const members = await getMembers(daoChain, daoAddress)
+    const { members } = await getMembers(daoChain, daoAddress)
 
     let passedCount = 0
     let failedCount = 0
     let pendingCount = 0
 
-    for (const proposal of proposals.data.daos[0].proposals) {
+    for (const proposal of proposals) {
       if (proposal.status === null) {
         pendingCount++
       } else if (proposal.status) {
@@ -39,8 +39,8 @@ export default function Engagement() {
     let votedCount = 0
     let didNotVoteCount = 0
 
-    for (const member of members.data.daos[0].members) {
-      for (const proposal of proposals.data.daos[0].proposals) {
+    for (const member of members) {
+      for (const proposal of proposals) {
         if (proposal.status !== null) {
           const found = proposal.votes.some((vote) => vote.voter === member.address.toLowerCase())
           if (found) {

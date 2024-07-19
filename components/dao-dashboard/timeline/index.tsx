@@ -76,7 +76,7 @@ export default function Timeline() {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>We could not find any proposals for {name}.</CardTitle>
+              <CardTitle>{`We could not find any proposals for ${name}.`}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="break-words">

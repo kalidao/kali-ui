@@ -113,7 +113,7 @@ export function UpdateSupermajority() {
               onChange={(e) => setSupermajority(Number(e.target.value))}
             />
             <p className="text-sm text-gray-500">
-              Current approval percentage: {currentSupermajority ? currentSupermajority : 'Fetching...'}%
+              {`Current approval percentage: ${currentSupermajority ? currentSupermajority : 'Fetching...'}%`}
             </p>
           </div>
           {warning && (

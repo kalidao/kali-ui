@@ -14,46 +14,41 @@ type ProcessedFiles = Array<[string, File]>
 const pinataSDK = require('@pinata/sdk')
 const pinata = pinataSDK(process.env.PINATA_KEY, process.env.PINATA_SECRET)
 
-export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
-  let status = 200,
-    resultBody = { status: 'ok', message: 'Files were uploaded successfully' }
-
-  const files = await new Promise<ProcessedFiles | undefined>((resolve, reject) => {
-    const form = new formidable.IncomingForm()
-    const files: ProcessedFiles = []
-    form.on('file', function (field, file) {
-      files.push([field, file])
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const files = await new Promise<ProcessedFiles>((resolve, reject) => {
+      const form = new formidable.IncomingForm()
+      const files: ProcessedFiles = []
+      form.on('file', function (field, file) {
+        files.push([field, file])
+      })
+      form.on('end', () => resolve(files))
+      form.on('error', (err) => reject(err))
+      form.parse(req, () => {
+        //
+      })
     })
-    form.on('end', () => resolve(files))
-    form.on('error', (err) => reject(err))
-    form.parse(_req, () => {
-      //
-    })
-  }).catch((e) => {
-    status = 500
-    resultBody = {
-      status: 'fail',
-      message: 'Upload error',
-    }
-  })
 
-  if (files?.length) {
-    for (const file of files) {
-      const readableStreamForFile = fs.createReadStream(file[1].filepath)
-      pinata
-        .pinFileToIPFS(readableStreamForFile, pinataOptions)
-        .then((result: any) => {
-          //handle results here
-          status = 200
-          resultBody = result
-          return res.status(status).json(resultBody)
-        })
-        .catch((e: any) => {
-          //handle error here
-          status = 500
-          resultBody = e
-          return res.status(status).json(resultBody)
-        })
+    if (files.length === 0) {
+      return res.status(400).json({ status: 'fail', message: 'No files were uploaded' })
     }
+
+    const results = await Promise.all(
+      files.map(async (file) => {
+        const readableStreamForFile = fs.createReadStream(file[1].filepath)
+        try {
+          const result = await pinata.pinFileToIPFS(readableStreamForFile, pinataOptions)
+          return result
+        } catch (error) {
+          console.error('Error pinning file to IPFS:', error)
+          throw error
+        }
+      }),
+    )
+
+    return res.status(200).json({ status: 'ok', message: 'Files were uploaded successfully', results })
+  } catch (error) {
+    console.error('Upload error:', error)
+    return res.status(500).json({ status: 'fail', message: 'Upload error', error: error.message })
   }
 }

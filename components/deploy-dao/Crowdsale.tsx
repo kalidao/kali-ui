@@ -2,7 +2,7 @@ import React from 'react'
 import { GlobalState, useStateMachine } from 'little-state-machine'
 import { useForm } from 'react-hook-form'
 import updateAction from './updateAction'
-import { Select } from '@components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Switch } from '@components/ui/switch'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
@@ -125,8 +125,8 @@ export default function Crowdsale({ setStep }: Props) {
             <PopoverContent className="w-auto p-0">
               <Calendar
                 mode="single"
-                selected={state.crowdsaleEnd}
-                onSelect={(date) => setValue('crowdsaleEnd', date)}
+                selected={state.crowdsaleEnd ? new Date(state.crowdsaleEnd) : undefined}
+                onSelect={(date) => setValue('crowdsaleEnd', date?.toString() || '')}
                 initialFocus
               />
             </PopoverContent>

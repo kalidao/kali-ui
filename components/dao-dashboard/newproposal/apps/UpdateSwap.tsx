@@ -18,6 +18,7 @@ import { createProposal } from '@components/dao-dashboard/newproposal/utils/crea
 import Editor from '@components/editor'
 import { ProposalProps } from '../utils/types'
 import { createSwapDetails } from './createSwapDetails'
+import { JSONContent } from '@tiptap/react'
 
 export default function UpdateSwap({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
   })
 
   // form states
-  const [background, setBackground] = useState()
+  const [background, setBackground] = useState<JSONContent>()
   const [purchaseAsset, setPurchaseAsset] = useState('select')
   const [customToken, setCustomToken] = useState('')
   const [purchaseAccess, setPurchaseAccess] = useState('select')
@@ -54,7 +55,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
   const [purchaseMultiplier, setPurchaseMultiplier] = useState('1')
   const [totalLimit, setTotalLimit] = useState(0)
   const [personalLimit, setPersonalLimit] = useState(0)
-  const [terms, setTerms] = useState()
+  const [terms, setTerms] = useState<File>()
   const [crowdsaleEnd, setCrowdsaleEnd] = useState('')
   const [warning, setWarning] = useState('')
   const [isRecorded, setIsRecorded] = useState(false)
@@ -291,7 +292,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
 
       <Editor label="Why should I swap?" description="Give users a reason to swap." setContent={setBackground} />
 
-      <Select onValueChange={(value) => setPurchaseAsset(value)}>
+      <Select onValueChange={(value: string) => setPurchaseAsset(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select token to swap" />
         </SelectTrigger>

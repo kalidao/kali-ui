@@ -65,7 +65,7 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     <div className="space-y-6">
       <fieldset className="space-y-4">
         <legend className="text-lg font-semibold">Send Ether</legend>
-        <p className="text-sm text-gray-500">Send Ether from {daoName} treasury</p>
+        <p className="text-sm text-gray-500">{`Send Ether from ${daoName} treasury`}</p>
         <Input
           placeholder={AddressZero}
           value={recipient}

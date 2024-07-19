@@ -55,7 +55,7 @@ export default function FAQ() {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col items-center gap-4 lg:w-3/4">
-        <h2 className="text-2xl font-bold">
+        <h2 className="text-2xl text-foreground font-bold">
           <Balancer>FAQs</Balancer>
         </h2>
         <Accordion type="multiple" className="w-full">

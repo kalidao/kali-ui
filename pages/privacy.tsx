@@ -1,10 +1,10 @@
 import ReactMarkdown from 'react-markdown'
 import Layout from '../components/layout'
 import { privacy } from '../constants/privacy'
-import { useThemeStore } from '@components/hooks/useThemeStore'
+import { useTheme } from 'next-themes'
 
 export default function Privacy() {
-  const mode = useThemeStore((state) => state.mode)
+  const { theme: mode } = useTheme()
   return (
     <Layout heading="KaliCo Privacy Policy" content="The terms contained here define our relationship with each other.">
       <div>

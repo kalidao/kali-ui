@@ -40,10 +40,10 @@ const HomePage: NextPage = () => {
     <Layout heading="Home" content="Create or join a Kali DAO.">
       <div className="container mx-auto px-4 py-12 space-y-24">
         <div className="text-center space-y-12">
-          <h1 className="text-5xl font-bold leading-tight">
+          <h1 className="text-primary-foreground text-5xl font-bold leading-tight">
             <Balancer>A fully-formed governance stack for your community.</Balancer>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-secondary-foreground max-w-2xl mx-auto">
             <Balancer>Empower your community with decentralized decision-making and transparent governance.</Balancer>
           </p>
           <div className="pt-8 w-full flex items-center justify-center">

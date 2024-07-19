@@ -1,7 +1,29 @@
 import { GRAPH_URL } from '../url'
 import { useQuery } from '@tanstack/react-query'
 
-export const getProposals = async (chainId: number, address: string) => {
+interface Proposal {
+  id: string
+  serial: number
+  proposer: string
+  proposalType: string
+  description: string
+  sponsor: string
+  sponsored: boolean
+  cancelled: boolean
+  status: string
+  votes: {
+    voter: string
+    vote: string
+    weight: number
+  }[]
+  creationTime: number
+  votingStarts: number
+  dao: {
+    votingPeriod: number
+  }
+}
+
+export const getProposals = async (chainId: number, address: string): Promise<Proposal[]> => {
   const dao = address.toLowerCase()
   try {
     const res = await fetch(GRAPH_URL[chainId], {
@@ -9,8 +31,8 @@ export const getProposals = async (chainId: number, address: string) => {
       body: JSON.stringify({
         query: `query {
           proposals(
-            first: 1000, 
-            orderBy: serial, 
+            first: 1000,
+            orderBy: serial,
             orderDirection: desc
             where: {dao: "${dao}"}) {
               id

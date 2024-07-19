@@ -16,6 +16,7 @@ import { ThemeProvider } from '@components/theme-provider'
 import { Provider as AnkrProvider } from 'ankr-react'
 import { Toaster } from './ui/toaster'
 import { useTheme } from 'next-themes'
+import { getRainbowTheme } from '@utils/getRainbowTheme'
 
 const ANKR_API_KEY = process.env.NEXT_PUBLIC_ANKR_API_KEY!
 
@@ -78,7 +79,7 @@ export function RootProviders({ children }: RootProvidersProps) {
       <QueryClientProvider client={queryClient}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider
-            theme={theme === 'light' ? lightTheme() : darkTheme()}
+            theme={getRainbowTheme(theme)}
             coolMode
             chains={chains}
             appInfo={appInfo}

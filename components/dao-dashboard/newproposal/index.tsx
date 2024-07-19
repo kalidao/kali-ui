@@ -2,12 +2,14 @@ import { useState } from 'react'
 import ProposalsMenu from './ProposalsMenu'
 import { MembersMenu, AddMember, RemoveMember } from './members'
 import { SendMenu, SendErc20, SendErc721, SendEth } from './send'
-import { CallContract, ToggleTransfer, UpdateQuorum, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
+import { CallContract, UpdateVotingPeriod, UpdateDocs, InternalMenu } from './internal'
 import { AppsMenu, SetRedemption } from './apps'
 import SetSwap from './apps/SetSwap'
 import SetDataRoom from './apps/SetDataRoom'
 import UpdateSwap from './apps/UpdateSwap'
 import RemoveSwap from './apps/RemoveSwap'
+import { ToggleTransfer } from './internal/ToggleTransfer'
+import { UpdateQuorum } from './internal/UpdateQuorum'
 
 type Props = {
   proposalProp: string

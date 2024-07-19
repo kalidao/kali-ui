@@ -14,7 +14,7 @@ type Props = {
 export default function Redemption({ setStep }: Props) {
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
-  const { control, watch, handleSubmit, setValue } = useForm<GlobalState>()
+  const { watch, handleSubmit, setValue } = useForm<GlobalState>()
   const watchRedemption = watch('redemption', state.redemption)
 
   const onPrevious = (data: GlobalState) => {
@@ -50,9 +50,8 @@ export default function Redemption({ setStep }: Props) {
               Start Date
             </label>
             <DatePicker
-              id="redemptionStart"
-              selected={state.redemptionStart}
-              onSelect={(date) => setValue('redemptionStart', date)}
+              date={state.redemptionStart ? new Date(state.redemptionStart) : undefined}
+              setDate={(date) => setValue('redemptionStart', date.toISOString())}
             />
           </div>
         )}

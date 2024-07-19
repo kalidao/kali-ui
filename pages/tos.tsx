@@ -1,10 +1,10 @@
 import ReactMarkdown from 'react-markdown'
 import Layout from '../components/layout'
 import { tos } from '../constants/tos'
-import { useThemeStore } from '@components/hooks/useThemeStore'
+import { useTheme } from 'next-themes'
 
 export default function ToS() {
-  const mode = useThemeStore((state) => state.mode)
+  const { theme: mode } = useTheme()
   return (
     <Layout
       heading="KaliCo Terms of Service"

@@ -93,7 +93,6 @@ export function UpdateQuorum() {
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
-              label="Title"
               name="id"
               required
               maxLength={30}
@@ -106,7 +105,6 @@ export function UpdateQuorum() {
 
           <div>
             <Input
-              label="Participation"
               name="amount"
               type="number"
               inputMode="decimal"
@@ -116,7 +114,7 @@ export function UpdateQuorum() {
               onChange={(e) => setQuorum(Number(e.currentTarget.value))}
             />
             <p className="text-sm text-gray-500 mt-1">
-              Current participation percentage: {currentQuorum ? currentQuorum : 'Fetching...'}%
+              {`Current participation percentage: ${currentQuorum ? currentQuorum : 'Fetching...'}%`}
             </p>
           </div>
 
