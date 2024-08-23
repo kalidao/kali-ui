@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
 import { Warning } from '@components/ui/warning'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { AddressZero } from '@ethersproject/constants'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { Button } from '@components/ui/button'

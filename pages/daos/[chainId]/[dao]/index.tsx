@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Layout from '@components/dao-dashboard/layout'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { Address } from 'viem'
 import DAO_ABI from '@abi/KaliDAO.json'
 import Timeline from '@components/dao-dashboard/timeline'
@@ -9,7 +9,7 @@ import Timeline from '@components/dao-dashboard/timeline'
 const DashboardPage: NextPage = () => {
   const router = useRouter()
   const { chainId, dao } = router.query
-  const { data } = useContractRead({
+  const { data } = useReadContract({
     address: dao as Address,
     abi: DAO_ABI,
     functionName: 'name',

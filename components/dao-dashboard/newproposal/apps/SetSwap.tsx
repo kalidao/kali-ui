@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useReadContract, useSigner } from 'wagmi'
 import { Input } from '@components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
@@ -12,7 +12,7 @@ import { cn } from '@utils/util'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon, ArrowLeft } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
 import { addresses } from '@constants/addresses'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
@@ -32,7 +32,7 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
-  const { data: kalidaoToken } = useContractRead({
+  const { data: kalidaoToken } = useReadContract({
     address: daoAddress as `0x${string}`,
     abi: KALIDAO_ABI,
     functionName: 'symbol',

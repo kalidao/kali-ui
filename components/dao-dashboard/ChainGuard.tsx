@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import { useRouter } from 'next/router'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Button } from '@components/ui/button'
@@ -13,8 +13,8 @@ type Props = {
 export default function ChainGuard({ fallback, children }: Props) {
   const router = useRouter()
   const daoChainId = Number(router.query.chainId)
-  const { chain: userChain } = useNetwork()
-  const { chains, switchNetwork } = useSwitchNetwork()
+  const { chain: userChain } = useAccount()
+  const { chains, switchChain } = useSwitchChain()
 
   const daoChainName = chains?.find((chain) => chain.id == daoChainId)?.name
   const isWrongChain = userChain?.id != daoChainId
@@ -50,7 +50,7 @@ export default function ChainGuard({ fallback, children }: Props) {
           transaction to this DAO.
         </AlertDescription>
         {fallback || (
-          <Button variant="outline" onClick={() => switchNetwork?.(daoChainId)}>
+          <Button variant="outline" onClick={() => switchChain?.({ chainId: daoChainId })}>
             Switch Network
           </Button>
         )}

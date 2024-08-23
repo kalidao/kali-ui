@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useContractWrite } from 'wagmi'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { ArrowLeft } from 'lucide-react'
@@ -14,7 +14,7 @@ import { AddressZero } from '@ethersproject/constants'
 export default function SendEth({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: daoName } = useContractRead({
+  const { data: daoName } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'name',

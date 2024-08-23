@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useContractWrite } from 'wagmi'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import { ethers } from 'ethers'
@@ -8,7 +8,7 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { votingPeriodToSeconds, formatVotingPeriod } from '@utils/votingPeriod'
 import Editor from '@components/editor'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
@@ -42,7 +42,7 @@ export function UpdateVotingPeriod() {
     },
   })
 
-  const { data: votingPeriod } = useContractRead({
+  const { data: votingPeriod } = useReadContract({
     address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'votingPeriod',

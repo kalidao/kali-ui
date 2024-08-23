@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import DATAROOM_ABI from '@abi/DataRoom.json'
@@ -24,7 +24,7 @@ const DataRoom: NextPage = () => {
 
   const [file, setFile] = useState<Data[]>()
 
-  const { data: room } = useContractRead({
+  const { data: room } = useReadContract({
     address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
     abi: DATAROOM_ABI,
     chainId: chainId,

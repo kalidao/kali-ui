@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useAccount, useNetwork, useContractWrite, erc20ABI, useContractRead } from 'wagmi'
+import { useAccount, useNetwork, useContractWrite, erc20ABI, useReadContract } from 'wagmi'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { AddressZero } from '@ethersproject/constants'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { tokens } from '@constants/tokens'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
@@ -17,7 +17,7 @@ import { ArrowLeft } from 'lucide-react'
 export default function SendErc20({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: daoName } = useContractRead({
+  const { data: daoName } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'name',
@@ -45,7 +45,7 @@ export default function SendErc20({ setProposal, title, content }: ProposalProps
   const [amount, setAmount] = useState('1')
   const [tokenAddress, setTokenAddress] = useState(AddressZero)
 
-  const { data: tokenDecimals } = useContractRead({
+  const { data: tokenDecimals } = useReadContract({
     address: tokenAddress as `0xstring`,
     abi: erc20ABI,
     functionName: 'decimals',

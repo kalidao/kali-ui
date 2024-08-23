@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useContractWrite } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
@@ -21,7 +21,7 @@ export function UpdateQuorum() {
   const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
 
-  const { data: currentQuorum } = useContractRead({
+  const { data: currentQuorum } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: DAO_ABI,
     functionName: 'quorum',

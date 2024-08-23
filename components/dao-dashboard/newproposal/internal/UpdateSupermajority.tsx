@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useContractWrite } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
@@ -21,7 +21,7 @@ export function UpdateSupermajority() {
   const [title, setTitle] = useState<string>()
   const [warning, setWarning] = useState<string>()
 
-  const { data: currentSupermajority } = useContractRead({
+  const { data: currentSupermajority } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: DAO_ABI,
     functionName: 'supermajority',

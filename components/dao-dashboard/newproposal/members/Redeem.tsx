@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { BigNumber, ethers } from 'ethers'
-import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
+import { useAccount, useContractWrite, useBalance, useReadContract } from 'wagmi'
 import { useForm } from 'react-hook-form'
 
 import { AddressZero } from '@ethersproject/constants'
 
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
 import { addresses } from '@constants/addresses'
 
@@ -25,13 +25,13 @@ export default function Redeem() {
     abi: KALIDAO_ABI,
     functionName: 'callExtension',
   })
-  const { data: symbol, isLoading: isSymbolLoading } = useContractRead({
+  const { data: symbol, isLoading: isSymbolLoading } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
-  const { data: starts, isLoading: isStartLoading } = useContractRead({
+  const { data: starts, isLoading: isStartLoading } = useReadContract({
     address: chainId ? (addresses[Number(chainId)]['extensions']['redemption'] as `0xstring`) : AddressZero,
     abi: REDEMPTION_ABI,
     functionName: 'redemptionStarts',

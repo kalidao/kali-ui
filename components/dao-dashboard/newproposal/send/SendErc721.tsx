@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useContractRead, useSigner, erc721ABI, useContractWrite } from 'wagmi'
+import { useReadContract, useSigner, erc721ABI, useContractWrite } from 'wagmi'
 import { ethers } from 'ethers'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { useRouter } from 'next/router'
 import { isHolder } from '@utils/isHolder'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
@@ -15,7 +15,7 @@ import { AlertTriangle } from 'lucide-react'
 export default function SendErc721({ setProposal, title, content }: ProposalProps) {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: daoName } = useContractRead({
+  const { data: daoName } = useReadContract({
     address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'name',

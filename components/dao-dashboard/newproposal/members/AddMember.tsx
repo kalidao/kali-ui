@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useContractWrite } from 'wagmi'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { useRouter } from 'next/router'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { AddressZero } from '@ethersproject/constants'

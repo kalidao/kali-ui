@@ -13,16 +13,17 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { Link } from 'lucide-react'
+import { NFT } from 'hooks/use-nfts'
 
-export default function NftCard({ nft }: { nft: any }) {
-  const url = wrapprUrl(nft.tokenUri)
+export default function NftCard({ nft }: { nft: NFT }) {
+  const url = wrapprUrl(nft.tokenUrl)
   const { data, isError } = useQuery(['nftMetadata', nft], () => fetcher(url), {
-    enabled: !!nft.tokenUri,
+    enabled: !!nft.tokenUrl,
   })
 
   if (isError) return <p className="text-red-500">An error has occurred.</p>
   if (!data) return <Spinner />
-  console.log('nft', data)
+
   return (
     <Dialog>
       <DialogTrigger asChild>

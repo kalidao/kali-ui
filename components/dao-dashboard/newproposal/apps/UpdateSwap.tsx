@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
+import { erc20ABI, useContract, useReadContract, useSigner } from 'wagmi'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { Textarea } from '@components/ui/textarea'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
 import { addresses } from '@constants/addresses'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
@@ -27,7 +27,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
   const { data: signer } = useSigner()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
-  const { data: kalidaoToken } = useContractRead({
+  const { data: kalidaoToken } = useReadContract({
     address: daoAddress as `0xstring`,
     abi: KALIDAO_ABI,
     functionName: 'symbol',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useContract, useContractRead, useSigner } from 'wagmi'
+import { useContract, useReadContract, useSigner } from 'wagmi'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '@components/ui/alert'
 import { Separator } from '@components/ui/separator'
 import { Link } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import { uploadFile } from '@utils/ipfs'
@@ -26,7 +26,7 @@ export function UpdateDocs() {
     abi: KALIDAO_ABI,
     signerOrProvider: signer,
   })
-  const { data, isLoading: isFetchingDocs } = useContractRead({
+  const { data, isLoading: isFetchingDocs } = useReadContract({
     address: daoAddress as `0x${string}`,
     abi: KALIDAO_ABI,
     functionName: 'docs',

@@ -6,7 +6,7 @@ import { Button } from '@components/ui/button'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { Card, CardHeader, CardTitle, CardContent } from '@components/ui/card'
 import { Skeleton } from '@components/ui/skeleton'
@@ -15,7 +15,7 @@ import { cn } from '@utils/util'
 export default function Timeline() {
   const router = useRouter()
   const { dao, chainId } = router.query
-  const { data: name } = useContractRead({
+  const { data: name } = useReadContract({
     address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
     abi: DAO_ABI,
     functionName: 'name',

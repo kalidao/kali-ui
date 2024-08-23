@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useContractWrite, useContractRead } from 'wagmi'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { useContractWrite, useReadContract } from 'wagmi'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { useRouter } from 'next/router'
 import { AddressZero } from '@ethersproject/constants'
 import Editor from '@components/editor'
@@ -40,7 +40,7 @@ export function ToggleTransfer() {
       setLoading(false)
     },
   })
-  const { data: paused } = useContractRead({
+  const { data: paused } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: KALIDAO_ABI,
     functionName: 'paused',

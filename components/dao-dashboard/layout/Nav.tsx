@@ -1,34 +1,31 @@
 import { Coins, FileStack, Cog, BookOpen } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { addresses } from '@constants/addresses'
-import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
-import DATAROOM_ABI from '@abi/DataRoom.json'
-import { AddressZero } from '@ethersproject/constants'
 import Wrappr from './Wrappr'
 import { cn } from '@utils/util'
 import { Card } from '@components/ui/card'
 
-const Nav = ({ address, chainId }: DashboardElementProps) => {
+export default function Nav({ address, chainId }: DashboardElementProps) {
   const router = useRouter()
-  const { data: swap } = useContractRead({
-    address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
-    abi: SWAP_ABI,
-    chainId: chainId,
-    functionName: 'crowdsales',
-    args: [address],
-  })
-
-  const { data: haveRoom } = useContractRead({
-    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
-    abi: DATAROOM_ABI,
-    chainId: chainId,
-    functionName: 'authorized',
-    args: [address, address],
-  })
-
+  const { data: swap } = useReadContract()
+  //   {
+  //   address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
+  //   abi: SWAP_ABI,
+  //   chainId: chainId,
+  //   functionName: 'crowdsales',
+  //   args: [address],
+  // }
+  const { data: haveRoom } = useReadContract()
+  // {
+  //   address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
+  //   abi: DATAROOM_ABI,
+  //   chainId: chainId,
+  //   functionName: 'authorized',
+  //   args: [address, address],
+  // }
   const items = [
     {
       id: 0,
@@ -101,5 +98,3 @@ const NavCard = ({ title, href, icon, active }: NavCardProps) => {
     </Link>
   )
 }
-
-export default Nav

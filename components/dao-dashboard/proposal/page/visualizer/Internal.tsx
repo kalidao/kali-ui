@@ -1,5 +1,5 @@
 import { AddressZero } from '@ethersproject/constants'
-import { useContractRead } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import DAO_ABI from '@abi/KaliDAO.json'
 import { formatVotingPeriod } from '@utils/votingPeriod'
 import { Button } from '@components/ui/button'
@@ -18,14 +18,14 @@ export default function Internal({
   dao?: string
   chainId?: number
 }) {
-  const { data: pause } = useContractRead({
+  const { data: pause } = useReadContract({
     address: dao ? (dao as `0xstring`) : AddressZero,
     abi: DAO_ABI,
     functionName: 'paused',
     chainId: chainId,
     enabled: type === 'PAUSE',
   })
-  const { data: votingPeriod } = useContractRead({
+  const { data: votingPeriod } = useReadContract({
     address: dao ? (dao.toString() as `0xstring`) : AddressZero,
     abi: DAO_ABI,
     functionName: 'votingPeriod',
