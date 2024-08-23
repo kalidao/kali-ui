@@ -1,6 +1,7 @@
 import React from 'react'
 import NftCard from './NftCard'
 import { Spinner } from '@components/ui/spinner'
+import { Address } from 'viem'
 
 interface NFTsProps {
   address: Address

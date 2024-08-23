@@ -18,12 +18,6 @@ import { Toaster } from './ui/toaster'
 import { useTheme } from 'next-themes'
 import { getRainbowTheme } from '@utils/getRainbowTheme'
 
-const ANKR_API_KEY = process.env.NEXT_PUBLIC_ANKR_API_KEY!
-
-if (!ANKR_API_KEY) {
-  throw new Error('Missing ANKR_API_KEY')
-}
-
 const queryClient = new QueryClient()
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -85,7 +79,7 @@ export function RootProviders({ children }: RootProvidersProps) {
             appInfo={appInfo}
             modalSize="compact"
           >
-            <AnkrProvider apiKey={ANKR_API_KEY}>
+            <AnkrProvider apiKey={process.env.NEXT_PUBLIC_ANKR_API_KEY}>
               {children}
               <Toaster />
             </AnkrProvider>

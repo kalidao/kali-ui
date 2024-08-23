@@ -31,7 +31,7 @@ export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: s
     <div className="w-full grid grid-cols-1 gap-3 p-3 bg-background">
       {display && (
         <div className="w-full px-12 py-6 flex flex-row items-center justify-between">
-          <h2 className="text-2xl font-bold">{label}</h2>
+          <h2 className="text-2xl font-bold text-foreground">{label}</h2>
           <div className="flex items-center space-x-2">
             <Search daos={daos as any[]} setDisplay={setDisplay} />
             <Button variant="outline" size="icon" onClick={reset} className="rounded-full">

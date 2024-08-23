@@ -23,7 +23,7 @@ const Custom404: NextPage = () => {
           <p>
             Go back to safety of{' '}
             <Link href="/">
-              <span className="text-black hover:text-violet-500 underline">homepage</span>
+              <span className="text-foreground hover:text-violet-500 underline">homepage</span>
             </Link>
             .
           </p>

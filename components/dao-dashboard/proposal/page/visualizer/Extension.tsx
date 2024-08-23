@@ -88,11 +88,11 @@ const resolveValueRender = (value: any, display: string, chainId: number): React
               {item.key == 'goalDescription' ? (
                 <ReactMarkdown
                   components={{
-                    h1: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
-                    p: ({ node, ...props }) => <p className="text-black dark:text-white" {...props} />,
-                    li: ({ node, ...props }) => <li className="text-black dark:text-white" {...props} />,
-                    em: ({ node, ...props }) => <i className="text-black dark:text-white" {...props} />,
+                    h1: ({ node, ...props }) => <h2 className="text-foreground" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-foreground" {...props} />,
+                    p: ({ node, ...props }) => <p className="text-foreground" {...props} />,
+                    li: ({ node, ...props }) => <li className="text-foreground" {...props} />,
+                    em: ({ node, ...props }) => <i className="text-foreground" {...props} />,
                   }}
                 >
                   {item.value}
