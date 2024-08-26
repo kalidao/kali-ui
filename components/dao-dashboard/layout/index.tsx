@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import Head from 'next/head'
 import Footer from '@components/dao-dashboard/layout/Footer'
 import Members from '@components/dao-dashboard/layout/Members'
@@ -6,6 +6,7 @@ import Profile from '@components/dao-dashboard/layout/Profile'
 import Treasury from '@components/dao-dashboard/layout/Treasury'
 import Header from '@components/layout/Header'
 import Nav from '@components/dao-dashboard/layout/Nav'
+import { Address } from 'viem'
 
 type Props = {
   title: string
@@ -14,8 +15,10 @@ type Props = {
 }
 
 const DashboardLayout = ({ title, content, children }: Props) => {
-  const router = useRouter()
-  const { chainId, dao } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao
+
   const heading = `Kali | ${title}`
 
   return (
@@ -37,9 +40,9 @@ const DashboardLayout = ({ title, content, children }: Props) => {
         <div>
           <div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-2 p-1">
-              <Profile address={dao as string} chainId={Number(chainId)} />
-              <Nav address={dao as string} chainId={Number(chainId)} />
-              <Treasury address={dao as string} chainId={Number(chainId)} />
+              <Profile address={dao!} chainId={Number(chainId)} />
+              <Nav address={dao!} chainId={Number(chainId)} />
+              <Treasury address={dao!} chainId={Number(chainId)} />
               <Members />
             </div>
             <div>{children}</div>

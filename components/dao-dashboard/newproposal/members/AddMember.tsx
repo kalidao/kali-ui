@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { useContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { KALIDAO_ABI } from '@abi/KaliDAO'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
-import { AddressZero } from '@ethersproject/constants'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { ethers } from 'ethers'
 import { Back } from '@components/ui/back'
@@ -14,6 +13,7 @@ import { X, UserPlus } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
+import { Address, parseEther, zeroAddress } from 'viem'
 
 interface FormData {
   members: { address: string; share: string }[]
@@ -21,12 +21,15 @@ interface FormData {
 
 export default function AddMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const [loading, setLoading] = useState(false)
   // form
   const { register, control, handleSubmit } = useForm<FormData>({
     defaultValues: {
-      members: [{ address: ethers.constants.AddressZero, share: '1000' }],
+      members: [{ address: zeroAddress, share: '1000' }],
     },
   })
   const { fields, append, remove } = useFieldArray({
@@ -56,26 +59,10 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
     return true
   }
 
-  const {
-    isSuccess: isProposeSuccess,
-    isError: isProposeError,
-    error: proposeError,
-    isLoading: isProposePending,
-    write: propose,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao as `0xstring`,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-    onSuccess: async () => {
-      await setTimeout(() => {
-        router.push(`/daos/${chainId}/${dao}/`)
-      }, 35000)
-    },
-  })
+  const { writeContractAsync } = useWriteContract()
 
   const submit = async (data: FormData) => {
-    if (!propose || !dao || !chainId) return // wallet not ready to submit on chain
+    if (!writeContractAsync || !dao || !chainId) return // wallet not ready to submit on chain
     setLoading(true)
     const validated = await validateData(data)
 
@@ -92,16 +79,20 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
       return
     }
 
-    const recipients = data.members.map((member) => member.address)
-    const shares = data.members.map((member) => ethers.utils.parseEther(member.share.toString()))
-    const payloads = data.members.map((member) => AddressZero)
+    const recipients = data.members.map((member) => member.address as Address)
+    const shares = data.members.map((member) => parseEther(member.share.toString()))
+    const payloads = data.members.map((member) => zeroAddress)
     console.log('minting', recipients, shares)
     if (docs) {
       try {
-        const tx = await propose({
-          recklesslySetUnpreparedArgs: [0, docs, recipients, shares, payloads],
+        const tx = await writeContractAsync({
+          address: dao as `0x${string}`,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [0, docs, recipients, shares, payloads],
         })
         console.log('tx', tx)
+        router.push(`/daos/${chainId}/${dao}/`)
       } catch (e) {
         console.log('error', e)
       }
@@ -167,16 +158,11 @@ export default function AddMember({ setProposal, content, title }: ProposalProps
       <div className="flex justify-between">
         <Back onClick={() => setProposal?.('membersMenu')} />
         <ChainGuard fallback={<Button>Submit</Button>}>
-          <Button onClick={handleSubmit(submit)} disabled={!propose || isProposePending || isProposeSuccess}>
-            {isProposePending ? 'Submitting...' : 'Submit'}
+          <Button onClick={handleSubmit(submit)} disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
           </Button>
         </ChainGuard>
       </div>
-      <p className="text-sm text-gray-500">
-        {isProposeSuccess
-          ? 'Proposal submitted on chain!'
-          : isProposeError && `Error submitting proposal: ${proposeError}`}
-      </p>
     </div>
   )
 }

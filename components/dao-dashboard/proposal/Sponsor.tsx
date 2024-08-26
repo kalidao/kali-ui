@@ -1,39 +1,36 @@
-import { useRouter } from 'next/router'
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { Button } from '@components/ui/button'
-import { Loader2 } from 'lucide-react'
-import DAO_ABI from '@abi/KaliDAO.json'
-import { ethers } from 'ethers'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
+import { useParams } from 'next/navigation'
+import { Address } from 'viem'
 
 export default function Sponsor({ proposalId }: { proposalId: number }) {
-  const router = useRouter()
-  const { dao, chainId } = router.query
-  const { config } = usePrepareContractWrite({
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
-    abi: DAO_ABI,
-    functionName: 'sponsorProposal',
-    chainId: Number(chainId),
-    args: [proposalId],
-  })
-  const { write, isLoading } = useContractWrite(config)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
+  const { writeContractAsync } = useWriteContract()
+
+  const handleSponsor = async () => {
+    if (!dao || !chainId) return
+    try {
+      await writeContractAsync({
+        address: dao as `0x${string}`,
+        abi: KALIDAO_ABI,
+        functionName: 'sponsorProposal',
+        chainId: Number(chainId),
+        args: [BigInt(proposalId)],
+      })
+    } catch (error) {
+      console.error('Failed to sponsor proposal:', error)
+    }
+  }
 
   return (
     <ChainGuard fallback={<Button className="bg-green-500 hover:bg-green-600 text-white">Sponsor</Button>}>
-      <Button
-        size="sm"
-        className="bg-green-500 hover:bg-green-600 text-white"
-        onClick={() => write?.()}
-        disabled={!write || isLoading}
-      >
-        {isLoading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Sponsoring...
-          </>
-        ) : (
-          'Sponsor'
-        )}
+      <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white" onClick={handleSponsor}>
+        Sponsor
       </Button>
     </ChainGuard>
   )

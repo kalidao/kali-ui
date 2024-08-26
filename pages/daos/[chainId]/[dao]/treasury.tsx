@@ -5,13 +5,14 @@ import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
 import { Tokens, NFTs } from '@components/dao-dashboard/treasury'
 import { Coins, ImageIcon } from 'lucide-react'
-import { zeroAddress } from 'viem'
-import { useRouter } from 'next/router'
+import { Address } from 'viem'
+import { useParams, useRouter } from 'next/navigation'
 
 const Treasury: NextPage = () => {
   const router = useRouter()
-  const daoAddress = router.query.dao ? (router.query.dao as string) : zeroAddress
-  const chainId = Number(router.query.chainId)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao as Address
 
   const [show, setShow] = useState('tokens')
 

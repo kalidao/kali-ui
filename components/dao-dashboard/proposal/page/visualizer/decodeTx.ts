@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { erc20ABI, erc721ABI } from 'wagmi'
+import { erc20Abi, erc721Abi } from 'viem'
 
 const decodeTx = (payload: string, value: string) => {
   console.log('payload {} value {}', payload, value)
@@ -22,8 +22,8 @@ const decodeTx = (payload: string, value: string) => {
 }
 
 const contracts = [
-  { type: 'ERC20', abi: erc20ABI },
-  { type: 'ERC721', abi: erc721ABI },
+  { type: 'ERC20', abi: erc20Abi },
+  { type: 'ERC721', abi: erc721Abi },
 ]
 
 export default decodeTx

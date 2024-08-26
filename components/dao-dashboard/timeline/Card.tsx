@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
@@ -8,6 +8,7 @@ import Description from '../proposal/page/Description'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { Badge } from '@components/ui/badge'
+import { Address } from 'viem'
 
 type Status = {
   text: string
@@ -21,8 +22,10 @@ type PropCardProp = {
 }
 
 export default function ProposalCard({ proposal }: PropCardProp) {
-  const router = useRouter()
-  const { chainId, dao } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const ensName = useEnsName({
     address: proposal['proposer'],
     chainId: 1,
@@ -100,7 +103,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
           pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
           query: {
             dao: dao as string,
-            chainId: chainId as string,
+            chainId: chainId,
             proposalId: proposal?.serial,
           },
         }}

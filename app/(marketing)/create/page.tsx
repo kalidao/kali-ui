@@ -1,7 +1,7 @@
+'use client'
 import React, { useEffect } from 'react'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import Layout from '@components/layout'
+import { useRouter } from 'next/navigation'
 import DeployDaoWrapper from '@components/deploy-dao'
 import { Back } from '@components/ui/back'
 
@@ -17,14 +17,12 @@ const CreatePage: NextPage = () => {
   }
 
   return (
-    <Layout heading="Create" content="Create a Kali DAO.">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-4">
-          <Back onClick={goto} />
-        </div>
-        <DeployDaoWrapper />
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-4">
+        <Back onClick={goto} />
       </div>
-    </Layout>
+      <DeployDaoWrapper />
+    </div>
   )
 }
 

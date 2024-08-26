@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     // "strict": true,
@@ -16,16 +20,43 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@public/*": ["public/*"],
-      "@components/*": ["components/*"],
-      "@utils/*": ["utils/*"],
-      "@constants/*": ["constants/*"],
-      "@graph/*": ["graph/*"],
-      "@abi/*": ["abi/*"],
-      "@design/*": ["styles/*"]
+      "@public/*": [
+        "public/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@constants/*": [
+        "constants/*"
+      ],
+      "@graph/*": [
+        "graph/*"
+      ],
+      "@abi/*": [
+        "abi/*"
+      ],
+      "@design/*": [
+        "styles/*"
+      ]
     },
-    "strict": false
+    "strict": false,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

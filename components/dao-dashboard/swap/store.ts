@@ -1,11 +1,11 @@
 import { getProvider } from '@utils/getProvider'
 import { create } from 'zustand'
-import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
-import DAO_ABI from '@abi/KaliDAO.json'
-import { erc20ABI } from 'wagmi'
+import { SWAP_ABI } from '@abi/KaliDAOcrowdsaleV2'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { erc20Abi } from 'viem'
 import { ethers, BigNumber } from 'ethers'
 import { addresses } from '@constants/addresses'
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress } from 'viem'
 import { convertIpfsHash } from '@utils/convertIpfsHash'
 
 interface SwapState {
@@ -76,7 +76,7 @@ export const useSwapStore = create<SwapState>((set) => ({
   },
   setUser: async (tokenAddress, address, chainId) => {
     console.log('setUser', tokenAddress, address, chainId)
-    if (tokenAddress == AddressZero || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+    if (tokenAddress == zeroAddress || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
       try {
         const provider = getProvider(chainId)
         const balance = await provider.getBalance(address)
@@ -89,7 +89,7 @@ export const useSwapStore = create<SwapState>((set) => ({
     }
     console.log('setUser token', tokenAddress, address, chainId)
     const provider = getProvider(chainId)
-    const contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
+    const contract = new ethers.Contract(tokenAddress, erc20Abi, provider)
     const balance = await contract.balanceOf(address)
     console.log('balance', balance)
     set({ user: { address: address, tokenBalance: balance } })
@@ -102,7 +102,7 @@ export const useSwapStore = create<SwapState>((set) => ({
   },
   setDAO: async (address, chainId) => {
     const provider = getProvider(chainId)
-    const contract = new ethers.Contract(address, DAO_ABI, provider)
+    const contract = new ethers.Contract(address, KALIDAO_ABI, provider)
     const name = await contract.name()
     const symbol = await contract.symbol()
     const decimals = await contract.decimals()
@@ -116,13 +116,13 @@ export const useSwapStore = create<SwapState>((set) => ({
     approved: false,
   },
   setToken: async (address, chainId) => {
-    if (address == AddressZero || address.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+    if (address == zeroAddress || address.toLowerCase() == '0x000000000000000000000000000000000000dead') {
       set({ token: { address, name: 'Ether', symbol: 'ETH', decimals: 18 } })
       return
     }
 
     const provider = getProvider(chainId)
-    const contract = new ethers.Contract(address, erc20ABI, provider)
+    const contract = new ethers.Contract(address, erc20Abi, provider)
     const name = await contract.name()
     const symbol = await contract.symbol()
     const decimals = await contract.decimals()
@@ -131,13 +131,13 @@ export const useSwapStore = create<SwapState>((set) => ({
   },
   approved: false,
   setApproved: async (userAddress, tokenAddress, swapAddress, chainId) => {
-    if (tokenAddress == AddressZero || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
+    if (tokenAddress == zeroAddress || tokenAddress.toLowerCase() == '0x000000000000000000000000000000000000dead') {
       set({ approved: true })
       return
     }
 
     const provider = getProvider(chainId)
-    const contract = new ethers.Contract(tokenAddress, erc20ABI, provider)
+    const contract = new ethers.Contract(tokenAddress, erc20Abi, provider)
     const allowance = await contract.allowance(userAddress, swapAddress)
     set({ approved: allowance > BigNumber.from(0) })
   },

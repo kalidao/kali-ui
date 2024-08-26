@@ -1,4 +1,6 @@
+import { Address } from 'viem'
+
 export type DashboardElementProps = {
-  address: string
+  address: Address
   chainId: number
 }

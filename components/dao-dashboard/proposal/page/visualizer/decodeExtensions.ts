@@ -1,9 +1,9 @@
 import { ethers } from 'ethers'
 import { addresses } from '@constants/addresses'
 import { unixToDate } from '@utils/time'
-import { fetchSymbol } from '@utils/fetchSymbol'
 import { extensionsHelper } from '@constants/extensions'
 import { fetchTokenDecimals } from '@utils/fetchTokenDecimals'
+import { zeroAddress } from 'viem'
 
 const decodeExtensions = async (dao: string, address: string, payload: string, chainId: number) => {
   const extensions = addresses[chainId]['extensions']
@@ -14,7 +14,7 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
         const decoded = ethers.utils.defaultAbiCoder.decode(extensionsHelper[key]['types'], payload)
         let tokenAddress = decoded.length > 3 ? decoded[2] : decoded
         if (decoded) {
-          let values = []
+          let values: { label: string; value: any; display: string }[] = []
           let multiplier
           let decimals
           for (let i = 0; i < extensionsHelper[key]['types'].length; i++) {
@@ -42,7 +42,7 @@ const decodeExtensions = async (dao: string, address: string, payload: string, c
               value = Number(ethers.utils.formatEther(value)).toFixed(0).toString()
             }
             if (extensionsHelper[key]['display'][i] === 'token') {
-              if (value == ethers.constants.AddressZero) {
+              if (value == zeroAddress) {
                 value = 'ETH'
               } else {
                 console.log('hello', value)

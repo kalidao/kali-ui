@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { useReadContract, useContractWrite } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
-import { useRouter } from 'next/router'
-import { AddressZero } from '@ethersproject/constants'
+import { useReadContract, useWriteContract } from 'wagmi'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { useParams } from 'next/navigation'
 import Editor from '@components/editor'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
@@ -13,31 +12,23 @@ import { Alert, AlertDescription } from '@components/ui/alert'
 import { AlertCircle } from 'lucide-react'
 import { JSONContent } from '@tiptap/react'
 import { Label } from '@components/ui/label'
+import { Address, zeroAddress } from 'viem'
 
 export function UpdateQuorum() {
-  const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
 
   const [content, setContent] = useState<JSONContent>()
   const [title, setTitle] = useState<string>()
 
   const { data: currentQuorum } = useReadContract({
-    address: dao ? (dao as `0xstring`) : AddressZero,
-    abi: DAO_ABI,
+    address: dao ? dao : zeroAddress,
+    abi: KALIDAO_ABI,
     functionName: 'quorum',
     chainId: Number(chainId),
   })
-  const {
-    isSuccess: isProposeSuccess,
-    isError: isProposeError,
-    isLoading: isProposePending,
-    write: propose,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao ? (dao as `0xstring`) : AddressZero,
-    abi: DAO_ABI,
-    functionName: 'propose',
-  })
+  const { writeContractAsync } = useWriteContract()
 
   // form
   const [quorum, setQuorum] = useState<number>()
@@ -45,7 +36,7 @@ export function UpdateQuorum() {
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
-    if (!propose || !dao || !chainId || !title) return
+    if (!writeContractAsync || !dao || !chainId || !title) return
     if (quorum === 0) {
       setWarning('Participation must be greater than 0')
       return
@@ -60,17 +51,20 @@ export function UpdateQuorum() {
       return
     }
 
-    console.log('Proposal Params - ', 5, docs, [AddressZero], [quorum], [Array(0)])
+    console.log('Proposal Params - ', 5, docs, [zeroAddress], [quorum], [Array(0)])
 
     if (quorum) {
       try {
-        const tx = propose({
-          recklesslySetUnpreparedArgs: [
+        const tx = await writeContractAsync({
+          address: dao ? dao : zeroAddress,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [
             5, // QUORUM prop
             docs,
-            [AddressZero],
-            [quorum],
-            [Array(0)],
+            [zeroAddress],
+            [BigInt(quorum)],
+            [],
           ],
         })
         console.log('tx', tx)
@@ -127,12 +121,8 @@ export function UpdateQuorum() {
 
           <div className="flex justify-between items-center">
             <ChainGuard fallback={<Button>Submit</Button>}>
-              <Button onClick={submit} disabled={!propose || isProposePending || isProposeSuccess}>
-                {isProposePending ? 'Submitting...' : 'Submit'}
-              </Button>
-              <p className="text-sm">
-                {isProposeSuccess ? 'Proposal submitted on chain!' : isProposeError && `Error submitting proposal`}
-              </p>
+              <Button onClick={submit}>Submit</Button>
+              <p className="text-sm"></p>
             </ChainGuard>
           </div>
         </div>

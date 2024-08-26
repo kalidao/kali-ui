@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { Escape } from '@components/dao-dashboard/newproposal/internal'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import Editor from '@components/editor'
 import { NextPage } from 'next'
 import { Input } from '@components/ui/input'
@@ -10,10 +10,14 @@ import { Card } from '@components/ui/card'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { JSONContent } from '@tiptap/react'
+import { Address } from 'viem'
 
 const DeleteProposalPage: NextPage = () => {
   const router = useRouter()
-  const { chainId, dao, proposalId } = router.query
+  const params = useParams<{ chainId: string; dao: Address; proposalId: string }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+  const proposalId = params ? Number(params.proposalId) : 0
   const [title, setTitle] = useState('')
   const [content, setContent] = useState<JSONContent>()
 

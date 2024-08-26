@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
+import { zeroAddress } from 'viem'
 import { useGetAllUserDaos } from '@graph/queries/getAllUserDaos'
 import { Button } from '@components/ui/button'
 import { RefreshCw } from 'lucide-react'
@@ -8,11 +8,7 @@ import Search from './Search'
 
 export default function UserDAOs({ address, label = 'Your DAOs' }: { address?: string; label?: string }) {
   const [display, setDisplay] = useState<any[]>([])
-  const {
-    data: daos,
-    isSuccess,
-    refetch,
-  } = useGetAllUserDaos(address ? (address as string) : ethers.constants.AddressZero)
+  const { data: daos, isSuccess, refetch } = useGetAllUserDaos(address ? (address as string) : zeroAddress)
 
   useEffect(() => {
     if (isSuccess && daos) {

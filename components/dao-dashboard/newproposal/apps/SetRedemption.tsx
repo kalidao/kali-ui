@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
@@ -19,20 +19,17 @@ import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { ProposalProps } from '../utils/types'
 import { getRedemptionTokens } from '@utils/getRedemptionTokens'
 import { createProposal } from '../utils/createProposal'
+import { Address } from 'viem'
 
 export default function SetRedemption({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const daoChainId = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const daoChainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
+
   const redemptionAddress = addresses[daoChainId]['extensions']['redemption']
   const tokenArray = getRedemptionTokens(daoChainId)
 
-  const kalidao = useContract({
-    address: daoAddress,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
+  const { writeContract } = useWriteContract()
 
   const [redemptionStart, setRedemptionStart] = useState<Date>()
   const [toggleRedemption, setToggleRedemption] = useState<boolean>(false)
@@ -41,7 +38,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
   const { data: redemptionStatus } = useQuery(
     ['redemptionStatus'],
     async () => {
-      const status = await fetchExtensionStatus(Number(daoChainId), daoAddress, redemptionAddress)
+      const status = await fetchExtensionStatus(Number(daoChainId), daoAddress!, redemptionAddress)
       return status ? 'Active' : 'Inactive'
     },
     {
@@ -70,7 +67,7 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
 
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 9, title, content)
+      docs = await createProposal(daoAddress!, daoChainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -86,14 +83,12 @@ export default function SetRedemption({ setProposal, title, content }: ProposalP
     )
 
     try {
-      const tx = await kalidao?.propose(
-        9,
-        docs,
-        [addresses[daoChainId]['extensions']['redemption']],
-        [_toggleRedemption],
-        [payload],
-      )
-      console.log('tx', tx)
+      writeContract({
+        address: daoAddress!,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [9, docs, [addresses[daoChainId]['extensions']['redemption']], [BigInt(_toggleRedemption)], [payload]],
+      })
     } catch (e) {
       console.log('error', e)
     }

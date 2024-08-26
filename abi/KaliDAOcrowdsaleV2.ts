@@ -1,4 +1,4 @@
-[
+export const SWAP_ABI =[
 	{
 		"inputs": [
 			{
@@ -521,4 +521,4 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+] as const;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
-import { useWriteContract } from 'wagmi'
+import { useParams, useRouter } from 'next/navigation'
+import { useConfig, useWriteContract } from 'wagmi'
 import { Checkbox } from '@components/ui/checkbox'
 import { Button } from '@components/ui/button'
 import { Alert, AlertDescription } from '@components/ui/alert'
@@ -13,11 +12,15 @@ import { ProposalProps } from '../utils/types'
 import { Address, encodeAbiParameters, parseAbiParameters, zeroAddress } from 'viem'
 
 export default function RemoveSwap({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const chainId = Number(router.query.chainId)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
+
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
-  const { writeContractAsync } = useWriteContract()
+  const config = useConfig()
+  const { writeContractAsync } = useWriteContract({
+    config,
+  })
   const [toggleConfirm, setToggleConfirm] = useState(false)
   const [warning, setWarning] = useState<string>()
   const [status, setStatus] = useState<string>()
@@ -40,11 +43,7 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
         parseAbiParameters('uint256 a, uint8 b, address c, uint32 d, uint96 e, uint96 f, string g'),
         [0n, 1, zeroAddress, 946702800, 0n, 0n, 'none'],
       )
-      // )) ethers.utils.defaultAbiCoder
-      //   payload = abiCoder.encode(
-      //     ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-      //     [0, 1, zeroAddress, 946702800, 0, 0, 'none'],
-      //   )
+
       console.log(payload)
     } catch (e) {
       setWarning('Error formatting crowdsale setExtension() parameters.')

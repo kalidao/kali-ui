@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import ALL_CHAINS from '@constants/chains.json'
 import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 import { Card } from '@components/ui/card'

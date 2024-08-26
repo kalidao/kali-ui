@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { useReadContract, useSigner, erc721ABI, useContractWrite } from 'wagmi'
-import { ethers } from 'ethers'
+import { useReadContract, useWriteContract } from 'wagmi'
 import { KALIDAO_ABI } from '@abi/KaliDAO'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { isHolder } from '@utils/isHolder'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
@@ -11,35 +10,28 @@ import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
 import { Alert, AlertDescription } from '@components/ui/alert'
 import { AlertTriangle } from 'lucide-react'
+import { Address, encodeFunctionData, erc721Abi, zeroAddress } from 'viem'
 
 export default function SendErc721({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const { data: daoName } = useReadContract({
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    address: dao ? (dao as `0xstring`) : zeroAddress,
     abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
-  const { data: signer } = useSigner()
-
-  const {
-    write: propose,
-    isLoading: isProposalLoading,
-    isSuccess: isProposalSuccess,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-    chainId: Number(chainId),
-  })
+  const { writeContractAsync } = useWriteContract()
 
   // form
   const [tokenAddress, setTokenAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
   const [recipient, setRecipient] = useState<string>()
   const [warning, setWarning] = useState<string>()
+  const [isProposalLoading, setIsProposalLoading] = useState(false)
+  const [isProposalSuccess, setIsProposalSuccess] = useState(false)
 
   // TODO: Popup to change network if on different network from DAO
   const submit = async () => {
@@ -53,8 +45,27 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
         } does not currently own this ERC721. You may not be able to process proposal.`,
       )
     }
-    let iface = new ethers.utils.Interface(erc721ABI)
-    let payload = iface.encodeFunctionData('transferFrom', [dao as string, recipient, tokenId])
+
+    if (!tokenAddress) {
+      setWarning('Please enter a valid ERC721 contract address')
+      return
+    }
+
+    if (!recipient) {
+      setWarning('Please enter a valid recipient address')
+      return
+    }
+
+    if (!tokenId) {
+      setWarning('Please enter a valid token ID')
+      return
+    }
+
+    let payload = encodeFunctionData({
+      abi: erc721Abi,
+      functionName: 'transferFrom',
+      args: [dao as Address, recipient as Address, BigInt(tokenId)],
+    })
 
     let docs
     try {
@@ -67,19 +78,26 @@ export default function SendErc721({ setProposal, title, content }: ProposalProp
     console.log('Proposal Params - ', 2, docs, [tokenAddress], [0], [payload])
 
     try {
-      console.log(signer)
-      const tx = await propose?.({
-        recklesslySetUnpreparedArgs: [
+      setIsProposalLoading(true)
+      const tx = await writeContractAsync({
+        address: dao ? (dao as `0xstring`) : zeroAddress,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [
           2, // CALL prop
           docs,
-          [tokenAddress],
-          [0],
+          [tokenAddress as Address],
+          [0n],
           [payload],
         ],
+        chainId: Number(chainId),
       })
       console.log('tx', tx)
+      setIsProposalSuccess(true)
     } catch (e) {
       console.log('error', e)
+    } finally {
+      setIsProposalLoading(false)
     }
   }
 

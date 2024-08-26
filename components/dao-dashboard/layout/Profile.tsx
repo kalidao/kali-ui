@@ -1,7 +1,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
 import { Skeleton } from '@components/ui/skeleton'
 import { ArrowRight, Link as LinkIcon } from 'lucide-react'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getDaoInfo } from '@graph/queries'
 import { DashboardElementProps } from './types'
@@ -11,7 +11,7 @@ import { Card } from '@components/ui/card'
 import { cn } from '@utils/util'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
-  const router = useRouter()
+  const pathname = usePathname()
   const { data, isLoading } = useQuery(['daoProfileInfo', chainId, address], () => getDaoInfo(chainId, address), {
     enabled: !!chainId && !!address,
   })
@@ -23,7 +23,7 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
   return (
     <Card className={cn('w-full p-6')}>
       <div className="relative w-full flex items-center justify-center">
-        {router.asPath === `/daos/${chainId}/${address}` ? null : (
+        {pathname === `/daos/${chainId}/${address}` ? null : (
           <Link href={`/daos/${chainId}/${address}/`} passHref className="absolute top-1 right-1">
             <ArrowRight className="text-gray-600 hover:text-gray-900" />
           </Link>

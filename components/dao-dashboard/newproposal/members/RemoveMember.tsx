@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
-import { useContractWrite } from 'wagmi'
-import { useRouter } from 'next/router'
+import { useWriteContract } from 'wagmi'
+import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
@@ -10,31 +9,23 @@ import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@components/ui/card'
+import { useParams } from 'next/dist/client/components/navigation'
+import { Address, parseEther, zeroAddress } from 'viem'
 
 export default function RemoveMember({ setProposal, content, title }: ProposalProps) {
   const router = useRouter()
-  const { dao, chainId } = router.query
-  const {
-    isSuccess: isProposeSuccess,
-    isError: isProposeError,
-    error: proposeError,
-    isLoading: isProposePending,
-    write: propose,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao as `0xstring`,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-    chainId: Number(chainId),
-    onSuccess: async () => {
-      await setTimeout(() => {
-        router.push(`/daos/${chainId}/${dao}/`)
-      }, 35000)
-    },
-  })
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
 
-  const [recipient, setRecipient] = useState(ethers.constants.AddressZero)
+  const { writeContractAsync } = useWriteContract()
+
+  const [recipient, setRecipient] = useState<Address>(zeroAddress)
   const [amount, setAmount] = useState(1)
+  const [isProposeSuccess, setIsProposeSuccess] = useState(false)
+  const [isProposeError, setIsProposeError] = useState(false)
+  const [proposeError, setProposeError] = useState<Error | null>(null)
+  const [isProposePending, setIsProposePending] = useState(false)
 
   const submit = async () => {
     if (!dao || !chainId) return
@@ -47,17 +38,30 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
       return
     }
 
-    console.log('Proposal Params - ', 1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)])
+    console.log('Proposal Params - ', 1, docs, [recipient], [parseEther(amount.toString())], [Array(0)])
 
     if (docs) {
       try {
-        const tx = await propose?.({
-          recklesslySetUnpreparedArgs: [1, docs, [recipient], [ethers.utils.parseEther(amount.toString())], [Array(0)]],
+        setIsProposePending(true)
+        const tx = await writeContractAsync({
+          address: dao as `0x${string}`,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [1, docs, [recipient as Address], [parseEther(amount.toString())], []],
+          chainId: Number(chainId),
         })
 
         console.log('tx', tx)
+        setIsProposeSuccess(true)
+        setTimeout(() => {
+          router.push(`/daos/${chainId}/${dao}/`)
+        }, 35000)
       } catch (e) {
         console.log('error', e)
+        setIsProposeError(true)
+        setProposeError(e as Error)
+      } finally {
+        setIsProposePending(false)
       }
     }
   }
@@ -77,7 +81,7 @@ export default function RemoveMember({ setProposal, content, title }: ProposalPr
             id="recipient"
             placeholder="Address to burn tokens from"
             value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
+            onChange={(e) => setRecipient(e.target.value as Address)}
           />
         </div>
         <div className="space-y-2">

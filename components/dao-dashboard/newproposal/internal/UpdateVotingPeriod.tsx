@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { useReadContract, useContractWrite } from 'wagmi'
-import { useRouter } from 'next/router'
-import { AddressZero } from '@ethersproject/constants'
-import { ethers } from 'ethers'
+import { useReadContract, useWriteContract } from 'wagmi'
+import { useParams, useRouter } from 'next/navigation'
 import { AlertCircle, Loader2 } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
@@ -16,11 +14,15 @@ import { JSONContent } from '@tiptap/react'
 import { Label } from '@components/ui/label'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Address, zeroAddress } from 'viem'
 
 export function UpdateVotingPeriod() {
   const router = useRouter()
 
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const [title, setTitle] = useState<string>()
   const [content, setContent] = useState<JSONContent>()
 
@@ -28,22 +30,11 @@ export function UpdateVotingPeriod() {
   const [duration, setDuration] = useState(0)
   const [warning, setWarning] = useState<string>()
   const [loading, setLoading] = useState(false)
-  const { writeAsync, isSuccess } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-    chainId: Number(chainId),
-    onSuccess: () => {
-      setTimeout(() => {
-        router.push(`/daos/${chainId}/${dao}/`)
-        setLoading(false)
-      }, 30000)
-    },
-  })
+  const [isSuccess, setIsSuccess] = useState(false)
+  const { writeContractAsync } = useWriteContract()
 
   const { data: votingPeriod } = useReadContract({
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
+    address: dao ? (dao as `0xstring`) : zeroAddress,
     abi: KALIDAO_ABI,
     functionName: 'votingPeriod',
     chainId: Number(chainId),
@@ -62,13 +53,22 @@ export function UpdateVotingPeriod() {
       return
     }
 
-    console.log('Proposal Params - ', 2, docs, [AddressZero], [seconds], [Array(0)])
+    console.log('Proposal Params - ', 2, docs, [zeroAddress], [seconds], [Array(0)])
     if (seconds) {
       try {
-        const tx = await writeAsync?.({
-          recklesslySetUnpreparedArgs: [3, docs, [AddressZero], [seconds], [Array(0)]],
+        const tx = await writeContractAsync({
+          address: dao as `0xstring`,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [3, docs, [zeroAddress], [BigInt(seconds)], []],
+          chainId: Number(chainId),
         })
         setWarning('')
+        setIsSuccess(true)
+        setTimeout(() => {
+          router.push(`/daos/${chainId}/${dao}/`)
+          setLoading(false)
+        }, 30000)
       } catch (e) {
         console.error(e)
       }

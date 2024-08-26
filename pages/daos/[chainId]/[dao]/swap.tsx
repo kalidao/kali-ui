@@ -1,6 +1,6 @@
 import Layout from '@components/dao-dashboard/layout'
-import { useRouter } from 'next/router'
-import { AddressZero } from '@ethersproject/constants'
+import { useParams, useRouter } from 'next/navigation'
+import { zeroAddress, Address } from 'viem'
 import { Approve, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
@@ -8,8 +8,10 @@ import Confetti from '@components/tools/Confetti'
 
 export default function CrowdsalePage() {
   const router = useRouter()
-  const daoAddress = router.query.dao ? (router.query.dao as string) : AddressZero
-  const chainId = Number(router.query.chainId)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao as Address
+
   const setChainId = useSwapStore((state) => state.setChainId)
   const stateChain = useSwapStore((state) => state.chainId)
   const setToken = useSwapStore((state) => state.setToken)

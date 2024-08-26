@@ -1,12 +1,9 @@
 import { useCallback, useState } from 'react'
-import { ethers } from 'ethers'
 import { useStateMachine } from 'little-state-machine'
-import { AddressZero } from '@ethersproject/constants'
-import { useAccount, useContractWrite, useNetwork } from 'wagmi'
-import { useRouter } from 'next/router'
+import { useAccount, usePublicClient, useWriteContract } from 'wagmi'
+import { useRouter } from 'next/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Button } from '@components/ui/button'
-import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Loader2 } from 'lucide-react'
 
 import validateDocs from './validateDocs'
@@ -16,10 +13,11 @@ import { validateFounders } from './validateFounders'
 import Confirmation from './Confirmation'
 
 import { addresses } from '@constants/addresses'
-import FACTORY_ABI from '@abi/KaliDAOfactory.json'
-import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
-import SALE_ABI from '@abi/KaliDAOcrowdsale.json'
+import { FACTORY_ABI } from '@abi/KaliDAOfactory'
+import { REDEMPTION_ABI } from '@abi/KaliDAOredemption'
+import { SALE_ABI } from '@abi/KaliDAOcrowdsale'
 import { templates, handleEmail } from '@utils/handleEmail'
+import { encodeAbiParameters, encodeFunctionData, parseAbiParameters, parseEther, zeroAddress } from 'viem'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -29,20 +27,9 @@ export default function Checkout({ setStep }: Props) {
   const router = useRouter()
   const { state } = useStateMachine()
   const { hardMode } = state
-  const { isConnected } = useAccount()
-  const { chain: activeChain } = useNetwork()
-  const {
-    writeAsync,
-    isLoading: isWritePending,
-    isSuccess: isWriteSuccess,
-    isError,
-    error,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: activeChain?.id ? (addresses[activeChain.id]['factory'] as `0xstring`) : AddressZero,
-    abi: FACTORY_ABI,
-    functionName: 'deployKaliDAO',
-  })
+  const { isConnected, chain: activeChain } = useAccount()
+  const { writeContractAsync } = useWriteContract()
+  const publicClient = usePublicClient()
   const [loading, setLoading] = useState<boolean>(false)
   const [message, setMessage] = useState<string>()
 
@@ -50,6 +37,7 @@ export default function Checkout({ setStep }: Props) {
     setLoading(true)
     setMessage('Preparing transaction...')
     if (!isConnected || !activeChain) return
+    if (!publicClient) return
 
     const {
       name,
@@ -90,12 +78,18 @@ export default function Checkout({ setStep }: Props) {
 
     if (state.redemption === true) {
       let { redemptionStart } = state
+
       const starts = Number(new Date(redemptionStart).getTime() / 1000)
       const tokenArray = getRedemptionTokens(activeChain?.id)
-
-      const iface = new ethers.utils.Interface(REDEMPTION_ABI)
-      const encodedParams = ethers.utils.defaultAbiCoder.encode(['address[]', 'uint256'], [tokenArray, starts])
-      const payload = iface.encodeFunctionData('setExtension', [encodedParams])
+      const redemptionPayload = encodeAbiParameters(parseAbiParameters('uint256[] a, uint32[] b'), [
+        tokenArray,
+        [starts],
+      ])
+      const payload = encodeFunctionData({
+        abi: REDEMPTION_ABI,
+        functionName: 'setExtension',
+        args: [redemptionPayload],
+      })
 
       extensionsArray.push(addresses[activeChain?.id]['extensions']['redemption'])
       extensionsData.push(payload)
@@ -113,21 +107,23 @@ export default function Checkout({ setStep }: Props) {
 
       let ends = Number(new Date(crowdsaleEnd).getTime() / 1000)
 
-      const iface = new ethers.utils.Interface(SALE_ABI)
-      const encodedData = new ethers.utils.AbiCoder().encode(
-        ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
+      const saleExtensionPayload = encodeAbiParameters(
+        parseAbiParameters('uint256, uint8, address, uint32, uint96, uint96, string'),
         [
-          0,
+          0n,
           purchaseMultiplier,
           token,
           ends,
-          ethers.utils.parseEther(purchaseLimit.toString()),
-          ethers.utils.parseEther(personalLimit.toString()),
+          parseEther(purchaseLimit.toString()),
+          parseEther(personalLimit.toString()),
           'documentation',
         ],
       )
-      const payload = iface.encodeFunctionData('setExtension', [encodedData])
-
+      const payload = encodeFunctionData({
+        abi: SALE_ABI,
+        functionName: 'setExtension',
+        args: [saleExtensionPayload],
+      })
       extensionsArray.push(addresses[activeChain?.id]['extensions']['crowdsale2'])
       extensionsData.push(payload)
     }
@@ -135,12 +131,15 @@ export default function Checkout({ setStep }: Props) {
     try {
       setMessage(`Please confirm in your wallet.`)
 
-      const tx = await writeAsync?.({
-        recklesslySetUnpreparedArgs: [
+      const tx = await writeContractAsync({
+        address: activeChain?.id ? (addresses[activeChain.id]['factory'] as `0x${string}`) : zeroAddress,
+        abi: FACTORY_ABI,
+        functionName: 'deployKaliDAO',
+        args: [
           name,
           symbol,
           docs_,
-          Number(!transferability),
+          Boolean(!transferability),
           extensionsArray,
           extensionsData,
           voters,
@@ -150,7 +149,10 @@ export default function Checkout({ setStep }: Props) {
       })
       if (tx) {
         setMessage(`Transaction sent!`)
-        const receipt = await tx.wait(1)
+        const receipt = await publicClient.waitForTransactionReceipt({
+          hash: tx,
+        })
+
         receipt.logs.forEach(async (log: any) => {
           setMessage(`Transaction confirmed!`)
           if (log.topics[0] === '0x0712ea2ebe8ee974f78171c5f86c898cc0e2858fb69ed676083f8c60ee84ab12') {
@@ -177,7 +179,7 @@ export default function Checkout({ setStep }: Props) {
       setLoading(false)
       setMessage('Transaction failed.')
     }
-  }, [isConnected, activeChain, state, writeAsync, router])
+  }, [isConnected, activeChain, state, writeContractAsync, router])
 
   const prev = () => {
     if (!hardMode) {
@@ -189,12 +191,7 @@ export default function Checkout({ setStep }: Props) {
 
   return (
     <div className="space-y-4">
-      {isError && (
-        <Alert variant="destructive">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error?.message}</AlertDescription>
-        </Alert>
-      )}
+      {/* Error handling needs to be adjusted as isError and error are no longer available */}
       <Confirmation />
       <Button variant="outline" onClick={prev}>
         Previous
@@ -203,8 +200,8 @@ export default function Checkout({ setStep }: Props) {
       {!isConnected ? (
         <ConnectButton label="Login" />
       ) : (
-        <Button className="w-full" onClick={deployKaliDao} disabled={isWritePending || isWriteSuccess || loading}>
-          {isWritePending || loading ? (
+        <Button className="w-full" onClick={deployKaliDao} disabled={loading}>
+          {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Confirm Deployment

@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import Layout from '@components/dao-dashboard/layout'
 import { useReadContract } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import Proposals from '@components/dao-dashboard/proposals/'
+import { Address } from 'viem'
 
 const ProposalsPage: NextPage = () => {
   const router = useRouter()
-  const { chainId, dao } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const { data } = useReadContract({
     address: dao as `0xstring`,
-    abi: DAO_ABI,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })

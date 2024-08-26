@@ -1,8 +1,3 @@
-const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
-const withVanillaExtract = createVanillaExtractPlugin({
-  identifiers: 'short',
-})
-
 const config = {
   reactStrictMode: true,
   images: {
@@ -19,4 +14,4 @@ const config = {
   swcMinify: true,
 }
 
-module.exports = withVanillaExtract(config)
+module.exports = config

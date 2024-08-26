@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Spinner } from '@components/ui/spinner'
@@ -9,11 +9,16 @@ import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
 import { getProposal } from '@graph/queries'
 import { useGetProposal } from '@graph/queries/getProposal'
+import { Address } from 'viem'
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
-  const { dao, chainId, proposalId } = router.query
-  const { data: proposal, isLoading } = useGetProposal(Number(chainId), dao as string, proposalId as string)
+  const params = useParams<{ chainId: string; dao: Address; proposalId: string }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+  const proposalId = params ? Number(params.proposalId) : 0
+
+  const { data: proposal, isLoading } = useGetProposal(Number(chainId), dao as string, proposalId)
 
   useEffect(() => {
     router.prefetch(`/daos/${chainId}/${dao}`)
@@ -47,10 +52,10 @@ const ProposalPage: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const address = context?.params?.dao
-  const proposalId = context?.params?.proposalId
+  const proposalId = Number(context?.params?.proposalId! as string)
   const chainId = context?.params?.chainId
 
-  const result = await getProposal(Number(chainId), address as string, proposalId as string)
+  const result = await getProposal(Number(chainId), address as string, proposalId)
 
   if (!result) {
     return {

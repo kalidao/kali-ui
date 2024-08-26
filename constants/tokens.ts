@@ -89,4 +89,4 @@ export const tokens: { [key: number]: any } = {
       decimals: 6
     }*/,
   },
-}
+} as const

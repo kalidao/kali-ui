@@ -1,5 +1,5 @@
 import { getProvider } from './getProvider'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { ethers } from 'ethers'
 
 export const isURL = (url: string) => {
@@ -31,7 +31,7 @@ export const isProp = (prop: string) => {
 export const getProposalStatus = (dao: string, chainId: number, proposalId: number) => {
   try {
     const provider = getProvider(chainId)
-    const contract = new ethers.Contract(dao, DAO_ABI, provider)
+    const contract = new ethers.Contract(dao, KALIDAO_ABI, provider)
     return contract.proposalStatus(proposalId)
   } catch (e) {
     console.error(e)

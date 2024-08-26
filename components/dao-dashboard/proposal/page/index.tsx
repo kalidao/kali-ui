@@ -12,10 +12,11 @@ import Sponsor from '../Sponsor'
 import { useAccount } from 'wagmi'
 import Cancel from '../Cancel'
 import Process from '../Process'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import Visualizer from './visualizer'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
+import { Address } from 'viem'
 
 type Props = {
   proposal: any
@@ -23,7 +24,11 @@ type Props = {
 
 export default function ProposalView({ proposal }: Props) {
   const router = useRouter()
-  const { chainId, dao, proposalId } = router.query
+  const params = useParams<{ chainId: string; dao: Address; proposalId: string }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+  const proposalId = params ? Number(params.proposalId) : 0
+
   const { address } = useAccount()
   const isSchema = proposal?.description.slice(0, 7) == 'prop://' ? true : false
 
@@ -106,9 +111,9 @@ export default function ProposalView({ proposal }: Props) {
               size="sm"
               onClick={() =>
                 router.push(
-                  `/daos/${encodeURIComponent(chainId as string)}/${encodeURIComponent(
+                  `/daos/${encodeURIComponent(chainId)}/${encodeURIComponent(
                     dao as string,
-                  )}/proposals/${encodeURIComponent(proposalId as string)}/delete`,
+                  )}/proposals/${encodeURIComponent(proposalId)}/delete`,
                 )
               }
             >

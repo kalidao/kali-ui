@@ -1,16 +1,18 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { Button } from '@components/ui/button'
 import { Pencil } from 'lucide-react'
 import Card from '@components/dao-dashboard/timeline/Card'
-import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
+import { Address, zeroAddress } from 'viem'
 
 const Proposals = () => {
-  const router = useRouter()
-  const { dao, chainId } = router.query
-  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
+  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : zeroAddress)
 
   const [show, setShow] = useState(5)
 
@@ -29,8 +31,8 @@ const Proposals = () => {
           href={{
             pathname: '/daos/[chainId]/[dao]/propose',
             query: {
-              dao: dao as string,
-              chainId: chainId as string,
+              dao: dao,
+              chainId: chainId,
             },
           }}
           passHref

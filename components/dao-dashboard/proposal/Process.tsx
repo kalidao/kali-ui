@@ -1,7 +1,7 @@
 import React from 'react'
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { Button } from '@components/ui/button'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { Check } from 'lucide-react'
 import ChainGuard from '../ChainGuard'
 
@@ -12,19 +12,31 @@ type ProcessProps = {
 }
 
 export default function Process({ chainId, dao, proposalId }: ProcessProps) {
-  const { config } = usePrepareContractWrite({
-    address: dao as `0xstring`,
-    abi: DAO_ABI,
-    functionName: 'processProposal',
-    chainId: chainId,
-    args: [proposalId],
-  })
-  const { write } = useContractWrite(config)
+  const { writeContractAsync } = useWriteContract()
+
+  const handleProcess = async () => {
+    try {
+      await writeContractAsync({
+        address: dao as `0x${string}`,
+        abi: KALIDAO_ABI,
+        functionName: 'processProposal',
+        chainId: chainId,
+        args: [BigInt(proposalId)],
+      })
+    } catch (error) {
+      console.error('Error processing proposal:', error)
+    }
+  }
 
   return (
     <ChainGuard
       fallback={
-        <Button size="sm" variant="secondary" className="bg-accent text-accent-foreground" disabled={!write}>
+        <Button
+          size="sm"
+          variant="secondary"
+          className="bg-accent text-accent-foreground"
+          disabled={!writeContractAsync}
+        >
           <Check className="w-4 h-4 mr-2" />
           Process
         </Button>
@@ -34,8 +46,8 @@ export default function Process({ chainId, dao, proposalId }: ProcessProps) {
         size="sm"
         variant="secondary"
         className="bg-accent text-accent-foreground"
-        onClick={() => write?.()}
-        disabled={!write}
+        onClick={handleProcess}
+        disabled={!writeContractAsync}
       >
         <Check className="w-4 h-4 mr-2" />
         Process

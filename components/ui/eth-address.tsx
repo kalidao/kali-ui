@@ -1,8 +1,7 @@
 import React from 'react'
 import { useToast } from '@components/ui/use-toast'
 import { Copy } from 'lucide-react'
-import { Button } from '@components/ui/button'
-import { Address } from 'wagmi'
+import { Address } from 'viem'
 
 const EthAddress = ({ address }: { address: Address }) => {
   const { toast } = useToast()

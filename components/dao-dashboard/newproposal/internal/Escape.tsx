@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useContractWrite } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { Warning } from '@components/ui/warning'
 import { KALIDAO_ABI } from '@abi/KaliDAO'
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress } from 'viem'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { Button } from '@components/ui/button'
 
@@ -17,13 +17,7 @@ type EscapeProps = {
 // TODO: Show this along with process proposal
 export default function Escape({ dao, chainId, kill, title, content }: EscapeProps) {
   // Contract functions
-  const { writeAsync } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao as `0xstring`,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-    chainId: chainId,
-  })
+  const { writeContractAsync } = useWriteContract()
 
   // State
   const [warning, setWarning] = useState('')
@@ -53,13 +47,16 @@ export default function Escape({ dao, chainId, kill, title, content }: EscapePro
     }
 
     try {
-      const tx = await writeAsync?.({
-        recklesslySetUnpreparedArgs: [
+      const tx = await writeContractAsync?.({
+        address: dao as `0xstring`,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [
           10, // ESCAPE prop
           docs,
-          [AddressZero],
-          [kill],
-          [Array(0)],
+          [zeroAddress],
+          [BigInt(kill)],
+          [],
         ],
       })
       console.log('tx', tx)

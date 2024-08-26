@@ -1,15 +1,17 @@
+'use client'
 import React from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
-import { getDefaultConfig, RainbowKitProvider, DisclaimerComponent } from '@rainbow-me/rainbowkit'
+import { getDefaultConfig, RainbowKitProvider, DisclaimerComponent, Locale } from '@rainbow-me/rainbowkit'
 import { WagmiProvider } from 'wagmi'
 import { mainnet, optimism, polygon, arbitrum, gnosis } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '@components/theme-provider'
-import { Provider as AnkrProvider } from 'ankr-react'
+// import { Provider as AnkrProvider } from 'ankr-react'
 import { Toaster } from './ui/toaster'
 import { useTheme } from 'next-themes'
 import { getRainbowTheme } from '@utils/getRainbowTheme'
 import { http } from 'wagmi'
+import NextNProgress from 'nextjs-progressbar'
 
 const queryClient = new QueryClient()
 
@@ -51,11 +53,10 @@ export function RootProviders({ children }: RootProvidersProps) {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={getRainbowTheme(theme)} coolMode appInfo={appInfo} modalSize="compact">
-            <AnkrProvider apiKey={process.env.NEXT_PUBLIC_ANKR_API_KEY}>
-              {children}
-              <Toaster />
-            </AnkrProvider>
+          <RainbowKitProvider theme={getRainbowTheme(theme ?? 'light')} coolMode appInfo={appInfo} modalSize="compact">
+            <NextNProgress color="#5842c3" />
+            {children}
+            <Toaster />
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

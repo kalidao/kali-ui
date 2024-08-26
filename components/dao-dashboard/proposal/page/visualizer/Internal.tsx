@@ -1,6 +1,6 @@
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress } from 'viem'
 import { useReadContract } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { formatVotingPeriod } from '@utils/votingPeriod'
 import { Button } from '@components/ui/button'
 import { Loader2, FileText } from 'lucide-react'
@@ -19,18 +19,22 @@ export default function Internal({
   chainId?: number
 }) {
   const { data: pause } = useReadContract({
-    address: dao ? (dao as `0xstring`) : AddressZero,
-    abi: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : zeroAddress,
+    abi: KALIDAO_ABI,
     functionName: 'paused',
     chainId: chainId,
-    enabled: type === 'PAUSE',
+    query: {
+      enabled: type === 'PAUSE',
+    },
   })
   const { data: votingPeriod } = useReadContract({
-    address: dao ? (dao.toString() as `0xstring`) : AddressZero,
-    abi: DAO_ABI,
+    address: dao ? (dao.toString() as `0xstring`) : zeroAddress,
+    abi: KALIDAO_ABI,
     functionName: 'votingPeriod',
     chainId: chainId,
-    enabled: type === 'VPERIOD',
+    query: {
+      enabled: type === 'VPERIOD',
+    },
   })
 
   let render

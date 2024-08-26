@@ -1,27 +1,28 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import Link from 'next/link'
-import { PencilIcon, BookOpenIcon } from 'lucide-react'
 import ProposalCard from './Card'
 import { Button } from '@components/ui/button'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { ethers } from 'ethers'
 import { useGetProposals } from '@graph/queries/getProposals'
 import { useReadContract } from 'wagmi'
-import DAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { Card, CardHeader, CardTitle, CardContent } from '@components/ui/card'
-import { Skeleton } from '@components/ui/skeleton'
 import { cn } from '@utils/util'
+import { Address, zeroAddress } from 'viem'
 
 export default function Timeline() {
   const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const { data: name } = useReadContract({
-    address: dao ? (dao as `0xstring`) : ethers.constants.AddressZero,
-    abi: DAO_ABI,
+    address: dao ? (dao as `0xstring`) : zeroAddress,
+    abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
-  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : ethers.constants.AddressZero)
+  const { data } = useGetProposals(chainId ? Number(chainId) : 1, dao ? (dao as string) : zeroAddress)
   const [show] = useState(2)
 
   // filtering out cancelled proposals

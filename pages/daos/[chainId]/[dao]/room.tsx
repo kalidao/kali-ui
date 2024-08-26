@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Layout from '@components/dao-dashboard/layout'
 import { useReadContract } from 'wagmi'
-import { useRouter } from 'next/router'
-import { AddressZero } from '@ethersproject/constants'
-import DATAROOM_ABI from '@abi/DataRoom.json'
+import { useParams, useRouter } from 'next/navigation'
+import { zeroAddress } from 'viem'
+import { DATAROOM_ABI } from '@abi/DataRoom'
 import { addresses } from '@constants/addresses'
 import Link from 'next/link'
 import { Button } from '@components/ui/button'
 import { Plus } from 'lucide-react'
 import { Badge } from '@components/ui/badge'
+import { Address } from 'viem'
 
 interface Data {
   tags: string[]
@@ -19,13 +20,14 @@ interface Data {
 
 const DataRoom: NextPage = () => {
   const router = useRouter()
-  const daoAddress = router.query.dao ? (router.query.dao as string) : AddressZero
-  const chainId = Number(router.query.chainId)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao as Address
 
   const [file, setFile] = useState<Data[]>()
 
   const { data: room } = useReadContract({
-    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
+    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : zeroAddress,
     abi: DATAROOM_ABI,
     chainId: chainId,
     functionName: 'getRoom',

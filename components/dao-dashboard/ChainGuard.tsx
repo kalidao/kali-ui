@@ -1,9 +1,10 @@
 import React from 'react'
 import { useAccount, useSwitchChain } from 'wagmi'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Button } from '@components/ui/button'
 import { AlertCircle } from 'lucide-react'
+import { Address } from 'viem'
 
 type Props = {
   fallback?: React.ReactNode
@@ -11,8 +12,9 @@ type Props = {
 }
 
 export default function ChainGuard({ fallback, children }: Props) {
+  const params = useParams<{ chainId: string; dao: Address }>()
   const router = useRouter()
-  const daoChainId = Number(router.query.chainId)
+  const daoChainId = params ? Number(params.chainId) : 1 // default to mainnet
   const { chain: userChain } = useAccount()
   const { chains, switchChain } = useSwitchChain()
 
