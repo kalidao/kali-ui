@@ -1,3 +1,4 @@
+'use client'
 import Layout from '@components/dao-dashboard/layout'
 import { useParams, useRouter } from 'next/navigation'
 import { zeroAddress, Address } from 'viem'

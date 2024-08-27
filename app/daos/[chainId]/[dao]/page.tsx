@@ -1,3 +1,4 @@
+'use client'
 import { NextPage } from 'next'
 import { useParams } from 'next/navigation'
 import Layout from '@components/dao-dashboard/layout'

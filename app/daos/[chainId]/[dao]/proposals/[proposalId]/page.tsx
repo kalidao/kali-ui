@@ -1,5 +1,5 @@
+'use client'
 import React, { useEffect } from 'react'
-import { NextPage, GetServerSideProps } from 'next'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
@@ -7,11 +7,10 @@ import { Spinner } from '@components/ui/spinner'
 import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
-import { getProposal } from '@graph/queries'
 import { useGetProposal } from '@graph/queries/getProposal'
 import { Address } from 'viem'
 
-const ProposalPage: NextPage = () => {
+export default function ProposalPage() {
   const router = useRouter()
   const params = useParams<{ chainId: string; dao: Address; proposalId: string }>()
   const chainId = params ? Number(params.chainId) : 1
@@ -49,25 +48,3 @@ const ProposalPage: NextPage = () => {
     </Layout>
   )
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const address = context?.params?.dao
-  const proposalId = Number(context?.params?.proposalId! as string)
-  const chainId = context?.params?.chainId
-
-  const result = await getProposal(Number(chainId), address as string, proposalId)
-
-  if (!result) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-    props: {
-      proposal: result,
-    },
-  }
-}
-
-export default ProposalPage

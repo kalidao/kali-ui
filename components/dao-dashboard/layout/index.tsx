@@ -1,3 +1,4 @@
+'use client'
 import { useParams } from 'next/navigation'
 import Head from 'next/head'
 import Footer from '@components/dao-dashboard/layout/Footer'

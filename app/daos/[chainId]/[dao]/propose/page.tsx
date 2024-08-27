@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { NewProposalModal } from '@components/dao-dashboard/newproposal'

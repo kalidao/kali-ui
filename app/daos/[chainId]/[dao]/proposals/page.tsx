@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import { NextPage } from 'next'
 import { useParams, useRouter } from 'next/navigation'

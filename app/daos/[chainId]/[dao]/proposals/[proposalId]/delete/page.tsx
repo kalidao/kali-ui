@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import Layout from '@components/dao-dashboard/layout'
 import { Escape } from '@components/dao-dashboard/newproposal/internal'
