@@ -13,44 +13,98 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { Link } from 'lucide-react'
-import { NFT } from 'hooks/use-nfts'
+import { AspectRatio } from '@components/ui/aspect-ratio'
 
-export default function NftCard({ nft }: { nft: NFT }) {
+export declare type Blockchain =
+  | 'arbitrum'
+  | 'avalanche'
+  | 'bsc'
+  | 'eth'
+  | 'fantom'
+  | 'polygon'
+  | 'syscoin'
+  | 'optimism'
+
+export interface Attribute {
+  trait_type?: string
+  value?: string
+  display_type?: string
+  bunny_id?: string
+  count?: number
+  frequency?: string
+  mp_score?: string
+  rarity?: string
+}
+export interface Nft {
+  blockchain: Blockchain
+  name: string
+  tokenId: string
+  tokenUrl: string
+  imageUrl: string
+  collectionName: string
+  symbol: string
+  contractType: 'ERC721' | 'ERC1155' | 'UNDEFINED'
+  contractAddress: string
+  quantity?: string
+  traits?: Attribute[]
+}
+
+export default function NftCard({ nft }: { nft: Nft }) {
   const url = wrapprUrl(nft.tokenUrl)
-  const { data, isError } = useQuery(['nftMetadata', nft], () => fetcher(url), {
+  const { data, isError } = useQuery(['nftMetadata', url], () => fetcher(url), {
     enabled: !!nft.tokenUrl,
   })
-
-  if (isError) return <p className="text-red-500">An error has occurred.</p>
-  if (!data) return <Spinner />
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="cursor-pointer">
+        <div className="cursor-pointer m-2">
           <div className="flex flex-col items-center">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])} alt="NFT Image" />
-              <AvatarFallback>NFT</AvatarFallback>
-            </Avatar>
-            <p className="font-bold mt-2">{data['name'] || data['title']}</p>
+            <div className="w-[200px]">
+              <AspectRatio ratio={1 / 1}>
+                {nft.imageUrl ? (
+                  <img
+                    src={wrapprUrl(nft.imageUrl)}
+                    alt="NFT Image"
+                    className="rounded-md object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      e.currentTarget.parentElement?.classList.add(
+                        'bg-gradient-to-br',
+                        'from-purple-400',
+                        'to-blue-500',
+                      )
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-purple-400 to-blue-500 rounded-md" />
+                )}
+              </AspectRatio>
+            </div>
+            <p className="font-bold mt-2">{nft.name}</p>
           </div>
         </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{data?.['name'] || data?.['title']}</DialogTitle>
-          <DialogDescription>{data?.description}</DialogDescription>
+          <DialogTitle>{nft.collectionName}</DialogTitle>
+          <DialogDescription>{nft.name}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={data['image'] ? wrapprUrl(data['image']) : wrapprUrl(data['file'])} alt="NFT Image" />
-            <AvatarFallback>NFT</AvatarFallback>
-          </Avatar>
+          <div className="w-[200px]">
+            <AspectRatio ratio={1 / 1}>
+              <img src={wrapprUrl(nft.imageUrl)} alt="NFT Image" className="object-cover" />
+            </AspectRatio>
+          </div>
           <div className="mt-4">
-            {data['external_url'] && (
+            {data?.['external_url'] && (
               <Button asChild>
-                <a href={data['external_url']} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                <a
+                  href={data?.['external_url']}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <Link className="mr-2" size={16} />
                   External URL
                 </a>
@@ -63,18 +117,24 @@ export default function NftCard({ nft }: { nft: NFT }) {
   )
 }
 
-const wrapprUrl = (url: string) => {
-  if (url.includes('https://ipfs.moralis.io:2053/ipfs/')) {
-    return url.replace('https://ipfs.moralis.io:2053/ipfs/', 'https://content.wrappr.wtf/ipfs/')
+const wrapprUrl = (url: string): string => {
+  // Regular expression to match IPFS hash
+  const ipfsHashRegex =
+    /(?:ipfs:\/\/|https:\/\/(?:ipfs\.moralis\.io:2053\/ipfs\/|gateway\.pinata\.cloud\/ipfs\/))([a-zA-Z0-9]{46})/
+
+  const match = url.match(ipfsHashRegex)
+
+  if (match) {
+    // Extract the IPFS hash
+    const ipfsHash = match[1]
+    return `https://content.wrappr.wtf/ipfs/${ipfsHash}`
   }
-  if (url.includes('ipfs://')) {
-    return url.replace('ipfs://', 'https://content.wrappr.wtf/ipfs/')
-  }
-  if (url.includes('https://content.wrappr.wtf/ipfs/')) {
+
+  // If the URL is already using the Wrappr resolver, return it as is
+  if (url.startsWith('https://content.wrappr.wtf/ipfs/')) {
     return url
   }
-  if (url.includes('https://gateway.pinata.cloud/ipfs/')) {
-    return url.replace('https://gateway.pinata.cloud/ipfs/', 'https://content.wrappr.wtf/ipfs/')
-  }
-  return `https://content.wrappr.wtf/ipfs/${url}`
+
+  // For all other cases, return the URL as is
+  return url
 }

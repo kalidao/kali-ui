@@ -1,3 +1,4 @@
+'use client'
 import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
 import { Skeleton } from '@components/ui/skeleton'
 import { ArrowRight, Link as LinkIcon } from 'lucide-react'

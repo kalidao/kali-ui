@@ -4,7 +4,6 @@ import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Spinner } from '@components/ui/spinner'
-import Layout from '@components/dao-dashboard/layout'
 import ProposalView from '@components/dao-dashboard/proposal/page'
 import VotesView from '@components/dao-dashboard/proposal/page/VotesView'
 import { useGetProposal } from '@graph/queries/getProposal'
@@ -29,22 +28,20 @@ export default function ProposalPage() {
   }
 
   return (
-    <Layout title={`Proposal #${proposalId}`} content="Discuss and vote on the proposal.">
-      <div className="p-2 lg:p-6">
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <div className="space-y-10">
-            <div className="flex flex-col lg:flex-row gap-4">
-              <Button variant="ghost" size="icon" onClick={goBack}>
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <ProposalView proposal={proposal} />
-            </div>
-            <VotesView votes={proposal?.votes} />
+    <div className="p-2 lg:p-6">
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="space-y-10">
+          <div className="flex flex-col lg:flex-row gap-4">
+            <Button variant="ghost" size="icon" onClick={goBack}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <ProposalView proposal={proposal} />
           </div>
-        )}
-      </div>
-    </Layout>
+          <VotesView votes={proposal?.votes} />
+        </div>
+      )}
+    </div>
   )
 }

@@ -1,14 +1,12 @@
 'use client'
-import Layout from '@components/dao-dashboard/layout'
 import { useParams, useRouter } from 'next/navigation'
-import { zeroAddress, Address } from 'viem'
+import { Address } from 'viem'
 import { Approve, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import Confetti from '@components/tools/Confetti'
 
 export default function CrowdsalePage() {
-  const router = useRouter()
   const params = useParams<{ chainId: string; dao: Address }>()
   const chainId = params ? Number(params.chainId) : 1
   const daoAddress = params?.dao as Address
@@ -64,7 +62,7 @@ export default function CrowdsalePage() {
 
   console.log('swap', stateChain, dao, swap, token, user)
   return (
-    <Layout title="Swap" content="Swap Eth or tokens">
+    <>
       <div>
         <div className="relative w-full">
           <Why />
@@ -73,6 +71,6 @@ export default function CrowdsalePage() {
         <Swapper />
       </div>
       {success == true && <Confetti />}
-    </Layout>
+    </>
   )
 }

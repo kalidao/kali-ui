@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import Layout from '@components/dao-dashboard/layout'
 import { useReadContract } from 'wagmi'
 import { useParams, useRouter } from 'next/navigation'
 import { zeroAddress } from 'viem'
@@ -61,48 +60,37 @@ const DataRoom: NextPage = () => {
   }, [room])
 
   return (
-    <Layout title={`Data Room`} content="View and add DAO ratified activities.">
-      <div className="flex flex-col items-center justify-center gap-3 p-3 w-full">
-        <div className="flex justify-end w-full">
-          <Link
-            href={{
-              pathname: '/daos/[chainId]/[dao]/propose',
-              query: {
-                dao: daoAddress as string,
-                chainId: chainId,
-              },
-            }}
-            passHref
-          >
-            <Button size="icon">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-        <div className="flex flex-wrap justify-start">
-          {file?.map((item, index) => {
-            return (
-              <button
-                key={index}
-                className="p-6 w-96 bg-red-500 text-white m-2 rounded-lg hover:bg-red-600 transition-colors"
-                onClick={() => router.push(item.docs)}
-              >
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-lg font-semibold mb-2">{item.name}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags?.map((tag, index) => (
-                      <Badge key={index} variant="secondary">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </button>
-            )
-          })}
-        </div>
+    <div className="flex flex-col items-center justify-center gap-3 p-3 w-full">
+      <div className="flex justify-end w-full">
+        <Link href={`/daos/${chainId}/${daoAddress}/propose`} passHref>
+          <Button size="icon">
+            <Plus className="h-4 w-4" />
+          </Button>
+        </Link>
       </div>
-    </Layout>
+      <div className="flex flex-wrap justify-start">
+        {file?.map((item, index) => {
+          return (
+            <button
+              key={index}
+              className="p-6 w-96 bg-red-500 text-white m-2 rounded-lg hover:bg-red-600 transition-colors"
+              onClick={() => router.push(item.docs)}
+            >
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-lg font-semibold mb-2">{item.name}</p>
+                <div className="flex flex-wrap gap-2">
+                  {item.tags?.map((tag, index) => (
+                    <Badge key={index} variant="secondary">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </button>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

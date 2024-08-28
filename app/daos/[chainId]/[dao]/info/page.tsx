@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from '@components/dao-dashboard/layout'
 import { getDaoInfo } from '@graph/queries'
 import Info from '@components/dao-dashboard/info/index'
 
@@ -21,9 +20,5 @@ export default async function InfoPage({ params }: PageProps) {
 
   const info = await getDAOInfo(chainId, address)
 
-  return (
-    <Layout title={`Info`} content="Learn more about the DAO.">
-      <Info info={info} />
-    </Layout>
-  )
+  return <Info info={info} />
 }

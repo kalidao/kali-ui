@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import Layout from '@components/dao-dashboard/layout'
 import { Escape } from '@components/dao-dashboard/newproposal/internal'
 import { useParams, useRouter } from 'next/navigation'
 import Editor from '@components/editor'
@@ -32,39 +31,37 @@ const DeleteProposalPage: NextPage = () => {
   }
 
   return (
-    <Layout title={`Delete Proposal #${proposalId} `} content="Delete the proposal to remove it from the queue.">
-      <Card className="p-6">
-        <div className="flex flex-col items-start justify-center space-y-4">
-          <Button variant="ghost" onClick={goBack} className="mb-4">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
-          </Button>
-          <div className="w-full space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                name="id"
-                maxLength={30}
-                placeholder={'Proposal for...'}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Description (Optional)</Label>
-              <Editor setContent={setContent} />
-            </div>
-            <Escape
-              dao={dao as string}
-              chainId={Number(chainId)}
-              title={title}
-              content={content}
-              kill={Number(proposalId)}
+    <Card className="p-6">
+      <div className="flex flex-col items-start justify-center space-y-4">
+        <Button variant="ghost" onClick={goBack} className="mb-4">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        </Button>
+        <div className="w-full space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              name="id"
+              maxLength={30}
+              placeholder={'Proposal for...'}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+              required
             />
           </div>
+          <div className="space-y-2">
+            <Label>Description (Optional)</Label>
+            <Editor setContent={setContent} />
+          </div>
+          <Escape
+            dao={dao as string}
+            chainId={Number(chainId)}
+            title={title}
+            content={content}
+            kill={Number(proposalId)}
+          />
         </div>
-      </Card>
-    </Layout>
+      </div>
+    </Card>
   )
 }
 

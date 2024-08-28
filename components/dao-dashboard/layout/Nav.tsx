@@ -1,3 +1,4 @@
+'use client'
 import { Coins, FileStack, Cog, BookOpen } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useReadContract } from 'wagmi'

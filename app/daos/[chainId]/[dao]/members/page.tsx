@@ -1,4 +1,3 @@
-import Layout from '@components/dao-dashboard/layout'
 import { GRAPH_URL } from '@graph/url'
 import MembersClient from './members'
 
@@ -50,9 +49,5 @@ async function getData(params: { dao: string; chainId: string }) {
 export default async function MembersPage({ params }: { params: { dao: string; chainId: string } }) {
   const { members, votes, proposals } = await getData(params)
 
-  return (
-    <Layout title={`Members`} content="Look at the members and their analytics for the DAO.">
-      <MembersClient members={members} votes={votes} proposals={proposals} />
-    </Layout>
-  )
+  return <MembersClient members={members} votes={votes} proposals={proposals} />
 }

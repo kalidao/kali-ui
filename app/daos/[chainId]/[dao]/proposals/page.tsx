@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react'
 import { NextPage } from 'next'
 import { useParams, useRouter } from 'next/navigation'
-import Layout from '@components/dao-dashboard/layout'
 import { useReadContract } from 'wagmi'
 import { KALIDAO_ABI } from '@abi/KaliDAO'
 import Proposals from '@components/dao-dashboard/proposals/'
@@ -25,11 +24,7 @@ const ProposalsPage: NextPage = () => {
     router.prefetch(`/daos/${chainId}/${dao}/`)
   }, [chainId, dao, router])
 
-  return (
-    <Layout title={data ? `${data.toString()}} Proposals` : 'Proposals'} content="Create or vote on a proposal.">
-      <Proposals />
-    </Layout>
-  )
+  return <Proposals />
 }
 
 export default ProposalsPage

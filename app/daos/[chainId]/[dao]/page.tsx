@@ -1,7 +1,6 @@
 'use client'
 import { NextPage } from 'next'
 import { useParams } from 'next/navigation'
-import Layout from '@components/dao-dashboard/layout'
 import { useReadContract } from 'wagmi'
 import { Address } from 'viem'
 import { KALIDAO_ABI } from '@abi/KaliDAO'
@@ -19,11 +18,7 @@ const DashboardPage: NextPage = () => {
     chainId: Number(chainId),
   })
 
-  return (
-    <Layout title={data ? data.toString() : 'Dashboard'} content="Create or vote on a proposal.">
-      <Timeline />
-    </Layout>
-  )
+  return <Timeline />
 }
 
 export default DashboardPage
