@@ -7,7 +7,7 @@ export function votingPeriodToSeconds(period: number, type: string) {
     case 'day':
       return period * 60 * 60 * 24
     default:
-      return new Error('Not a valid type.')
+      throw new Error('Not a valid type.')
   }
 }
 

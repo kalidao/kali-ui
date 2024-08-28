@@ -30,7 +30,17 @@ export const getAllUserDaos = async (address: string) => {
   )
   const data = await Promise.all(res.map(async (r) => await r.json()))
 
-  let daos = []
+  let daos: Array<{
+    chainId: string
+    id: string
+    token: {
+      name: string
+      symbol: string
+    }
+    members: Array<{
+      id: string
+    }>
+  }> = []
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < data[i]?.data?.members.length; j++) {
       daos.push({

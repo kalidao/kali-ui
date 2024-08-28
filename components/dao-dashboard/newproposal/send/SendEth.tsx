@@ -1,45 +1,44 @@
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
-import { useContractRead, useContractWrite } from 'wagmi'
+import { useReadContract, useWriteContract } from 'wagmi'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { ArrowLeft } from 'lucide-react'
-import KALIDAO_ABI from '../../../../abi/KaliDAO.json'
-import { useRouter } from 'next/router'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { useParams } from 'next/navigation'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
-import { AddressZero } from '@ethersproject/constants'
+import { Address, parseEther, zeroAddress } from 'viem'
 
 export default function SendEth({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const { dao, chainId } = router.query
-  const { data: daoName } = useContractRead({
-    address: dao ? (dao as `0xstring`) : AddressZero,
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
+  const { data: daoName } = useReadContract({
+    address: dao ? (dao as `0xstring`) : zeroAddress,
     abi: KALIDAO_ABI,
     functionName: 'name',
     chainId: Number(chainId),
   })
 
-  const {
-    isSuccess: isProposeSuccess,
-    isError: isProposeError,
-    error: proposeError,
-    isLoading: isProposePending,
-    write: propose,
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao as `0xstring`,
-    abi: KALIDAO_ABI,
-    functionName: 'propose',
-  })
+  const { writeContractAsync } = useWriteContract()
 
   const [recipient, setRecipient] = useState<string>()
   const [amount, setAmount] = useState<string>()
+  const [isProposeSuccess, setIsProposeSuccess] = useState(false)
+  const [isProposeError, setIsProposeError] = useState(false)
+  const [proposeError, setProposeError] = useState<Error | null>(null)
+  const [isProposePending, setIsProposePending] = useState(false)
 
   const submit = async () => {
     if (!amount) return
-    let amt = amount && ethers.utils.parseEther(amount.toString())
+    let amt = parseEther(amount.toString())
+
+    if (!recipient) {
+      console.error('Recipient address is required')
+      return
+    }
 
     let docs
     try {
@@ -52,12 +51,21 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
     console.log('Proposal Params - ', 2, docs, [recipient], [amt], [Array(0)])
 
     try {
-      const tx = propose?.({
-        recklesslySetUnpreparedArgs: [2, docs, [recipient], [amt], [Array(0)]],
+      setIsProposePending(true)
+      const tx = await writeContractAsync({
+        address: dao as `0xstring`,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [2, docs, [recipient as Address], [amt], []],
       })
       console.log('tx', tx)
+      setIsProposeSuccess(true)
     } catch (e) {
       console.log('error', e)
+      setIsProposeError(true)
+      setProposeError(e as Error)
+    } finally {
+      setIsProposePending(false)
     }
   }
 
@@ -67,7 +75,7 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
         <legend className="text-lg font-semibold">Send Ether</legend>
         <p className="text-sm text-gray-500">{`Send Ether from ${daoName} treasury`}</p>
         <Input
-          placeholder={AddressZero}
+          placeholder={zeroAddress}
           value={recipient}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRecipient(e.target.value)}
           className="w-full"
@@ -87,14 +95,14 @@ export default function SendEth({ setProposal, title, content }: ProposalProps) 
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
         <ChainGuard>
-          <Button onClick={submit} disabled={!propose || isProposePending || isProposeSuccess}>
+          <Button onClick={submit} disabled={isProposePending || isProposeSuccess}>
             {isProposePending ? 'Submitting...' : 'Submit'}
           </Button>
         </ChainGuard>
         <p className="text-sm">
           {isProposeSuccess
             ? 'Proposal submitted on chain!'
-            : isProposeError && `Error submitting proposal: ${proposeError}`}
+            : isProposeError && `Error submitting proposal: ${proposeError?.message}`}
         </p>
       </div>
     </div>

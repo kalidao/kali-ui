@@ -4,7 +4,7 @@ import { Card } from '@components/ui/card'
 import { Info } from 'lucide-react'
 import EthAddress from '@components/ui/eth-address'
 
-import { Address } from 'wagmi'
+import { Address } from 'viem'
 
 type Props = {
   symbol: string

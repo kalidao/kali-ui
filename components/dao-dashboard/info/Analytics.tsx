@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+
+import { useParams } from 'next/navigation'
 import { Card } from '@components/ui/card'
 import { getProposals, getMembers } from '../../../graph/queries'
+import { Address } from 'viem'
 
 export default function Engagement() {
-  const router = useRouter()
-  const daoChain = Number(router.query.chainId)
-  const daoAddress = router.query.dao as string
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const daoChain = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
 
   const [voted, setVoted] = useState(0)
   const [didNotVote, setDidNotVote] = useState(0)
@@ -15,8 +17,8 @@ export default function Engagement() {
   const [failed, setFailed] = useState(0)
 
   const fetchData = useCallback(async () => {
-    const proposals = await getProposals(daoChain, daoAddress)
-    const { members } = await getMembers(daoChain, daoAddress)
+    const proposals = await getProposals(daoChain, daoAddress!)
+    const { members } = await getMembers(daoChain, daoAddress!)
 
     let passedCount = 0
     let failedCount = 0

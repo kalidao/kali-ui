@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { useContract, useContractRead, useSigner } from 'wagmi'
+import { useReadContract, useWriteContract } from 'wagmi'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 import { Spinner } from '@components/ui/spinner'
 import { Alert, AlertDescription } from '@components/ui/alert'
-import { Separator } from '@components/ui/separator'
 import { Link } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import { useRouter } from 'next/router'
-import { AddressZero } from '@ethersproject/constants'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { useParams } from 'next/navigation'
 import { uploadFile } from '@utils/ipfs'
 import ChainGuard from '@components/dao-dashboard/ChainGuard'
 import { resolveDocs } from '@utils/resolveDocs'
+import { Address, zeroAddress } from 'viem'
 
 export function UpdateDocs() {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const daoChain = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const daoChain = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao as Address
 
-  const kalidao = useContract({
-    address: daoAddress,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
-  const { data, isLoading: isFetchingDocs } = useContractRead({
+  const { writeContractAsync } = useWriteContract()
+
+  const { data, isLoading: isFetchingDocs } = useReadContract({
     address: daoAddress as `0x${string}`,
     abi: KALIDAO_ABI,
     functionName: 'docs',
@@ -57,11 +52,16 @@ export function UpdateDocs() {
       docs = newDocLink
     }
 
-    console.log('Proposal Params - ', 11, docs, [AddressZero], [0], [Array(0)])
+    console.log('Proposal Params - ', 11, docs, [zeroAddress], [0], [Array(0)])
 
     if (docs) {
       try {
-        const tx = await kalidao?.propose(11, docs, [AddressZero], [0], [Array(0)])
+        await writeContractAsync({
+          address: daoAddress,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [11, docs, [zeroAddress], [0n], []],
+        })
       } catch (e) {
         console.log('error', e)
       }

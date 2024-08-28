@@ -1,18 +1,22 @@
+'use client'
 import { Card, CardContent, CardFooter } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Badge } from '@components/ui/badge'
 import { Loader2, BookOpen } from 'lucide-react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { useQuery } from 'wagmi'
+import { useQuery } from '@tanstack/react-query'
 import { getMembers } from '@graph/queries'
 import { formatEther } from 'ethers/lib/utils'
 import { useMemo } from 'react'
 import { User } from '@components/tools/User'
+import { Address } from 'viem'
 
 const Members = () => {
-  const router = useRouter()
-  const { chainId, dao } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao
+
   const { data, isLoading } = useQuery(
     ['daoProfileMembers', chainId, dao],
     () => getMembers(Number(chainId), dao as string),
@@ -49,13 +53,7 @@ const Members = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Link
-              href={{
-                pathname: `/daos/[chainId]/[dao]/members`,
-                query: { chainId: chainId, dao: dao },
-              }}
-              passHref
-            >
+            <Link href={`/daos/${chainId}/${dao}/members`} passHref>
               <Button variant="outline" className="w-full" size="sm">
                 <BookOpen className="mr-2 h-4 w-4" />
                 View All

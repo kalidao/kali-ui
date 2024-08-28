@@ -1,11 +1,18 @@
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
 import { Copy } from 'lucide-react'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
 import decodeTx from './decodeTx'
 import { tokens } from '@constants/tokens'
+import { Address } from 'viem'
+
+interface Call {
+  account: string
+  amount: string
+  payload: string
+}
 
 export default function CallShell({
   accounts,
@@ -16,11 +23,11 @@ export default function CallShell({
   amounts: string[]
   payloads: string[]
 }) {
-  const router = useRouter()
-  const dao = router.query.dao as string
-  const chainId = Number(router.query.chainId)
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
 
-  let calls = []
+  let calls: Call[] = []
   for (let i = 0; i < accounts.length; i++) {
     calls.push({
       account: accounts[i],
@@ -116,7 +123,7 @@ const CallCard = ({
 
 const createParams = (to: string, chain: number, decoded?: any) => {
   if (!decoded || decoded == 'none') return
-  let array = []
+  let array: { name: string; type: string; value: string | number }[] = []
   for (let i = 0; i < decoded['tx']['args'].length; i++) {
     let value = decoded['tx']['args'][i]
     if (decoded['tx']['functionFragment']['inputs'][i]['type'] == 'uint256') {

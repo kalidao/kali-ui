@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import { useWriteContract } from 'wagmi'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { X } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import DATAROOM_ABI from '@abi/DataRoom.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { DATAROOM_ABI } from '@abi/DataRoom'
 import { addresses } from '@constants/addresses'
 import { Warning } from '@components/ui/warning'
 import { Back } from '@components/ui/back'
@@ -15,19 +15,15 @@ import { createProposal } from '../utils/createProposal'
 import { ProposalProps } from '../utils/types'
 import { createDataRoomDetails } from './createDataRoomDetails'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
+import { Address, Hex } from 'viem'
 
 export default function SetDataRoom({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const chainId = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
   const dataRoomAddress = addresses[chainId]['extensions']['dataRoom']
 
-  const kalidao = useContract({
-    address: daoAddress,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
+  const { writeContractAsync } = useWriteContract()
 
   // form
   const [record, setRecords] = useState<File>()
@@ -98,7 +94,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setShareStatus('Creating proposal metadata...')
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, content)
+      docs = await createProposal(daoAddress!, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -111,13 +107,18 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setShareStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao?.propose(
-        2, // CALL prop
-        docs,
-        [dataRoomAddress],
-        [0],
-        [payload],
-      )
+      const tx = await writeContractAsync({
+        address: daoAddress!,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [
+          2, // CALL prop
+          docs,
+          [dataRoomAddress],
+          [0n],
+          [payload as Hex],
+        ],
+      })
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)
@@ -127,14 +128,10 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
 
   const submit = async () => {
     setStatus('Creating proposal...')
-    if (!signer) {
-      setWarning('Please connect your wallet.')
-      return
-    }
 
     setStatus('Uploading document to IPFS...')
     let recordHash
-    recordHash = await createDataRoomDetails(daoAddress, chainId, name, tags, record)
+    recordHash = await createDataRoomDetails(daoAddress!, chainId, name, tags, record)
     console.log(name, tags, record)
 
     if (recordHash == '') {
@@ -146,7 +143,7 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setStatus('Creating proposal metadata...')
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, content)
+      docs = await createProposal(daoAddress!, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -159,13 +156,18 @@ export default function SetDataRoom({ setProposal, title, content }: ProposalPro
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao?.propose(
-        2, // CALL prop
-        docs,
-        [dataRoomAddress],
-        [0],
-        [payload],
-      )
+      const tx = await writeContractAsync({
+        address: daoAddress!,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [
+          2, // CALL prop
+          docs,
+          [dataRoomAddress],
+          [0n],
+          [payload as Hex],
+        ],
+      })
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)

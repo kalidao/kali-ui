@@ -1,8 +1,9 @@
+'use client'
 import { Avatar, AvatarImage, AvatarFallback } from '@components/ui/avatar'
 import { Skeleton } from '@components/ui/skeleton'
 import { ArrowRight, Link as LinkIcon } from 'lucide-react'
-import { useRouter } from 'next/router'
-import { useQuery } from 'wagmi'
+import { usePathname } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
 import { getDaoInfo } from '@graph/queries'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
@@ -11,7 +12,7 @@ import { Card } from '@components/ui/card'
 import { cn } from '@utils/util'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
-  const router = useRouter()
+  const pathname = usePathname()
   const { data, isLoading } = useQuery(['daoProfileInfo', chainId, address], () => getDaoInfo(chainId, address), {
     enabled: !!chainId && !!address,
   })
@@ -22,13 +23,18 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
 
   return (
     <Card className={cn('w-full p-6')}>
-      <div className="w-full flex items-center justify-center">
+      <div className="relative w-full flex items-center justify-center">
+        {pathname === `/daos/${chainId}/${address}` ? null : (
+          <Link href={`/daos/${chainId}/${address}/`} passHref className="absolute top-1 right-1">
+            <ArrowRight className="text-gray-600 hover:text-gray-900" />
+          </Link>
+        )}
         {isLoading ? (
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900" />
         ) : (
-          <div className="items-center justify-center text-center">
-            <Avatar>
-              <AvatarImage src={meta?.image} alt="dao profile pic" className="w-32 h-32 mx-auto" />
+          <div className="items-center justify-center text-center w-full">
+            <Avatar className="mx-auto">
+              <AvatarImage src={meta?.image} alt="dao profile pic" className="w-32 h-32 " />
               <AvatarFallback>{info?.token?.symbol}</AvatarFallback>
             </Avatar>
             <h1 className="text-2xl font-bold mt-4">
@@ -81,11 +87,6 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
           </div>
         )}
       </div>
-      {router.asPath === `/daos/${chainId}/${address}` ? null : (
-        <Link href={`/daos/${chainId}/${address}/`} passHref className="self-center">
-          <ArrowRight className="text-gray-600 hover:text-gray-900" />
-        </Link>
-      )}
     </Card>
   )
 }

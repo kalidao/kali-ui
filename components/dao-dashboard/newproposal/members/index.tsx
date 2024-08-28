@@ -3,7 +3,6 @@ import { UserPlus, UserMinus } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import AddMember from './AddMember'
 import RemoveMember from './RemoveMember'
-import Redeem from './Redeem'
 import { Back } from '@components/ui/back'
 
 type Props = {
@@ -36,4 +35,4 @@ function MembersMenu({ setProposal }: Props) {
   )
 }
 
-export { MembersMenu, AddMember, RemoveMember, Redeem }
+export { MembersMenu, AddMember, RemoveMember }

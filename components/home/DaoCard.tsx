@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import ALL_CHAINS from '@constants/chains.json'
 import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 import { Card } from '@components/ui/card'
@@ -23,23 +23,18 @@ export default function DaoCard({ dao, chain }: Props) {
   }
 
   return (
-    <Card
-      className="p-6 w-96 bg-background dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow duration-300"
-      onClick={gotoDAO}
-    >
-      <div className="w-full flex items-center justify-between">
-        <span className="flex items-center space-x-3">
-          <Avatar className="h-12 w-12">
-            <AvatarImage src={meta?.image} alt="DAO Avatar" />
-            <AvatarFallback>
-              <Users className="h-6 w-6 text-gray-400" />
-            </AvatarFallback>
-          </Avatar>
-          <p className="text-gray-900 dark:text-white font-bold text-xl">{dao?.['token']?.['name']}</p>
-        </span>
-        <Badge variant="secondary" className="text-sm">
-          {chainObj?.name}
-        </Badge>
+    <Card className="p-2 bg-background cursor-pointer hover:shadow-lg transition-shadow duration-300" onClick={gotoDAO}>
+      <Avatar className="h-12 mx-auto w-12">
+        <AvatarImage src={meta?.image} alt="DAO Avatar" />
+        <AvatarFallback>
+          <Users className="h-6 w-6 text-gray-400" />
+        </AvatarFallback>
+      </Avatar>
+      <div className="w-full flex-col items-center justify-center pt-2">
+        <p className="mx-auto text-gray-900 text-center pb-2 dark:text-white font-bold text-xl">
+          {dao?.['token']?.['name']}
+        </p>
+        <Badge variant="secondary">{chainObj?.name}</Badge>
       </div>
     </Card>
   )

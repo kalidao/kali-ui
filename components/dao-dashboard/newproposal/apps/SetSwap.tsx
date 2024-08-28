@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
+import { useWriteContract, useReadContract, useWalletClient, usePublicClient } from 'wagmi'
 import { Input } from '@components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
@@ -12,11 +12,11 @@ import { cn } from '@utils/util'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon, ArrowLeft } from 'lucide-react'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { KALIACCESS_ABI } from '@abi/KaliAccessManagerV2'
 import { addresses } from '@constants/addresses'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress } from 'viem'
 import { createProposal } from '../utils/createProposal'
 import Editor from '@components/editor'
 import { ProposalProps } from '../utils/types'
@@ -24,32 +24,24 @@ import { JSONContent } from '@tiptap/react'
 import { createSwapDetails } from './createSwapDetails'
 import { Textarea } from '@components/ui/textarea'
 import { Button } from '@components/ui/button'
+import { Address, erc20Abi, formatEther, zeroHash } from 'viem'
+import { parseEther } from 'ethers/lib/utils'
 
 export default function SetSwap({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const chainId = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId)! : 1
+  const daoAddress = params?.dao!
+
+  const { writeContract, writeContractAsync } = useWriteContract()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
 
-  const { data: kalidaoToken } = useContractRead({
+  const { data: kalidaoToken } = useReadContract({
     address: daoAddress as `0x${string}`,
     abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
-
-  const kalidao = useContract({
-    address: daoAddress as `0x${string}`,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
-
-  const kaliAccess = useContract({
-    address: addresses[chainId]['access2'] as `0x${string}`,
-    abi: KALIACCESS_ABI,
-    signerOrProvider: signer,
-  })
+  const publicClient = usePublicClient()
 
   // form states
   const [background, setBackground] = useState<JSONContent>()
@@ -73,11 +65,11 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
       return
     }
 
-    let list = []
+    let list: Address[] = []
     let _customAccess = customAccess.split(', ')
 
     for (let i = 0; i < _customAccess.length; i++) {
-      const address = await fetchEnsAddress(_customAccess[i])
+      const address = (await fetchEnsAddress(_customAccess[i])) as Address
 
       if (address && address.slice(0, 7) === 'Invalid') {
         setWarning(`${address}.`)
@@ -85,11 +77,16 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
         return
       }
 
-      list.push(address)
+      list.push(address!)
     }
 
     try {
-      const tx = await kaliAccess?.createList(list, ethers.utils.formatBytes32String('0x0'), '')
+      const tx = await writeContractAsync({
+        abi: KALIACCESS_ABI,
+        address: addresses[chainId]['access2'] as `0x${string}`,
+        functionName: 'createList',
+        args: [list, zeroHash, ''],
+      })
       console.log('tx ', tx)
       setIsRecorded(true)
       setWarning('')
@@ -121,10 +118,6 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
 
   const submit = async () => {
     setStatus('Creating proposal...')
-    if (!signer) {
-      setWarning('Please connect your wallet.')
-      return
-    }
 
     setStatus('Validating access...')
     // Crowdsale access list id
@@ -135,9 +128,14 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
       _purchaseAccess = 1
     } else {
       try {
-        let id = await kaliAccess?.listCount()
-        id = ethers.utils.formatUnits(id, 'wei')
-        _purchaseAccess = parseInt(id)
+        let id = await publicClient?.readContract({
+          address: addresses[chainId]['access2'] as `0x${string}`,
+          abi: KALIACCESS_ABI,
+          functionName: 'listCount',
+        })
+        if (id) {
+          _purchaseAccess = parseInt(formatEther(id))
+        }
       } catch (e) {
         console.log(e)
       }
@@ -150,8 +148,11 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
     let decimals
     if (customToken) {
       _tokenToSwap = customToken
-      const instance = new ethers.Contract(customToken, erc20ABI, signer)
-      decimals = await instance.decimals()
+      decimals = await publicClient?.readContract({
+        address: customToken as Address,
+        abi: erc20Abi,
+        functionName: 'decimals',
+      })
 
       if (decimals < 18) {
         const decimalsToAdd = 18 - decimals
@@ -160,7 +161,7 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
         _swapMultiplier = purchaseMultiplier
       }
     } else {
-      _tokenToSwap = AddressZero
+      _tokenToSwap = zeroAddress
       _swapMultiplier = purchaseMultiplier
     }
 
@@ -240,13 +241,18 @@ export default function SetSwap({ setProposal, title, content }: ProposalProps) 
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao?.propose(
-        9, // EXTENSION prop
-        docs,
-        [crowdsaleAddress],
-        [1],
-        [payload],
-      )
+      const tx = await writeContractAsync({
+        abi: KALIDAO_ABI,
+        address: daoAddress,
+        functionName: 'propose',
+        args: [
+          9, // EXTENSION prop
+          docs,
+          [crowdsaleAddress],
+          [1n],
+          [payload],
+        ],
+      })
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)

@@ -1,3 +1,4 @@
+import { Address } from 'viem'
 import { GRAPH_URL } from '../url'
 import { useQuery } from '@tanstack/react-query'
 
@@ -18,7 +19,7 @@ export const getAllDaos = async () => {
                     members {
                     id
                     }
-                }  
+                }
             }`,
           }),
         }),
@@ -26,7 +27,12 @@ export const getAllDaos = async () => {
     )
     const data = await Promise.all(res.map(async (r) => await r.json()))
 
-    let daos = []
+    let daos: Array<{
+      chainId: string
+      id: string
+      token: { name: string }
+      members: Array<{ id: Address }>
+    }> = []
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i]?.data?.daos.length; j++) {
         daos.push({

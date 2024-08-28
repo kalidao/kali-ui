@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion'

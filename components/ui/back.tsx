@@ -8,8 +8,8 @@ type Props = {
 
 export function Back({ onClick }: Props) {
   return (
-    <Button variant="ghost" onClick={onClick} size="sm">
-      <ArrowLeftIcon />
+    <Button variant="ghost" className="w-fit" onClick={onClick} size="sm">
+      <ArrowLeftIcon className="text-foreground" />
       Back
     </Button>
   )

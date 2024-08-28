@@ -1,14 +1,15 @@
+'use client'
 import React from 'react'
 import { Loader } from 'lucide-react'
 import Extensions from './Extensions'
 import Governance from './Governance'
 import Meta from './Meta'
 import Docs from './Docs'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 
 export default function InfoComponent({ info }: { info: any }) {
-  const router = useRouter()
-  const { chainId } = router.query
+  const params = useParams<{ chainId: string }>()
+  const chainId = params ? Number(params.chainId) : 1
 
   return (
     <div className="w-full mt-1">

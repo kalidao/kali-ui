@@ -1,48 +1,45 @@
 import React, { useCallback } from 'react'
-import { useRouter } from 'next/router'
-import { BigNumber, ethers } from 'ethers'
-import { useAccount, useContractWrite, useBalance, useContractRead } from 'wagmi'
+import { useParams, useRouter } from 'next/navigation'
+import { useAccount, useBalance, useReadContract, useWriteContract } from 'wagmi'
 import { useForm } from 'react-hook-form'
 
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress, parseEther, toHex } from 'viem'
 
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import REDEMPTION_ABI from '@abi/KaliDAOredemption.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { REDEMPTION_ABI } from '@abi/KaliDAOredemption'
 import { addresses } from '@constants/addresses'
+import { Address } from 'viem'
 
 type FormType = {
   amount: number
 }
 
 // TODO: Implement, Add error handling
-export default function Redeem() {
+export default function () {
   const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const { isConnected, address } = useAccount()
-  const { isLoading: isWritePending, writeAsync } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: dao ? (dao as `0xstring`) : AddressZero,
-    abi: KALIDAO_ABI,
-    functionName: 'callExtension',
-  })
-  const { data: symbol, isLoading: isSymbolLoading } = useContractRead({
-    address: dao ? (dao as `0xstring`) : AddressZero,
+  const { writeContractAsync } = useWriteContract()
+  const { data: symbol, isLoading: isSymbolLoading } = useReadContract({
+    address: dao ? (dao as `0xstring`) : zeroAddress,
     abi: KALIDAO_ABI,
     functionName: 'symbol',
     chainId: Number(chainId),
   })
-  const { data: starts, isLoading: isStartLoading } = useContractRead({
-    address: chainId ? (addresses[Number(chainId)]['extensions']['redemption'] as `0xstring`) : AddressZero,
+  const { data: starts, isLoading: isStartLoading } = useReadContract({
+    address: chainId ? (addresses[Number(chainId)]['extensions']['redemption'] as `0xstring`) : zeroAddress,
     abi: REDEMPTION_ABI,
     functionName: 'redemptionStarts',
-    args: [dao ? (dao as string) : AddressZero],
+    args: [dao ? dao : zeroAddress],
     chainId: Number(chainId),
   })
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
-    address: isConnected ? (address as `0xstring`) : AddressZero,
-    token: dao ? (dao as `0xstring`) : AddressZero,
+    address: isConnected ? (address as `0xstring`) : zeroAddress,
+    token: dao ? (dao as `0xstring`) : zeroAddress,
     chainId: Number(chainId),
-    watch: true,
   })
 
   // form
@@ -53,28 +50,27 @@ export default function Redeem() {
   } = useForm<FormType>()
 
   const redeem = useCallback(
-    async (redeemAmount: BigNumber) => {
+    async (redeemAmount: bigint) => {
       if (!isConnected) return
 
-      const tx = await writeAsync?.({
-        recklesslySetUnpreparedArgs: [
-          addresses[Number(chainId)]['extensions']['redemption'],
-          redeemAmount,
-          ethers.constants.HashZero,
-        ],
-        recklesslySetUnpreparedOverrides: {
-          gasLimit: ethers.BigNumber.from(1500000),
-        },
+      await writeContractAsync({
+        address: dao ? (dao as `0xstring`) : zeroAddress,
+        abi: KALIDAO_ABI,
+        functionName: 'callExtension',
+        args: [addresses[Number(chainId)]['extensions']['redemption'], redeemAmount, toHex(0)],
+        // overrides: {
+        //   gasLimit: ethers.BigNumber.from(1500000),
+        // },
       })
     },
-    [isConnected, chainId, writeAsync],
+    [isConnected, chainId, writeContractAsync, dao],
   )
 
   // TODO: Popup to change network if on different network from DAO
   const onSubmit = async (data: FormType) => {
     const { amount } = data
 
-    await redeem(ethers.utils.parseEther(amount.toString()))
+    await redeem(parseEther(amount.toString()))
   }
 
   /*

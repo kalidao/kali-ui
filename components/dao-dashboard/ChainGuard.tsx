@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import { useRouter } from 'next/router'
+import { useAccount, useSwitchChain } from 'wagmi'
+import { useParams, useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { Button } from '@components/ui/button'
 import { AlertCircle } from 'lucide-react'
+import { Address } from 'viem'
 
 type Props = {
   fallback?: React.ReactNode
@@ -11,10 +12,11 @@ type Props = {
 }
 
 export default function ChainGuard({ fallback, children }: Props) {
+  const params = useParams<{ chainId: string; dao: Address }>()
   const router = useRouter()
-  const daoChainId = Number(router.query.chainId)
-  const { chain: userChain } = useNetwork()
-  const { chains, switchNetwork } = useSwitchNetwork()
+  const daoChainId = params ? Number(params.chainId) : 1 // default to mainnet
+  const { chain: userChain } = useAccount()
+  const { chains, switchChain } = useSwitchChain()
 
   const daoChainName = chains?.find((chain) => chain.id == daoChainId)?.name
   const isWrongChain = userChain?.id != daoChainId
@@ -50,7 +52,7 @@ export default function ChainGuard({ fallback, children }: Props) {
           transaction to this DAO.
         </AlertDescription>
         {fallback || (
-          <Button variant="outline" onClick={() => switchNetwork?.(daoChainId)}>
+          <Button variant="outline" onClick={() => switchChain?.({ chainId: daoChainId })}>
             Switch Network
           </Button>
         )}

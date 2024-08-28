@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import KALIDAO_ABI from '../abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { getProvider } from './getProvider'
 
 export async function fetchExtensionStatus(chainId: number, dao: string, extension: string) {

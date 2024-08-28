@@ -1,5 +1,5 @@
 import { Button } from '@components/ui/button'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import decodeExtensions from './decodeExtensions'
 import { getExtensionLabel } from '@constants/extensions'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
@@ -8,6 +8,7 @@ import { prettyDate } from '@utils/prettyDate'
 import { User } from '@components/tools/User'
 import ReactMarkdown from 'react-markdown'
 import { Coins, Link } from 'lucide-react'
+import { Address } from 'viem'
 
 export default function ExtensionShell({
   accounts,
@@ -18,12 +19,11 @@ export default function ExtensionShell({
   amounts: string[]
   payloads: string[]
 }) {
-  const router = useRouter()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
 
-  const dao = router.query.dao as string
-  const chainId = Number(router.query.chainId)
-
-  let extensions = []
+  let extensions: { account: string; amount: string; payload: string }[] = []
   for (let i = 0; i < accounts.length; i++) {
     extensions.push({
       account: accounts[i],
@@ -73,7 +73,7 @@ const resolveValueRender = (value: any, display: string, chainId: number): React
       return <p className="text-sm">{value.toString()}</p>
     case 'json':
       let json = value[0]
-      let render = []
+      let render: { key: string; value: string | number }[] = []
       for (const key in json) {
         render.push({
           key: key,
@@ -88,14 +88,14 @@ const resolveValueRender = (value: any, display: string, chainId: number): React
               {item.key == 'goalDescription' ? (
                 <ReactMarkdown
                   components={{
-                    h1: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-black dark:text-white" {...props} />,
-                    p: ({ node, ...props }) => <p className="text-black dark:text-white" {...props} />,
-                    li: ({ node, ...props }) => <li className="text-black dark:text-white" {...props} />,
-                    em: ({ node, ...props }) => <i className="text-black dark:text-white" {...props} />,
+                    h1: ({ node, ...props }) => <h2 className="text-foreground" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-foreground" {...props} />,
+                    p: ({ node, ...props }) => <p className="text-foreground" {...props} />,
+                    li: ({ node, ...props }) => <li className="text-foreground" {...props} />,
+                    em: ({ node, ...props }) => <i className="text-foreground" {...props} />,
                   }}
                 >
-                  {item.value}
+                  {item.value.toString()}
                 </ReactMarkdown>
               ) : (
                 <p className="text-sm">{item.value}</p>

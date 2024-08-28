@@ -3,15 +3,17 @@ import Member from './Member'
 import Extension from './Extension'
 import Call from './Call'
 import Internal from './Internal'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { formatVotingPeriod } from '@utils/votingPeriod'
 import { Users, Code, Hand, Flag, Coins, Zap, AlertCircle, FilePlus } from 'lucide-react'
 import { Card, CardHeader, CardContent } from '@components/ui/card'
 import { Separator } from '@components/ui/separator'
+import { Address } from 'viem'
 
 export default function Visualizer({ proposal }: { proposal: any }) {
-  const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
 
   let heading, icon, component
   switch (proposal?.proposalType) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { useEnsName } from 'wagmi'
 import { truncateAddress } from '@utils/truncateAddress'
 import Vote from '../proposal/vote'
@@ -8,6 +8,7 @@ import Description from '../proposal/page/Description'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@utils/fetcher'
 import { Badge } from '@components/ui/badge'
+import { Address } from 'viem'
 
 type Status = {
   text: string
@@ -21,8 +22,10 @@ type PropCardProp = {
 }
 
 export default function ProposalCard({ proposal }: PropCardProp) {
-  const router = useRouter()
-  const { chainId, dao } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao as Address
+
   const ensName = useEnsName({
     address: proposal['proposer'],
     chainId: 1,
@@ -94,35 +97,25 @@ export default function ProposalCard({ proposal }: PropCardProp) {
   const { color, text } = currentStatus()
 
   return (
-    <div>
-      <Link
-        href={{
-          pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
-          query: {
-            dao: dao as string,
-            chainId: chainId as string,
-            proposalId: proposal?.serial,
-          },
-        }}
-        passHref
-      >
-        <div className="flex xs:flex-col md:flex-row w-full justify-between items-start md:items-center">
-          <div className="flex flex-col md:flex-row items-start md:items-center">
+    <div className="border-2 border-border rounded-lg mx-1 mb-2 bg-secondary">
+      <Link href={`/daos/${chainId}/${dao}/proposals/${proposal?.serial}`} passHref>
+        <div className="flex flex-col w-full rounded-lg hover:bg-blue-50 border-4  hover:border-4 hover:border-blue-500 hover:dark:bg-blue-950 p-1">
+          <div className="flex flex-row items-center space-between w-full">
             <p className="text-2xl text-foreground">{`#${proposal?.serial} ${details ? details?.title : ''}`}</p>
-            <Badge variant="secondary">{proposer}</Badge>
+            <div>
+              <Badge variant="secondary">{proposer}</Badge>
+              <Badge>{text}</Badge>
+            </div>
           </div>
-          <Badge>{text}</Badge>
+          <Description
+            type={proposal['proposalType']}
+            description={details ? details?.description : proposal?.description}
+            isSchema={details ? true : false}
+            short
+          />
         </div>
-        <Description
-          type={proposal['proposalType']}
-          description={details ? details?.description : proposal?.description}
-          isSchema={details ? true : false}
-          short
-        />
       </Link>
-      <div className="flex">
-        <Vote proposal={proposal} />
-      </div>
+      <Vote proposal={proposal} />
     </div>
   )
 }

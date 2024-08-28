@@ -1,3 +1,4 @@
+'use client'
 import { useGetWrappr } from '@graph/queries/getWrappr'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardElementProps } from './types'

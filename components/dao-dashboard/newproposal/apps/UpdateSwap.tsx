@@ -1,50 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { ethers } from 'ethers'
-import { erc20ABI, useContract, useContractRead, useSigner } from 'wagmi'
+import { usePublicClient, useReadContract, useWriteContract } from 'wagmi'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import { Textarea } from '@components/ui/textarea'
 import FileUploader from '@components/tools/FileUpload'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
-import KALIACCESS_ABI from '@abi/KaliAccessManagerV2.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { KALIACCESS_ABI } from '@abi/KaliAccessManagerV2'
 import { addresses } from '@constants/addresses'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 import { fetchEnsAddress } from '@utils/fetchEnsAddress'
-import { AddressZero } from '@ethersproject/constants'
+import { zeroAddress } from 'viem'
 import { ArrowLeft } from 'lucide-react'
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import Editor from '@components/editor'
 import { ProposalProps } from '../utils/types'
 import { createSwapDetails } from './createSwapDetails'
 import { JSONContent } from '@tiptap/react'
+import { Address, erc20Abi, zeroHash } from 'viem'
+import { formatUnits } from 'ethers/lib/utils'
 
 export default function UpdateSwap({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const chainId = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
+
+  const publicClient = usePublicClient()
+  const { writeContractAsync } = useWriteContract()
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
-
-  const { data: kalidaoToken } = useContractRead({
-    address: daoAddress as `0xstring`,
-    abi: KALIDAO_ABI,
-    functionName: 'symbol',
-    chainId: Number(chainId),
-  })
-
-  const kalidao = useContract({
-    address: daoAddress as `0xstring`,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
-
-  const kaliAccess = useContract({
-    address: addresses[chainId]['access2'] as `0xstring`,
-    abi: KALIACCESS_ABI,
-    signerOrProvider: signer,
-  })
 
   // form states
   const [background, setBackground] = useState<JSONContent>()
@@ -68,7 +53,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
       return
     }
 
-    let list = []
+    let list: Address[] = []
     let _customAccess = customAccess.split(', ')
 
     for (let i = 0; i < _customAccess.length; i++) {
@@ -80,11 +65,16 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         return
       }
 
-      list.push(address)
+      list.push(address! as Address)
     }
 
     try {
-      const tx = await kaliAccess?.createList(list, ethers.utils.formatBytes32String('0x0'), '')
+      const tx = await writeContractAsync({
+        abi: KALIACCESS_ABI,
+        address: addresses[chainId]['access2'] as `0xstring`,
+        functionName: 'createList',
+        args: [list, zeroHash, ''],
+      })
       console.log('tx ', tx)
       setIsRecorded(true)
       setWarning('')
@@ -129,11 +119,6 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
 
   const submit = async () => {
     setStatus('Creating proposal...')
-    if (!signer) {
-      setWarning('Please connect your wallet.')
-      return
-    }
-
     setStatus('Validating access...')
     // Crowdsale access list id
     let _purchaseAccess
@@ -143,9 +128,15 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
       _purchaseAccess = 1
     } else {
       try {
-        let id = await kaliAccess?.listCount()
-        id = ethers.utils.formatUnits(id, 'wei')
-        _purchaseAccess = parseInt(id)
+        let id = await publicClient?.readContract({
+          address: addresses[chainId]['access2'] as `0xstring`,
+          abi: KALIACCESS_ABI,
+          functionName: 'listCount',
+        })
+
+        if (id) {
+          _purchaseAccess = parseInt(formatUnits(id, 'wei'))
+        }
       } catch (e) {
         console.log(e)
       }
@@ -158,8 +149,11 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     let decimals
     if (customToken) {
       _tokenToSwap = customToken
-      const instance = new ethers.Contract(customToken, erc20ABI, signer)
-      decimals = await instance.decimals()
+      decimals = await publicClient?.readContract({
+        address: customToken as Address,
+        abi: erc20Abi,
+        functionName: 'decimals',
+      })
 
       if (decimals < 18) {
         const decimalsToAdd = 18 - decimals
@@ -168,7 +162,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
         _swapMultiplier = purchaseMultiplier
       }
     } else {
-      _tokenToSwap = AddressZero
+      _tokenToSwap = zeroAddress
       _swapMultiplier = purchaseMultiplier
     }
 
@@ -177,7 +171,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     if (!background && !terms) {
       detailsHash = 'none'
     } else {
-      detailsHash = await createSwapDetails(daoAddress, chainId, background, terms)
+      detailsHash = await createSwapDetails(daoAddress!, chainId, background, terms)
 
       if (detailsHash == '') {
         setWarning('Error uploading swap details.')
@@ -203,7 +197,7 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     setStatus('Creating proposal metadata...')
     let docs
     try {
-      docs = await createProposal(daoAddress, chainId, 9, title, content)
+      docs = await createProposal(daoAddress!, chainId, 9, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -241,13 +235,13 @@ export default function UpdateSwap({ setProposal, title, content }: ProposalProp
     setStatus('Creating proposal...')
     try {
       setWarning('')
-      const tx = await kalidao?.propose(
-        9, // EXTENSION prop
-        docs,
-        [crowdsaleAddress],
-        [0],
-        [payload],
-      )
+      const tx = await writeContractAsync({
+        abi: KALIDAO_ABI,
+        address: daoAddress!,
+        functionName: 'propose',
+        args: [9, docs, [crowdsaleAddress], [0n], [payload]],
+      })
+
       console.log('tx', tx)
     } catch (e) {
       console.log('error', e)

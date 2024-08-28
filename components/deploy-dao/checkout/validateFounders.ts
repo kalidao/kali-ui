@@ -1,12 +1,12 @@
-import { ethers } from 'ethers'
+import { Address, parseEther } from 'viem'
 
 export const validateFounders = (founders: { member: string; share: string }[]) => {
-  let voters = []
-  let shares = []
+  let voters: Address[] = []
+  let shares: bigint[] = []
 
   for (let i = 0; i < founders.length; i++) {
-    voters.push(founders[i]['member'])
-    shares.push(ethers.utils.parseEther(founders[i]['share']))
+    voters.push(founders[i]['member'] as Address)
+    shares.push(parseEther(founders[i]['share']))
   }
 
   return { voters, shares }

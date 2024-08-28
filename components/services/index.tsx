@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react'
 export default function Services() {
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-center capitalize mb-8">Partner Service Providers</h2>
+      <h2 className="text-3xl text-foreground font-bold text-center capitalize mb-8">Partner Service Providers</h2>
       <div className="flex flex-wrap justify-center gap-6">
         {serviceProviders.map((provider) => (
           <Card key={provider.name} className="w-80 md:w-96 p-6 hover:shadow-lg transition-shadow">

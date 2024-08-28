@@ -1,28 +1,29 @@
+'use client'
 import { Coins, FileStack, Cog, BookOpen } from 'lucide-react'
-import { useRouter } from 'next/router'
-import { useContractRead } from 'wagmi'
+import { usePathname } from 'next/navigation'
+import { useReadContract } from 'wagmi'
 import { DashboardElementProps } from './types'
 import Link from 'next/link'
 import { addresses } from '@constants/addresses'
-import SWAP_ABI from '@abi/KaliDAOcrowdsaleV2.json'
-import DATAROOM_ABI from '@abi/DataRoom.json'
-import { AddressZero } from '@ethersproject/constants'
 import Wrappr from './Wrappr'
 import { cn } from '@utils/util'
 import { Card } from '@components/ui/card'
+import { SWAP_ABI } from '@abi/KaliDAOcrowdsaleV2'
+import { DATAROOM_ABI } from '@abi/DataRoom'
+import { zeroAddress } from 'viem'
 
-const Nav = ({ address, chainId }: DashboardElementProps) => {
-  const router = useRouter()
-  const { data: swap } = useContractRead({
-    address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : AddressZero,
+export default function Nav({ address, chainId }: DashboardElementProps) {
+  const pathname = usePathname()
+  const { data: swap } = useReadContract({
+    address: chainId ? addresses?.[chainId]?.['extensions']['crowdsale2'] : zeroAddress,
     abi: SWAP_ABI,
     chainId: chainId,
     functionName: 'crowdsales',
     args: [address],
   })
 
-  const { data: haveRoom } = useContractRead({
-    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : AddressZero,
+  const { data: haveRoom } = useReadContract({
+    address: chainId ? addresses?.[chainId]?.['extensions']['dataRoom'] : zeroAddress,
     abi: DATAROOM_ABI,
     chainId: chainId,
     functionName: 'authorized',
@@ -35,14 +36,14 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       title: 'Learn',
       icon: <BookOpen className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/info`,
-      active: router.asPath === `/daos/${chainId}/${address}/info`,
+      active: pathname === `/daos/${chainId}/${address}/info`,
     },
     {
       id: 1,
       title: 'Settings',
       icon: <Cog className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/settings`,
-      active: router.asPath === `/daos/${chainId}/${address}/settings`,
+      active: pathname === `/daos/${chainId}/${address}/settings`,
     },
   ]
 
@@ -53,7 +54,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       title: 'Swap',
       icon: <Coins className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/swap`,
-      active: router.asPath === `/daos/${chainId}/${address}/swap`,
+      active: pathname === `/daos/${chainId}/${address}/swap`,
     })
   }
 
@@ -63,7 +64,7 @@ const Nav = ({ address, chainId }: DashboardElementProps) => {
       title: 'Data Room',
       icon: <FileStack className="h-6 w-6" />,
       href: `/daos/${chainId}/${address}/room`,
-      active: router.asPath === `/daos/${chainId}/${address}/room`,
+      active: pathname === `/daos/${chainId}/${address}/room`,
     })
   }
 
@@ -101,5 +102,3 @@ const NavCard = ({ title, href, icon, active }: NavCardProps) => {
     </Link>
   )
 }
-
-export default Nav

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import StarterKit from '@tiptap/starter-kit'
 import { generateHTML } from '@tiptap/react'
-import { Card } from '@components/ui/card'
 import { ScrollArea } from '@components/ui/scroll-area'
 import { FileText } from 'lucide-react'
 
@@ -24,15 +23,15 @@ export default function Description({ type, description, isSchema, short }: Prop
   if (short) {
     if (type === 'DOCS') {
       return (
-        <Card className="w-full h-20 mt-5 p-4">
+        <div className="w-full h-20 mt-5 p-4">
           <p className="break-words whitespace-pre-line overflow-hidden text-ellipsis">
             This will update the docs for this DAO. Expand to review the details.
           </p>
-        </Card>
+        </div>
       )
     }
     return (
-      <Card className="w-full h-20 overflow-hidden p-4">
+      <div className="w-full h-20 overflow-hidden p-4">
         {isSchema ? (
           output && (
             <div
@@ -47,12 +46,12 @@ export default function Description({ type, description, isSchema, short }: Prop
             No description.
           </p>
         )}
-      </Card>
+      </div>
     )
   }
 
   return (
-    <Card className="w-full md:w-128 lg:w-224 p-4">
+    <div className="w-full md:w-128 lg:w-224 p-4">
       <ScrollArea className="h-[300px]">
         {isSchema ? (
           output && <div className="text-foreground" dangerouslySetInnerHTML={{ __html: output }} />
@@ -65,6 +64,6 @@ export default function Description({ type, description, isSchema, short }: Prop
           </div>
         )}
       </ScrollArea>
-    </Card>
+    </div>
   )
 }

@@ -6,8 +6,8 @@ export const templates = {
 
 init(process.env.NEXT_PUBLIC_EMAIL_ID as string)
 
-export const handleEmail = (template: string, params: Record<string, unknown>) => {
-  send('default_service', template, params).then(
+export const handleEmail = async (template: string, params: Record<string, unknown>) => {
+  await send('default_service', template, params).then(
     function (response) {
       console.log('EMAIL SUCCESS!', response.status, response.text)
     },

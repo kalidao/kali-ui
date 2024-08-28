@@ -6,6 +6,7 @@ export const GRAPH_URL: { [key: number]: string } = {
   // 100: 'https://api.thegraph.com/subgraphs/name/nerderlyne/kali-gnosis',
 }
 
+// @todo update wrappr subgraphs
 export const WRAPPR_GRAPH_URL: { [key: number]: string } = {
   1: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-mainnet',
   42161: 'https://api.thegraph.com/subgraphs/name/nerderlyne/wrappr-arbitrum',

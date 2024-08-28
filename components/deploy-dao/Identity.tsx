@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { GlobalState, useStateMachine } from 'little-state-machine'
-import { useNetwork } from 'wagmi'
 import { getNames } from '@graph/queries'
 import updateAction from './updateAction'
 import Tutorial from './tutorial'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/form'
+import { useAccount } from 'wagmi'
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -15,7 +15,7 @@ type Props = {
 
 export default function Identity({ setStep }: Props) {
   const form = useForm<GlobalState>()
-  const { chain: activeChain } = useNetwork()
+  const { chain: activeChain } = useAccount()
   const { actions, state } = useStateMachine({ updateAction })
   const { hardMode } = state
   const [names, setNames] = useState<string[]>([])

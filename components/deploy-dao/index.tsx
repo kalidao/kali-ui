@@ -9,6 +9,7 @@ import Members from './Members'
 import Legal from './Legal'
 import Checkout from './checkout'
 import Toggle from './Toggle'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 
 createStore({
   name: '',
@@ -94,15 +95,19 @@ export default function DeployDaoWrapper() {
 
   return (
     <StateMachineProvider>
-      <div className="container mx-auto p-6 bg-background rounded-lg shadow-md">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">{steps[step].title}</h2>
-          <Toggle />
-        </div>
-        <p className="text-gray-600 mb-4">{steps[step].description}</p>
-        <Progress value={(step / (steps.length - 1)) * 100} className="mb-6" />
-        {steps[step].component}
-      </div>
+      <Card className="shadow-md">
+        <CardHeader>
+          <div className="flex flex-row w-full items-center justify-between">
+            <CardTitle>
+              <h2 className="text-2xl font-bold">{steps[step].title}</h2>
+            </CardTitle>
+            <Toggle />
+          </div>
+          <CardDescription>{steps[step].description}</CardDescription>
+          <Progress value={(step / (steps.length - 1)) * 100} className="mb-6" />
+        </CardHeader>
+        <CardContent>{steps[step].component}</CardContent>
+      </Card>
     </StateMachineProvider>
   )
 }

@@ -1,27 +1,25 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
-import { useContract, useSigner } from 'wagmi'
+import { useParams, useRouter } from 'next/navigation'
+import { useConfig, useWriteContract } from 'wagmi'
 import { Checkbox } from '@components/ui/checkbox'
 import { Button } from '@components/ui/button'
 import { Alert, AlertDescription } from '@components/ui/alert'
 import { ArrowLeft } from 'lucide-react'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
 import { addresses } from '@constants/addresses'
-import { AddressZero } from '@ethersproject/constants'
 import { createProposal } from '../utils/createProposal'
 import { ProposalProps } from '../utils/types'
+import { Address, encodeAbiParameters, parseAbiParameters, zeroAddress } from 'viem'
 
 export default function RemoveSwap({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoAddress = router.query.dao as string
-  const chainId = Number(router.query.chainId)
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
+
   const crowdsaleAddress = addresses[chainId]['extensions']['crowdsale2']
-  const kalidao = useContract({
-    address: daoAddress as `0x${string}`,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
+  const config = useConfig()
+  const { writeContractAsync } = useWriteContract({
+    config,
   })
   const [toggleConfirm, setToggleConfirm] = useState(false)
   const [warning, setWarning] = useState<string>()
@@ -41,11 +39,11 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
     setStatus('Encoding swap details...')
     let payload
     try {
-      const abiCoder = ethers.utils.defaultAbiCoder
-      payload = abiCoder.encode(
-        ['uint256', 'uint8', 'address', 'uint32', 'uint96', 'uint96', 'string'],
-        [0, 1, AddressZero, 946702800, 0, 0, 'none'],
+      const abiCoder = encodeAbiParameters(
+        parseAbiParameters('uint256 a, uint8 b, address c, uint32 d, uint96 e, uint96 f, string g'),
+        [0n, 1, zeroAddress, 946702800, 0n, 0n, 'none'],
       )
+
       console.log(payload)
     } catch (e) {
       setWarning('Error formatting crowdsale setExtension() parameters.')
@@ -55,20 +53,21 @@ export default function RemoveSwap({ setProposal, title, content }: ProposalProp
     console.log('Proposal Params - ', 9, docs, [crowdsaleAddress], [1], [payload])
     setStatus('Creating proposal...')
     try {
-      if (kalidao) {
-        const tx = await kalidao.propose(
+      await writeContractAsync({
+        address: daoAddress as Address,
+        abi: KALIDAO_ABI,
+        functionName: 'propose',
+        args: [
           9, // EXTENSION prop
           docs,
           [crowdsaleAddress],
-          [1],
+          [1n],
           [payload],
-        )
-        console.log('tx', tx)
-      } else {
-        console.log('kalidao is undefined')
-      }
+        ],
+      })
     } catch (e) {
       console.log('error', e)
+      setWarning('Error creating proposal.')
     }
     setStatus('Proposed.')
   }

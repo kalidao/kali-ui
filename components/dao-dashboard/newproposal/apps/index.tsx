@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import SetRedemption from './SetRedemption'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import { addresses } from '@constants/addresses'
 import { fetchExtensionStatus } from '@utils/fetchExtensionStatus'
 import { Sparkles, Trash2, ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
+import { Address } from 'viem'
 
 type Props = {
   setProposal: React.Dispatch<React.SetStateAction<string>>
 }
 
 function AppsMenu({ setProposal }: Props) {
-  const router = useRouter()
-  const { dao, chainId } = router.query
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const chainId = params ? Number(params.chainId) : 1
+  const dao = params?.dao
 
   const [isCrowdsale, setIsCrowdsale] = useState(false)
 

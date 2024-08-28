@@ -6,9 +6,9 @@ import { Member } from './types'
 import { fetcher } from '@utils/fetcher'
 import { useQuery } from '@tanstack/react-query'
 import getExplorerLink, { ExplorerType } from '@utils/getExplorerLink'
-import { useRouter } from 'next/router'
 import { truncateAddress } from '@utils/truncateAddress'
 import { useEnsName } from 'wagmi'
+import { useParams } from 'next/navigation'
 
 type ProfileProps = {
   member: Member
@@ -18,8 +18,8 @@ type ProfileProps = {
 }
 
 export default function MemberProfile({ member, proposals, votes, totalSupply }: ProfileProps) {
-  const router = useRouter()
-  const { chainId } = router.query
+  const params = useParams<{ chainId: string }>()
+  const { chainId } = params ? params : { chainId: '1' }
   const { data: ensName } = useEnsName({
     address: member?.address as `0xstring`,
   })

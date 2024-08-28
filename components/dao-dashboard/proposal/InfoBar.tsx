@@ -4,7 +4,7 @@ import { Link } from 'lucide-react'
 import { copy, truncateAddress } from '../../../utils'
 import { useEnsName } from 'wagmi'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useToast } from '@components/ui/use-toast'
 
 type InfoBarProps = {
@@ -12,7 +12,7 @@ type InfoBarProps = {
 }
 
 export default function InfoBar({ proposer }: InfoBarProps) {
-  const router = useRouter()
+  const pathname = usePathname()
   const { toast } = useToast()
   const {
     data: ensName,
@@ -25,7 +25,7 @@ export default function InfoBar({ proposer }: InfoBarProps) {
   })
 
   const share = () => {
-    copy('https://app.kali.gg' + router.asPath)
+    copy('https://app.kali.gg' + pathname)
     toast({
       title: 'Copied!',
       description: 'Share the proposal with DAO members.',

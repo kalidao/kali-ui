@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useContract, useSigner } from 'wagmi'
-import { useRouter } from 'next/router'
+import { useWriteContract } from 'wagmi'
+import { useParams } from 'next/navigation'
 import { ethers } from 'ethers'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { Button } from '@components/ui/button'
@@ -8,21 +8,18 @@ import { Input } from '@components/ui/input'
 import { Textarea } from '@components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
-import KALIDAO_ABI from '@abi/KaliDAO.json'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+
 import { createProposal } from '@components/dao-dashboard/newproposal/utils/createProposal'
 import { ProposalProps } from '../utils/types'
+import { Address } from 'viem'
 
 export default function CallContract({ setProposal, title, content }: ProposalProps) {
-  const router = useRouter()
-  const daoChainId = Number(router.query.chainId)
-  const daoAddress = router.query.dao as string
-  const { data: signer } = useSigner()
+  const params = useParams<{ chainId: string; dao: Address }>()
+  const daoChainId = params ? Number(params.chainId) : 1
+  const daoAddress = params?.dao
 
-  const kalidao = useContract({
-    address: daoAddress as string,
-    abi: KALIDAO_ABI,
-    signerOrProvider: signer,
-  })
+  const { writeContractAsync } = useWriteContract()
 
   const [contractAddress, setContractAddress] = useState<string>()
   const [contractAbi, setContractAbi] = useState<string>()
@@ -44,6 +41,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
         const funcType = item['stateMutability']
         if (funcType == 'nonpayable' || funcType == 'payable') {
           if (item['type'] != 'constructor' && item['type'] != 'fallback') {
+            // @ts-ignore
             writeFuncs_.push(item)
           }
         }
@@ -87,6 +85,7 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       // @ts-expect-error
       let item = (children[i].children[1].value as any) || ''
       if (item != undefined) {
+        // @ts-ignore
         array.push(item)
       }
     }
@@ -95,9 +94,18 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
 
   const submit = async () => {
     if (!functionName) return
+    if (!daoAddress) {
+      setWarning('DAO address is required.')
+      return
+    }
+    if (!daoChainId) {
+      setWarning('DAO chain is required.')
+      return
+    }
+
     let docs
     try {
-      docs = await createProposal(daoAddress, daoChainId, 2, title, content)
+      docs = await createProposal(daoAddress!, daoChainId!, 2, title, content)
     } catch (e) {
       console.error(e)
       return
@@ -109,13 +117,17 @@ export default function CallContract({ setProposal, title, content }: ProposalPr
       console.log('Proposal Params - ', 2, docs, [contractAddress], [0], [payload])
 
       try {
-        const tx = await kalidao?.propose(
-          2, // CALL prop
-          docs,
-          [contractAddress],
-          [0],
-          [payload],
-        )
+        if (!contractAddress) {
+          setWarning('Contract address is required.')
+          return
+        }
+
+        const tx = await writeContractAsync({
+          address: daoAddress!,
+          abi: KALIDAO_ABI,
+          functionName: 'propose',
+          args: [2, docs, [contractAddress as Address], [0n], [payload as Address]],
+        })
         console.log('tx', tx)
       } catch (e) {
         console.log('error', e)
