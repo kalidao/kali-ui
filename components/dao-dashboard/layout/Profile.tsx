@@ -10,6 +10,9 @@ import Link from 'next/link'
 import { useGetDaoMeta } from '@components/hooks/useGetDaoMeta'
 import { Card } from '@components/ui/card'
 import { cn } from '@utils/util'
+import { useReadContract } from 'wagmi'
+import { KALIDAO_ABI } from '@abi/KaliDAO'
+import { blo } from 'blo'
 
 const Profile = ({ address, chainId }: DashboardElementProps) => {
   const pathname = usePathname()
@@ -17,7 +20,22 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
     enabled: !!chainId && !!address,
   })
   const { data: meta } = useGetDaoMeta(chainId, address)
-  const info = data?.data?.daos?.[0]
+
+  const { data: daoName } = useReadContract({
+    address: address,
+    abi: KALIDAO_ABI,
+    functionName: 'name',
+    chainId: chainId,
+  })
+
+  const { data: daoSymbol } = useReadContract({
+    address: address,
+    abi: KALIDAO_ABI,
+    functionName: 'symbol',
+    chainId: chainId,
+  })
+
+  console.log('daoName', address, chainId, daoName)
 
   if (isLoading) return <Skeleton className="w-full h-64" />
 
@@ -34,11 +52,11 @@ const Profile = ({ address, chainId }: DashboardElementProps) => {
         ) : (
           <div className="items-center justify-center text-center w-full">
             <Avatar className="mx-auto">
-              <AvatarImage src={meta?.image} alt="dao profile pic" className="w-32 h-32 " />
-              <AvatarFallback>{info?.token?.symbol}</AvatarFallback>
+              <AvatarImage src={meta?.image ?? blo(address)} alt="dao profile pic" className="w-32 h-32" />
+              <AvatarFallback>{daoSymbol}</AvatarFallback>
             </Avatar>
             <h1 className="text-2xl font-bold mt-4">
-              {info?.token?.name} ({info?.token?.symbol})
+              {daoName} ({daoSymbol})
             </h1>
             <p className="text-gray-600 mt-2">{meta?.description}</p>
             <div className="border-t border-gray-200 my-4" />
