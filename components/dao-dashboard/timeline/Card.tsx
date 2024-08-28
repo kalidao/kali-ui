@@ -98,17 +98,7 @@ export default function ProposalCard({ proposal }: PropCardProp) {
 
   return (
     <div className="border-2 border-border rounded-lg mx-1 mb-2 bg-secondary">
-      <Link
-        href={{
-          pathname: '/daos/[chainId]/[dao]/proposals/[proposalId]',
-          query: {
-            dao: dao as string,
-            chainId: chainId,
-            proposalId: proposal?.serial,
-          },
-        }}
-        passHref
-      >
+      <Link href={`/daos/${chainId}/${dao}/proposals/${proposal?.serial}`} passHref>
         <div className="flex flex-col w-full rounded-lg hover:bg-blue-50 border-4  hover:border-4 hover:border-blue-500 hover:dark:bg-blue-950 p-1">
           <div className="flex flex-row items-center space-between w-full">
             <p className="text-2xl text-foreground">{`#${proposal?.serial} ${details ? details?.title : ''}`}</p>

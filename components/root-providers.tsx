@@ -6,7 +6,7 @@ import { WagmiProvider } from 'wagmi'
 import { mainnet, optimism, polygon, arbitrum, gnosis } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '@components/theme-provider'
-// import { Provider as AnkrProvider } from 'ankr-react'
+import { Provider as AnkrProvider } from 'ankr-react'
 import { Toaster } from './ui/toaster'
 import { useTheme } from 'next-themes'
 import { getRainbowTheme } from '@utils/getRainbowTheme'
@@ -54,9 +54,11 @@ export function RootProviders({ children }: RootProvidersProps) {
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider theme={getRainbowTheme(theme ?? 'light')} coolMode appInfo={appInfo} modalSize="compact">
-            <NextNProgress color="#5842c3" />
-            {children}
-            <Toaster />
+            <AnkrProvider apiKey={process.env.NEXT_PUBLIC_ANKR_API_KEY!}>
+              <NextNProgress color="#5842c3" />
+              {children}
+              <Toaster />
+            </AnkrProvider>
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

@@ -1,30 +1,11 @@
-'use client'
-
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@components/ui/button'
+import React from 'react'
 import { Pencil } from 'lucide-react'
-import UserDAOs from '@components/home/UserDAOs'
+import { UserDAOs } from './user-daos'
 import FAQ from '@components/home/FAQ'
-import { useAccount } from 'wagmi'
 import Balancer from 'react-wrap-balancer'
+import Link from 'next/link'
 
 export default function HomePage() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const { address, isConnected } = useAccount()
-
-  const goTo = (to: string) => {
-    setLoading(true)
-    if (to === 'explore') {
-      router.push('/explore')
-    }
-    if (to === 'create') {
-      router.push('/create')
-    }
-    setLoading(false)
-  }
-
   return (
     <div className="container mx-auto px-4 py-12 space-y-24">
       <div className="text-center space-y-12">
@@ -35,24 +16,13 @@ export default function HomePage() {
           <Balancer>Empower your community with decentralized decision-making and transparent governance.</Balancer>
         </p>
         <div className="pt-8 w-full flex items-center justify-center">
-          <Button
-            onClick={() => goTo('create')}
-            disabled={loading}
-            size="lg"
-            className="flex items-center gap-2 text-lg px-8 py-4"
-          >
+          <Link href="/create" className="bg-primary rounded-lg flex items-center gap-2 text-lg px-4 py-2">
             <Pencil className="h-5 w-5" />
             Create Your DAO
-          </Button>
+          </Link>
         </div>
       </div>
-
-      {isConnected && (
-        <div className="py-8">
-          <UserDAOs address={address as string} />
-        </div>
-      )}
-
+      <UserDAOs />
       <div className="py-8">
         <FAQ />
       </div>

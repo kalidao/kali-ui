@@ -52,13 +52,7 @@ const Members = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Link
-              href={{
-                pathname: `/daos/[chainId]/[dao]/members`,
-                query: { chainId: chainId, dao: dao },
-              }}
-              passHref
-            >
+            <Link href={`/daos/${chainId}/${dao}/members`} passHref>
               <Button variant="outline" className="w-full" size="sm">
                 <BookOpen className="mr-2 h-4 w-4" />
                 View All
