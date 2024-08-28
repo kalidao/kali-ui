@@ -10,6 +10,7 @@ import { Provider as AnkrProvider } from 'ankr-react'
 import { Toaster } from './ui/toaster'
 import { useTheme } from 'next-themes'
 import { getRainbowTheme } from '@utils/getRainbowTheme'
+
 import { http } from 'wagmi'
 import NextNProgress from 'nextjs-progressbar'
 

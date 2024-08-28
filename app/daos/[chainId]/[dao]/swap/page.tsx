@@ -1,5 +1,5 @@
 'use client'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Address } from 'viem'
 import { Approve, Why, Swapper, useSwapStore } from '@components/dao-dashboard/swap/'
 import { useEffect } from 'react'

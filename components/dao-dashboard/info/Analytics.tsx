@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { useParams } from 'next/navigation'
 import { Card } from '@components/ui/card'
 import { getProposals, getMembers } from '../../../graph/queries'
